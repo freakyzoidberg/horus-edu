@@ -18,12 +18,11 @@ namespace Horus
             void*           DBQuery();
             Module&         getModule(std::string name);
 
-
         private:
             Server();
             Server* singleton;
         };
-    };
-};
+    }
+}
 
 #endif // SERVER_H
