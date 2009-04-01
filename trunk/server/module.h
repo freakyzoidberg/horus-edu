@@ -8,16 +8,15 @@ namespace Horus
         class Module
         {
         public:
-            Module();
-            const std::string                 Name;
+            virtual Module();
+            const std::string                 name;
 
             virtual const std::list<Module&>  initAfterModules(const std::list<Module>& mods);
 
-            virtual void                      onInit();
             virtual void                      onClientConect(Client& cli);
             virtual void                      onRecvClientData(Client& cli, void* data);
         };
-    };
-};
+    }
+}
 
 #endif // MODULE_H

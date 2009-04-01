@@ -14,7 +14,7 @@ namespace Horus
             void            SendData(std::string mod, void* data, int size);
 
         };
-    };
-};
+    }
+}
 
 #endif // CLIENT_H
