@@ -1,4 +1,4 @@
-//#define QT_NO_DEBUG_OUTPUT
+#define QT_NO_DEBUG_OUTPUT
 #include <QtCore/QCoreApplication>
 #include <QtNetwork>
 #include <QtDebug>
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
     FortuneServer server;
-    qDebug() << "Fortune Server Loaded";
-    //connect();+
+    qDebug() << "Server Loaded";
+
     return a.exec();
 }

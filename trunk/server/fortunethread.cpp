@@ -2,8 +2,7 @@
 
 #include <QtNetwork>
 
-FortuneThread::FortuneThread(int socketDescriptor, const QString &fortune, QObject *parent)
-    : QThread(parent), socketDescriptor(socketDescriptor), text(fortune)
+FortuneThread::FortuneThread(int socketDescriptor, const QString &fortune, QObject *parent)  : QThread(parent), socketDescriptor(socketDescriptor), text(fortune)
 {
 }
 
@@ -26,6 +25,8 @@ void FortuneThread::run()
     out << (quint16)(block.size() - sizeof(quint16));
 
     tcpSocket.write(block);
-    tcpSocket.disconnectFromHost();
-    tcpSocket.waitForDisconnected();
+    qDebug() << "Finished writting to " << socketDescriptor;
+  // tcpSocket.disconnectFromHost();
+    tcpSocket.waitForDisconnected(-1);
+        qDebug() << "Client " << socketDescriptor << " disconnected";
 }
