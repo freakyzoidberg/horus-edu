@@ -1,6 +1,8 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <QString>
+
 namespace Horus
 {
     namespace Server
@@ -11,7 +13,7 @@ namespace Horus
             Client();
 
             void            init();
-            void            SendData(std::string mod, void* data, int size);
+            void            SendData(QString mod, void* data, int size);
 
         };
     }
