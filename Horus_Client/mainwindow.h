@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
+#include <QMessageBox>
 
 namespace Ui
 {
@@ -18,6 +19,9 @@ public:
 
 private:
     Ui::MainWindowClass *ui;
+
+private slots:
+    void on_ConnectButton_clicked();
 };
 
 #endif // MAINWINDOW_H
