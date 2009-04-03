@@ -26,7 +26,7 @@
  </data>
  <data>
   <variable>activebuildconfiguration</variable>
-  <value type="QString" >Debug</value>
+  <value type="QString" >Release</value>
  </data>
  <data>
   <variable>buildConfiguration-Debug</variable>
@@ -34,7 +34,7 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <value key="QtVersionId" type="int" >0</value>
    <value key="addQDumper" type="" ></value>
-   <value key="buildDirectory" type="QString" >/mnt/dd/Home/Epitech/Tek4/Horus/trunk/server</value>
+   <value key="buildDirectory" type="QString" >/home/zoidberg/eip/trunk/server</value>
   </valuemap>
  </data>
  <data>
@@ -43,6 +43,7 @@
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
    <value key="QtVersionId" type="int" >0</value>
    <value key="addQDumper" type="" ></value>
+   <value key="buildDirectory" type="QString" >/home/zoidberg/eip/trunk/server</value>
   </valuemap>
  </data>
  <data>
@@ -56,82 +57,46 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >ANT_HOME=/usr/share/ant</value>
-    <value type="QString" >CG_COMPILER_EXE=/opt/bin/cgc</value>
-    <value type="QString" >CLASSPATH=.</value>
-    <value type="QString" >COLORFGBG=15;0</value>
-    <value type="QString" >CONFIG_PROTECT=/usr/share/config /usr/kde/3.5/share/config /usr/kde/3.5/env /usr/kde/3.5/shutdown</value>
-    <value type="QString" >CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/env.d/java/ /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/revdep-rebuild</value>
-    <value type="QString" >CVS_RSH=ssh</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-2Z9pMGbsoo,guid=559fcd0c7de3f26475e9ae2049d49300</value>
-    <value type="QString" >DESKTOP_SESSION=KDE-4</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_BUS_TYPE=session</value>
+    <value type="QString" >DESKTOP_SESSION=xfce</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
-    <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
-    <value type="QString" >EDITOR=/bin/nano</value>
-    <value type="QString" >GCC_SPECS=</value>
-    <value type="QString" >GDK_USE_XFT=1</value>
-    <value type="QString" >GENERATION=2</value>
-    <value type="QString" >GS_LIB=/mnt/dd/Home/.fonts</value>
-    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/mnt/dd/Home/.gtkrc-2.0::/mnt/dd/Home/.kde4/share/config/gtkrc-2.0</value>
-    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/mnt/dd/Home/.gtkrc::/mnt/dd/Home/.kde4/share/config/gtkrc</value>
-    <value type="QString" >HOME=/mnt/dd/Home</value>
-    <value type="QString" >INFOPATH=/usr/share/info:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.19.1/info:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.3.3/info:/usr/share/info/emacs-22</value>
-    <value type="QString" >JAVAC=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm/bin/javac</value>
-    <value type="QString" >JAVA_HOME=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm</value>
-    <value type="QString" >JDK_HOME=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm</value>
-    <value type="QString" >KDE_FULL_SESSION=true</value>
-    <value type="QString" >KDE_MULTIHEAD=false</value>
-    <value type="QString" >KDE_SESSION_UID=1000</value>
-    <value type="QString" >KDE_SESSION_VERSION=4</value>
-    <value type="QString" >KONSOLE_DBUS_SERVICE=:1.33</value>
-    <value type="QString" >KONSOLE_DBUS_SESSION=/Sessions/9</value>
-    <value type="QString" >LANG=fr_FR.UTF-8</value>
-    <value type="QString" >LANGUAGE=</value>
-    <value type="QString" >LESS=-R -M --shift 5</value>
-    <value type="QString" >LESSOPEN=|lesspipe.sh %s</value>
-    <value type="QString" >LOGNAME=git</value>
-    <value type="QString" >LS_COLORS=rs=0:di=01;34:ln=01;36:hl=44;37:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.pdf=00;32:*.ps=00;32:*.txt=00;32:*.patch=00;32:*.diff=00;32:*.log=00;32:*.tex=00;32:*.doc=00;32:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:</value>
-    <value type="QString" >MANPATH=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm/man:/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.19.1/man:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.3.3/man:/opt/blackdown-jdk-1.4.2.03/man:/etc/java-config/system-vm/man/:/usr/lib64/php5/man/:/usr/kde/3.5/share/man:/usr/qt/3/doc/man:/opt/nvidia-cg-toolkit/man:/opt/opera/share/man</value>
-    <value type="QString" >OLDPWD=/mnt/dd/Home</value>
-    <value type="QString" >OPENGL_PROFILE=nvidia</value>
-    <value type="QString" >PAGER=/usr/bin/less</value>
-    <value type="QString" >PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.3.3:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/kde/3.5/bin:/usr/qt/3/bin:/opt/android-sdk-1.1/tools:/usr/games/bin</value>
-    <value type="QString" >PKG_CONFIG_PATH=/usr/qt/3/lib64/pkgconfig</value>
-    <value type="QString" >PROFILEHOME=</value>
-    <value type="QString" >PWD=/mnt/dd/Home/Tek4/Horus/trunk/server</value>
-    <value type="QString" >QMAKESPEC=linux-g++</value>
+    <value type="QString" >GDMSESSION=xfce</value>
+    <value type="QString" >GDM_LANG=en_US.UTF-8</value>
+    <value type="QString" >GDM_XSERVER_LOCATION=local</value>
+    <value type="QString" >GNOME_KEYRING_PID=3290</value>
+    <value type="QString" >GNOME_KEYRING_SOCKET=/tmp/keyring-ulPSDb/socket</value>
+    <value type="QString" >GTK_MODULES=canberra-gtk-module</value>
+    <value type="QString" >HOME=/home/zoidberg</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LOGNAME=zoidberg</value>
+    <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
+    <value type="QString" >PWD=/home/zoidberg</value>
     <value type="QString" >QTDIR=/usr</value>
-    <value type="QString" >QT_PLUGIN_PATH=/mnt/dd/Home/.kde4/lib64/kde4/plugins/:/usr/lib64/kde4/plugins/</value>
-    <value type="QString" >RUBYOPT=-rauto_gem</value>
-    <value type="QString" >SANE_CONFIG_DIR=/etc/sane.d</value>
-    <value type="QString" >SESSION_MANAGER=local/GiTSZ:/tmp/.ICE-unix/3957</value>
     <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SHLVL=2</value>
-    <value type="QString" >STRIGI_PLUGIN_PATH=/usr/lib64/strigi:</value>
-    <value type="QString" >TERM=xterm</value>
-    <value type="QString" >USB_DEVFS_PATH=/dev/bus/usb</value>
-    <value type="QString" >USER=git</value>
-    <value type="QString" >VMHANDLE=blackdown-jdk-1.4.2</value>
-    <value type="QString" >WINDOWID=23068743</value>
+    <value type="QString" >SSH_AGENT_PID=3429</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-cLCKwR3302/agent.3302</value>
+    <value type="QString" >USER=zoidberg</value>
+    <value type="QString" >USERNAME=zoidberg</value>
     <value type="QString" >WINDOWPATH=7</value>
-    <value type="QString" >XCURSOR_THEME=Oxygen_Black</value>
-    <value type="QString" >XDG_CONFIG_DIRS=/usr/etc/xdg:/etc/xdg</value>
-    <value type="QString" >XDG_DATA_DIRS=/usr/share:/usr/share</value>
-    <value type="QString" >XDM_MANAGED=method=classic</value>
-    <value type="QString" >_=/usr/bin/qtcreator</value>
+    <value type="QString" >XAUTHORITY=/home/zoidberg/.Xauthority</value>
+    <value type="QString" >XDG_CONFIG_DIRS=/usr/share/ubuntustudio-menu/:/etc/xdg/</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/local/share/:/usr/share/:/usr/share/gdm/</value>
+    <value type="QString" >XDG_SESSION_COOKIE=8d8f23107ba65db878440fe949aa5aff-1238754859.107102-1940406143</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
-    <value type="QString" >/mnt/dd/Home/Epitech/Tek4/Horus/trunk/server/Horus_Server.pro</value>
+    <value type="QString" >/home/zoidberg/eip/trunk/server/Horus_Server.pro</value>
     <value type="QString" >-spec</value>
-    <value type="QString" >/usr/share/qt4/mkspecs/linux-g++-64</value>
+    <value type="QString" >/usr/share/qt4/mkspecs/linux-g++</value>
     <value type="QString" >-r</value>
     <value type="QString" >CONFIG+=debug_and_release</value>
     <value type="QString" >CONFIG+=debug</value>
    </valuelist>
-   <value key="abstractProcess.command" type="QString" >/usr/bin/qmake</value>
-   <value key="abstractProcess.enabled" type="bool" >true</value>
-   <value key="abstractProcess.workingDirectory" type="QString" >/mnt/dd/Home/Epitech/Tek4/Horus/trunk/server</value>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/qmake-qt4</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/zoidberg/eip/trunk/server</value>
    <value key="buildConfiguration" type="int" >10</value>
   </valuemap>
  </data>
@@ -140,70 +105,34 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >ANT_HOME=/usr/share/ant</value>
-    <value type="QString" >CG_COMPILER_EXE=/opt/bin/cgc</value>
-    <value type="QString" >CLASSPATH=.</value>
-    <value type="QString" >COLORFGBG=15;0</value>
-    <value type="QString" >CONFIG_PROTECT=/usr/share/config /usr/kde/3.5/share/config /usr/kde/3.5/env /usr/kde/3.5/shutdown</value>
-    <value type="QString" >CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/env.d/java/ /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/revdep-rebuild</value>
-    <value type="QString" >CVS_RSH=ssh</value>
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-2Z9pMGbsoo,guid=559fcd0c7de3f26475e9ae2049d49300</value>
-    <value type="QString" >DESKTOP_SESSION=KDE-4</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_BUS_TYPE=session</value>
+    <value type="QString" >DESKTOP_SESSION=xfce</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
-    <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
-    <value type="QString" >EDITOR=/bin/nano</value>
-    <value type="QString" >GCC_SPECS=</value>
-    <value type="QString" >GDK_USE_XFT=1</value>
-    <value type="QString" >GENERATION=2</value>
-    <value type="QString" >GS_LIB=/mnt/dd/Home/.fonts</value>
-    <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/mnt/dd/Home/.gtkrc-2.0::/mnt/dd/Home/.kde4/share/config/gtkrc-2.0</value>
-    <value type="QString" >GTK_RC_FILES=/etc/gtk/gtkrc:/mnt/dd/Home/.gtkrc::/mnt/dd/Home/.kde4/share/config/gtkrc</value>
-    <value type="QString" >HOME=/mnt/dd/Home</value>
-    <value type="QString" >INFOPATH=/usr/share/info:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.19.1/info:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.3.3/info:/usr/share/info/emacs-22</value>
-    <value type="QString" >JAVAC=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm/bin/javac</value>
-    <value type="QString" >JAVA_HOME=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm</value>
-    <value type="QString" >JDK_HOME=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm</value>
-    <value type="QString" >KDE_FULL_SESSION=true</value>
-    <value type="QString" >KDE_MULTIHEAD=false</value>
-    <value type="QString" >KDE_SESSION_UID=1000</value>
-    <value type="QString" >KDE_SESSION_VERSION=4</value>
-    <value type="QString" >KONSOLE_DBUS_SERVICE=:1.33</value>
-    <value type="QString" >KONSOLE_DBUS_SESSION=/Sessions/9</value>
-    <value type="QString" >LANG=fr_FR.UTF-8</value>
-    <value type="QString" >LANGUAGE=</value>
-    <value type="QString" >LESS=-R -M --shift 5</value>
-    <value type="QString" >LESSOPEN=|lesspipe.sh %s</value>
-    <value type="QString" >LOGNAME=git</value>
-    <value type="QString" >LS_COLORS=rs=0:di=01;34:ln=01;36:hl=44;37:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.lzma=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.bz2=01;31:*.bz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.rar=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.axv=01;35:*.anx=01;35:*.ogv=01;35:*.ogx=01;35:*.pdf=00;32:*.ps=00;32:*.txt=00;32:*.patch=00;32:*.diff=00;32:*.log=00;32:*.tex=00;32:*.doc=00;32:*.aac=00;36:*.au=00;36:*.flac=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.axa=00;36:*.oga=00;36:*.spx=00;36:*.xspf=00;36:</value>
-    <value type="QString" >MANPATH=/mnt/dd/Home/.gentoo/java-config-2/current-user-vm/man:/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.19.1/man:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.3.3/man:/opt/blackdown-jdk-1.4.2.03/man:/etc/java-config/system-vm/man/:/usr/lib64/php5/man/:/usr/kde/3.5/share/man:/usr/qt/3/doc/man:/opt/nvidia-cg-toolkit/man:/opt/opera/share/man</value>
-    <value type="QString" >OLDPWD=/mnt/dd/Home</value>
-    <value type="QString" >OPENGL_PROFILE=nvidia</value>
-    <value type="QString" >PAGER=/usr/bin/less</value>
-    <value type="QString" >PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/x86_64-pc-linux-gnu/gcc-bin/4.3.3:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/kde/3.5/bin:/usr/qt/3/bin:/opt/android-sdk-1.1/tools:/usr/games/bin</value>
-    <value type="QString" >PKG_CONFIG_PATH=/usr/qt/3/lib64/pkgconfig</value>
-    <value type="QString" >PROFILEHOME=</value>
-    <value type="QString" >PWD=/mnt/dd/Home/Tek4/Horus/trunk/server</value>
-    <value type="QString" >QMAKESPEC=linux-g++</value>
+    <value type="QString" >GDMSESSION=xfce</value>
+    <value type="QString" >GDM_LANG=en_US.UTF-8</value>
+    <value type="QString" >GDM_XSERVER_LOCATION=local</value>
+    <value type="QString" >GNOME_KEYRING_PID=3290</value>
+    <value type="QString" >GNOME_KEYRING_SOCKET=/tmp/keyring-ulPSDb/socket</value>
+    <value type="QString" >GTK_MODULES=canberra-gtk-module</value>
+    <value type="QString" >HOME=/home/zoidberg</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LOGNAME=zoidberg</value>
+    <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
+    <value type="QString" >PWD=/home/zoidberg</value>
     <value type="QString" >QTDIR=/usr</value>
-    <value type="QString" >QT_PLUGIN_PATH=/mnt/dd/Home/.kde4/lib64/kde4/plugins/:/usr/lib64/kde4/plugins/</value>
-    <value type="QString" >RUBYOPT=-rauto_gem</value>
-    <value type="QString" >SANE_CONFIG_DIR=/etc/sane.d</value>
-    <value type="QString" >SESSION_MANAGER=local/GiTSZ:/tmp/.ICE-unix/3957</value>
     <value type="QString" >SHELL=/bin/bash</value>
-    <value type="QString" >SHLVL=2</value>
-    <value type="QString" >STRIGI_PLUGIN_PATH=/usr/lib64/strigi:</value>
-    <value type="QString" >TERM=xterm</value>
-    <value type="QString" >USB_DEVFS_PATH=/dev/bus/usb</value>
-    <value type="QString" >USER=git</value>
-    <value type="QString" >VMHANDLE=blackdown-jdk-1.4.2</value>
-    <value type="QString" >WINDOWID=23068743</value>
+    <value type="QString" >SSH_AGENT_PID=3429</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-cLCKwR3302/agent.3302</value>
+    <value type="QString" >USER=zoidberg</value>
+    <value type="QString" >USERNAME=zoidberg</value>
     <value type="QString" >WINDOWPATH=7</value>
-    <value type="QString" >XCURSOR_THEME=Oxygen_Black</value>
-    <value type="QString" >XDG_CONFIG_DIRS=/usr/etc/xdg:/etc/xdg</value>
-    <value type="QString" >XDG_DATA_DIRS=/usr/share:/usr/share</value>
-    <value type="QString" >XDM_MANAGED=method=classic</value>
-    <value type="QString" >_=/usr/bin/qtcreator</value>
+    <value type="QString" >XAUTHORITY=/home/zoidberg/.Xauthority</value>
+    <value type="QString" >XDG_CONFIG_DIRS=/usr/share/ubuntustudio-menu/:/etc/xdg/</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/local/share/:/usr/share/:/usr/share/gdm/</value>
+    <value type="QString" >XDG_SESSION_COOKIE=8d8f23107ba65db878440fe949aa5aff-1238754859.107102-1940406143</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
     <value type="QString" >debug</value>
@@ -211,7 +140,7 @@
    </valuelist>
    <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool" >true</value>
-   <value key="abstractProcess.workingDirectory" type="QString" >/mnt/dd/Home/Epitech/Tek4/Horus/trunk/server</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/zoidberg/eip/trunk/server</value>
    <valuelist key="makeargs" type="QVariantList" >
     <value type="QString" >debug</value>
    </valuelist>
@@ -239,6 +168,46 @@
   <variable>buildconfiguration-Release-buildstep1</variable>
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_BUS_TYPE=session</value>
+    <value type="QString" >DESKTOP_SESSION=xfce</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >GDMSESSION=xfce</value>
+    <value type="QString" >GDM_LANG=en_US.UTF-8</value>
+    <value type="QString" >GDM_XSERVER_LOCATION=local</value>
+    <value type="QString" >GNOME_KEYRING_PID=3290</value>
+    <value type="QString" >GNOME_KEYRING_SOCKET=/tmp/keyring-ulPSDb/socket</value>
+    <value type="QString" >GTK_MODULES=canberra-gtk-module</value>
+    <value type="QString" >HOME=/home/zoidberg</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LOGNAME=zoidberg</value>
+    <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
+    <value type="QString" >PWD=/home/zoidberg</value>
+    <value type="QString" >QTDIR=/usr</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SSH_AGENT_PID=3429</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-cLCKwR3302/agent.3302</value>
+    <value type="QString" >USER=zoidberg</value>
+    <value type="QString" >USERNAME=zoidberg</value>
+    <value type="QString" >WINDOWPATH=7</value>
+    <value type="QString" >XAUTHORITY=/home/zoidberg/.Xauthority</value>
+    <value type="QString" >XDG_CONFIG_DIRS=/usr/share/ubuntustudio-menu/:/etc/xdg/</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/local/share/:/usr/share/:/usr/share/gdm/</value>
+    <value type="QString" >XDG_SESSION_COOKIE=8d8f23107ba65db878440fe949aa5aff-1238754859.107102-1940406143</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >/home/zoidberg/eip/trunk/server/Horus_Server.pro</value>
+    <value type="QString" >-spec</value>
+    <value type="QString" >/usr/share/qt4/mkspecs/linux-g++</value>
+    <value type="QString" >-r</value>
+    <value type="QString" >CONFIG+=debug_and_release</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/qmake-qt4</value>
+   <value key="abstractProcess.enabled" type="bool" >false</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/zoidberg/eip/trunk/server</value>
    <value key="buildConfiguration" type="int" >8</value>
   </valuemap>
  </data>
@@ -246,6 +215,43 @@
   <variable>buildconfiguration-Release-buildstep2</variable>
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Release</value>
+   <valuelist key="abstractProcess.Environment" type="QVariantList" >
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_ADDRESS=unix:abstract=/tmp/dbus-g7xcr6XnGU,guid=2c89471730085bd0554bad2749d5e62d</value>
+    <value type="QString" >DBUS_STARTER_BUS_TYPE=session</value>
+    <value type="QString" >DESKTOP_SESSION=xfce</value>
+    <value type="QString" >DESKTOP_STARTUP_ID=</value>
+    <value type="QString" >DISPLAY=:0.0</value>
+    <value type="QString" >GDMSESSION=xfce</value>
+    <value type="QString" >GDM_LANG=en_US.UTF-8</value>
+    <value type="QString" >GDM_XSERVER_LOCATION=local</value>
+    <value type="QString" >GNOME_KEYRING_PID=3290</value>
+    <value type="QString" >GNOME_KEYRING_SOCKET=/tmp/keyring-ulPSDb/socket</value>
+    <value type="QString" >GTK_MODULES=canberra-gtk-module</value>
+    <value type="QString" >HOME=/home/zoidberg</value>
+    <value type="QString" >LANG=en_US.UTF-8</value>
+    <value type="QString" >LOGNAME=zoidberg</value>
+    <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
+    <value type="QString" >PWD=/home/zoidberg</value>
+    <value type="QString" >QTDIR=/usr</value>
+    <value type="QString" >SHELL=/bin/bash</value>
+    <value type="QString" >SSH_AGENT_PID=3429</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-cLCKwR3302/agent.3302</value>
+    <value type="QString" >USER=zoidberg</value>
+    <value type="QString" >USERNAME=zoidberg</value>
+    <value type="QString" >WINDOWPATH=7</value>
+    <value type="QString" >XAUTHORITY=/home/zoidberg/.Xauthority</value>
+    <value type="QString" >XDG_CONFIG_DIRS=/usr/share/ubuntustudio-menu/:/etc/xdg/</value>
+    <value type="QString" >XDG_DATA_DIRS=/usr/local/share/:/usr/share/:/usr/share/gdm/</value>
+    <value type="QString" >XDG_SESSION_COOKIE=8d8f23107ba65db878440fe949aa5aff-1238754859.107102-1940406143</value>
+   </valuelist>
+   <valuelist key="abstractProcess.arguments" type="QVariantList" >
+    <value type="QString" >release</value>
+    <value type="QString" >-w</value>
+   </valuelist>
+   <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
+   <value key="abstractProcess.enabled" type="bool" >true</value>
+   <value key="abstractProcess.workingDirectory" type="QString" >/home/zoidberg/eip/trunk/server</value>
    <valuelist key="makeargs" type="QVariantList" >
     <value type="QString" >release</value>
    </valuelist>
