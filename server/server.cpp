@@ -1,5 +1,5 @@
 #include "server.h"
 
-Server::Server()
+Horus::Server::Server::Server()
 {
 }

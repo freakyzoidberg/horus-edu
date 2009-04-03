@@ -1,6 +1,10 @@
 #ifndef SERVER_H
 #define SERVER_H
 
+#include <QList>
+
+#include "module.h"
+
 namespace Horus
 {
     namespace Server
@@ -8,17 +12,17 @@ namespace Horus
         class Server
         {
         public:
-            std::list<Module> mods;
-
+            QList<Module> mods;
+/*
             const Server* getInstance();
 
             void start();
             void stop();
 
             void*           DBQuery();
-            Module&         getModule(std::string name);
+            Module&         getModule(QString name);
 
-        private:
+        private:*/
             Server();
             Server* singleton;
         };
