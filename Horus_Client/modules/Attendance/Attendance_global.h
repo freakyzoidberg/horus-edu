@@ -1,0 +1,12 @@
+#ifndef ATTENDANCE_GLOBAL_H
+#define ATTENDANCE_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(ATTENDANCE_LIBRARY)
+#  define ATTENDANCESHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define ATTENDANCESHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // ATTENDANCE_GLOBAL_H
