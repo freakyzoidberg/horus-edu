@@ -5,7 +5,10 @@
 
 class Network
 {
-   private:
+    public:
+        Network();
+        ~Network();
+    private:
         CommunicationContainer   cC;
 };
 
