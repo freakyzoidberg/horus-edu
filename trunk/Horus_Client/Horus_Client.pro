@@ -10,6 +10,8 @@ TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp
 HEADERS += mainwindow.h \
-    ClientAPI.h
+    ClientAPI.h \
+    ../Common/ModuleContainer.h \
+    ../Common/CommunicationContainer.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
