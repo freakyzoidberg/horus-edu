@@ -10,7 +10,11 @@ CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
     server.cpp \
-    client.cpp
+    client.cpp \
+    fortuneserver.cpp \
+    fortunethread.cpp
 HEADERS += server.h \
     module.h \
-    client.h
+    client.h \
+    fortuneserver.h \
+    fortunethread.h
