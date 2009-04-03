@@ -7,6 +7,7 @@ FortuneServer::FortuneServer(QObject *parent) : QTcpServer(parent)
 {
     this->listen(QHostAddress::Any, 42421);
     this->OptionalFill();
+    this->check();
 }
 
 void FortuneServer::incomingConnection(int socketDescriptor)
@@ -26,4 +27,14 @@ void FortuneServer::OptionalFill()
              << tr("You might have mail.")
              << tr("You cannot kill time without injuring eternity.")
              << tr("Computers are not intelligent. They only think they are.");
+}
+
+void FortuneServer::check()
+{
+    if (!this->isListening())
+        qDebug() << "Server Dont Listen";
+    else
+        qDebug() << "Server Listen on port";
+    qDebug("port : %d", this->serverPort());
+
 }

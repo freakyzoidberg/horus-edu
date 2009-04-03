@@ -15,6 +15,7 @@ public:
 protected:
     void incomingConnection(int socketDescriptor);
     void OptionalFill();
+    void check();
 
 private:
     QStringList fortunes;
