@@ -1,4 +1,9 @@
 #ifndef COMMUNICATIONCONTAINER_H
 #define COMMUNICATIONCONTAINER_H
 
+class CommunicationContainer
+{
+
+}
+
 #endif // COMMUNICATIONCONTAINER_H
