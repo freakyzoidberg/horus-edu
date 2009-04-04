@@ -1,16 +1,15 @@
 #ifndef COMMUNICATIONCONTAINER_H
 #define COMMUNICATIONCONTAINER_H
 
-
-#include "ModuleContainer.h"
+#include ""
 
 class CommunicationContainer
 {
-    public:
-        std::string     mSource;
-        std::string     vSource;
-        std::string     vDist;
-        ModuleContainer mC;
-};
+    char            modSrc [MODULE_NAME_SIZE];
+    char            verSrc [MODULE_VERSION_SIZE];
+    char            modDest[MODULE_NAME_SIZE];
+    char            verCont[MODULE_VERSION_SIZE];
+    ModuleContainer cont;
+}
 
 #endif // COMMUNICATIONCONTAINER_H
