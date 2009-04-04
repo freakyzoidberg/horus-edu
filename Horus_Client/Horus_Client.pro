@@ -8,12 +8,14 @@ QT += network \
 TARGET = Horus_Client
 TEMPLATE = app
 SOURCES += main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    ConnectionManager.cpp
 HEADERS += mainwindow.h \
     ClientAPI.h \
     ../Common/ModuleContainer.h \
     ../Common/CommunicationContainer.h \
     ../Common/Defines.h \
-    ../Common/IModule.h
+    ../Common/IModule.h \
+    ConnectionManager.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
