@@ -3,7 +3,7 @@
 #include <QtNetwork>
 #include <QtDebug>
 #include <stdlib.h>
-#include "server.h"
+#include "Server.h"
 
 int main(int argc, char *argv[])
 {

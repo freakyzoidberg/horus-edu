@@ -10,13 +10,13 @@ CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
     client.cpp \
-    server.cpp \
-    thread.cpp \
+    Server.cpp \
+    Thread.cpp \
     sql.cpp
 HEADERS += module.h \
     client.h \
-    server.h \
-    thread.h \
+    Server.h \
+    Thread.h \
     sql.h \
     ../Common/Defines.h \
     ../Common/ModuleContainer.h \

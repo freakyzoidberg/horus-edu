@@ -13,4 +13,4 @@ private:
      QSqlDatabase db;
 };
 
-#endif // SQL_H
+#endif
