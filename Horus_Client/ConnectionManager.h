@@ -12,8 +12,8 @@ class ConnectionManager : public QTcpSocket
 
     public:
         ConnectionManager();
+        void    ConnectTo(QString addr, int port);
     private slots:
-        void    ConnectTo();
         void    readData();
         void    writeData();
         void   displayError(QAbstractSocket::SocketError);

@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QEvent>
+#include "ConnectionManager.h"
 
 namespace Ui
 {
@@ -21,9 +22,11 @@ public:
 
 protected:
      void closeEvent(QCloseEvent *event);
+void on_pushButton_clicked();
 
 private:
     Ui::MainWindowClass *ui;
+    ConnectionManager *cM;
     void WriteSettings();
     void ReadSettings();
 
