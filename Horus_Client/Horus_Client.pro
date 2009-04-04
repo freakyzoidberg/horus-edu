@@ -14,6 +14,7 @@ HEADERS += mainwindow.h \
     ClientAPI.h \
     ../Common/ModuleContainer.h \
     ../Common/CommunicationContainer.h \
-    ../Common/Defines.h
+    ../Common/Defines.h \
+    ../Common/IModule.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
