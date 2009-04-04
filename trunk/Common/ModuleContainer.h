@@ -10,6 +10,7 @@ class ModuleContainer
     char verSrc [MODULE_VERSION_SIZE];
     char modDest[MODULE_NAME_SIZE];
     char verCont[MODULE_VERSION_SIZE];
+    uint  sizeCont;
     void *content;
 };
 

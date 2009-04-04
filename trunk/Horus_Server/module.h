@@ -19,7 +19,7 @@ namespace Horus
             virtual void                      onRecvClientData(Client& cli, void* data);
             */
         };
-    } //[[1 asfdasiwef
+    }
 }
 
 #endif // MODULE_H
