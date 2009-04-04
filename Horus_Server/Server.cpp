@@ -1,6 +1,6 @@
 #include "Server.h"
 #include "Thread.h"
-#include "sql.h"
+#include "Sql.h"
 #include <stdlib.h>
 
 Server::Server(QObject *parent) : QTcpServer(parent)

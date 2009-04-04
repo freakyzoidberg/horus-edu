@@ -1,4 +1,4 @@
-#include "sql.h"
+#include "Sql.h"
 
 sql::sql()
 {
