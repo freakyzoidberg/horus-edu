@@ -5,5 +5,6 @@
 # define MODULE_VERSION_SIZE 32
 # define MODULE_DATA_VERSION_SIZE 32
 # define LOGIN_SIZE 16
+# define VERSION_SIZE 8
 
 #endif // DEFINES_H
