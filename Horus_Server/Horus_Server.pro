@@ -15,4 +15,5 @@ SOURCES += main.cpp \
 HEADERS += module.h \
     client.h \
     fortuneserver.h \
-    fortunethread.h
+    fortunethread.h \
+    ../Common/Defines.h
