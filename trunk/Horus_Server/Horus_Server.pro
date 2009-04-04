@@ -11,7 +11,8 @@ TEMPLATE = app
 SOURCES += main.cpp \
     client.cpp \
     fortuneserver.cpp \
-    fortunethread.cpp
+    fortunethread.cpp \
+    sql.cpp
 HEADERS += module.h \
     client.h \
     fortuneserver.h \
