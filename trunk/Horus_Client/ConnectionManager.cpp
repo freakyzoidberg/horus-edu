@@ -2,15 +2,15 @@
 
 ConnectionManager::ConnectionManager()
 {
-    //tcpSocket = new QTcpSocket();
+    tcpSocket = new QTcpSocket();
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
-void    ConnectionManager::ConnectTo()
+void    ConnectionManager::ConnectTo(QString addr, int port)
 {
      tcpSocket->abort();
-     tcpSocket->connectToHost("192.168.42.51", 4242);
+     tcpSocket->connectToHost(addr, port);
 }
 
 void    ConnectionManager::readData()
@@ -37,6 +37,9 @@ void    ConnectionManager::readData()
      }
 
      currentFortune = nextFortune;
+     QMessageBox msgBox;
+    msgBox.setText(currentFortune);
+    msgBox.exec();
 }
 
 void    ConnectionManager::writeData()
@@ -46,25 +49,25 @@ void    ConnectionManager::writeData()
 
  void   ConnectionManager::displayError(QAbstractSocket::SocketError socketError)
  {
-/*
+     QMessageBox msgBox;
+
+
      switch (socketError) {
      case QAbstractSocket::RemoteHostClosedError:
          break;
      case QAbstractSocket::HostNotFoundError:
-         QMessageBox::information(this, tr("Fortune Client"),
-                                  tr("The host was not found. Please check the "
-                                     "host name and port settings."));
+         msgBox.setText("The host was not found. Please check the "
+                                     "host name and port settings.");
          break;
      case QAbstractSocket::ConnectionRefusedError:
-         QMessageBox::information(this, tr("Fortune Client"),
-                                  tr("The connection was refused by the peer. "
+         msgBox.setText("The connection was refused by the peer. "
                                      "Make sure the fortune server is running, "
                                      "and check that the host name and port "
-                                     "settings are correct."));
+                                     "settings are correct.");
          break;
      default:
-         QMessageBox::information(this, tr("Fortune Client"),
-                                  tr("The following error occurred: %1.")
+         msgBox.setText(tr("The following error occurred: %1.")
                                   .arg(tcpSocket->errorString()));
-     }*/
+     }
+      msgBox.exec();
  }

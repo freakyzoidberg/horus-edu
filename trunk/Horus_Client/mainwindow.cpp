@@ -5,6 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
+    cM = new ConnectionManager();
     ui->setupUi(this);
     this->setWindowTitle("Horus");
     ReadSettings();
@@ -15,13 +16,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_ConnectButton_clicked()
-{
-    QMessageBox msgBox;
-
-    msgBox.setText("Connected to the server!!!");
-    msgBox.exec();
-}
 
  void MainWindow::WriteSettings()
  {
@@ -49,3 +43,9 @@ void MainWindow::on_ConnectButton_clicked()
     WriteSettings();
 //    event->accept();
  }
+
+
+void MainWindow::on_ConnectButton_clicked()
+{
+    cM->ConnectTo("127.0.0.1", 42421);
+}
