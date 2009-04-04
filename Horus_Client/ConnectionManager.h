@@ -3,18 +3,24 @@
 
 #include "../Common/CommunicationContainer.h"
 #include <QTcpSocket>
+#include <QtGui>
 
-class ConnectionManager
+
+class ConnectionManager : public QTcpSocket
 {
+    Q_OBJECT
+
     public:
         ConnectionManager();
     private slots:
         void    ConnectTo();
         void    readData();
         void    writeData();
+        void   displayError(QAbstractSocket::SocketError);
     private:
         QTcpSocket *tcpSocket;
         quint16     blockSize;
+        QString currentFortune;
 };
 
 #endif // CONNECTIONMANAGER_H
