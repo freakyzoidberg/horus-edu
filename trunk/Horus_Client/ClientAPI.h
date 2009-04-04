@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-Class IClientModule
+class IClientModule
 {
   private:
     std::string                 modName;
