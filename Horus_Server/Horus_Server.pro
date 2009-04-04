@@ -10,13 +10,13 @@ CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
     client.cpp \
-    fortuneserver.cpp \
-    fortunethread.cpp \
+    server.cpp \
+    thread.cpp \
     sql.cpp
 HEADERS += module.h \
     client.h \
-    fortuneserver.h \
-    fortunethread.h \
+    server.h \
+    thread.h \
     sql.h \
     ../Common/Defines.h \
     ../Common/ModuleContainer.h \

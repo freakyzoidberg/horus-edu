@@ -6,11 +6,16 @@ sql::sql()
 
 bool sql::sqlconnect(QString dbName, QString hostname, QString username, QString password)
 {
-    this->db= QSqlDatabase::addDatabase("QPSQL");
+    qDebug() << "sql::sqlconnect() start";
+    this->db= QSqlDatabase::addDatabase("QMYSQL");
+    qDebug() << "sql::sqlconnect() database added";
      this->db.setHostName(hostname);
      this->db.setDatabaseName(dbName);
      this->db.setUserName(username);
      this->db.setPassword(password);
-     bool ok = db.open();
-    return (ok);
+     qDebug() << "sql::sqlconnect() all param set";
+     //bool ok = db.open();
+     //qDebug() << db.lastError();
+     //qDebug() << "sql::sqlconnect() db opened";
+    return (0);
 }
