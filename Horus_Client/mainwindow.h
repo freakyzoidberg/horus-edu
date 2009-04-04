@@ -3,6 +3,8 @@
 
 #include <QtGui/QMainWindow>
 #include <QMessageBox>
+#include <QSettings>
+#include <QEvent>
 
 namespace Ui
 {
@@ -17,8 +19,13 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+protected:
+     void closeEvent(QCloseEvent *event);
+
 private:
     Ui::MainWindowClass *ui;
+    void WriteSettings();
+    void ReadSettings();
 
 private slots:
     void on_ConnectButton_clicked();
