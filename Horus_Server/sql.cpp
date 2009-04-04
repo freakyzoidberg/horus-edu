@@ -4,13 +4,13 @@ sql::sql()
 {
 }
 
-void sql::sqlconnect(QString dbName, QString hostname, QString username, QString password)
+bool sql::sqlconnect(QString dbName, QString hostname, QString username, QString password)
 {
     this->db= QSqlDatabase::addDatabase("QPSQL");
-     this->db.setHostName("acidalia");
-     this->db.setDatabaseName("customdb");
-     this->db.setUserName("mojito");
-     this->db.setPassword("J0a1m8");
+     this->db.setHostName(hostname);
+     this->db.setDatabaseName(dbName);
+     this->db.setUserName(username);
+     this->db.setPassword(password);
      bool ok = db.open();
-
+    return (ok);
 }

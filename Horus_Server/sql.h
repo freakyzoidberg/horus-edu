@@ -8,7 +8,7 @@ class sql
 {
 public:
     sql();
-    void sqlconnect(QString dbName, QString hostname, QString username, QString password);
+    bool sqlconnect(QString dbName, QString hostname, QString username, QString password);
 private:
      QSqlDatabase db;
 };
