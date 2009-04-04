@@ -20,4 +20,5 @@ HEADERS += module.h \
     ../Common/ModuleContainer.h \
     ../Common/Defines.h \
     ../Common/CommunicationContainer.h \
-    ../Common/LoginContainer.h
+    ../Common/LoginContainer.h \
+    ../Common/ConnexionMessage.h
