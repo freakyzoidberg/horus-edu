@@ -35,7 +35,7 @@ void FortuneServer::check()
     if (!this->isListening())
         qDebug() << "Server Dont Listen";
     else
-        qDebug() << "Server Listen on port";
-    qDebug("port : %d", this->serverPort());
+        qDebug("Server Listen on port : %d", this->serverPort());
+
 
 }
