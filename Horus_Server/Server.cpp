@@ -5,8 +5,9 @@
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
-    sql *fddb = new sql();
     /* Server mysql a configurer
+    sql *fddb = new sql();
+
     if (fddb->sqlconnect("testhorus", "219.221.96.19", "horus", "horuspwd"))
         qDebug() << "Ohoho Connecte sur mysql@219.221.96.19";
     else
