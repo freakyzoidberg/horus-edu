@@ -8,8 +8,7 @@ QT += network \
 TARGET = Horus_Client
 TEMPLATE = app
 SOURCES += main.cpp \
-    mainwindow.cpp \
-    Network.cpp
+    mainwindow.cpp
 HEADERS += mainwindow.h \
     ClientAPI.h \
     ../Common/ModuleContainer.h \
