@@ -6,6 +6,8 @@
 
 class ConnectionManager
 {
+    public:
+        ConnectionManager();
     private slots:
         void    ConnectTo();
         void    readData();
