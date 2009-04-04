@@ -1,12 +1,11 @@
 #ifndef MODULECONTAINER_H
 #define MODULECONTAINER_H
 
-#include <string>
+#include "Defines.h"
 
 class ModuleContainer
 {
     public:
-        std::string req;
         void        *data;
 };
 

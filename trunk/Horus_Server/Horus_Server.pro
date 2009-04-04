@@ -16,4 +16,7 @@ HEADERS += module.h \
     client.h \
     fortuneserver.h \
     fortunethread.h \
-    ../Common/Defines.h
+    ../Common/Defines.h \
+    ../Common/ModuleContainer.h \
+    ../Common/Defines.h \
+    ../Common/CommunicationContainer.h
