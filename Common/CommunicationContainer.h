@@ -1,10 +1,11 @@
 #ifndef COMMUNICATIONCONTAINER_H
 #define COMMUNICATIONCONTAINER_H
 
-#include ""
+#include "Defines.h"
 
 class CommunicationContainer
 {
+ public:
     char            modSrc [MODULE_NAME_SIZE];
     char            verSrc [MODULE_VERSION_SIZE];
     char            modDest[MODULE_NAME_SIZE];
