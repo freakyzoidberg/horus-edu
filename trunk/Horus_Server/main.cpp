@@ -3,12 +3,12 @@
 #include <QtNetwork>
 #include <QtDebug>
 #include <stdlib.h>
-#include "fortuneserver.h"
+#include "server.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    FortuneServer server;
+    Server theserver;
     qDebug() << "Server Loaded";
 
     return a.exec();
