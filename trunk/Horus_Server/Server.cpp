@@ -1,5 +1,5 @@
-#include "server.h"
-#include "thread.h"
+#include "Server.h"
+#include "Thread.h"
 #include "sql.h"
 #include <stdlib.h>
 
