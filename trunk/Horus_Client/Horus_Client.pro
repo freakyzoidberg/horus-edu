@@ -15,7 +15,6 @@ HEADERS += mainwindow.h \
     ../Common/ModuleContainer.h \
     ../Common/CommunicationContainer.h \
     ../Common/Defines.h \
-    ../Common/IModule.h \
     ConnectionManager.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
