@@ -5,8 +5,12 @@
 
 class ModuleContainer
 {
-    public:
-        void        *data;
+ public:
+    char modSrc [MODULE_NAME_SIZE];
+    char verSrc [MODULE_VERSION_SIZE];
+    char modDest[MODULE_NAME_SIZE];
+    char verCont[MODULE_VERSION_SIZE];
+    void *content;
 };
 
 #endif // MODULECONTAINER_H

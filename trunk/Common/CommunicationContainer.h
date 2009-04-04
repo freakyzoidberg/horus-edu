@@ -6,11 +6,9 @@
 class CommunicationContainer
 {
  public:
-    char            modSrc [MODULE_NAME_SIZE];
-    char            verSrc [MODULE_VERSION_SIZE];
-    char            modDest[MODULE_NAME_SIZE];
-    char            verCont[MODULE_VERSION_SIZE];
-    ModuleContainer cont;
-}
+    enum msgType{ALIVE, FILE_DOWNLOAD, FILE_UPLOAD, CONFIG_GET, CONFIG_SET, MODULE_COMM};
+    char verCont[VERSION_SIZE];
+    void* content;
+};
 
 #endif // COMMUNICATIONCONTAINER_H
