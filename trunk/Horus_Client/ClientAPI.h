@@ -1,9 +1,19 @@
 #ifndef CLIENTAPI_H
 #define CLIENTAPI_H
 
-Class ClientModule
+#include <string>
+#include <vector>
+
+Class IClientModule
 {
-    char
+  private:
+    std::string                 modName;
+    std::string                 modVersion;
+    std::vector<std::string>    modConflicts;
+    std::vector<std::string>    modRequired;
+    std::vector<std::string>    modRecommended;
+
+    void    *exports;
 };
 
 #endif // CLIENTAPI_H
