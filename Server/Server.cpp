@@ -11,21 +11,22 @@ Server::Server(QObject *parent) : QTcpServer(parent)
         qDebug() << "arf pas de sql";
     */
 
-    this->listen(QHostAddress::Any, 42421);
-    this->check();
+    listen(QHostAddress::Any, 42421);
+    check();
 }
 
 void Server::incomingConnection(int socket)
 {
     ClientSocket* cli = new ClientSocket();
-    if (!cli->setSocketDescriptor(socket))
+    if ( ! cli->setSocketDescriptor(socket))
     {
         //emit error(cli.error());
         return;
     }
-    cli->write("COUCOU!!");
-    cli->connect(cli, SIGNAL(readyRead()), SLOT(readPendingDatagrams()));
-    this->clients << cli;
+    cli->write("COUCOU!! je suis Horus Server\nLogin et pass stp:");
+    cli->connect(cli, SIGNAL(readyRead()), SLOT(onRecvLogin()));
+
+    clients << cli;
 
     //QThreadPool::globalInstance()->start(cli);
 //    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
@@ -33,9 +34,9 @@ void Server::incomingConnection(int socket)
 
 void Server::check()
 {
-    if (!this->isListening())
+    if ( ! isListening())
         qDebug() << "Server Dont Listen";
     else
-        qDebug("Server Listen on port : %d", this->serverPort());
+        qDebug("Server Listen on port : %d", serverPort());
 }
 

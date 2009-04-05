@@ -11,14 +11,14 @@ TEMPLATE = app
 SOURCES += main.cpp \
     ClientSocket.cpp \
     Server.cpp \
-    Sql.cpp
-HEADERS += module.h \
+    Sql.cpp \
+    ../Common/CommLogin.cpp
+HEADERS += Module.h \
     ClientSocket.h \
     Server.h \
     Sql.h \
     ../Common/Defines.h \
-    ../Common/ModuleContainer.h \
-    ../Common/Defines.h \
-    ../Common/CommunicationContainer.h \
-    ../Common/LoginContainer.h \
-    ../Common/ConnexionMessage.h
+    ../Common/CommInit.h \
+    ../Common/CommLogin.h \
+    ../Common/CommModule.h \
+    ../Common/CommRequest.h
