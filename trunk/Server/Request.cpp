@@ -8,8 +8,8 @@ Request::Request(ClientSocket* cs)
 void Request::run()
 {
     CommRequest req;
-//    client->stream >> req;
+    client->stream >> req;
     client->stream << "recu";
-//    qDebug() << "recu request dans un thread";
+    qDebug() << "recu";
 //    client->stream << msg; //envoi o lieu de recevoir pour test et voir cqui sort
 }

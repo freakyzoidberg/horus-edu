@@ -15,7 +15,8 @@ class CommRequest
 public:
     enum            msgType { ALIVE, FILE_DOWNLOAD, FILE_UPLOAD, CONFIG_GET, CONFIG_SET, MODULE_COMM };
 
-    CommMiniString  versionContent;
+    CommRequest();
+
     quint32         idPacket;
     msgType         type;
 };

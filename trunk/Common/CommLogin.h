@@ -4,6 +4,7 @@
 #include <QDataStream>
 #include <QObject>
 
+#include "Defines.h"
 #include "CommMiniString.h"
 
 /*!
@@ -17,16 +18,14 @@ class CommLogin
 public:
     /*!
      * Type of authenfication
-     * in the future we may want to add the ssl certificate for auth. or something else
+     * in the future we may want to add the certificate auth. or something else
      */
     enum            authType { HASH_MD5 };
 
-    CommLogin(CommMiniString clientVersion = "", CommMiniString _login = "", authType _type = HASH_MD5);
+    CommLogin(CommMiniString _login = "");
 
-    /*!
-     * Send the version of the client if there is some change in the protocol in the future
-     */
-    CommMiniString  clientVersion;
+    quint8          clientProtoVersion;
+    CommMiniString  clientName;
     CommMiniString  login;
     authType        type;
 };

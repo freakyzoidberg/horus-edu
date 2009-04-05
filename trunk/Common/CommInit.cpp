@@ -1,21 +1,23 @@
 #include "CommInit.h"
 
-CommInit::CommInit(CommMiniString ver)
+CommInit::CommInit()
 {
-    serverName = "Horus Server";
-    serverVersion = ver;
+    serverProtoVersion = CURRENT_PROTO_VERSION;
+    serverName  = SERVER_NAME;
+    serverName += " Ver. ";
+    serverName += SERVER_VERSION;
 }
 
 QDataStream& operator<<(QDataStream& ds, CommInit& ci)
 {
+    ds << ci.serverProtoVersion;
     ds << ci.serverName;
-    ds << ci.serverVersion;
     return ds;
 }
 
 QDataStream& operator>>(QDataStream& ds, CommInit& ci)
 {
+    ds >> ci.serverProtoVersion;
     ds >> ci.serverName;
-    ds >> ci.serverVersion;
     return ds;
 }

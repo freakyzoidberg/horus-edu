@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     Request.cpp \
     ../Common/CommMiniString.cpp \
     ../Common/CommLogin.cpp \
-    ../Common/CommInit.cpp
+    ../Common/CommInit.cpp \
+    ../Common/CommModule.cpp \
+    ../Common/CommRequest.cpp
 HEADERS += Module.h \
     ClientSocket.h \
     Server.h \
