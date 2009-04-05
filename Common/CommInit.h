@@ -3,7 +3,7 @@
 
 #include <QDataStream>
 
-#include "Defines.h"
+#include "CommMiniString.h"
 
 /*!
  * First Message after connexion
@@ -13,11 +13,13 @@
 class CommInit
 {
 public:
-    //char serverName   []             = "Horus Server";
-    char       serverVersion[VERSION_SIZE];
+    CommInit(CommMiniString serverVersion = "1");
+
+    CommMiniString  serverName;
+    CommMiniString  serverVersion;
 };
 
-QDataStream& operator<<(QDataStream& ds, CommInit& lc);
-QDataStream& operator>>(QDataStream& ds, CommInit& lc);
+QDataStream& operator<<(QDataStream&, CommInit&);
+QDataStream& operator>>(QDataStream&, CommInit&);
 
 #endif // COMMINIT_H

@@ -3,7 +3,7 @@
 
 #include <QDataStream>
 
-#include "Defines.h"
+#include "CommMiniString.h"
 
 /*!
  * If the "messageType" of the "CommunicationContainer" is "MODULE_COMM"
@@ -13,15 +13,13 @@
 class CommModule
 {
 public:
-    char    modSrc  [MODULE_NAME_SIZE   ];
-    char    verSrc  [MODULE_VERSION_SIZE];
-    char    modDest [MODULE_NAME_SIZE   ];
-    char    verCont [MODULE_VERSION_SIZE];
-
-    quint32 sizeCont;
+    CommMiniString  moduleSource;
+    CommMiniString  versionSource;
+    CommMiniString  moduleDestination;
+    CommMiniString  versionContent;
 };
 
-QDataStream& operator<<(QDataStream& ds, CommModule& lc);
-QDataStream& operator>>(QDataStream& ds, CommModule& lc);
+QDataStream& operator<<(QDataStream&, CommModule&);
+QDataStream& operator>>(QDataStream&, CommModule&);
 
 #endif // COMMMODULE_H

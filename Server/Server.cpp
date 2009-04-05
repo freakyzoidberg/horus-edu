@@ -21,16 +21,14 @@ void Server::incomingConnection(int socket)
     ClientSocket* cli = new ClientSocket();
     if ( ! cli->setSocketDescriptor(socket))
     {
+        delete cli;
         //emit error(cli.error());
         return;
     }
-    cli->write("COUCOU!! je suis Horus Server\nLogin et pass stp:");
+
+    CommInit ci;
+    cli->stream << ci;
     cli->connect(cli, SIGNAL(readyRead()), SLOT(onRecvLogin()));
-
-    clients << cli;
-
-    //QThreadPool::globalInstance()->start(cli);
-//    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 }
 
 void Server::check()

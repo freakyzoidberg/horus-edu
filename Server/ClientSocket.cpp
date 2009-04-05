@@ -1,4 +1,6 @@
 #include "ClientSocket.h"
+#include "Login.h"
+#include "Request.h"
 
 ClientSocket::ClientSocket(QObject *parent) : QTcpSocket(parent)
 {
@@ -7,16 +9,13 @@ ClientSocket::ClientSocket(QObject *parent) : QTcpSocket(parent)
 
 void ClientSocket::onRecvLogin()
 {
-    CommLogin msg("0.1.2", "toto42");
-
-    stream << msg; //envoi o lieu de recevoir pour test et voir cqui sort
-
     disconnect(this, SIGNAL(readyRead()), 0, 0);
        connect(this, SIGNAL(readyRead()), SLOT(onRecvRequest()));
+
+    QThreadPool::globalInstance()->start( new Login(this) );
 }
 
 void ClientSocket::onRecvRequest()
 {
-    write("recu request");
-    qDebug() << "recu request";
+    QThreadPool::globalInstance()->start( new Request(this) );
 }

@@ -4,6 +4,7 @@
 #include <QString>
 #include <QTcpSocket>
 #include <QtDebug>
+#include <QThreadPool>
 
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
@@ -16,13 +17,11 @@ class ClientSocket : public QTcpSocket
 
 public:
     ClientSocket(QObject *parent = 0);
+    QDataStream stream;
 
 public slots:
     void onRecvLogin();
     void onRecvRequest();
-
-private:
-    QDataStream stream;
 };
 
 #endif // CLIENTSOCKET_H
