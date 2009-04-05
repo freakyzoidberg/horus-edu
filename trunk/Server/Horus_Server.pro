@@ -12,15 +12,22 @@ SOURCES += main.cpp \
     ClientSocket.cpp \
     Server.cpp \
     Sql.cpp \
+    Settings.cpp \
+    Login.cpp \
+    Request.cpp \
+    ../Common/CommMiniString.cpp \
     ../Common/CommLogin.cpp \
-    Settings.cpp
+    ../Common/CommInit.cpp
 HEADERS += Module.h \
     ClientSocket.h \
     Server.h \
     Sql.h \
-    ../Common/Defines.h \
-    ../Common/CommInit.h \
-    ../Common/CommLogin.h \
-    ../Common/CommModule.h \
+    Settings.h \
+    Login.h \
+    Request.h \
     ../Common/CommRequest.h \
-    Settings.h
+    ../Common/CommModule.h \
+    ../Common/CommMiniString.h \
+    ../Common/CommLogin.h \
+    ../Common/CommInit.h \
+    ../Common/Defines.h

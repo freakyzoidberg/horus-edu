@@ -2,6 +2,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtNetwork>
 #include <QtDebug>
+#include <QThreadPool>
 #include "Server.h"
 #include <QString>
 
@@ -13,6 +14,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Horus Server");
     Server theserver;
     qDebug() << "main() Server Loaded";
+
+    QThreadPool::globalInstance()->setMaxThreadCount(30);
 
     return a.exec();
 }

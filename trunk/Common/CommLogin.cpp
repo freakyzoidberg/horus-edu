@@ -1,16 +1,24 @@
 #include "CommLogin.h"
 
-CommLogin::CommLogin(const char* _cliVersion, const char* _login, authType _type)
+CommLogin::CommLogin(CommMiniString _clientVersion, CommMiniString _login, authType _type)
 {
-    cliVersion = _cliVersion;
+    clientVersion = _clientVersion;
     login = _login;
     type = _type;
 }
 
 QDataStream& operator<<(QDataStream& ds, CommLogin& cl)
 {
-    ds << cl.cliVersion;
+    ds << cl.clientVersion;
     ds << cl.login;
-    ds << (quint8)cl.type;
+    ds << (quint8&)cl.type;
+    return ds;
+}
+
+QDataStream& operator>>(QDataStream& ds, CommLogin& cl)
+{
+    ds >> cl.clientVersion;
+    ds >> cl.login;
+    ds >> (quint8&)cl.type;
     return ds;
 }
