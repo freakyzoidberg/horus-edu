@@ -6,7 +6,9 @@
 #include <QThreadPool>
 
 #include "ClientSocket.h"
+#include "Settings.h"
 #include "Sql.h"
+
 
 class Server : public QTcpServer
 {
