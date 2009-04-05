@@ -9,7 +9,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    QCoreApplication::setOrganizationName("HorusEIP");
+    QCoreApplication::setOrganizationName("Horus");
     QCoreApplication::setOrganizationDomain("hor.us");
     QCoreApplication::setApplicationName("Horus Server");
     Server theserver;
