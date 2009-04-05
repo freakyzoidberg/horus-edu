@@ -9,14 +9,12 @@ CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
-    Client.cpp \
+    ClientSocket.cpp \
     Server.cpp \
-    Thread.cpp \
     Sql.cpp
 HEADERS += module.h \
-    Client.h \
+    ClientSocket.h \
     Server.h \
-    Thread.h \
     Sql.h \
     ../Common/Defines.h \
     ../Common/ModuleContainer.h \

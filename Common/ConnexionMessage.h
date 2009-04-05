@@ -1,7 +1,7 @@
 #ifndef CONNEXIONMESSAGE_H
 #define CONNEXIONMESSAGE_H
 
-#include "Defines.h";
+#include "Defines.h"
 
 /*!
  * First Message after connexion
@@ -10,12 +10,7 @@
  */
 class ConnexionMessage
 {
-    /*!
-     * NEVER CHANGE THIS MESSAGE
-     * Just change the "serverVersion"
-     */
-    const char servername   []             = "Horus Server";
-
+    //static char serverName   []             = "Horus Server";
     char       serverVersion[VERSION_SIZE];
 }
 

@@ -3,6 +3,11 @@
 
 #include "Defines.h"
 
+/*!
+ * If the "messageType" of the "CommunicationContainer" is "MODULE_COMM"
+ * there is this class inside "content".
+ * it's for the comunication between a module client and a module server
+ */
 class ModuleContainer
 {
  public:
@@ -10,7 +15,8 @@ class ModuleContainer
     char verSrc [MODULE_VERSION_SIZE];
     char modDest[MODULE_NAME_SIZE];
     char verCont[MODULE_VERSION_SIZE];
-    uint  sizeCont;
+
+    int  sizeCont;
     void *content;
 };
 
