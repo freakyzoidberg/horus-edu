@@ -2,14 +2,14 @@
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
-    /* Server mysql a configurer
+    // Server mysql a configurer
     sql *fddb = new sql();
 
-    if (fddb->sqlconnect("testhorus", "219.221.96.19", "horus", "horuspwd"))
-        qDebug() << "Ohoho Connecte sur mysql@219.221.96.19";
-    else
-        qDebug() << "arf pas de sql";
-    */
+    //if (fddb->sqlconnect("testhorus", "219.221.96.19", "horus", "horuspwd"))
+    //    qDebug() << "Ohoho Connecte sur mysql@219.221.96.19";
+    //else
+    //    qDebug() << "arf pas de sql";
+
 
     listen(QHostAddress::Any, 42421);
     check();
