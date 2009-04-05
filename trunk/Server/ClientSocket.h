@@ -5,7 +5,10 @@
 #include <QTcpSocket>
 #include <QtDebug>
 
-//#include "../Common/ConnexionMessage.h"
+#include "../Common/CommInit.h"
+#include "../Common/CommLogin.h"
+#include "../Common/CommModule.h"
+#include "../Common/CommRequest.h"
 
 class ClientSocket : public QTcpSocket
 {
@@ -14,16 +17,12 @@ class ClientSocket : public QTcpSocket
 public:
     ClientSocket(QObject *parent = 0);
 
-//    void            SendData(QString mod, void* data, int size);
-
-//signals:
-//    void  readyRead();
-
 public slots:
-    void readPendingDatagrams();
+    void onRecvLogin();
+    void onRecvRequest();
 
 private:
-    enum status {NEW, AUTH, END};
+    QDataStream stream;
 };
 
 #endif // CLIENTSOCKET_H

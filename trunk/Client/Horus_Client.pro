@@ -12,9 +12,11 @@ SOURCES += main.cpp \
     ConnectionManager.cpp
 HEADERS += mainwindow.h \
     ClientAPI.h \
-    ../Common/ModuleContainer.h \
-    ../Common/CommunicationContainer.h \
     ../Common/Defines.h \
+    ../Common/CommInit.h \
+    ../Common/CommLogin.h \
+    ../Common/CommModule.h \
+    ../Common/CommRequest.h
     ConnectionManager.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
