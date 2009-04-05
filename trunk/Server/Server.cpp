@@ -4,14 +4,15 @@ Server::Server(QObject *parent) : QTcpServer(parent)
 {
     // Server mysql a configurer
     sql *fddb = new sql();
+    Settings *config = new Settings();
 
-    //if (fddb->sqlconnect("testhorus", "219.221.96.19", "horus", "horuspwd"))
-    //    qDebug() << "Ohoho Connecte sur mysql@219.221.96.19";
-    //else
-    //    qDebug() << "arf pas de sql";
+    if (fddb->sqlconnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL")))
+        qDebug() << "Server::Server() SQL connected";
+    else
+        qDebug() << "Server::Server() NO SQL !!!";
 
 
-    listen(QHostAddress::Any, 42421);
+    listen(QHostAddress::Any, config->GetSettings("SRV_PORT","SERVER").toInt());
     check();
 }
 
@@ -35,8 +36,8 @@ void Server::incomingConnection(int socket)
 void Server::check()
 {
     if ( ! isListening())
-        qDebug() << "Server Dont Listen";
+        qDebug() << "Server::Server() Not listening";
     else
-        qDebug("Server Listen on port : %d", serverPort());
+        qDebug("Server::Server() Listening on port : %d", serverPort());
 }
 
