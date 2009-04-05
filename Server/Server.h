@@ -20,9 +20,6 @@ public:
 protected:
     void incomingConnection(int socketDescriptor);
     void check();
-
-private:
-    QList<ClientSocket*> clients;
 };
 
 #endif

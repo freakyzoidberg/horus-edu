@@ -28,7 +28,8 @@ void Server::incomingConnection(int socket)
 
     CommInit ci;
     cli->stream << ci;
-    cli->connect(cli, SIGNAL(readyRead()), SLOT(onRecvLogin()));
+    cli->connect(cli, SIGNAL(readyRead()),     SLOT(onRecvLogin()));
+    cli->connect(cli, SIGNAL(disconnected()), SLOT(deleteLater()));
 }
 
 void Server::check()

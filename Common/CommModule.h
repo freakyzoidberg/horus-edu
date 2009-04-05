@@ -13,10 +13,16 @@
 class CommModule
 {
 public:
+    CommModule();
+
+    /*!
+     * Version of This object
+     */
+    quint8          ver;
+
     CommMiniString  moduleSource;
-    CommMiniString  versionSource;
+    CommMiniString  moduleSourceVersion;
     CommMiniString  moduleDestination;
-    CommMiniString  versionContent;
 };
 
 QDataStream& operator<<(QDataStream&, CommModule&);

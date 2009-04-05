@@ -3,6 +3,7 @@
 
 #include <QDataStream>
 
+#include "Defines.h"
 #include "CommMiniString.h"
 
 /*!
@@ -13,10 +14,11 @@
 class CommInit
 {
 public:
-    CommInit(CommMiniString serverVersion = "1");
+    CommInit();
 
+    quint8          serverProtoVersion;
     CommMiniString  serverName;
-    CommMiniString  serverVersion;
+    //Maybe add suported authType by the server
 };
 
 QDataStream& operator<<(QDataStream&, CommInit&);
