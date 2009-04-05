@@ -3,7 +3,10 @@
 
 #include <QStringList>
 #include <QTcpServer>
+#include <QThreadPool>
 
+#include "ClientSocket.h"
+#include "Sql.h"
 
 class Server : public QTcpServer
 {
@@ -14,11 +17,10 @@ public:
 
 protected:
     void incomingConnection(int socketDescriptor);
-    void OptionalFill();
     void check();
 
 private:
-    QStringList fortunes;
+    QList<ClientSocket*> clients;
 };
 
 #endif

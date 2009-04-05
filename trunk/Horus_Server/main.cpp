@@ -1,8 +1,7 @@
-#define QT_NO_DEBUG_OUTPUT
+//#define QT_NO_DEBUG_OUTPUT
 #include <QtCore/QCoreApplication>
 #include <QtNetwork>
 #include <QtDebug>
-#include <stdlib.h>
 #include "Server.h"
 
 int main(int argc, char *argv[])

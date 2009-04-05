@@ -1,7 +1,4 @@
 #include "Server.h"
-#include "Thread.h"
-#include "Sql.h"
-#include <stdlib.h>
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
@@ -13,29 +10,25 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     else
         qDebug() << "arf pas de sql";
     */
+
     this->listen(QHostAddress::Any, 42421);
-    this->OptionalFill();
     this->check();
 }
 
-void Server::incomingConnection(int socketDescriptor)
+void Server::incomingConnection(int socket)
 {
-    QString fortune = fortunes.at(qrand() % fortunes.size());
-        qDebug() << "new Client" << socketDescriptor;
-    Thread *thread = new Thread(socketDescriptor, fortune, this);
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    thread->start();
-}
+    ClientSocket* cli = new ClientSocket();
+    if (!cli->setSocketDescriptor(socket))
+    {
+        //emit error(cli.error());
+        return;
+    }
+    cli->write("COUCOU!!");
+    cli->connect(cli, SIGNAL(readyRead()), SLOT(readPendingDatagrams()));
+    this->clients << cli;
 
-void Server::OptionalFill()
-{
-    fortunes << tr("You've been leading a dog's life. Stay off the furniture.")
-             << tr("You've got to think about tomorrow.")
-             << tr("You will be surprised by a loud noise.")
-             << tr("You will feel hungry again in another hour.")
-             << tr("You might have mail.")
-             << tr("You cannot kill time without injuring eternity.")
-             << tr("Computers are not intelligent. They only think they are.");
+    //QThreadPool::globalInstance()->start(cli);
+//    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 }
 
 void Server::check()

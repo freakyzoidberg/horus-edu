@@ -3,23 +3,16 @@
 
 #include <QString>
 
-namespace Horus
+class Module
 {
-    namespace Server
-    {
-        class Module
-        {
-        public:
-            //virtual Module();
-            const QString                 name;
-/*
-            virtual const std::list<Module&>  initAfterModules(const std::list<Module>& mods);
-
-            virtual void                      onClientConect(Client& cli);
-            virtual void                      onRecvClientData(Client& cli, void* data);
-            */
-        };
-    }
-}
+public:
+    //virtual Module();
+    const QString                 name;
+    /*
+    virtual const std::list<Module&>  initAfterModules(const std::list<Module>& mods);
+    virtual void                      onClientConect(Client& cli);
+    virtual void                      onRecvClientData(Client& cli, void* data);
+    */
+};
 
 #endif // MODULE_H

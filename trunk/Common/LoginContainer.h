@@ -3,10 +3,16 @@
 
 #include "Defines.h"
 
+/*!
+ * Response from the client to the server
+ * after the first "ConnexionMessage" from the server
+ */
 class CommunicationContainer
 {
  public:
-
+    /*!
+     * Send the version of the client if there is some change in the protocol in the future
+     */
     char clientVersion[VERSION_SIZE];
 
     char login[LOGIN_SIZE];
@@ -16,7 +22,8 @@ class CommunicationContainer
      * in the future we may want to add the ssl certificate for auth. or something else
      */
     enum authType{HASH_MD5};
-    uint  sizeCont;
+
+    int  sizeCont;
     void* content;
 };
 
