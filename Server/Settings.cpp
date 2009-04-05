@@ -7,12 +7,12 @@ Settings::Settings()
         {
         FirstSetSettings();
         if (GetSettings("SRV_PORT", "SERVER") == "")
-            qDebug() << "Definitly an error at getting the configuration";
+            qDebug() << "Settings::Settings() Definitly an error at getting the configuration";
             else
-            qDebug() << "Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
+            qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
         }
     else
-        qDebug() << "Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
+        qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
 }
 
 
@@ -21,8 +21,8 @@ void Settings::FirstSetSettings()
 {
     if (this->Gsettings.status() == 0)
     {
-    qDebug() << "Conf not found Creating it in " <<  this->Gsettings.fileName();
-    qDebug() << "Default Value can be edited";
+    qDebug() << "Settings::FirstSetSettings() Conf not found Creating it in " <<  this->Gsettings.fileName();
+    qDebug() << "Settings::FirstSetSettings() Default Value can be edited";
     this->Gsettings.beginGroup("SQL");
      this->Gsettings.setValue("SQL_DRIVER", "QMYSQL");
      this->Gsettings.setValue("SQL_HOSTNAME", "219.221.96.19");
@@ -36,7 +36,7 @@ void Settings::FirstSetSettings()
     this->Gsettings.endGroup();
     }
     else
-       qDebug() << "Error writing/reading" <<  this->Gsettings.fileName();
+       qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings.fileName();
 }
 
 QString Settings::GetSettings(QString key, QString group)
