@@ -21,15 +21,16 @@ public:
      * Type of authenfication
      * in the future we may want to add the certificate auth. or something else
      */
-    enum            packetType{ UNKNOW , LOGIN , LOGOUT , LOGGED , REJECTED };
-    static char*    debugTypes[];// = {"UNKNOW","LOGIN","LOGOUT","LOGGED","REJECTED"};
+    enum            packetType{ ERROR, LOGIN , LOGOUT , ACCEPTED , REFUSED };
 //    enum            authType { HASH_MD5, SESSION };//...
 
-    CommLogin(packetType _type = UNKNOW, CommMiniString _login = "");
+    CommLogin(packetType _type = ERROR, CommMiniString _login = "");
 
     packetType      type;
     CommMiniString  login;
 //    authType        aType;
+    static const quint8         typeNumber;
+    static const char*          typeMessages[];
 };
 
 QDataStream& operator<<(QDataStream&, CommLogin&);

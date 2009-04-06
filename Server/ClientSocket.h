@@ -21,6 +21,11 @@ public:
     ~ClientSocket();
     QDataStream stream;
 
+    /*!
+     * When a packet is read, free the socket and launch another thread if there is another packet in queue
+     */
+    void packetRead();
+
 public slots:
     void onReceveInit();
     void onRecevePacket();

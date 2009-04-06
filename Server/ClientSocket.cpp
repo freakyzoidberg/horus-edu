@@ -12,6 +12,18 @@ ClientSocket::ClientSocket(QObject *parent) : QTcpSocket(parent)
     stream.setDevice(this);
 }
 
+ClientSocket::~ClientSocket()
+{
+    qDebug() << "Client"<< id << "disconected.";
+    stream.setDevice(this);
+}
+
+void ClientSocket::packetRead()
+{
+    if (bytesAvailable())
+        emit readyRead();
+}
+
 void ClientSocket::onReceveInit()
 {
     disconnect(this, SIGNAL(readyRead()), 0, 0);
@@ -26,17 +38,10 @@ void ClientSocket::onReceveInit()
     }
 
     connect(this, SIGNAL(readyRead()), SLOT(onRecevePacket()));
-    if (bytesAvailable())
-        onRecevePacket();
+    packetRead();
 }
 
 void ClientSocket::onRecevePacket()
 {
     QThreadPool::globalInstance()->start( new ThreadPacket(this) );
-}
-
-ClientSocket::~ClientSocket()
-{
-    qDebug() << "Client"<< id << "disconected.";
-    stream.setDevice(this);
 }

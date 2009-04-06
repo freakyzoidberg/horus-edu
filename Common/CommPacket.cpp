@@ -8,14 +8,14 @@ CommPacket::CommPacket(msgType _type)
 QDataStream& operator<<(QDataStream& ds, CommPacket& cr)
 {
     ds << (quint8&)cr.type;
-    qDebug() << "[out CommPacket]" << cr;
+    qDebug() << "[out Packet ]" << cr;
     return ds;
 }
 
 QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
 {
     ds >> (quint8&)cr.type;
-    qDebug() << "[ in CommPacket]" << cr;
+    qDebug() << "[ in Packet ]" << cr;
     return ds;
 }
 
@@ -36,5 +36,5 @@ QDebug operator<<(QDebug d, CommPacket& cr)
     if (t >= CommPacket::typeNumber)
         t = CommPacket::UNKNOW_PROTOCOL;
 
-    return d << "type =" << t << CommPacket::typeMessages[ t ];
+    return d << "type =" << CommPacket::typeMessages[ t ];
 }
