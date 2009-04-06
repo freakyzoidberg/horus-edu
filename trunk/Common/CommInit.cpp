@@ -14,7 +14,7 @@ QDataStream& operator<<(QDataStream& ds, CommInit& ci)
 {
     ds << ci.protoVersion;
     ds << ci.fromName;
-    qDebug() << "[out CommInit]" << ci;
+    qDebug() << "[out Init]" << ci;
     return ds;
 }
 
@@ -22,7 +22,7 @@ QDataStream& operator>>(QDataStream& ds, CommInit& ci)
 {
     ds >> ci.protoVersion;
     ds >> ci.fromName;
-    qDebug() << "[ in CommInit]" << ci;
+    qDebug() << "[ in Init]" << ci;
     return ds;
 }
 

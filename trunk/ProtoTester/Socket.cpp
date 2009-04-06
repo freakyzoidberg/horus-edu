@@ -29,8 +29,19 @@ void Socket::onReceveInit()
 
     CommPacket pac(CommPacket::LOGIN);//TYPE de packet
     CommLogin  login(CommLogin::LOGIN, "super-Menteur"); // type de login/logout/...
-
     stream << pac << login;
+
+    CommPacket pacm(CommPacket::MODULE);//TYPE de packet
+    CommModule mod("mod Source", "v42", "mod Destination");
+    stream << pacm << mod;
+    stream << pacm << mod;
+    stream << pacm << mod;
+    stream << pacm << mod;
+    stream << pacm << mod;
+    stream << pacm << mod;
+    stream << pacm << mod;
+    stream << pacm << mod;
+    stream << pacm << mod;
 
     connect(this, SIGNAL(readyRead()),    SLOT(onRecevePacket()));
 }

@@ -20,7 +20,6 @@ public:
 
     static const quint8         typeNumber;
     static const char*          typeMessages[];
-    //static void (CommPacket::*typeMethodes[]) ();
 };
 
 QDataStream& operator<<(QDataStream&, CommPacket&);

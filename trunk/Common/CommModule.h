@@ -13,6 +13,7 @@
 class CommModule
 {
 public:
+    CommModule();
     CommModule(const char* src, const char* srcVer, const char* dest);
 
     CommMiniString  moduleSource;
