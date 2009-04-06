@@ -26,10 +26,11 @@ void Server::incomingConnection(int socket)
         return;
     }
 
-    CommInit ci;
-    cli->stream << ci;
-    cli->connect(cli, SIGNAL(readyRead()),     SLOT(onRecvLogin()));
     cli->connect(cli, SIGNAL(disconnected()), SLOT(deleteLater()));
+    cli->connect(cli, SIGNAL(readyRead()),    SLOT(onReceveInit()));
+
+    CommInit ci(CURRENT_PROTO_VERSION, SERVER_NAME);
+    cli->stream << ci;
 }
 
 void Server::check()

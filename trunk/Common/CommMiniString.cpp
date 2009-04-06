@@ -1,22 +1,19 @@
 #include "CommMiniString.h"
 
-CommMiniString::CommMiniString(QByteArray& s) : QByteArray(s)
-{
-}
+CommMiniString::CommMiniString(QByteArray& s) : QByteArray(s) {}
 
-CommMiniString::CommMiniString(const char* s) : QByteArray(s)
-{
-}
+CommMiniString::CommMiniString(const char* s) : QByteArray(s) {}
 
-CommMiniString::CommMiniString() : QByteArray()
-{
-}
+CommMiniString::CommMiniString() : QByteArray() {}
 
 QDataStream& operator<<(QDataStream& ds, CommMiniString& cms)
 {
     int l = cms.length();
     if (l > 255)
-        return ds;
+    {
+        qWarning() << "CommMiniString length is" << l << ". Truncated to 255.";
+        l = 255;
+    }
 
     ds << (quint8&)l;
     for (int i = 0; i < l; i++)
@@ -27,13 +24,13 @@ QDataStream& operator<<(QDataStream& ds, CommMiniString& cms)
 
 QDataStream& operator>>(QDataStream& ds, CommMiniString& cms)
 {
-    int l;
-    ds >> (quint8&)l;
+    quint8 l;
+    ds >> l;
 
-    char c;
-    for (int i = 0; i < l; i++)
+    quint8 c;
+    for (quint8 i = 0; i < l; i++)
     {
-        ds >> (quint8&)c;
+        ds >> c;
         cms.append(c);
     }
     return ds;

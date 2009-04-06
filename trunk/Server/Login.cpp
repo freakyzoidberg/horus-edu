@@ -7,13 +7,13 @@ Login::Login(ClientSocket* cs)
 
 void Login::run()
 {
-    CommLogin msg("toto42");
-    client->stream << msg; //envoi o lieu de recevoir pour test et voir cqui sort
+//    CommLogin msg("toto42");
+//    client->stream << msg; //envoi o lieu de recevoir pour test et voir cqui sort
 
 
     //CommLogin msg;
     //client->stream >> msg; READ
     //CHECK LOGIN PASS ...
 
-    client->connect(client, SIGNAL(readyRead()), SLOT(onRecvRequest()));
+//    client->connect(client, SIGNAL(readyRead()), SLOT(onRecvRequest()));
 }

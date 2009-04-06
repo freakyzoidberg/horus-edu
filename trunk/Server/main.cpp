@@ -4,18 +4,20 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include "Server.h"
+#include "../Common/Defines.h"
 #include <QString>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    QCoreApplication::setOrganizationName("Horus");
-    QCoreApplication::setOrganizationDomain("hor.us");
-    QCoreApplication::setApplicationName("Horus Server");
+    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
+    QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
+    QCoreApplication::setApplicationName(SERVER_NAME);
+
     Server theserver;
     qDebug() << "main() Server Loaded";
 
-    QThreadPool::globalInstance()->setMaxThreadCount(30);
+//    QThreadPool::globalInstance()->setMaxThreadCount(30);
 
     return a.exec();
 }

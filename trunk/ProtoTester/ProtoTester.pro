@@ -1,32 +1,20 @@
 # -------------------------------------------------
-# Project created by QtCreator 2009-03-28T21:10:31
+# Project created by QtCreator 2009-04-06T14:49:51
 # -------------------------------------------------
-QT += network \
-    sql
+QT += network
 QT -= gui
-TARGET = Horus_Server
+TARGET = ProtoTester
 CONFIG += console
 CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
-    ClientSocket.cpp \
-    Server.cpp \
-    Sql.cpp \
-    Settings.cpp \
-    Login.cpp \
-    ThreadPacket.cpp \
+    Socket.cpp \
+    ../Common/CommPacket.cpp \
+    ../Common/CommModule.cpp \
     ../Common/CommMiniString.cpp \
     ../Common/CommLogin.cpp \
-    ../Common/CommInit.cpp \
-    ../Common/CommModule.cpp \
-    ../Common/CommPacket.cpp
-HEADERS += Module.h \
-    ClientSocket.h \
-    Server.h \
-    Sql.h \
-    Settings.h \
-    Login.h \
-    ThreadPacket.h \
+    ../Common/CommInit.cpp
+HEADERS += Socket.h \
     ../Common/CommPacket.h \
     ../Common/CommModule.h \
     ../Common/CommMiniString.h \

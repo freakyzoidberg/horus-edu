@@ -13,24 +13,28 @@
  */
 class CommLogin
 {
-  Q_ENUMS(authType)
+  Q_ENUMS(packetType)
+//  Q_ENUMS(authType)
 
 public:
     /*!
      * Type of authenfication
      * in the future we may want to add the certificate auth. or something else
      */
-    enum            authType { HASH_MD5 };
+    enum            packetType{ UNKNOW , LOGIN , LOGOUT , LOGGED , REJECTED };
+    static char*    debugTypes[];// = {"UNKNOW","LOGIN","LOGOUT","LOGGED","REJECTED"};
+//    enum            authType { HASH_MD5, SESSION };//...
 
-    CommLogin(CommMiniString _login = "");
+    CommLogin(packetType _type = UNKNOW, CommMiniString _login = "");
 
-    quint8          clientProtoVersion;
-    CommMiniString  clientName;
+    packetType      type;
     CommMiniString  login;
-    authType        type;
+//    authType        aType;
 };
 
 QDataStream& operator<<(QDataStream&, CommLogin&);
 QDataStream& operator>>(QDataStream&, CommLogin&);
+
+QDebug operator<<(QDebug, CommLogin&);
 
 #endif // COMMLOGIN_H
