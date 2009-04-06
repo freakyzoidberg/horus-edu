@@ -15,13 +15,15 @@ class CommInit
 {
 public:
     CommInit();
+    CommInit(quint8 _protoVersion, const char* fromName);
 
-    quint8          serverProtoVersion;
-    CommMiniString  serverName;
-    //Maybe add suported authType by the server
+    quint8          protoVersion;
+    CommMiniString  fromName;
 };
 
 QDataStream& operator<<(QDataStream&, CommInit&);
 QDataStream& operator>>(QDataStream&, CommInit&);
+
+QDebug operator<<(QDebug, CommInit&);
 
 #endif // COMMINIT_H

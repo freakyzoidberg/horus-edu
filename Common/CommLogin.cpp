@@ -1,29 +1,29 @@
 #include "CommLogin.h"
 
-CommLogin::CommLogin(CommMiniString _login)
+CommLogin::CommLogin(packetType _type, CommMiniString _login)
 {
-    clientProtoVersion = CURRENT_PROTO_VERSION;
-    clientName  = CLIENT_NAME;
-    clientName += " Ver. ";
-    clientName += CLIENT_VERSION;
+    type  = _type;
     login = _login;
-    type = HASH_MD5;
 }
 
 QDataStream& operator<<(QDataStream& ds, CommLogin& cl)
 {
-    ds << cl.clientProtoVersion;
-    ds << cl.clientName;
-    ds << cl.login;
     ds << (quint8&)cl.type;
+    ds << cl.login;
+    qDebug() << "-[out Login ]" << cl;
     return ds;
 }
 
 QDataStream& operator>>(QDataStream& ds, CommLogin& cl)
 {
-    ds >> cl.clientProtoVersion;
-    ds >> cl.clientName;
-    ds >> cl.login;
     ds >> (quint8&)cl.type;
+    ds >> cl.login;
+    qDebug() << "-[ in Login ]" << cl;
     return ds;
+}
+
+QDebug operator<<(QDebug d, CommLogin& cl)
+{
+    return d << " type ="  << cl.type
+             << " login =" << cl.login;
 }

@@ -1,6 +1,7 @@
 #ifndef COMMMINISTRING_H
 #define COMMMINISTRING_H
 
+#include <QDebug>
 #include <QByteArray>
 #include <QDataStream>
 
@@ -16,7 +17,7 @@ public:
     CommMiniString();
 };
 
-QDataStream& operator<<(QDataStream& ds, CommMiniString& cms);
-QDataStream& operator>>(QDataStream& ds, CommMiniString& cms);
+QDataStream& operator<<(QDataStream&, CommMiniString&);
+QDataStream& operator>>(QDataStream&, CommMiniString&);
 
 #endif // COMMMINISTRING_H

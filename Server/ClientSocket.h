@@ -6,10 +6,11 @@
 #include <QtDebug>
 #include <QThreadPool>
 
+#include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommModule.h"
-#include "../Common/CommRequest.h"
+#include "../Common/CommPacket.h"
 
 class ClientSocket : public QTcpSocket
 {
@@ -17,11 +18,16 @@ class ClientSocket : public QTcpSocket
 
 public:
     ClientSocket(QObject *parent = 0);
+    ~ClientSocket();
     QDataStream stream;
 
 public slots:
-    void onRecvLogin();
-    void onRecvRequest();
+    void onReceveInit();
+    void onRecevePacket();
+
+private:
+    quint32 id;
+    static quint32 newId;
 };
 
 #endif // CLIENTSOCKET_H

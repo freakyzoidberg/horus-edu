@@ -13,12 +13,7 @@
 class CommModule
 {
 public:
-    CommModule();
-
-    /*!
-     * Version of This object
-     */
-    quint8          ver;
+    CommModule(const char* src, const char* srcVer, const char* dest);
 
     CommMiniString  moduleSource;
     CommMiniString  moduleSourceVersion;
@@ -27,5 +22,7 @@ public:
 
 QDataStream& operator<<(QDataStream&, CommModule&);
 QDataStream& operator>>(QDataStream&, CommModule&);
+
+QDebug operator<<(QDebug, CommModule&);
 
 #endif // COMMMODULE_H

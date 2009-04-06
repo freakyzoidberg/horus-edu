@@ -5,6 +5,7 @@
 #include <QTcpServer>
 #include <QThreadPool>
 
+#include "../Common/Defines.h"
 #include "ClientSocket.h"
 #include "Settings.h"
 #include "Sql.h"
