@@ -10,7 +10,8 @@ class IClientPlugin
     virtual QStringList getPluginsRequired() const = 0;
     virtual QStringList getPluginsRecommended() const = 0;
     virtual QStringList getExports() const = 0;
-    virtual QStringList getImplementations() const = 0;
 };
+
+Q_DECLARE_INTERFACE(IClientPlugin, "net.horus.Client.PluginInterface/1.0");
 
 #endif // ICLIENTPLUGIN_H
