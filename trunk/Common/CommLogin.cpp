@@ -1,6 +1,6 @@
 #include "CommLogin.h"
 
-CommLogin::CommLogin(packetType _type, CommMiniString _login)
+CommLogin::CommLogin(packetType _type, CommMiniString _login) : CommPacket(CommPacket::LOGIN)
 {
     type  = _type;
     login = _login;
@@ -8,17 +8,14 @@ CommLogin::CommLogin(packetType _type, CommMiniString _login)
 
 QDataStream& operator<<(QDataStream& ds, CommLogin& cl)
 {
-    ds << (quint8&)cl.type;
-    ds << cl.login;
-    qDebug() << "->[out Login ]" << cl;
-    return ds;
+    qDebug() << "[out]" << cl;
+    return ds << (CommPacket&)cl << (quint8&)cl.type << cl.login;
 }
 
 QDataStream& operator>>(QDataStream& ds, CommLogin& cl)
 {
-    ds >> (quint8&)cl.type;
-    ds >> cl.login;
-    qDebug() << "->[ in Login ]" << cl;
+    ds >> (quint8&)cl.type >> cl.login;
+    qDebug() << "[ in]" << cl;
     return ds;
 }
 
@@ -29,15 +26,17 @@ const char*  CommLogin::typeMessages[] =
     "Login",
     "Logout",
     "Accepted",
-    "Refused"
+    "Refused "
 };
 
 QDebug operator<<(QDebug d, CommLogin& cl)
 {
+    d << (CommPacket&)cl;
+
     quint8 t = cl.type;
     if (t >= CommLogin::typeNumber)
         t = CommLogin::ERROR;
 
-    return d << "type =" << CommLogin::typeMessages[ t ]
-             << " login =" << cl.login;
+    return d << CommLogin::typeMessages[ t ]
+             << cl.login;
 }

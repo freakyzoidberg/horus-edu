@@ -26,8 +26,8 @@ void Server::incomingConnection(int socket)
         return;
     }
 
-    cli->connect(cli, SIGNAL(disconnected()), SLOT(deleteLater()));
-    cli->connect(cli, SIGNAL(readyRead()),    SLOT(onReceveInit()));
+    cli->connect(cli, SIGNAL(disconnected()), SLOT(tryToDelete()));
+    cli->connect(cli, SIGNAL(readyRead()),    SLOT(onRecevePacket()));
 
     CommInit ci(CURRENT_PROTO_VERSION, SERVER_NAME);
     cli->stream << ci;

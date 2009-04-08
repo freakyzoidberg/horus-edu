@@ -5,21 +5,30 @@
 #include <QObject>
 #include <QDebug>
 
+#include "CommMiniString.h"
+
 /*!
  * After authentification, each packets are transmited inside this container
  */
 class CommPacket
 {
-  Q_ENUMS(msgType)
+  Q_ENUMS(pType)
 public:
-    enum            msgType { UNKNOW_PROTOCOL, ALIVE, LOGIN, FILE, CONFIG, MODULE };
+    enum                 pType { UNKNOW, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE };
 
-    CommPacket(msgType _type = UNKNOW_PROTOCOL);
+    pType               getPacketType();
+    const char*         getPacketName();
 
-    msgType         type;
+    static CommPacket*  readNextPacket(QDataStream&);
 
-    static const quint8         typeNumber;
-    static const char*          typeMessages[];
+//protected:
+    CommPacket(pType _type = UNKNOW);
+
+//private:
+    pType               packetType;
+
+    static const quint8 typeNumber;
+    static const char*  typeNames[];
 };
 
 QDataStream& operator<<(QDataStream&, CommPacket&);

@@ -1,17 +1,15 @@
 #ifndef COMMLOGIN_H
 #define COMMLOGIN_H
 
-#include <QDataStream>
-#include <QObject>
+#include "CommPacket.h"
 
-#include "Defines.h"
-#include "CommMiniString.h"
+#include <QObject>
 
 /*!
  * Response from the client to the server
  * after the first "ConnexionMessage" from the server
  */
-class CommLogin
+class CommLogin : public CommPacket
 {
   Q_ENUMS(packetType)
 //  Q_ENUMS(authType)

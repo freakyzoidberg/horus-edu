@@ -5,12 +5,9 @@
 #include <QTcpSocket>
 #include <QtDebug>
 #include <QThreadPool>
+#include <QMutex>
 
 #include "../Common/Defines.h"
-#include "../Common/CommInit.h"
-#include "../Common/CommLogin.h"
-#include "../Common/CommModule.h"
-#include "../Common/CommPacket.h"
 
 class ClientSocket : public QTcpSocket
 {
@@ -22,17 +19,28 @@ public:
     QDataStream stream;
 
     /*!
-     * When a packet is read, free the socket and launch another thread if there is another packet in queue
+     * When a thread is created with an incoming packet, increment the number of threads
+     * if the client is disconected,  we have to wait the end of all the threads before deleting it
+     */
+    //thread safe!!!
+    void threadStart();
+    void threadFinished();
+
+public slots:
+    void onRecevePacket();
+
+    /*!
+     * When a packet is read, allow the socket to launch another thread if there is another packet in queue
      */
     void packetRead();
 
-public slots:
-    void onReceveInit();
-    void onRecevePacket();
+    void tryToDelete();
 
 private:
+    quint32 nbrThreads;
+    QMutex  nbrThreadsMutex;
+
     quint32 id;
-    static quint32 newId;
 };
 
 #endif // CLIENTSOCKET_H

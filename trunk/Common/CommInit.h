@@ -1,17 +1,13 @@
 #ifndef COMMINIT_H
 #define COMMINIT_H
 
-#include <QDataStream>
-
-#include "Defines.h"
-#include "CommMiniString.h"
+#include "CommPacket.h"
 
 /*!
  * First Message after connexion
  * From Server to the Client
- * After, the client answer with a "LoginContainer" class
  */
-class CommInit
+class CommInit : public CommPacket
 {
 public:
     CommInit();

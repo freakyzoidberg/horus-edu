@@ -9,7 +9,7 @@
 
 Socket::Socket(const char* host, quint16 port)
 {
-    connect(this, SIGNAL(readyRead()),    SLOT(onReceveInit()));
+    connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
     connect(this, SIGNAL(disconnected()), QCoreApplication::instance(), SLOT(quit()));
 
     connectToHost(host, port);
@@ -18,34 +18,26 @@ Socket::Socket(const char* host, quint16 port)
     qDebug() << "Connect to " << host << ":" << port << " -> " << isOpen();
 }
 
-void Socket::onReceveInit()
+void Socket::onReceve()
 {
     disconnect(this, SIGNAL(readyRead()), 0, 0);
 
+    CommPacket pac;
+    stream >> pac;
+    // check packet is init
     CommInit init;
     stream >> init;
+
     init.fromName = "Protocol Tester";
     stream << init;
 
-    CommPacket pac(CommPacket::LOGIN);//TYPE de packet
     CommLogin  login(CommLogin::LOGIN, "super-Menteur"); // type de login/logout/...
-    stream << pac << login;
+    stream << login;
 
-    CommPacket pacm(CommPacket::MODULE);//TYPE de packet
     CommModule mod("mod Source", "v42", "mod Destination");
-    stream << pacm << mod;
-    stream << pacm << mod;
-    stream << pacm << mod;
-    stream << pacm << mod;
-    stream << pacm << mod;
-    stream << pacm << mod;
-    stream << pacm << mod;
-    stream << pacm << mod;
-    stream << pacm << mod;
+    stream << mod;
+    stream << mod;
+    stream << mod;
 
-    connect(this, SIGNAL(readyRead()),    SLOT(onRecevePacket()));
-}
-
-void Socket::onRecevePacket()
-{
+//    connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
 }
