@@ -2,7 +2,7 @@
 
 ConnectionManager::ConnectionManager()
 {
-    tcpSocket = new QTcpSocket();
+    tcpSocket = new QTcpSocket(this);
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
