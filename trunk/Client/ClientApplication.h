@@ -2,6 +2,7 @@
 #define CLIENTAPPLICATION_H
 
 #include <QtGui/QApplication>
+#include "IClientPlugin.h"
 
 class ClientApplication : public QApplication
 {
