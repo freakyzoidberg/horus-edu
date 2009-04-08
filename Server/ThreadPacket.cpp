@@ -18,31 +18,38 @@ ThreadPacket::~ThreadPacket()
 void ThreadPacket::run()
 {
     CommPacket pac;
-    quint32 n;
 
+    quint32 n;
     // Look for a valid header
-    for (n=-1; pac.packetType == CommPacket::UNKNOW && client->socket.bytesAvailable(); n++)
+    for (n=0; client->socket.bytesAvailable(); n++)
+    {
         client->stream >> pac;
+        if (pac.packetType != CommPacket::UNKNOW)
+            break;
+    }
 
     //if invalid packets are found
     if (n)
     {
-    client->packetReceived();
-    qDebug() << n << "unknow packets recived.";
-    Sql *Mycon = new Sql();
-    QSqlQuery* query = Mycon->query();
+        qDebug() << n << "unknow packets received.";
+        client->packetReceived();
+        qDebug() << n << "unknow packets recived.";
+        Sql *Mycon = new Sql();
+        QSqlQuery* query = Mycon->query();
 
-    while (query->next()) {
-         QString login = query->value(1).toString();
-         qDebug() << login;
-     }
-    delete query;
-    delete Mycon;
+        while (query->next()) {
+            QString login = query->value(1).toString();
+            qDebug() << login;
+        }
+        delete query;
+        delete Mycon;
     }
 
     // and redirect to the good method
     if (pac.packetType != CommPacket::UNKNOW)
         (this->*packetDirections[ pac.packetType ])();
+    else
+        client->packetReceived();
 }
 
 packetDirection ThreadPacket::packetDirections[] =
