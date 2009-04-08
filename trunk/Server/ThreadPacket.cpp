@@ -3,7 +3,7 @@
 #include <QMutex>
 #include "Server.h"
 
-QMutex *ThreadPacket::toto = new QMutex;
+
 ThreadPacket::ThreadPacket(ClientSocket* cs)
 {
     client = cs;
@@ -27,18 +27,16 @@ void ThreadPacket::run()
     //if invalid packets are found
     if (n)
     {
-
-    toto->lock();
+    client->packetReceived();
     qDebug() << n << "unknow packets recived.";
-    QSqlDatabase db = QSqlDatabase::database();
-    qDebug() << "used DB hostname is " << db.hostName();
+    Sql *Mycon = new Sql();
+    QSqlQuery* query = Mycon->Getdb();
 
-    QSqlQuery query("SELECT * FROM testdb");
-     while (query.next()) {
-         QString login = query.value(1).toString();
+    while (query->next()) {
+         QString login = query->value(1).toString();
          qDebug() << login;
      }
-     toto->unlock();
+    delete Mycon;
     }
 
     // and redirect to the good method
