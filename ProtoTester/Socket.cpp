@@ -39,5 +39,5 @@ void Socket::onReceve()
     stream << mod;
     stream << mod;
 
-//    connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
+    //connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
 }
