@@ -1,26 +1,26 @@
 #include "ClientSocket.h"
-#include "Login.h"
 #include "ThreadPacket.h"
 
-ClientSocket::ClientSocket(QObject *parent) : QTcpSocket(parent)
+ClientSocket::ClientSocket(int _socket)
 {
     static quint32 newId = 0;
     id = newId++;
     qDebug() << "Client" << id << "connected";
     nbrThreads = 0;
-    stream.setDevice(this);
+
+    connect(&socket, SIGNAL(disconnected()), this, SLOT(tryToDelete()));
+    connect(&socket, SIGNAL(readyRead()),    this, SLOT(packetReceived()));
+
+    stream.setDevice(&socket);
+    socket.setSocketDescriptor(_socket);
+
+    CommInit ci(CURRENT_PROTO_VERSION, SERVER_NAME);
+    stream << ci;
 }
 
 ClientSocket::~ClientSocket()
 {
     qDebug() << "Client"<< id << "disconected.";
-    stream.setDevice(this);
-}
-
-void ClientSocket::packetRead()
-{
-    if (bytesAvailable())
-        emit readyRead();
 }
 
 void ClientSocket::tryToDelete()
@@ -31,40 +31,22 @@ void ClientSocket::tryToDelete()
 
 void ClientSocket::threadStart()
 {
-    nbrThreadsMutex.lock();
+    mutex.lock();
     nbrThreads++;
-    nbrThreadsMutex.unlock();
+    mutex.unlock();
 }
 
 void ClientSocket::threadFinished()
 {
-    nbrThreadsMutex.lock();
+    mutex.lock();
     nbrThreads--;
-    nbrThreadsMutex.unlock();
-    if ( ! nbrThreads && state() == UnconnectedState && ! bytesAvailable())
+    if ( ! nbrThreads && socket.state() == QTcpSocket::UnconnectedState && ! socket.bytesAvailable())
         deleteLater();
+    mutex.unlock();
 }
-/*
-void ClientSocket::onReceveInit()
-{// TODO maybe need a thread here or possible to lock the server
 
-    disconnect(this, SIGNAL(readyRead()), 0, 0);
-    CommInit ci;
-    stream >> ci;
-
-    if (ci.protoVersion > CURRENT_PROTO_VERSION)
-    {
-        CommPacket pac(CommPacket::ERROR);
-        stream << pac;
-        return disconnectFromHost();
-    }
-
-    connect(this, SIGNAL(readyRead()), SLOT(onRecevePacket()));
-    packetRead();
-}
-*/
-void ClientSocket::onRecevePacket()
+void ClientSocket::packetReceived()
 {
-    threadStart();
-    QThreadPool::globalInstance()->start( new ThreadPacket(this) );
+    if (socket.bytesAvailable() > 0)
+        QThreadPool::globalInstance()->start( new ThreadPacket(this) );
 }

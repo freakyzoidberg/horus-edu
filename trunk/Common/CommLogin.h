@@ -11,24 +11,29 @@
  */
 class CommLogin : public CommPacket
 {
-  Q_ENUMS(packetType)
-//  Q_ENUMS(authType)
+  Q_ENUMS(lType)
 
 public:
     /*!
      * Type of authenfication
      * in the future we may want to add the certificate auth. or something else
      */
-    enum            packetType{ ERROR, LOGIN , LOGOUT , ACCEPTED , REFUSED };
-//    enum            authType { HASH_MD5, SESSION };//...
+    enum                lType{ UNDEFINED,
+                               LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //CLIENT  -> SERVER
+                               ACCEPTED, REFUSED };                   // SERVER -> CLIENT
 
-    CommLogin(packetType _type = ERROR, CommMiniString _login = "");
+    CommLogin();
 
-    packetType      type;
-    CommMiniString  login;
-//    authType        aType;
-    static const quint8         typeNumber;
-    static const char*          typeMessages[];
+    lType               loginType;
+    CommMiniString      login;
+    CommMiniString      sha1Pass;
+    CommMiniString      sessionString;
+    quint32             sessionTime;
+
+    static const quint8 typeNumber;
+    static const char*  typeMessages[];
+
+    bool isValidContent();
 };
 
 QDataStream& operator<<(QDataStream&, CommLogin&);

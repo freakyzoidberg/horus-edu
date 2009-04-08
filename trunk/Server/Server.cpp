@@ -18,19 +18,10 @@ Server::Server(QObject *parent) : QTcpServer(parent)
 
 void Server::incomingConnection(int socket)
 {
-    ClientSocket* cli = new ClientSocket();
-    if ( ! cli->setSocketDescriptor(socket))
-    {
-        delete cli;
-        //emit error(cli.error());
-        return;
-    }
-
-    cli->connect(cli, SIGNAL(disconnected()), SLOT(tryToDelete()));
-    cli->connect(cli, SIGNAL(readyRead()),    SLOT(onRecevePacket()));
-
-    CommInit ci(CURRENT_PROTO_VERSION, SERVER_NAME);
-    cli->stream << ci;
+    /* /!\ don't save the returned value
+     *  ClientSocket will destruct himself
+     */
+    new ClientSocket(socket);
 }
 
 void Server::check()

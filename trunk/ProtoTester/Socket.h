@@ -4,7 +4,7 @@
 #include <QDebug>
 #include <QTcpSocket>
 
-class Socket : QTcpSocket
+class Socket : public QTcpSocket
 {
   Q_OBJECT
 

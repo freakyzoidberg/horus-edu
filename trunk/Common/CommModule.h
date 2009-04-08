@@ -12,11 +12,12 @@ class CommModule : public CommPacket
 {
 public:
     CommModule();
-    CommModule(const char* src, const char* srcVer, const char* dest);
+    CommModule(const char* src, const char* srcVer, const char* dest, const QByteArray& data);
 
     CommMiniString  moduleSource;
     CommMiniString  moduleSourceVersion;
     CommMiniString  moduleDestination;
+    QByteArray      moduleData;
 };
 
 QDataStream& operator<<(QDataStream&, CommModule&);

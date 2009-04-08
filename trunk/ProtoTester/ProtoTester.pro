@@ -18,6 +18,4 @@ HEADERS += Socket.h \
     ../Common/CommPacket.h \
     ../Common/CommModule.h \
     ../Common/CommMiniString.h \
-    ../Common/CommLogin.h \
-    ../Common/CommInit.h \
     ../Common/Defines.h

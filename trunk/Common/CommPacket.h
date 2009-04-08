@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QDebug>
 
+#include "Defines.h"
 #include "CommMiniString.h"
 
 /*!

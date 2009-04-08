@@ -1,5 +1,18 @@
 #include "CommPacket.h"
 
+const quint8 CommPacket::typeNumber = 8;
+const char*  CommPacket::typeNames[] =
+{
+    "Unknow ",
+    "Error ",
+    "Init  ",
+    "Alive ",
+    "Login ",
+    "File  ",
+    "Config",
+    "Module"
+};
+
 CommPacket::CommPacket(pType _type)
 {
     packetType = _type;
@@ -29,20 +42,6 @@ QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
 
     return ds;
 }
-
-const quint8 CommPacket::typeNumber = 8;
-
-const char*  CommPacket::typeNames[] =
-{
-    "Unknow ",
-    "Error ",
-    "Init  ",
-    "Alive ",
-    "Login ",
-    "File  ",
-    "Config",
-    "Module"
-};
 
 QDebug operator<<(QDebug d, CommPacket& cr)
 {

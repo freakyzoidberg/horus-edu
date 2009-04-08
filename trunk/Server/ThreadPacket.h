@@ -10,13 +10,13 @@
 #include "../Common/CommModule.h"
 #include "../Common/CommPacket.h"
 
-class ThreadPacket : public QObject, public QRunnable
+class ThreadPacket : public QRunnable
 {
 public:
     ThreadPacket(ClientSocket* cs);
     ~ThreadPacket();
     void run();
-    void PacketUnknow();
+
     void PacketError();
     void PacketInit();
     void PacketAlive();
@@ -27,7 +27,6 @@ public:
 
 private:
     ClientSocket* client;
-    static const quint8 packetDirectionsNumber;
     static void (ThreadPacket::*packetDirections[]) ();
 };
 

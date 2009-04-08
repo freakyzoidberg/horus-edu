@@ -13,7 +13,6 @@ SOURCES += main.cpp \
     Server.cpp \
     Sql.cpp \
     Settings.cpp \
-    Login.cpp \
     ThreadPacket.cpp \
     ../Common/CommMiniString.cpp \
     ../Common/CommLogin.cpp \
@@ -26,7 +25,6 @@ HEADERS += Module.h \
     Server.h \
     Sql.h \
     Settings.h \
-    Login.h \
     ThreadPacket.h \
     ../Common/CommPacket.h \
     ../Common/CommModule.h \
