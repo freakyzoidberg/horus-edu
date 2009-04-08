@@ -6,6 +6,7 @@
 #include <QSettings>
 #include <QEvent>
 #include "ConnectionManager.h"
+#include "../Common/Defines.h"
 
 namespace Ui
 {

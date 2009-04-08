@@ -1,7 +1,6 @@
 #ifndef CONNECTIONMANAGER_H
 #define CONNECTIONMANAGER_H
 
-#include "../Common/CommunicationContainer.h"
 #include <QTcpSocket>
 #include <QtGui>
 
