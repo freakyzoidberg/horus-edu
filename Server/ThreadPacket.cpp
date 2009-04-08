@@ -1,5 +1,9 @@
 #include "ThreadPacket.h"
+#include "Sql.h"
+#include <QMutex>
+#include "Server.h"
 
+QMutex *ThreadPacket::toto = new QMutex;
 ThreadPacket::ThreadPacket(ClientSocket* cs)
 {
     client = cs;
@@ -22,7 +26,20 @@ void ThreadPacket::run()
 
     //if invalid packets are found
     if (n)
-        qDebug() << n << "unknow packets recived.";
+    {
+
+    toto->lock();
+    qDebug() << n << "unknow packets recived.";
+    QSqlDatabase db = QSqlDatabase::database();
+    qDebug() << "used DB hostname is " << db.hostName();
+
+    QSqlQuery query("SELECT * FROM testdb");
+     while (query.next()) {
+         QString login = query.value(1).toString();
+         qDebug() << login;
+     }
+     toto->unlock();
+    }
 
     // and redirect to the good method
     if (pac.packetType != CommPacket::UNKNOW)

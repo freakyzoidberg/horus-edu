@@ -25,6 +25,9 @@ public:
     void PacketConfig();
     void PacketModule();
 
+
+
+    static QMutex *toto;
 private:
     ClientSocket* client;
     static void (ThreadPacket::*packetDirections[]) ();
