@@ -10,4 +10,8 @@
 
 #define CURRENT_PROTO_VERSION 0
 
+#define DEFAULT_SESSION_LIFETIME 12 // in hours
+#define SESSION_WORD_SIZE 128
+#define SHA1_WORD_SIZE 40
+
 #endif // DEFINES_H

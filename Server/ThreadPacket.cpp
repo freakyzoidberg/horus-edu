@@ -3,20 +3,8 @@
 ThreadPacket::ThreadPacket(ClientSocket* cs)
 {
     client = cs;
+    client->threadStart();
 }
-
-const quint8    ThreadPacket::packetDirectionsNumber = 8;
-packetDirection ThreadPacket::packetDirections[] =
-{
-    &ThreadPacket::PacketUnknow,
-    &ThreadPacket::PacketError,
-    &ThreadPacket::PacketInit,
-    &ThreadPacket::PacketUnknow,//&ThreadPacket::PacketAlive,
-    &ThreadPacket::PacketLogin,
-    &ThreadPacket::PacketUnknow,//&ThreadPacket::PacketFile,
-    &ThreadPacket::PacketUnknow,//&ThreadPacket::PacketConfig,
-    &ThreadPacket::PacketModule
-};
 
 ThreadPacket::~ThreadPacket()
 {
@@ -26,50 +14,67 @@ ThreadPacket::~ThreadPacket()
 void ThreadPacket::run()
 {
     CommPacket pac;
-    client->stream >> pac;
-    if (pac.packetType < packetDirectionsNumber)
+    quint32 n;
+
+    // Look for a valid header
+    for (n=-1; pac.packetType == CommPacket::UNKNOW && client->socket.bytesAvailable(); n++)
+        client->stream >> pac;
+
+    //if invalid packets are found
+    if (n)
+        qDebug() << n << "unknow packets recived.";
+
+    // and redirect to the good method
+    if (pac.packetType != CommPacket::UNKNOW)
         (this->*packetDirections[ pac.packetType ])();
-    else
-        PacketUnknow();
 }
 
-void ThreadPacket::PacketUnknow()
-{//maybe disconect
-    qDebug() << "[ in] Unknow packet....";
-    client->packetRead();
-}
+packetDirection ThreadPacket::packetDirections[] =
+{
+    0,//for CommPacket::UNKNOW
+    &ThreadPacket::PacketError,
+    &ThreadPacket::PacketInit,
+    &ThreadPacket::PacketAlive,
+    &ThreadPacket::PacketLogin,
+    &ThreadPacket::PacketFile,
+    &ThreadPacket::PacketConfig,
+    &ThreadPacket::PacketModule
+};
 
 void ThreadPacket::PacketError()
 {
+    CommError err;
+    client->stream >> err;
+    client->packetReceived();
 }
 
 void ThreadPacket::PacketInit()
 {
     CommInit init;
     client->stream >> init;
-    client->packetRead();
+    client->packetReceived();
 }
 
 void ThreadPacket::PacketAlive()
 {
-    client->packetRead();
+    client->packetReceived();
 }
 
 void ThreadPacket::PacketLogin()
 {
     CommLogin login;
     client->stream >> login;
-    client->packetRead();
+    client->packetReceived();
 }
 
 void ThreadPacket::PacketFile()
 {
-    client->packetRead();
+    client->packetReceived();
 }
 
 void ThreadPacket::PacketConfig()
 {
-    client->packetRead();
+    client->packetReceived();
 }
 
 void ThreadPacket::PacketModule()
@@ -78,7 +83,8 @@ void ThreadPacket::PacketModule()
     int j = i++;
     CommModule mod;
     client->stream >> mod;
-    client->packetRead();
+    client->packetReceived();
+
     qDebug() << "a long work start (2s) no:" << j;
     sleep(2);
     qDebug() << "a long work end no:" << j;

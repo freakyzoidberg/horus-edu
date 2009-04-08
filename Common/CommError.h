@@ -7,7 +7,7 @@
 class CommError : public CommPacket
 {
 public:
-    CommError(const char* _error);
+    CommError(const char* _error = "");
 
     CommMiniString error;
 };

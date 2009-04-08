@@ -31,10 +31,16 @@ void Socket::onReceve()
     init.fromName = "Protocol Tester";
     stream << init;
 
-    CommLogin  login(CommLogin::LOGIN, "super-Menteur"); // type de login/logout/...
+    CommLogin  login;
+    login.loginType = CommLogin::LOGIN_PASSWORD;
+    login.login = "super-Menteur";
+    login.sha1Pass = "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83";
     stream << login;
 
-    CommModule mod("mod Source", "v42", "mod Destination");
+    CommModule mod("mod Source", "v42", "mod Destination", "data");
+    stream << mod;
+    stream << mod;
+    stream << mod;
     stream << mod;
     stream << mod;
     stream << mod;

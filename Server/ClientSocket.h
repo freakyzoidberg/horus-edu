@@ -6,41 +6,43 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include <QMutex>
+#include <QObject>
 
 #include "../Common/Defines.h"
 
-class ClientSocket : public QTcpSocket
+class ClientSocket : public QObject
 {
   Q_OBJECT
 
 public:
-    ClientSocket(QObject *parent = 0);
+    ClientSocket(int _socket);
     ~ClientSocket();
+
+    QTcpSocket  socket;
     QDataStream stream;
 
     /*!
      * When a thread is created with an incoming packet, increment the number of threads
      * if the client is disconected,  we have to wait the end of all the threads before deleting it
+     * these functions are thread safe!!!
      */
-    //thread safe!!!
     void threadStart();
     void threadFinished();
 
+    bool loginPassword(const QString& _login, const QByteArray& _sha1Pass);
+    bool loginSession (const QString& _login, const QByteArray& _sessId);
+
 public slots:
-    void onRecevePacket();
-
-    /*!
-     * When a packet is read, allow the socket to launch another thread if there is another packet in queue
-     */
-    void packetRead();
-
+    void packetReceived();
     void tryToDelete();
 
 private:
-    quint32 nbrThreads;
-    QMutex  nbrThreadsMutex;
+    QMutex  mutex;
 
-    quint32 id;
+    quint32 nbrThreads;
+    QString login;
+
+    quint32 id;//to remove, just for debug message in cronstruct
 };
 
 #endif // CLIENTSOCKET_H
