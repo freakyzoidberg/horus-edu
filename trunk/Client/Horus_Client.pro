@@ -11,25 +11,20 @@ SOURCES += main.cpp \
     mainwindow.cpp \
     ConnectionManager.cpp \
     ../Common/CommPacket.cpp \
-    ../Common/CommError.cpp \
-    ../Common/CommInit.cpp \
-    ../Common/CommLogin.cpp \
-    ../Common/CommMiniString.cpp \
     ../Common/CommModule.cpp \
-    ../Common/CommPacket.cpp
+    ../Common/CommMiniString.cpp \
+    ../Common/CommLogin.cpp \
+    ../Common/CommInit.cpp \
+    ../Common/CommError.cpp
 HEADERS += mainwindow.h \
     ClientAPI.h \
-    ../Common/Defines.h \
-    ../Common/CommInit.h \
-    ../Common/CommLogin.h \
-    ../Common/CommModule.h \
-    ../Common/CommRequest.h \
     ConnectionManager.h \
-    ../Common/CommError.h \
-    ../Common/CommInit.h \
-    ../Common/CommLogin.h \
-    ../Common/CommMiniString.h \
+    ../Common/Defines.h \
+    ../Common/CommPacket.h \
     ../Common/CommModule.h \
-    ../Common/CommPacket.h
+    ../Common/CommMiniString.h \
+    ../Common/CommLogin.h \
+    ../Common/CommInit.h \
+    ../Common/CommError.h
 FORMS += mainwindow.ui
 OTHER_FILES += 

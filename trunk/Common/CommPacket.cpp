@@ -31,6 +31,7 @@ QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
 }
 
 const quint8 CommPacket::typeNumber = 8;
+
 const char*  CommPacket::typeNames[] =
 {
     "Unknow ",
