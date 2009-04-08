@@ -13,28 +13,28 @@ qDebug() << "destructeur";
 }
 bool Sql::sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port)
 {
+QSqlDatabase db;
 
+    db= QSqlDatabase::addDatabase(driver);
 
-    this->db= QSqlDatabase::addDatabase(driver);
-
-     this->db.setHostName(hostname);
-     this->db.setDatabaseName(dbName);
-     this->db.setUserName(username);
-     this->db.setPassword(password);
-     this->db.setPort(port.toInt());
-    // this->db.setConnectOptions("CLIENT_INTERACTIVE=1");
-     qDebug() << "sql::sqlconnect() Trying to connect to database " << this->db.databaseName() << " on " << this->db.userName() << "@" << this->db.hostName() << ":" << this->db.port() << " using driver = " << this->db.driver();
-     if (!this->db.open())
+     db.setHostName(hostname);
+     db.setDatabaseName(dbName);
+     db.setUserName(username);
+     db.setPassword(password);
+     db.setPort(port.toInt());
+    // db.setConnectOptions("CLIENT_INTERACTIVE=1");
+     qDebug() << "sql::sqlconnect() Trying to connect to database " << db.databaseName() << " on " << db.userName() << "@" << db.hostName() << ":" << db.port() << " using driver = " << db.driver();
+     if (!db.open())
      {
          qDebug() << "sql::sqlconnect() //hostname : " << hostname << " //dbName : " << dbName << " //username : " << username;
-         qDebug() << "sql::sqlconnect() DriverName = " << this->db.driver();
-         qDebug() << this->db.lastError();
+         qDebug() << "sql::sqlconnect() DriverName = " << db.driver();
+         qDebug() << db.lastError();
      }
-     bool ok = this->db.isOpen();
+     bool ok = db.isOpen();
      return (ok);
 }
 
-QSqlQuery* Sql::Getdb()
+QSqlQuery* Sql::query()
 {
 
 //    QSqlDatabase localdb = QSqlDatabase::database();
