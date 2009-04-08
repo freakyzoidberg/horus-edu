@@ -36,6 +36,7 @@ void ThreadPacket::run()
          QString login = query->value(1).toString();
          qDebug() << login;
      }
+    delete query;
     delete Mycon;
     }
 
