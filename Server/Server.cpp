@@ -1,12 +1,12 @@
 #include "Server.h"
-static QMutex toto;
+
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
     // Server mysql a configurer
-    static sql *fddb = new sql();
+    Sql fddb = Sql();
     Settings *config = new Settings();
 
-    if (fddb->sqlconnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL")))
+    if (fddb.sqlconnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL")))
         qDebug() << "Server::Server() SQL connected";
     else
         qDebug() << "Server::Server() NO SQL !!!";

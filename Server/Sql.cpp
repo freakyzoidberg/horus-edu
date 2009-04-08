@@ -1,9 +1,17 @@
 #include "Sql.h"
-sql::sql()
+
+QMutex Sql::mymute;
+Sql::Sql()
 {
+    mymute.lock();
 }
 
-bool sql::sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port)
+Sql::~Sql()
+{
+qDebug() << "destructeur";
+    mymute.unlock();
+}
+bool Sql::sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port)
 {
 
 
@@ -24,4 +32,17 @@ bool sql::sqlconnect(QString dbName, QString hostname, QString username, QString
      }
      bool ok = this->db.isOpen();
      return (ok);
+}
+
+QSqlQuery* Sql::Getdb()
+{
+
+//    QSqlDatabase localdb = QSqlDatabase::database();
+    //qDebug() << "used DB hostname is " << localdb.hostName();
+
+
+    QSqlQuery* query = new QSqlQuery("SELECT * FROM testdb");
+qDebug() << "youpi je vis avant le segfault";
+//qDebug() <<query.lastError();
+return (query);
 }
