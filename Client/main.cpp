@@ -3,10 +3,10 @@
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication::setOrganizationName("Horus Inc.");
-    QCoreApplication::setOrganizationDomain("4--2.net");
-    QCoreApplication::setApplicationName("Horus Client");
-    QCoreApplication::setApplicationVersion("0.01");
+    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
+    QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
+    QCoreApplication::setApplicationName(CLIENT_NAME);
+    QCoreApplication::setApplicationVersion(CLIENT_VERSION);
     QApplication a(argc, argv);
     MainWindow w;
     w.show();
