@@ -1,5 +1,9 @@
-#include "ClientApplication.h"
-#include "../Common/Defines.h"
+#include    "ClientApplication.h"
+#include    <QSettings>
+#include    <QDir>
+#include    <QString>
+#include    <QPluginLoader>
+#include    "../Common/Defines.h"
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
 {
@@ -24,6 +28,19 @@ bool    ClientApplication::init()
 
 bool    ClientApplication::loadPlugins()
 {
+    QSettings   settings;
+    QDir        pluginsDir;
+    QString     fileName;
+
+    pluginsDir = QDir(settings.value("Plugins/DirectoryPath", QString(DEFAULT_PLUGINS_DIRECTORY_PATH)).toString());
+    foreach (fileName, pluginsDir.entryList(QDir::Files)) {
+         QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+         QObject *plugin = loader.instance();
+         if (plugin)
+         {
+             // fumer une clope
+         }
+     }
     return (true);
 }
 
