@@ -15,7 +15,8 @@ SOURCES += main.cpp \
     ../Common/CommMiniString.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
-    ../Common/CommError.cpp
+    ../Common/CommError.cpp \
+    ClientApplication.cpp
 HEADERS += mainwindow.h \
     ClientAPI.h \
     ConnectionManager.h \
@@ -25,6 +26,7 @@ HEADERS += mainwindow.h \
     ../Common/CommMiniString.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
-    ../Common/CommError.h
+    ../Common/CommError.h \
+    ClientApplication.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
