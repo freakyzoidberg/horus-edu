@@ -10,8 +10,8 @@ public:
     Sql();
     ~Sql();
     //private:
-    QSqlDatabase db;
-    QSqlQuery* Getdb();
+
+    QSqlQuery* query();
     static QMutex mymute;
     bool sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port);
 };
