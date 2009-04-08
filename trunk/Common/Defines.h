@@ -2,7 +2,7 @@
 # define DEFINES_H
 
 #define ORGANIZATION_NAME "Horus"
-#define ORGANIZATION_DOMAIN "hor.us"
+#define ORGANIZATION_DOMAIN "4--2.net"
 #define SERVER_NAME "Horus Server"
 #define SERVER_VERSION "0.1"
 #define CLIENT_NAME "Horus Client"
