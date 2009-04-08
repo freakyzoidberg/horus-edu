@@ -13,8 +13,7 @@ public:
     QDataStream stream;
 
 public slots:
-    void onReceveInit();
-    void onRecevePacket();
+    void onReceve();
 };
 
 #endif // SOCKET_H

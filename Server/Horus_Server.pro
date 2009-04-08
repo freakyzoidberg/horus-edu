@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommModule.cpp \
-    ../Common/CommPacket.cpp
+    ../Common/CommPacket.cpp \
+    ../Common/CommError.cpp
 HEADERS += Module.h \
     ClientSocket.h \
     Server.h \
@@ -32,4 +33,5 @@ HEADERS += Module.h \
     ../Common/CommMiniString.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
-    ../Common/Defines.h
+    ../Common/Defines.h \
+    ../Common/CommError.h

@@ -1,9 +1,16 @@
 #include "ThreadPacket.h"
 
-const quint8    ThreadPacket::packetDirectionsNumber = 6;
+ThreadPacket::ThreadPacket(ClientSocket* cs)
+{
+    client = cs;
+}
+
+const quint8    ThreadPacket::packetDirectionsNumber = 8;
 packetDirection ThreadPacket::packetDirections[] =
 {
     &ThreadPacket::PacketUnknow,
+    &ThreadPacket::PacketError,
+    &ThreadPacket::PacketInit,
     &ThreadPacket::PacketUnknow,//&ThreadPacket::PacketAlive,
     &ThreadPacket::PacketLogin,
     &ThreadPacket::PacketUnknow,//&ThreadPacket::PacketFile,
@@ -11,22 +18,35 @@ packetDirection ThreadPacket::packetDirections[] =
     &ThreadPacket::PacketModule
 };
 
-ThreadPacket::ThreadPacket(ClientSocket* cs)
+ThreadPacket::~ThreadPacket()
 {
-    client = cs;
+    client->threadFinished();
 }
 
 void ThreadPacket::run()
 {
     CommPacket pac;
     client->stream >> pac;
-    if (pac.type < packetDirectionsNumber)
-        (this->*packetDirections[ pac.type ])();
+    if (pac.packetType < packetDirectionsNumber)
+        (this->*packetDirections[ pac.packetType ])();
+    else
+        PacketUnknow();
 }
 
 void ThreadPacket::PacketUnknow()
+{//maybe disconect
+    qDebug() << "[ in] Unknow packet....";
+    client->packetRead();
+}
+
+void ThreadPacket::PacketError()
 {
-    qDebug() << "[ in Packet ] type = Login";
+}
+
+void ThreadPacket::PacketInit()
+{
+    CommInit init;
+    client->stream >> init;
     client->packetRead();
 }
 

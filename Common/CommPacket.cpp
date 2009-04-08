@@ -1,40 +1,49 @@
 #include "CommPacket.h"
 
-CommPacket::CommPacket(msgType _type)
+CommPacket::CommPacket(pType _type)
 {
-    type = _type;
+    packetType = _type;
+}
+
+CommPacket::pType CommPacket::getPacketType()
+{
+    return packetType;
+}
+
+const char* CommPacket::getPacketName()
+{
+    return CommPacket::typeNames[ packetType ];
 }
 
 QDataStream& operator<<(QDataStream& ds, CommPacket& cr)
 {
-    ds << (quint8&)cr.type;
-    qDebug() << "[out Packet ]" << cr;
-    return ds;
+    return ds << (quint8&)cr.packetType;
 }
 
 QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
 {
-    ds >> (quint8&)cr.type;
-    qDebug() << "[ in Packet ]" << cr;
+    ds >> (quint8&)cr.packetType;
+
+    if (cr.packetType >= CommPacket::typeNumber)
+        cr.packetType  = CommPacket::UNKNOW;
+
     return ds;
 }
 
-const quint8 CommPacket::typeNumber = 6;
-const char*  CommPacket::typeMessages[] =
+const quint8 CommPacket::typeNumber = 8;
+const char*  CommPacket::typeNames[] =
 {
-    "Unknow protocol",
-    "Alive",
-    "Login",
-    "File",
+    "Unknow ",
+    "Error ",
+    "Init  ",
+    "Alive ",
+    "Login ",
+    "File  ",
     "Config",
     "Module"
 };
 
 QDebug operator<<(QDebug d, CommPacket& cr)
 {
-    quint8 t = cr.type;
-    if (t >= CommPacket::typeNumber)
-        t = CommPacket::UNKNOW_PROTOCOL;
-
-    return d << "type =" << CommPacket::typeMessages[ t ];
+    return d << cr.getPacketName();
 }

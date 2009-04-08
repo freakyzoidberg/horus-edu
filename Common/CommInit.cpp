@@ -1,10 +1,10 @@
 #include "CommInit.h"
 
-CommInit::CommInit()
+CommInit::CommInit() : CommPacket(CommPacket::INIT)
 {
 }
 
-CommInit::CommInit(quint8 _protoVersion, const char* _fromName)
+CommInit::CommInit(quint8 _protoVersion, const char* _fromName) : CommPacket(CommPacket::INIT)
 {
     protoVersion = _protoVersion;
     fromName  = _fromName;
@@ -12,22 +12,20 @@ CommInit::CommInit(quint8 _protoVersion, const char* _fromName)
 
 QDataStream& operator<<(QDataStream& ds, CommInit& ci)
 {
-    ds << ci.protoVersion;
-    ds << ci.fromName;
-    qDebug() << "[out Init]" << ci;
-    return ds;
+    qDebug() << "[out]" << ci;
+    return ds << (CommPacket&)ci << ci.protoVersion << ci.fromName;
 }
 
 QDataStream& operator>>(QDataStream& ds, CommInit& ci)
 {
-    ds >> ci.protoVersion;
-    ds >> ci.fromName;
-    qDebug() << "[ in Init]" << ci;
+    ds >> ci.protoVersion >> ci.fromName;
+    qDebug() << "[ in]" << ci;
     return ds;
 }
 
 QDebug operator<<(QDebug d, CommInit& ci)
 {
-    return d <<  "protoVersion =" << ci.protoVersion
-             << " fromName ="         << ci.fromName;
+    return d << (CommPacket&)ci
+             <<  "proto v:" << ci.protoVersion
+             << " from:"    << ci.fromName;
 }
