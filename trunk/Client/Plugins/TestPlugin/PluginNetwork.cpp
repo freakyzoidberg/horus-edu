@@ -5,7 +5,7 @@ PluginNetwork::PluginNetwork(QEvent *event)
     this->event = event;
 }
 
-bool    PluginNetwork::handler()
+bool    PluginNetwork::eventHandler()
 {
     return true;
 }

@@ -6,6 +6,7 @@
 #include <QStringList>
 
 #include "../../IClientPlugin.h"
+#include "../../LoadPluginEvent.h"
 #include "PluginNetwork.h"
 
 class TestModule : public QObject, public IClientPlugin
@@ -33,7 +34,7 @@ public:
      QStringList  getExports() const;
 
     bool    event(QEvent *);
-    bool    eventHandlerLoad();
+    bool    eventHandlerLoad(QEvent *);
     bool    eventHandlerUnload();
 
  private:

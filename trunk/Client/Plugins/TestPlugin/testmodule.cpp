@@ -1,11 +1,12 @@
 #include <QtCore/qplugin.h>
-
+#include <iostream>
 #include "testmodule.h"
 
 Q_EXPORT_PLUGIN2("testPlugin", TestModule)
 
 TestModule::TestModule()
 {
+    std::cout << "module testPlugin loaded." << std::endl;
 }
 
 bool    TestModule::event(QEvent *event)
@@ -13,22 +14,19 @@ bool    TestModule::event(QEvent *event)
     bool    eventSuccess;
 
     if (event->type() == QEvent::None)
-        //NetworkReceiveEvent)
     {
         event->accept();
         pNetwork = new PluginNetwork(event);
-        eventSuccess = pNetwork->handler();
+        eventSuccess = pNetwork->eventHandler();
         delete pNetwork;
         return eventSuccess;
     }
-    else if (event->type() == QEvent::None)
-             //LoadPluginEvent)
+    else if (event->type() == LoadPluginEvent::type)
     {
         event->accept();
-        return eventHandlerLoad();
+        return eventHandlerLoad(event);
     }
     else if (event->type() == QEvent::None)
-             //UnloadPluginEvent)
     {
         event->accept();
         return eventHandlerUnload();
@@ -37,8 +35,11 @@ bool    TestModule::event(QEvent *event)
     return QObject::event(event);
 }
 
-bool    TestModule::eventHandlerLoad()
+bool    TestModule::eventHandlerLoad(QEvent *event)
 {
+    std::cout << "Handling event loadModule" << std::endl;
+    std::cout << "isAccepted:" << event->isAccepted() << std::endl;
+    std::cout << "spontaneous:" << event->spontaneous() << std::endl;
     return true;
 }
 

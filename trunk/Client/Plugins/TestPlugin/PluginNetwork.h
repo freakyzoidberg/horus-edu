@@ -9,7 +9,7 @@ class   PluginNetwork : public IPluginNetwork
     public:
         PluginNetwork(QEvent *);
 
-        bool    handler();
+        bool    eventHandler();
 
     private:
         QEvent  *event;
