@@ -17,6 +17,7 @@ public:
 
     void run();
 
+private:
     void PacketError();
     void PacketInit();
     void PacketAlive();
@@ -25,7 +26,8 @@ public:
     void PacketConfig();
     void PacketModule();
 
-private:
+    void errorNotInit();
+
     ClientSocket* client;
 
     static void (ThreadPacket::*packetDirections[]) ();

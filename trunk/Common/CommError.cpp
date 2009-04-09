@@ -1,23 +1,24 @@
 #include "CommError.h"
 
-CommError::CommError(const char* _error) : CommPacket(CommPacket::ERROR)
+CommError::CommError(eType _type, const char* _errorMessage) : CommPacket(CommPacket::ERROR)
 {
-    error = _error;
+    errorType = _type;
+    errorMessage = _errorMessage;
 }
 
 QDataStream& operator<<(QDataStream& ds, CommError& e)
 {
     qDebug() << "[out]" << e;
-    return ds << (CommPacket&)e << e.error;
+    return ds << (CommPacket&)e << (quint8&)e.errorType << e.errorMessage;
 }
 
 QDataStream& operator>>(QDataStream& ds, CommError& e)
 {
     qDebug() << "[ in]" << e;
-    return ds >> e.error;
+    return ds >> (quint8&)e.errorType >> e.errorMessage;
 }
 
 QDebug operator<<(QDebug d, CommError& e)
 {
-    return d << (CommPacket&)e << e.error;
+    return d << (CommPacket&)e << e.errorType << e.errorMessage;
 }
