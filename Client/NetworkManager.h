@@ -4,13 +4,12 @@
 #include <QTcpSocket>
 #include <QtGui>
 
-
 class NetworkManager : public QTcpSocket
 {
     Q_OBJECT
 
     public:
-        NetworkManager();
+        NetworkManager(QObject *parent);
         void    ConnectTo(QString addr, int port);
     private slots:
         void    readData();
