@@ -46,4 +46,5 @@ void Socket::onReceve()
     stream << mod;
 
     //connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
+    disconnectFromHost();
 }

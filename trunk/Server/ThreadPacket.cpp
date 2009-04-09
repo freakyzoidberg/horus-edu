@@ -1,18 +1,9 @@
 #include "ThreadPacket.h"
-//#include "Sql.h"
-#include <QMutex>
 #include "Server.h"
-
 
 ThreadPacket::ThreadPacket(ClientSocket* cs)
 {
     client = cs;
-    client->threadStart();
-}
-
-ThreadPacket::~ThreadPacket()
-{
-    client->threadFinished();
 }
 
 void ThreadPacket::run()
@@ -30,16 +21,13 @@ void ThreadPacket::run()
 
     //if invalid packets are found
     if (n)
-    {
-        qDebug() << n << "unknow packets received.";
-        client->packetReceived();
-    }
+        qDebug() << n << "unknow packets received from client" << client->id;
 
     // and redirect to the good method
     if (pac.packetType != CommPacket::UNKNOW)
         (this->*packetDirections[ pac.packetType ])();
-    else
-        client->packetReceived();
+
+    client->threadFinished();
 }
 
 packetDirection ThreadPacket::packetDirections[] =
@@ -58,47 +46,44 @@ void ThreadPacket::PacketError()
 {
     CommError err;
     client->stream >> err;
-    client->packetReceived();
+    client->readFinished();
 }
 
 void ThreadPacket::PacketInit()
 {
     CommInit init;
     client->stream >> init;
-    client->packetReceived();
+    client->readFinished();
 }
 
 void ThreadPacket::PacketAlive()
 {
-    client->packetReceived();
+    client->readFinished();
 }
 
 void ThreadPacket::PacketLogin()
 {
     CommLogin login;
     client->stream >> login;
-    client->packetReceived();
+    client->readFinished();
 }
 
 void ThreadPacket::PacketFile()
 {
-    client->packetReceived();
+    client->readFinished();
 }
 
 void ThreadPacket::PacketConfig()
 {
-    client->packetReceived();
+    client->readFinished();
 }
 
 void ThreadPacket::PacketModule()
 {
-    static int i = 0;
-    int j = i++;
+    //static int i = 0;
+    //int j = i++;
     CommModule mod;
     client->stream >> mod;
-    client->packetReceived();
-
-    qDebug() << "a long work start (2s) no:" << j;
-    sleep(2);
-    qDebug() << "a long work end no:" << j;
+    client->readFinished();
+    sleep(1);
 }
