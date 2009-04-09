@@ -3,6 +3,7 @@
 #include    <QDir>
 #include    <QString>
 #include    <QPluginLoader>
+#include    <QtDebug>
 #include    "../Common/Defines.h"
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
@@ -17,6 +18,7 @@ ClientApplication::~ClientApplication()
 
 bool    ClientApplication::init()
 {
+    qDebug() << this->objectName();
     QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(CLIENT_NAME);
