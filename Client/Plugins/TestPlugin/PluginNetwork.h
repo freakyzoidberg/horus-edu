@@ -8,8 +8,10 @@ class   PluginNetwork : public IPluginNetwork
 {
     public:
         PluginNetwork(QEvent *);
-
         bool    eventHandler();
+        void    retrievedPacket();
+        void    buildPacket();
+
 
     private:
         QEvent  *event;
