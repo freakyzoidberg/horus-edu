@@ -7,9 +7,11 @@
 class CommError : public CommPacket
 {
 public:
-    CommError(const char* _error = "");
+    enum                eType { UNKNOW, NOT_INITIALIZED };
+    CommError(eType _type = UNKNOW, const char* _error = "");
 
-    CommMiniString error;
+    eType          errorType;
+    CommMiniString errorMessage;
 };
 
 QDataStream& operator<<(QDataStream&, CommError&);

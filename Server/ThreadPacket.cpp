@@ -26,6 +26,8 @@ void ThreadPacket::run()
     // and redirect to the good method
     if (pac.packetType != CommPacket::UNKNOW)
         (this->*packetDirections[ pac.packetType ])();
+    else
+        client->readFinished();
 
     client->threadFinished();
 }
@@ -65,6 +67,8 @@ void ThreadPacket::PacketLogin()
 {
     CommLogin login;
     client->stream >> login;
+//    if (client->state == ClientSocket::INIT)
+//        errorNotInit();
     client->readFinished();
 }
 
@@ -86,4 +90,11 @@ void ThreadPacket::PacketModule()
     client->stream >> mod;
     client->readFinished();
     sleep(1);
+}
+
+void ThreadPacket::errorNotInit()
+{
+    client->writeStream.lock();
+    CommError err(CommError::NOT_INITIALIZED, "Protocol error: Connexion not intialized.");
+    client->writeStream.unlock();
 }
