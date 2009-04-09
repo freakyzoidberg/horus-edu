@@ -1,10 +1,14 @@
 #include    "ClientApplication.h"
+
 #include    <QSettings>
 #include    <QDir>
 #include    <QString>
 #include    <QPluginLoader>
 #include    <QtDebug>
+
 #include    "../Common/Defines.h"
+#include    "NetworkManager.h"
+#include    "PluginManager.h"
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
 {

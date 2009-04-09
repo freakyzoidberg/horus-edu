@@ -16,7 +16,8 @@ SOURCES += main.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
-    ClientApplication.cpp
+    ClientApplication.cpp \
+    PluginManager.cpp
 HEADERS += mainwindow.h \
     NetworkManager.h \
     ../Common/Defines.h \
@@ -27,6 +28,7 @@ HEADERS += mainwindow.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \
     ClientApplication.h \
-    IClientPlugin.h
+    IClientPlugin.h \
+    PluginManager.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
