@@ -2,6 +2,9 @@
 #include <iostream>
 #include "testmodule.h"
 
+#include "../../NetworkReceiveEvent.h"
+#include "../../UnloadPluginEvent.h"
+
 Q_EXPORT_PLUGIN2("testPlugin", TestModule)
 
 TestModule::TestModule()
@@ -13,7 +16,7 @@ bool    TestModule::event(QEvent *event)
 {
     bool    eventSuccess;
 
-    if (event->type() == QEvent::None)
+    if (event->type() == NetworkReceiveEvent::type)
     {
         event->accept();
         pNetwork = new PluginNetwork(event);
@@ -26,10 +29,10 @@ bool    TestModule::event(QEvent *event)
         event->accept();
         return eventHandlerLoad(event);
     }
-    else if (event->type() == QEvent::None)
+    else if (event->type() == UnloadPluginEvent::type)
     {
         event->accept();
-        return eventHandlerUnload();
+        return eventHandlerUnload(event);
     }
     event->ignore();
     return QObject::event(event);
@@ -43,9 +46,12 @@ bool    TestModule::eventHandlerLoad(QEvent *event)
     return true;
 }
 
-bool    TestModule::eventHandlerUnload()
+bool    TestModule::eventHandlerUnload(QEvent *event)
 {
-    return false;
+    std::cout << "Handling event UnlodModule" << std::endl;
+    std::cout << "isAccepted:" << event->isAccepted() << std::endl;
+    std::cout << "spontaneous:" << event->spontaneous() << std::endl;
+    return true;
 }
 
 void TestModule::setModName(const QString modName)
