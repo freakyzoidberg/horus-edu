@@ -10,18 +10,30 @@ TestModule::TestModule()
 
 bool    TestModule::event(QEvent *event)
 {
+    bool    eventSuccess;
+
     if (event->type() == QEvent::None)
         //NetworkReceiveEvent)
     {
+        event->accept();
         pNetwork = new PluginNetwork(event);
-        return pNetwork->handler();
+        eventSuccess = pNetwork->handler();
+        delete pNetwork;
+        return eventSuccess;
     }
     else if (event->type() == QEvent::None)
              //LoadPluginEvent)
+    {
+        event->accept();
         return eventHandlerLoad();
+    }
     else if (event->type() == QEvent::None)
              //UnloadPluginEvent)
+    {
+        event->accept();
         return eventHandlerUnload();
+    }
+    event->ignore();
     return QObject::event(event);
 }
 
