@@ -3,7 +3,7 @@
 
 #include <QEvent>
 
-class   PluginNetwork : IPluginNetwork
+class   PluginNetwork : public IPluginNetwork
 {
     public:
         PluginNetwork(QEvent *);
