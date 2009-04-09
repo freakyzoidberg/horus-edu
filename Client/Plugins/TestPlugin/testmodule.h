@@ -17,12 +17,12 @@ public:
     TestModule();
 
 public:
-    void setModName(const QString);
+     void setModName(const QString);
      void setModVersion(const QString);
-     void setModConflicts(const QString, const QString);
-     void setModRequired(const QString, const QString);
-     void setModRecommended(const QString, const QString);
-     void setExports(const QStringList);
+     void setModConflicts(const QString);
+     void setModRequired(const QString);
+     void setModRecommended(const QString);
+     void setExports(const QString);
 
   public:
      QString    getName() const;
@@ -43,7 +43,8 @@ public:
     QStringList     modRequired;
     QStringList     modRecommended;
     QStringList     exports;
-    PluginNetwork   pNetwork;;
+
+    PluginNetwork   *pNetwork;;
 };
 
 #endif // TESTMODULE_H

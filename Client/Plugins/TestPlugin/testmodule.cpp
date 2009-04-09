@@ -10,14 +10,17 @@ TestModule::TestModule()
 
 bool    TestModule::event(QEvent *event)
 {
-    if (event->type() == NetworkReceiveEvent)
+    if (event->type() == QEvent::None)
+        //NetworkReceiveEvent)
     {
-        pNetwork    network(*event);
-        return network.handler();
+        pNetwork = new PluginNetwork(event);
+        return pNetwork->handler();
     }
-    else if (event->type() == LoadPluginEvent)
+    else if (event->type() == QEvent::None)
+             //LoadPluginEvent)
         return eventHandlerLoad();
-    else if (event->type() == UnloadPluginEvent)
+    else if (event->type() == QEvent::None)
+             //UnloadPluginEvent)
         return eventHandlerUnload();
     return QObject::event(event);
 }
@@ -42,19 +45,24 @@ void    TestModule::setModVersion(const QString modVersion)
     this->modVersion = modVersion;
 }
 
-void    TestModule::setModRequired(const QString name, const QString version)
+void    TestModule::setModRequired(const QString name)
 {
-
+    modRequired << name;
 }
 
-void    TestModule::setModConflicts(const QString name, const QString version)
+void    TestModule::setModConflicts(const QString name)
 {
-
+    modConflicts << name;
 }
 
-void    TestModule::setModRecommended(const QString name, const QString version)
+void    TestModule::setExports(const QString name)
 {
+    exports << name;
+}
 
+void    TestModule::setModRecommended(const QString name)
+{
+    modRecommended << name;
 }
 
 QString   TestModule::getName() const
