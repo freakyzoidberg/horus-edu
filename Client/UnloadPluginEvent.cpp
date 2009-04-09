@@ -1,5 +1,7 @@
 #include "UnloadPluginEvent.h"
 
-UnloadPluginEvent::UnloadPluginEvent()
+QEvent::Type    UnloadPluginEventType;
+
+UnloadPluginEvent::UnloadPluginEvent() : QEvent::QEvent(UnloadPluginEventType)
 {
 }
