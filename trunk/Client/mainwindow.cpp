@@ -5,7 +5,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
-    cM = new ConnectionManager();
+    cM = new NetworkManager();
     ui->setupUi(this);
     this->setWindowTitle("Horus");
     ReadSettings();

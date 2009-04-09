@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QEvent>
-#include "ConnectionManager.h"
+#include "NetworkManager.h"
 #include "../Common/Defines.h"
 
 namespace Ui
@@ -27,7 +27,7 @@ void on_pushButton_clicked();
 
 private:
     Ui::MainWindowClass *ui;
-    ConnectionManager *cM;
+    NetworkManager *cM;
     void WriteSettings();
     void ReadSettings();
 
