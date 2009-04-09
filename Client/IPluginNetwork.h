@@ -4,7 +4,7 @@
 class IPluginNetwork
 {
     public:
-        virtual bool    handler() = 0;
+        virtual bool    eventHandler() = 0;
 };
 
 //Q_DECLARE_INTERFACE(IPluginNetwork, "net.horus.Client.PluginNetworkInterface/1.0");
