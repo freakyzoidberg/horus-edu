@@ -1,5 +1,7 @@
 #include "NetworkReceiveEvent.h"
 
-NetworkReceiveEvent::NetworkReceiveEvent()
+QEvent::Type    NetworkReceiveEventType;
+
+NetworkReceiveEvent::NetworkReceiveEvent() : QEvent::QEvent(NetworkReceiveEventType)
 {
 }

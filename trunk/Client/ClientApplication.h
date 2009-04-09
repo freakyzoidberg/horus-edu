@@ -1,8 +1,9 @@
 #ifndef CLIENTAPPLICATION_H
 #define CLIENTAPPLICATION_H
 
-#include <QtGui/QApplication>
-#include "IClientPlugin.h"
+#include    <QtGui/QApplication>
+#include    <QEvent>
+#include    "IClientPlugin.h"
 
 class ClientApplication : public QApplication
 {
@@ -19,5 +20,6 @@ private:
     bool    startNetwork();
     bool    stopNetwork();
 };
+
 
 #endif // CLIENTAPPLICATION_H

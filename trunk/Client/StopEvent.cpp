@@ -1,5 +1,7 @@
 #include "StopEvent.h"
 
-StopEvent::StopEvent()
+QEvent::Type    StopEventType;
+
+StopEvent::StopEvent() : QEvent::QEvent(StopEventType)
 {
 }

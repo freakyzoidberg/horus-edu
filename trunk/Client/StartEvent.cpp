@@ -1,5 +1,8 @@
-#include "StartEvent.h"
+#include            "StartEvent.h"
 
-StartEvent::StartEvent()
+QEvent::Type    StartEventType;
+
+
+StartEvent::StartEvent() : QEvent::QEvent(StartEventType)
 {
 }

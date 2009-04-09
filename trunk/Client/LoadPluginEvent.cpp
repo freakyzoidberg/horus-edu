@@ -1,5 +1,7 @@
 #include "LoadPluginEvent.h"
 
-LoadPluginEvent::LoadPluginEvent()
+QEvent::Type    LoadPluginEventType;
+
+LoadPluginEvent::LoadPluginEvent() : QEvent::QEvent(LoadPluginEventType)
 {
 }
