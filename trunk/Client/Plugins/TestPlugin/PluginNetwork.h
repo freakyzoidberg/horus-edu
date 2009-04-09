@@ -2,6 +2,7 @@
 #define PLUGINNETWORK_H
 
 #include <QEvent>
+#include "../../IPluginNetwork.h"
 
 class   PluginNetwork : public IPluginNetwork
 {

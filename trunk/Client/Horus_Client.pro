@@ -39,6 +39,7 @@ HEADERS += mainwindow.h \
     StopEvent.h \
     LoadPluginEvent.h \
     UnloadPluginEvent.h \
-    NetworkReceiveEvent.h
+    NetworkReceiveEvent.h \
+    IPluginNetwork.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
