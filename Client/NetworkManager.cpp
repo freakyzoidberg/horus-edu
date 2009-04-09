@@ -1,19 +1,19 @@
-#include "ConnectionManager.h"
+#include "NetworkManager.h"
 
-ConnectionManager::ConnectionManager()
+NetworkManager::NetworkManager()
 {
     tcpSocket = new QTcpSocket(this);
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
 }
 
-void    ConnectionManager::ConnectTo(QString addr, int port)
+void    NetworkManager::ConnectTo(QString addr, int port)
 {
      tcpSocket->abort();
      tcpSocket->connectToHost(addr, port);
 }
 
-void    ConnectionManager::readData()
+void    NetworkManager::readData()
 {
      QDataStream in(tcpSocket);
      in.setVersion(QDataStream::Qt_4_0);
@@ -42,12 +42,12 @@ void    ConnectionManager::readData()
     msgBox.exec();
 }
 
-void    ConnectionManager::writeData()
+void    NetworkManager::writeData()
 {
 
 }
 
- void   ConnectionManager::displayError(QAbstractSocket::SocketError socketError)
+ void   NetworkManager::displayError(QAbstractSocket::SocketError socketError)
  {
      QMessageBox msgBox;
 

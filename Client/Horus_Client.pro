@@ -9,7 +9,7 @@ TARGET = Horus_Client
 TEMPLATE = app
 SOURCES += main.cpp \
     mainwindow.cpp \
-    ConnectionManager.cpp \
+    NetworkManager.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommModule.cpp \
     ../Common/CommMiniString.cpp \
@@ -18,7 +18,7 @@ SOURCES += main.cpp \
     ../Common/CommError.cpp \
     ClientApplication.cpp
 HEADERS += mainwindow.h \
-    ConnectionManager.h \
+    NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
     ../Common/CommModule.h \

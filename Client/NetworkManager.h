@@ -1,16 +1,16 @@
-#ifndef CONNECTIONMANAGER_H
-#define CONNECTIONMANAGER_H
+#ifndef NETWORKMANAGER_H
+#define NETWORKMANAGER_H
 
 #include <QTcpSocket>
 #include <QtGui>
 
 
-class ConnectionManager : public QTcpSocket
+class NetworkManager : public QTcpSocket
 {
     Q_OBJECT
 
     public:
-        ConnectionManager();
+        NetworkManager();
         void    ConnectTo(QString addr, int port);
     private slots:
         void    readData();
@@ -22,4 +22,4 @@ class ConnectionManager : public QTcpSocket
         QString currentFortune;
 };
 
-#endif // CONNECTIONMANAGER_H
+#endif // NETWORKMANAGER_H
