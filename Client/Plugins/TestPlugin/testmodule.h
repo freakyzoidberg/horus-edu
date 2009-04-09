@@ -35,7 +35,7 @@ public:
 
     bool    event(QEvent *);
     bool    eventHandlerLoad(QEvent *);
-    bool    eventHandlerUnload();
+    bool    eventHandlerUnload(QEvent *);
 
  private:
     QString         modName;
