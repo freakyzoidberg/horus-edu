@@ -20,5 +20,12 @@ public:
 
 /*
 
-
+        Sql *Mycon = new Sql();
+        QSqlQuery* query = Mycon->query("SELECT * FROM testdb");
+        while (query->next()) {
+            QString login = query->value(1).toString();
+            qDebug() << login;
+        }
+        delete query;
+        delete Mycon;
      */
