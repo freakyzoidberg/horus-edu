@@ -21,7 +21,6 @@ public:
         unlock the mutex
     */
     ~Sql();
-    //private:
      //! Query the database
     /*!
       \sa query()
@@ -31,7 +30,6 @@ public:
     QSqlQuery* query(QString thequer);
     //! Mutex for single access socket to database
     static QMutex mymute;
-
     //! Connect to the database
     /*!
       \sa sqlconnect()
