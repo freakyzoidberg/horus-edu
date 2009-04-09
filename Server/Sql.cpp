@@ -8,7 +8,6 @@ Sql::Sql()
 
 Sql::~Sql()
 {
-qDebug() << "destructeur";
     mymute.unlock();
 }
 bool Sql::sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port)
@@ -34,15 +33,14 @@ QSqlDatabase db;
      return (ok);
 }
 
-QSqlQuery* Sql::query()
+QSqlQuery* Sql::query(QString thequer)
 {
 
-//    QSqlDatabase localdb = QSqlDatabase::database();
+    //QSqlDatabase localdb = QSqlDatabase::database();
     //qDebug() << "used DB hostname is " << localdb.hostName();
 
+    QSqlQuery* query = new QSqlQuery(thequer);
 
-    QSqlQuery* query = new QSqlQuery("SELECT * FROM testdb");
-qDebug() << "youpi je vis avant le segfault";
-//qDebug() <<query.lastError();
+
 return (query);
 }

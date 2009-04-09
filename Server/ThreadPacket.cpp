@@ -33,9 +33,10 @@ void ThreadPacket::run()
     {
         qDebug() << n << "unknow packets received.";
         client->packetReceived();
+
         qDebug() << n << "unknow packets recived.";
         Sql *Mycon = new Sql();
-        QSqlQuery* query = Mycon->query();
+        QSqlQuery* query = Mycon->query("SELECT * FROM testdb");
 
         while (query->next()) {
             QString login = query->value(1).toString();

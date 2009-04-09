@@ -11,7 +11,7 @@ public:
     ~Sql();
     //private:
 
-    QSqlQuery* query();
+    QSqlQuery* query(QString thequer);
     static QMutex mymute;
     bool sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port);
 };
