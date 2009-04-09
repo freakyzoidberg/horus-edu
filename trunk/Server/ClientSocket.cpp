@@ -37,14 +37,14 @@ ClientSocket::~ClientSocket()
 void ClientSocket::readFinished() { emit readFinishedSignal(); }// for the thread
 void ClientSocket::readFinishedSlot()
 {
-    readMutex.unlock();
+    readStream.unlock();
     if (socket.bytesAvailable() > 0)
         packetAvailable();
 }
 
 void ClientSocket::packetAvailable()
 {
-    if ( ! readMutex.tryLock())
+    if ( ! readStream.tryLock())
         return;
 
     nbThreads++;
