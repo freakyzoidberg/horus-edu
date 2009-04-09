@@ -17,6 +17,7 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     new PluginManager(this);
     new NetworkManager(this);
     QApplication::postEvent(this, new StartEvent);
+    qDebug() << "Send StartEvent";
 }
 
 ClientApplication::~ClientApplication()
