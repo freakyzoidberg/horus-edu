@@ -5,6 +5,8 @@ NetworkManager::NetworkManager(QObject *parent) : QTcpSocket::QTcpSocket(parent)
     tcpSocket = new QTcpSocket(this);
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+    connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(quit()));
+    this->packManag = new PacketManager(tcpSocket);
     this->setObjectName("NetworkManager");
 }
 
@@ -12,67 +14,60 @@ void    NetworkManager::ConnectTo(QString addr, int port)
 {
      tcpSocket->abort();
      tcpSocket->connectToHost(addr, port);
+     stream.setDevice(tcpSocket);
 }
 
 void    NetworkManager::readData()
 {
-     QDataStream in(tcpSocket);
-     in.setVersion(QDataStream::Qt_4_0);
-
-     if (blockSize == 0) {
-         if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
+    if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
              return;
 
-         in >> blockSize;
-     }
+    stream >> protoPac;
+    this->packManag->receivedData(protoPac);
+    CommInit init;
 
-     if (tcpSocket->bytesAvailable() < blockSize)
-         return;
+    init.fromName = "Protocol Tester";
+    stream << init;
 
-     QString nextFortune;
-     in >> nextFortune;
+    this->loginServer();
 
-     if (nextFortune == currentFortune) {
-         QTimer::singleShot(0, this, SLOT(ConnectTo()));
-         return;
-     }
-
-     currentFortune = nextFortune;
-     QMessageBox msgBox;
-    msgBox.setText(currentFortune);
-    msgBox.exec();
 }
 
-void    NetworkManager::writeData()
+void    NetworkManager::loginServer()
 {
-
+    CommLogin  login;
+    login.loginType = CommLogin::LOGIN_PASSWORD;
+    login.login = "super-Menteur";
+    login.sha1Pass = "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83";
+    stream << login;
+    return;
 }
 
- void   NetworkManager::displayError(QAbstractSocket::SocketError socketError)
+void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
  {
-     QMessageBox msgBox;
-
-
-     switch (socketError) {
+    switch (socketError) {
      case QAbstractSocket::RemoteHostClosedError:
          break;
      case QAbstractSocket::HostNotFoundError:
-         msgBox.setText("The host was not found. Please check the "
-                                     "host name and port settings.");
+         qDebug() << "The host was not found. Please check the host name and port settings.";
          break;
      case QAbstractSocket::ConnectionRefusedError:
-         msgBox.setText("The connection was refused by the peer. "
-                                     "Make sure the fortune server is running, "
-                                     "and check that the host name and port "
-                                     "settings are correct.");
+         qDebug() << "The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct.";
          break;
      default:
-         msgBox.setText(tr("The following error occurred: %1.")
-                                  .arg(tcpSocket->errorString()));
+         qDebug() << tr("The following error occurred: %1.").arg(tcpSocket->errorString());
      }
-      msgBox.exec();
  }
+
+bool    NetworkManager::quit()
+{
+    qDebug() << "Disconnected from server";
+    return true;
+}
+
 bool    NetworkManager::event(QEvent *e)
 {
-    qDebug() << "Recieved events";
+    if(e->type() == StartEvent::type)
+        qDebug() << "Recieved events";
+    return true;
 }
