@@ -14,7 +14,7 @@ class ThreadPacket : public QRunnable
 {
 public:
     ThreadPacket(ClientSocket* cs);
-    ~ThreadPacket();
+
     void run();
 
     void PacketError();
@@ -25,11 +25,9 @@ public:
     void PacketConfig();
     void PacketModule();
 
-
-
-    static QMutex *toto;
 private:
     ClientSocket* client;
+
     static void (ThreadPacket::*packetDirections[]) ();
 };
 

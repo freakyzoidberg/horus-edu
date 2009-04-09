@@ -13,17 +13,12 @@ const char*  CommPacket::typeNames[] =
     "Module"
 };
 
-CommPacket::CommPacket(pType _type)
+CommPacket::CommPacket(type _type)
 {
     packetType = _type;
 }
 
-CommPacket::pType CommPacket::getPacketType()
-{
-    return packetType;
-}
-
-const char* CommPacket::getPacketName()
+const char* CommPacket::packetName()
 {
     return CommPacket::typeNames[ packetType ];
 }
@@ -45,5 +40,5 @@ QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
 
 QDebug operator<<(QDebug d, CommPacket& cr)
 {
-    return d << cr.getPacketName();
+    return d << cr.packetName();
 }

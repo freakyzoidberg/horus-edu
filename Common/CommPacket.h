@@ -13,20 +13,19 @@
  */
 class CommPacket
 {
-  Q_ENUMS(pType)
+  Q_ENUMS(type)
 public:
-    enum                 pType { UNKNOW, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE };
+    enum                type { UNKNOW, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE };
 
-    pType               getPacketType();
-    const char*         getPacketName();
+    const char*         packetName();
 
     static CommPacket*  readNextPacket(QDataStream&);
 
 //protected:
-    CommPacket(pType _type = UNKNOW);
+    CommPacket(type _type = UNKNOW);
 
 //private:
-    pType               packetType;
+    type                packetType;
 
     static const quint8 typeNumber;
     static const char*  typeNames[];
