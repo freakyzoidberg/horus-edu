@@ -12,16 +12,13 @@ class Sql
 {
 public:
     //! Sql constructor
-    /*!
-      lock the mutex
-    */
+    /*! lock the mutex */
     Sql();
-    //! Sql constructor
-    /*!
-        unlock the mutex
-    */
+    //! Sql destructor
+    /*! unlock the mutex */
     ~Sql();
-     //! Query the database
+
+    //! Query the database
     /*!
       \sa query()
       \param thequer the query to be executed
@@ -33,7 +30,7 @@ public:
     //! Connect to the database
     /*!
       \sa sqlconnect()
-      \param dbname the database name
+      \param dbName the database name
       \param hostname the database hostname
       \param username database username
       \param password database password
