@@ -15,7 +15,8 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     StartEvent::registerEventType(StartEvent::type);
     StopEvent::registerEventType(StopEvent::type);
     new PluginManager(this);
-    new NetworkManager(this);
+    (new NetworkManager(this))->ConnectTo("localhost", 42000);
+
     QApplication::postEvent(this, new StartEvent);
     qDebug() << "Send StartEvent";
 }

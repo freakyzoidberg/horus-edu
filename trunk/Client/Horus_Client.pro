@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     StopEvent.cpp \
     LoadPluginEvent.cpp \
     UnloadPluginEvent.cpp \
-    NetworkReceiveEvent.cpp
+    NetworkReceiveEvent.cpp \
+    PacketManager.cpp
 HEADERS += mainwindow.h \
     NetworkManager.h \
     ../Common/Defines.h \
@@ -40,6 +41,7 @@ HEADERS += mainwindow.h \
     LoadPluginEvent.h \
     UnloadPluginEvent.h \
     NetworkReceiveEvent.h \
-    IPluginNetwork.h
+    IPluginNetwork.h \
+    PacketManager.h
 FORMS += mainwindow.ui
 OTHER_FILES += 

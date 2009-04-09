@@ -3,8 +3,12 @@
 
 #include <QTcpSocket>
 #include <QtGui>
+#include <QCryptographicHash>
+
 #include    "StartEvent.h"
 #include    "StopEvent.h"
+#include    "PacketManager.h"
+
 
 class NetworkManager : public QTcpSocket
 {
@@ -13,15 +17,17 @@ class NetworkManager : public QTcpSocket
     public:
         NetworkManager(QObject *parent);
         void    ConnectTo(QString addr, int port);
+        void    loginServer();
     private slots:
         void    readData();
-        void    writeData();
-        void   displayError(QAbstractSocket::SocketError);
+        void    displayError(QAbstractSocket::SocketError);
         bool    event(QEvent *e);
+        bool    quit();
     private:
         QTcpSocket *tcpSocket;
-        quint16     blockSize;
-        QString currentFortune;
+        QDataStream stream;
+        PacketManager   *packManag;
+        CommPacket  protoPac;
 };
 
 #endif // NETWORKMANAGER_H
