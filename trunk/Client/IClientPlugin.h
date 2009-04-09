@@ -1,6 +1,8 @@
 #ifndef ICLIENTPLUGIN_H
 #define ICLIENTPLUGIN_H
 
+#include <QEvent>
+
 class IClientPlugin
 {
   public:
@@ -10,6 +12,9 @@ class IClientPlugin
     virtual QStringList getPluginsRequired() const = 0;
     virtual QStringList getPluginsRecommended() const = 0;
     virtual QStringList getExports() const = 0;
+
+  public:
+    virtual bool        event(QEvent *);
 };
 
 Q_DECLARE_INTERFACE(IClientPlugin, "net.horus.Client.PluginInterface/1.0");
