@@ -9,3 +9,13 @@ bool    PluginNetwork::eventHandler()
 {
     return true;
 }
+
+void    PluginNetwork::retrievedPacket()
+{
+    return ;
+}
+
+void    PluginNetwork::buildPacket()
+{
+    return ;
+}
