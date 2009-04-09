@@ -5,6 +5,7 @@ NetworkManager::NetworkManager(QObject *parent) : QTcpSocket::QTcpSocket(parent)
     tcpSocket = new QTcpSocket(this);
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
     connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+    this->setObjectName("NetworkManager");
 }
 
 void    NetworkManager::ConnectTo(QString addr, int port)
@@ -71,3 +72,7 @@ void    NetworkManager::writeData()
      }
       msgBox.exec();
  }
+bool    NetworkManager::event(QEvent *e)
+{
+    qDebug() << "Recieved events";
+}

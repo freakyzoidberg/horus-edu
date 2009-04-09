@@ -3,6 +3,8 @@
 
 #include <QTcpSocket>
 #include <QtGui>
+#include    "StartEvent.h"
+#include    "StopEvent.h"
 
 class NetworkManager : public QTcpSocket
 {
@@ -15,6 +17,7 @@ class NetworkManager : public QTcpSocket
         void    readData();
         void    writeData();
         void   displayError(QAbstractSocket::SocketError);
+        bool    event(QEvent *e);
     private:
         QTcpSocket *tcpSocket;
         quint16     blockSize;
