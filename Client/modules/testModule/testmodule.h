@@ -33,7 +33,6 @@ public:
      QStringList  getExports() const;
 
     bool    event(QEvent *);
-    bool    eventHandlerNetwork();
     bool    eventHandlerLoad();
     bool    eventHandlerUnload();
 
