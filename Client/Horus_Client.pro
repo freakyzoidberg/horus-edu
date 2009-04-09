@@ -17,7 +17,12 @@ SOURCES += main.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
     ClientApplication.cpp \
-    PluginManager.cpp
+    PluginManager.cpp \
+    StartEvent.cpp \
+    StopEvent.cpp \
+    LoadPluginEvent.cpp \
+    UnloadPluginEvent.cpp \
+    NetworkReceiveEvent.cpp
 HEADERS += mainwindow.h \
     NetworkManager.h \
     ../Common/Defines.h \
@@ -29,6 +34,11 @@ HEADERS += mainwindow.h \
     ../Common/CommError.h \
     ClientApplication.h \
     IClientPlugin.h \
-    PluginManager.h
+    PluginManager.h \
+    StartEvent.h \
+    StopEvent.h \
+    LoadPluginEvent.h \
+    UnloadPluginEvent.h \
+    NetworkReceiveEvent.h
 FORMS += mainwindow.ui
 OTHER_FILES += 
