@@ -1,6 +1,6 @@
 #include "NetworkManager.h"
 
-NetworkManager::NetworkManager()
+NetworkManager::NetworkManager(QObject *parent) : QTcpSocket::QTcpSocket(parent)
 {
     tcpSocket = new QTcpSocket(this);
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));

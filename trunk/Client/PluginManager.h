@@ -6,7 +6,10 @@
 class PluginManager : public QObject
 {
 public:
-    PluginManager();
+    PluginManager(QObject *parent = 0);
+
+private:
+    void    loadPlugins();
 };
 
 #endif // PLUGINMANAGER_H
