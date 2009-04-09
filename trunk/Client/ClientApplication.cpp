@@ -16,17 +16,29 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     StopEvent::registerEventType(StopEvent::type);
     new PluginManager(this);
     new NetworkManager(this);
+    QApplication::postEvent(this, new StartEvent);
 }
 
 ClientApplication::~ClientApplication()
 {
+    QApplication::postEvent(this, new StopEvent);
 }
 
 void    ClientApplication::reloadPlugins()
 {
+    PluginManager   *manager;
+
+    manager = this->findChild<PluginManager *>();
+    QApplication::postEvent(manager, new StopEvent);
+    QApplication::postEvent(manager, new StartEvent);
 }
 
 void    ClientApplication::restartNetwork()
 {
+    NetworkManager   *manager;
+
+    manager = this->findChild<NetworkManager *>();
+    QApplication::postEvent(manager, new StopEvent);
+    QApplication::postEvent(manager, new StartEvent);
 }
 
