@@ -4,9 +4,27 @@
 #include    <QString>
 #include    <QPluginLoader>
 #include    "../Common/Defines.h"
+#include    "StartEvent.h"
+#include    "StopEvent.h"
+#include    <QDebug>
 
 PluginManager::PluginManager(QObject *parent) : QObject::QObject(parent)
 {
+}
+
+bool    PluginManager::event(QEvent *event)
+{
+    if (event->type() == StartEvent::type)
+    {
+        this->loadPlugins();
+        return (true);
+    }
+    else if (event->type() == StopEvent::type)
+    {
+        return (true);
+    }
+    else
+        return (false);
 }
 
 void    PluginManager::loadPlugins()
