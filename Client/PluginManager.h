@@ -6,6 +6,8 @@
 
 class PluginManager : public QObject
 {
+    Q_OBJECT
+
 public:
     PluginManager(QObject *parent = 0);
     bool event(QEvent *event);
