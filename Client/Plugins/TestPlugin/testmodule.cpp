@@ -1,4 +1,5 @@
 #include <QtCore/qplugin.h>
+#include <QDebug>
 #include <iostream>
 #include "testmodule.h"
 
@@ -40,17 +41,17 @@ bool    TestModule::event(QEvent *event)
 
 bool    TestModule::eventHandlerLoad(QEvent *event)
 {
-    std::cout << "Handling event loadModule" << std::endl;
-    std::cout << "isAccepted:" << event->isAccepted() << std::endl;
-    std::cout << "spontaneous:" << event->spontaneous() << std::endl;
+    qDebug()  << "Handling event loadModule"
+            << "isAccepted:"    << event->isAccepted()
+            << "spontaneous:"   << event->spontaneous();
     return true;
 }
 
 bool    TestModule::eventHandlerUnload(QEvent *event)
 {
-    std::cout << "Handling event UnlodModule" << std::endl;
-    std::cout << "isAccepted:" << event->isAccepted() << std::endl;
-    std::cout << "spontaneous:" << event->spontaneous() << std::endl;
+    qDebug()  << "Handling event UnlodModule"
+            << "isAccepted:" << event->isAccepted()
+            << "spontaneous:" << event->spontaneous();
     return true;
 }
 
