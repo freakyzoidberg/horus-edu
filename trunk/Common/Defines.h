@@ -3,11 +3,11 @@
 
 # ifndef PREFIX
 #  if defined(Q_OS_WIN)
-#   define PREFIX  ${Program Files} // un truc dans ce genre la
+#   define PREFIX  "${Program Files}" // un truc dans ce genre la
 #  elif defined(Q_OS_MAC)
-#   define PREFIX  /MAC_FOLDER_SHIT // un truc dans ce genre la
+#   define PREFIX  "/MAC_FOLDER_SHIT" // un truc dans ce genre la
 #  else
-#   define PREFIX  /usr/local/
+#   define PREFIX  "/usr/local/"
 #  endif
 # endif
 
@@ -30,10 +30,6 @@
 #endif
 #ifndef CLIENT_VERSION
 #define CLIENT_VERSION "0.1"
-#endif
-
-#ifndef DEFAULT_PLUGINS_DIRECTORY_PATH
-#define DEFAULT_PLUGINS_DIRECTORY_PATH "."
 #endif
 
 #ifndef CURRENT_PROTO_VERSION

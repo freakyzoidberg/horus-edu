@@ -8,10 +8,10 @@
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
 {
-    QCoreApplication::setOrganizationName(ORGANIZATION_NAME);
-    QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
-    QCoreApplication::setApplicationName(CLIENT_NAME);
-    QCoreApplication::setApplicationVersion(CLIENT_VERSION);
+    this->setOrganizationName(ORGANIZATION_NAME);
+    this->setOrganizationDomain(ORGANIZATION_DOMAIN);
+    this->setApplicationName(CLIENT_NAME);
+    this->setApplicationVersion(CLIENT_VERSION);
     if (StartEvent::registerEventType(StartEvent::type) != StartEvent::type)
         qDebug() << "Warning, bad event type on register StartEvent";
     if (StopEvent::registerEventType(StopEvent::type) != StopEvent::type)
