@@ -16,11 +16,13 @@ bool    PluginManager::event(QEvent *event)
 {
     if (event->type() == StartEvent::type)
     {
+        qDebug() << "PluginManager: Receive StartEvent";
         this->loadPlugins();
         return (true);
     }
     else if (event->type() == StopEvent::type)
     {
+        qDebug() << "PluginManager: Receive StopEvent";
         return (true);
     }
     else
