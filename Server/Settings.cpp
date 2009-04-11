@@ -2,14 +2,15 @@
 
 Settings::Settings()
 {
-
+    for (int i = 0; i < QCoreApplication::arguments().count(); i++)
+        if (QCoreApplication::arguments().at(i) == "--gen-config")
+            {
+            FirstSetSettings();
+             }
     if (GetSettings("Version", "SETTINGS").toInt() != 2)
-        {
-        FirstSetSettings();
-        if (GetSettings("Version", "SETTINGS").toInt() != 2)
-            qDebug() << "Settings::Settings() Definitly an error at getting the configuration";
-            else
-            qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
+    {
+            qFatal("Server Configuration not found, try running with     --gen-config");
+
         }
     else
         qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
@@ -28,7 +29,7 @@ void Settings::FirstSetSettings()
 
 
 
-    qDebug() << "Settings::FirstSetSettings() Conf not found Creating it in " <<  this->Gsettings.fileName();
+    qDebug() << "Settings::FirstSetSettings() Creating config in " <<  this->Gsettings.fileName();
     qDebug() << "Settings::FirstSetSettings() Default Value can be edited";
 
     this->Gsettings.beginGroup("SQL");
