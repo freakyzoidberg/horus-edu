@@ -2,22 +2,20 @@
 #include "ThreadPacket.h"
 #include "../Common/Defines.h"
 
+quint32 ClientSocket::nbCon = 0;
+
 ClientSocket::ClientSocket(int _socket)
 {
     static quint32 newId = 0;
+    nbCon++;
     id = newId++;
     qDebug() << "-----Client" << id << "connected";
 
     state = INIT;
-    nbThreads = 0;
+    threads.release(MAX_USER_THREADS);
 
-    //read
     connect(&socket, SIGNAL(readyRead()),      this, SLOT(packetAvailable()));
-    connect(this,    SIGNAL(readFinishedSignal()),   SLOT(readFinishedSlot()));
-
-    //delete
     connect(&socket, SIGNAL(disconnected()),   this, SLOT(tryToDelete()));
-    connect(this,    SIGNAL(threadFinishedSignal()), SLOT(threadFinishedSlot()));
 
     stream.setDevice(&socket);
     socket.setSocketDescriptor(_socket);
@@ -29,13 +27,11 @@ ClientSocket::ClientSocket(int _socket)
 
 ClientSocket::~ClientSocket()
 {
-    qDebug() << "-----Client"<< id << "disconected.";
+    nbCon--;
+    qDebug() << "-----Client"<< id << "disconected. there's still" << nbCon << "users";
 }
 
-
-//READ PART
-void ClientSocket::readFinished() { emit readFinishedSignal(); }// for the thread
-void ClientSocket::readFinishedSlot()
+void ClientSocket::readFinished()
 {
     readStream.unlock();
     if (socket.bytesAvailable() > 0)
@@ -47,22 +43,27 @@ void ClientSocket::packetAvailable()
     if ( ! readStream.tryLock())
         return;
 
-    nbThreads++;
-    QThreadPool::globalInstance()->start( new ThreadPacket(this) );
+    if ( ! threads.tryAcquire())
+        return readStream.unlock();
+
+    ThreadPacket* thread = new ThreadPacket(this);
+
+    connect(thread, SIGNAL(readFinished()), this, SLOT(readFinished()));
+    connect(thread, SIGNAL(destroyed()),    this, SLOT(threadFinished()));
+
+    QThreadPool::globalInstance()->start(thread);
 }
 
 
-//DELETE PART
-void ClientSocket::threadFinished() { emit threadFinishedSignal(); }// for the thread
-void ClientSocket::threadFinishedSlot()
+void ClientSocket::threadFinished()
 {
-    nbThreads--;
+    threads.release();
     if (socket.state() == QTcpSocket::UnconnectedState)
         tryToDelete();
 }
 
 void ClientSocket::tryToDelete()
 {
-    if ( ! nbThreads)
+    if (threads.available() == MAX_USER_THREADS)
         deleteLater();
 }
