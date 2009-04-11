@@ -2,7 +2,6 @@
 #define COMMPACKET_H
 
 #include <QDataStream>
-#include <QObject>
 #include <QDebug>
 
 #include "Defines.h"
@@ -13,18 +12,13 @@
  */
 class CommPacket
 {
-  Q_ENUMS(type)
 public:
     enum                type { UNKNOW, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE };
 
-    const char*         packetName();
-
     static CommPacket*  readNextPacket(QDataStream&);
 
-//protected:
     CommPacket(type _type = UNKNOW);
 
-//private:
     type                packetType;
 
     static const quint8 typeNumber;

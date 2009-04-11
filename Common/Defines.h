@@ -46,6 +46,13 @@
 #define SHA1_WORD_SIZE 40
 #endif
 
+#ifndef MAX_POOL_THREADS
+#define MAX_POOL_THREADS 500 //a big number for tests
+#endif
+#ifndef MAX_USER_THREADS
+#define MAX_USER_THREADS 50 //idem
+#endif
+
 #ifndef STARTEVENTTYPE
 #define STARTEVENTTYPE          1000
 #endif

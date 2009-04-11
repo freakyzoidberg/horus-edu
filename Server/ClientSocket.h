@@ -5,12 +5,15 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include <QMutex>
+#include <QSemaphore>
 
-//! there is one ClientSocket for each connexion
+//! ClientSocket created for each connexion
+/*
+ * This Object destroy himself when the connexion is closed
+ */
 class ClientSocket : public QObject
 {
   Q_OBJECT
-//  Q_ENUMS(stateType)
 
 public:
     //! Construct called by "Server"
@@ -21,10 +24,8 @@ public:
     ~ClientSocket();
 
     enum        stateType{ INIT, LOGIN, LOGGED, DISCONNECTED };
-
     stateType   state;
 
-    //! the QTcpSocket coresponding to the
     QTcpSocket  socket;
     //! a QDataStream to read/write "CommPacket" to the client conected
     QDataStream stream;
@@ -33,34 +34,27 @@ public:
     //! aQMutex to lock the write of the stream
     QMutex      writeStream;
 
-//    User        user;
-
-
-public:
-    //! the method called by a thread to unlock the socket for reading
-    void readFinished();
 private slots:
+    //! called when a packet may be present on the socket
     void packetAvailable();
-    void readFinishedSlot();
-signals:
-    void readFinishedSignal();
-private:
-    quint32     nbThreads;
+    //! called by a thread when the reading is finished and another thread can be launched
+    void readFinished();
 
-
-public:
-    //! the method called by a thread to delete the ClientSocket if it's deconnected during the execution of the thread
-    void threadFinished();
 private slots:
+    //! if the connexion is closed, look if some thread are still running
     void tryToDelete();
-    void threadFinishedSlot();
-signals:
-    void threadFinishedSignal();
+    //! called when an ThreadPacket is destroyed
+    void threadFinished();
 
+private:
+    //! lock the number of threads to MAX_USER_THREADS
+    QSemaphore  threads;
 
+//! to remove, just for debug message in cronstruct
 public:
-    //! to remove, just for debug message in cronstruct
     quint32     id;
+private:
+    static quint32 nbCon;
 };
 
 #endif // CLIENTSOCKET_H

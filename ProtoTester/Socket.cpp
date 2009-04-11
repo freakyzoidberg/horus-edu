@@ -25,16 +25,21 @@ void Socket::onReceve()
     CommPacket pac;
     stream >> pac;
     // check packet is init
+
+    CommLogin  login;
+    login.loginType = CommLogin::LOGIN_PASSWORD;
+    login.login = "super-Menteur";
+    login.sha1Pass = "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83";
+//    stream << login;
+
+
+
     CommInit init;
     stream >> init;
 
     init.fromName = "Protocol Tester";
     stream << init;
 
-    CommLogin  login;
-    login.loginType = CommLogin::LOGIN_PASSWORD;
-    login.login = "super-Menteur";
-    login.sha1Pass = "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83";
     stream << login;
 
     CommModule mod("mod Source", "v42", "mod Destination", "data");

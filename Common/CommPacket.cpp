@@ -18,11 +18,6 @@ CommPacket::CommPacket(type _type)
     packetType = _type;
 }
 
-const char* CommPacket::packetName()
-{
-    return CommPacket::typeNames[ packetType ];
-}
-
 QDataStream& operator<<(QDataStream& ds, CommPacket& cr)
 {
     return ds << (quint8&)cr.packetType;
@@ -40,5 +35,5 @@ QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
 
 QDebug operator<<(QDebug d, CommPacket& cr)
 {
-    return d << cr.packetName();
+    return d << CommPacket::typeNames[ cr.packetType ] << '|';
 }

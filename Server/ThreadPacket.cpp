@@ -4,6 +4,7 @@
 ThreadPacket::ThreadPacket(ClientSocket* cs)
 {
     client = cs;
+    finishReadingFlag = false;
 }
 
 void ThreadPacket::run()
@@ -26,10 +27,10 @@ void ThreadPacket::run()
     // and redirect to the good method
     if (pac.packetType != CommPacket::UNKNOW)
         (this->*packetDirections[ pac.packetType ])();
-    else
-        client->readFinished();
 
-    client->threadFinished();
+    finishReading();
+
+    emit threadFinished();
 }
 
 packetDirection ThreadPacket::packetDirections[] =
@@ -48,19 +49,16 @@ void ThreadPacket::PacketError()
 {
     CommError err;
     client->stream >> err;
-    client->readFinished();
 }
 
 void ThreadPacket::PacketInit()
 {
     CommInit init;
     client->stream >> init;
-    client->readFinished();
 }
 
 void ThreadPacket::PacketAlive()
 {
-    client->readFinished();
 }
 
 void ThreadPacket::PacketLogin()
@@ -69,17 +67,14 @@ void ThreadPacket::PacketLogin()
     client->stream >> login;
 //    if (client->state == ClientSocket::INIT)
 //        errorNotInit();
-    client->readFinished();
 }
 
 void ThreadPacket::PacketFile()
 {
-    client->readFinished();
 }
 
 void ThreadPacket::PacketConfig()
 {
-    client->readFinished();
 }
 
 void ThreadPacket::PacketModule()
@@ -88,7 +83,7 @@ void ThreadPacket::PacketModule()
     //int j = i++;
     CommModule mod;
     client->stream >> mod;
-    client->readFinished();
+    finishReading();
     sleep(1);
 }
 
@@ -97,4 +92,11 @@ void ThreadPacket::errorNotInit()
     client->writeStream.lock();
     CommError err(CommError::NOT_INITIALIZED, "Protocol error: Connexion not intialized.");
     client->writeStream.unlock();
+}
+
+void ThreadPacket::finishReading()
+{
+    if ( ! finishReadingFlag)
+        emit readFinished();
+    finishReadingFlag = true;
 }
