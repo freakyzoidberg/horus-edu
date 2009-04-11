@@ -3,7 +3,10 @@
 #include <QSettings>
 #include <QtDebug>
 #include <QStringList>
-
+//!  Settings Class
+/*!
+  settings management for the server
+*/
 class Settings
 {
 public:

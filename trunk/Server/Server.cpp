@@ -26,7 +26,7 @@ void Server::incomingConnection(int socket)
 
 void Server::check()
 {
-    if ( ! isListening())
+    if ( !isListening())
         qDebug() << "Server::Server() Not listening";
     else
         qDebug("Server::Server() Listening on port : %d", serverPort());

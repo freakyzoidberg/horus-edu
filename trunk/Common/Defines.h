@@ -62,4 +62,9 @@
 #define NETWORKRECEIVEEVENTTYPE 1004
 #endif
 
+#ifndef SQLCONNECTIONCOUNT
+//! Total of concurent SQL connections
+#define SQLCONNECTIONCOUNT 5
+#endif
+
 #endif // DEFINES_H
