@@ -1,6 +1,6 @@
 #ifndef SQL_H
 #define SQL_H
-
+#include "../Common/Defines.h"
 #include <QtSql>
 #include <QMutex>
 //!  Sql Class
@@ -17,7 +17,6 @@ public:
     //! Sql destructor
     /*! unlock the mutex */
     ~Sql();
-
     //! Query the database
     /*!
       \sa query()
@@ -25,9 +24,11 @@ public:
       \return QSqlQuery Object
       */
     QSqlQuery* query(QString thequer);
-    //! Mutex for single access socket to database
+    //! Mutex for single access to Array of available connection
     static QMutex mymute;
-    //! Connect to the database
+    //! Semaphore for single access socket to database
+    static QSemaphore mtsema;
+    //! Connections to the database
     /*!
       \sa sqlconnect()
       \param dbName the database name
@@ -38,13 +39,21 @@ public:
       \param port database port
     */
     bool sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port);
-
+private:
+    //! Array of status of SQL connections
+    static bool con[SQLCONNECTIONCOUNT];
+    //! Connection used for the current instance of object
+    int currentcon;
 
 };
 
 #endif
 
 /*
+
+
+
+
 
         Sql *Mycon = new Sql();
         QSqlQuery* query = Mycon->query("SELECT * FROM testdb");
