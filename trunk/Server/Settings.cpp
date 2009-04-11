@@ -7,7 +7,7 @@ Settings::Settings()
             {
             FirstSetSettings();
              }
-    if (GetSettings("Version", "SETTINGS").toInt() != 2)
+    if (GetSettings("Version", "SETTINGS").toInt() != 3)
     {
             qFatal("Server Configuration not found, try running with     --gen-config");
 
@@ -66,7 +66,7 @@ void Settings::FirstSetSettings()
      this->Gsettings.setValue("SRV_PORT", line);
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
-    this->Gsettings.setValue("Version", "2");
+    this->Gsettings.setValue("Version", "3");
     this->Gsettings.endGroup();
     }
     else
