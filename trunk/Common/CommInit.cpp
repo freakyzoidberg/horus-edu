@@ -2,6 +2,8 @@
 
 CommInit::CommInit() : CommPacket(CommPacket::INIT)
 {
+    protoVersion = 0;
+    fromName  = "";
 }
 
 CommInit::CommInit(quint8 _protoVersion, const char* _fromName) : CommPacket(CommPacket::INIT)

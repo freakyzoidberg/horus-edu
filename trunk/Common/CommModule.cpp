@@ -2,6 +2,10 @@
 
 CommModule::CommModule() : CommPacket(CommPacket::MODULE)
 {
+    moduleSource = "";
+    moduleSourceVersion = "";
+    moduleDestination = "";
+    moduleData = "";
 }
 
 CommModule::CommModule(const char* src, const char* srcVer, const char* dest, const QByteArray& data) : CommPacket(CommPacket::MODULE)
