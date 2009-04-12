@@ -94,10 +94,10 @@ void ThreadPacket::PacketModule()
             QString login = query->value(1).toString();
             qDebug() << login;
         }
+    usleep(100000);
         delete query;
         delete Mycon;
 
-//    sleep(1);
 }
 
 void ThreadPacket::writeError(CommError::eType err, const char* str)
