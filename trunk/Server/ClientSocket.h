@@ -39,12 +39,12 @@ private slots:
     void packetAvailable();
     //! called by a thread when the reading is finished and another thread can be launched
     void readFinished();
-
-private slots:
     //! if the connexion is closed, look if some thread are still running
     void tryToDelete();
     //! called when an ThreadPacket is destroyed
     void threadFinished();
+
+    void socketError(QAbstractSocket::SocketError);
 
 private:
     //! lock the number of threads to MAX_USER_THREADS

@@ -16,6 +16,7 @@ ClientSocket::ClientSocket(int _socket)
 
     connect(&socket, SIGNAL(readyRead()),      this, SLOT(packetAvailable()));
     connect(&socket, SIGNAL(disconnected()),   this, SLOT(tryToDelete()));
+//    connect(&socket, SIGNAL(error(QAbstractSocket::SocketError)),   this, SLOT(socketError(QAbstractSocket::SocketError)));
 
     stream.setDevice(&socket);
     socket.setSocketDescriptor(_socket);
@@ -31,7 +32,12 @@ ClientSocket::~ClientSocket()
     qDebug() << "-----Client"<< id << "disconected. there's still" << nbCon << "users";
 }
 
-void ClientSocket::readFinished()
+void ClientSocket::socketError(QAbstractSocket::SocketError e)
+{
+    qDebug() << e;
+}
+
+    void ClientSocket::readFinished()
 {
     readStream.unlock();
     if (socket.bytesAvailable() > 0)

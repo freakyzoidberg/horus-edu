@@ -4,7 +4,7 @@ CommMiniString::CommMiniString(QByteArray& s) : QByteArray(s) {}
 
 CommMiniString::CommMiniString(const char* s) : QByteArray(s) {}
 
-CommMiniString::CommMiniString() : QByteArray() {}
+CommMiniString::CommMiniString() : QByteArray("") {}
 
 QDataStream& operator<<(QDataStream& ds, CommMiniString& cms)
 {

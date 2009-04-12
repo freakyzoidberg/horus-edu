@@ -30,7 +30,7 @@ void ThreadPacket::run()
 
     finishReading();
 
-    emit threadFinished();
+    //emit threadFinished();
 }
 
 packetDirection ThreadPacket::packetDirections[] =
@@ -65,8 +65,10 @@ void ThreadPacket::PacketLogin()
 {
     CommLogin login;
     client->stream >> login;
+
 //    if (client->state == ClientSocket::INIT)
-//        errorNotInit();
+//      writeError(CommError::NOT_INITIALIZED);
+
 }
 
 void ThreadPacket::PacketFile()
@@ -84,13 +86,24 @@ void ThreadPacket::PacketModule()
     CommModule mod;
     client->stream >> mod;
     finishReading();
-    sleep(1);
+
+
+    Sql *Mycon = new Sql();
+        QSqlQuery* query = Mycon->query("SELECT * FROM testdb");
+        while (query->next()) {
+            QString login = query->value(1).toString();
+            qDebug() << login;
+        }
+        delete query;
+        delete Mycon;
+
+//    sleep(1);
 }
 
-void ThreadPacket::errorNotInit()
+void ThreadPacket::writeError(CommError::eType err, const char* str)
 {
     client->writeStream.lock();
-    CommError err(CommError::NOT_INITIALIZED, "Protocol error: Connexion not intialized.");
+    //CommError err(err, str);
     client->writeStream.unlock();
 }
 
