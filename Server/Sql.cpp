@@ -17,6 +17,8 @@ Sql::Sql()
             currentcon = i;
             break;
        }
+       if (i == SQLCONNECTIONCOUNT)
+           i = 0;
    }
     mymute.unlock();
 }
