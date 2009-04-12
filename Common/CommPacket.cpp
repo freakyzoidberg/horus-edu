@@ -3,7 +3,7 @@
 const quint8 CommPacket::typeNumber = 8;
 const char*  CommPacket::typeNames[] =
 {
-    "Unknow ",
+    "Unknow",
     "Error ",
     "Init  ",
     "Alive ",
@@ -26,7 +26,6 @@ QDataStream& operator<<(QDataStream& ds, CommPacket& cr)
 QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
 {
     ds >> (quint8&)cr.packetType;
-
     if (cr.packetType >= CommPacket::typeNumber)
         cr.packetType  = CommPacket::UNKNOW;
 

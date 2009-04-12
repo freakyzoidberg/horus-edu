@@ -11,11 +11,18 @@ Socket::Socket(const char* host, quint16 port)
 {
     connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
     connect(this, SIGNAL(disconnected()), QCoreApplication::instance(), SLOT(quit()));
+    //connect(this, SIGNAL(error(QAbstractSocket::SocketError)), QCoreApplication::instance(), SLOT(quit()));
+    //connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(stateChangedSlot(QAbstractSocket::SocketState)));
 
     connectToHost(host, port);
-    stream.setDevice(this);
 
-    qDebug() << "Connect to " << host << ":" << port << " -> " << isOpen();
+    qDebug() << "Connect to " << host << ":" << port << " -> " << isOpen() << isReadable() << isValid() << isWritable() << state();
+    stream.setDevice(this);
+}
+
+void Socket::stateChangedSlot(QAbstractSocket::SocketState s)
+{
+    qDebug() << s;
 }
 
 void Socket::onReceve()

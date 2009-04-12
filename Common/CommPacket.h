@@ -3,6 +3,7 @@
 
 #include <QDataStream>
 #include <QDebug>
+#include <QMetaEnum>
 
 #include "Defines.h"
 #include "CommMiniString.h"
@@ -12,6 +13,8 @@
  */
 class CommPacket
 {
+    Q_ENUMS(type);
+
 public:
     enum                type { UNKNOW, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE };
 

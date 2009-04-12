@@ -14,6 +14,7 @@ public:
 
 public slots:
     void onReceve();
+    void stateChangedSlot(QAbstractSocket::SocketState);
 };
 
 #endif // SOCKET_H

@@ -35,7 +35,8 @@ private:
     void PacketConfig();
     void PacketModule();
 
-    void errorNotInit();
+    void writeError(CommError::eType err, const char* str="");
+//    void errorNotInit();
 
     //! emit the signal readFinished() only one time
     void finishReading();
@@ -50,7 +51,7 @@ signals:
     //! signal emited when the thread don't need anymore to read into the client->socket
     void readFinished();
     //! signal emited when the thread finish
-    void threadFinished();
+//    void threadFinished();
 };
 
 typedef void(ThreadPacket::*packetDirection)();
