@@ -1,77 +1,59 @@
 #include "Sql.h"
 
-
 QMutex Sql::mymute;
-QSemaphore Sql::mtsema(SQLCONNECTIONCOUNT);
-bool Sql::con[SQLCONNECTIONCOUNT];
+QSemaphore Sql::mtsema;
+QMap <QByteArray, bool> Sql::map;
 
-Sql::Sql()
+Sql::Sql() : QByteArray("")
 {
+    mtsema.acquire();
     mymute.lock();
-    mtsema.acquire(1);
-    for (int i = 0; i < SQLCONNECTIONCOUNT; i++)
+    for (QMap<QByteArray, bool>::const_iterator it = map.begin(); it != map.end(); it++)
     {
-       if (con[i] == true)
+        if (*it)
         {
-            con[i] = false;
-            currentcon = i;
+            this->append(it.key());
             break;
-       }
-       if (i == SQLCONNECTIONCOUNT)
-           i = 0;
-   }
+        }
+    }
+    map[*this] = false;
     mymute.unlock();
+    qDebug() << "Using Sql connexion" << *this;
 }
 
 Sql::~Sql()
 {
-    if ((currentcon >= 0) && (currentcon < SQLCONNECTIONCOUNT))
-    con[currentcon] = true;
-    mtsema.release(1);
-    //mymute.unlock();
+    mymute.lock();
+    map[*this] = true;
+    mtsema.release();
+    mymute.unlock();
 }
-bool Sql::sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port)
+
+bool Sql::sqlConnect(QString dbName, QString hostname, QString username, QString password, QString driver, int port, int nbConn)
 {
+    for (int i = 0; i < nbConn; i++)
+    {
+        QByteArray connm = QVariant(i).toByteArray();
+        QSqlDatabase db = QSqlDatabase::addDatabase(driver, connm);
 
-bool ok = false;
-for (int i = 0; i < SQLCONNECTIONCOUNT; i++)
-{
-    QString connm = "con";
-    connm.append(QVariant(i).toString());
-    QSqlDatabase db = QSqlDatabase::addDatabase(driver, connm);
+        db.setHostName(hostname);
+        db.setDatabaseName(dbName);
+        db.setUserName(username);
+        db.setPassword(password);
+        db.setPort(port);
 
-     db.setHostName(hostname);
-     db.setDatabaseName(dbName);
-     db.setUserName(username);
-     db.setPassword(password);
-     db.setPort(port.toInt());
+        qDebug() << "sql::sqlconnect() connect to" << db.databaseName() << " on " << db.userName() << "@" << db.hostName() << ":" << db.port() << "driver = " << db.driver() << "No:" << connm;
+        if ( ! db.open())
+        {
+            qDebug() << "sql::sqlconnect() //hostname : " << hostname << " //dbName : " << dbName << " //username : " << username;
+            qDebug() << "sql::sqlconnect() DriverName = " << db.driver();
+            qDebug() << db.lastError();
+            return false;
+        }
 
-    // db.setConnectOptions("CLIENT_INTERACTIVE=1");
-     qDebug() << "sql::sqlconnect() connect to" << db.databaseName() << " on " << db.userName() << "@" << db.hostName() << ":" << db.port() << "driver = " << db.driver();
-     if (!db.open())
-     {
-         qDebug() << "sql::sqlconnect() //hostname : " << hostname << " //dbName : " << dbName << " //username : " << username;
-         qDebug() << "sql::sqlconnect() DriverName = " << db.driver();
-         qDebug() << db.lastError();
-         con[i] = false;
-         break;
+        map[ connm ] = true;
      }
-     else
-        con[i] = true;
-     ok = db.isOpen();
- }
-     return (ok);
-}
-
-
-QSqlQuery* Sql::query(QString thequer)
-{
-    QString connm = "con";
-    connm.append(QVariant(currentcon).toString());
-    QSqlDatabase localdb = QSqlDatabase::database(connm);
-
-    QSqlQuery* query = new QSqlQuery(thequer, localdb);
-    //qDebug() << "used DB = " << connm;
-
-return (query);
+    mtsema.release(nbConn);
+    qDebug() << map;
+    return true;
 }

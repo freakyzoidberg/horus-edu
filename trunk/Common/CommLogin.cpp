@@ -67,7 +67,7 @@ QDebug operator<<(QDebug d, CommLogin& cl)
 
     return d << CommLogin::typeMessages[ cl.loginType ]
              << cl.login
-             << cl.sha1Pass
+             << cl.sha1Pass.toHex()
              << cl.sessionString
              << cl.sessionTime;
 }

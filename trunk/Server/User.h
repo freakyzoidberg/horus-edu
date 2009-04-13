@@ -1,29 +1,29 @@
 #ifndef USER_H
 #define USER_H
 
-#include <QString>
+#include <QObject>
 #include <QMutex>
+#include <QDebug>
 #include <QByteArray>
 #include <QCryptographicHash>
 
-class User
+#include "Sql.h"
+
+class User : public QObject
 {
 
 public:
     User();
 
-    enum              stateType{ CONECTING, LOGININ };
-    stateType         state() const;
-
-    bool              loginPassword(const QString& _login, const QByteArray& _sha1Pass);
-    bool              loginSession (const QString& _login, const QByteArray& _sessId);
+    bool              loginPassword(const QByteArray& _login, const QByteArray& _sha1Pass);
+    bool              loginSession (const QByteArray& _login, const QByteArray& _sessId);
     void              logout();
     const QByteArray& getSession();
 
 private:
-    stateType   stateValue;
     QMutex      mutex;
-    QString     login;
+    quint32     id;
+    QByteArray  login;
     QByteArray  session;
 };
 

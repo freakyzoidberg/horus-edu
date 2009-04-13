@@ -5,6 +5,7 @@
 #include <QObject>
 
 #include "ClientSocket.h"
+#include "User.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommError.h"
 #include "../Common/CommLogin.h"

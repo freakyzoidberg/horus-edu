@@ -1,9 +1,8 @@
 #include "CommMiniString.h"
 
+CommMiniString::CommMiniString(QByteArray s) : QByteArray(s) {}
 CommMiniString::CommMiniString(QByteArray& s) : QByteArray(s) {}
-
 CommMiniString::CommMiniString(const char* s) : QByteArray(s) {}
-
 CommMiniString::CommMiniString() : QByteArray("") {}
 
 QDataStream& operator<<(QDataStream& ds, CommMiniString& cms)

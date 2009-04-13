@@ -17,7 +17,6 @@ int main(int argc, char *argv[])
     Server theserver;
     qDebug() << "main() Server Loaded";
 
-    //plein de threads pour les test
     QThreadPool::globalInstance()->setMaxThreadCount(MAX_POOL_THREADS);
 
     return a.exec();

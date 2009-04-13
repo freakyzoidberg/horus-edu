@@ -13,6 +13,7 @@ class CommMiniString : public QByteArray
 {
 public:
     CommMiniString(QByteArray&);
+    CommMiniString(QByteArray);
     CommMiniString(const char*);
     CommMiniString();
 };

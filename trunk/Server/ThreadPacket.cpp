@@ -21,25 +21,15 @@ void ThreadPacket::run()
     }
 
     //if invalid packets are found
+    //MAYBE DISCONNECT if there is nn more errors
     if (n)
         qDebug() << n << "unknow packets received from client" << client->id;
 
     // and redirect to the good method
     if (pac.packetType != CommPacket::UNKNOW)
         (this->*packetDirections[ pac.packetType ])();
-    /*
-Sql *Mycon = new Sql();
-        QSqlQuery* query = Mycon->query("SELECT * FROM testdb");
-        while (query->next()) {
-            QString login = query->value(1).toString();
-            qDebug() << login;
-        }
-        delete query;
-       delete Mycon;
-       */
-    finishReading();
 
-    //emit threadFinished();
+    finishReading();
 }
 
 packetDirection ThreadPacket::packetDirections[] =
@@ -75,6 +65,9 @@ void ThreadPacket::PacketLogin()
     CommLogin login;
     client->stream >> login;
 
+    User usr;
+    usr.loginPassword(login.login, login.sha1Pass);
+
 //    if (client->state == ClientSocket::INIT)
 //      writeError(CommError::NOT_INITIALIZED);
 
@@ -90,29 +83,31 @@ void ThreadPacket::PacketConfig()
 
 void ThreadPacket::PacketModule()
 {
-    //static int i = 0;
-    //int j = i++;
     CommModule mod;
     client->stream >> mod;
-    finishReading();
+//    finishReading();
 
-
-    Sql *Mycon = new Sql();
-        QSqlQuery* query = Mycon->query("SELECT * FROM testdb");
-        while (query->next()) {
-            QString login = query->value(1).toString();
-            qDebug() << login;
-        }
-    usleep(100000);
-        delete query;
-        delete Mycon;
-
+/*
+    Sql con;
+    QSqlQuery query("SELECT * FROM testdb", QSqlDatabase::database(con));
+    while (query.next())
+        qDebug() << query.value(1).toString();
+        */
+    /* ou pour pouvoir debloquer quand on veu:
+    Sql* con = new Sql;
+    QSqlQuery* query("SELECT * FROM testdb", QSqlDatabase::database(*con));
+    ...
+    delete query;
+    delete con;// <- Debloque
+    */
+//    usleep(100);
 }
 
-void ThreadPacket::writeError(CommError::eType err, const char* str)
+void ThreadPacket::writeError(CommError::eType error, const char* str)
 {
+    CommError err(error, str);
     client->writeStream.lock();
-    //CommError err(err, str);
+    client->stream << err;
     client->writeStream.unlock();
 }
 
