@@ -15,7 +15,6 @@ PluginManager::PluginManager(QObject *parent) : QObject::QObject(parent)
 
 bool    PluginManager::event(QEvent *event)
 {
-    qDebug() << "event rteceived";
     if (event->type() == StartEvent::type)
     {
         qDebug() << "PluginManager: Receive StartEvent";
@@ -28,7 +27,10 @@ bool    PluginManager::event(QEvent *event)
         return (true);
     }
     else
+    {
+        qDebug() << "PluginManager: Receive Event not managed";
         return (false);
+    }
 }
 
 void    PluginManager::loadPlugins()
@@ -49,17 +51,16 @@ void    PluginManager::loadPlugins()
     }
     foreach (fileName, pluginsDir.entryList(QDir::Files))
     {
-        qDebug() << "test load " << fileName;
+        qDebug() << "PluginManager: Loading" << fileName;
         QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-       // qDebug() << "plugin = " << loader.instance() << "[(0x0) == Failed]";
         QObject *plugin = loader.instance();
         if (plugin)
         {
-            qDebug() << "J'ai trouve un plugin !";
+            qDebug() << "PluginManager: plugin loaded";
             // fumer une clope
         }
         else
-            qDebug() << loader.errorString();
+            qDebug() << "PluginManager: error:" << loader.errorString();
         qDebug() << "---------";
      }
 }
