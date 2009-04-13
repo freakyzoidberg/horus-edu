@@ -42,9 +42,9 @@
 #ifndef SESSION_WORD_SIZE
 #define SESSION_WORD_SIZE 128
 #endif
-#ifndef SHA1_WORD_SIZE
-#define SHA1_WORD_SIZE 40
-#endif
+//#ifndef SHA1_WORD_SIZE
+#define SHA1_WORD_SIZE 20
+//#endif
 
 #ifndef MAX_POOL_THREADS
 #define MAX_POOL_THREADS 100 //a big number for tests

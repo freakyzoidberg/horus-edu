@@ -3,10 +3,9 @@
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
     // Server mysql a configurer
-    Sql fddb = Sql();
     Settings *config = new Settings();
 
-    if (fddb.sqlconnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL")))
+    if (Sql::sqlConnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL").toInt(), SQLCONNECTIONCOUNT))
         qDebug() << "Server::Server() SQL connected";
     else
         qDebug() << "Server::Server() NO SQL !!!";

@@ -36,7 +36,8 @@ void Socket::onReceve()
     CommLogin  login;
     login.loginType = CommLogin::LOGIN_PASSWORD;
     login.login = "super-Menteur";
-    login.sha1Pass = "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83";
+//    login.sha1Pass = ;
+    login.sha1Pass = QByteArray::fromHex("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83");
 //    stream << login;
 
 

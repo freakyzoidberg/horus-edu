@@ -3,12 +3,14 @@
 #include "../Common/Defines.h"
 #include <QtSql>
 #include <QMutex>
+#include <QSemaphore>
+#include <QMap>
+
 //!  Sql Class
 /*!
   SQL connection and query management for the server
 */
-
-class Sql
+class Sql : public QByteArray
 {
 public:
     //! Sql constructor
@@ -17,17 +19,7 @@ public:
     //! Sql destructor
     /*! unlock the mutex */
     ~Sql();
-    //! Query the database
-    /*!
-      \sa query()
-      \param thequer the query to be executed
-      \return QSqlQuery Object
-      */
-    QSqlQuery* query(QString thequer);
-    //! Mutex for single access to Array of available connection
-    static QMutex mymute;
-    //! Semaphore for single access socket to database
-    static QSemaphore mtsema;
+
     //! Connections to the database
     /*!
       \sa sqlconnect()
@@ -38,13 +30,14 @@ public:
       \param driver the sql driver used for the connection (eg QMYSQL QPGSQL etc)
       \param port database port
     */
-    bool sqlconnect(QString dbName, QString hostname, QString username, QString password, QString driver, QString port);
+    static bool sqlConnect(QString dbName, QString hostname, QString username, QString password, QString driver, int port, int nbConn);
 private:
-    //! Array of status of SQL connections
-    static bool con[SQLCONNECTIONCOUNT];
-    //! Connection used for the current instance of object
-    int currentcon;
-
+    //! Mutex for single access to Array of available connection
+    static QMutex mymute;
+    //! Semaphore for single access socket to database
+    static QSemaphore mtsema;
+    //! Map of status of SQL connections
+    static  QMap<QByteArray, bool> map;
 };
 
 #endif
