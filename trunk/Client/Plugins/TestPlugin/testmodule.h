@@ -6,16 +6,17 @@
 #include <QStringList>
 
 #include "../../IClientPlugin.h"
+#include "../../IPluginNetwork.h"
 #include "../../LoadPluginEvent.h"
 #include "PluginNetwork.h"
 
-class TestModule : public QObject, public IClientPlugin
+class testPlugin : public QObject, public IClientPlugin//,  public IPluginNetwork
 {
  Q_OBJECT
- Q_INTERFACES(IClientPlugin)
+ Q_INTERFACES(IClientPlugin)// IPluginNetwork)
 
 public:
-    TestModule();
+    testPlugin();
 
 public:
      void setModName(const QString);
@@ -26,12 +27,12 @@ public:
      void setExports(const QString);
 
   public:
-     QString    getName() const;
-     QString    getVersion() const;
-     QStringList   getPluginsConflicts() const;
-     QStringList   getPluginsRequired() const;
-     QStringList   getPluginsRecommended() const;
-     QStringList  getExports() const;
+     QString        getName() const;
+     QString        getVersion() const;
+     QStringList    getPluginsConflicts() const;
+     QStringList    getPluginsRequired() const;
+     QStringList    getPluginsRecommended() const;
+     QStringList    getExports() const;
 
     bool    event(QEvent *);
     bool    eventHandlerLoad(QEvent *);
@@ -47,5 +48,6 @@ public:
 
     PluginNetwork   *pNetwork;;
 };
+
 
 #endif // TESTMODULE_H

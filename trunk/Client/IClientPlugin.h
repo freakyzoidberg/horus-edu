@@ -14,7 +14,7 @@ class IClientPlugin
     virtual QStringList getExports() const = 0;
 
   public:
-    virtual bool        event(QEvent *);
+    virtual bool        event(QEvent *) = 0;
 };
 
 Q_DECLARE_INTERFACE(IClientPlugin, "net.horus.Client.PluginInterface/1.0");

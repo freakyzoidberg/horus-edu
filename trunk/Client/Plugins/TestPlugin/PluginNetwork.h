@@ -2,11 +2,16 @@
 #define PLUGINNETWORK_H
 
 #include <QEvent>
+#include <QtPlugin>
+#include <QObject>
 #include "../../IPluginNetwork.h"
 
-class   PluginNetwork : public IPluginNetwork
+class   PluginNetwork : public QObject, public IPluginNetwork
 {
-    public:
+ Q_OBJECT
+ Q_INTERFACES(IPluginNetwork)
+
+public:
         PluginNetwork(QEvent *);
         bool    eventHandler();
         void    retrievedPacket();

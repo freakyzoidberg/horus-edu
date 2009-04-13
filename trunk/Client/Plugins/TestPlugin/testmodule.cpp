@@ -6,14 +6,29 @@
 #include "../../NetworkReceiveEvent.h"
 #include "../../UnloadPluginEvent.h"
 
-Q_EXPORT_PLUGIN2("testPlugin", TestModule)
+Q_EXPORT_PLUGIN2(testModule, testPlugin)
 
-TestModule::TestModule()
+/*bool    testPlugin::eventHandler()
+{
+    return true;
+}
+
+void    testPlugin::retrievedPacket()
+{
+    return ;
+}
+
+void    testPlugin::buildPacket()
+{
+    return ;
+}*/
+
+testPlugin::testPlugin()
 {
     std::cout << "module testPlugin loaded." << std::endl;
 }
 
-bool    TestModule::event(QEvent *event)
+bool    testPlugin::event(QEvent *event)
 {
     bool    eventSuccess;
 
@@ -39,7 +54,7 @@ bool    TestModule::event(QEvent *event)
     return QObject::event(event);
 }
 
-bool    TestModule::eventHandlerLoad(QEvent *event)
+bool    testPlugin::eventHandlerLoad(QEvent *event)
 {
     qDebug()  << "Handling event loadModule"
             << "isAccepted:"    << event->isAccepted()
@@ -47,7 +62,7 @@ bool    TestModule::eventHandlerLoad(QEvent *event)
     return true;
 }
 
-bool    TestModule::eventHandlerUnload(QEvent *event)
+bool    testPlugin::eventHandlerUnload(QEvent *event)
 {
     qDebug()  << "Handling event UnlodModule"
             << "isAccepted:" << event->isAccepted()
@@ -55,62 +70,62 @@ bool    TestModule::eventHandlerUnload(QEvent *event)
     return true;
 }
 
-void TestModule::setModName(const QString modName)
+void testPlugin::setModName(const QString modName)
 {
     this->modName = modName;
 }
 
-void    TestModule::setModVersion(const QString modVersion)
+void    testPlugin::setModVersion(const QString modVersion)
 {
     this->modVersion = modVersion;
 }
 
-void    TestModule::setModRequired(const QString name)
+void    testPlugin::setModRequired(const QString name)
 {
     modRequired << name;
 }
 
-void    TestModule::setModConflicts(const QString name)
+void    testPlugin::setModConflicts(const QString name)
 {
     modConflicts << name;
 }
 
-void    TestModule::setExports(const QString name)
+void    testPlugin::setExports(const QString name)
 {
     exports << name;
 }
 
-void    TestModule::setModRecommended(const QString name)
+void    testPlugin::setModRecommended(const QString name)
 {
     modRecommended << name;
 }
 
-QString   TestModule::getName() const
+QString   testPlugin::getName() const
 {
     return modName;
 }
 
-QString   TestModule::getVersion() const
+QString   testPlugin::getVersion() const
 {
     return modVersion;
 }
 
-QStringList   TestModule::getPluginsConflicts() const
+QStringList   testPlugin::getPluginsConflicts() const
 {
     return modConflicts;
 }
 
-QStringList   TestModule::getPluginsRequired() const
+QStringList   testPlugin::getPluginsRequired() const
 {
     return modRequired;
 }
 
-QStringList   TestModule::getPluginsRecommended() const
+QStringList   testPlugin::getPluginsRecommended() const
 {
     return modRecommended;
 }
 
-QStringList   TestModule::getExports() const
+QStringList   testPlugin::getExports() const
 {
     return exports;
 }
