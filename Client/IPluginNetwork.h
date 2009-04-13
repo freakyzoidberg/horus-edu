@@ -9,6 +9,6 @@ class IPluginNetwork
         virtual void    buildPacket() = 0;
 };
 
-//Q_DECLARE_INTERFACE(IPluginNetwork, "net.horus.Client.PluginNetworkInterface/1.0");
+Q_DECLARE_INTERFACE(IPluginNetwork, "net.horus.Client.NetworkInterface/1.0");
 
 #endif // IPLUGINNETWORK_H
