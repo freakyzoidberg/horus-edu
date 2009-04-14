@@ -10,25 +10,17 @@ class CommSocket : public QTcpSocket
 public:
     CommSocket(QObject* parent = 0);
 
-public slots:
-    void sendPacket(QByteArray);
-
-//protected:
-//
-//private:
-//    QList<QByteArray> sendQueue;
-
 private:
     quint32 sizePacket;
-    QMutex  sendQueueMutex;
 
 private slots:
     void bytesReceived();
-//    void sendPackets();
+
+protected slots:
+    void sendPacket(QByteArray);
 
 signals:
     void packetReceived(QByteArray);
-//    void packetToSend();
 };
 
 #endif // COMMSOCKET_H

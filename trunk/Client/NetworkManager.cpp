@@ -8,12 +8,13 @@ NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
     connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
     setObjectName("NetworkManager");
 }
-
+/*
 void    NetworkManager::ConnectTo(QString addr, int port)
 {
      abort();
      connectToHost(addr, port);
 }
+*/
 /*
 void    NetworkManager::packetAvailable()
 {
@@ -52,6 +53,9 @@ bool    NetworkManager::quit()
 bool    NetworkManager::event(QEvent *e)
 {
     if(e->type() == StartEvent::type)
-        qDebug() << "Recieved events";
+    {
+        qDebug() << "NewtworkManager: Recieve StartEvent";
+        connectToHost(QHostAddress::LocalHost, 42000);
+    }
     return true;
 }

@@ -56,6 +56,7 @@ void ClientSocket::tryToReadPacket()
     ThreadPacket* thread = new ThreadPacket(this, recvQueue.first());
     recvQueue.pop_front();
 
+    connect(thread, SIGNAL(sendPacket(QByteArray)), this, SLOT(sendPacket(QByteArray)));
     connect(thread, SIGNAL(destroyed()), this, SLOT(threadFinished()));
 
     QThreadPool::globalInstance()->start(thread);

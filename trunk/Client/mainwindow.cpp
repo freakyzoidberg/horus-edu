@@ -47,5 +47,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_ConnectButton_clicked()
 {
-    cM->ConnectTo("127.0.0.1", 42421);
+//    cM->connectToHost("127.0.0.1", 42000);
 }

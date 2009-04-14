@@ -27,7 +27,7 @@ void Socket::stateChangedSlot(QAbstractSocket::SocketState s)
 
 void Socket::packetAvailable(QByteArray packet)
 {
-    disconnect(this, SIGNAL(packetReceived()), 0, 0);
+    disconnect(this, SIGNAL(packetReceived(QByteArray)), 0, 0);
 
     CommPacket pac(packet);
     CommInit   init(packet);

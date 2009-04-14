@@ -43,6 +43,9 @@ private:
 
     //! corespondance table between CommPacket::type and the methods
     static void (ThreadPacket::*packetDirections[]) ();
+
+signals:
+    void sendPacket(QByteArray);
 };
 
 typedef void(ThreadPacket::*packetDirection)();

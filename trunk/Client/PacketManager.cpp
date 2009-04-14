@@ -17,7 +17,7 @@ packetDirection PacketManager::packetDirections[] =
     &PacketManager::PacketModule
 };
 
-void PacketManager::packetReceived(QByteArray& p)
+void PacketManager::packetReceived(QByteArray p)
 {
     packet = p;
     CommPacket pac(packet);
@@ -33,12 +33,18 @@ void PacketManager::PacketError()
 
 void PacketManager::PacketInit()
 {
-    CommInit init(packet);
-    qDebug() << "[ in]" << init;
+    CommInit i(packet);
+    qDebug() << "[ in]" << i;
     //TODO add protocol version compatible check
+    i.fromName = CLIENT_NAME;
+
+    emit sendPacket(i.getPacket());
+    qDebug() << "[out]" << i;
+
     state = LOGGED_OUT;
 
     CommLogin l(packet);
+    l.loginType = CommLogin::LOGIN_PASSWORD;
     l.login = "super-Menteur";
     l.sha1Pass = QByteArray::fromHex("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83");
     emit sendPacket(l.getPacket());

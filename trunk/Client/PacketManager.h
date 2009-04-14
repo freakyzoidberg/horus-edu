@@ -19,7 +19,7 @@ public:
     PacketManager(QObject* parent = 0);
 
 public slots:
-     void       packetReceived(QByteArray& pac);
+     void       packetReceived(QByteArray pac);
 
 private:
     enum        tState {DISCONNECTED, LOGGED_OUT, LOGGED_IN};

@@ -37,13 +37,13 @@
 #endif
 
 #ifndef DEFAULT_SESSION_LIFETIME
-#define DEFAULT_SESSION_LIFETIME 12 // in hours
+#define DEFAULT_SESSION_LIFETIME 720 // minutes    12h*60m     0 mean infinite      max is 65536 -> 45.5days
 #endif
 #ifndef SESSION_WORD_SIZE
-#define SESSION_WORD_SIZE 64
+#define SESSION_WORD_SIZE 32 // bytes -> 64char hexa
 #endif
 //#ifndef SHA1_WORD_SIZE
-#define SHA1_WORD_SIZE 20
+#define SHA1_WORD_SIZE 20 //bytes -> 40char hexa
 //#endif
 
 #ifndef MAX_POOL_THREADS

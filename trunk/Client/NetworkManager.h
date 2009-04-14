@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QCryptographicHash>
+#include <QHostAddress>
 
 #include "../Common/CommSocket.h"
 
@@ -19,7 +20,6 @@ class NetworkManager : public CommSocket
         void    ConnectTo(QString addr, int port);
 
     private slots:
-//        void    packetAvailable();
         void    displayError(QAbstractSocket::SocketError);
         bool    event(QEvent *e);
         bool    quit();
