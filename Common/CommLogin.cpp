@@ -32,7 +32,6 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
     if (loginType == LOGIN_PASSWORD || loginType == LOGIN_SESSION)
     {
         login = a.mid(2, a[1]);
-        //qDebug() << login;
         a.remove(0, a[1] + 2);
         if (loginType == LOGIN_PASSWORD)
             sha1Pass = a;
@@ -41,7 +40,8 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
     }
     else if (loginType == ACCEPTED)
     {
-        sessionTime = *(a.mid(1, sizeof(sessionTime)).data());
+        sessionTime = 256 * a[1] + a[2];
+        a.remove(0, 3);
         sessionString = a;
     }
     else if (loginType != LOGOUT && loginType != REFUSED)
@@ -63,7 +63,8 @@ QByteArray CommLogin::getPacket()
     }
     else if (loginType == ACCEPTED)
     {
-        a.append((const char*)&sessionTime, sizeof(sessionTime));
+        a.append(sessionTime / 256);
+        a.append(sessionTime % 256);
         a.append(sessionString);
     }
     return a;
@@ -89,28 +90,7 @@ bool CommLogin::isValidContent()
     qCritical() << "Invalid login packet" << *this;
     return false;
 }*/
-/*
-QDataStream& operator<<(QDataStream& ds, CommLogin& cl)
-{
-    if ( ! cl.isValidContent())
-        return ds;
 
-    qDebug() << "[out]" << cl;
-    return ds << (CommPacket&)cl << (quint8&)cl.loginType << cl.login << cl.sha1Pass << cl.sessionString << cl.sessionTime;
-}
-
-QDataStream& operator>>(QDataStream& ds, CommLogin& cl)
-{
-    ds >> (quint8&)cl.loginType;
-
-    if (cl.loginType >= CommLogin::typeNumber)
-        cl.loginType  = CommLogin::UNDEFINED;
-
-    ds >> cl.login >> cl.sha1Pass >> cl.sessionString >> cl.sessionTime;
-    qDebug() << "[ in]" << cl;
-    return ds;
-}
-*/
 QDebug operator<<(QDebug d, CommLogin& cl)
 {
     d << (CommPacket&)cl;

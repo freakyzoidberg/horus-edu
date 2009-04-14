@@ -75,12 +75,12 @@ void ThreadPacket::PacketLogin()
         {
             response.loginType = CommLogin::ACCEPTED;
             response.sessionString = socket->user.newSession();
-            response.sessionTime = 12345;
+            response.sessionTime = DEFAULT_SESSION_LIFETIME;
         }
     }
 
-    socket->sendPacket(response.getPacket());
-    qDebug() << "[ out]" << response;
+    emit sendPacket(response.getPacket());
+    qDebug() << "[out]" << response;
 
     socket->allowOtherThreads();
     //        sendError(CommError::);
@@ -125,5 +125,5 @@ void ThreadPacket::PacketModule()
 void ThreadPacket::sendError(CommError::eType error, const char* str)
 {
     CommError err(error, str);
-    socket->sendPacket(err.getPacket());
+    emit sendPacket(err.getPacket());
 }

@@ -4,7 +4,6 @@ CommSocket::CommSocket(QObject* parent) : QTcpSocket(parent)
 {
     sizePacket = 0;
     connect(this, SIGNAL(readyRead()), this, SLOT(bytesReceived()));
-    connect(this, SIGNAL(packetToSend()), this, SLOT(sendPackets()));
 }
 
 void CommSocket::bytesReceived()
