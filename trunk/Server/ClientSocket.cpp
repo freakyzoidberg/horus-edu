@@ -4,72 +4,88 @@
 
 quint32 ClientSocket::nbCon = 0;
 
-ClientSocket::ClientSocket(int _socket)
+ClientSocket::ClientSocket(int _socket) : CommSocket()
 {
     static quint32 newId = 0;
     nbCon++;
     id = newId++;
     qDebug() << "-----Client" << id << "connected";
 
-    state = INIT;
-    threads.release(MAX_USER_THREADS);
+    threads.release();//1
+    nbThreads = 0;
 
-    connect(&socket, SIGNAL(readyRead()),      this, SLOT(packetAvailable()));
-    connect(&socket, SIGNAL(disconnected()),   this, SLOT(tryToDelete()));
-//    connect(&socket, SIGNAL(error(QAbstractSocket::SocketError)),   this, SLOT(socketError(QAbstractSocket::SocketError)));
+    connect(this, SIGNAL(packetReceived(QByteArray)), this, SLOT(packetAvailable(QByteArray)));
+    connect(this, SIGNAL(disconnected()),   this, SLOT(tryToDelete()));
+//    connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
 
-    stream.setDevice(&socket);
-    socket.setSocketDescriptor(_socket);
+    setSocketDescriptor(_socket);
 
     // Send the CommInit packet
-    CommInit ci(CURRENT_PROTO_VERSION, SERVER_NAME);
-    stream << ci;
+    CommInit init(CURRENT_PROTO_VERSION+42, SERVER_NAME);
+    sendPacket(init.getPacket());
+    qDebug() << "[out]" << init;
 }
 
 ClientSocket::~ClientSocket()
 {
     nbCon--;
     qDebug() << "-----Client"<< id << "disconected. there's still" << nbCon << "users";
+    close();
 }
-
+/*
 void ClientSocket::socketError(QAbstractSocket::SocketError e)
 {
     qDebug() << e;
 }
-
-    void ClientSocket::readFinished()
+*/
+void ClientSocket::packetAvailable(QByteArray pac)
 {
-    readStream.unlock();
-    if (socket.bytesAvailable() > 0)
-        packetAvailable();
+    recvQueue.push_back(pac);
+    tryToReadPacket();
 }
 
-void ClientSocket::packetAvailable()
+void ClientSocket::tryToReadPacket()
 {
-    if ( ! readStream.tryLock())
+    if ( ! recvQueue.length())
         return;
 
     if ( ! threads.tryAcquire())
-        return readStream.unlock();
+        return;
+    nbThreads++;
 
-    ThreadPacket* thread = new ThreadPacket(this);
+    ThreadPacket* thread = new ThreadPacket(this, recvQueue.first());
+    recvQueue.pop_front();
 
-    connect(thread, SIGNAL(readFinished()), this, SLOT(readFinished()));
-    connect(thread, SIGNAL(destroyed()),    this, SLOT(threadFinished()));
+    connect(thread, SIGNAL(destroyed()), this, SLOT(threadFinished()));
 
     QThreadPool::globalInstance()->start(thread);
+    tryToReadPacket();
 }
-
 
 void ClientSocket::threadFinished()
 {
+    nbThreads--;
     threads.release();
-    if (socket.state() == QTcpSocket::UnconnectedState)
+    tryToReadPacket();
+    if (state() == QTcpSocket::UnconnectedState)
         tryToDelete();
+}
+
+void ClientSocket::waitOtherThreads()
+{
+    while (threads.tryAcquire()) ;
+    while (nbThreads > 1)
+        threads.acquire();
+}
+
+void ClientSocket::allowOtherThreads()
+{
+    waitOtherThreads();
+    threads.release(MAX_USER_THREADS - 1);
 }
 
 void ClientSocket::tryToDelete()
 {
-    if (threads.available() == MAX_USER_THREADS)
+    if ( ! nbThreads && ! recvQueue.length())
         deleteLater();
 }

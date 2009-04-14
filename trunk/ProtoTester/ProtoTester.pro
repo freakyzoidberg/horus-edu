@@ -11,11 +11,11 @@ SOURCES += main.cpp \
     Socket.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommModule.cpp \
-    ../Common/CommMiniString.cpp \
     ../Common/CommLogin.cpp \
-    ../Common/CommInit.cpp
+    ../Common/CommInit.cpp \
+    ../Common/CommSocket.cpp
 HEADERS += Socket.h \
     ../Common/CommPacket.h \
     ../Common/CommModule.h \
-    ../Common/CommMiniString.h \
-    ../Common/Defines.h
+    ../Common/Defines.h \
+    ../Common/CommSocket.h

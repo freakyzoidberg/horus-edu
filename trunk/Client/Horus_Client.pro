@@ -12,7 +12,7 @@ SOURCES += main.cpp \
     NetworkManager.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommModule.cpp \
-    ../Common/CommMiniString.cpp \
+    ../Common/CommSocket.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
@@ -28,8 +28,8 @@ HEADERS += mainwindow.h \
     NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
+    ../Common/CommSocket.h \
     ../Common/CommModule.h \
-    ../Common/CommMiniString.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \

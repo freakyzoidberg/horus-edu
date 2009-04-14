@@ -18,21 +18,21 @@ CommError::CommError(eType _type, const char* _errorMessage) : CommPacket(CommPa
         errorMessage = _errorMessage;
 }
 
-QDataStream& operator<<(QDataStream& ds, CommError& e)
+CommError::CommError(QByteArray& a) : CommPacket(CommPacket::ERROR)
 {
-    qDebug() << "[out]" << e;
-    return ds << (CommPacket&)e << (quint8&)e.errorType << e.errorMessage;
+    errorType = a[0];
+    if (errorType > typeNumber)
+        errorType = UNKNOW;
+    a.remove(0, 1);
+    errorMessage = a;
 }
 
-QDataStream& operator>>(QDataStream& ds, CommError& e)
+QByteArray CommError::getPacket()
 {
-    ds >> (quint8&)e.errorType;
-    if (e.errorType >= CommError::typeNumber)
-        e.errorType  = CommError::UNKNOW;
-
-    ds >> e.errorMessage;
-    qDebug() << "[ in]" << e;
-    return ds;
+    QByteArray a = CommPacket::getPacket();
+    a.append(errorType);
+    a.append(errorMessage);
+    return a;
 }
 
 QDebug operator<<(QDebug d, CommError& e)

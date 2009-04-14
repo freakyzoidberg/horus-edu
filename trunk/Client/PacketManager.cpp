@@ -1,8 +1,8 @@
 #include "PacketManager.h"
 
-PacketManager::PacketManager(QTcpSocket *sock)
+PacketManager::PacketManager(QObject* parent) : QObject(parent)
 {
-    streamSock.setDevice(sock);
+    state = DISCONNECTED;
 }
 
 packetDirection PacketManager::packetDirections[] =
@@ -17,32 +17,47 @@ packetDirection PacketManager::packetDirections[] =
     &PacketManager::PacketModule
 };
 
-void    PacketManager::receivedData(const CommPacket &protoPac)
+void PacketManager::packetReceived(QByteArray& p)
 {
-    if (protoPac.packetType != CommPacket::UNKNOW)
-        (this->*packetDirections[ protoPac.packetType ])();
+    packet = p;
+    CommPacket pac(packet);
+    if (pac.packetType != CommPacket::UNKNOW)
+        (this->*packetDirections[ pac.packetType ])();
 }
 
 void PacketManager::PacketError()
 {
-    CommError err;
-    streamSock >> err;
+    CommError err(packet);
+    qDebug() << "[ in]" << err;
 }
 
 void PacketManager::PacketInit()
 {
-    CommInit init;
-    streamSock >> init;
+    CommInit init(packet);
+    qDebug() << "[ in]" << init;
+    //TODO add protocol version compatible check
+    state = LOGGED_OUT;
+
+    CommLogin l(packet);
+    l.login = "super-Menteur";
+    l.sha1Pass = QByteArray::fromHex("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83");
+    emit sendPacket(l.getPacket());
+    qDebug() << "[out]" << l;
 }
 
 void PacketManager::PacketAlive()
 {
+    qDebug() << "[ in] Alive";
 }
 
 void PacketManager::PacketLogin()
 {
-    CommLogin login;
-    streamSock >> login;
+    if (state != LOGGED_OUT)
+        return;
+
+    CommLogin l(packet);
+    qDebug() << "[ in]" << l;
+    //if (l.)
 }
 
 void PacketManager::PacketFile()
@@ -55,12 +70,4 @@ void PacketManager::PacketConfig()
 
 void PacketManager::PacketModule()
 {
-    static int i = 0;
-    int j = i++;
-    CommModule mod;
-    streamSock >> mod;
-
-    qDebug() << "a long work start (2s) no:" << j;
-    sleep(2);
-    qDebug() << "a long work end no:" << j;
 }

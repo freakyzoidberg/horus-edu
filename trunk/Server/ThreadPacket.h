@@ -18,7 +18,7 @@ class ThreadPacket : public QObject, public QRunnable
   Q_OBJECT
 
 public:
-    ThreadPacket(ClientSocket* cs);
+    ThreadPacket(ClientSocket* cs, const QByteArray& pac);
 
     //! read the first CommPacket and go to the associed method
     /*!
@@ -36,23 +36,13 @@ private:
     void PacketConfig();
     void PacketModule();
 
-    void writeError(CommError::eType err, const char* str="");
-//    void errorNotInit();
+    void sendError(CommError::eType err, const char* str="");
 
-    //! emit the signal readFinished() only one time
-    void finishReading();
-    bool finishReadingFlag;
-
-    ClientSocket* client;
+    ClientSocket* socket;
+    QByteArray    packet;
 
     //! corespondance table between CommPacket::type and the methods
     static void (ThreadPacket::*packetDirections[]) ();
-
-signals:
-    //! signal emited when the thread don't need anymore to read into the client->socket
-    void readFinished();
-    //! signal emited when the thread finish
-//    void threadFinished();
 };
 
 typedef void(ThreadPacket::*packetDirection)();

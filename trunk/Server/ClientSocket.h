@@ -1,17 +1,19 @@
 #ifndef CLIENTSOCKET_H
 #define CLIENTSOCKET_H
 
-#include <QTcpSocket>
 #include <QtDebug>
 #include <QThreadPool>
 #include <QMutex>
 #include <QSemaphore>
 
+#include "../Common/CommSocket.h"
+#include "User.h"
+
 //! ClientSocket created for each connexion
 /*
  * This Object destroy himself when the connexion is closed
  */
-class ClientSocket : public QObject
+class ClientSocket : public CommSocket
 {
   Q_OBJECT
 
@@ -23,32 +25,40 @@ public:
     ClientSocket(int _socket);
     ~ClientSocket();
 
-    enum        stateType{ INIT, LOGIN, LOGGED, DISCONNECTED };
-    stateType   state;
+    //! wait for other threads
+    /*!
+     * thread safe
+     * called by the logout thread
+     */
+    void waitOtherThreads();
 
-    QTcpSocket  socket;
-    //! a QDataStream to read/write "CommPacket" to the client conected
-    QDataStream stream;
-    //! aQMutex to lock the read of the stream
-    QMutex      readStream;
-    //! aQMutex to lock the write of the stream
-    QMutex      writeStream;
+    //! allow multithreading for the user
+    /*!
+     * thread safe
+     * called by the login thread
+     * before the init and login phase, multithreading is not allowed for a single connexion
+     */
+    void allowOtherThreads();
+
+    //! the User object associated with the socket
+    User  user;
 
 private slots:
     //! called when a packet may be present on the socket
-    void packetAvailable();
-    //! called by a thread when the reading is finished and another thread can be launched
-    void readFinished();
+    void packetAvailable(QByteArray);
     //! if the connexion is closed, look if some thread are still running
     void tryToDelete();
     //! called when an ThreadPacket is destroyed
     void threadFinished();
 
-    void socketError(QAbstractSocket::SocketError);
+//    void socketError(QAbstractSocket::SocketError);
 
 private:
+    void tryToReadPacket();
     //! lock the number of threads to MAX_USER_THREADS
     QSemaphore  threads;
+    quint32     nbThreads;
+    QList<QByteArray> recvQueue;
 
 //! to remove, just for debug message in cronstruct
 public:

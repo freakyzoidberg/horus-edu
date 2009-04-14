@@ -10,15 +10,13 @@
 class CommInit : public CommPacket
 {
 public:
-    CommInit();
     CommInit(quint8 _protoVersion, const char* fromName);
+    CommInit(QByteArray&);
+    QByteArray      getPacket();
 
     quint8          protoVersion;
-    CommMiniString  fromName;
+    QByteArray      fromName;
 };
-
-QDataStream& operator<<(QDataStream&, CommInit&);
-QDataStream& operator>>(QDataStream&, CommInit&);
 
 QDebug operator<<(QDebug, CommInit&);
 

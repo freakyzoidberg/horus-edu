@@ -2,9 +2,10 @@
 #define SOCKET_H
 
 #include <QDebug>
-#include <QTcpSocket>
 
-class Socket : public QTcpSocket
+#include "../Common/CommSocket.h"
+
+class Socket : public CommSocket
 {
   Q_OBJECT
 
@@ -13,7 +14,7 @@ public:
     QDataStream stream;
 
 public slots:
-    void onReceve();
+    void packetAvailable(QByteArray);
     void stateChangedSlot(QAbstractSocket::SocketState);
 };
 

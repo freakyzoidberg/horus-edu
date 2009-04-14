@@ -40,17 +40,17 @@
 #define DEFAULT_SESSION_LIFETIME 12 // in hours
 #endif
 #ifndef SESSION_WORD_SIZE
-#define SESSION_WORD_SIZE 128
+#define SESSION_WORD_SIZE 64
 #endif
 //#ifndef SHA1_WORD_SIZE
 #define SHA1_WORD_SIZE 20
 //#endif
 
 #ifndef MAX_POOL_THREADS
-#define MAX_POOL_THREADS 100 //a big number for tests
+#define MAX_POOL_THREADS 500 //a big number for tests
 #endif
 #ifndef MAX_USER_THREADS
-#define MAX_USER_THREADS 20 //idem
+#define MAX_USER_THREADS 50 //idem
 #endif
 
 #ifndef STARTEVENTTYPE

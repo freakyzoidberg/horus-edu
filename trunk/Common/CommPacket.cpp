@@ -18,18 +18,17 @@ CommPacket::CommPacket(type _type)
     packetType = _type;
 }
 
-QDataStream& operator<<(QDataStream& ds, CommPacket& cr)
+CommPacket::CommPacket(QByteArray& a)
 {
-    return ds << (quint8&)cr.packetType;
+    packetType = a[0];
+    if (packetType >= typeNumber)
+        packetType = UNKNOW;
+    a.remove(0,1);
 }
 
-QDataStream& operator>>(QDataStream& ds, CommPacket& cr)
+QByteArray CommPacket::getPacket()
 {
-    ds >> (quint8&)cr.packetType;
-    if (cr.packetType >= CommPacket::typeNumber)
-        cr.packetType  = CommPacket::UNKNOW;
-
-    return ds;
+    return QByteArray(1, packetType);
 }
 
 QDebug operator<<(QDebug d, CommPacket& cr)

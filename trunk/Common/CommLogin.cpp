@@ -11,15 +11,65 @@ const char*  CommLogin::typeMessages[] =
     "Refused"
 };
 
-CommLogin::CommLogin() : CommPacket(CommPacket::LOGIN)
+CommLogin::CommLogin(lType t) : CommPacket(CommPacket::LOGIN)
 {
-    loginType  = UNDEFINED;
+    loginType  = t;
     login = "";
     sha1Pass = "";
-    sessionString = "";
     sessionTime = 0;
+    sessionString = "";
 }
 
+CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
+{
+    loginType = a[0];
+
+    login = "";
+    sha1Pass = "";
+    sessionTime = 0;
+    sessionString = "";
+
+    if (loginType == LOGIN_PASSWORD || loginType == LOGIN_SESSION)
+    {
+        login = a.mid(2, a[1]);
+        //qDebug() << login;
+        a.remove(0, a[1] + 2);
+        if (loginType == LOGIN_PASSWORD)
+            sha1Pass = a;
+        else
+            sessionString = a;
+    }
+    else if (loginType == ACCEPTED)
+    {
+        sessionTime = *(a.mid(1, sizeof(sessionTime)).data());
+        sessionString = a;
+    }
+    else if (loginType != LOGOUT && loginType != REFUSED)
+        loginType = UNKNOW;
+}
+
+QByteArray CommLogin::getPacket()
+{
+    QByteArray a = CommPacket::getPacket();
+    a.append(loginType);
+    if (loginType == LOGIN_PASSWORD || loginType == LOGIN_SESSION)
+    {
+        a.append(login.length());
+        a.append(login);
+        if (loginType == LOGIN_PASSWORD)
+            a.append(sha1Pass);
+        else
+            a.append(sessionString);
+    }
+    else if (loginType == ACCEPTED)
+    {
+        a.append((const char*)&sessionTime, sizeof(sessionTime));
+        a.append(sessionString);
+    }
+    return a;
+ }
+
+/*
 bool CommLogin::isValidContent()
 {
     if (loginType == REFUSED
@@ -38,8 +88,8 @@ bool CommLogin::isValidContent()
 
     qCritical() << "Invalid login packet" << *this;
     return false;
-}
-
+}*/
+/*
 QDataStream& operator<<(QDataStream& ds, CommLogin& cl)
 {
     if ( ! cl.isValidContent())
@@ -60,7 +110,7 @@ QDataStream& operator>>(QDataStream& ds, CommLogin& cl)
     qDebug() << "[ in]" << cl;
     return ds;
 }
-
+*/
 QDebug operator<<(QDebug d, CommLogin& cl)
 {
     d << (CommPacket&)cl;
@@ -68,6 +118,6 @@ QDebug operator<<(QDebug d, CommLogin& cl)
     return d << CommLogin::typeMessages[ cl.loginType ]
              << cl.login
              << cl.sha1Pass.toHex()
-             << cl.sessionString
+             << cl.sessionString.toHex()
              << cl.sessionTime;
 }

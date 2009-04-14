@@ -1,28 +1,24 @@
 #include "CommInit.h"
 
-CommInit::CommInit() : CommPacket(CommPacket::INIT)
-{
-    protoVersion = 0;
-    fromName  = "";
-}
-
 CommInit::CommInit(quint8 _protoVersion, const char* _fromName) : CommPacket(CommPacket::INIT)
 {
     protoVersion = _protoVersion;
     fromName  = _fromName;
 }
 
-QDataStream& operator<<(QDataStream& ds, CommInit& ci)
+CommInit::CommInit(QByteArray& a) : CommPacket(CommPacket::INIT)
 {
-    qDebug() << "[out]" << ci;
-    return ds << (CommPacket&)ci << ci.protoVersion << ci.fromName;
+    protoVersion = a[0];
+    a.remove(0, 1);
+    fromName = a;
 }
 
-QDataStream& operator>>(QDataStream& ds, CommInit& ci)
+QByteArray CommInit::getPacket()
 {
-    ds >> ci.protoVersion >> ci.fromName;
-    qDebug() << "[ in]" << ci;
-    return ds;
+    QByteArray a = CommPacket::getPacket();
+    a.append(protoVersion);
+    a.append(fromName);
+    return a;
 }
 
 QDebug operator<<(QDebug d, CommInit& ci)

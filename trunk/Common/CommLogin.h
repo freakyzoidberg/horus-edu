@@ -3,16 +3,12 @@
 
 #include "CommPacket.h"
 
-#include <QObject>
-
 /*!
  * Response from the client to the server
  * after the first "ConnexionMessage" from the server
  */
 class CommLogin : public CommPacket
 {
-  Q_ENUMS(lType)
-
 public:
     /*!
      * Type of authenfication
@@ -22,22 +18,19 @@ public:
                                LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //CLIENT  -> SERVER
                                ACCEPTED, REFUSED };                   // SERVER -> CLIENT
 
-    CommLogin();
+    CommLogin(lType);
+    CommLogin(QByteArray&);
+    QByteArray   getPacket();
 
-    lType               loginType;
-    CommMiniString      login;
-    CommMiniString      sha1Pass;
-    CommMiniString      sessionString;
-    quint32             sessionTime;
+    quint8       loginType;
+    QByteArray   login;
+    QByteArray   sha1Pass;
+    quint64      sessionTime;
+    QByteArray   sessionString;
 
     static const quint8 typeNumber;
     static const char*  typeMessages[];
-
-    bool isValidContent();
 };
-
-QDataStream& operator<<(QDataStream&, CommLogin&);
-QDataStream& operator>>(QDataStream&, CommLogin&);
 
 QDebug operator<<(QDebug, CommLogin&);
 

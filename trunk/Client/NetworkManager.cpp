@@ -1,48 +1,32 @@
 #include "NetworkManager.h"
 
-NetworkManager::NetworkManager(QObject *parent) : QTcpSocket::QTcpSocket(parent)
+NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
 {
-    tcpSocket = new QTcpSocket(this);
-    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readData()));
-    connect(tcpSocket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
-    connect(tcpSocket, SIGNAL(disconnected()), this, SLOT(quit()));
-    this->packManag = new PacketManager(tcpSocket);
-    this->setObjectName("NetworkManager");
+    connect(      this, SIGNAL(packetReceived(QByteArray)), &packManag, SLOT(packetReceived(QByteArray)));
+    connect(&packManag, SIGNAL(sendPacket(QByteArray)),           this, SLOT(sendPacket(QByteArray)));
+    connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
+    connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
+    setObjectName("NetworkManager");
 }
 
 void    NetworkManager::ConnectTo(QString addr, int port)
 {
-     tcpSocket->abort();
-     tcpSocket->connectToHost(addr, port);
-     stream.setDevice(tcpSocket);
+     abort();
+     connectToHost(addr, port);
 }
-
-void    NetworkManager::readData()
+/*
+void    NetworkManager::packetAvailable()
 {
-    if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
-             return;
+    if ( ! recvQueue.length())
+        return;
 
-    stream >> protoPac;
-    this->packManag->receivedData(protoPac);
-    CommInit init;
+    packManag.packetReceived(recvQueue.first());
+    recvQueue.pop_front();
 
-    init.fromName = "Protocol Tester";
-    stream << init;
-
-    this->loginServer();
-
+    //in case ther is another packet in the queue
+    emit packetReceived();
 }
-
-void    NetworkManager::loginServer()
-{
-    CommLogin  login;
-    login.loginType = CommLogin::LOGIN_PASSWORD;
-    login.login = "super-Menteur";
-    login.sha1Pass = "4e1243bd22c66e76c2ba9eddc1f91394e57f9f83";
-    stream << login;
-    return;
-}
-
+*/
 void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
  {
     switch (socketError) {
@@ -55,7 +39,7 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
          qDebug() << "The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct.";
          break;
      default:
-         qDebug() << tr("The following error occurred: %1.").arg(tcpSocket->errorString());
+         qDebug() << tr("The following error occurred: %1.").arg(errorString());
      }
  }
 
