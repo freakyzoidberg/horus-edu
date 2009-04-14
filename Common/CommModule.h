@@ -1,6 +1,8 @@
 #ifndef COMMMODULE_H
 #define COMMMODULE_H
 
+#include <QByteArray>
+
 #include "CommPacket.h"
 
 /*!
@@ -11,17 +13,15 @@
 class CommModule : public CommPacket
 {
 public:
-    CommModule();
+    CommModule(QByteArray&);
     CommModule(const char* src, const char* srcVer, const char* dest, const QByteArray& data);
+    QByteArray      getPacket();
 
-    CommMiniString  moduleSource;
-    CommMiniString  moduleSourceVersion;
-    CommMiniString  moduleDestination;
-    QByteArray      moduleData;
+    QByteArray  moduleSource;
+    QByteArray  moduleSourceVersion;
+    QByteArray  moduleDestination;
+    QByteArray  moduleData;
 };
-
-QDataStream& operator<<(QDataStream&, CommModule&);
-QDataStream& operator>>(QDataStream&, CommModule&);
 
 QDebug operator<<(QDebug, CommModule&);
 

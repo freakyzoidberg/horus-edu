@@ -6,30 +6,26 @@
 #include <QMetaEnum>
 
 #include "Defines.h"
-#include "CommMiniString.h"
 
 /*!
  * After authentification, each packets are transmited inside this container
  */
 class CommPacket
 {
-    Q_ENUMS(type);
-
 public:
     enum                type { UNKNOW, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE };
 
-    static CommPacket*  readNextPacket(QDataStream&);
+    CommPacket(type _type);
+    CommPacket(QByteArray&);
 
-    CommPacket(type _type = UNKNOW);
+    quint8               packetType;
 
-    type                packetType;
+    QByteArray   getPacket();
 
+public:
     static const quint8 typeNumber;
     static const char*  typeNames[];
 };
-
-QDataStream& operator<<(QDataStream&, CommPacket&);
-QDataStream& operator>>(QDataStream&, CommPacket&);
 
 QDebug operator<<(QDebug, CommPacket&);
 

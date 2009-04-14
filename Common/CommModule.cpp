@@ -1,12 +1,5 @@
 #include "CommModule.h"
 
-CommModule::CommModule() : CommPacket(CommPacket::MODULE)
-{
-    moduleSource = "";
-    moduleSourceVersion = "";
-    moduleDestination = "";
-    moduleData = "";
-}
 
 CommModule::CommModule(const char* src, const char* srcVer, const char* dest, const QByteArray& data) : CommPacket(CommPacket::MODULE)
 {
@@ -16,6 +9,39 @@ CommModule::CommModule(const char* src, const char* srcVer, const char* dest, co
     moduleData = data;
 }
 
+CommModule::CommModule(QByteArray& a) : CommPacket(CommPacket::MODULE)
+{
+    moduleSource = a.mid(1, a[0]);
+    a.remove(0,a[0] + 1);
+
+    moduleSourceVersion = a.mid(1, a[0]);
+    a.remove(0,a[0] + 1);
+
+    moduleDestination = a.mid(1, a[0]);
+    a.remove(0,a[0] + 1);
+
+    moduleData = a;
+}
+
+QByteArray CommModule::getPacket()
+{
+    QByteArray a = CommPacket::getPacket();
+
+    a.append(moduleSource.length());
+    a.append(moduleSource);
+
+    a.append(moduleSourceVersion.length());
+    a.append(moduleSourceVersion);
+
+    a.append(moduleDestination.length());
+    a.append(moduleDestination);
+
+    a.append(moduleData);
+
+    return a;
+}
+
+/*
 QDataStream& operator<<(QDataStream& ds, CommModule& cm)
 {
     qDebug() << "[out]" << cm;
@@ -28,7 +54,7 @@ QDataStream& operator>>(QDataStream& ds, CommModule& cm)
     qDebug() << "[ in]" << cm;
     return ds;
 }
-
+*/
 QDebug operator<<(QDebug d, CommModule& cm)
 {
     return d << (CommPacket&)cm
