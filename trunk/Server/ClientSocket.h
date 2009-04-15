@@ -22,7 +22,7 @@ public:
     /*!
       * \param _socket the integer file descriptor given by Server::incommingConexion()
       */
-    ClientSocket(int _socket);
+    ClientSocket(int _socket, QObject* parent = 0);
     ~ClientSocket();
 
     //! wait for other threads
@@ -45,7 +45,7 @@ public:
 
 private slots:
     //! called when a packet may be present on the socket
-    void packetAvailable(QByteArray);
+    void packetAvailable(const QByteArray&);
     //! if the connexion is closed, look if some thread are still running
     void tryToDelete();
     //! called when an ThreadPacket is destroyed

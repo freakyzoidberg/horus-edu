@@ -14,6 +14,7 @@ SOURCES += main.cpp \
     Sql.cpp \
     Settings.cpp \
     ThreadPacket.cpp \
+    PluginManager.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommModule.cpp \
@@ -27,6 +28,7 @@ HEADERS += Module.h \
     Sql.h \
     Settings.h \
     ThreadPacket.h \
+    PluginManager.h \
     ../Common/CommPacket.h \
     ../Common/CommModule.h \
     ../Common/CommLogin.h \
@@ -34,4 +36,6 @@ HEADERS += Module.h \
     ../Common/Defines.h \
     ../Common/CommError.h \
     User.h \
-    ../Common/CommSocket.h
+    ../Common/CommSocket.h \
+    IServerPlugin.h \
+    ../Common/ModulePacket.h

@@ -20,7 +20,7 @@ public:
 
     quint8               packetType;
 
-    QByteArray   getPacket();
+    const QByteArray   getPacket();
 
 public:
     static const quint8 typeNumber;

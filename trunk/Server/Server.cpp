@@ -20,7 +20,7 @@ void Server::incomingConnection(int socket)
     /* /!\ don't save the returned value
      *  ClientSocket will destruct himself
      */
-    new ClientSocket(socket);
+    new ClientSocket(socket, this);
 }
 
 void Server::check()

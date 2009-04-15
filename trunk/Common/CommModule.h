@@ -15,7 +15,7 @@ class CommModule : public CommPacket
 public:
     CommModule(QByteArray&);
     CommModule(const char* src, const char* srcVer, const char* dest, const QByteArray& data);
-    QByteArray      getPacket();
+    const QByteArray      getPacket();
 
     QByteArray  moduleSource;
     QByteArray  moduleSourceVersion;

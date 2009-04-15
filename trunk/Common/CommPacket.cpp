@@ -26,7 +26,7 @@ CommPacket::CommPacket(QByteArray& a)
     a.remove(0,1);
 }
 
-QByteArray CommPacket::getPacket()
+const QByteArray CommPacket::getPacket()
 {
     return QByteArray(1, packetType);
 }

@@ -4,7 +4,7 @@
 ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 {
     socket = cs;
-    packet = pac;
+    packet = pac;//copy
 }
 
 void ThreadPacket::run()
@@ -59,34 +59,39 @@ void ThreadPacket::PacketInit()
 
 void ThreadPacket::PacketAlive()
 {
-    qDebug() << "[ in] Alive";
+    CommPacket a(CommPacket::ALIVE);
+    emit sendPacket(a.getPacket());
+    qDebug() << "[ in]" << a;
+    qDebug() << "[out]" << a;
 }
 
 void ThreadPacket::PacketLogin()
 {
+    if (socket->user.getState() == User::INIT)
+      sendError(CommError::NOT_INITIALIZED);
+
     CommLogin login(packet);
     qDebug() << "[ in]" << login;
 
     CommLogin response(CommLogin::REFUSED);
 
-    if (login.loginType == CommLogin::LOGIN_PASSWORD)
+    if (
+        (login.loginType == CommLogin::LOGIN_PASSWORD && socket->user.loginPassword(login.login, login.sha1Pass))
+        ||
+        (login.loginType == CommLogin::LOGIN_SESSION  && socket->user.loginSession (login.login, login.sessionString))
+       )
     {
-        if (socket->user.loginPassword(login.login, login.sha1Pass))
-        {
-            response.loginType = CommLogin::ACCEPTED;
-            response.sessionString = socket->user.newSession();
-            response.sessionTime = DEFAULT_SESSION_LIFETIME;
-        }
+        response.loginType = CommLogin::ACCEPTED;
+        response.sessionString = socket->user.newSession();
+        response.sessionTime = DEFAULT_SESSION_LIFETIME;
+        socket->allowOtherThreads();
     }
 
     emit sendPacket(response.getPacket());
     qDebug() << "[out]" << response;
 
-    socket->allowOtherThreads();
     //        sendError(CommError::);
 
-//    if (client->state == ClientSocket::INIT)
-//      writeError(CommError::NOT_INITIALIZED);
 
 }
 

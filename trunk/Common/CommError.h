@@ -9,7 +9,7 @@ public:
     enum                eType { UNKNOW, NOT_INITIALIZED, ALREADY_INITIALIZED, UNKNOWN_PROTO_VERSION };
     CommError(eType _type, const char* _error = 0);
     CommError(QByteArray&);
-    QByteArray getPacket();
+    const QByteArray getPacket();
 
     quint8         errorType;
     QByteArray     errorMessage;
