@@ -40,7 +40,7 @@ bool User::loginPassword(const QByteArray& _login, const QByteArray& _sha1Pass)
         id = 0;
         login = "";
         session = "";
-        qDebug() << login << " bad user or password.";
+        qDebug() << _login << " bad user or password.";
         return false;
     }
 
@@ -48,6 +48,7 @@ bool User::loginPassword(const QByteArray& _login, const QByteArray& _sha1Pass)
     login = _login;
     state = LOGGED_IN;
     qDebug() << login << " logged in.";
+
     return true;
 }
 
@@ -60,7 +61,26 @@ bool User::loginSession(const QByteArray& _login, const QByteArray& _sessId)
     if (_sessId.length() != SESSION_WORD_SIZE || _login.length() > 32)
         return false;
 
-    return false;
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+    query.prepare("SELECT id FROM users WHERE login=? AND session_key=? LIMIT 1;");
+    query.addBindValue(_login);
+    query.addBindValue(_sessId.toHex());
+    if ( ! query.exec() || ! query.next())
+    {
+        id = 0;
+        login = "";
+        session = "";
+        qDebug() << _login << " bad user or session";
+        return false;
+    }
+
+    id = query.value(0).toUInt();
+    login = _login;
+    state = LOGGED_IN;
+    qDebug() << login << " logged in.";
+
+    return true;
 }
 
 void User::logout()
@@ -82,10 +102,17 @@ const QByteArray& User::newSession()
     QMutexLocker lock(&mutex);
 
     //TODO maybe change this value
-    qsrand(QTime::currentTime().msec());
-
+    qsrand(QTime::currentTime().msec() + id);
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
         session[i] = qrand();
 
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+    query.prepare("UPDATE users SET session_key=? WHERE id=? LIMIT 1;");
+    query.addBindValue(session.toHex());
+    query.addBindValue(id);
+    if (query.exec())
+        return session;
+    session = "";
     return session;
 }

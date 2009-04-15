@@ -27,7 +27,7 @@ CommError::CommError(QByteArray& a) : CommPacket(CommPacket::ERROR)
     errorMessage = a;
 }
 
-QByteArray CommError::getPacket()
+const QByteArray CommError::getPacket()
 {
     QByteArray a = CommPacket::getPacket();
     a.append(errorType);

@@ -4,7 +4,7 @@
 
 quint32 ClientSocket::nbCon = 0;
 
-ClientSocket::ClientSocket(int _socket) : CommSocket()
+ClientSocket::ClientSocket(int _socket, QObject* parent) : CommSocket(parent)
 {
     static quint32 newId = 0;
     nbCon++;
@@ -14,14 +14,14 @@ ClientSocket::ClientSocket(int _socket) : CommSocket()
     threads.release();//1
     nbThreads = 0;
 
-    connect(this, SIGNAL(packetReceived(QByteArray)), this, SLOT(packetAvailable(QByteArray)));
+    connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(packetAvailable(const QByteArray&)));
     connect(this, SIGNAL(disconnected()),   this, SLOT(tryToDelete()));
 //    connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
 
     setSocketDescriptor(_socket);
 
     // Send the CommInit packet
-    CommInit init(CURRENT_PROTO_VERSION+42, SERVER_NAME);
+    CommInit init(CURRENT_PROTO_VERSION, SERVER_NAME);
     sendPacket(init.getPacket());
     qDebug() << "[out]" << init;
 }
@@ -38,25 +38,24 @@ void ClientSocket::socketError(QAbstractSocket::SocketError e)
     qDebug() << e;
 }
 */
-void ClientSocket::packetAvailable(QByteArray pac)
+void ClientSocket::packetAvailable(const QByteArray& pac)
 {
-    recvQueue.push_back(pac);
+    recvQueue.append(pac);
     tryToReadPacket();
 }
 
 void ClientSocket::tryToReadPacket()
 {
-    if ( ! recvQueue.length())
+    if (recvQueue.isEmpty())
         return;
 
     if ( ! threads.tryAcquire())
         return;
     nbThreads++;
 
-    ThreadPacket* thread = new ThreadPacket(this, recvQueue.first());
-    recvQueue.pop_front();
+    ThreadPacket* thread = new ThreadPacket(this, recvQueue.takeFirst());
 
-    connect(thread, SIGNAL(sendPacket(QByteArray)), this, SLOT(sendPacket(QByteArray)));
+    connect(thread, SIGNAL(sendPacket(const QByteArray&)), this, SLOT(sendPacket(const QByteArray&)));
     connect(thread, SIGNAL(destroyed()), this, SLOT(threadFinished()));
 
     QThreadPool::globalInstance()->start(thread);

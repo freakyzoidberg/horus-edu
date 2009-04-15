@@ -23,7 +23,7 @@ CommModule::CommModule(QByteArray& a) : CommPacket(CommPacket::MODULE)
     moduleData = a;
 }
 
-QByteArray CommModule::getPacket()
+const QByteArray CommModule::getPacket()
 {
     QByteArray a = CommPacket::getPacket();
 

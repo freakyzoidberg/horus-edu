@@ -4,6 +4,7 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include "Server.h"
+#include "PluginManager.h"
 #include "../Common/Defines.h"
 #include <QString>
 #include "Settings.h"
@@ -15,7 +16,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(SERVER_NAME);
 
-
     for (int i = 0; i < QCoreApplication::arguments().count(); i++)
         if (QCoreApplication::arguments().at(i) == "--gen-config")
             {
@@ -24,7 +24,9 @@ int main(int argc, char *argv[])
             delete tmpSetting;
             return (0);
            }
-    Server theserver;
+
+    Server theserver(&a);
+    PluginManager plugins(&a);
     qDebug() << "main() Server Loaded";
 
     QThreadPool::globalInstance()->setMaxThreadCount(MAX_POOL_THREADS);

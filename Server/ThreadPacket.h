@@ -39,13 +39,13 @@ private:
     void sendError(CommError::eType err, const char* str="");
 
     ClientSocket* socket;
-    QByteArray    packet;
+    QByteArray   packet;
 
     //! corespondance table between CommPacket::type and the methods
     static void (ThreadPacket::*packetDirections[]) ();
 
 signals:
-    void sendPacket(QByteArray);
+    void sendPacket(const QByteArray);
 };
 
 typedef void(ThreadPacket::*packetDirection)();

@@ -20,7 +20,7 @@ public:
 
     CommLogin(lType);
     CommLogin(QByteArray&);
-    QByteArray   getPacket();
+    const QByteArray   getPacket();
 
     quint8       loginType;
     QByteArray   login;

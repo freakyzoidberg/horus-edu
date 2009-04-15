@@ -48,7 +48,7 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
         loginType = UNKNOW;
 }
 
-QByteArray CommLogin::getPacket()
+const QByteArray CommLogin::getPacket()
 {
     QByteArray a = CommPacket::getPacket();
     a.append(loginType);

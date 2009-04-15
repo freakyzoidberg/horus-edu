@@ -13,7 +13,7 @@ CommInit::CommInit(QByteArray& a) : CommPacket(CommPacket::INIT)
     fromName = a;
 }
 
-QByteArray CommInit::getPacket()
+const QByteArray CommInit::getPacket()
 {
     QByteArray a = CommPacket::getPacket();
     a.append(protoVersion);
