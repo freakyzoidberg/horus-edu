@@ -31,7 +31,7 @@ for (int i = 0; i < 100001; i++) {
      ui->progressBar->setValue((int)((i)));
 
 }
-ui->label_3->setText("Server Done !!!");
+ui->label_3->setText("Server Done");
 }
 
 void MainWindow::InstallClient()
@@ -41,7 +41,7 @@ for (int i = 0; i < 100001; i++) {
      ui->progressBar_2->setValue((int)((i)));
 }
 
-ui->label_4->setText("Client Done !!!");
+ui->label_4->setText("Client Done");
 }
 
 void MainWindow::done()
