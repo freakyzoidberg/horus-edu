@@ -2,21 +2,19 @@
 
 Settings::Settings()
 {
-    for (int i = 0; i < QCoreApplication::arguments().count(); i++)
-        if (QCoreApplication::arguments().at(i) == "--gen-config")
-            {
-            FirstSetSettings();
-             }
-    if (GetSettings("Version", "SETTINGS").toInt() != 3)
+
+
+}
+
+void Settings::CheckSettings()
+{
+    if (GetSettings("Version", "SETTINGS").toInt() != 4)
     {
             qFatal("Server Configuration not found, try running with     --gen-config");
-
         }
     else
         qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
 }
-
-
 
 void Settings::FirstSetSettings()
 {
@@ -36,37 +34,38 @@ void Settings::FirstSetSettings()
     streamo << "Please specify the folowing :\n";
     streamo << "SQL Driver [ hint : QMYSQL] : ";
     streamo.flush();
-    streami >> line;
-     this->Gsettings.setValue("SQL_DRIVER", line);
+    line = streami.readLine();
+    //qDebug() << line;
+     this->Gsettings.setValue("SQL_DRIVER", (line == "" ? "QMYSQL":line));
      streamo << "SQL HostName [ hint : chine.4--2.net] : ";
     streamo.flush();
-    streami >> line;
-     this->Gsettings.setValue("SQL_HOSTNAME", line);
+    line = streami.readLine();
+     this->Gsettings.setValue("SQL_HOSTNAME", (line == "" ? "chine.4--2.net":line));
      streamo << "SQL DB Name [ hint : testhorus] : ";
     streamo.flush();
-    streami >> line;
-     this->Gsettings.setValue("SQL_DBNAME", line);
+    line = streami.readLine();
+     this->Gsettings.setValue("SQL_DBNAME", (line == "" ? "testhorus":line));
      streamo << "SQL UserName [ hint : horus] : ";
     streamo.flush();
-    streami >> line;
-     this->Gsettings.setValue("SQL_USERNAME", line);
+    line = streami.readLine();
+     this->Gsettings.setValue("SQL_USERNAME", (line == "" ? "horus":line));
      streamo << "SQL PassWord [ hint : horuspwd] : ";
     streamo.flush();
-    streami >> line;
-     this->Gsettings.setValue("SQL_PASSWD", line);
+    line = streami.readLine();
+     this->Gsettings.setValue("SQL_PASSWD", (line == "" ? "horuspwd":line));
      streamo << "SQL Port [ hint : 3306] : ";
     streamo.flush();
-    streami >> line;
-     this->Gsettings.setValue("SQL_PORT", line);
+    line = streami.readLine();
+     this->Gsettings.setValue("SQL_PORT", (line == "" ? "3306":line));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SERVER");
     streamo << "Server Port [ hint : 42000] : ";
     streamo.flush();
-    streami >> line;
-     this->Gsettings.setValue("SRV_PORT", line);
+    line = streami.readLine();
+     this->Gsettings.setValue("SRV_PORT", (line == "" ? "42000":line));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
-    this->Gsettings.setValue("Version", "3");
+    this->Gsettings.setValue("Version", "4");
     this->Gsettings.endGroup();
     }
     else

@@ -6,6 +6,7 @@
 #include "Server.h"
 #include "../Common/Defines.h"
 #include <QString>
+#include "Settings.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,15 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain(ORGANIZATION_DOMAIN);
     QCoreApplication::setApplicationName(SERVER_NAME);
 
+
+    for (int i = 0; i < QCoreApplication::arguments().count(); i++)
+        if (QCoreApplication::arguments().at(i) == "--gen-config")
+            {
+            Settings *tmpSetting = new Settings();
+            tmpSetting->FirstSetSettings();
+            delete tmpSetting;
+            return (0);
+           }
     Server theserver;
     qDebug() << "main() Server Loaded";
 
