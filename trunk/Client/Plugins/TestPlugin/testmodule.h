@@ -17,6 +17,7 @@ class testPlugin : public QObject, public IClientPlugin//,  public IPluginNetwor
 
 public:
     testPlugin();
+    ~testPlugin();
 
 public:
      void setModName(const QString);

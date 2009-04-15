@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QEvent>
+#include <QString>
+#include <QMap>
 
 class PluginManager : public QObject
 {
@@ -14,6 +16,10 @@ public:
 
 private:
     void    loadPlugins();
+    QObject *findPlugin(QString &) const;
+
+private:
+    QMap<QString, QObject *>    pluginsList;
 };
 
 #endif // PLUGINMANAGER_H

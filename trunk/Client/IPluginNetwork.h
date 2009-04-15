@@ -1,10 +1,12 @@
 #ifndef IPLUGINNETWORK_H
 #define IPLUGINNETWORK_H
 
+#include <QEvent>
+
 class IPluginNetwork
 {
     public:
-        virtual bool    eventHandler() = 0;
+        virtual bool    eventHandler(QEvent *) = 0;
         virtual void    retrievedPacket() = 0;
         virtual void    buildPacket() = 0;
 };
