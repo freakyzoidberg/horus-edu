@@ -2,6 +2,5 @@
     <qresource prefix="/" >
         <file>Horus_colorsv3_wo_r_Lolipop_shrinked_trans.png</file>
         <file>Horus_colorsv3_tiny_trans.png</file>
-        <file>Horus_Server</file>
     </qresource>
 </RCC>
