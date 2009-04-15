@@ -14,6 +14,7 @@ public:
     Settings();
     void FirstSetSettings();
     QString GetSettings(QString key, QString group);
+    void CheckSettings();
 private:
     QSettings Gsettings;
 };
