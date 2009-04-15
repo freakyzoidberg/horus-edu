@@ -43,7 +43,9 @@ void    PluginManager::loadPlugins()
     if (pluginsDir.absolutePath() == "/Undefined")
     {
         pluginsDir = QDir(PREFIX);
-        if (!pluginsDir.cd(QApplication::organizationName()) || !pluginsDir.cd(QApplication::applicationName()) || !pluginsDir.cd("Plugins"))
+        if (!pluginsDir.cd(QApplication::organizationName())
+            || !pluginsDir.cd(QApplication::applicationName())
+            || !pluginsDir.cd("Plugins"))
         {
             qDebug() << "PluginManager: Error: Plugin path doesn't exist.";
             return ;
@@ -56,11 +58,16 @@ void    PluginManager::loadPlugins()
         QObject *plugin = loader.instance();
         if (plugin)
         {
+            pluginsList.insert(fileName, plugin);
             qDebug() << "PluginManager: plugin loaded";
-            // fumer une clope
         }
         else
             qDebug() << "PluginManager: error:" << loader.errorString();
         qDebug() << "---------";
      }
+}
+
+QObject *PluginManager::findPlugin(QString &pluginName) const
+{
+    return pluginsList.value(pluginName);
 }

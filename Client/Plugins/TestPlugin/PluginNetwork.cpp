@@ -1,11 +1,10 @@
 #include "PluginNetwork.h"
 
-PluginNetwork::PluginNetwork(QEvent *event)
+PluginNetwork::PluginNetwork()
 {
-    this->event = event;
 }
 
-bool    PluginNetwork::eventHandler()
+bool    PluginNetwork::eventHandler(QEvent *event)
 {
     return true;
 }

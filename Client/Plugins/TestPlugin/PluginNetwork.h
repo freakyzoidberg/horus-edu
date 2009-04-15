@@ -12,14 +12,11 @@ class   PluginNetwork : public QObject, public IPluginNetwork
  Q_INTERFACES(IPluginNetwork)
 
 public:
-        PluginNetwork(QEvent *);
-        bool    eventHandler();
+        PluginNetwork();
+        bool    eventHandler(QEvent *);
         void    retrievedPacket();
         void    buildPacket();
 
-
-    private:
-        QEvent  *event;
 };
 
 #endif // PLUGINNETWORK_H

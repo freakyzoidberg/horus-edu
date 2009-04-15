@@ -8,24 +8,15 @@
 
 Q_EXPORT_PLUGIN2(testModule, testPlugin)
 
-/*bool    testPlugin::eventHandler()
-{
-    return true;
-}
-
-void    testPlugin::retrievedPacket()
-{
-    return ;
-}
-
-void    testPlugin::buildPacket()
-{
-    return ;
-}*/
-
 testPlugin::testPlugin()
 {
     std::cout << "module testPlugin loaded." << std::endl;
+    pNetwork = new PluginNetwork();
+}
+
+testPlugin::~testPlugin()
+{
+    delete pNetwork;
 }
 
 bool    testPlugin::event(QEvent *event)
@@ -34,11 +25,8 @@ bool    testPlugin::event(QEvent *event)
 
     if (event->type() == NetworkReceiveEvent::type)
     {
-        event->accept();
-        pNetwork = new PluginNetwork(event);
-        eventSuccess = pNetwork->eventHandler();
-        delete pNetwork;
-        return eventSuccess;
+        event->accept();        
+        return pNetwork->eventHandler(event);
     }
     else if (event->type() == LoadPluginEvent::type)
     {
