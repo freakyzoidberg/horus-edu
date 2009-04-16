@@ -7,6 +7,7 @@ class ModulePacket
     QByteArray        packetVerion;
     QByteArray        sourceModule;
     QByteArray        targetModule;
+
     QList<QByteArray> dataList;
 };
 

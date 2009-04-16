@@ -13,9 +13,11 @@ ClientSocket::ClientSocket(int _socket, QObject* parent) : CommSocket(parent)
 
     threads.release();//1
     nbThreads = 0;
+    userId = 0;
+    vState = INIT;
 
     connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(packetAvailable(const QByteArray&)));
-    connect(this, SIGNAL(disconnected()),   this, SLOT(tryToDelete()));
+    connect(this, SIGNAL(disconnected()),                    this, SLOT(tryToDelete()));
 //    connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
 
     setSocketDescriptor(_socket);

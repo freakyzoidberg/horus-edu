@@ -1,32 +1,50 @@
-#include    "PluginManager.h"
+#include "PluginManager.h"
+#include <QCoreApplication>
+#include "../Common/CommModule.h"
 
-PluginManager::PluginManager(QObject *parent) : QObject(parent)
+PluginManager* PluginManager::instance = 0;
+PluginManager* PluginManager::globalInstance()
 {
-    loadPlugins();
+    if ( ! instance)
+        instance = new PluginManager;
+    return instance;
 }
 
-void    PluginManager::loadPlugins()
+IServerPlugin*  PluginManager::getPlugin(const QByteArray& name)
+{
+    return map[ name ];
+}
+
+PluginManager::PluginManager() : QObject(QCoreApplication::instance())
 {
     QSettings s;
-    QString path = s.value("PluginsPath", "./plugins").toString();
+    QString path = s.value("SETTINGS/PluginsBase", "./Plugins").toString();
 
     s.beginGroup("Plugins");
     foreach (QString key, s.childKeys())
     {
         QString file = path + "/" + s.value(key).toString();
-        qDebug() << "PluginManager: Loading" << file;
         QPluginLoader loader(file);
-        QObject *plugin = loader.instance();
+        IServerPlugin *plugin = (IServerPlugin*)loader.instance();
         if (plugin)
         {
-            qDebug() << "PluginManager: plugin loaded";
-            // fumer une clope
+            map[ plugin->getName() ] = plugin;
+            connect(plugin, SIGNAL(sendPacket(quint32,const ModulePacket&)), this, SLOT(moduleSendPacket(quint32,const ModulePacket&)), Qt::DirectConnection);
+            qDebug() << "PluginManager:" << loader.fileName() << "loaded";
         }
         else
-            qDebug() << "PluginManager: error:" << loader.errorString();
-        qDebug() << "---------";
+            qDebug() << "PluginManager:" << file << loader.errorString();
     }
-
-    s.endArray();
     s.endGroup();
+}
+
+void PluginManager::moduleSendPacket(quint32 userId, const ModulePacket& packet)
+{
+    CommModule p = packet;
+    User* usr = User::getUser(userId);
+    if (usr)
+    {
+        qDebug() << "[out]" << p;
+        usr->sendPacket( p.getPacket() );
+    }
 }

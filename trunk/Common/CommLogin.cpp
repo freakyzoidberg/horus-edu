@@ -44,7 +44,7 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
         a.remove(0, 3);
         sessionString = a;
     }
-    else if (loginType != LOGOUT && loginType != REFUSED)
+    else if (loginType != DESTROY_SESSION && loginType != REFUSED)
         loginType = UNKNOW;
 }
 

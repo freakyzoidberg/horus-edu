@@ -1,11 +1,12 @@
 #include "CommError.h"
 
-const quint8 CommError::typeNumber = 4;
+const quint8 CommError::typeNumber = 5;
 const char*  CommError::typeNames[] =
 {
     "Unknow Error",
     "Connexion not initialized"
     "Connexion already initialized"
+    "Not authenticated"
     "Unknown protocol version"
 };
 
