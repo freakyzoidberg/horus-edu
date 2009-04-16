@@ -1,24 +1,28 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
-#include <QObject>
 #include <QSettings>
-//#include <QDir>
 #include <QPluginLoader>
-#include <QDebug>
 #include <QStringList>
+#include <QDebug>
 
 #include "../Common/Defines.h"
+#include "IServerPlugin.h"
 
 class PluginManager : public QObject
 {
-    Q_OBJECT
-
+  Q_OBJECT
 public:
-    PluginManager(QObject *parent = 0);
+    static PluginManager* globalInstance();
+    IServerPlugin*        getPlugin(const QByteArray&);
 
 private:
-    void    loadPlugins();
+    PluginManager();
+    static PluginManager* instance;
+    QMap<QByteArray,IServerPlugin*> map;
+
+private slots:
+    void moduleSendPacket(quint32 userId, const ModulePacket& packet);
 };
 
 #endif // PLUGINMANAGER_H

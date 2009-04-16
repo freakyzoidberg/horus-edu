@@ -38,32 +38,36 @@ void Socket::packetAvailable(QByteArray packet)
     qDebug() << "[out]" << init;
 
     CommLogin  l(CommLogin::LOGIN_PASSWORD);
+//    l.login = QString::fromUtf8("super-Menteur中国");
     l.login = "super-Menteur";
     l.sha1Pass = QByteArray::fromHex("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83");
     sendPacket(l.getPacket());
     qDebug() << "[out]" << l;
 
-    sendPacket(init.getPacket());
-    qDebug() << "[out]" << init;
+    ModulePacket m;
+    m.packetVerion = "42";
+    m.sourceModule = "protoTester";
+    m.targetModule = "TestComm";
+    m.dataList.append("data1");
+    m.dataList.append("data2");
+    m.dataList.append("data3");
+    m.dataList.append("data4");
 
-    sendPacket(l.getPacket());
-    qDebug() << "[out]" << l;
-
-    CommModule mod("mod Source", "v42", "mod Destination", "data");
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
+    CommModule mod(m);
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
 
+    sendPacket(mod.getPacket());
+    qDebug() << "[out]" << mod;
+    sendPacket(mod.getPacket());
+    qDebug() << "[out]" << mod;
+    sendPacket(mod.getPacket());
+    qDebug() << "[out]" << mod;
+    sendPacket(mod.getPacket());
+    qDebug() << "[out]" << mod;
+    sendPacket(mod.getPacket());
+    qDebug() << "[out]" << mod;
     //connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
-//    sleep(1);
+
     disconnectFromHost();
 }

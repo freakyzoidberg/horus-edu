@@ -5,9 +5,7 @@
 #include <QThreadPool>
 #include <QMutex>
 #include <QSemaphore>
-
 #include "../Common/CommSocket.h"
-#include "User.h"
 
 //! ClientSocket created for each connexion
 /*
@@ -25,6 +23,11 @@ public:
     ClientSocket(int _socket, QObject* parent = 0);
     ~ClientSocket();
 
+    enum        tState {INIT, CONNECTED};
+    tState      vState;
+
+    quint32     userId;
+
     //! wait for other threads
     /*!
      * thread safe
@@ -39,9 +42,6 @@ public:
      * before the init and login phase, multithreading is not allowed for a single connexion
      */
     void allowOtherThreads();
-
-    //! the User object associated with the socket
-    User  user;
 
 private slots:
     //! called when a packet may be present on the socket

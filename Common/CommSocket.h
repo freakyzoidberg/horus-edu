@@ -17,10 +17,10 @@ private slots:
     void bytesReceived();
 
 protected slots:
-    void sendPacket(QByteArray);
+    void sendPacket(const QByteArray&);
 
 signals:
-    void packetReceived(QByteArray);
+    void packetReceived(const QByteArray&);
 };
 
 #endif // COMMSOCKET_H

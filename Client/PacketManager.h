@@ -22,7 +22,7 @@ public slots:
      void       packetReceived(QByteArray pac);
 
 private:
-    enum        tState {DISCONNECTED, LOGGED_OUT, LOGGED_IN};
+    enum        tState {INIT, LOGGED_OUT, LOGGED_IN, DISCONNECTED};
     tState      state;
 
     void        PacketError();

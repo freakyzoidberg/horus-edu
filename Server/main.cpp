@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
            }
 
     Server theserver(&a);
-    PluginManager plugins(&a);
+    PluginManager::globalInstance();
     qDebug() << "main() Server Loaded";
 
     QThreadPool::globalInstance()->setMaxThreadCount(MAX_POOL_THREADS);

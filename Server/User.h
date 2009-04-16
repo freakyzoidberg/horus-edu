@@ -9,31 +9,40 @@
 #include <QCryptographicHash>
 #include <QTime>
 
-#include "Sql.h"
+#include "../Common/ModulePacket.h"
+#include "ClientSocket.h"
 
 class User : public QObject
 {
   Q_OBJECT
 
 public:
-    User();
+    User(ClientSocket* sock);
     ~User();
 
-    enum                 tState { INIT, LOGGED_OUT, LOGGED_IN };
-    void                 init();
-    tState               getState();
+    void              login(const QString& _login, bool authSession, const QByteArray& _auth);
+    const QByteArray& getSession();
+    void              destroySession();
 
-    bool                 loginPassword(const QByteArray& _login, const QByteArray& _sha1Pass);
-    bool                 loginSession (const QByteArray& _login, const QByteArray& _sessId);
-    void                 logout();
-    const QByteArray&    newSession();
+    void              sendPacket(const QByteArray&);
 
 private:
-    QMutex               mutex;
-    tState               state;
-    quint32              id;
-    QByteArray           login;
-    QByteArray           session;
+    quint32           id;
+    QString           user;
+    QByteArray        session;
+    ClientSocket*     socket;
+
+signals:
+    void              sendPacketSignal(const QByteArray&);
+
+
+
+    //STATIC MEMBERS:
+public:
+    static User*               getUser(quint32 userId);
+    static User*               getUser(QString login);
+private:
+    static QMap<quint32, User*> map;
 };
 
 #endif // USER_H

@@ -15,15 +15,15 @@ public:
      * in the future we may want to add the certificate auth. or something else
      */
     enum                lType{ UNDEFINED,
-                               LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //CLIENT  -> SERVER
-                               ACCEPTED, REFUSED };                   // SERVER -> CLIENT
+                               LOGIN_PASSWORD, LOGIN_SESSION, DESTROY_SESSION, //CLIENT  -> SERVER
+                               ACCEPTED, REFUSED };                            // SERVER -> CLIENT
 
     CommLogin(lType);
     CommLogin(QByteArray&);
-    const QByteArray   getPacket();
+    const QByteArray getPacket();
 
     quint8       loginType;
-    QByteArray   login;
+    QString      login;
     QByteArray   sha1Pass;
     quint16      sessionTime;
     QByteArray   sessionString;
