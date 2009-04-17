@@ -7,7 +7,8 @@
 #include <QDebug>
 
 #include "../Common/Defines.h"
-#include "IServerPlugin.h"
+#include "InterfaceServer.h"
+#include "Plugins/IServerPlugin.h"
 
 class PluginManager : public QObject
 {
@@ -19,10 +20,8 @@ public:
 private:
     PluginManager();
     static PluginManager* instance;
+    InterfaceServer       serverInterface;
     QMap<QByteArray,IServerPlugin*> map;
-
-private slots:
-    void moduleSendPacket(quint32 userId, const ModulePacket& packet);
 };
 
 #endif // PLUGINMANAGER_H

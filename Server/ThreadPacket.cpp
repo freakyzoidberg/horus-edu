@@ -110,9 +110,9 @@ void ThreadPacket::PacketModule()
     CommModule mod(packet);
     qDebug() << "[ in]" << mod;
 
-    IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.targetModule);
+    IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetModule);
     if (plugin)
-        plugin->recvPacket(socket->userId, mod);
+        plugin->recvPacket(socket->userId, mod.packet);
 
     //const ModulePacket& m = mod;
 

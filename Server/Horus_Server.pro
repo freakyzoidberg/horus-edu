@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommError.cpp \
     User.cpp \
-    ../Common/CommSocket.cpp
+    ../Common/CommSocket.cpp \
+    InterfaceServer.cpp
 HEADERS += Module.h \
     ClientSocket.h \
     Server.h \
@@ -37,5 +38,7 @@ HEADERS += Module.h \
     ../Common/CommError.h \
     User.h \
     ../Common/CommSocket.h \
-    IServerPlugin.h \
-    ../Common/ModulePacket.h
+    ../Common/ModulePacket.h \
+    InterfaceServer.h \
+    Plugins/IServerPlugin.h \
+    Plugins/IServer.h

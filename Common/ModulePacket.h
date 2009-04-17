@@ -3,12 +3,14 @@
 
 class ModulePacket
 {
-  public:
-    QByteArray        packetVerion;
-    QByteArray        sourceModule;
-    QByteArray        targetModule;
+public:
+    inline ModulePacket(const QByteArray& version="", const QByteArray& source="", const QByteArray& target="", const QByteArray& _data="")
+                        { packetVersion = version;       sourceModule = source;       targetModule = target;               data = _data; }
 
-    QList<QByteArray> dataList;
+    QByteArray packetVersion;
+    QByteArray sourceModule;
+    QByteArray targetModule;
+    QByteArray data;
 };
 
 #endif // MODULEPACKET_H

@@ -4,7 +4,8 @@
 
 quint32 ClientSocket::nbCon = 0;
 
-ClientSocket::ClientSocket(int _socket, QObject* parent) : CommSocket(parent)
+ClientSocket::ClientSocket(int _socket, QObject* parent)
+    : CommSocket(parent)
 {
     static quint32 newId = 0;
     nbCon++;
