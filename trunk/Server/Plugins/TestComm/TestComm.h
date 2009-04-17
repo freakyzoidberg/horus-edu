@@ -1,12 +1,10 @@
 #ifndef TESTCOMM_H
 #define TESTCOMM_H
 
-//#include <QObject>
-//#include <QStringList>
-//#include <QtCore/qplugin.h>
 #include <QDebug>
 
-#include "../../IServerPlugin.h"
+//#include "../IServer.h"
+#include "../IServerPlugin.h"
 
 class TestComm : public IServerPlugin
 {
@@ -18,16 +16,10 @@ public:
     ~TestComm();
 
 public:
-    const QByteArray  getName() const;
-    const QByteArray  getVersion() const;
-//const QStringList getPluginsConflicts() const;
-//const QStringList getPluginsRequired() const;
-//const QStringList getPluginsRecommended() const;
-//const QStringList getExports() const;
+    inline const QByteArray  name() const { return "TestComm"; }
+    inline const QByteArray  version() const { return "42"; }
 
     void recvPacket(quint32 userId, const ModulePacket&) const;
-signals:
-    void sendPacket(quint32 userId, const ModulePacket&) const;
 };
 
 

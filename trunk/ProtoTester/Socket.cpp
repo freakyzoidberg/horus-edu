@@ -44,18 +44,13 @@ void Socket::packetAvailable(QByteArray packet)
     sendPacket(l.getPacket());
     qDebug() << "[out]" << l;
 
-    ModulePacket m;
-    m.packetVerion = "42";
-    m.sourceModule = "protoTester";
-    m.targetModule = "TestComm";
-    m.dataList.append("data1");
-    m.dataList.append("data2");
-    m.dataList.append("data3");
-    m.dataList.append("data4");
+    ModulePacket m("42", "protoTester", "TestComm", "data....");
 
     CommModule mod(m);
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
+
+    m.data = "toto";
 
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
