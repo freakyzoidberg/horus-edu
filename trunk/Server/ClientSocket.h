@@ -1,10 +1,10 @@
 #ifndef CLIENTSOCKET_H
 #define CLIENTSOCKET_H
 
-#include <QtDebug>
+#include <QDebug>
 #include <QThreadPool>
-#include <QMutex>
 #include <QSemaphore>
+
 #include "../Common/CommSocket.h"
 
 //! ClientSocket created for each connexion

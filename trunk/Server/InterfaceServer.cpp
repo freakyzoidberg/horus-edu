@@ -1,4 +1,7 @@
+#include "PluginManager.h"
 #include "InterfaceServer.h"
+#include "Plugins/IServerPlugin.h"
+#include "User.h"
 
 void InterfaceServer::sendPacket(const quint32 userId, const ModulePacket& packet) const
 {
@@ -11,7 +14,7 @@ void InterfaceServer::sendPacket(const quint32 userId, const ModulePacket& packe
     }
 }
 
-IServerPlugin* InterfaceServer::getModule(const char* name) const
+IServerPlugin* InterfaceServer::getPlugin(const char* name) const
 {
-    return 0;
+    return PluginManager::globalInstance()->getPlugin(name);
 }

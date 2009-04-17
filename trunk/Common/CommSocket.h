@@ -2,7 +2,6 @@
 #define COMMSOCKET_H
 
 #include <QTcpSocket>
-#include <QMutex>
 
 class CommSocket : public QTcpSocket
 {

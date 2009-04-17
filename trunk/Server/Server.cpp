@@ -1,4 +1,5 @@
 #include "Server.h"
+#include "Sql.h"
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {

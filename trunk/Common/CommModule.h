@@ -1,8 +1,6 @@
 #ifndef COMMMODULE_H
 #define COMMMODULE_H
 
-#include <QByteArray>
-
 #include "CommPacket.h"
 #include "ModulePacket.h"
 

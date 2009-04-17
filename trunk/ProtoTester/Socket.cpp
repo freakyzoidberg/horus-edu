@@ -44,7 +44,7 @@ void Socket::packetAvailable(QByteArray packet)
     sendPacket(l.getPacket());
     qDebug() << "[out]" << l;
 
-    ModulePacket m("42", "protoTester", "TestComm", "data....");
+    ModulePacket m(42, "protoTester", "TestComm", "data....");
 
     CommModule mod(m);
     sendPacket(mod.getPacket());

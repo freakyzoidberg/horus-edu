@@ -2,14 +2,8 @@
 #define USER_H
 
 #include <QObject>
-#include <QMutex>
-#include <QMutexLocker>
-#include <QDebug>
 #include <QByteArray>
-#include <QCryptographicHash>
-#include <QTime>
 
-#include "../Common/ModulePacket.h"
 #include "ClientSocket.h"
 
 class User : public QObject

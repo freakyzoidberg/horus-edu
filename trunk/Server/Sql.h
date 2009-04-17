@@ -1,7 +1,7 @@
 #ifndef SQL_H
 #define SQL_H
-#include "../Common/Defines.h"
 #include <QtSql>
+#include <QByteArray>
 #include <QMutex>
 #include <QSemaphore>
 #include <QMap>
@@ -41,19 +41,3 @@ private:
 };
 
 #endif
-
-/*
-
-
-
-
-
-        Sql *Mycon = new Sql();
-        QSqlQuery* query = Mycon->query("SELECT * FROM testdb");
-        while (query->next()) {
-            QString login = query->value(1).toString();
-            qDebug() << login;
-        }
-        delete query;
-        delete Mycon;
-     */

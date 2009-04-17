@@ -9,11 +9,10 @@ CommModule::CommModule(const ModulePacket& mp)
 CommModule::CommModule(QByteArray& a)
     : CommPacket(CommPacket::MODULE)
 {
-    packet.packetVersion = a.mid(1, a[0]);
-    a.remove(0,a[0] + 1);
+    packet.packetVersion = a[0];
 
-    packet.sourceModule = a.mid(1, a[0]);
-    a.remove(0,a[0] + 1);
+    packet.sourceModule = a.mid(2, a[1]);
+    a.remove(0,a[1] + 2);
 
     packet.targetModule = a.mid(1, a[0]);
     a.remove(0,a[0] + 1);
@@ -25,7 +24,6 @@ const QByteArray CommModule::getPacket()
 {
     QByteArray a = CommPacket::getPacket();
 
-    a.append((char)packet.packetVersion.length());
     a.append(packet.packetVersion);
 
     a.append((char)packet.sourceModule.length());

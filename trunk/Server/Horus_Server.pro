@@ -1,44 +1,44 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-03-28T21:10:31
 # -------------------------------------------------
-QT += network \
-    sql
 QT -= gui
+QT += network sql
 TARGET = Horus_Server
-CONFIG += console
 CONFIG -= app_bundle
+CONFIG += console
 TEMPLATE = app
-SOURCES += main.cpp \
-    ClientSocket.cpp \
-    Server.cpp \
+SOURCES = \
+    main.cpp \
     Sql.cpp \
+    User.cpp \
+    Server.cpp \
     Settings.cpp \
+    ClientSocket.cpp \
     ThreadPacket.cpp \
     PluginManager.cpp \
-    ../Common/CommLogin.cpp \
+    InterfaceServer.cpp \
     ../Common/CommInit.cpp \
+    ../Common/CommError.cpp \
+    ../Common/CommLogin.cpp \
     ../Common/CommModule.cpp \
     ../Common/CommPacket.cpp \
-    ../Common/CommError.cpp \
-    User.cpp \
-    ../Common/CommSocket.cpp \
-    InterfaceServer.cpp
-HEADERS += Module.h \
-    ClientSocket.h \
-    Server.h \
+    ../Common/CommSocket.cpp
+HEADERS = \
     Sql.h \
+    User.h \
+    Server.h \
     Settings.h \
+    ClientSocket.h \
     ThreadPacket.h \
     PluginManager.h \
-    ../Common/CommPacket.h \
-    ../Common/CommModule.h \
-    ../Common/CommLogin.h \
-    ../Common/CommInit.h \
-    ../Common/Defines.h \
-    ../Common/CommError.h \
-    User.h \
-    ../Common/CommSocket.h \
-    ../Common/ModulePacket.h \
     InterfaceServer.h \
+    Plugins/IServer.h \
     Plugins/IServerPlugin.h \
-    Plugins/IServer.h
+    ../Common/Defines.h \
+    ../Common/CommInit.h \
+    ../Common/CommError.h \
+    ../Common/CommLogin.h \
+    ../Common/CommModule.h \
+    ../Common/CommPacket.h \
+    ../Common/CommSocket.h \
+    ../Common/ModulePacket.h

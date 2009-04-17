@@ -1,9 +1,8 @@
 #ifndef COMMPACKET_H
 #define COMMPACKET_H
 
-#include <QDataStream>
+#include <QByteArray>
 #include <QDebug>
-#include <QMetaEnum>
 
 #include "Defines.h"
 

@@ -3,7 +3,7 @@
 
 #include <QDebug>
 
-//#include "../IServer.h"
+#include "../IServer.h"
 #include "../IServerPlugin.h"
 
 class TestComm : public IServerPlugin
@@ -16,8 +16,8 @@ public:
     ~TestComm();
 
 public:
-    inline const QByteArray  name() const { return "TestComm"; }
-    inline const QByteArray  version() const { return "42"; }
+    inline const QByteArray  name()    const { return "TestComm"; }
+    inline quint8            version() const { return 42; }
 
     void recvPacket(quint32 userId, const ModulePacket&) const;
 };
