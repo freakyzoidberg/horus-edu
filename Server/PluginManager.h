@@ -1,12 +1,10 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
+#include <QObject>
 #include <QSettings>
 #include <QPluginLoader>
-#include <QStringList>
-#include <QDebug>
 
-#include "../Common/Defines.h"
 #include "InterfaceServer.h"
 #include "Plugins/IServerPlugin.h"
 

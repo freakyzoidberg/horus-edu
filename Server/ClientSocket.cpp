@@ -1,6 +1,7 @@
 #include "ClientSocket.h"
 #include "ThreadPacket.h"
 #include "../Common/Defines.h"
+#include "../Common/CommInit.h"
 
 quint32 ClientSocket::nbCon = 0;
 

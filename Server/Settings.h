@@ -1,9 +1,9 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 #include <QSettings>
-#include <QtDebug>
-#include <QStringList>
+#include <QDebug>
 #include <QCoreApplication>
+
 //!  Settings Class
 /*!
   settings management for the server

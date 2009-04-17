@@ -4,10 +4,10 @@
 class ModulePacket
 {
 public:
-    inline ModulePacket(const QByteArray& version="", const QByteArray& source="", const QByteArray& target="", const QByteArray& _data="")
-                        { packetVersion = version;       sourceModule = source;       targetModule = target;               data = _data; }
+    inline ModulePacket(quint8 version=0, const QByteArray& source="", const QByteArray& target="", const QByteArray& _data="")
+             { packetVersion = version;       sourceModule = source;       targetModule = target;               data = _data; }
 
-    QByteArray packetVersion;
+    quint8     packetVersion;
     QByteArray sourceModule;
     QByteArray targetModule;
     QByteArray data;

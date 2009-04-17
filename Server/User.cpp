@@ -1,3 +1,6 @@
+#include <QCryptographicHash>
+#include <QTime>
+
 #include "User.h"
 #include "Sql.h"
 #include "../Common/CommModule.h"

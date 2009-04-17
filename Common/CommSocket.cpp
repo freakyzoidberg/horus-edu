@@ -1,4 +1,5 @@
 #include "CommSocket.h"
+#include <QtEndian>
 
 CommSocket::CommSocket(QObject* parent) : QTcpSocket(parent)
 {
@@ -9,11 +10,13 @@ CommSocket::CommSocket(QObject* parent) : QTcpSocket(parent)
 
 void CommSocket::bytesReceived()
 {
-    if ((quint32)bytesAvailable() < sizeof(sizePacket))
-        return;
-
     if ( ! sizePacket)
+    {
+        if ((quint32)bytesAvailable() < sizeof(sizePacket))
+            return;
         read((char*)&sizePacket, sizeof(sizePacket));
+        sizePacket = qFromLittleEndian(sizePacket);
+    }
 
     if (bytesAvailable() < sizePacket)
         return;
@@ -29,7 +32,7 @@ void CommSocket::bytesReceived()
 
 void CommSocket::sendPacket(const QByteArray& pac)
 {
-    quint32 size = pac.length();
+    quint32 size = qToLittleEndian(pac.length());
     write((char*)&size, sizeof(size));
     write(pac.data(), size);
 }

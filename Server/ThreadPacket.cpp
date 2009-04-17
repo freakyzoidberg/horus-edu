@@ -1,6 +1,11 @@
 #include "ThreadPacket.h"
+
 #include "Server.h"
 #include "PluginManager.h"
+#include "User.h"
+#include "../Common/CommInit.h"
+#include "../Common/CommLogin.h"
+#include "../Common/CommModule.h"
 
 ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 {

@@ -5,12 +5,7 @@
 #include <QObject>
 
 #include "ClientSocket.h"
-#include "User.h"
-#include "../Common/CommInit.h"
 #include "../Common/CommError.h"
-#include "../Common/CommLogin.h"
-#include "../Common/CommModule.h"
-#include "../Common/CommPacket.h"
 
 //! This Object is a thread for each packet readed on the client socket
 class ThreadPacket : public QObject, public QRunnable

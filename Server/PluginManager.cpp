@@ -1,5 +1,6 @@
 #include "PluginManager.h"
 #include <QCoreApplication>
+#include <QStringList>
 #include "../Common/CommModule.h"
 #include "User.h"
 
