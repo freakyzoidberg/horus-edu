@@ -1,3 +1,5 @@
+#include <QDateTime>
+
 #include "ThreadPacket.h"
 
 #include "Server.h"
@@ -86,7 +88,7 @@ void ThreadPacket::PacketLogin()
 
     CommLogin response(CommLogin::ACCEPTED);
     response.sessionString = user->getSession();
-    response.sessionTime = DEFAULT_SESSION_LIFETIME;
+    response.sessionTime = DEFAULT_SESSION_LIFETIME*60;
     emit sendPacket(response.getPacket());
     socket->allowOtherThreads();
     qDebug() << "[out]" << response;

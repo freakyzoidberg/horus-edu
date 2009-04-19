@@ -19,15 +19,12 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
     vState = INIT;
 
     connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(packetAvailable(const QByteArray&)));
+    connect(this, SIGNAL(encrypted()), this, SLOT(ready()));
     connect(this, SIGNAL(disconnected()),                    this, SLOT(tryToDelete()));
-//    connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
 
     setSocketDescriptor(_socket);
 
-    // Send the CommInit packet
-    CommInit init(CURRENT_PROTO_VERSION, SERVER_NAME);
-    sendPacket(init.getPacket());
-    qDebug() << "[out]" << init;
+    startServerEncryption();
 }
 
 ClientSocket::~ClientSocket()
@@ -36,12 +33,19 @@ ClientSocket::~ClientSocket()
     qDebug() << "-----Client"<< id << "disconected. there's still" << nbCon << "users";
     close();
 }
-/*
-void ClientSocket::socketError(QAbstractSocket::SocketError e)
+
+
+void ClientSocket::ready()
 {
-    qDebug() << e;
+//    disconnect(this, SIGNAL(encrypted()), 0, 0);
+//    connect(this, SIGNAL(packetReceived(QByteArray)), this, SLOT(packetAvailable(QByteArray)));
+
+    // Send the CommInit packet
+    CommInit init(CURRENT_PROTO_VERSION, SERVER_NAME);
+    sendPacket(init.getPacket());
+    qDebug() << "[out]" << init;
 }
-*/
+
 void ClientSocket::packetAvailable(const QByteArray& pac)
 {
     recvQueue.append(pac);

@@ -1,4 +1,6 @@
 #include "CommLogin.h"
+#include <QDateTime>
+#include <QtEndian>
 
 const quint8 CommLogin::typeNumber = 6;
 const char*  CommLogin::typeMessages[] =
@@ -23,6 +25,7 @@ CommLogin::CommLogin(lType t) : CommPacket(CommPacket::LOGIN)
 CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
 {
     loginType = a[0];
+    a.remove(0, 1);
 
     login = "";
     sha1Pass = "";
@@ -31,8 +34,8 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
 
     if (loginType == LOGIN_PASSWORD || loginType == LOGIN_SESSION)
     {
-        login = a.mid(2, a[1]);
-        a.remove(0, a[1] + 2);
+        login = a.mid(1, a[0]);
+        a.remove(0, a[0] + 1);
         if (loginType == LOGIN_PASSWORD)
             sha1Pass = a;
         else
@@ -40,9 +43,10 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
     }
     else if (loginType == ACCEPTED)
     {
-        sessionTime = 256 * a[1] + a[2];
-        a.remove(0, 3);
         sessionString = a;
+        memcpy((char*)&sessionTime, a.constData(), sizeof(sessionTime));
+        sessionTime = qFromLittleEndian(sessionTime);
+        a.remove(0, sizeof(sessionTime));
     }
     else if (loginType != DESTROY_SESSION && loginType != REFUSED)
         loginType = UNKNOW;
@@ -51,7 +55,9 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
 const QByteArray CommLogin::getPacket()
 {
     QByteArray a = CommPacket::getPacket();
+
     a.append(loginType);
+
     if (loginType == LOGIN_PASSWORD || loginType == LOGIN_SESSION)
     {
         a.append(login.length());
@@ -63,33 +69,12 @@ const QByteArray CommLogin::getPacket()
     }
     else if (loginType == ACCEPTED)
     {
-        a.append(sessionTime / 256);
-        a.append(sessionTime % 256);
+        quint32 time = qToLittleEndian(sessionTime);
+        a.append((char*)&time, sizeof(sessionTime) );
         a.append(sessionString);
     }
     return a;
  }
-
-/*
-bool CommLogin::isValidContent()
-{
-    if (loginType == REFUSED
-        || loginType == LOGOUT
-        || (loginType == ACCEPTED
-             && sessionString.length() == SESSION_WORD_SIZE
-             && sessionTime > 0)
-        || (loginType == LOGIN_PASSWORD
-            && ! login.isEmpty()
-            && sha1Pass.length() == SHA1_WORD_SIZE)
-        || (loginType == LOGIN_SESSION
-            && ! login.isEmpty()
-            && sessionString.length() == SESSION_WORD_SIZE)
-        )
-        return true;
-
-    qCritical() << "Invalid login packet" << *this;
-    return false;
-}*/
 
 QDebug operator<<(QDebug d, CommLogin& cl)
 {
