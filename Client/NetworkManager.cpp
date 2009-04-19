@@ -55,7 +55,7 @@ bool    NetworkManager::event(QEvent *e)
     if(e->type() == StartEvent::type)
     {
         qDebug() << "NewtworkManager: Recieve StartEvent";
-        connectToHost(QHostAddress::LocalHost, 42000);
+        connectToHostEncrypted("localhost", 42000);
     }
     return true;
 }

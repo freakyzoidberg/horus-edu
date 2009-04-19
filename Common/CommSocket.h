@@ -1,9 +1,10 @@
 #ifndef COMMSOCKET_H
 #define COMMSOCKET_H
 
-#include <QTcpSocket>
+#include <QSsl>
+#include <QSslSocket>
 
-class CommSocket : public QTcpSocket
+class CommSocket : public QSslSocket
 {
   Q_OBJECT
 public:
@@ -13,7 +14,13 @@ private:
     quint32 sizePacket;
 
 private slots:
+    void ready();
     void bytesReceived();
+
+    void errorSlot(QAbstractSocket::SocketError e);
+    void sslErrorsSlot(QList<QSslError> e);
+    void modeChangedSlot ( QSslSocket::SslMode e );
+    void peerVerifyErrorSlot ( const QSslError & e );
 
 protected slots:
     void sendPacket(const QByteArray&);

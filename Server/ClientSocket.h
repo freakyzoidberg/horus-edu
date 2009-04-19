@@ -51,6 +51,8 @@ private slots:
     //! called when an ThreadPacket is destroyed
     void threadFinished();
 
+//    void sslErrorsSlot(QList<QSslError> e);
+    void ready();
 //    void socketError(QAbstractSocket::SocketError);
 
 private:

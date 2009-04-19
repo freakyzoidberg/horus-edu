@@ -25,7 +25,7 @@ public:
     quint8       loginType;
     QString      login;
     QByteArray   sha1Pass;
-    quint16      sessionTime;
+    quint32      sessionTime;
     QByteArray   sessionString;
 
     static const quint8 typeNumber;
