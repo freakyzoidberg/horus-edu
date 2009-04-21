@@ -38,8 +38,10 @@ void    PluginManager::loadPlugins()
     QSettings   settings;
     QDir        pluginsDir;
     QString     fileName;
+    QStringList plugins;
 
-    pluginsDir = QDir(settings.value("Plugins/DirectoryPath", "/Undefined").toString());
+    settings.beginGroup("Plugins");
+    pluginsDir = QDir(settings.value("DirectoryPath", "/Undefined").toString());
     if (pluginsDir.absolutePath() == "/Undefined")
     {
         pluginsDir = QDir(PREFIX);
@@ -51,7 +53,8 @@ void    PluginManager::loadPlugins()
             return ;
         }
     }
-    foreach (fileName, pluginsDir.entryList(QDir::Files))
+    plugins = settings.value("Load", NULL).toStringList();
+    foreach (fileName, plugins)
     {
         qDebug() << "PluginManager: Loading" << fileName;
         QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
@@ -65,6 +68,7 @@ void    PluginManager::loadPlugins()
             qDebug() << "PluginManager: error:" << loader.errorString();
         qDebug() << "---------";
      }
+    settings.endGroup();
 }
 
 QObject *PluginManager::findPlugin(QString &pluginName) const
