@@ -24,7 +24,7 @@ SOURCES = main.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommFile.cpp \
-    ../Common/CommConfig.cpp
+    ../Common/CommSettings.cpp
 HEADERS = Sql.h \
     User.h \
     Server.h \
@@ -44,4 +44,4 @@ HEADERS = Sql.h \
     ../Common/CommSocket.h \
     ../Common/ModulePacket.h \
     ../Common/CommFile.h \
-    ../Common/CommConfig.h
+    ../Common/CommSettings.h
