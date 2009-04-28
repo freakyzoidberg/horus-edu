@@ -9,13 +9,12 @@ CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
     Socket.cpp \
+    ../Common/CommFile.cpp \
+    ../Common/CommInit.cpp \
+    ../Common/CommLogin.cpp \
+    ../Common/CommConfig.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommModule.cpp \
-    ../Common/CommLogin.cpp \
-    ../Common/CommInit.cpp \
     ../Common/CommSocket.cpp
 HEADERS += Socket.h \
-    ../Common/CommPacket.h \
-    ../Common/CommModule.h \
-    ../Common/Defines.h \
     ../Common/CommSocket.h

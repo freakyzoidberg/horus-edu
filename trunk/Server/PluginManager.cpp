@@ -31,7 +31,8 @@ PluginManager::PluginManager() : QObject(QCoreApplication::instance())
         if (plugin)
         {
             map[ plugin->name() ] = plugin;
-            plugin->server = &serverInterface;
+            plugin->server = new InterfaceServer(plugin);
+            //connect(plugin, SIGNAL(destroyed()), plugin->server, SLOT(deleteLater()));
             qDebug() << "PluginManager:" << loader.fileName() << "loaded";
         }
         else

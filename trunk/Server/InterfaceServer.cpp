@@ -3,9 +3,18 @@
 #include "Plugins/IServerPlugin.h"
 #include "User.h"
 
+InterfaceServer::InterfaceServer(IServerPlugin* p)
+{
+    plugin = p;
+}
+
 void InterfaceServer::sendPacket(const quint32 userId, const ModulePacket& packet) const
 {
     CommModule p = packet;
+
+    p.packet.packetVersion = plugin->version();
+    p.packet.sourceModule = plugin->name();
+
     User* usr = User::getUser(userId);
     if (usr)
     {

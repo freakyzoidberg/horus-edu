@@ -3,8 +3,10 @@
 
 #include <QObject>
 #include <QByteArray>
+#include <QDateTime>
 
 #include "ClientSocket.h"
+#include "../Common/Defines.h"
 
 class User : public QObject
 {
@@ -15,15 +17,18 @@ public:
     ~User();
 
     void              login(const QString& _login, bool authSession, const QByteArray& _auth);
-    const QByteArray& getSession();
+    void              renewSession(quint32 duration = DEFAULT_SESSION_LIFETIME*60);
     void              destroySession();
+    const QByteArray& getSessionString();
+    const QDateTime&  getSessionEnd();
 
     void              sendPacket(const QByteArray&);
 
 private:
     quint32           id;
     QString           user;
-    QByteArray        session;
+    QByteArray        sessionString;
+    QDateTime         sessionEnd;
     ClientSocket*     socket;
 
 signals:
