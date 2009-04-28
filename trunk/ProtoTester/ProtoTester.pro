@@ -12,7 +12,7 @@ SOURCES += main.cpp \
     ../Common/CommFile.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommLogin.cpp \
-    ../Common/CommConfig.cpp \
+    ../Common/CommSettings.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommModule.cpp \
     ../Common/CommSocket.cpp

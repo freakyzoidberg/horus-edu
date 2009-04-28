@@ -10,8 +10,11 @@ public:
     CommFile(QByteArray&);
     const QByteArray getPacket();
 
-    QString dir;
-    QString file;
+    QString     dir;
+    QString     file;
+    quint64     from;
+    quint64     length;
+    QByteArray  key;
 };
 
 QDebug operator<<(QDebug, CommFile&);
