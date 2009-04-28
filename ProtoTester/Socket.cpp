@@ -7,6 +7,7 @@
 
 #include <QCoreApplication>
 #include <QDateTime>
+#include <QVariant>
 
 Socket::Socket(const char* host, quint16 port) : CommSocket()
 {
@@ -46,9 +47,11 @@ void Socket::packetAvailable(QByteArray packet)
     sendPacket(l.getPacket());
     qDebug() << "[out]" << l;
 
-    ModulePacket m(42, "protoTester", "TestComm", "data....");
+    ModulePacket m("TestComm", "data....");
 
     CommModule mod(m);
+    mod.packet.packetVersion = 42;
+    mod.packet.sourceModule = "protoTester";
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
 

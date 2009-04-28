@@ -18,9 +18,6 @@ public:
     static const char*  typeNames[];
 };
 
-//QDataStream& operator<<(QDataStream&, CommError&);
-//QDataStream& operator>>(QDataStream&, CommError&);
-
 QDebug operator<<(QDebug, CommError&);
 
 #endif // COMMERROR_H

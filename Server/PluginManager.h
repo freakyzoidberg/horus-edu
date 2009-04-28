@@ -18,7 +18,7 @@ public:
 private:
     PluginManager();
     static PluginManager* instance;
-    InterfaceServer       serverInterface;
+    //InterfaceServer       serverInterface;
     QMap<QByteArray,IServerPlugin*> map;
 };
 

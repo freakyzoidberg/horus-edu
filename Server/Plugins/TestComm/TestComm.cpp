@@ -14,5 +14,5 @@ TestComm::~TestComm()
 
 void TestComm::recvPacket(quint32 userId, const ModulePacket& packet) const
 {
-    server->sendPacket(userId, ModulePacket(version(), name(), packet.sourceModule, packet.data));
+    server->sendPacket(userId, ModulePacket(packet.sourceModule, packet.data));
 }

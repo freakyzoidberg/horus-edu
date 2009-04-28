@@ -70,11 +70,14 @@ void ThreadPacket::PacketLogin()
     CommLogin login(packet);
     qDebug() << "[ in]" << login;
 
+    if (login.loginType != CommLogin::LOGIN_PASSWORD && login.loginType != CommLogin::LOGIN_SESSION)
+      return sendError(CommError::NOT_INITIALIZED);
+
     User* user = new User(socket);
 
     if (login.loginType == CommLogin::LOGIN_SESSION)
         user->login(login.login, true, login.sessionString);
-    else if (login.loginType == CommLogin::LOGIN_PASSWORD)
+    else
         user->login(login.login, false, login.sha1Pass);
 
     if ( ! socket->userId)
@@ -86,9 +89,11 @@ void ThreadPacket::PacketLogin()
         return;
     }
 
+    user->renewSession(DEFAULT_SESSION_LIFETIME * 60);
     CommLogin response(CommLogin::ACCEPTED);
-    response.sessionString = user->getSession();
-    response.sessionTime = DEFAULT_SESSION_LIFETIME*60;
+    response.sessionString = user->getSessionString();
+    response.sessionTime = user->getSessionEnd().toTime_t() - QDateTime::currentDateTime().toTime_t();
+
     emit sendPacket(response.getPacket());
     socket->allowOtherThreads();
     qDebug() << "[out]" << response;

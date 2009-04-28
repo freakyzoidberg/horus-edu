@@ -79,10 +79,16 @@ const QByteArray CommLogin::getPacket()
 QDebug operator<<(QDebug d, CommLogin& cl)
 {
     d << (CommPacket&)cl;
+    d << CommLogin::typeMessages[ cl.loginType ];
 
-    return d << CommLogin::typeMessages[ cl.loginType ]
-             << cl.login
-             << cl.sha1Pass.toHex()
-             << cl.sessionString.toHex()
-             << cl.sessionTime;
+    if (cl.loginType == CommLogin::ACCEPTED)
+        d << cl.sessionString.toHex() << cl.sessionTime;
+
+    else if (cl.loginType == CommLogin::LOGIN_PASSWORD)
+        d << cl.login << cl.sha1Pass.toHex();
+
+    else if (cl.loginType == CommLogin::LOGIN_SESSION)
+        d << cl.login << cl.sessionString.toHex();
+
+    return d;
 }

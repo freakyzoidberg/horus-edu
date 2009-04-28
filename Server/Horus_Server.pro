@@ -2,13 +2,13 @@
 # Project created by QtCreator 2009-03-28T21:10:31
 # -------------------------------------------------
 QT -= gui
-QT += network sql
+QT += network \
+    sql
 TARGET = Horus_Server
 CONFIG -= app_bundle
 CONFIG += console
 TEMPLATE = app
-SOURCES = \
-    main.cpp \
+SOURCES = main.cpp \
     Sql.cpp \
     User.cpp \
     Server.cpp \
@@ -22,9 +22,10 @@ SOURCES = \
     ../Common/CommLogin.cpp \
     ../Common/CommModule.cpp \
     ../Common/CommPacket.cpp \
-    ../Common/CommSocket.cpp
-HEADERS = \
-    Sql.h \
+    ../Common/CommSocket.cpp \
+    ../Common/CommFile.cpp \
+    ../Common/CommConfig.cpp
+HEADERS = Sql.h \
     User.h \
     Server.h \
     Settings.h \
@@ -41,4 +42,6 @@ HEADERS = \
     ../Common/CommModule.h \
     ../Common/CommPacket.h \
     ../Common/CommSocket.h \
-    ../Common/ModulePacket.h
+    ../Common/ModulePacket.h \
+    ../Common/CommFile.h \
+    ../Common/CommConfig.h

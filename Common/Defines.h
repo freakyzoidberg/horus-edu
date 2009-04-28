@@ -36,15 +36,21 @@
 #define CURRENT_PROTO_VERSION 0
 #endif
 
+//duration of the session
 #ifndef DEFAULT_SESSION_LIFETIME
 #define DEFAULT_SESSION_LIFETIME 720 // minutes    12h*60m     0 mean infinite      max is 65536 -> 45.5days
 #endif
+// size of the session key
 #ifndef SESSION_WORD_SIZE
 #define SESSION_WORD_SIZE 32 // bytes -> 64char hexa
 #endif
-//#ifndef SHA1_WORD_SIZE
+
+#ifndef FILE_KEY_SIZE
+#define FILE_KEY_SIZE 32 // bytes -> 64char hexa
+#endif
+
+// cannot be redefined, size of sha1 hash
 #define SHA1_WORD_SIZE 20 //bytes -> 40char hexa
-//#endif
 
 #ifndef MAX_POOL_THREADS
 #define MAX_POOL_THREADS 500 //a big number for tests

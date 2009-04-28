@@ -12,7 +12,7 @@ User::User(ClientSocket* sock)
     socket = sock;
     id = 0;
     user = "";
-    session = "";
+    sessionString = "";
 }
 
 User::~User()
@@ -44,30 +44,45 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
     id = query.value(0).toUInt();
     user = _login;
 
+    connect(this, SIGNAL(sendPacketSignal(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
+
+    map[ id ] = this;
+    socket->userId = id;
+}
+
+void User::renewSession(quint32 duration)
+{
+    QDateTime end = QDateTime::currentDateTime().addSecs(duration);
+
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+
     //TODO maybe change this value
     qsrand(QTime::currentTime().msec() + id);
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
-        session[i] = qrand();
+        sessionString[i] = qrand();
 
     query.clear();
-    query.prepare("UPDATE users SET session_key=? WHERE id=? LIMIT 1;");
-    query.addBindValue(session.toHex());
+    query.prepare("UPDATE users SET session_key=?, session_end=? WHERE id=? LIMIT 1;");
+    query.addBindValue(sessionString.toHex());
+    query.addBindValue(end.toTime_t());
     query.addBindValue(id);
     if ( ! query.exec())
         return;
 
-    connect(this, SIGNAL(sendPacketSignal(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
+    sessionEnd = end;
 
-    qDebug() << user << id << session.toHex() << "connected";
-
-    map[ id ] = this;
-    socket->userId = id;
     return;
 }
 
-const QByteArray& User::getSession()
+const QByteArray& User::getSessionString()
 {
-    return session;
+    return sessionString;
+}
+
+const QDateTime& User::getSessionEnd()
+{
+    return sessionEnd;
 }
 
 void User::sendPacket(const QByteArray& packet)
