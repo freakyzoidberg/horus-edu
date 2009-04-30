@@ -8,7 +8,6 @@ QT += network \
 TARGET = Horus_Client
 TEMPLATE = app
 SOURCES += main.cpp \
-    mainwindow.cpp \
     NetworkManager.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommModule.cpp \
@@ -24,8 +23,7 @@ SOURCES += main.cpp \
     UnloadPluginEvent.cpp \
     NetworkReceiveEvent.cpp \
     PacketManager.cpp
-HEADERS += mainwindow.h \
-    NetworkManager.h \
+HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
     ../Common/CommSocket.h \
@@ -43,6 +41,7 @@ HEADERS += mainwindow.h \
     NetworkReceiveEvent.h \
     IPluginNetwork.h \
     PacketManager.h \
-    ClientEvents.h
-FORMS += mainwindow.ui
+    ClientEvents.h \
+    IClient.h
+FORMS +=
 OTHER_FILES += 

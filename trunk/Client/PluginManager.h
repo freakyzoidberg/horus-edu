@@ -5,6 +5,7 @@
 #include <QEvent>
 #include <QString>
 #include <QMap>
+#include <QDir>
 
 class PluginManager : public QObject
 {
@@ -16,6 +17,7 @@ public:
 
 private:
     void    loadPlugins();
+    void    loadPlugin(QString pluginName, QDir path);
     QObject *findPlugin(QString &) const;
 
 private:
