@@ -1,7 +1,5 @@
 #include    "PluginManager.h"
 #include    <QSettings>
-#include    <QDir>
-#include    <QString>
 #include    <QPluginLoader>
 #include    "../Common/Defines.h"
 #include    "StartEvent.h"
@@ -37,7 +35,7 @@ void    PluginManager::loadPlugins()
 {
     QSettings   settings;
     QDir        pluginsDir;
-    QString     fileName;
+    QString     pluginName;
     QStringList plugins;
 
     settings.beginGroup("Plugins");
@@ -54,21 +52,26 @@ void    PluginManager::loadPlugins()
         }
     }
     plugins = settings.value("Load", NULL).toStringList();
-    foreach (fileName, plugins)
+    foreach (pluginName, plugins)
     {
-        qDebug() << "PluginManager: Loading" << fileName;
-        QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
-        QObject *plugin = loader.instance();
-        if (plugin)
-        {
-            pluginsList.insert(fileName, plugin);
-            qDebug() << "PluginManager: plugin loaded";
-        }
-        else
-            qDebug() << "PluginManager: error:" << loader.errorString();
-        qDebug() << "---------";
-     }
+        qDebug() << "PluginManager: Loading" << pluginName;
+        loadPlugin(pluginName, pluginsDir);
+    }
     settings.endGroup();
+}
+
+void    PluginManager::loadPlugin(QString pluginName, QDir path)
+{
+    QPluginLoader loader(path.absoluteFilePath(pluginName));
+    QObject *plugin = loader.instance();
+
+    if (plugin)
+    {
+        pluginsList.insert(pluginName, plugin);
+        qDebug() << "PluginManager: plugin loaded";
+    }
+    else
+        qDebug() << "PluginManager: error:" << loader.errorString();
 }
 
 QObject *PluginManager::findPlugin(QString &pluginName) const
