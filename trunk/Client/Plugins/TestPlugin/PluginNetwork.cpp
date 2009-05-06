@@ -6,6 +6,7 @@ PluginNetwork::PluginNetwork()
 
 bool    PluginNetwork::eventHandler(QEvent *event)
 {
+    event = event; // remove 'unused parameter' warning !
     return true;
 }
 
