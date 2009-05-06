@@ -10,7 +10,7 @@ class Iclient
 public:
     virtual void            sendPacket(const ModulePacket& packet) const = 0;
     virtual void            recvPacket(const ModulePacket& packet) const = 0;
-    virtual IClientPlugin*  getPlugin(const char* name) const = 0;
+    virtual IClientPlugin   *getPlugin(const QByteArray name) const = 0;
 };
 
 Q_DECLARE_INTERFACE(IClientPlugin, "net.horus.Client.PluginClientInterface/1.0");

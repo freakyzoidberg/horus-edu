@@ -14,7 +14,7 @@ class IClientPlugin : public QObject
     virtual const QByteArray    getVersion() const = 0;
     virtual QStringList         getPluginsConflicts() const = 0;
     virtual QStringList         getPluginsRequired() const = 0;
-//    virtual QStringList         getPluginsRecommended() const = 0;
+    virtual QStringList         getPluginsRecommended() const = 0;
 //    virtual QStringList         getExports() const = 0;
     virtual bool                event(QEvent *) = 0;
 };

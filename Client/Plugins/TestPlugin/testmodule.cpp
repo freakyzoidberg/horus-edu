@@ -11,11 +11,14 @@ Q_EXPORT_PLUGIN2(testModule, testPlugin)
 testPlugin::testPlugin()
 {
     std::cout << "module testPlugin loaded." << std::endl;
+//    setModRequired("NotAModule.so");
+    setModRecommended("NotAModule.so");
     pNetwork = new PluginNetwork();
 }
 
 testPlugin::~testPlugin()
 {
+    std::cout << "module testPlugin unloaded." << std::endl;
     delete pNetwork;
 }
 
@@ -58,12 +61,12 @@ bool    testPlugin::eventHandlerUnload(QEvent *event)
     return true;
 }
 
-void testPlugin::setModName(const QString modName)
+void testPlugin::setModName(const QByteArray modName)
 {
     this->modName = modName;
 }
 
-void    testPlugin::setModVersion(const QString modVersion)
+void    testPlugin::setModVersion(const QByteArray modVersion)
 {
     this->modVersion = modVersion;
 }
@@ -88,12 +91,12 @@ void    testPlugin::setModRecommended(const QString name)
     modRecommended << name;
 }
 
-QString   testPlugin::getName() const
+const QByteArray   testPlugin::getName() const
 {
     return modName;
 }
 
-QString   testPlugin::getVersion() const
+const QByteArray   testPlugin::getVersion() const
 {
     return modVersion;
 }

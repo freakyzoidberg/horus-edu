@@ -10,7 +10,7 @@
 #include "../../LoadPluginEvent.h"
 #include "PluginNetwork.h"
 
-class testPlugin : public QObject, public IClientPlugin//,  public IPluginNetwork
+class testPlugin : public IClientPlugin//,  public IPluginNetwork
 {
  Q_OBJECT
  Q_INTERFACES(IClientPlugin)// IPluginNetwork)
@@ -20,16 +20,16 @@ public:
     ~testPlugin();
 
 public:
-     void setModName(const QString);
-     void setModVersion(const QString);
+     void setModName(const QByteArray);
+     void setModVersion(const QByteArray);
      void setModConflicts(const QString);
      void setModRequired(const QString);
      void setModRecommended(const QString);
      void setExports(const QString);
 
   public:
-     QString        getName() const;
-     QString        getVersion() const;
+     const QByteArray        getName() const;
+     const QByteArray        getVersion() const;
      QStringList    getPluginsConflicts() const;
      QStringList    getPluginsRequired() const;
      QStringList    getPluginsRecommended() const;
@@ -40,8 +40,8 @@ public:
     bool    eventHandlerUnload(QEvent *);
 
  private:
-    QString         modName;
-    QString         modVersion;
+    QByteArray         modName;
+    QByteArray         modVersion;
     QStringList     modConflicts;
     QStringList     modRequired;
     QStringList     modRecommended;
