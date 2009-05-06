@@ -54,24 +54,44 @@ void    PluginManager::loadPlugins()
     plugins = settings.value("Load", NULL).toStringList();
     foreach (pluginName, plugins)
     {
-        qDebug() << "PluginManager: Loading" << pluginName;
         loadPlugin(pluginName, pluginsDir);
     }
     settings.endGroup();
 }
 
-void    PluginManager::loadPlugin(QString pluginName, QDir path)
+bool    PluginManager::loadPlugin(QString pluginName, QDir path)
 {
-    QPluginLoader loader(path.absoluteFilePath(pluginName));
-    QObject *plugin = loader.instance();
+    qDebug() << "PluginManager: Loading" << pluginName;
+    QPluginLoader   loader(path.absoluteFilePath(pluginName));
+    QObject         *plugin = loader.instance();
+    IClientPlugin   *clientPlugin;
+    QString         newPlugin;
+    bool            success = true;
 
+    if (findPlugin(pluginName))
+        return (success);
     if (plugin)
     {
-        pluginsList.insert(pluginName, plugin);
-        qDebug() << "PluginManager: plugin loaded";
+        clientPlugin = qobject_cast<IClientPlugin *>(plugin);
+        if (clientPlugin)
+        {
+            foreach (newPlugin, clientPlugin->getPluginsRequired())
+                success &= this->loadPlugin(newPlugin, path);
+            if (success)
+            {
+                pluginsList.insert(pluginName, clientPlugin);
+                qDebug() << "PluginManager: plugin" << pluginName << "loaded";
+                foreach (newPlugin, clientPlugin->getPluginsRecommended())
+                    this->loadPlugin(newPlugin, path);
+                return (success);
+            }
+            qDebug() << "PluginManager: error while loading" << pluginName << ": Dependencies not satisfiables";
+            loader.unload();
+            return (false);
+        }
     }
-    else
-        qDebug() << "PluginManager: error:" << loader.errorString();
+    qDebug() << "PluginManager: error while loading" << pluginName << ":" << loader.errorString();
+    return (false);
 }
 
 QObject *PluginManager::findPlugin(QString &pluginName) const

@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMap>
 #include <QDir>
+#include "IClientPlugin.h"
 
 class PluginManager : public QObject
 {
@@ -17,11 +18,11 @@ public:
 
 private:
     void    loadPlugins();
-    void    loadPlugin(QString pluginName, QDir path);
+    bool    loadPlugin(QString pluginName, QDir path);
     QObject *findPlugin(QString &) const;
 
 private:
-    QMap<QString, QObject *>    pluginsList;
+    QMap<QString, IClientPlugin *>    pluginsList;
 };
 
 #endif // PLUGINMANAGER_H
