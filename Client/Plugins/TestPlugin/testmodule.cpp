@@ -24,7 +24,7 @@ testPlugin::~testPlugin()
 
 bool    testPlugin::event(QEvent *event)
 {
-    bool    eventSuccess;
+    //bool    eventSuccess;
 
     if (event->type() == NetworkReceiveEvent::type)
     {
