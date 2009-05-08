@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     NetworkReceiveEvent.cpp \
     PacketManager.cpp \
     ../Common/CommSettings.cpp \
-    Loader.cpp
+    Loader.cpp \
+    MainWindow.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -46,7 +47,10 @@ HEADERS += NetworkManager.h \
     ClientEvents.h \
     IClient.h \
     ../Common/CommSettings.h \
-    Loader.h
-FORMS += Ui/Loader.ui
-RESOURCES += Ui/Loader.qrc
+    Loader.h \
+    MainWindow.h
+FORMS += Ui/Loader.ui \
+    Ui/MainWindow.ui
+RESOURCES += Ui/Loader.qrc \
+    Ui/MainWindow.qrc
 OTHER_FILES += 
