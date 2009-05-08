@@ -7,6 +7,12 @@ NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
     setObjectName("NetworkManager");
+    //this->start();
+}
+
+void run()
+{
+    //this->exec();
 }
 /*
 void    NetworkManager::ConnectTo(QString addr, int port)

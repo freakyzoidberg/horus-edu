@@ -11,13 +11,16 @@
 #include    "StopEvent.h"
 #include    "PacketManager.h"
 
-class NetworkManager : public CommSocket
+class NetworkManager : public CommSocket //, public QThread
 {
     Q_OBJECT
 
     public:
         NetworkManager(QObject *parent = 0);
         void    ConnectTo(QString addr, int port);
+
+        protected:
+        void run();
 
     private slots:
         void    displayError(QAbstractSocket::SocketError);

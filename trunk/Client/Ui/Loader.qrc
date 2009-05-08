@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="Pictures" >
+    <file>2010_LOGO_horus_1_trans.png</file>
+    <file>2010_LOGO_horus_2_trans.png</file>
+  </qresource>
+</RCC>

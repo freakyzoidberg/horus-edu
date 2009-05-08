@@ -1,5 +1,6 @@
 #include    "ClientApplication.h"
 #include    "../Common/Defines.h"
+#include    "Loader.h"
 #include    "NetworkManager.h"
 #include    "PluginManager.h"
 #include    "StartEvent.h"
@@ -8,6 +9,10 @@
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
 {
+    Loader          *loader;
+    PluginManager   *pluginManager;
+    NetworkManager   *networkManager;
+
     this->setOrganizationName(ORGANIZATION_NAME);
     this->setOrganizationDomain(ORGANIZATION_DOMAIN);
     this->setApplicationName(CLIENT_NAME);
@@ -16,30 +21,17 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
         qDebug() << "Warning, bad event type on register StartEvent";
     if (StopEvent::registerEventType(StopEvent::type) != StopEvent::type)
         qDebug() << "Warning, bad event type on register StopEvent";
-    new PluginManager(this);
-    new NetworkManager(this);
-    QCoreApplication::postEvent(this, new StartEvent);
+    loader = new Loader(this);
+    loader->show();
+    networkManager = new NetworkManager(this);
+    QApplication::postEvent(networkManager, new StartEvent);
+    pluginManager = new PluginManager(this);
+    QApplication::postEvent(pluginManager, new StartEvent);
 }
 
 ClientApplication::~ClientApplication()
 {
     QApplication::postEvent(this, new StopEvent);
-}
-
-bool    ClientApplication::notify(QObject *object, QEvent *event)
-{
-    QList<QObject *>  children;
-    bool            res;
-
-    if (event->type() < QEvent::User || event->type() > QEvent::MaxUser)
-        return (QApplication::notify(object, event));
-    if (object->event(event))
-        return (true);
-    children= object->findChildren<QObject *>();
-    res = false;
-    foreach(QObject *child, children)
-        res &= this->notify(child, event);
-    return (res);
 }
 
 bool    ClientApplication::event(QEvent *event)
