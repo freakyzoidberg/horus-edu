@@ -7,13 +7,14 @@
 #include <QMap>
 #include <QDir>
 #include "IClientPlugin.h"
+#include "ClientApplication.h"
 
 class PluginManager : public QThread
 {
     Q_OBJECT
 
 public:
-    PluginManager(QObject *parent = 0);
+    PluginManager(ClientApplication *parent = 0);
     bool    event(QEvent *event);
 
 protected:
@@ -26,6 +27,7 @@ private:
 
 private:
     QMap<QString, IClientPlugin *>    pluginsList;
+    ClientApplication *parent;
 };
 
 #endif // PLUGINMANAGER_H

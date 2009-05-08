@@ -12,6 +12,8 @@ public:
 
     void    reloadPlugins();
     void    restartNetwork();
+
+    QWidget *loader;
 };
 
 
