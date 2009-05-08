@@ -14,6 +14,7 @@ public:
     void    restartNetwork();
 
     QWidget *loader;
+    QWidget *mainWindow;
 };
 
 

@@ -4,19 +4,21 @@
 #include <QDialog>
 #include "ui_Loader.h"
 
+class ClientApplication;
+
 class Loader : public QDialog
 {
     Q_OBJECT
 
 public:
-    Loader(QObject *parent = 0);
+    Loader(ClientApplication *parent);
     bool event(QEvent *event);
 
 private:
     Ui::Window ui;
     int processes;
     int processesComplete;
-    QObject *parent;
+    ClientApplication *parent;
 
     void    loadPlugins();
     void    loadNetwork();

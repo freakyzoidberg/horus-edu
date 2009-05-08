@@ -5,6 +5,7 @@
 #include    "PluginManager.h"
 #include    "StartEvent.h"
 #include    "StopEvent.h"
+#include    "MainWindow.h"
 #include    <QtDebug>
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
@@ -20,6 +21,7 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     new NetworkManager(this);
     new PluginManager(this);
     this->loader = new Loader(this);
+    this->mainWindow = new MainWindow(this);
     this->loader->show();
 }
 

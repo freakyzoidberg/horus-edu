@@ -2,7 +2,7 @@
 #include "NetworkManager.cpp"
 #include "PluginManager.cpp"
 
-Loader::Loader(QObject *parent) : QDialog::QDialog()
+Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
 {
     this->parent = parent;
     this->ui.setupUi(this);
@@ -35,9 +35,16 @@ bool    Loader::event(QEvent *event)
 {
     if (event->type() == StartEvent::type)
     {
+        event->accept();
         ++(this->processesComplete);
         this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);
-        this->ui.LoadingBar->update();
+        //if (processes == processesComplete)
+        if (processes == processesComplete + 1) // waiting for NetworkManager to send events...
+        {
+            this->hide();
+            parent->mainWindow->show();
+        }
+        return (true);
     }
     return (QDialog::event(event));
 }
