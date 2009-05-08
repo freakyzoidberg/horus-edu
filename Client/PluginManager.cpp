@@ -4,11 +4,13 @@
 #include    "../Common/Defines.h"
 #include    "StartEvent.h"
 #include    "StopEvent.h"
+#include    "LoadPluginEvent.h"
 #include    <QDebug>
 #include    <QApplication>
 
-PluginManager::PluginManager(QObject *parent) : QThread::QThread(parent)
+PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(parent)
 {
+    this->parent = parent;
     this->start();
 }
 
@@ -64,6 +66,7 @@ void    PluginManager::loadPlugins()
         loadPlugin(pluginName, pluginsDir);
     }
     settings.endGroup();
+    QApplication::postEvent(parent->loader, new StartEvent);
 }
 
 bool    PluginManager::loadPlugin(QString pluginName, QDir path)
@@ -90,6 +93,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir path)
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
                     this->loadPlugin(newPlugin, path);
+                QApplication::postEvent(parent->loader, new LoadPluginEvent);
                 return (success);
             }
             qDebug() << "PluginManager: error while loading" << pluginName << ": Dependencies not satisfiables";

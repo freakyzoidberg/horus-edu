@@ -10,9 +10,17 @@ class Loader : public QDialog
 
 public:
     Loader(QObject *parent = 0);
+    bool event(QEvent *event);
 
 private:
     Ui::Window ui;
+    int processes;
+    int processesComplete;
+    QObject *parent;
+
+    void    loadPlugins();
+    void    loadNetwork();
+    void    loadConfig();
 };
 
 #endif // LOADER_H
