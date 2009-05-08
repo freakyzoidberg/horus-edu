@@ -9,6 +9,10 @@
 #include "../Common/CommLogin.h"
 #include "../Common/CommModule.h"
 
+
+//ZoidTest
+//#include "TreeMngt.h"
+
 ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 {
     socket = cs;
@@ -122,9 +126,19 @@ void ThreadPacket::PacketModule()
     CommModule mod(packet);
     qDebug() << "[ in]" << mod;
 
+    
     IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetModule);
     if (plugin)
         plugin->recvPacket(socket->userId, mod.packet);
+
+    //ZoidTest
+    //TreeMngt test;
+    //test.DeleteNode(4);
+    //test.InsertNode("inserted1", 0, 4);
+    //test.MoveNode(14, 1);
+    //test.SetName(14, "test SETNAME");
+    //test.SetUserRef(14, 4);
+
 
     //const ModulePacket& m = mod;
 
