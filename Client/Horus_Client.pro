@@ -22,7 +22,9 @@ SOURCES += main.cpp \
     LoadPluginEvent.cpp \
     UnloadPluginEvent.cpp \
     NetworkReceiveEvent.cpp \
-    PacketManager.cpp
+    PacketManager.cpp \
+    ../Common/CommSettings.cpp \
+    Loader.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -42,6 +44,9 @@ HEADERS += NetworkManager.h \
     IPluginNetwork.h \
     PacketManager.h \
     ClientEvents.h \
-    IClient.h
-FORMS +=
+    IClient.h \
+    ../Common/CommSettings.h \
+    Loader.h
+FORMS += Ui/Loader.ui
+RESOURCES += Ui/Loader.qrc
 OTHER_FILES += 

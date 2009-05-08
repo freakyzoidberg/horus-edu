@@ -7,8 +7,9 @@
 #include    <QDebug>
 #include    <QApplication>
 
-PluginManager::PluginManager(QObject *parent) : QObject::QObject(parent)
+PluginManager::PluginManager(QObject *parent) : QThread::QThread(parent)
 {
+    this->start();
 }
 
 bool    PluginManager::event(QEvent *event)
@@ -27,8 +28,14 @@ bool    PluginManager::event(QEvent *event)
     else
     {
         qDebug() << "PluginManager: Receive Event not managed";
+        QThread::event(event);
         return (false);
     }
+}
+
+void    PluginManager::run()
+{
+    exec();
 }
 
 void    PluginManager::loadPlugins()
