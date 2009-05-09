@@ -77,6 +77,11 @@ bool    NetworkManager::quit()
     return true;
 }
 
+void NetworkManager::login(const QString &login, const QString &pass)
+{
+
+}
+
 bool    NetworkManager::event(QEvent *e)
 {
     if(e->type() == StartEvent::type)

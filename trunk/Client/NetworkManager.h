@@ -18,7 +18,8 @@ class NetworkManager : public CommSocket //, public QThread
     public:
         NetworkManager(QObject *parent = 0);
         void    ConnectTo(QString addr, int port);
-        static NetworkManager* getInstance();
+        static  NetworkManager* getInstance();
+        void    login(const QString &login, const QString &pass);
         ~NetworkManager();
     protected:
         void run();

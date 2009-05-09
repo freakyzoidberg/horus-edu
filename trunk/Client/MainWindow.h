@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ui_MainWindow.h"
+#include "NetworkManager.h"
 
 class MainWindow : public QMainWindow
 {
@@ -12,6 +13,8 @@ public:
     MainWindow(QObject *parent);
 
 private slots:
+    void on_connectButton_clicked();
+    void on_pushButton_clicked();
     void editSettings();
 
 private:
