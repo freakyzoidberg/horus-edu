@@ -60,7 +60,7 @@ void    PluginManager::loadPlugins()
             return ;
         }
     }
-    plugins = settings.value("Load", NULL).toStringList();
+    plugins = settings.value("Load", QStringList()).toStringList();
     foreach (pluginName, plugins)
     {
         loadPlugin(pluginName, pluginsDir);
