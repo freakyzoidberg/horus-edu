@@ -10,6 +10,27 @@ NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
     //this->start();
 }
 
+ NetworkManager::~NetworkManager()
+ {
+        instanceFlag = false;
+ }
+
+bool NetworkManager::instanceFlag = false;
+NetworkManager* NetworkManager::single = NULL;
+NetworkManager* NetworkManager::getInstance()
+{
+    if(! instanceFlag)
+    {
+        single = new NetworkManager();
+        instanceFlag = true;
+        return single;
+    }
+    else
+    {
+        return single;
+    }
+}
+
 void run()
 {
     //this->exec();
