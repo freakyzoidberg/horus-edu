@@ -15,11 +15,11 @@ Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
 
 void    Loader::loadNetwork()
 {
-    NetworkManager *networkManager;
+    //NetworkManager *networkManager;
 
     ++(this->processes);
-    networkManager = parent->findChild<NetworkManager *>();
-    QApplication::postEvent(networkManager, new StartEvent);
+    //networkManager = parent->findChild<NetworkManager *>();
+    QApplication::postEvent(NetworkManager::getInstance(), new StartEvent);
 }
 
 void    Loader::loadPlugins()

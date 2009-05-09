@@ -18,8 +18,9 @@ class NetworkManager : public CommSocket //, public QThread
     public:
         NetworkManager(QObject *parent = 0);
         void    ConnectTo(QString addr, int port);
-
-        protected:
+        static NetworkManager* getInstance();
+        ~NetworkManager();
+    protected:
         void run();
 
     private slots:
@@ -29,6 +30,8 @@ class NetworkManager : public CommSocket //, public QThread
 
     private:
         PacketManager   packManag;
+        static bool instanceFlag;
+        static NetworkManager *single;
 };
 
 #endif // NETWORKMANAGER_H
