@@ -1,37 +1,49 @@
 #include "CommPacket.h"
 
-const quint8 CommPacket::typeNumber = 8;
-const char*  CommPacket::typeNames[] =
-{
-    "Unknow",
-    "Error ",
-    "Init  ",
-    "Alive ",
-    "Login ",
-    "File  ",
-    "Config",
-    "Module"
-};
-
-CommPacket::CommPacket(type _type)
+CommPacket::CommPacket(pType _type)
 {
     packetType = _type;
 }
 
 CommPacket::CommPacket(QByteArray& a)
 {
-    packetType = a[0];
-    if (packetType >= typeNumber)
-        packetType = UNKNOW;
-    a.remove(0,1);
+    read(a);
 }
 
 const QByteArray CommPacket::getPacket()
 {
-    return QByteArray(1, packetType);
+    QByteArray a;
+    write(a);
+    return a;
+}
+
+void CommPacket::read(QByteArray& a)
+{
+    quint8 t = a[0];
+    if (t >= __LAST__)
+        packetType = UNDEFINED;
+    else
+        packetType = (pType)t;
+    a.remove(0,1);
+}
+
+void CommPacket::write(QByteArray& a)
+{
+    a.append((char)packetType);
 }
 
 QDebug operator<<(QDebug d, CommPacket& cr)
 {
-    return d << CommPacket::typeNames[ cr.packetType ] << '|';
+    static const char*  typeNames[] =
+    {
+        "Unknow",
+        "Error ",
+        "Init  ",
+        "Alive ",
+        "Login ",
+        "File  ",
+        "Config",
+        "Module"
+    };
+    return d << typeNames[ cr.packetType ] << '|';
 }

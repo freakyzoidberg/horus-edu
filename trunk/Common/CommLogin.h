@@ -16,20 +16,23 @@ public:
      */
     enum                lType{ UNDEFINED,
                                LOGIN_PASSWORD, LOGIN_SESSION, DESTROY_SESSION, //CLIENT  -> SERVER
-                               ACCEPTED, REFUSED };                            // SERVER -> CLIENT
+                               ACCEPTED, REFUSED,                              // SERVER -> CLIENT
+                               __LAST__ };
 
     CommLogin(lType);
     CommLogin(QByteArray&);
-    const QByteArray getPacket();
 
-    quint8       loginType;
-    QString      login;
-    QByteArray   sha1Pass;
-    quint32      sessionTime;
-    QByteArray   sessionString;
+    const QByteArray    getPacket();
 
-    static const quint8 typeNumber;
-    static const char*  typeMessages[];
+    lType               method;
+    QString             login;
+    QByteArray          sha1Pass;
+    quint32             sessionTime;
+    QByteArray          sessionString;
+
+private:
+    void                read(QByteArray&);
+    void                write(QByteArray&);
 };
 
 QDebug operator<<(QDebug, CommLogin&);

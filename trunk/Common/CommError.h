@@ -6,16 +6,18 @@
 class CommError : public CommPacket
 {
 public:
-    enum                eType { UNKNOW, NOT_INITIALIZED, ALREADY_INITIALIZED, NOT_AUTHENTICATED, UNKNOWN_PROTO_VERSION };
+    enum                eType { UNDEFINED, NOT_INITIALIZED, ALREADY_INITIALIZED, NOT_AUTHENTICATED, UNKNOWN_PROTO_VERSION, __LAST__ };
     CommError(eType _type, const char* _error = 0);
     CommError(QByteArray&);
+
     const QByteArray getPacket();
 
-    quint8         errorType;
+    eType          errorType;
     QByteArray     errorMessage;
 
-    static const quint8 typeNumber;
-    static const char*  typeNames[];
+private:
+    void                read(QByteArray&);
+    void                write(QByteArray&);
 };
 
 QDebug operator<<(QDebug, CommError&);

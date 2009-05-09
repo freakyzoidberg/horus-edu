@@ -1,39 +1,51 @@
 #include "CommError.h"
 
-const quint8 CommError::typeNumber = 5;
-const char*  CommError::typeNames[] =
-{
-    "Unknow Error",
-    "Connexion not initialized"
-    "Connexion already initialized"
-    "Not authenticated"
-    "Unknown protocol version"
-};
-
 CommError::CommError(eType _type, const char* _errorMessage) : CommPacket(CommPacket::ERROR)
 {
+    static const char*  typeNames[] =
+    {
+        "Unknow Error",
+        "Connexion not initialized"
+        "Connexion already initialized"
+        "Not authenticated"
+        "Unknown protocol version"
+    };
+
     errorType = _type;
     if ( ! _errorMessage || ! _errorMessage[0])
-        errorMessage = CommError::typeNames[ errorType ];
+        errorMessage = typeNames[ errorType ];
     else
         errorMessage = _errorMessage;
 }
 
 CommError::CommError(QByteArray& a) : CommPacket(CommPacket::ERROR)
 {
-    errorType = a[0];
-    if (errorType > typeNumber)
-        errorType = UNKNOW;
-    a.remove(0, 1);
-    errorMessage = a;
+    read(a);
 }
 
 const QByteArray CommError::getPacket()
 {
-    QByteArray a = CommPacket::getPacket();
+    QByteArray a;
+    CommPacket::write(a);
+    write(a);
+    return a;
+}
+
+void CommError::read(QByteArray& a)
+{
+    quint8 t = a[0];
+    if (t >= __LAST__)
+        errorType = UNDEFINED;
+    else
+        errorType = (eType)t;
+    a.remove(0, 1);
+    errorMessage = a;
+}
+
+void CommError::write(QByteArray& a)
+{
     a.append(errorType);
     a.append(errorMessage);
-    return a;
 }
 
 QDebug operator<<(QDebug d, CommError& e)
