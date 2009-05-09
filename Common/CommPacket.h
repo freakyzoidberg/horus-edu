@@ -12,20 +12,21 @@
 class CommPacket
 {
 public:
-    enum                type { UNKNOW, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE };
+    enum                pType { UNDEFINED, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE, __LAST__ };
 
-    CommPacket(type _type);
+    CommPacket(pType _type);
     CommPacket(QByteArray&);
 
-    quint8               packetType;
+    pType               packetType;
 
-    const QByteArray   getPacket();
+    const QByteArray    getPacket();
 
-public:
-    static const quint8 typeNumber;
-    static const char*  typeNames[];
+protected:
+    void                read(QByteArray&);
+    void                write(QByteArray&);
 };
 
+// DEBUG
 QDebug operator<<(QDebug, CommPacket&);
 
 #endif // COMMPACKET_H

@@ -40,31 +40,34 @@ void Socket::packetAvailable(QByteArray packet)
     qDebug() << "[out]" << init;
 
     CommLogin  l(CommLogin::LOGIN_PASSWORD);
-//    l.login = QString::fromUtf8("super-Menteur中国");
     l.login = "super-Menteur";
-    l.sessionTime = QDateTime::currentDateTime().toTime_t();
     l.sha1Pass = QByteArray::fromHex("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83");
     sendPacket(l.getPacket());
     qDebug() << "[out]" << l;
 
-    ModulePacket m("TestComm", "data....");
-
-    CommModule mod(m);
+    CommModule mod(ModulePacket("TestComm", "data...."));
     mod.packet.packetVersion = 42;
     mod.packet.sourceModule = "protoTester";
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
 
-    m.data = "toto";
+    mod.packet.data = 123456789;
+    sendPacket(mod.getPacket());
+    qDebug() << "[out]" << mod;
+
+    QHash<QString, QVariant> h;
+    h["qwe"] = 12345;
+    h["000"] = "asdasdasdasdasdasd";
+    mod.packet.data = QVariant(h);
+    sendPacket(mod.getPacket());
+    qDebug() << "[out]" << mod;
 
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
+
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
+
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
     //connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));

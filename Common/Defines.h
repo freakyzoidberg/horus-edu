@@ -45,8 +45,8 @@
 #define SESSION_WORD_SIZE 32 // bytes -> 64char hexa
 #endif
 
-#ifndef FILE_KEY_SIZE
-#define FILE_KEY_SIZE 32 // bytes -> 64char hexa
+#ifndef FILE_TRANSFERT_KEY_SIZE
+#define FILE_TRANSFERT_KEY_SIZE 32 // bytes -> 64char hexa
 #endif
 
 // cannot be redefined, size of sha1 hash

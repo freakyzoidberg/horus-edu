@@ -8,17 +8,28 @@ CommInit::CommInit(quint8 _protoVersion, const char* _fromName) : CommPacket(Com
 
 CommInit::CommInit(QByteArray& a) : CommPacket(CommPacket::INIT)
 {
+    read(a);
+}
+
+const QByteArray CommInit::getPacket()
+{
+    QByteArray a;
+    CommPacket::write(a);
+    write(a);
+    return a;
+}
+
+void CommInit::read(QByteArray& a)
+{
     protoVersion = a[0];
     a.remove(0, 1);
     fromName = a;
 }
 
-const QByteArray CommInit::getPacket()
+void CommInit::write(QByteArray& a)
 {
-    QByteArray a = CommPacket::getPacket();
     a.append(protoVersion);
     a.append(fromName);
-    return a;
 }
 
 QDebug operator<<(QDebug d, CommInit& ci)

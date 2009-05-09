@@ -8,6 +8,8 @@
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommModule.h"
+#include "../Common/CommFile.h"
+#include "../Common/CommSettings.h"
 
 
 //ZoidTest
@@ -22,17 +24,13 @@ ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 void ThreadPacket::run()
 {
     CommPacket pac(packet);
-
-    if (pac.packetType == CommPacket::UNKNOW)
-        return;
-
     // redirect to the good method
    (this->*packetDirections[ pac.packetType ])();
 }
 
 packetDirection ThreadPacket::packetDirections[] =
 {
-    0,//for CommPacket::UNKNOW
+    &ThreadPacket::PacketUndefined,
     &ThreadPacket::PacketError,
     &ThreadPacket::PacketInit,
     &ThreadPacket::PacketAlive,
@@ -41,6 +39,12 @@ packetDirection ThreadPacket::packetDirections[] =
     &ThreadPacket::PacketConfig,
     &ThreadPacket::PacketModule
 };
+
+void ThreadPacket::PacketUndefined()
+{
+    CommPacket p(CommPacket::UNDEFINED);
+    qDebug() << "[ in]" << p;
+}
 
 void ThreadPacket::PacketError()
 {
@@ -74,12 +78,12 @@ void ThreadPacket::PacketLogin()
     CommLogin login(packet);
     qDebug() << "[ in]" << login;
 
-    if (login.loginType != CommLogin::LOGIN_PASSWORD && login.loginType != CommLogin::LOGIN_SESSION)
+    if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION)
       return sendError(CommError::NOT_INITIALIZED);
 
     User* user = new User(socket);
 
-    if (login.loginType == CommLogin::LOGIN_SESSION)
+    if (login.method == CommLogin::LOGIN_SESSION)
         user->login(login.login, true, login.sessionString);
     else
         user->login(login.login, false, login.sha1Pass);
@@ -113,6 +117,10 @@ void ThreadPacket::PacketConfig()
 {
     if (socket->vState != ClientSocket::CONNECTED)
       return sendError(CommError::NOT_INITIALIZED);
+
+    if ( ! socket->userId)
+      return sendError(CommError::NOT_AUTHENTICATED);
+
 }
 
 void ThreadPacket::PacketModule()
@@ -123,10 +131,10 @@ void ThreadPacket::PacketModule()
     if ( ! socket->userId)
       return sendError(CommError::NOT_AUTHENTICATED);
 
+    int len = packet.length();
     CommModule mod(packet);
-    qDebug() << "[ in]" << mod;
+    qDebug() << "[ in]" << mod << "length:" << len;
 
-    
     IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetModule);
     if (plugin)
         plugin->recvPacket(socket->userId, mod.packet);
@@ -138,31 +146,11 @@ void ThreadPacket::PacketModule()
     //test.MoveNode(14, 1);
     //test.SetName(14, "test SETNAME");
     //test.SetUserRef(14, 4);
-
-
-    //const ModulePacket& m = mod;
-
-    //client->stream >> mod;
-//    finishReading();
-
-/*
-    Sql con;
-    QSqlQuery query("SELECT * FROM testdb", QSqlDatabase::database(con));
-    while (query.next())
-        qDebug() << query.value(1).toString();
-        */
-    /* ou pour pouvoir debloquer quand on veu:
-    Sql* con = new Sql;
-    QSqlQuery* query("SELECT * FROM testdb", QSqlDatabase::database(*con));
-    ...
-    delete query;
-    delete con;// <- Debloque
-    */
-    usleep(100000);
 }
 
 void ThreadPacket::sendError(CommError::eType error, const char* str)
 {
     CommError err(error, str);
+    qDebug() << "[out]" << err;
     emit sendPacket(err.getPacket());
 }

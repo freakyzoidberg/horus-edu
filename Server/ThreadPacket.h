@@ -23,6 +23,7 @@ public:
     void run();
 
 private:
+    void PacketUndefined();
     void PacketError();
     void PacketInit();
     void PacketAlive();

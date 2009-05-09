@@ -14,8 +14,14 @@ class CommModule : public CommPacket
 public:
     CommModule(QByteArray&);
     CommModule(const ModulePacket&);
-    const QByteArray getPacket();
+
+    const QByteArray    getPacket();
+
     ModulePacket packet;
+
+private:
+    void                read(QByteArray&);
+    void                write(QByteArray&);
 };
 
 QDebug operator<<(QDebug, CommModule&);
