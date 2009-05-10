@@ -37,5 +37,5 @@ void    MainWindow::editSettings()
 void MainWindow::on_connectButton_clicked()
 {
     if (ui.loginE->text() != "" || ui.passE->text() != "")
-        NetworkManager::getInstance()->Login(ui.loginE->text(), ui.passE->text());
+        NetworkManager::getInstance()->login(ui.loginE->text(), ui.passE->text());
 }
