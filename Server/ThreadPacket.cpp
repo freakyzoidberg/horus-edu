@@ -13,7 +13,7 @@
 
 
 //ZoidTest
-//#include "TreeMngt.h"
+#include "TreeMngt.h"
 
 ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 {
@@ -146,6 +146,7 @@ void ThreadPacket::PacketModule()
     //test.MoveNode(14, 1);
     //test.SetName(14, "test SETNAME");
     //test.SetUserRef(14, 4);
+    //test.UpdateVector();
 }
 
 void ThreadPacket::sendError(CommError::eType error, const char* str)

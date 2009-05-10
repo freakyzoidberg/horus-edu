@@ -5,9 +5,23 @@
 #include <Sql.h>
 class TreeMngt
 {
+private:
+    typedef struct {
+        int id;
+        QString name;
+        int user_ref;
+        int parent_id;
+        int *fathernode;
+        QVector<int> sons;
+    } node;
+
+    QMap<int, node> vectree;
 public:
+
+
     TreeMngt();
     ~TreeMngt();
+
 
     //! Get name of node by id
     /*!
@@ -77,6 +91,14 @@ public:
       \param idnode node to get infos
     */
     QByteArray GetSonsNode(int idnode) const;
+
+     //! Completely fill vector from db
+    /*!
+      \sa UpdateVector()
+    */
+    bool UpdateVector();
+
+    void vecshow(QMap<int, node> vec);
 };
 
 #endif // TREEMNGT_H

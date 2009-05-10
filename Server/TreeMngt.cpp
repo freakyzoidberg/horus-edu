@@ -109,3 +109,38 @@ bool TreeMngt::SetUserRef(int idnode, int userref)
     }
     return true;
 }
+
+
+bool TreeMngt::UpdateVector()
+{
+    qDebug() << "updating vector from database";
+    Sql con;
+    node tempnode;
+    QSqlQuery query1("SELECT * FROM treemanagement", QSqlDatabase::database(con));
+
+ vectree.clear();
+    while (query1.next())
+    {
+       tempnode.id = query1.value(0).toInt();
+       tempnode.name = query1.value(1).toString();
+       tempnode.user_ref = query1.value(2).toInt();
+       tempnode.parent_id = query1.value(3).toInt();
+       vectree.insert(tempnode.id, tempnode);
+       //vectree.push_front(tempnode);
+         //query1.value(1).toString();
+    }
+    //vecshow(vectree);
+
+   QMap<int, TreeMngt::node>::iterator it = vectree.find(42);
+   if (it != vectree.end())
+       qDebug() << (it.value()).name;
+}
+
+void TreeMngt::vecshow(QMap<int, node> vec)
+{
+    for(QMap<int, TreeMngt::node>::const_iterator it = vec.begin(); it != vec.end(); ++it)
+  {
+    qDebug() << (*it).name;
+  }
+
+}
