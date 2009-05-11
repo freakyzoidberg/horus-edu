@@ -12,7 +12,7 @@ public:
     CommSettings();
     CommSettings(QByteArray&);
 
-    enum sType { UNDEFINED, GET, SET };
+    enum sType { UNDEFINED, GET, SET, RESPONSE, __LAST__ };
 
     const QByteArray    getPacket();
 
@@ -20,8 +20,14 @@ public:
     sType                       method;
     //! module name
     QByteArray                  module;
+
+#ifdef HORUS_SERVER
+    //! Binary containig the QHash of the client but not parsed onto the server
+    QByteArray settings;
+#else //HORUS_CLIENT
     //! Hash table containing all [ key ] = value for the settings of the module
-    QHash<QByteArray, QVariant> settings;
+    QVariant   settings;
+#endif
 
 private:
     void                read(QByteArray&);

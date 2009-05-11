@@ -6,7 +6,7 @@
 class CommError : public CommPacket
 {
 public:
-    enum                eType { UNDEFINED, NOT_INITIALIZED, ALREADY_INITIALIZED, NOT_AUTHENTICATED, UNKNOWN_PROTO_VERSION, __LAST__ };
+    enum                eType { UNDEFINED, NOT_INITIALIZED, ALREADY_INITIALIZED, NOT_AUTHENTICATED, UNKNOWN_PROTO_VERSION, PROTOCOL_ERROR, __LAST__ };
     CommError(eType _type, const char* _error = 0);
     CommError(QByteArray&);
 

@@ -5,12 +5,12 @@
 #include "Server.h"
 #include "PluginManager.h"
 #include "User.h"
+#include "UserSettings.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommModule.h"
 #include "../Common/CommFile.h"
 #include "../Common/CommSettings.h"
-
 
 //ZoidTest
 #include "TreeMngt.h"
@@ -36,7 +36,7 @@ packetDirection ThreadPacket::packetDirections[] =
     &ThreadPacket::PacketAlive,
     &ThreadPacket::PacketLogin,
     &ThreadPacket::PacketFile,
-    &ThreadPacket::PacketConfig,
+    &ThreadPacket::PacketSettings,
     &ThreadPacket::PacketModule
 };
 
@@ -113,7 +113,7 @@ void ThreadPacket::PacketFile()
       return sendError(CommError::NOT_INITIALIZED);
 }
 
-void ThreadPacket::PacketConfig()
+void ThreadPacket::PacketSettings()
 {
     if (socket->vState != ClientSocket::CONNECTED)
       return sendError(CommError::NOT_INITIALIZED);
@@ -121,6 +121,20 @@ void ThreadPacket::PacketConfig()
     if ( ! socket->userId)
       return sendError(CommError::NOT_AUTHENTICATED);
 
+    int len = packet.length();
+    CommSettings s(packet);
+    qDebug() << "[ in]" << s << "length" << len ;
+    if (s.method != CommSettings::GET && s.method != CommSettings::SET)
+        return sendError(CommError::PROTOCOL_ERROR);
+
+    UserSettings userSettings(socket->userId, s.module);
+    if (s.method == CommSettings::SET)
+        userSettings.set(s.settings);
+
+    s.method = CommSettings::RESPONSE;
+    s.settings = userSettings.get();
+    sendPacket(s.getPacket());
+    qDebug() << "[out]" << s;
 }
 
 void ThreadPacket::PacketModule()

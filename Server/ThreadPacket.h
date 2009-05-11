@@ -29,7 +29,7 @@ private:
     void PacketAlive();
     void PacketLogin();
     void PacketFile();
-    void PacketConfig();
+    void PacketSettings();
     void PacketModule();
 
     void sendError(CommError::eType err, const char* str="");

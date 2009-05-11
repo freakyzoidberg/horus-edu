@@ -13,6 +13,10 @@ CommLogin::CommLogin(lType t) : CommPacket(CommPacket::LOGIN)
 
 CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
 {
+    login = "";
+    sha1Pass = "";
+    sessionTime = 0;
+    sessionString = "";
     read(a);
 }
 
@@ -33,11 +37,6 @@ void CommLogin::read(QByteArray& a)
         method = (lType)t;
     a.remove(0,1);
 
-    login = "";
-    sha1Pass = "";
-    sessionTime = 0;
-    sessionString = "";
-
     if (method == LOGIN_PASSWORD || method == LOGIN_SESSION)
     {
         login = a.mid(1, a[0]);
@@ -49,13 +48,11 @@ void CommLogin::read(QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-        sessionString = a;
         memcpy((char*)&sessionTime, a.constData(), sizeof(sessionTime));
         sessionTime = qFromLittleEndian(sessionTime);
         a.remove(0, sizeof(sessionTime));
+        sessionString = a;
     }
-    else if (method != DESTROY_SESSION && method != REFUSED)
-        method = UNDEFINED;
 }
 
 void CommLogin::write(QByteArray& a)

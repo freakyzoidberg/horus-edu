@@ -2,12 +2,14 @@
 
 #include "CommSettings.h"
 
-CommSettings::CommSettings() : CommPacket(CommPacket::CONFIG)
+CommSettings::CommSettings() : CommPacket(CommPacket::SETTINGS)
 {
+    method = UNDEFINED;
 }
 
-CommSettings::CommSettings(QByteArray& a) : CommPacket(CommPacket::CONFIG)
+CommSettings::CommSettings(QByteArray& a) : CommPacket(CommPacket::SETTINGS)
 {
+    method = UNDEFINED;
     read(a);
 }
 
@@ -21,39 +23,33 @@ const QByteArray CommSettings::getPacket()
 
 void CommSettings::read(QByteArray& a)
 {
+    if ((char)a[0] < (char)__LAST__)
+        method = (sType)(char)a[0];
+
+    module = a.mid(2, a[1]);
+    a.remove(0, a[1] + 2);
+
+#ifdef HORUS_SERVER
+    settings = a;
+#else //HORUS_CLIENT
     QDataStream stream(&a, QIODevice::ReadOnly);
-
-    stream >> (quint8&)method
-           >> module;
-
-    if (method != GET && method != SET)
-    {
-        method = UNDEFINED;
-        return;
-    }
-
-    while ( ! stream.atEnd())
-    {
-        QByteArray key;
-        stream >> key
-               >> settings[ key ];
-    }
+    stream >> settings;
+#endif
 }
 
 void CommSettings::write(QByteArray& a)
 {
+    a.append(method);
+    a.append(module.length());
+    a.append(module);
+
+#ifdef HORUS_SERVER
+    a.append(settings);
+#else //HORUS_CLIENT
     QDataStream stream(&a, QIODevice::WriteOnly);
     stream.device()->seek(a.length());
-
-    stream << (quint8&)method
-           << module;
-
-    QHash<QByteArray,QVariant>::const_iterator s = settings.begin();
-    while (s != settings.end())
-    {
-        stream << s.key()
-               << s.value();
-    }
+    stream << settings;
+#endif
 }
 
 QDebug operator<<(QDebug d, CommSettings& p)
@@ -61,5 +57,10 @@ QDebug operator<<(QDebug d, CommSettings& p)
     return d << (CommPacket&)p
              << p.method
              << p.module
+#ifdef HORUS_SERVER
+             << p.settings.length()
+             << p.settings.toHex();
+#else //HORUS_CLIENT
              << p.settings;
+#endif
 }

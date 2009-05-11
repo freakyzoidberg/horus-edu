@@ -4,6 +4,7 @@
 #include "../Common/CommLogin.h"
 #include "../Common/CommModule.h"
 #include "../Common/CommPacket.h"
+#include "../Common/CommSettings.h"
 
 #include <QCoreApplication>
 #include <QDateTime>
@@ -31,46 +32,55 @@ void Socket::packetAvailable(QByteArray packet)
 {
     disconnect(this, SIGNAL(packetReceived(QByteArray)), 0, 0);
 
+    //read init
     CommPacket pac(packet);
     CommInit   init(packet);
     qDebug() << "[ in]" << init;
 
+    //send init
     init.fromName = "Protocol Tester";
     sendPacket(init.getPacket());
     qDebug() << "[out]" << init;
 
+    //send login
     CommLogin  l(CommLogin::LOGIN_PASSWORD);
     l.login = "super-Menteur";
+    //l.login = QString::fromUtf8("toto42`~!@#$%^&*()-_=+' \";:汉语");
     l.sha1Pass = QByteArray::fromHex("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83");
     sendPacket(l.getPacket());
     qDebug() << "[out]" << l;
 
-    CommModule mod(ModulePacket("TestComm", "data...."));
+
+    QHash<QString, QVariant> h;
+    h["int"] = 12345;
+    h["txt"] = "asdasdasdasdasdasdoiu";
+
+
+    //send module
+    CommModule mod(ModulePacket("TestComm", h));
     mod.packet.packetVersion = 42;
     mod.packet.sourceModule = "protoTester";
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
-
-    mod.packet.data = 123456789;
+/*
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
-
-    QHash<QString, QVariant> h;
-    h["qwe"] = 12345;
-    h["000"] = "asdasdasdasdasdasd";
-    mod.packet.data = QVariant(h);
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
+*/
 
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
 
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
-
-    sendPacket(mod.getPacket());
-    qDebug() << "[out]" << mod;
-    //connect(this, SIGNAL(readyRead()),    SLOT(onReceve()));
-
+    //send settings
+    CommSettings settings;
+    settings.method = CommSettings::SET;
+    settings.module = "test";
+    settings.settings = h;
+    sendPacket(settings.getPacket());
+    qDebug() << "[out]" << settings;
+/*
+    settings.method = CommSettings::GET;
+    sendPacket(settings.getPacket());
+    qDebug() << "[out]" << settings;
+*/
     disconnectFromHost();
 }
