@@ -2,12 +2,13 @@
 # Project created by QtCreator 2009-03-28T21:10:31
 # -------------------------------------------------
 QT -= gui
-QT += network \
-    sql
+QT += network sql
 TARGET = Horus_Server
 CONFIG -= app_bundle
 CONFIG += console
 TEMPLATE = app
+# Used into CommSettings
+DEFINES += HORUS_SERVER
 SOURCES = main.cpp \
     Sql.cpp \
     User.cpp \
@@ -25,7 +26,8 @@ SOURCES = main.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommFile.cpp \
     ../Common/CommSettings.cpp \
-    TreeMngt.cpp
+    TreeMngt.cpp \
+    UserSettings.cpp
 HEADERS = Sql.h \
     User.h \
     Server.h \
@@ -46,4 +48,5 @@ HEADERS = Sql.h \
     ../Common/ModulePacket.h \
     ../Common/CommFile.h \
     ../Common/CommSettings.h \
-    TreeMngt.h
+    TreeMngt.h \
+    UserSettings.h

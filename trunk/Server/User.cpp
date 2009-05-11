@@ -32,9 +32,9 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
     QSqlQuery query(QSqlDatabase::database(con));
 
     if (authSession)
-        query.prepare("SELECT id FROM users WHERE login=? AND session_key=? LIMIT 1;");
+        query.prepare("SELECT id FROM users WHERE login=? AND session_key=?;");
     else
-        query.prepare("SELECT id FROM users WHERE login=? AND password=? LIMIT 1;");
+        query.prepare("SELECT id FROM users WHERE login=? AND password=?;");
 
     query.addBindValue(_login);
     query.addBindValue(_auth.toHex());
@@ -63,7 +63,7 @@ void User::renewSession(quint32 duration)
         sessionString[i] = qrand();
 
     query.clear();
-    query.prepare("UPDATE users SET session_key=?, session_end=? WHERE id=? LIMIT 1;");
+    query.prepare("UPDATE users SET session_key=?, session_end=? WHERE id=?;");
     query.addBindValue(sessionString.toHex());
     query.addBindValue(end.toTime_t());
     query.addBindValue(id);

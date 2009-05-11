@@ -12,7 +12,7 @@
 class CommPacket
 {
 public:
-    enum                pType { UNDEFINED, ERROR, INIT, ALIVE, LOGIN, FILE, CONFIG, MODULE, __LAST__ };
+    enum                pType { UNDEFINED, ERROR, INIT, ALIVE, LOGIN, FILE, SETTINGS, MODULE, __LAST__ };
 
     CommPacket(pType _type);
     CommPacket(QByteArray&);

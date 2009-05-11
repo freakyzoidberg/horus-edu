@@ -5,10 +5,11 @@ CommError::CommError(eType _type, const char* _errorMessage) : CommPacket(CommPa
     static const char*  typeNames[] =
     {
         "Unknow Error",
-        "Connexion not initialized"
-        "Connexion already initialized"
-        "Not authenticated"
-        "Unknown protocol version"
+        "Connexion not initialized",
+        "Connexion already initialized",
+        "Not authenticated",
+        "Unknown protocol version",
+        "Protocol Error"
     };
 
     errorType = _type;
