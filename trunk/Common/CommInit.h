@@ -12,10 +12,11 @@ class CommInit : public CommPacket
 public:
     CommInit(quint8 _protoVersion, const char* fromName);
     CommInit(QByteArray&);
-
     const QByteArray getPacket();
 
+    //! protocol version
     quint8          protoVersion;
+    //! name of the client for additional information (not used yet)
     QByteArray      fromName;
 
 private:

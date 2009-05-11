@@ -1,6 +1,6 @@
 #include "CommError.h"
 
-CommError::CommError(eType _type, const char* _errorMessage) : CommPacket(CommPacket::ERROR)
+CommError::CommError(Error _type, const char* _errorMessage) : CommPacket(CommPacket::ERROR)
 {
     static const char*  typeNames[] =
     {
@@ -21,6 +21,7 @@ CommError::CommError(eType _type, const char* _errorMessage) : CommPacket(CommPa
 
 CommError::CommError(QByteArray& a) : CommPacket(CommPacket::ERROR)
 {
+    errorType = UNDEFINED;
     read(a);
 }
 
@@ -34,11 +35,8 @@ const QByteArray CommError::getPacket()
 
 void CommError::read(QByteArray& a)
 {
-    quint8 t = a[0];
-    if (t >= __LAST__)
-        errorType = UNDEFINED;
-    else
-        errorType = (eType)t;
+    if ((char)a[0] < (char)__LAST__)
+        errorType = (Error)(char)a[0];
     a.remove(0, 1);
     errorMessage = a;
 }

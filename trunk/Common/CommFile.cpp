@@ -2,10 +2,12 @@
 
 CommFile::CommFile() : CommPacket(CommPacket::FILE)
 {
+    method = UNDEFINED;
 }
 
 CommFile::CommFile(QByteArray& a) : CommPacket(CommPacket::FILE)
 {
+    method = UNDEFINED;
     read(a);
 }
 
@@ -19,11 +21,8 @@ const QByteArray CommFile::getPacket()
 
 void CommFile::read(QByteArray& a)
 {
-    quint8 t = a[0];
-    if (t >= __LAST__)
-        method = UNDEFINED;
-    else
-        method = (fType)t;
+    if ((char)a[0] < (char)__LAST__)
+        method = (Method)(char)a[0];
     a.remove(0,1);
 }
 

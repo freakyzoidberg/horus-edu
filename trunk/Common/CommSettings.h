@@ -9,27 +9,41 @@
 class CommSettings : public CommPacket
 {
 public:
+    enum Method { UNDEFINED, GET, SET, VALUE, DENIED, __LAST__ };
+    //! type of configuration
+    /*!
+     * For the Client:
+     *  CLIENT_USER_SCOPE: per user settings. only the owner can read and edit this settings
+     *  CLIENT_SYSTEM_SCOPE: global settings. only an admin can edit this value but everybody can read it
+     * For The Server:
+     *  SERVER_USER_SCOPE: per user settings. only the owner can read and edit this settings
+     *  SERVER_SYSTEM_SCOPE: global settings. only an admin can read and edit this settings
+     */
+    enum Scope  { CLIENT_USER_SCOPE, CLIENT_SYSTEM_SCOPE, SERVER_USER_SCOPE, SERVER_SYSTEM_SCOPE, __LAST_SCOPE__ };
+
     CommSettings();
     CommSettings(QByteArray&);
-
-    enum sType { UNDEFINED, GET, SET, RESPONSE, __LAST__ };
-
     const QByteArray    getPacket();
 
-    //! method GET or SET modules
-    sType                       method;
-    //! module name
-    QByteArray                  module;
+    //! method GET or SET settings
+    Method              method;
+    //! User or System config on the Client or Server side
+    Scope               scope;
+    //! module name (empty for no module)
+    QByteArray          module;
 
-#ifdef HORUS_SERVER
-    //! Binary containig the QHash of the client but not parsed onto the server
-    QByteArray settings;
-#else //HORUS_CLIENT
-    //! Hash table containing all [ key ] = value for the settings of the module
-    QVariant   settings;
-#endif
+    //! get all the settings in the binary format
+    QByteArray          getBinarySettings(void);
+    //! set all the settings in the binary format
+    void                setBinarySettings(const QByteArray&);
+
+    //! get all the settings in the QVariant format
+    QVariant            getVariantSettings(void);
+    //! get all the settings in the QVariant format
+    void                setVariantSettings(const QVariant&);
 
 private:
+    QByteArray          settings;
     void                read(QByteArray&);
     void                write(QByteArray&);
 };

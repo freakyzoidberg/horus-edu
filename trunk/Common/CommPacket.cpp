@@ -1,12 +1,13 @@
 #include "CommPacket.h"
 
-CommPacket::CommPacket(pType _type)
+CommPacket::CommPacket(Type _type)
 {
     packetType = _type;
 }
 
 CommPacket::CommPacket(QByteArray& a)
 {
+    packetType = UNDEFINED;
     read(a);
 }
 
@@ -19,11 +20,8 @@ const QByteArray CommPacket::getPacket()
 
 void CommPacket::read(QByteArray& a)
 {
-    quint8 t = a[0];
-    if (t >= __LAST__)
-        packetType = UNDEFINED;
-    else
-        packetType = (pType)t;
+    if ((char)a[0] < (char)__LAST__)
+        packetType = (Type)(char)a[0];
     a.remove(0,1);
 }
 

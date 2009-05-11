@@ -5,11 +5,13 @@
 CommSettings::CommSettings() : CommPacket(CommPacket::SETTINGS)
 {
     method = UNDEFINED;
+    scope = CLIENT_USER_SCOPE;
 }
 
 CommSettings::CommSettings(QByteArray& a) : CommPacket(CommPacket::SETTINGS)
 {
     method = UNDEFINED;
+    scope = CLIENT_USER_SCOPE;
     read(a);
 }
 
@@ -21,46 +23,74 @@ const QByteArray CommSettings::getPacket()
     return a;
 }
 
+QByteArray CommSettings::getBinarySettings(void)
+{
+    return settings;
+}
+
+void CommSettings::setBinarySettings(const QByteArray& b)
+{
+    settings = b;
+}
+
+QVariant CommSettings::getVariantSettings(void)
+{
+    QVariant v;
+    QDataStream stream(&settings, QIODevice::ReadOnly);
+    stream >> v;
+    return v;
+}
+
+void CommSettings::setVariantSettings(const QVariant& v)
+{
+    settings.clear();
+    QDataStream stream(&settings, QIODevice::WriteOnly);
+    stream << v;
+}
+
 void CommSettings::read(QByteArray& a)
 {
     if ((char)a[0] < (char)__LAST__)
-        method = (sType)(char)a[0];
+        method = (Method)(char)a[0];
 
-    module = a.mid(2, a[1]);
-    a.remove(0, a[1] + 2);
+    if ((char)a[1] < (char)__LAST_SCOPE__)
+        scope = (Scope)(char)a[1];
 
-#ifdef HORUS_SERVER
+    module = a.mid(3, a[2]);
+    a.remove(0, 3 + a[2]);
+
     settings = a;
-#else //HORUS_CLIENT
-    QDataStream stream(&a, QIODevice::ReadOnly);
-    stream >> settings;
-#endif
 }
 
 void CommSettings::write(QByteArray& a)
 {
     a.append(method);
+    a.append(scope);
     a.append(module.length());
     a.append(module);
-
-#ifdef HORUS_SERVER
     a.append(settings);
-#else //HORUS_CLIENT
-    QDataStream stream(&a, QIODevice::WriteOnly);
-    stream.device()->seek(a.length());
-    stream << settings;
-#endif
 }
 
 QDebug operator<<(QDebug d, CommSettings& p)
 {
+    static const char*  methodNames[] =
+    {
+        "Undefined",
+        "Get",
+        "Set",
+        "Value",
+        "Denied"
+    };
+    static const char*  scopeNames[] =
+    {
+        "Client-User Scope",
+        "Client-System_Scope",
+        "Server-User Scope",
+        "Server-System Scope"
+    };
+
     return d << (CommPacket&)p
-             << p.method
-             << p.module
-#ifdef HORUS_SERVER
-             << p.settings.length()
-             << p.settings.toHex();
-#else //HORUS_CLIENT
-             << p.settings;
-#endif
+             << methodNames[ p.method ]
+             << scopeNames[ p.scope ]
+             << p.module;
 }

@@ -7,8 +7,6 @@ QT += network \
     phonon
 TARGET = Horus_Client
 TEMPLATE = app
-# Used into CommSettings
-DEFINES += HORUS_CLIENT
 SOURCES += main.cpp \
     NetworkManager.cpp \
     ../Common/CommPacket.cpp \

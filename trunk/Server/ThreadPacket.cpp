@@ -127,12 +127,12 @@ void ThreadPacket::PacketSettings()
     if (s.method != CommSettings::GET && s.method != CommSettings::SET)
         return sendError(CommError::PROTOCOL_ERROR);
 
-    UserSettings userSettings(socket->userId, s.module);
+    UserSettings userSettings(socket->userId, s.module, s.scope);
     if (s.method == CommSettings::SET)
-        userSettings.set(s.settings);
+        userSettings.set(s.getBinarySettings());
 
-    s.method = CommSettings::RESPONSE;
-    s.settings = userSettings.get();
+    s.method = CommSettings::VALUE;
+    s.setBinarySettings(userSettings.get());
     sendPacket(s.getPacket());
     qDebug() << "[out]" << s;
 }
@@ -166,7 +166,7 @@ void ThreadPacket::PacketModule()
 
 }
 
-void ThreadPacket::sendError(CommError::eType error, const char* str)
+void ThreadPacket::sendError(CommError::Error error, const char* str)
 {
     CommError err(error, str);
     qDebug() << "[out]" << err;
