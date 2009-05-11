@@ -141,12 +141,15 @@ void ThreadPacket::PacketModule()
 
     //ZoidTest
     //TreeMngt test;
+     //test.UpdateVector();
+
+
     //test.DeleteNode(4);
-    //test.InsertNode("inserted1", 0, 4);
     //test.MoveNode(14, 1);
     //test.SetName(14, "test SETNAME");
     //test.SetUserRef(14, 4);
-    //test.UpdateVector();
+    //test.InsertNode("inserted1", 0, 4);
+
 }
 
 void ThreadPacket::sendError(CommError::eType error, const char* str)

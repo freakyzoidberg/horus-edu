@@ -12,10 +12,10 @@ private:
         int user_ref;
         int parent_id;
         int *fathernode;
-        QVector<int> sons;
+        QMap<int, int> sons;
     } node;
-
-    QMap<int, node> vectree;
+    static QMutex mymute;
+    static QMap<int, node> vectree;
 public:
 
 
@@ -90,7 +90,7 @@ public:
       \sa GetSonsNode(int idnode)
       \param idnode node to get infos
     */
-    QByteArray GetSonsNode(int idnode) const;
+    QMap<int, int> GetSonsNode(int idnode) const;
 
      //! Completely fill vector from db
     /*!
