@@ -73,8 +73,9 @@ void Socket::packetAvailable(QByteArray packet)
     //send settings
     CommSettings settings;
     settings.method = CommSettings::SET;
+    settings.scope = CommSettings::CLIENT_USER_SCOPE;
     settings.module = "test";
-    settings.settings = h;
+    settings.setVariantSettings(h);
     sendPacket(settings.getPacket());
     qDebug() << "[out]" << settings;
 /*

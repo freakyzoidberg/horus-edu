@@ -24,18 +24,17 @@ class FileInfo
 class CommFile : public CommPacket
 {
 public:
+    enum Method { UNDEFINED,
+                  LIST, DOWNLOAD, UPLOAD,
+                  AUTHORIZED,
+                  NOT_AUTHORIZED, NOT_FOUND,
+                  __LAST__};
+
     CommFile();
     CommFile(QByteArray&);
-
-    enum fType { UNDEFINED,
-                 LIST, DOWNLOAD, UPLOAD,
-                 AUTHORIZED,
-                 NOT_AUTHORIZED, NOT_FOUND//,...
-             };
-
     const QByteArray getPacket();
 
-    fType       method;
+    Method      method;
     //! name of the file
     QString     file;
     //! first byte of the file to read/write

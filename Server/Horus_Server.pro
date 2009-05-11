@@ -7,8 +7,6 @@ TARGET = Horus_Server
 CONFIG -= app_bundle
 CONFIG += console
 TEMPLATE = app
-# Used into CommSettings
-DEFINES += HORUS_SERVER
 SOURCES = main.cpp \
     Sql.cpp \
     User.cpp \

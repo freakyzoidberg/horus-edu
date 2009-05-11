@@ -3,12 +3,13 @@
 
 #include <QByteArray>
 
+#include "../Common/CommSettings.h"
 #include "Sql.h"
 
 class UserSettings
 {
 public:
-    UserSettings(quint32 userId, const QByteArray& module);
+    UserSettings(quint32 userId, const QByteArray& module, CommSettings::Scope scope);
 
     void              set(const QByteArray& settings);
     const QByteArray& get();
@@ -18,6 +19,7 @@ private:
 
     quint32           userId;
     QByteArray        module;
+    CommSettings::Scope scope;
     bool              exist;
     QByteArray        settings;
 };

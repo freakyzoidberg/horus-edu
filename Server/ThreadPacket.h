@@ -32,7 +32,7 @@ private:
     void PacketSettings();
     void PacketModule();
 
-    void sendError(CommError::eType err, const char* str="");
+    void sendError(CommError::Error err, const char* str="");
 
     ClientSocket* socket;
     QByteArray   packet;

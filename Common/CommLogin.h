@@ -10,24 +10,29 @@
 class CommLogin : public CommPacket
 {
 public:
+    //! type of authentification packet
     /*!
      * Type of authenfication
      * in the future we may want to add the certificate auth. or something else
      */
-    enum                lType{ UNDEFINED,
-                               LOGIN_PASSWORD, LOGIN_SESSION, DESTROY_SESSION, //CLIENT  -> SERVER
-                               ACCEPTED, REFUSED,                              // SERVER -> CLIENT
-                               __LAST__ };
+    enum                Method { UNDEFINED,
+                                 LOGIN_PASSWORD, LOGIN_SESSION, DESTROY_SESSION, //CLIENT  -> SERVER
+                                 ACCEPTED, REFUSED,                              // SERVER -> CLIENT
+                                 __LAST__ };
 
-    CommLogin(lType);
+    CommLogin(Method);
     CommLogin(QByteArray&);
-
     const QByteArray    getPacket();
 
-    lType               method;
+    //! type of authentification packet
+    Method              method;
+    //! user login
     QString             login;
+    //! binary hash of the password
     QByteArray          sha1Pass;
+    //! duration of the session send (in second)
     quint32             sessionTime;
+    //! binary of the session string
     QByteArray          sessionString;
 
 private:

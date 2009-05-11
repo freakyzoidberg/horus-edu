@@ -12,21 +12,28 @@
 class CommPacket
 {
 public:
-    enum                pType { UNDEFINED, ERROR, INIT, ALIVE, LOGIN, FILE, SETTINGS, MODULE, __LAST__ };
+    //! type of the packet
+    /*!
+     * UNDEFINED is used when the type is not set yet, and for invalid value
+     * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__
+     */
+    enum                Type { UNDEFINED, ERROR, INIT, ALIVE, LOGIN, FILE, SETTINGS, MODULE, __LAST__ };
 
-    CommPacket(pType _type);
+    //! constuctor to send a new packet
+    CommPacket(Type _type);
+    //! constructor when receiving a packet (just call a read())
     CommPacket(QByteArray&);
-
-    pType               packetType;
-
+    //! create the concated packet
     const QByteArray    getPacket();
+
+    //! type of the packet
+    Type                packetType;
 
 protected:
     void                read(QByteArray&);
     void                write(QByteArray&);
 };
 
-// DEBUG
 QDebug operator<<(QDebug, CommPacket&);
 
 #endif // COMMPACKET_H

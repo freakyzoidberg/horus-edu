@@ -14,9 +14,9 @@ class CommModule : public CommPacket
 public:
     CommModule(QByteArray&);
     CommModule(const ModulePacket&);
-
     const QByteArray    getPacket();
 
+    //! content of the packet (visible by the module)
     ModulePacket packet;
 
 private:

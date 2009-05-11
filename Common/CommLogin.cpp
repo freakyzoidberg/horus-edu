@@ -2,7 +2,7 @@
 #include <QDateTime>
 #include <QtEndian>
 
-CommLogin::CommLogin(lType t) : CommPacket(CommPacket::LOGIN)
+CommLogin::CommLogin(Method t) : CommPacket(CommPacket::LOGIN)
 {
     method  = t;
     login = "";
@@ -30,11 +30,8 @@ const QByteArray CommLogin::getPacket()
 
 void CommLogin::read(QByteArray& a)
 {
-    quint8 t = a[0];
-    if (t >= __LAST__)
-        method = UNDEFINED;
-    else
-        method = (lType)t;
+    if ((char)a[0] < (char)__LAST__)
+        method = (Method)(char)a[0];
     a.remove(0,1);
 
     if (method == LOGIN_PASSWORD || method == LOGIN_SESSION)
