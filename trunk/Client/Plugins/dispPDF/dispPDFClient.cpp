@@ -11,7 +11,7 @@ void    dispPDFClient::recvPacket(const ModulePacket& packet) const
 
 }
 
-IClientPlugin*  dispPDFClient::getPlugin(const char* name) const
+IClientPlugin*  dispPDFClient::getPlugin(const QByteArray name) const
 {
     return NULL;
 }

@@ -1,5 +1,9 @@
 #include <QtCore/qplugin.h>
 
+#include "../../NetworkReceiveEvent.h"
+#include "../../UnloadPluginEvent.h"
+#include "../../LoadPluginEvent.h"
+
 #include "disppdf.h"
 
 Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
@@ -29,10 +33,40 @@ QStringList             DispPDF::getPluginsRequired() const
     return plugindRequired;
 }
 
-//QStringList           getPluginsRecommended() const;
+QStringList           DispPDF::getPluginsRecommended() const
+{
+    return pluginsRecommended;
+}
+
 //QStringList           getExports();
 
-bool                    event(QEvent *)
+bool    DispPDF::event(QEvent *event)
+{
+    if (event->type() == NetworkReceiveEvent::type)
+    {
+        event->accept();
+        return pNetwork->eventHandler(event);
+    }
+    else if (event->type() == LoadPluginEvent::type)
+    {
+        event->accept();
+        return eventHandlerLoad(event);
+    }
+    else if (event->type() == UnloadPluginEvent::type)
+    {
+        event->accept();
+        return eventHandlerUnload(event);
+    }
+    event->ignore();
+    return QObject::event(event);
+}
+
+bool    DispPDF::eventHandlerLoad(QEvent *event)
+{
+    return true;
+}
+
+bool    DispPDF::eventHandlerUnload(QEvent *event)
 {
     return true;
 }
