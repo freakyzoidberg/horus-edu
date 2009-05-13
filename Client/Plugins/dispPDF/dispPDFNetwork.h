@@ -13,7 +13,7 @@ class DispPDFNetwork : public QObject, public IPluginNetwork
 
  public:
     bool    eventHandler(QEvent *);
-    void    *retrievedPacket();
+    void    retrievedPacket();
     void    buildPacket(void *);
 };
 
