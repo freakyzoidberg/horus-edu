@@ -60,10 +60,22 @@ void PacketManager::PacketLogin()
 {
     if (state != LOGGED_OUT)
         return;
+    QSettings   settings;
 
     CommLogin l(packet);
-    qDebug() << "[ in]" << l;
-    //if (l.)
+    if (l.method == CommLogin::ACCEPTED)
+    {
+        settings.beginGroup("SESSIONS");
+        settings.setValue("sessionString", l.sessionString.toHex());
+        settings.setValue("sessionTime", l.sessionTime);
+        settings.setValue("sessionEnd", QDateTime::currentDateTime().addSecs(l.sessionTime));
+        qDebug() << "[ in]" << l;
+    }
+    else if (l.method == CommLogin::REFUSED)
+    {
+        qDebug() << "[ in]" << l;
+    }
+
 }
 
 void PacketManager::PacketFile()

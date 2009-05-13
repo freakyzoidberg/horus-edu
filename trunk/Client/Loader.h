@@ -2,6 +2,7 @@
 #define LOADER_H
 
 #include <QDialog>
+
 #include "ui_Loader.h"
 
 class ClientApplication;

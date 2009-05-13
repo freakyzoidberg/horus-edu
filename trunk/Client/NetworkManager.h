@@ -10,6 +10,7 @@
 #include    "StartEvent.h"
 #include    "StopEvent.h"
 #include    "PacketManager.h"
+#include    "ClientEvents.h"
 
 class NetworkManager : public CommSocket //, public QThread
 {
@@ -18,8 +19,9 @@ class NetworkManager : public CommSocket //, public QThread
     public:
         NetworkManager(QObject *parent = 0);
         void    ConnectTo(QString addr, int port);
-        static  NetworkManager* getInstance();
-        void    login(const QString &login, const QString &pass);
+        static  NetworkManager* getInstance(QObject *parent);
+        void    login(const QString &login, const QString &pass, int ltype);
+
         ~NetworkManager();
     protected:
         void run();

@@ -15,6 +15,7 @@ public:
 
     QWidget *loader;
     QWidget *mainWindow;
+    QWidget *ld;
 };
 
 

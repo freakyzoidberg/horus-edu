@@ -17,15 +17,12 @@ SOURCES += main.cpp \
     ../Common/CommError.cpp \
     ClientApplication.cpp \
     PluginManager.cpp \
-    StartEvent.cpp \
-    StopEvent.cpp \
     LoadPluginEvent.cpp \
-    UnloadPluginEvent.cpp \
-    NetworkReceiveEvent.cpp \
     PacketManager.cpp \
     ../Common/CommSettings.cpp \
     Loader.cpp \
-    MainWindow.cpp
+    MainWindow.cpp \
+    LoginDialog.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -37,20 +34,18 @@ HEADERS += NetworkManager.h \
     ClientApplication.h \
     IClientPlugin.h \
     PluginManager.h \
-    StartEvent.h \
-    StopEvent.h \
     LoadPluginEvent.h \
-    UnloadPluginEvent.h \
-    NetworkReceiveEvent.h \
     IPluginNetwork.h \
     PacketManager.h \
     ClientEvents.h \
     IClient.h \
     ../Common/CommSettings.h \
     Loader.h \
-    MainWindow.h
+    MainWindow.h \
+    LoginDialog.h
 FORMS += Ui/Loader.ui \
-    Ui/MainWindow.ui
+    Ui/MainWindow.ui \
+    logindialog.ui
 RESOURCES += Ui/Loader.qrc \
     Ui/MainWindow.qrc
 OTHER_FILES += 
