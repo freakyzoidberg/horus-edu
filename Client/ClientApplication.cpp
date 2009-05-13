@@ -3,9 +3,7 @@
 #include    "Loader.h"
 #include    "NetworkManager.h"
 #include    "PluginManager.h"
-#include    "StartEvent.h"
 #include    "ClientEvents.h"
-#include    "StopEvent.h"
 #include    "MainWindow.h"
 #include    "LoginDialog.h"
 #include    <QtDebug>

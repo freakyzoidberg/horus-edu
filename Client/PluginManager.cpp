@@ -3,8 +3,6 @@
 #include    <QPluginLoader>
 #include    "ClientEvents.h"
 #include    "../Common/Defines.h"
-#include    "StartEvent.h"
-#include    "StopEvent.h"
 #include    "LoadPluginEvent.h"
 #include    <QDebug>
 #include    <QApplication>
@@ -59,7 +57,7 @@ void    PluginManager::loadPlugins()
             || !pluginsDir.cd("Plugins"))
         {
             qDebug() << "PluginManager: Error: Plugin path doesn't exist.";
-            QApplication::postEvent(parent->loader, new StartEvent);
+            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
             return ;
         }
     }
