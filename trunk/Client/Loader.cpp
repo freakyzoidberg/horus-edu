@@ -37,7 +37,7 @@ bool    Loader::event(QEvent *event)
     QSettings settings;
 
 
-    if (event->type() == StartEvent::type)
+    if (event->type() == ClientEvents::StartEvent)
     {
         event->accept();
         ++(this->processesComplete);

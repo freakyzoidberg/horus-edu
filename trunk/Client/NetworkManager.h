@@ -7,8 +7,6 @@
 
 #include "../Common/CommSocket.h"
 
-#include    "StartEvent.h"
-#include    "StopEvent.h"
 #include    "PacketManager.h"
 #include    "ClientEvents.h"
 
