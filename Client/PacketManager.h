@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QObject>
+#include <QDateTime>
 
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"

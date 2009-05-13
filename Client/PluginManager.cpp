@@ -1,6 +1,7 @@
 #include    "PluginManager.h"
 #include    <QSettings>
 #include    <QPluginLoader>
+#include    "ClientEvents.h"
 #include    "../Common/Defines.h"
 #include    "StartEvent.h"
 #include    "StopEvent.h"
@@ -16,13 +17,13 @@ PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(paren
 
 bool    PluginManager::event(QEvent *event)
 {
-    if (event->type() == StartEvent::type)
+    if (event->type() == ClientEvents::StartEvent/*StartEvent::type*/)
     {
         qDebug() << "PluginManager: Receive StartEvent";
         this->loadPlugins();
         return (true);
     }
-    else if (event->type() == StopEvent::type)
+    else if (event->type() == ClientEvents::StopEvent/*StopEvent::type*/)
     {
         qDebug() << "PluginManager: Receive StopEvent";
         return (true);
@@ -49,6 +50,7 @@ void    PluginManager::loadPlugins()
 
     settings.beginGroup("Plugins");
     pluginsDir = QDir(settings.value("DirectoryPath", "/Undefined").toString());
+
     if (pluginsDir.absolutePath() == "/Undefined")
     {
         pluginsDir = QDir(PREFIX);
@@ -57,6 +59,7 @@ void    PluginManager::loadPlugins()
             || !pluginsDir.cd("Plugins"))
         {
             qDebug() << "PluginManager: Error: Plugin path doesn't exist.";
+            QApplication::postEvent(parent->loader, new StartEvent);
             return ;
         }
     }
@@ -66,7 +69,7 @@ void    PluginManager::loadPlugins()
         loadPlugin(pluginName, pluginsDir);
     }
     settings.endGroup();
-    QApplication::postEvent(parent->loader, new StartEvent);
+
 }
 
 bool    PluginManager::loadPlugin(QString pluginName, QDir path)

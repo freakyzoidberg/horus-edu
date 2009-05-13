@@ -12,8 +12,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QObject *parent);
 
-private slots:
-    void on_connectButton_clicked();
+private slots:;
     void editSettings();
 
 private:

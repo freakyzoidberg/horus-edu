@@ -1,6 +1,7 @@
 #include "Loader.h"
 #include "NetworkManager.cpp"
 #include "PluginManager.cpp"
+#include "ClientEvents.h"
 
 Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
 {
@@ -19,7 +20,7 @@ void    Loader::loadNetwork()
 
     ++(this->processes);
     //networkManager = parent->findChild<NetworkManager *>();
-    QApplication::postEvent(NetworkManager::getInstance(), new StartEvent);
+    QApplication::postEvent(NetworkManager::getInstance(this->parent), new QEvent(ClientEvents::StartEvent));
 }
 
 void    Loader::loadPlugins()
@@ -28,11 +29,14 @@ void    Loader::loadPlugins()
 
     ++(this->processes);
     pluginManager = parent->findChild<PluginManager *>();
-    QApplication::postEvent(pluginManager, new StartEvent);
+    QApplication::postEvent(pluginManager, new QEvent(ClientEvents::StartEvent));
 }
 
 bool    Loader::event(QEvent *event)
 {
+    QSettings settings;
+
+
     if (event->type() == StartEvent::type)
     {
         event->accept();
@@ -41,6 +45,19 @@ bool    Loader::event(QEvent *event)
         //if (processes == processesComplete)
         if (processes == processesComplete + 1) // waiting for NetworkManager to send events...
         {
+            settings.beginGroup("SESSIONS");
+            if (settings.value("sessionString", "") != "")
+            {
+                if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60))
+                {
+                    NetworkManager::getInstance(this->parent)->login(settings.value("sessionLogin", "").toString(), settings.value("sessionString", "").toString(), 2);
+                }
+                else
+                {
+                    //this->hide();
+                    //parent->ld->show();
+                }
+            }
             this->hide();
             parent->mainWindow->show();
         }

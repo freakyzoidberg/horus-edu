@@ -17,11 +17,11 @@ NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
 
 bool NetworkManager::instanceFlag = false;
 NetworkManager* NetworkManager::single = NULL;
-NetworkManager* NetworkManager::getInstance()
+NetworkManager* NetworkManager::getInstance(QObject *parent)
 {
     if(! instanceFlag)
     {
-        single = new NetworkManager();
+        single = new NetworkManager(parent);
         instanceFlag = true;
         return single;
     }
@@ -30,6 +30,7 @@ NetworkManager* NetworkManager::getInstance()
         return single;
     }
 }
+
 
 void run()
 {
@@ -77,14 +78,30 @@ bool    NetworkManager::quit()
     return true;
 }
 
-void NetworkManager::login(const QString &login, const QString &pass)
+void NetworkManager::login(const QString &login, const QString &pass, int ltype)
 {
+    QSettings   settings;
+    if (ltype == 1)
+    {
+        settings.beginGroup("SESSIONS");
+        settings.setValue("sessionString", "");
+        settings.setValue("sessionLogin", login);
+        settings.setValue("sessionTime", "");
+        settings.setValue("sessionEnd", "");
+        CommLogin  l(CommLogin::LOGIN_PASSWORD);
+        l.login = login;
+        l.sha1Pass = QCryptographicHash::hash(pass.toUtf8(), QCryptographicHash::Sha1);
+        sendPacket(l.getPacket());
+    }
+    else
+    {
 
+    }
 }
 
 bool    NetworkManager::event(QEvent *e)
 {
-    if(e->type() == StartEvent::type)
+    if(e->type() == ClientEvents::StartEvent)
     {
         qDebug() << "NewtworkManager: Recieve StartEvent";
         connectToHostEncrypted("localhost", 42000);
