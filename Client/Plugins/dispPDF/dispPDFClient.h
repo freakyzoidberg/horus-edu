@@ -7,10 +7,10 @@
 #include "../../IClientPlugin.h"
 #include "../../../Common/ModulePacket.h"
 
-class   dispPDFClient : public QObject, public Iclient
+class   dispPDFClient : public QObject, public IClient
 {
  Q_OBJECT
- Q_INTERFACES(Iclient)
+ Q_INTERFACES(IClient)
 
 public:  
        void            sendPacket(const ModulePacket& packet) const;
