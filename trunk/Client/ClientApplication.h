@@ -32,6 +32,7 @@ public:
         Useless for now.
         May be deleted in the future.
         \param event the event received
+        \return the accept status of the event
     */
     bool    event(QEvent *event);
     //! Unload then load again all the plugins
