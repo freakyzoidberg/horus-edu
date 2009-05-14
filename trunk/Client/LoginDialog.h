@@ -6,6 +6,7 @@
 #include "NetworkManager.h"
 #include "ClientEvents.h"
 
+//! This Object is the window to login in the server with a username and password
 class LoginDialog : public QWidget {
     Q_OBJECT
 public:
@@ -16,9 +17,12 @@ public:
 
 private:
     Ui::Form l_ui;
+
+    //! LoginDialog's parent to send event to NetworkManager
     QObject *parent;
 
 private slots:
+    //! the connect button click event
     void on_connectButton_clicked();
 };
 

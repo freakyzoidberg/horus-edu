@@ -12,29 +12,36 @@
 #include    "ClientEvents.h"
 #include    "LoginDialog.h"
 
+//! This Object is a singleton class, it manages the client network.
 class NetworkManager : public CommSocket //, public QThread
 {
     Q_OBJECT
 
     public:
         NetworkManager(QObject *parent = 0);
-        void    ConnectTo(QString addr, int port);
+        //! method to get the singleton instance
         static  NetworkManager* getInstance(QObject *parent);
-        void    login(const QString &login, const QString &pass, int ltype);
         ~NetworkManager();
     protected:
         void run();
     protected slots:
+        //! event loop
         bool    event(QEvent *e);
     private slots:
+        //! display the socket errors
         void    displayError(QAbstractSocket::SocketError);
         bool    quit();
 
     private:
+        //! packetManager to read the received packet
         PacketManager   *packManag;
+        //! packetSender to construct the packet to send
         PacketSender   *packSend;
+        //! flag for the singleton
         static bool instanceFlag;
+        //! the instance of the singleton
         static NetworkManager *single;
+        //! login window
         QWidget *ld;
 };
 
