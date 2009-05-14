@@ -12,7 +12,7 @@ TestComm::~TestComm()
     qDebug() << "gniiiiiiiiIIIIIII";
 }
 
-void TestComm::recvPacket(quint32 userId, const ModulePacket& packet) const
+void TestComm::recvPacket(quint32 userId, const PluginPacket& packet) const
 {
-    server->sendPacket(userId, ModulePacket(packet.sourceModule, packet.data));
+    server->sendPacket(userId, PluginPacket(packet.sourcePlugin, packet.data));
 }

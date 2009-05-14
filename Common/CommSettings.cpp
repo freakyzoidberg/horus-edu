@@ -56,7 +56,7 @@ void CommSettings::read(QByteArray& a)
     if ((char)a[1] < (char)__LAST_SCOPE__)
         scope = (Scope)(char)a[1];
 
-    module = a.mid(3, a[2]);
+    plugin = a.mid(3, a[2]);
     a.remove(0, 3 + a[2]);
 
     settings = a;
@@ -66,8 +66,8 @@ void CommSettings::write(QByteArray& a)
 {
     a.append(method);
     a.append(scope);
-    a.append(module.length());
-    a.append(module);
+    a.append(plugin.length());
+    a.append(plugin);
     a.append(settings);
 }
 
@@ -92,5 +92,5 @@ QDebug operator<<(QDebug d, CommSettings& p)
     return d << (CommPacket&)p
              << methodNames[ p.method ]
              << scopeNames[ p.scope ]
-             << p.module;
+             << p.plugin;
 }

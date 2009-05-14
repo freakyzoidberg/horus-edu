@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QtPlugin>
 
-#include "../../Common/ModulePacket.h"
+#include "../../Common/PluginPacket.h"
 
 class IServer;
 
@@ -12,15 +12,15 @@ class IServerPlugin : public QObject
 {
   Q_OBJECT
   public:
-    //! the instance of the IServer given to the module
+    //! the instance of the IServer given to the plugin
     IServer* server;
-    //! return the name of the module
+    //! return the name of the plugin
     virtual const QByteArray name() const = 0;
-    //! return the version of the module
+    //! return the version of the plugin
     virtual quint8           version() const = 0;
 
-    //! method called by the server core when a packet for this module is received
-    virtual void recvPacket(quint32 userId, const ModulePacket&) const = 0;
+    //! method called by the server core when a packet for this plugin is received
+    virtual void recvPacket(quint32 userId, const PluginPacket&) const = 0;
 };
 
 Q_DECLARE_INTERFACE(IServerPlugin, "net.horus.Server.PluginInterface/1.0");

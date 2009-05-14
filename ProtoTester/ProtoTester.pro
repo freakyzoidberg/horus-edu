@@ -14,7 +14,7 @@ SOURCES += main.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommSettings.cpp \
     ../Common/CommPacket.cpp \
-    ../Common/CommModule.cpp \
+    ../Common/CommPlugin.cpp \
     ../Common/CommSocket.cpp
 HEADERS += Socket.h \
     ../Common/CommSocket.h

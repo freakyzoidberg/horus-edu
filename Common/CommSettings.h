@@ -34,8 +34,8 @@ public:
     Method              method;
     //! User or System config on the Client or Server side
     Scope               scope;
-    //! module name (empty for no module)
-    QByteArray          module;
+    //! plugin name (empty for no plugin)
+    QByteArray          plugin;
 
     //! get all the settings in the binary format
     QByteArray          getBinarySettings(void);

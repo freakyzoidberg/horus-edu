@@ -9,7 +9,7 @@
 class UserSettings
 {
 public:
-    UserSettings(quint32 userId, const QByteArray& module, CommSettings::Scope scope);
+    UserSettings(quint32 userId, const QByteArray& plugin, CommSettings::Scope scope);
 
     void              set(const QByteArray& settings);
     const QByteArray& get();
@@ -18,7 +18,7 @@ private:
     void              readDatabase();
 
     quint32           userId;
-    QByteArray        module;
+    QByteArray        plugin;
     CommSettings::Scope scope;
     bool              exist;
     QByteArray        settings;

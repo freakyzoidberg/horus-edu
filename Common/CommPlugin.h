@@ -2,28 +2,28 @@
 #define COMMMODULE_H
 
 #include "CommPacket.h"
-#include "ModulePacket.h"
+#include "PluginPacket.h"
 
 /*!
  * If the "messageType" of the "CommunicationContainer" is "MODULE_COMM"
  * there is this class inside "content".
- * it's for the comunication between a module client and a module server
+ * it's for the comunication between a plugin client and a plugin server
  */
-class CommModule : public CommPacket
+class CommPlugin : public CommPacket
 {
 public:
-    CommModule(QByteArray&);
-    CommModule(const ModulePacket&);
+    CommPlugin(QByteArray&);
+    CommPlugin(const PluginPacket&);
     const QByteArray    getPacket();
 
-    //! content of the packet (visible by the module)
-    ModulePacket packet;
+    //! content of the packet (visible by the plugin)
+    PluginPacket packet;
 
 private:
     void                read(QByteArray&);
     void                write(QByteArray&);
 };
 
-QDebug operator<<(QDebug, CommModule&);
+QDebug operator<<(QDebug, CommPlugin&);
 
 #endif // COMMMODULE_H

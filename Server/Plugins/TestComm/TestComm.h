@@ -19,7 +19,7 @@ public:
     inline const QByteArray  name()    const { return "TestComm"; }
     inline quint8            version() const { return 42; }
 
-    void recvPacket(quint32 userId, const ModulePacket&) const;
+    void recvPacket(quint32 userId, const PluginPacket&) const;
 };
 
 

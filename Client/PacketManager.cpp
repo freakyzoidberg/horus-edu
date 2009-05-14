@@ -14,7 +14,7 @@ packetDirection PacketManager::packetDirections[] =
     &PacketManager::PacketLogin,
     &PacketManager::PacketFile,
     &PacketManager::PacketConfig,
-    &PacketManager::PacketModule
+    &PacketManager::PacketPlugin
 };
 
 void PacketManager::packetReceived(QByteArray p)
@@ -86,6 +86,6 @@ void PacketManager::PacketConfig()
 {
 }
 
-void PacketManager::PacketModule()
+void PacketManager::PacketPlugin()
 {
 }

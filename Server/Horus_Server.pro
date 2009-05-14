@@ -20,7 +20,7 @@ SOURCES = main.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
     ../Common/CommLogin.cpp \
-    ../Common/CommModule.cpp \
+    ../Common/CommPlugin.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommFile.cpp \
@@ -44,10 +44,10 @@ HEADERS = Sql.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \
     ../Common/CommLogin.h \
-    ../Common/CommModule.h \
+    ../Common/CommPlugin.h \
     ../Common/CommPacket.h \
     ../Common/CommSocket.h \
-    ../Common/ModulePacket.h \
+    ../Common/PLuginPacket.h \
     ../Common/CommFile.h \
     ../Common/CommSettings.h \
     TreeMngt.h \
