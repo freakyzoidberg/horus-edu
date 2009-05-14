@@ -20,9 +20,6 @@ class ClientSocket : public CommSocket
 
 public:
     //! Construct called by "Server"
-    /*!
-      * \param _socket the integer file descriptor given by Server::incommingConexion()
-      */
     ClientSocket(int _socket, QObject* parent = 0);
     ~ClientSocket();
 
