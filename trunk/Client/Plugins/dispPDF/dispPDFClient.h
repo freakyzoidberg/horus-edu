@@ -7,6 +7,7 @@
 #include "../../IClientPlugin.h"
 #include "../../../Common/ModulePacket.h"
 
+//! Implementation of the interface IClient
 class   dispPDFClient : public QObject, public IClient
 {
  Q_OBJECT
