@@ -2,7 +2,8 @@
 # Project created by QtCreator 2009-03-28T21:10:31
 # -------------------------------------------------
 QT -= gui
-QT += network sql
+QT += network \
+    sql
 TARGET = Horus_Server
 CONFIG -= app_bundle
 CONFIG += console
@@ -25,7 +26,10 @@ SOURCES = main.cpp \
     ../Common/CommFile.cpp \
     ../Common/CommSettings.cpp \
     TreeMngt.cpp \
-    UserSettings.cpp
+    UserSettings.cpp \
+    ThreadFiles.cpp \
+    FileServer.cpp \
+    FileTransfert.cpp
 HEADERS = Sql.h \
     User.h \
     Server.h \
@@ -47,4 +51,7 @@ HEADERS = Sql.h \
     ../Common/CommFile.h \
     ../Common/CommSettings.h \
     TreeMngt.h \
-    UserSettings.h
+    UserSettings.h \
+    ThreadFiles.h \
+    FileServer.h \
+    FileTransfert.h

@@ -1,5 +1,6 @@
 #include "Server.h"
 #include "Sql.h"
+#include "ThreadFiles.h"
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
@@ -11,6 +12,7 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     else
         qDebug() << "Server::Server() NO SQL !!!";
 
+    new ThreadFiles(this);
 
     listen(QHostAddress::Any, config->GetSettings("SRV_PORT","SERVER").toInt());
     check();

@@ -16,6 +16,8 @@ public:
     User(ClientSocket* sock);
     ~User();
 
+    enum Level { ROOT, ADMINISTRATOR, TEACHER, STUDENT, FAMILY, GUEST };
+
     void              login(const QString& _login, bool authSession, const QByteArray& _auth);
     void              renewSession(quint32 duration = DEFAULT_SESSION_LIFETIME*60);
     void              destroySession();
@@ -27,6 +29,7 @@ public:
 private:
     quint32           id;
     QString           user;
+    Level             level;
     QByteArray        sessionString;
     QDateTime         sessionEnd;
     ClientSocket*     socket;
