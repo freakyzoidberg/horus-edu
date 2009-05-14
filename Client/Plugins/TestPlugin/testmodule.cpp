@@ -3,15 +3,14 @@
 #include <iostream>
 #include "testmodule.h"
 
-#include "../../NetworkReceiveEvent.h"
-#include "../../UnloadPluginEvent.h"
+#include "../../ClientEvents.h"
+#include "../../LoadPluginEvent.h"
 
 Q_EXPORT_PLUGIN2(testModule, testPlugin)
 
 testPlugin::testPlugin()
 {
     std::cout << "module testPlugin loaded." << std::endl;
-//    setModRequired("NotAModule.so");
     setModRecommended("NotAModule.so");
     pNetwork = new PluginNetwork();
 }
@@ -24,9 +23,7 @@ testPlugin::~testPlugin()
 
 bool    testPlugin::event(QEvent *event)
 {
-    //bool    eventSuccess;
-
-    if (event->type() == NetworkReceiveEvent::type)
+    if (event->type() == ClientEvents::NetworkReceiveEvent)
     {
         event->accept();        
         return pNetwork->eventHandler(event);
@@ -36,7 +33,7 @@ bool    testPlugin::event(QEvent *event)
         event->accept();
         return eventHandlerLoad(event);
     }
-    else if (event->type() == UnloadPluginEvent::type)
+    else if (event->type() == ClientEvents::UnloadPluginEvent)
     {
         event->accept();
         return eventHandlerUnload(event);
@@ -120,4 +117,3 @@ QStringList   testPlugin::getExports() const
 {
     return exports;
 }
-
