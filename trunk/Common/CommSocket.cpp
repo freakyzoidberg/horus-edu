@@ -4,9 +4,7 @@
 CommSocket::CommSocket(QObject* parent) : QSslSocket(parent)
 {
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(errorSlot(QAbstractSocket::SocketError)));
-//    connect(this, SIGNAL(sslErrors(QList<QSslError>)),         this, SLOT(sslErrorsSlot(QList<QSslError>)));
-//    connect(this, SIGNAL(modeChanged(QSslSocket::SslMode)),    this, SLOT(modeChangedSlot(QSslSocket::SslMode)));
-    connect(this, SIGNAL(peerVerifyError(QSslError)),          this, SLOT(peerVerifyErrorSlot(QSslError)));
+    connect(this, SIGNAL(sslErrors(QList<QSslError>)),         this, SLOT(sslErrorsSlot(QList<QSslError>)));
 
     setProtocol(QSsl::SslV3);
 
@@ -29,17 +27,6 @@ void CommSocket::sslErrorsSlot(QList<QSslError> e)
 {
     qDebug() << "sslError" << e;
 }
-
-void CommSocket::modeChangedSlot ( QSslSocket::SslMode e )
-{
-    qDebug() << "modeChanged" << e;
-}
-
-void CommSocket::peerVerifyErrorSlot ( const QSslError & e )
-{
-    qDebug() << "peerVerifyError" << e;
-}
-
 
 void CommSocket::ready()
 {

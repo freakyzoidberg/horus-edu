@@ -81,8 +81,9 @@ void ThreadPacket::PacketLogin()
     if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION)
       return sendError(CommError::PROTOCOL_ERROR);
 
-    User& user = socket->user;
+    socket->waitOtherThreads();
 
+    User& user = socket->user;
     user.logout();
 
     if (login.method == CommLogin::LOGIN_SESSION)
@@ -128,12 +129,20 @@ void ThreadPacket::PacketSettings()
 
     if (s.method != CommSettings::GET && s.method != CommSettings::SET)
         return sendError(CommError::PROTOCOL_ERROR);
-/*
-    if (   s.scope != CommSettings::CLIENT_USER_SCOPE &&
-           s.scope != CommSettings::SERVER_USER_SCOPE &&
-           socket->
-        )
-*/
+
+    if (  s.scope == CommSettings::CLIENT_USER_SCOPE ||
+          s.scope == CommSettings::SERVER_USER_SCOPE ||
+         (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET))
+
+        UserSettings userSettings(socket->user.getId(), s.module, s.scope);
+
+    else if (socket->user.getLevel() <= User::ADMINISTRATOR &&
+                ( s.scope == CommSettings::CLIENT_SYSTEM_SCOPE ||
+                  s.scope == CommSettings::SERVER_SYSTEM_SCOPE ) )
+        UserSettings userSettings(socket->user.getId(), s.module, s.scope);
+    else
+        ;
+
     UserSettings userSettings(socket->user.getId(), s.module, s.scope);
     if (s.method == CommSettings::SET)
         userSettings.set(s.getBinarySettings());
