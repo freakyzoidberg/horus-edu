@@ -25,4 +25,5 @@ public:
     void CheckSettings();
 private:
     QSettings Gsettings;
+};
 #endif // SETTINGS_H
