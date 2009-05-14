@@ -4,13 +4,16 @@
 #include <QtGui>
 #include <QObject>
 #include <QDateTime>
-
+#include    <QtGui/QApplication>
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
 #include "../Common/CommPacket.h"
 #include "../Common/CommError.h"
+//#include "ClientApplication.h"
+#include "ClientEvents.h"
+
 
 class   PacketManager : public QObject
 {
@@ -25,6 +28,7 @@ public slots:
 private:
     enum        tState {INIT, LOGGED_OUT, LOGGED_IN, DISCONNECTED};
     tState      state;
+    QObject *parent;
 
     void        PacketError();
     void        PacketInit();
@@ -37,8 +41,8 @@ private:
     QByteArray  packet;
     static void (PacketManager::*packetDirections[]) ();
 
-signals:
-    void sendPacket(QByteArray packet);
+//signals:
+  //  void sendPacket(QByteArray packet);
 };
 
 typedef void(PacketManager::*packetDirection)();

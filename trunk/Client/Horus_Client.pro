@@ -17,12 +17,13 @@ SOURCES += main.cpp \
     ../Common/CommError.cpp \
     ClientApplication.cpp \
     PluginManager.cpp \
-    LoadPluginEvent.cpp \
     PacketManager.cpp \
     ../Common/CommSettings.cpp \
     Loader.cpp \
     MainWindow.cpp \
-    LoginDialog.cpp
+    LoginDialog.cpp \
+    PacketSender.cpp \
+    ClientEvents.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -34,7 +35,6 @@ HEADERS += NetworkManager.h \
     ClientApplication.h \
     IClientPlugin.h \
     PluginManager.h \
-    LoadPluginEvent.h \
     IPluginNetwork.h \
     PacketManager.h \
     ClientEvents.h \
@@ -42,7 +42,8 @@ HEADERS += NetworkManager.h \
     ../Common/CommSettings.h \
     Loader.h \
     MainWindow.h \
-    LoginDialog.h
+    LoginDialog.h \
+    PacketSender.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     logindialog.ui

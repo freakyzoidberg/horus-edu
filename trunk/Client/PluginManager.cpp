@@ -3,7 +3,6 @@
 #include    <QPluginLoader>
 #include    "ClientEvents.h"
 #include    "../Common/Defines.h"
-#include    "LoadPluginEvent.h"
 #include    <QDebug>
 #include    <QApplication>
 
@@ -94,7 +93,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir path)
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
                     this->loadPlugin(newPlugin, path);
-                QApplication::postEvent(parent->loader, new LoadPluginEvent);
+                QApplication::postEvent(parent->loader, new QEvent(ClientEvents::LoadPluginEvent));
                 return (success);
             }
             qDebug() << "PluginManager: error while loading" << pluginName << ": Dependencies not satisfiables";

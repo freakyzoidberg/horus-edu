@@ -3,6 +3,7 @@
 
 LoginDialog::LoginDialog(QObject *parent) : QWidget::QWidget()
 {
+    this->parent = parent;
     l_ui.setupUi(this);
 }
 
@@ -10,19 +11,20 @@ LoginDialog::~LoginDialog()
 {
 }
 
-void LoginDialog::changeEvent(QEvent *e)
+
+/*bool    LoginDialog::event(QEvent *event)
 {
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        l_ui.retranslateUi(this);
-        break;
-    default:
-        break;
+    if (event->type() == ClientEvents::LoginEvent)
+    {
     }
-}
+    return true;
+}*/
 
 void LoginDialog::on_connectButton_clicked()
 {
     if (l_ui.loginE->text() != "" || l_ui.passE->text() != "")
-        NetworkManager::getInstance(this->parent())->login(l_ui.loginE->text(), l_ui.passE->text(), 1);
+    {
+        LoginEvent *e = new LoginEvent(l_ui.loginE->text(),l_ui.passE->text(), 1);
+        QApplication::postEvent(this->parent, e);
+    }
 }

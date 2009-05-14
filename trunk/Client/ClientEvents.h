@@ -2,22 +2,29 @@
 #define CLIENTEVENTS_H
 
 #include <QEvent>
+#include <QString>
 
-namespace ClientEvents
+
+class ClientEvents
 {
-    const static QEvent::Type StartEvent = (QEvent::Type)QEvent::registerEventType();
-    const static QEvent::Type StopEvent = (QEvent::Type)QEvent::registerEventType();
-    const static QEvent::Type NetworkReceiveEvent = (QEvent::Type)QEvent::registerEventType();
-    const static QEvent::Type UnloadPluginEvent = (QEvent::Type)QEvent::registerEventType();
-    const static QEvent::Type MyEventWithContent = (QEvent::Type)QEvent::registerEventType();
-
-    class MyEventWithContent : public QEvent
-    {
     public:
-        inline MyEventWithContent(char* content) : QEvent(ClientEvents::MyEventWithContent) { aFooContent = content; }
+        static QEvent::Type StartEvent;
+        static QEvent::Type StopEvent;
+        static QEvent::Type NetworkReceiveEvent;
+        static QEvent::Type UnloadPluginEvent;
+        static QEvent::Type InitEvent;
+        static QEvent::Type LoadPluginEvent;
+        static QEvent::Type LoginEvent;
+};
 
-        char* aFooContent;
-    };
-}
+class LoginEvent : public QEvent
+{
+        public:
+            LoginEvent(QString l, QString p, uint t);
+
+            QString login;
+            QString pass;
+            uint    typeL;
+};
 
 #endif // CLIENTEVENTS_H

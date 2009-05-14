@@ -2,6 +2,7 @@
 
 PacketManager::PacketManager(QObject* parent) : QObject(parent)
 {
+    this->parent = parent;
     state = DISCONNECTED;
 }
 
@@ -36,19 +37,20 @@ void PacketManager::PacketInit()
     CommInit i(packet);
     qDebug() << "[ in]" << i;
     //TODO add protocol version compatible check
-    i.fromName = CLIENT_NAME;
+   // i.fromName = CLIENT_NAME;
 
-    emit sendPacket(i.getPacket());
-    qDebug() << "[out]" << i;
+   QApplication::postEvent(this->parent, new QEvent(ClientEvents::InitEvent));
+   //emit sendPacket(i.getPacket());
+    //qDebug() << "[ out]" << i;
 
     state = LOGGED_OUT;
 
-    CommLogin l(packet);
+    /*CommLogin l(packet);
     l.method = CommLogin::LOGIN_PASSWORD;
     l.login = "super-Menteur";
-    l.sha1Pass = QByteArray::fromHex("4e1243bd22c66e76c2ba9eddc1f91394e57f9f83");
+    l.sha1Pass = QByteArray::fromHex("0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c");
     emit sendPacket(l.getPacket());
-    qDebug() << "[out]" << l;
+    qDebug() << "[out]" << l;*/
 }
 
 void PacketManager::PacketAlive()
@@ -66,10 +68,12 @@ void PacketManager::PacketLogin()
     if (l.method == CommLogin::ACCEPTED)
     {
         settings.beginGroup("SESSIONS");
-        settings.setValue("sessionString", l.sessionString.toHex());
+        QString session = l.sessionString.toHex();
+        settings.setValue("sessionString", session);
         settings.setValue("sessionTime", l.sessionTime);
-        settings.setValue("sessionEnd", QDateTime::currentDateTime().addSecs(l.sessionTime));
+        settings.setValue("sessionEnd", QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t());
         qDebug() << "[ in]" << l;
+        settings.endGroup();
     }
     else if (l.method == CommLogin::REFUSED)
     {
