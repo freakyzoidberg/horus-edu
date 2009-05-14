@@ -26,8 +26,7 @@ void PacketSender::PacketToSend(uint t, QEvent *e)
 
 void PacketSender::PacketError()
 {
-    CommError err(packet);
-    qDebug() << "[ out]" << err;
+
 }
 
 void PacketSender::PacketInit()
