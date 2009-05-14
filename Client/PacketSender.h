@@ -8,7 +8,7 @@
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
-#include "../Common/CommModule.h"
+#include "../Common/CommPlugin.h"
 #include "../Common/CommPacket.h"
 #include "../Common/CommError.h"
 #include "ClientEvents.h"
@@ -36,6 +36,7 @@ class PacketSender : public QObject
         void        PacketFile();
         void        PacketConfig();
         void        PacketModule();
+
         QEvent      *ev;
         QByteArray  packet;
         static void (PacketSender::*packetDirectionsToSend[]) ();
