@@ -28,7 +28,7 @@ public:
       \param password database password
       \param driver the sql driver used for the connection (eg QMYSQL QPGSQL etc)
       \param port database port
-      \param ngConn number of SQL concurrent connection
+      \param nbConn number of SQL concurrent connection
     */
     static bool sqlConnect(QString dbName, QString hostname, QString username, QString password, QString driver, int port, int nbConn);
 private:
