@@ -10,15 +10,16 @@ class IServer;
 
 class IServerPlugin : public QObject
 {
+  Q_OBJECT
   public:
+    //! the instance of the IServer given to the module
     IServer* server;
+    //! return the name of the module
     virtual const QByteArray name() const = 0;
+    //! return the version of the module
     virtual quint8           version() const = 0;
-//    virtual QStringList getPluginsConflicts() const = 0;
-//    virtual QStringList getPluginsRequired() const = 0;
-//    virtual QStringList getPluginsRecommended() const = 0;
-//    virtual QStringList getExports() const = 0;
 
+    //! method called by the server core when a packet for this module is received
     virtual void recvPacket(quint32 userId, const ModulePacket&) const = 0;
 };
 

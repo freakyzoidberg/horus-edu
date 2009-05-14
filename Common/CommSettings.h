@@ -48,6 +48,7 @@ public:
     void                setVariantSettings(const QVariant&);
 
 private:
+    //! the settings in binary format
     QByteArray          settings;
     void                read(QByteArray&);
     void                write(QByteArray&);

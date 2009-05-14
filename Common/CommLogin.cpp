@@ -46,9 +46,7 @@ void CommLogin::read(QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-      //        memcpy((char*)&sessionTime, a.constData(), sizeof(sessionTime));
-      //        sessionTime = qFromLittleEndian(sessionTime);
-      QVariant(a.mid(0, a[0])).toUInt();
+        sessionTime = QVariant(a.mid(0, a[0])).toUInt();
         a.remove(0, a[0]+1);
         sessionString = a;
     }
@@ -69,11 +67,9 @@ void CommLogin::write(QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-      QByteArray time = QVariant(sessionTime).toByteArray();
-      //        quint32 time = qToLittleEndian(sessionTime);
-      //        a.append((char*)&time, sizeof(sessionTime) );
-      a.append(time.length());
-      a.append(time);
+        QByteArray time = QVariant(sessionTime).toByteArray();
+        a.append(time.length());
+        a.append(time);
         a.append(sessionString);
     }
  }

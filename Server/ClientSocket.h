@@ -29,6 +29,7 @@ public:
     enum        tState {INIT, CONNECTED};
     tState      vState;
 
+    //! the User object asociated with the socket
     User        user;
 
     //! wait for other threads
@@ -59,10 +60,13 @@ private slots:
 //    void socketError(QAbstractSocket::SocketError);
 
 private:
+    //! read the next packet if there's available thread and packet
     void tryToReadPacket();
     //! lock the number of threads to MAX_USER_THREADS
     QSemaphore  threads;
+    //! number of running threads
     quint32     nbThreads;
+    //! queue of packets to execute
     QList<QByteArray> recvQueue;
 
 //! to remove, just for debug message in cronstruct

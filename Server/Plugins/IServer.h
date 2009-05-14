@@ -9,13 +9,11 @@ class IServerPlugin;
 class IServer
 {
 public:
+    //! methode to send a packet from a server module to a client module
     virtual void           sendPacket(const quint32 userId, const ModulePacket& packet) const = 0;
 
+    //! return another plugin loaded, return 0 if not found
     virtual IServerPlugin* getPlugin(const char* name) const = 0;
-
-//ADD EVERYTHING A MODULE CAN NEED
 };
-
-//Q_DECLARE_INTERFACE(IServer, "net.horus.Server.Interface/1.0");
 
 #endif // ISERVER_H
