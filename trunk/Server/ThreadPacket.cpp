@@ -126,7 +126,12 @@ void ThreadPacket::PacketSettings()
     qDebug() << "[ in]" << s << "length" << len ;
     if (s.method != CommSettings::GET && s.method != CommSettings::SET)
         return sendError(CommError::PROTOCOL_ERROR);
-
+/*
+    if (   s.scope != CommSettings::CLIENT_USER_SCOPE &&
+           s.scope != CommSettings::SERVER_USER_SCOPE &&
+           socket->
+        )
+*/
     UserSettings userSettings(socket->userId, s.module, s.scope);
     if (s.method == CommSettings::SET)
         userSettings.set(s.getBinarySettings());

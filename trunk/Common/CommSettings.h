@@ -9,7 +9,10 @@
 class CommSettings : public CommPacket
 {
 public:
-    enum Method { UNDEFINED, GET, SET, VALUE, DENIED, __LAST__ };
+    enum Method { UNDEFINED,
+                  GET, SET, //Client -> Server
+                  VALUE, PERMISSION_DENIED, // Server -> Client
+                  __LAST__ };
     //! type of configuration
     /*!
      * For the Client:
@@ -19,7 +22,9 @@ public:
      *  SERVER_USER_SCOPE: per user settings. only the owner can read and edit this settings
      *  SERVER_SYSTEM_SCOPE: global settings. only an admin can read and edit this settings
      */
-    enum Scope  { CLIENT_USER_SCOPE, CLIENT_SYSTEM_SCOPE, SERVER_USER_SCOPE, SERVER_SYSTEM_SCOPE, __LAST_SCOPE__ };
+    enum Scope  { CLIENT_USER_SCOPE, CLIENT_SYSTEM_SCOPE,
+                  SERVER_USER_SCOPE, SERVER_SYSTEM_SCOPE,
+                  __LAST_SCOPE__ };
 
     CommSettings();
     CommSettings(QByteArray&);

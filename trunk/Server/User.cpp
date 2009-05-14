@@ -32,9 +32,9 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
     QSqlQuery query(QSqlDatabase::database(con));
 
     if (authSession)
-        query.prepare("SELECT id FROM users WHERE login=? AND session_key=?;");
+        query.prepare("SELECT id,level FROM users WHERE login=? AND session_key=?;");
     else
-        query.prepare("SELECT id FROM users WHERE login=? AND password=?;");
+        query.prepare("SELECT id,level FROM users WHERE login=? AND password=?;");
 
     query.addBindValue(_login);
     query.addBindValue(_auth.toHex());
@@ -42,6 +42,7 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
         return;
 
     id = query.value(0).toUInt();
+    level = (Level)query.value(1).toUInt();
     user = _login;
 
     connect(this, SIGNAL(sendPacketSignal(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
@@ -94,8 +95,6 @@ User* User::getUser(quint32 _id)
 {
     return map[ _id ];
 }
-
-
 /*
 void User::destroySession()
 {
