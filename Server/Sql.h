@@ -6,7 +6,7 @@
 #include <QSemaphore>
 #include <QMap>
 
-//!  Sql Class
+//!  Manage pool of sql connection
 /*!
   SQL connection and query management for the server
 */
@@ -22,7 +22,6 @@ public:
 
     //! Connections to the database
     /*!
-      \sa sqlconnect()
       \param dbName the database name
       \param hostname the database hostname
       \param username database username
