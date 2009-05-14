@@ -32,15 +32,21 @@ private:
     void PacketSettings();
     void PacketPlugin();
 
+    //! send an error to the client
     void sendError(CommError::Error err, const char* str="");
 
+    //! a pointer to the parent ClientSocket
     ClientSocket* socket;
-    QByteArray   packet;
+    //! the received packet
+    /*! every methods of ThreadPacket read and truncate this value
+     */
+    QByteArray    packet;
 
     //! corespondance table between CommPacket::type and the methods
     static void (ThreadPacket::*packetDirections[]) ();
 
 signals:
+    //! signal emmited when a packet need to be send to the client
     void sendPacket(const QByteArray);
 };
 

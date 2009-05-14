@@ -5,6 +5,7 @@
 
 #include "FileServer.h"
 
+//! class creating the thread for every files tranferts
 class ThreadFiles : public QThread
 {
   Q_OBJECT
@@ -16,6 +17,7 @@ protected:
     void run();
 
 private:
+    //! contain the server for files transfert
     FileServer* server;
 };
 
