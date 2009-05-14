@@ -15,12 +15,12 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
 
     threads.release();//1
     nbThreads = 0;
-    userId = 0;
     vState = INIT;
 
-    connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(packetAvailable(const QByteArray&)));
-    connect(this, SIGNAL(encrypted()), this, SLOT(ready()));
-    connect(this, SIGNAL(disconnected()),                    this, SLOT(tryToDelete()));
+    connect(&user, SIGNAL(sendPacketSignal(const QByteArray&)), this, SLOT(sendPacket(const QByteArray&)));
+    connect(this,  SIGNAL(packetReceived(const QByteArray&)),   this, SLOT(packetAvailable(const QByteArray&)));
+    connect(this,  SIGNAL(encrypted()),                         this, SLOT(ready()));
+    connect(this,  SIGNAL(disconnected()),                      this, SLOT(tryToDelete()));
 
     setSocketDescriptor(_socket);
 

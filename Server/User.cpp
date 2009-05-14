@@ -1,15 +1,13 @@
-#include <QCryptographicHash>
 #include <QTime>
 
 #include "User.h"
 #include "Sql.h"
 #include "../Common/CommModule.h"
 
-QMap<quint32, User*> User::map;
+QHash<quint32, User*> User::map;
 
-User::User(ClientSocket* sock)
+User::User()
 {
-    socket = sock;
     id = 0;
     user = "";
     sessionString = "";
@@ -45,10 +43,7 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
     level = (Level)query.value(1).toUInt();
     user = _login;
 
-    connect(this, SIGNAL(sendPacketSignal(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
-
     map[ id ] = this;
-    socket->userId = id;
 }
 
 void User::renewSession(quint32 duration)
@@ -76,15 +71,20 @@ void User::renewSession(quint32 duration)
     return;
 }
 
-const QByteArray& User::getSessionString()
+const QByteArray& User::getSessionString() const
 {
     return sessionString;
 }
 
-const QDateTime& User::getSessionEnd()
+const QDateTime& User::getSessionEnd() const
 {
     return sessionEnd;
 }
+
+bool User::isLoggedIn() const { return id ? true : false; }
+quint32 User::getId() const { return id; }
+const QString User::getUserName() const { return user; }
+User::Level User::getLevel() const { return level; }
 
 void User::sendPacket(const QByteArray& packet)
 {
@@ -95,20 +95,21 @@ User* User::getUser(quint32 _id)
 {
     return map[ _id ];
 }
-/*
+
 void User::destroySession()
 {
-    QMutexLocker lock(&mutex);
-
-    id = 0;
-    login = "";
-    session = "";
-    state = LOGGED_OUT;
-
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
     query.prepare("UPDATE users SET session_key='' WHERE id=? LIMIT 1;");
     query.addBindValue(id);
     query.exec();
+
+    sessionString = "";
 }
-*/
+
+void User::logout()
+{
+    id = 0;
+    user = "";
+    sessionString = "";
+}

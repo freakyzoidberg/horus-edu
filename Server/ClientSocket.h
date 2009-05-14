@@ -5,7 +5,10 @@
 #include <QThreadPool>
 #include <QSemaphore>
 
+#include "User.h"
 #include "../Common/CommSocket.h"
+
+class User;
 
 //! ClientSocket created for each connexion
 /*
@@ -26,7 +29,7 @@ public:
     enum        tState {INIT, CONNECTED};
     tState      vState;
 
-    quint32     userId;
+    User        user;
 
     //! wait for other threads
     /*!

@@ -2,10 +2,10 @@
 #define USER_H
 
 #include <QObject>
+#include <QHash>
 #include <QByteArray>
 #include <QDateTime>
 
-#include "ClientSocket.h"
 #include "../Common/Defines.h"
 
 class User : public QObject
@@ -13,7 +13,7 @@ class User : public QObject
   Q_OBJECT
 
 public:
-    User(ClientSocket* sock);
+    User();
     ~User();
 
     enum Level { ROOT, ADMINISTRATOR, TEACHER, STUDENT, FAMILY, GUEST };
@@ -21,8 +21,14 @@ public:
     void              login(const QString& _login, bool authSession, const QByteArray& _auth);
     void              renewSession(quint32 duration = DEFAULT_SESSION_LIFETIME*60);
     void              destroySession();
-    const QByteArray& getSessionString();
-    const QDateTime&  getSessionEnd();
+    void              logout();
+
+    bool              isLoggedIn() const;
+    quint32           getId() const;
+    const QString     getUserName() const;
+    Level             getLevel() const;
+    const QByteArray& getSessionString() const;
+    const QDateTime&  getSessionEnd() const;
 
     void              sendPacket(const QByteArray&);
 
@@ -32,19 +38,18 @@ private:
     Level             level;
     QByteArray        sessionString;
     QDateTime         sessionEnd;
-    ClientSocket*     socket;
 
 signals:
     void              sendPacketSignal(const QByteArray&);
 
 
 
-    //STATIC MEMBERS:
+//STATIC MEMBERS:
 public:
     static User*               getUser(quint32 userId);
     static User*               getUser(QString login);
 private:
-    static QMap<quint32, User*> map;
+    static QHash<quint32,User*> map;
 };
 
 #endif // USER_H
