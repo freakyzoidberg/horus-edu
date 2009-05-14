@@ -15,7 +15,7 @@
 # define ORGANIZATION_NAME "Horus"
 #endif
 #ifndef ORGANIZATION_DOMAIN
-# define ORGANIZATION_DOMAIN "4--2.net"
+# define ORGANIZATION_DOMAIN "horus-edu.net"
 #endif
 
 #ifndef SERVER_NAME
@@ -63,23 +63,6 @@
 #ifndef SQLCONNECTIONCOUNT
 //! Total of concurent SQL connections
 # define SQLCONNECTIONCOUNT 5
-#endif
-
-// CES DEFINITION DOIVENT ETRE A VIRER JE PENSE
-#ifndef STARTEVENTTYPE
-# define STARTEVENTTYPE          1000
-#endif
-#ifndef STOPEVENTTYPE
-# define STOPEVENTTYPE           1001
-#endif
-#ifndef LOADPLUGINEVENTTYPE
-# define LOADPLUGINEVENTTYPE     1002
-#endif
-#ifndef UNLOADPLUGINEVENTTYPE
-# define UNLOADPLUGINEVENTTYPE   1003
-#endif
-#ifndef NETWORKRECEIVEEVENTTYPE
-# define NETWORKRECEIVEEVENTTYPE 1004
 #endif
 
 #endif // DEFINES_H
