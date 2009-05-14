@@ -2,11 +2,16 @@
 
 NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
 {
-    connect(      this, SIGNAL(packetReceived(QByteArray)), &packManag, SLOT(packetReceived(QByteArray)));
-    connect(&packManag, SIGNAL(sendPacket(QByteArray)),           this, SLOT(sendPacket(QByteArray)));
+    packManag = new PacketManager(this);
+    packSend = new PacketSender(this);
+    connect(      this, SIGNAL(packetReceived(QByteArray)), packManag, SLOT(packetReceived(QByteArray)));
+    connect(packSend, SIGNAL(sendPacket(QByteArray)),           this, SLOT(sendPacket(QByteArray)));
+    //connect(packManag, SIGNAL(sendPacket(QByteArray)),           this, SLOT(sendPacket(QByteArray)));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
     setObjectName("NetworkManager");
+    this->ld = new LoginDialog(this);
+    //this->ld->show();
     //this->start();
 }
 
@@ -36,26 +41,7 @@ void run()
 {
     //this->exec();
 }
-/*
-void    NetworkManager::ConnectTo(QString addr, int port)
-{
-     abort();
-     connectToHost(addr, port);
-}
-*/
-/*
-void    NetworkManager::packetAvailable()
-{
-    if ( ! recvQueue.length())
-        return;
 
-    packManag.packetReceived(recvQueue.first());
-    recvQueue.pop_front();
-
-    //in case ther is another packet in the queue
-    emit packetReceived();
-}
-*/
 void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
  {
     switch (socketError) {
@@ -78,33 +64,22 @@ bool    NetworkManager::quit()
     return true;
 }
 
-void NetworkManager::login(const QString &login, const QString &pass, int ltype)
-{
-    QSettings   settings;
-    if (ltype == 1)
-    {
-        settings.beginGroup("SESSIONS");
-        settings.setValue("sessionString", "");
-        settings.setValue("sessionLogin", login);
-        settings.setValue("sessionTime", "");
-        settings.setValue("sessionEnd", "");
-        CommLogin  l(CommLogin::LOGIN_PASSWORD);
-        l.login = login;
-        l.sha1Pass = QCryptographicHash::hash(pass.toUtf8(), QCryptographicHash::Sha1);
-        sendPacket(l.getPacket());
-    }
-    else
-    {
-
-    }
-}
-
 bool    NetworkManager::event(QEvent *e)
 {
     if(e->type() == ClientEvents::StartEvent)
     {
         qDebug() << "NewtworkManager: Recieve StartEvent";
         connectToHostEncrypted("localhost", 42000);
+    }
+    else if (e->type() == ClientEvents::LoginEvent)
+    {
+        qDebug() << "NewtworkManager: Recieve LoginEvent";
+        packSend->PacketToSend(4, e);
+    }
+    else if (e->type() == ClientEvents::InitEvent)
+    {
+        qDebug() << "NewtworkManager: Recieve InitEvent";
+        packSend->PacketToSend(2, e);
     }
     return true;
 }

@@ -22,7 +22,6 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     new PluginManager(this);
     this->loader = new Loader(this);
     this->mainWindow = new MainWindow(this);
-    this->ld = new LoginDialog(this);
     this->loader->show();
 }
 

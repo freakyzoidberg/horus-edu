@@ -21,6 +21,7 @@ void    Loader::loadNetwork()
     ++(this->processes);
     //networkManager = parent->findChild<NetworkManager *>();
     QApplication::postEvent(NetworkManager::getInstance(this->parent), new QEvent(ClientEvents::StartEvent));
+
 }
 
 void    Loader::loadPlugins()
@@ -39,25 +40,15 @@ bool    Loader::event(QEvent *event)
 
     if (event->type() == ClientEvents::StartEvent)
     {
+        //LoginEvent *e = new LoginEvent("toto","toto", 1);
+        //QApplication::postEvent(NetworkManager::getInstance(this->parent), e);
         event->accept();
         ++(this->processesComplete);
         this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);
         //if (processes == processesComplete)
         if (processes == processesComplete + 1) // waiting for NetworkManager to send events...
         {
-            settings.beginGroup("SESSIONS");
-            if (settings.value("sessionString", "") != "")
-            {
-                if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60))
-                {
-                    NetworkManager::getInstance(this->parent)->login(settings.value("sessionLogin", "").toString(), settings.value("sessionString", "").toString(), 2);
-                }
-                else
-                {
-                    //this->hide();
-                    //parent->ld->show();
-                }
-            }
+
             this->hide();
             parent->mainWindow->show();
         }

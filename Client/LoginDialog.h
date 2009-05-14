@@ -4,18 +4,19 @@
 #include <QtGui/QWidget>
 #include "ui_LoginDialog.h"
 #include "NetworkManager.h"
+#include "ClientEvents.h"
 
 class LoginDialog : public QWidget {
     Q_OBJECT
 public:
     LoginDialog(QObject *parent = 0);
-    ~LoginDialog();
 
-protected:
-    virtual void changeEvent(QEvent *e);
+     //bool            event(QEvent *event);
+    ~LoginDialog();
 
 private:
     Ui::Form l_ui;
+    QObject *parent;
 
 private slots:
     void on_connectButton_clicked();
