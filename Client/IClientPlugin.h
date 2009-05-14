@@ -6,6 +6,10 @@
 
 class IClient;
 
+//! Interface needed for each plugins of the Client
+/*!
+    This interface defines some required functions for each plugins in order to be well managed by the Client.
+*/
 class IClientPlugin : public QObject
 {
   public:
@@ -15,7 +19,6 @@ class IClientPlugin : public QObject
     virtual QStringList         getPluginsConflicts() const = 0;
     virtual QStringList         getPluginsRequired() const = 0;
     virtual QStringList         getPluginsRecommended() const = 0;
-//    virtual QStringList         getExports() const = 0;
     virtual bool                event(QEvent *) = 0;
 };
 
