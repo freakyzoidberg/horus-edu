@@ -1,7 +1,6 @@
 #include <QtCore/qplugin.h>
 
-#include "../../NetworkReceiveEvent.h"
-#include "../../UnloadPluginEvent.h"
+#include "../../ClientEvents.h"
 #include "../../LoadPluginEvent.h"
 
 #include "disppdf.h"
@@ -42,7 +41,7 @@ QStringList           DispPDF::getPluginsRecommended() const
 
 bool    DispPDF::event(QEvent *event)
 {
-    if (event->type() == NetworkReceiveEvent::type)
+    if (event->type() == ClientEvents::NetworkReceiveEvent)
     {
         event->accept();
         return pNetwork->eventHandler(event);
@@ -52,7 +51,7 @@ bool    DispPDF::event(QEvent *event)
         event->accept();
         return eventHandlerLoad(event);
     }
-    else if (event->type() == UnloadPluginEvent::type)
+    else if (event->type() == ClientEvents::UnloadPluginEvent)
     {
         event->accept();
         return eventHandlerUnload(event);
@@ -69,4 +68,9 @@ bool    DispPDF::eventHandlerLoad(QEvent *event)
 bool    DispPDF::eventHandlerUnload(QEvent *event)
 {
     return true;
+}
+
+void    DispPDF::openPDFDoc(const QString & fileName)
+{
+
 }

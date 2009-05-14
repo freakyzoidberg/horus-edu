@@ -6,6 +6,7 @@
 
 #include "../../IPluginNetwork.h"
 
+//!Implementation of the interface IPluginNetwork
 class DispPDFNetwork : public QObject, public IPluginNetwork
 {
  Q_OBJECT
