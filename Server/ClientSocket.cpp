@@ -94,6 +94,6 @@ void ClientSocket::allowOtherThreads()
 
 void ClientSocket::tryToDelete()
 {
-    if ( ! nbThreads && ! recvQueue.length())
+    if ( ! nbThreads && ! recvQueue.count())
         deleteLater();
 }

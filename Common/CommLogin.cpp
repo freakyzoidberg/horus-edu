@@ -1,6 +1,7 @@
 #include "CommLogin.h"
 #include <QDateTime>
 #include <QtEndian>
+#include <QVariant>
 
 CommLogin::CommLogin(Method t) : CommPacket(CommPacket::LOGIN)
 {
@@ -45,9 +46,10 @@ void CommLogin::read(QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-        memcpy((char*)&sessionTime, a.constData(), sizeof(sessionTime));
-        sessionTime = qFromLittleEndian(sessionTime);
-        a.remove(0, sizeof(sessionTime));
+      //        memcpy((char*)&sessionTime, a.constData(), sizeof(sessionTime));
+      //        sessionTime = qFromLittleEndian(sessionTime);
+      QVariant(a.mid(0, a[0])).toUInt();
+        a.remove(0, a[0]+1);
         sessionString = a;
     }
 }
@@ -67,8 +69,11 @@ void CommLogin::write(QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-        quint32 time = qToLittleEndian(sessionTime);
-        a.append((char*)&time, sizeof(sessionTime) );
+      QByteArray time = QVariant(sessionTime).toByteArray();
+      //        quint32 time = qToLittleEndian(sessionTime);
+      //        a.append((char*)&time, sizeof(sessionTime) );
+      a.append(time.length());
+      a.append(time);
         a.append(sessionString);
     }
  }
