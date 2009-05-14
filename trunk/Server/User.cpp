@@ -2,7 +2,7 @@
 
 #include "User.h"
 #include "Sql.h"
-#include "../Common/CommModule.h"
+#include "../Common/CommPlugin.h"
 
 QHash<quint32, User*> User::map;
 

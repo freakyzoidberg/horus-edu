@@ -8,7 +8,7 @@
 #include "UserSettings.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
-#include "../Common/CommModule.h"
+#include "../Common/CommPlugin.h"
 #include "../Common/CommFile.h"
 #include "../Common/CommSettings.h"
 
@@ -37,7 +37,7 @@ packetDirection ThreadPacket::packetDirections[] =
     &ThreadPacket::PacketLogin,
     &ThreadPacket::PacketFile,
     &ThreadPacket::PacketSettings,
-    &ThreadPacket::PacketModule
+    &ThreadPacket::PacketPlugin
 };
 
 void ThreadPacket::PacketUndefined()
@@ -134,16 +134,16 @@ void ThreadPacket::PacketSettings()
           s.scope == CommSettings::SERVER_USER_SCOPE ||
          (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET))
 
-        UserSettings userSettings(socket->user.getId(), s.module, s.scope);
+        UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
 
     else if (socket->user.getLevel() <= User::ADMINISTRATOR &&
                 ( s.scope == CommSettings::CLIENT_SYSTEM_SCOPE ||
                   s.scope == CommSettings::SERVER_SYSTEM_SCOPE ) )
-        UserSettings userSettings(socket->user.getId(), s.module, s.scope);
+        UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
     else
         ;
 
-    UserSettings userSettings(socket->user.getId(), s.module, s.scope);
+    UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
     if (s.method == CommSettings::SET)
         userSettings.set(s.getBinarySettings());
 
@@ -153,7 +153,7 @@ void ThreadPacket::PacketSettings()
     qDebug() << "[out]" << s;
 }
 
-void ThreadPacket::PacketModule()
+void ThreadPacket::PacketPlugin()
 {
     if (socket->vState != ClientSocket::CONNECTED)
         return sendError(CommError::NOT_INITIALIZED);
@@ -162,10 +162,10 @@ void ThreadPacket::PacketModule()
       return sendError(CommError::NOT_AUTHENTICATED);
 
     int len = packet.length();
-    CommModule mod(packet);
+    CommPlugin mod(packet);
     qDebug() << "[ in]" << mod << "length:" << len;
 
-    IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetModule);
+    IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetPlugin);
     if (plugin)
         plugin->recvPacket(socket->user.getId(), mod.packet);
 

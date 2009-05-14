@@ -8,7 +8,7 @@
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
-#include "../Common/CommModule.h"
+#include "../Common/CommPlugin.h"
 #include "../Common/CommPacket.h"
 #include "../Common/CommError.h"
 
@@ -32,7 +32,7 @@ private:
     void        PacketLogin();
     void        PacketFile();
     void        PacketConfig();
-    void        PacketModule();
+    void        PacketPlugin();
 
     QByteArray  packet;
     static void (PacketManager::*packetDirections[]) ();

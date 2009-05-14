@@ -8,12 +8,12 @@ InterfaceServer::InterfaceServer(IServerPlugin* p)
     plugin = p;
 }
 
-void InterfaceServer::sendPacket(const quint32 userId, const ModulePacket& packet) const
+void InterfaceServer::sendPacket(const quint32 userId, const PluginPacket& packet) const
 {
-    CommModule p = packet;
+    CommPlugin p = packet;
 
     p.packet.packetVersion = plugin->version();
-    p.packet.sourceModule = plugin->name();
+    p.packet.sourcePlugin = plugin->name();
 
     User* usr = User::getUser(userId);
     if (usr)

@@ -30,7 +30,7 @@ private:
     void PacketLogin();
     void PacketFile();
     void PacketSettings();
-    void PacketModule();
+    void PacketPlugin();
 
     void sendError(CommError::Error err, const char* str="");
 

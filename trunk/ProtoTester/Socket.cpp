@@ -2,7 +2,7 @@
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
-#include "../Common/CommModule.h"
+#include "../Common/CommPlugin.h"
 #include "../Common/CommPacket.h"
 #include "../Common/CommSettings.h"
 
@@ -56,10 +56,10 @@ void Socket::packetAvailable(QByteArray packet)
     h["txt"] = "asdasdasdasdasdasdoiu";
 
 
-    //send module
-    CommModule mod(ModulePacket("TestComm", h));
+    //send plugin
+    CommPlugin mod(PluginPacket("TestComm", h));
     mod.packet.packetVersion = 42;
-    mod.packet.sourceModule = "protoTester";
+    mod.packet.sourcePlugin = "protoTester";
     sendPacket(mod.getPacket());
     qDebug() << "[out]" << mod;
 /*
@@ -74,7 +74,7 @@ void Socket::packetAvailable(QByteArray packet)
     CommSettings settings;
     settings.method = CommSettings::SET;
     settings.scope = CommSettings::CLIENT_USER_SCOPE;
-    settings.module = "test";
+    settings.plugin = "test";
     settings.setVariantSettings(h);
     sendPacket(settings.getPacket());
     qDebug() << "[out]" << settings;

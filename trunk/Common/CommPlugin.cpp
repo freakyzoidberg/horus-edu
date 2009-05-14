@@ -1,20 +1,20 @@
 #include <QByteArray>
 
-#include "CommModule.h"
+#include "CommPlugin.h"
 
-CommModule::CommModule(const ModulePacket& mp)
+CommPlugin::CommPlugin(const PluginPacket& mp)
     : CommPacket(CommPacket::MODULE)
 {
     packet = mp;
 }
 
-CommModule::CommModule(QByteArray& a)
+CommPlugin::CommPlugin(QByteArray& a)
     : CommPacket(CommPacket::MODULE)
 {
     read(a);
 }
 
-const QByteArray CommModule::getPacket()
+const QByteArray CommPlugin::getPacket()
 {
     QByteArray a;
     CommPacket::write(a);
@@ -22,31 +22,31 @@ const QByteArray CommModule::getPacket()
     return a;
 }
 
-void CommModule::read(QByteArray& a)
+void CommPlugin::read(QByteArray& a)
 {
     QDataStream stream(&a, QIODevice::ReadOnly);
     stream >> packet.packetVersion
-           >> packet.sourceModule
-           >> packet.targetModule
+           >> packet.sourcePlugin
+           >> packet.targetPlugin
            >> packet.data;
 }
 
-void CommModule::write(QByteArray& a)
+void CommPlugin::write(QByteArray& a)
 {
     QDataStream stream(&a, QIODevice::WriteOnly);
     stream.device()->seek(a.length());
 
     stream << packet.packetVersion
-           << packet.sourceModule
-           << packet.targetModule
+           << packet.sourcePlugin
+           << packet.targetPlugin
            << packet.data;
 }
 
-QDebug operator<<(QDebug d, CommModule& cm)
+QDebug operator<<(QDebug d, CommPlugin& cm)
 {
     return d << (CommPacket&)cm
              << cm.packet.packetVersion
-             << cm.packet.sourceModule
-             << cm.packet.targetModule
+             << cm.packet.sourcePlugin
+             << cm.packet.targetPlugin
              << cm.packet.data;
 }

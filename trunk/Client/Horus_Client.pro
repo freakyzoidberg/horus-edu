@@ -10,7 +10,7 @@ TEMPLATE = app
 SOURCES += main.cpp \
     NetworkManager.cpp \
     ../Common/CommPacket.cpp \
-    ../Common/CommModule.cpp \
+    ../Common/CommPlugin.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
@@ -27,7 +27,7 @@ HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
     ../Common/CommSocket.h \
-    ../Common/CommModule.h \
+    ../Common/CommPlugin.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \

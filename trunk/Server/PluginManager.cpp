@@ -1,7 +1,7 @@
 #include "PluginManager.h"
 #include <QCoreApplication>
 #include <QStringList>
-#include "../Common/CommModule.h"
+#include "../Common/CommPlugin.h"
 #include "User.h"
 
 PluginManager* PluginManager::instance = 0;
