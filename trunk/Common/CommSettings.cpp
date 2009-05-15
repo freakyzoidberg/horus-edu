@@ -53,6 +53,9 @@ void CommSettings::read(QByteArray& a)
     if ((char)a[0] < (char)__LAST__)
         method = (Method)(char)a[0];
 
+    if (method == PERMISSION_DENIED)
+        return;
+
     if ((char)a[1] < (char)__LAST_SCOPE__)
         scope = (Scope)(char)a[1];
 
@@ -65,6 +68,9 @@ void CommSettings::read(QByteArray& a)
 void CommSettings::write(QByteArray& a)
 {
     a.append(method);
+    if (method == PERMISSION_DENIED)
+        return;
+
     a.append(scope);
     a.append(plugin.length());
     a.append(plugin);

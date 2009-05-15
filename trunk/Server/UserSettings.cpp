@@ -5,7 +5,12 @@
 
 UserSettings::UserSettings(quint32 _userId, const QByteArray& _plugin, CommSettings::Scope _scope)
 {
-    userId = _userId;
+    if (_scope == CommSettings::CLIENT_USER_SCOPE ||
+        _scope == CommSettings::SERVER_USER_SCOPE)
+        userId = _userId;
+    else
+        userId = 0;
+
     plugin = _plugin;
     scope = _scope;
     exist = false;
