@@ -32,7 +32,7 @@ void CommInit::write(QByteArray& a)
     a.append(fromName);
 }
 
-QDebug operator<<(QDebug d, CommInit& ci)
+QDebug operator<<(QDebug d, const CommInit& ci)
 {
     return d << (CommPacket&)ci
              <<  "proto v:" << ci.protoVersion

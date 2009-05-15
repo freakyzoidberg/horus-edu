@@ -1,5 +1,5 @@
-#ifndef MODULEPACKET_H
-#define MODULEPACKET_H
+#ifndef PLUGINPACKET_H
+#define PLUGINPACKET_H
 
 #include <QVariant>
 
@@ -21,4 +21,4 @@ public:
     QVariant   data;
 };
 
-#endif // MODULEPACKET_H
+#endif // PLUGINPACKET_H

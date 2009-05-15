@@ -6,6 +6,7 @@
 #include "../IServer.h"
 #include "../IServerPlugin.h"
 
+//! a Server Plugin to test the communication between a Client Plugin and a Server Plugin
 class TestComm : public IServerPlugin
 {
   Q_OBJECT

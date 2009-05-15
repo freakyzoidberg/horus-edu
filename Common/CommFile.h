@@ -1,29 +1,17 @@
 #ifndef COMMFILE_H
 #define COMMFILE_H
 
-#include <QDateTime>
-
 #include "CommPacket.h"
+#include "CommFileInfo.h"
 
-class FileInfo
-{
-    //! name of the file
-    QString     fileName;
-    //! actual size of the file
-    quint64     size;
-    //! creation time
-    QDateTime   ctime;
-    //! last modification date
-    QDateTime   mtime;
-    //! sha1 checksum of the file
-    QByteArray  checksumSha1;
-    //! user id of the owner of the file
-    quint32     owner;
-};
-
+//! Communication packet to ask for file transfert authorisation and file list
 class CommFile : public CommPacket
 {
 public:
+    /*!
+     * UNDEFINED is used when the type is not set yet, and for invalid value
+     * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
+     */
     enum Method { UNDEFINED,
                   LIST, DOWNLOAD, UPLOAD,
                   AUTHORIZED,
@@ -48,13 +36,13 @@ public:
     //! the node in the organizational tree for a LIST request
     quint32     id;
     //! list of files in the node for the LIST request
-    QList<FileInfo> fileList;
+    QList<CommFileInfo> fileList;
 
 private:
     void                read(QByteArray&);
     void                write(QByteArray&);
 };
 
-QDebug operator<<(QDebug, CommFile&);
+QDebug operator<<(QDebug, const CommFile&);
 
 #endif // COMMFILE_H

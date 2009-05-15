@@ -4,6 +4,7 @@
 #include <QSsl>
 #include <QSslSocket>
 
+//! Communication socket is a QSslSocket, shared onto Client and Server
 class CommSocket : public QSslSocket
 {
   Q_OBJECT

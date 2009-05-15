@@ -47,7 +47,7 @@ void CommError::write(QByteArray& a)
     a.append(errorMessage);
 }
 
-QDebug operator<<(QDebug d, CommError& e)
+QDebug operator<<(QDebug d, const CommError& e)
 {
     return d << (CommPacket&)e << e.errorType << e.errorMessage;
 }

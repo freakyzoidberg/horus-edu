@@ -74,7 +74,7 @@ void CommLogin::write(QByteArray& a)
     }
  }
 
-QDebug operator<<(QDebug d, CommLogin& cl)
+QDebug operator<<(QDebug d, const CommLogin& cl)
 {
     static const char*  typeMessages[] =
     {

@@ -8,6 +8,7 @@
 
 #include "../Common/Defines.h"
 
+//! User object. one for each connexion. used to authenticate a user
 class User : public QObject
 {
   Q_OBJECT
