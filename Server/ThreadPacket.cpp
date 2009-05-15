@@ -169,7 +169,8 @@ void ThreadPacket::PacketPlugin()
     Tree *test = new Tree();
     test->UpdateVector();
     test->GetNodebyId(1)->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->ShowSons();
-
+    test->GetNodebyId(1)->AddSon(0, "Test ADD son to 1", "GROUP");
+    test->GetNodebyId(test->GetNodebyId(1)->GetParent()->AddSon(0, "Test ADD son to 0", "GROUP"))->SetName("Name Updated");
 
     //test.DeleteNode(4);
     //test.MoveNode(14, 1);

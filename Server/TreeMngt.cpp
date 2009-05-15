@@ -104,44 +104,6 @@ bool TreeMngt::MoveNode(int idmove, int idfather)
     return true;
 }
 
-int TreeMngt::InsertNode(QString name, int userref, int idfather)
-{
-    qDebug() << "trying INSERT treemanagement name = " + name + " userref = " + QVariant(userref).toString() + " idfather = " + QVariant(idfather).toString();
-    Sql con;
-
-    QSqlQuery query("INSERT INTO treemanagement (name, user_ref, id_parent) VALUES ('" + name + "', '" + QVariant(userref).toString() + "', '" + QVariant(idfather).toString() + "')", QSqlDatabase::database(con));
-
-    if (query.lastError().isValid())
-    {
-        qDebug() << "LastError" + query.lastError().text();
-        return false;
-    }
-    bool ok;
-    int id = QVariant(query.lastInsertId()).toInt(&ok);
-    qDebug() << "inserted : "<<id;
-    node tempnode;
-       tempnode.id = id;
-       tempnode.name = name;
-       tempnode.user_ref = userref;
-       tempnode.parent_id = idfather;
-       vectree.insert(tempnode.id, tempnode);
-
-    //ajouter liaison nouveau parent -> fils
-    QMap<int, TreeMngt::node>::iterator it = vectree.find(idfather);
-    if (it != vectree.end())
-    {
-    //    qDebug() <<  "adding to father " << idfather << " sons :" << id;
-     it.value().sons.insert(id, id);
-    }
-    else
-    {
-      //  qDebug() << "not found" ;
-    }
-
-    vecshow(vectree);
-    return true;
-}
-
 
 bool TreeMngt::SetName(int idnode, QString name)
 {

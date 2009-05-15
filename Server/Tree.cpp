@@ -24,13 +24,81 @@ Tree* Tree::GetNodebyId(int id)
     }
 }
 
+bool Tree::SetName(QString name)
+{
+    if (this != 0)
+    {
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+    query.prepare("UPDATE tree SET name =? WHERE id=?;");
+    query.addBindValue(name);
+    query.addBindValue(this->id);
+
+    if ( ! query.exec())
+        {
+            qDebug() << query.lastError();
+            return 0;
+        }
+    this->name = name;
+    return true;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- SetName() method";
+        return false;
+    }
+}
+
+
+int     Tree::AddSon(int user_ref, QString name, QString type)
+{   if (this != 0)
+    {
+        Sql con;
+        QSqlQuery query(QSqlDatabase::database(con));
+        query.prepare("INSERT INTO tree (typeofnode,name,user_ref,id_parent) VALUES (?,?,?,?);");
+
+    query.addBindValue(type);
+    query.addBindValue(name);
+    query.addBindValue(user_ref);
+    query.addBindValue(this->id);
+
+    qDebug() << "QUERY:" << query.executedQuery();
+        if ( ! query.exec())
+        {
+            qDebug() << query.lastError();
+            return 0;
+        }
+        Tree *tmpnode = new Tree();
+        bool ok;
+        tmpnode->id = query.lastInsertId().toInt(&ok);
+        tmpnode->name = name;
+        tmpnode->parent_id = this->id;
+        tmpnode->parent = this;
+        tmpnode->user_ref = user_ref;
+        this->sons.insert(tmpnode->id, tmpnode);
+        maptree.insert(tmpnode->id, tmpnode);
+        return tmpnode->id;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- AddSon() method";
+        return 0;
+    }
+
+}
+
+
+
+
+
+
+
 bool Tree::UpdateVector()
 {
-
     qDebug() << "updating vector from database";
     Sql con;
 
-    QSqlQuery query1("SELECT * FROM treemanagement", QSqlDatabase::database(con));
+    QSqlQuery query1("SELECT * FROM tree", QSqlDatabase::database(con));
 
     maptree.clear();
 
@@ -66,9 +134,6 @@ bool Tree::UpdateVector()
      else
          qDebug() << "link" << it.value()->id << " is detached !!!";
   }
-
-
- //vecshow(vectree);
  return true;
 }
 
