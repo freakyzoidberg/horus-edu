@@ -1,7 +1,7 @@
 #include <QtCore/qplugin.h>
 
 #include "../../ClientEvents.h"
-#include "../../LoadPluginEvent.h"
+//#include "../../LoadPluginEvent.h"
 
 #include "disppdf.h"
 
