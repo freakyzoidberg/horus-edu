@@ -14,10 +14,6 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     this->setOrganizationDomain(ORGANIZATION_DOMAIN);
     this->setApplicationName(CLIENT_NAME);
     this->setApplicationVersion(CLIENT_VERSION);
-   /* if (StartEvent::registerEventType(StartEvent::type) != StartEvent::type)
-        qDebug() << "Warning, bad event type on register StartEvent";
-    if (StopEvent::registerEventType(StopEvent::type) != StopEvent::type)
-        qDebug() << "Warning, bad event type on register StopEvent";*/
     NetworkManager::getInstance(this);
     new PluginManager(this);
     this->loader = new Loader(this);
