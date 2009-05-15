@@ -168,10 +168,16 @@ void ThreadPacket::PacketPlugin()
     //ZoidTest
     Tree *test = new Tree();
     test->UpdateVector();
-    test->GetNodebyId(1)->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->ShowSons();
-    test->GetNodebyId(1)->AddSon(0, "Test ADD son to 1", "GROUP");
-    test->GetNodebyId(test->GetNodebyId(1)->GetParent()->AddSon(0, "Test ADD son to 0", "GROUP"))->SetName("Name Updated");
-
+    //test->GetNodebyId(1)->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->ShowSons();
+    //test->GetNodebyId(1)->AddSon(0, "Test ADD son to 1", "GROUP");
+    //test = test->GetNodebyId(test->GetNodebyId(1)->GetParent()->AddSon(1, "Test ADD son to 0", "GROUP"));
+    //test->AddSon(1, "son1 ", "GROUP");
+    //test->AddSon(1, "son1 ", "GROUP");
+    //test->AddSon(1, "son1 ", "GROUP");
+    //test->GetNodebyId(test->AddSon(1, "son1 ", "GROUP"))->AddSon(1, "son2 ", "GROUP");
+    //test->AddSon(1, "son1 ", "GROUP");
+    test = Tree::GetNodebyId(230);
+    delete test;
     //test.DeleteNode(4);
     //test.MoveNode(14, 1);
     //test.SetName(14, "test SETNAME");

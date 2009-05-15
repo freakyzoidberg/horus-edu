@@ -9,74 +9,7 @@ TreeMngt::~TreeMngt()
 {
 }
 
-bool TreeMngt::DeleteNode(int idnode)
-{
-    mymute.lock();
-    qDebug() << "trying DELETE treemanagement id = "+ QVariant(idnode).toString();
 
-    Sql con;
-    QString idparent = "0";
-    QSqlQuery query1("SELECT id_parent FROM treemanagement WHERE id = " + QVariant(idnode).toString() + " LIMIT 1", QSqlDatabase::database(con));
-
-    while (query1.next())
-    {
-        idparent = query1.value(0).toString();
-        qDebug() << "id parent = " + idparent;
-    }
-    if (query1.lastError().isValid())
-    {
-        qDebug() << "LastError" + query1.lastError().text();
-        return false;
-    }
-
-    QSqlQuery query2("UPDATE treemanagement SET id_parent = " + idparent +" WHERE id_parent = " + QVariant(idnode).toString(), QSqlDatabase::database(con));
-
-    if (query2.lastError().isValid())
-    {
-        qDebug() << "DeleteNode() -> Error in refathering new id_parent is weird";
-        qDebug() << "LastError" + query2.lastError().text();
-        return false;
-    }
-
-    QSqlQuery query3("DELETE FROM treemanagement WHERE id = " + QVariant(idnode).toString() + " LIMIT 1", QSqlDatabase::database(con));
-
-    if (query3.lastError().isValid())
-    {
-        qDebug() << "LastError" + query3.lastError().text();
-        return false;
-    }
-bool ok;
-    QMap<int, node>::iterator tmpnode;
-    QMap<int, int>::iterator tmpnodesons;
-    //virer parent -> fils
-    tmpnode = vectree.find(QVariant(idparent).toInt(&ok));
-    if (tmpnode != vectree.end())
-    {
-        tmpnodesons = tmpnode.value().sons.find(idnode);
-        if (tmpnodesons != tmpnode.value().sons.end())
-            vectree.find(QVariant(idparent).toInt(&ok)).value().sons.remove(idnode);
-    }
-
-    //modififier liaison fils -> nouveau parent
-
-    QMap<int, int> tmpsons = GetSonsNode(idnode);
-
-    for(QMap<int, int>::iterator it = tmpsons.begin(); it != tmpsons.end(); ++it)
-    {
-        tmpnode = vectree.find(it.value());
-        if (tmpnode != vectree.end())
-        {
-            tmpnode.value().parent_id = QVariant(idparent).toInt(&ok);
-            tmpnode = vectree.find(QVariant(idparent).toInt(&ok));
-            if (tmpnode != vectree.end())
-                tmpnode.value().sons.insert(it.value(), it.value());
-        }
-    }
-    //virer idnode
-    vectree.remove(idnode);
-    mymute.unlock();
-        return true;
-}
 
 bool TreeMngt::MoveNode(int idmove, int idfather)
 {

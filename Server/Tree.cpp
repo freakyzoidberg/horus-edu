@@ -6,6 +6,25 @@ Tree::Tree()
 
 Tree::~Tree()
 {
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+
+    for(QMap<int, Tree::Tree*>::iterator it = this->sons.begin(); it != this->sons.end(); ++it)
+    {
+        query.prepare("UPDATE tree SET id_parent=? WHERE id=?;");
+
+        query.addBindValue(this->parent_id);
+        query.addBindValue(it.value()->id);
+        if ( ! query.exec())
+            {
+                qDebug() << query.lastError();
+                return;
+            }
+        this->parent->sons.insert(it.value()->id, GetNodebyId(it.value()->id));
+        it.value()->parent_id = this->parent_id;
+        this->sons.remove(it.value()->id);
+    }
+    this->sons.clear();
 }
 
 Tree* Tree::GetParent() const
@@ -138,8 +157,6 @@ int     Tree::AddSon(int user_ref, QString name, QString type)
     }
 
 }
-
-
 
 
 
