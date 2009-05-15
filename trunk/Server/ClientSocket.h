@@ -10,7 +10,7 @@
 
 class User;
 
-//! ClientSocket created for each connexion
+//! a ClientSocket created for each connexion
 /*
  * This Object destroy himself when the connexion is closed
  */
