@@ -13,7 +13,7 @@
 #include "../Common/CommSettings.h"
 
 //ZoidTest
-#include "TreeMngt.h"
+#include "Tree.h"
 
 ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 {
@@ -166,8 +166,8 @@ void ThreadPacket::PacketPlugin()
         plugin->recvPacket(socket->user.getId(), mod.packet);
 
     //ZoidTest
-    //TreeMngt test;
-     //test.UpdateVector();
+    Tree test;
+    test.UpdateVector();
 
 
     //test.DeleteNode(4);
