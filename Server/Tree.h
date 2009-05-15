@@ -14,13 +14,15 @@ private:
     QString type;
     QString name;
     QMap<int, Tree*> sons;
-    static QMap<int, Tree*> maptree;
+
 
 public:
+    static QMap<int, Tree*> maptree;
     Tree();
     ~Tree();
     bool    UpdateVector();
     void    ShowSons();
+    void    vecshow();
     Tree    *GetParent() const;
     //! insert node
     /*!

@@ -32,19 +32,6 @@ public:
     ~TreeMngt();
 
 
-
-    //! move node to new father
-    /*!
-      \param idmove node to move
-      \param idfather node id of new father
-    */
-    bool MoveNode(int idmove, int idfather);
-
-
-
-     //! Completely fill vector from db
-    bool UpdateVector();
-
     void vecshow(QMap<int, node> vec);
 };
 
