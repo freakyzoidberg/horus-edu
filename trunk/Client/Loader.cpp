@@ -35,13 +35,8 @@ void    Loader::loadPlugins()
 
 bool    Loader::event(QEvent *event)
 {
-    QSettings settings;
-
-
     if (event->type() == ClientEvents::StartEvent)
     {
-        //LoginEvent *e = new LoginEvent("toto","toto", 1);
-        //QApplication::postEvent(NetworkManager::getInstance(this->parent), e);
         event->accept();
         ++(this->processesComplete);
         this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);

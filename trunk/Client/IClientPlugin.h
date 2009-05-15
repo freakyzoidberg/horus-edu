@@ -54,6 +54,7 @@ class IClientPlugin : public QObject
     //! Surcharge of the method event
     /*!
      *  Each plugin must manage events that it will receive.
+     *  \param event the event received
      *  \return the accept status of the event
      */
     virtual bool                event(QEvent *) = 0;
