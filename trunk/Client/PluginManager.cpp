@@ -18,6 +18,7 @@ bool    PluginManager::event(QEvent *event)
     {
         qDebug() << "PluginManager: Receive StartEvent";
         this->loadPlugins();
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
         return (true);
     }
     else if (event->type() == ClientEvents::StopEvent/*StopEvent::type*/)
@@ -47,7 +48,6 @@ void    PluginManager::loadPlugins()
 
     settings.beginGroup("Plugins");
     pluginsDir = QDir(settings.value("DirectoryPath", "/Undefined").toString());
-
     if (pluginsDir.absolutePath() == "/Undefined")
     {
         pluginsDir = QDir(PREFIX);
@@ -56,17 +56,13 @@ void    PluginManager::loadPlugins()
             || !pluginsDir.cd("Plugins"))
         {
             qDebug() << "PluginManager: Error: Plugin path doesn't exist.";
-            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
             return ;
         }
     }
     plugins = settings.value("Load", QStringList()).toStringList();
     foreach (pluginName, plugins)
-    {
         loadPlugin(pluginName, pluginsDir);
-    }
     settings.endGroup();
-
 }
 
 bool    PluginManager::loadPlugin(QString pluginName, QDir path)
