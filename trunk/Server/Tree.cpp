@@ -24,6 +24,19 @@ Tree* Tree::GetNodebyId(int id)
     }
 }
 
+QString Tree::GetName() const
+{
+    if (this != 0)
+    {
+        return this->name;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- GetName() method";
+        return "";
+    }
+}
+
 bool Tree::SetName(QString name)
 {
     if (this != 0)
@@ -48,6 +61,45 @@ bool Tree::SetName(QString name)
         return false;
     }
 }
+
+int Tree::GetUserRef() const
+{
+    if (this != 0)
+    {
+        return this->user_ref;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- GetUserRef() method";
+        return 0;
+    }
+}
+
+bool Tree::SetUserRef(int user_ref)
+{
+    if (this != 0)
+    {
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+    query.prepare("UPDATE tree SET user_ref =? WHERE id=?;");
+    query.addBindValue(user_ref);
+    query.addBindValue(this->id);
+
+    if ( ! query.exec())
+        {
+            qDebug() << query.lastError();
+            return 0;
+        }
+    this->name = user_ref;
+    return true;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- SetUserRef() method";
+        return false;
+    }
+}
+
 
 
 int     Tree::AddSon(int user_ref, QString name, QString type)

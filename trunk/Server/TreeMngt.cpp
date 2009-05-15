@@ -105,61 +105,6 @@ bool TreeMngt::MoveNode(int idmove, int idfather)
 }
 
 
-bool TreeMngt::SetName(int idnode, QString name)
-{
-    qDebug() << "trying SetName to name = " + name +" WHERE id = " + QVariant(idnode).toString();
-       Sql con;
-
-    QSqlQuery query2("UPDATE treemanagement SET name = '" + name +"' WHERE id = " + QVariant(idnode).toString(), QSqlDatabase::database(con));
-
-    if (query2.lastError().isValid())
-    {
-        qDebug() << "LastError" + query2.lastError().text();
-        return false;
-    }
-    QMap<int, TreeMngt::node>::iterator it = vectree.find(idnode);
-    if (it != vectree.end())
-    it.value().name = name;
-    return true;
-}
-
-QString TreeMngt::GetName(int idnode) const
-{
-    QMap<int, TreeMngt::node>::const_iterator it = vectree.find(idnode);
-    if (it != vectree.end())
-    return it.value().name;
-    else
-        return "Not Found !!!";
-}
-
-
-bool TreeMngt::SetUserRef(int idnode, int userref)
-{
-    qDebug() << "trying SetUserRef to user_ref = " + QVariant(userref).toString() +" WHERE id = " + QVariant(idnode).toString();
-       Sql con;
-
-    QSqlQuery query2("UPDATE treemanagement SET user_ref = '" + QVariant(userref).toString() +"' WHERE id = " + QVariant(idnode).toString(), QSqlDatabase::database(con));
-
-    if (query2.lastError().isValid())
-    {
-        qDebug() << "LastError" + query2.lastError().text();
-        return false;
-    }
-    QMap<int, TreeMngt::node>::iterator it = vectree.find(idnode);
-    if (it != vectree.end())
-    it.value().user_ref = userref;
-    return true;
-}
-
-int TreeMngt::GetUserRef(int idnode) const
- {
-    QMap<int, TreeMngt::node>::const_iterator it = vectree.find(idnode);
-    if (it != vectree.end())
-        return it.value().user_ref;
-    else
-        return 0;
- }
-
 int TreeMngt::GetFatherNode(int idnode) const
 {
     QMap<int, TreeMngt::node>::const_iterator it = vectree.find(idnode);

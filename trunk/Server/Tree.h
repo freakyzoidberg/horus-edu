@@ -32,12 +32,32 @@ public:
       \return the id of the inserted node
     */
     int     AddSon(int user_ref, QString name, QString type);
+
+    //! Get name of node
+    /*!
+      \return name of the node
+    */
+    QString GetName() const;
     //! Set name of node
     /*!
       \param name new name for the corresponding node
       \return Boolean state of the name change
     */
     bool SetName(QString name);
+
+    //! Get User in charge of the node
+    /*!
+      \return user id of the referree of the node
+    */
+    int GetUserRef() const;
+
+    //! Set User in charge of the node
+    /*!
+      \param userref new user in charge of the node
+      \return Boolean state of the change userref
+    */
+    bool SetUserRef(int user_ref);
+
 
     static Tree* GetNodebyId(int id);
 };
