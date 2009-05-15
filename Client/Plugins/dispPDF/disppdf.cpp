@@ -9,6 +9,15 @@ Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
 
 DispPDF::DispPDF()
 {
+    pNetwork = new DispPDFNetwork();
+    name = PLUGIN_NAME; /* dispPDF */
+    version = PLUGIN_VERSION; /* 1.0 */
+}
+
+DispPDF::~DispPDF()
+{
+    if (pNetwork != NULL)
+        delete pNetwork;
 }
 
 const QByteArray        DispPDF::getName() const
@@ -70,7 +79,11 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
     return true;
 }
 
-void    DispPDF::openPDFDoc(const QString & fileName)
+void    DispPDF::dispPDFDoc(const QString & fileName)
 {
-
+ // check if the file is already in the vector
+  /*
+    if no add it
+    else do something
+    */
 }
