@@ -22,6 +22,7 @@ Tree::~Tree()
             }
         this->parent->sons.insert(it.value()->id, GetNodebyId(it.value()->id));
         it.value()->parent_id = this->parent_id;
+        it.value()->parent = this->parent;
         this->sons.remove(it.value()->id);
     }
     query.prepare("DELETE FROM tree WHERE id=?;");
@@ -165,6 +166,34 @@ int     Tree::AddSon(int user_ref, QString name, QString type)
         return 0;
     }
 
+}
+
+bool Tree::MoveNode(int idfather)
+{
+    if ((this != 0) && (Tree::GetNodebyId(idfather) != 0))
+    {
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+    query.prepare("UPDATE tree SET id_parent =? WHERE id=?;");
+    query.addBindValue(idfather);
+    query.addBindValue(this->id);
+
+    if ( ! query.exec())
+        {
+            qDebug() << query.lastError();
+            return 0;
+        }
+    this->parent->sons.remove(this->id);
+    this->parent_id = idfather;
+    this->parent = Tree::GetNodebyId(idfather);
+    this->parent->sons.insert(this->id, this);
+    return true;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- MoveNode() method";
+        return false;
+    }
 }
 
 QMap<int, Tree*> Tree::GetSonsNode() const
