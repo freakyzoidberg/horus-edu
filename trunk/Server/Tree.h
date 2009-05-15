@@ -32,7 +32,11 @@ public:
       \return the id of the inserted node
     */
     int     AddSon(int user_ref, QString name, QString type);
-
+    //! Delete node and attach child to first father
+    /*!
+      \param idnode node to remove
+    */
+    bool DeleteNode();
     //! Get name of node
     /*!
       \return name of the node
