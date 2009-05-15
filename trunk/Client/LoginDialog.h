@@ -12,17 +12,17 @@ class LoginDialog : public QWidget {
 public:
     LoginDialog(QObject *parent = 0);
 
-     //bool            event(QEvent *event);
     ~LoginDialog();
 
 private:
+    //! The graphical ui used
     Ui::Form l_ui;
 
     //! LoginDialog's parent to send event to NetworkManager
     QObject *parent;
 
 private slots:
-    //! the connect button click event
+    //! callback of the connect button, it send an event to NetworkManager
     void on_connectButton_clicked();
 };
 
