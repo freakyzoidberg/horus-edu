@@ -42,26 +42,6 @@ public:
 
 
 
-    //! Delete node and attach child to first father
-    /*!
-      \param idnode node to remove
-    */
-    bool DeleteNode(int idnode);
-
-   //! id of the father of the current node
-    /*!
-      \param idnode node to get infos
-      \return user id of the father node
-    */
-    int GetFatherNode(int idnode) const;
-
-    //! id of the sons of the current node
-    /*!
-      \param idnode node to get infos
-      \return Map of ids of sons node
-    */
-    QMap<int, int> GetSonsNode(int idnode) const;
-
      //! Completely fill vector from db
     bool UpdateVector();
 

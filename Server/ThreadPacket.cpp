@@ -176,13 +176,8 @@ void ThreadPacket::PacketPlugin()
     //test->AddSon(1, "son1 ", "GROUP");
     //test->GetNodebyId(test->AddSon(1, "son1 ", "GROUP"))->AddSon(1, "son2 ", "GROUP");
     //test->AddSon(1, "son1 ", "GROUP");
-    test = Tree::GetNodebyId(230);
+    test = Tree::GetNodebyId(231);
     delete test;
-    //test.DeleteNode(4);
-    //test.MoveNode(14, 1);
-    //test.SetName(14, "test SETNAME");
-    //test.SetUserRef(14, 4);
-    //test.InsertNode("inserted1", 0, 4);
 
 }
 
