@@ -3,6 +3,7 @@
 
 #include <QStringList>
 #include <QObject>
+#include <QVector>
 #include <qt4/poppler-qt4.h>
 
 #include "../../IClientPlugin.h"
@@ -10,6 +11,9 @@
 #include "dispPDFClient.h"
 #include "dispPDFNetwork.h"
 #include "pdfRendering.h"
+
+#define PLUGIN_NAME "dispPDF"
+#define PLUGIN_VERSION "1.0"
 
 //! This plugin is used to render a PDF file
 /*
@@ -22,7 +26,11 @@ class DispPDF : public IClientPlugin
  Q_INTERFACES(IClientPlugin)
 
 public:
+    //! allocate pNetwork and set some values
     DispPDF();
+
+    //! free pNetwork
+    ~DispPDF();
 
     //! Return the name of the plugin.
     /*!
@@ -96,8 +104,14 @@ private:
     DispPDFNetwork   *pNetwork;
 
 private:
-    PdfRendering        *renderPdf;
-    PdfRendering        *openPDFDoc(const QString &);
+    //! QVector containing all the open PDF files
+    QVector<PdfRendering *> renderPdf;
+
+    //! Open a pdf file
+    /*
+    \param fileName the path (relative or absolute) to the file
+    */
+    void    dispPDFDoc(const QString & fileName);
 };
 
 #endif // DISPPDF_H

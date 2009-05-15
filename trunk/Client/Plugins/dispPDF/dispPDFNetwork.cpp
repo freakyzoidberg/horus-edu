@@ -10,7 +10,7 @@ void    DispPDFNetwork::retrievedPacket()
 
 }
 
-void    DispPDFNetwork::buildPacket(void *)
+void    DispPDFNetwork::buildPacket()
 {
 
 }
