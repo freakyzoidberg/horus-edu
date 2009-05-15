@@ -177,6 +177,7 @@ void ThreadPacket::PacketPlugin()
     //test->GetNodebyId(test->AddSon(1, "son1 ", "GROUP"))->AddSon(1, "son2 ", "GROUP");
     //test->AddSon(1, "son1 ", "GROUP");
     test = Tree::GetNodebyId(231);
+    test->vecshow();
     delete test;
 
 }

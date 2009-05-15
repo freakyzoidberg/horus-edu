@@ -286,8 +286,20 @@ bool Tree::UpdateVector()
 
 void Tree::ShowSons()
 {
+    QString listsons = "";
     qDebug() << "---- Show Sons ---- of " << this->id;
     for(QMap<int, Tree::Tree*>::const_iterator it = this->sons.begin(); it != this->sons.end(); ++it)
-        qDebug() << it.value()->id;
+        listsons += "  --  " + QVariant(it.value()->id).toString();
+    listsons += "  --  ";
+    qDebug() << listsons;
     qDebug() << "---- End Show Sons ----";
+}
+
+void Tree::vecshow()
+{
+    QString toto = " ";
+  for(QMap<int, Tree::Tree*>::const_iterator it = Tree::maptree.begin(); it != Tree::maptree.end(); ++it)
+  {
+      it.value()->ShowSons();
+  }
 }
