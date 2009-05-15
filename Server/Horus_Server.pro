@@ -31,6 +31,7 @@ SOURCES = main.cpp \
     FileServer.cpp \
     FileTransfert.cpp \
     ../Common/CommFileInfo.cpp
+    Tree.cpp
 HEADERS = Sql.h \
     User.h \
     Server.h \
@@ -57,3 +58,4 @@ HEADERS = Sql.h \
     FileServer.h \
     FileTransfert.h \
     ../Common/CommFileInfo.h
+    Tree.h
