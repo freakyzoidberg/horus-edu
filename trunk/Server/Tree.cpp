@@ -196,6 +196,34 @@ bool Tree::MoveNode(int idfather)
     }
 }
 
+bool Tree::MoveNode(Tree *father)
+{
+    if ((this != 0) && (father != 0))
+    {
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+    query.prepare("UPDATE tree SET id_parent =? WHERE id=?;");
+    query.addBindValue(father->id);
+    query.addBindValue(this->id);
+
+    if ( ! query.exec())
+        {
+            qDebug() << query.lastError();
+            return 0;
+        }
+    this->parent->sons.remove(this->id);
+    this->parent_id = father->id;
+    this->parent = father;
+    this->parent->sons.insert(this->id, this);
+    return true;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- MoveNode() method";
+        return false;
+    }
+}
+
 QMap<int, Tree*> Tree::GetSonsNode() const
 {
     if (this != 0)
