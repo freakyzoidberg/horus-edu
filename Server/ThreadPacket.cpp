@@ -130,25 +130,21 @@ void ThreadPacket::PacketSettings()
     if (s.method != CommSettings::GET && s.method != CommSettings::SET)
         return sendError(CommError::PROTOCOL_ERROR);
 
-    if (  s.scope == CommSettings::CLIENT_USER_SCOPE ||
-          s.scope == CommSettings::SERVER_USER_SCOPE ||
-         (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET))
-
+    if ( s.scope == CommSettings::CLIENT_USER_SCOPE   || s.scope == CommSettings::SERVER_USER_SCOPE || //USER_SCOPE
+        (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET) || //Read Client SYSTEM_SCOPE
+        socket->user.getLevel() <= User::ADMINISTRATOR) // ADMIN
+    {
         UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
 
-    else if (socket->user.getLevel() <= User::ADMINISTRATOR &&
-                ( s.scope == CommSettings::CLIENT_SYSTEM_SCOPE ||
-                  s.scope == CommSettings::SERVER_SYSTEM_SCOPE ) )
-        UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
+        if (s.method == CommSettings::SET)
+            userSettings.set(s.getBinarySettings());
+
+        s.method = CommSettings::VALUE;
+        s.setBinarySettings(userSettings.get());
+    }
     else
-        ;
+        s.method = CommSettings::PERMISSION_DENIED;
 
-    UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
-    if (s.method == CommSettings::SET)
-        userSettings.set(s.getBinarySettings());
-
-    s.method = CommSettings::VALUE;
-    s.setBinarySettings(userSettings.get());
     sendPacket(s.getPacket());
     qDebug() << "[out]" << s;
 }
