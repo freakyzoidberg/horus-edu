@@ -166,8 +166,9 @@ void ThreadPacket::PacketPlugin()
         plugin->recvPacket(socket->user.getId(), mod.packet);
 
     //ZoidTest
-    Tree test;
-    test.UpdateVector();
+    Tree *test = new Tree();
+    test->UpdateVector();
+    test->GetNodebyId(1)->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->ShowSons();
 
 
     //test.DeleteNode(4);

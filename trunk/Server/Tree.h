@@ -12,6 +12,7 @@ private:
     int parent_id;
     Tree *parent;
     QString type;
+    QString name;
     QMap<int, Tree*> sons;
     static QMap<int, Tree*> maptree;
 
@@ -19,6 +20,8 @@ public:
     Tree();
     ~Tree();
     bool UpdateVector();
+    void ShowSons();
+    Tree *GetParent() const;
     static Tree* GetNodebyId(int id);
 };
 
