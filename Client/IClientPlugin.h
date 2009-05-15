@@ -57,7 +57,7 @@ class IClientPlugin : public QObject
      *  \param event the event received
      *  \return the accept status of the event
      */
-    virtual bool                event(QEvent *) = 0;
+    virtual bool                event(QEvent *event) = 0;
 };
 
 Q_DECLARE_INTERFACE(IClientPlugin, "net.horus.Client.PluginInterface/1.0");
