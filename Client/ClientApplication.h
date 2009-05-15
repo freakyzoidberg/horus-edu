@@ -17,14 +17,14 @@ public:
      *  Instanciate NetworkManager and PluginManager
      *  Create MainWindow but don't show it for now
      *  Give the hand to the Loader
+     *  \param argc the argc of the main function
+     *  \param argv the argv of the main function
      */
     ClientApplication(int argc, char *argv[]);
     //! Destructor
     /*!
      *  Terminate each composant of the application.
      *  Because of threads we can't just call exit !
-     *  \param argc the argc of the main function
-     *  \param argv the argv of the main function
      */
     ~ClientApplication();
     //! Surcharge of the event function
