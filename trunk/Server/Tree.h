@@ -32,6 +32,19 @@ public:
       \return the id of the inserted node
     */
     int     AddSon(int user_ref, QString name, QString type);
+    //! move node to new father
+    /*!
+      \param idmove node to move
+      \param idfather node id of new father
+    */
+    bool MoveNode(int idfather);
+    //! move node to new father
+    /*!
+      \param idmove node to move
+      \param idfather node id of new father
+    */
+    bool MoveNode(Tree* father);
+
     //! Delete node and attach child to first father
     /*!
       \param idnode node to remove
