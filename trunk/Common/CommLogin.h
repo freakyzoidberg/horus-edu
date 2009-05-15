@@ -7,6 +7,7 @@
  * Response from the client to the server
  * after the first "ConnexionMessage" from the server
  */
+//! Communication packet for login/logout/session
 class CommLogin : public CommPacket
 {
 public:
@@ -14,6 +15,9 @@ public:
     /*!
      * Type of authenfication
      * in the future we may want to add the certificate auth. or something else
+     *
+     * UNDEFINED is used when the type is not set yet, and for invalid value
+     * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
     enum                Method { UNDEFINED,
                                  LOGIN_PASSWORD, LOGIN_SESSION, DESTROY_SESSION, //CLIENT  -> SERVER
@@ -40,6 +44,6 @@ private:
     void                write(QByteArray&);
 };
 
-QDebug operator<<(QDebug, CommLogin&);
+QDebug operator<<(QDebug, const CommLogin&);
 
 #endif // COMMLOGIN_H

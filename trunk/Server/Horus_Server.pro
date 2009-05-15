@@ -29,7 +29,8 @@ SOURCES = main.cpp \
     UserSettings.cpp \
     ThreadFiles.cpp \
     FileServer.cpp \
-    FileTransfert.cpp
+    FileTransfert.cpp \
+    ../Common/CommFileInfo.cpp
 HEADERS = Sql.h \
     User.h \
     Server.h \
@@ -54,4 +55,5 @@ HEADERS = Sql.h \
     UserSettings.h \
     ThreadFiles.h \
     FileServer.h \
-    FileTransfert.h
+    FileTransfert.h \
+    ../Common/CommFileInfo.h

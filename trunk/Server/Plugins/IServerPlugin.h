@@ -8,6 +8,7 @@
 
 class IServer;
 
+//! Interface of the Server Plugins
 class IServerPlugin : public QObject
 {
   Q_OBJECT

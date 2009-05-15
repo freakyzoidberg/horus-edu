@@ -7,6 +7,7 @@
  * First Message after connexion
  * From Server to the Client
  */
+//! Communication packet to initilize the connexion
 class CommInit : public CommPacket
 {
 public:
@@ -24,6 +25,6 @@ private:
     void                write(QByteArray&);
 };
 
-QDebug operator<<(QDebug, CommInit&);
+QDebug operator<<(QDebug, const CommInit&);
 
 #endif // COMMINIT_H

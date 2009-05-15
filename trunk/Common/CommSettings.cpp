@@ -77,7 +77,7 @@ void CommSettings::write(QByteArray& a)
     a.append(settings);
 }
 
-QDebug operator<<(QDebug d, CommSettings& p)
+QDebug operator<<(QDebug d, const CommSettings& p)
 {
     static const char*  methodNames[] =
     {

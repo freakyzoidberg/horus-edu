@@ -6,9 +6,14 @@
 
 #include "CommPacket.h"
 
+//! Communication packet to GET/SET every users settings and system settings
 class CommSettings : public CommPacket
 {
 public:
+    /*!
+     * UNDEFINED is used when the type is not set yet, and for invalid value
+     * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
+     */
     enum Method { UNDEFINED,
                   GET, SET, //Client -> Server
                   VALUE, PERMISSION_DENIED, // Server -> Client
@@ -21,6 +26,8 @@ public:
      * For The Server:
      *  SERVER_USER_SCOPE: per user settings. only the owner can read and edit this settings
      *  SERVER_SYSTEM_SCOPE: global settings. only an admin can read and edit this settings
+     *
+     * __LAST_SCOPE__ is usde to know if a value is valid. a valid value is always inferior to __LAST_SCOPE__. __LAST_SCOPE__ is never used as a value
      */
     enum Scope  { CLIENT_USER_SCOPE, CLIENT_SYSTEM_SCOPE,
                   SERVER_USER_SCOPE, SERVER_SYSTEM_SCOPE,
@@ -54,6 +61,6 @@ private:
     void                write(QByteArray&);
 };
 
-QDebug operator<<(QDebug, CommSettings&);
+QDebug operator<<(QDebug, const CommSettings&);
 
 #endif // COMMCONFIG_H

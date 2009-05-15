@@ -30,7 +30,7 @@ void CommFile::write(QByteArray& a)
 {
 }
 
-QDebug operator<<(QDebug d, CommFile& p)
+QDebug operator<<(QDebug d, const CommFile& p)
 {
     return d;
 }

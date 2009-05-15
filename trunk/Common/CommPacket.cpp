@@ -30,7 +30,7 @@ void CommPacket::write(QByteArray& a)
     a.append((char)packetType);
 }
 
-QDebug operator<<(QDebug d, CommPacket& cr)
+QDebug operator<<(QDebug d, const CommPacket& cr)
 {
     static const char*  typeNames[] =
     {
