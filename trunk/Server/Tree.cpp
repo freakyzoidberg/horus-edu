@@ -24,6 +24,15 @@ Tree::~Tree()
         it.value()->parent_id = this->parent_id;
         this->sons.remove(it.value()->id);
     }
+    query.prepare("DELETE FROM tree WHERE id=?;");
+    query.addBindValue(this->id);
+        if ( ! query.exec())
+            {
+                qDebug() << query.lastError();
+                return;
+            }
+
+    Tree::maptree.remove(this->id);
     this->sons.clear();
 }
 
@@ -158,7 +167,19 @@ int     Tree::AddSon(int user_ref, QString name, QString type)
 
 }
 
-
+QMap<int, Tree*> Tree::GetSonsNode() const
+{
+    if (this != 0)
+    {
+        return this->sons;
+    }
+    else
+     {
+        QMap<int, Tree*> tmp;
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- GetSonsNode() method";
+        return tmp;
+    }
+}
 
 
 

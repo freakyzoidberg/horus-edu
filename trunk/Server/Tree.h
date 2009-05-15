@@ -36,12 +36,20 @@ public:
     /*!
       \param idnode node to remove
     */
-    bool DeleteNode();
+   // bool DeleteNode();
+
+    //! map of nodes
+    /*!
+      \return Map of sons node
+    */
+    QMap<int, Tree*> GetSonsNode() const;
+
     //! Get name of node
     /*!
       \return name of the node
     */
     QString GetName() const;
+
     //! Set name of node
     /*!
       \param name new name for the corresponding node
