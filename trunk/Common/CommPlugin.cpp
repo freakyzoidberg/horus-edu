@@ -3,13 +3,13 @@
 #include "CommPlugin.h"
 
 CommPlugin::CommPlugin(const PluginPacket& mp)
-    : CommPacket(CommPacket::PLUGIN)
+    : CommPacket(CommPacket::MODULE)
 {
     packet = mp;
 }
 
 CommPlugin::CommPlugin(QByteArray& a)
-    : CommPacket(CommPacket::PLUGIN)
+    : CommPacket(CommPacket::MODULE)
 {
     read(a);
 }
@@ -42,7 +42,7 @@ void CommPlugin::write(QByteArray& a)
            << packet.data;
 }
 
-QDebug operator<<(QDebug d, const CommPlugin& cm)
+QDebug operator<<(QDebug d, CommPlugin& cm)
 {
     return d << (CommPacket&)cm
              << cm.packet.packetVersion
