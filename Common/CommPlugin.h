@@ -1,14 +1,14 @@
-#ifndef COMMPLUGIN_H
-#define COMMPLUGIN_H
+#ifndef COMMMODULE_H
+#define COMMMODULE_H
 
 #include "CommPacket.h"
 #include "PluginPacket.h"
 
 /*!
- * If the "messageType" of the "CommunicationContainer" is "PLUGIN"
- * the content is in the PluginPacket
+ * If the "messageType" of the "CommunicationContainer" is "MODULE_COMM"
+ * there is this class inside "content".
+ * it's for the comunication between a plugin client and a plugin server
  */
-//! Communication packet for the comunication between a plugin client and a plugin server
 class CommPlugin : public CommPacket
 {
 public:
@@ -24,6 +24,6 @@ private:
     void                write(QByteArray&);
 };
 
-QDebug operator<<(QDebug, const CommPlugin&);
+QDebug operator<<(QDebug, CommPlugin&);
 
-#endif // COMMPLUGIN_H
+#endif // COMMMODULE_H
