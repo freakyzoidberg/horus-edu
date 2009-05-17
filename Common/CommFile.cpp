@@ -71,7 +71,23 @@ void CommFile::write(QByteArray& a)
 
 QDebug operator<<(QDebug d, const CommFile& p)
 {
-    d << p.method
+    static const char* methods[] =
+    {
+        "Undefined",
+
+        "List Directory",
+        "Read File",
+        "Write File",
+        "Delete file",
+
+        "Directory content",
+        "File content",
+        "Transfert not allowed",
+        "File not found",
+        "File deleted"
+    };
+
+    d << methods[ p.method ]
       << p.id;
 
     if (p.method == CommFile::READ_FILE || p.method == CommFile::WRITE_FILE)

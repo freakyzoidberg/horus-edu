@@ -13,8 +13,8 @@ public:
      * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
     enum Method { UNDEFINED,
-                  LIST_DIR, READ_FILE, WRITE_FILE,   // CLIENT -> SERVER
-                  DIR, FILE, NOT_ALLOWED, NOT_FOUND, // SERVER -> CLIENT
+                  LIST_DIR, READ_FILE, WRITE_FILE, DELETE_FILE, // CLIENT -> SERVER
+                  DIR, FILE, NOT_ALLOWED, NOT_FOUND, DELETED,   // SERVER -> CLIENT
                   __LAST__};
 
     CommFile(Method method=UNDEFINED, quint32 id=0);
