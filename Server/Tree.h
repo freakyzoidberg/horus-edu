@@ -34,6 +34,12 @@ public:
       \return the id of the inserted node
     */
     int     AddSon(int user_ref, QString name, QString type);
+    //! delete node
+    /*!
+      delete current node node and attache sons to the  father's current node
+      \return the id of the inserted node
+    */
+    bool     Delnode();
     //! move node to new father
     /*!
       \param idmove node to move

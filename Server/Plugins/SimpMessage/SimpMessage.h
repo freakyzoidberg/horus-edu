@@ -1,5 +1,5 @@
-#ifndef TESTCOMM_H
-#define TESTCOMM_H
+#ifndef SIMPMESSAGE_H
+#define SIMPMESSAGE_H
 
 #include <QDebug>
 

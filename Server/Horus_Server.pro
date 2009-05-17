@@ -25,7 +25,6 @@ SOURCES = main.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommFile.cpp \
     ../Common/CommSettings.cpp \
-    TreeMngt.cpp \
     UserSettings.cpp \
     ThreadFiles.cpp \
     FileServer.cpp \
@@ -52,7 +51,6 @@ HEADERS = Sql.h \
     ../Common/PLuginPacket.h \
     ../Common/CommFile.h \
     ../Common/CommSettings.h \
-    TreeMngt.h \
     UserSettings.h \
     ThreadFiles.h \
     FileServer.h \
