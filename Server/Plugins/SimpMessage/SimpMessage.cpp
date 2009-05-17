@@ -4,12 +4,12 @@ Q_EXPORT_PLUGIN2(SimpMessage, SimpMessage)
 
 SimpMessage::SimpMessage()
 {
-    qDebug() << "He Ho !! je suis la!!!";
+    qDebug() << "SimpMessage has arrived";
 }
 
 SimpMessage::~SimpMessage()
 {
-    qDebug() << "gniiiiiiiiIIIIIII";
+    qDebug() << "bye bye SimpMessage";
 }
 
 void SimpMessage::recvPacket(quint32 userId, const PluginPacket& packet) const
