@@ -1,5 +1,6 @@
 #include <QtCore/qplugin.h>
 #include <QDebug>
+#include <QFileInfo>
 
 #include "../../ClientEvents.h"
 
@@ -87,9 +88,24 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
 
 void    DispPDF::dispPDFDoc(const QString & fileName)
 {
- // check if the file is already in the vector
-  /*
-    if no add it
-    else do something
-    */
+    QFileInfo    filePath(fileName);
+    QMap<QString, PdfRendering::PdfRendering *>::iterator it;
+
+    if (!filePath.isAbsolute())
+        if (!filePath.makeAbsolute())
+        {
+            qDebug() << "Cannot use the absolute path of the PDF file";
+            return ;
+        }
+
+    if ((it = renderPdf->find(filePath.filePath())) == renderPdf->end())
+        it = renderPdf->insert(filePath.filePath(), new PdfRendering(filePath.filePath()));
+
+    it.value()->render();
+    // access
+}
+
+const QMap<QString, PdfRendering *>    *DispPDF::getRenderPdf() const
+{
+    return renderPdf;
 }
