@@ -1,6 +1,8 @@
 #ifndef COMMFILEINFO_H
 #define COMMFILEINFO_H
 
+#include <QDataStream>
+#include <QDebug>
 #include <QString>
 #include <QByteArray>
 #include <QDateTime>
@@ -21,12 +23,10 @@ public:
     QByteArray  checksumSha1;
     //! user id of the owner of the file
     quint32     owner;
-
-private:
-    void                read(QByteArray&);
-    void                write(QByteArray&);
 };
 
 QDebug operator<<(QDebug, const CommFileInfo&);
+QDataStream& operator>>(QDataStream&, CommFileInfo&);
+QDataStream& operator<<(QDataStream&, const CommFileInfo&);
 
 #endif // COMMFILEINFO_H
