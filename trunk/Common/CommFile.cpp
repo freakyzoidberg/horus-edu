@@ -1,13 +1,15 @@
 #include "CommFile.h"
 
-CommFile::CommFile() : CommPacket(CommPacket::FILE)
+CommFile::CommFile(Method _method, quint32 _id) : CommPacket(CommPacket::FILE)
 {
-    method = UNDEFINED;
+    method = _method;
+    id = _id;
+    start = 0;
+    key = "";
 }
 
 CommFile::CommFile(QByteArray& a) : CommPacket(CommPacket::FILE)
 {
-    method = UNDEFINED;
     read(a);
 }
 
@@ -21,16 +23,67 @@ const QByteArray CommFile::getPacket()
 
 void CommFile::read(QByteArray& a)
 {
-    if ((char)a[0] < (char)__LAST__)
-        method = (Method)(char)a[0];
-    a.remove(0,1);
+    QDataStream stream(&a, QIODevice::ReadOnly);
+
+    quint8 m;
+    stream >> m;
+    method = UNDEFINED;
+    if (m < __LAST__)
+        method = (Method)m;
+
+    stream >> id;
+
+    if (method == READ_FILE || method == WRITE_FILE)
+        stream >> start;
+
+    else if (method == DIR)
+        while ( ! stream.atEnd())
+        {
+            CommFileInfo i;
+            stream >> i;
+            fileList.append(i);
+        }
+
+    else if (method == FILE)
+        stream >> fileInfo
+               >> key;
 }
 
 void CommFile::write(QByteArray& a)
 {
+    QDataStream stream(&a, QIODevice::WriteOnly);
+    stream.device()->seek(a.length());
+
+    stream << (quint8)method
+           << id;
+
+    if (method == READ_FILE || method == WRITE_FILE)
+        stream << start;
+
+    else if (method == DIR)
+        foreach (const CommFileInfo pos, fileList)
+            stream << pos;
+
+    else if (method == FILE)
+        stream << fileInfo
+               << key;
 }
 
 QDebug operator<<(QDebug d, const CommFile& p)
 {
+    d << p.method
+      << p.id;
+
+    if (p.method == CommFile::READ_FILE || p.method == CommFile::WRITE_FILE)
+        d << p.start;
+
+    else if (p.method == CommFile::DIR)
+        foreach (const CommFileInfo pos, p.fileList)
+            d << pos;
+
+    else if (p.method == CommFile::FILE)
+        d << p.fileInfo
+          << p.key;
+
     return d;
 }
