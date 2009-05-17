@@ -6,6 +6,13 @@ Tree::Tree()
 
 Tree::~Tree()
 {
+
+}
+
+bool     Tree::Delnode()
+{
+    if (this != 0)
+    {
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
 
@@ -18,7 +25,7 @@ Tree::~Tree()
         if ( ! query.exec())
             {
                 qDebug() << query.lastError();
-                return;
+                return false;
             }
         this->parent->sons.insert(it.value()->id, GetNodebyId(it.value()->id));
         it.value()->parent_id = this->parent_id;
@@ -30,12 +37,20 @@ Tree::~Tree()
         if ( ! query.exec())
             {
                 qDebug() << query.lastError();
-                return;
+                return false;
             }
 
     Tree::maptree.remove(this->id);
     this->sons.clear();
+    return true;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- DelNode() method";
+        return false;
+    }
 }
+
 
 Tree* Tree::GetParent() const
 {
