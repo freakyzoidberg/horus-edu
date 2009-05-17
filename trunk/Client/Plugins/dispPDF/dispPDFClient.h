@@ -5,7 +5,7 @@
 
 #include "../../IClient.h"
 #include "../../IClientPlugin.h"
-#include "../../../Common/ModulePacket.h"
+#include "../../../Common/PluginPacket.h"
 
 //! Implementation of the interface IClient
 class   dispPDFClient : public QObject, public IClient
@@ -14,8 +14,8 @@ class   dispPDFClient : public QObject, public IClient
  Q_INTERFACES(IClient)
 
 public:  
-       void            sendPacket(const ModulePacket& packet) const;
-       void            recvPacket(const ModulePacket& packet) const;
+       void            sendPacket(const PluginPacket& packet) const;
+       void            recvPacket(const PluginPacket& packet) const;
        IClientPlugin*  getPlugin(const QByteArray name) const;
 };
 
