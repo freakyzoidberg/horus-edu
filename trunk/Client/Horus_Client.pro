@@ -42,7 +42,10 @@ HEADERS += NetworkManager.h \
     Loader.h \
     MainWindow.h \
     LoginDialog.h \
-    PacketSender.h
+    PacketSender.h \
+    IPdfRendering.h \
+    IMetadata.h \
+    IMetaDataCreate.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     logindialog.ui

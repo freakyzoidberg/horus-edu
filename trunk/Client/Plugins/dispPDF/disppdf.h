@@ -3,7 +3,7 @@
 
 #include <QStringList>
 #include <QObject>
-#include <QVector>
+#include <QMap>
 #include <qt4/poppler-qt4.h>
 
 #include "../../IClientPlugin.h"
@@ -85,6 +85,18 @@ public:
     */
     bool                    eventHandlerUnload(QEvent *event);
 
+    //! return the map containing all the PDF files
+    /*
+      \return the variable renderPdf
+    */
+    const QMap<QString, PdfRendering *>    *getRenderPdf() const;
+
+    //! Open a pdf file
+    /*
+    \param fileName the absolute path  to the file
+    */
+    void    dispPDFDoc(const QString & fileName);
+
 private:
     //! the name of the plugin
     QByteArray  name;
@@ -101,17 +113,11 @@ private:
     //! The list of the name of plugins recommended by the dispPDF plugin
     QStringList pluginsRecommended;
 
+    //! network access for the plugin dispPDF (im not sure it is necessary)
     DispPDFNetwork   *pNetwork;
 
-private:
-    //! QVector containing all the open PDF files
-    QVector<PdfRendering *> renderPdf;
-
-    //! Open a pdf file
-    /*
-    \param fileName the path (relative or absolute) to the file
-    */
-    void    dispPDFDoc(const QString & fileName);
+    //! QMap containing all the open PDF files with their name
+    QMap<QString, PdfRendering *>   *renderPdf;
 };
 
 #endif // DISPPDF_H
