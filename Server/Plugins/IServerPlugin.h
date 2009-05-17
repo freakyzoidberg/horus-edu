@@ -11,7 +11,6 @@ class IServer;
 //! Interface of the Server Plugins
 class IServerPlugin : public QObject
 {
-  Q_OBJECT
   public:
     //! the instance of the IServer given to the plugin
     IServer* server;
