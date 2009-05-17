@@ -1,12 +1,12 @@
 #include "dispPDFClient.h"
 
-void    dispPDFClient::sendPacket(const ModulePacket& packet) const
+void    dispPDFClient::sendPacket(const PluginPacket& packet) const
 {
 
 }
 
 
-void    dispPDFClient::recvPacket(const ModulePacket& packet) const
+void    dispPDFClient::recvPacket(const PluginPacket& packet) const
 {
 
 }

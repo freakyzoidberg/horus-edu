@@ -4,7 +4,6 @@
 #include "testmodule.h"
 
 #include "../../ClientEvents.h"
-#include "../../LoadPluginEvent.h"
 
 Q_EXPORT_PLUGIN2(testModule, testPlugin)
 
@@ -28,7 +27,7 @@ bool    testPlugin::event(QEvent *event)
         event->accept();        
         return pNetwork->eventHandler(event);
     }
-    else if (event->type() == LoadPluginEvent::type)
+    else if (event->type() == ClientEvents::LoadPluginEvent)
     {
         event->accept();
         return eventHandlerLoad(event);

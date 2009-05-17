@@ -1,14 +1,20 @@
 #include <QtCore/qplugin.h>
+#include <QDebug>
 
 #include "../../ClientEvents.h"
-//#include "../../LoadPluginEvent.h"
 
 #include "disppdf.h"
+
+extern QEvent::Type ClientEvents::NetworkReceiveEvent;
+extern QEvent::Type ClientEvents::UnloadPluginEvent;
+extern QEvent::Type ClientEvents::LoadPluginEvent;
 
 Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
 
 DispPDF::DispPDF()
 {
+    qDebug() << "[plugin dispPDF] : initialisation";
+
     pNetwork = new DispPDFNetwork();
     name = PLUGIN_NAME; /* dispPDF */
     version = PLUGIN_VERSION; /* 1.0 */
@@ -55,7 +61,7 @@ bool    DispPDF::event(QEvent *event)
         event->accept();
         return pNetwork->eventHandler(event);
     }
-    else if (event->type() == LoadPluginEvent::type)
+    else if (event->type() == ClientEvents::LoadPluginEvent)
     {
         event->accept();
         return eventHandlerLoad(event);
