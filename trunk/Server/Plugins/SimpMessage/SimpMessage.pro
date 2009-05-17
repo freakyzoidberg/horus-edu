@@ -3,7 +3,8 @@
 # -------------------------------------------------
 QT -= gui
 QT += network \
-      sql
+      sql \
+
 TEMPLATE = lib
 SOURCES += SimpMessage.cpp
 HEADERS +=  SimpMessage.h
