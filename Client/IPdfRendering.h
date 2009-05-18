@@ -3,6 +3,10 @@
 
 #include <qt4/poppler-qt4.h>
 
+#include "IMetadata.h"
+
+class IMetadata;
+
 //! Class of the API used to render PDF files
 /*!
     This class contains methods allowing to render a PDF virtual
@@ -14,6 +18,8 @@
 class   IPdfRendering
 {
     public:
+
+    IMetadata       *metaDatas;
 
     //! return the name of the PDF file
     virtual const QString & getFileName() const = 0;
@@ -31,13 +37,13 @@ class   IPdfRendering
     virtual int   getCurrentPageNumber() const = 0;
 
     //! open the pdfFile
-    virtual void        openFile() const = 0;
+    virtual void        openFile() = 0;
 
     //! close the pdfFile
-    virtual void        closeFile() const = 0;
+    virtual void        closeFile() = 0;
 
     //! reload the file
-    virtual void        reloadFile() const = 0;
+    virtual void        reloadFile() = 0;
 
     //! set one from the pdf document, check if the page is not out of range
     /*!
@@ -56,13 +62,7 @@ class   IPdfRendering
     /*!
       \param scaleFactor the new scaleFactor
     */
-    virtual void    newScaleFactor(float scaleFactor) = 0;
-
-    //! display an other page
-    /*!
-      \param pageNumber the new page the user want to display
-    */
-    virtual void    newPage(int pageNumber) = 0;
+    virtual void    scaled(float scaleFactor) = 0;
 };
 
 #endif // IPDFRENDERING_H
