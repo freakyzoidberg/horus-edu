@@ -6,6 +6,7 @@
 #include "PluginManager.h"
 #include "User.h"
 #include "UserSettings.h"
+#include "FileTransfert.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
@@ -160,6 +161,7 @@ void ThreadPacket::PacketPlugin()
     int len = packet.length();
     CommPlugin mod(packet);
     qDebug() << "[ in]" << mod << "length:" << len;
+    new FileTransfert(0);
 
     IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetPlugin);
     if (plugin)

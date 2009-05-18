@@ -18,7 +18,6 @@ public:
 protected:
     //! called when there is an incomming connexion. Virtual method of QTcpServer.
     void incomingConnection(int socketDescriptor);
-    void check();
 };
 
 #endif

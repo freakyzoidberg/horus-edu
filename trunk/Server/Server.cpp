@@ -14,8 +14,11 @@ Server::Server(QObject *parent) : QTcpServer(parent)
 
     new ThreadFiles(this);
 
-    listen(QHostAddress::Any, config->GetSettings("SRV_PORT","SERVER").toInt());
-    check();
+    QSettings settings;
+    if (listen(QHostAddress::Any, settings.value("SERVER/SRV_PORT",12345).toInt()))
+        qDebug() << "Server Listening on port:" << serverPort();
+    else
+        qDebug() << "Server Not listening" << errorString();
 }
 
 void Server::incomingConnection(int socket)
@@ -25,12 +28,3 @@ void Server::incomingConnection(int socket)
      */
     new ClientSocket(socket, this);
 }
-
-void Server::check()
-{
-    if ( !isListening())
-        qDebug() << "Server::Server() Not listening";
-    else
-        qDebug("Server::Server() Listening on port : %d", serverPort());
-}
-
