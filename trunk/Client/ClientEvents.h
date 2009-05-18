@@ -3,6 +3,7 @@
 
 #include <QEvent>
 #include <QString>
+#include "../Common/CommPacket.h"
 
 //! this Object contains all the client events types
 class ClientEvents
@@ -16,26 +17,20 @@ class ClientEvents
         static QEvent::Type NetworkReceiveEvent;
         //! event to unload a plugin
         static QEvent::Type UnloadPluginEvent;
-        //! event for the init packet in PacketManager
-        static QEvent::Type InitEvent;
         //! event to load a plugin
         static QEvent::Type LoadPluginEvent;
-        //!  event to login in the serv
-        static QEvent::Type LoginEvent;
+        //!  event to send a packet to the the serv
+        static QEvent::Type SendPacketEvent;
 };
 
-//! this object is an event with data to login in the server
-class LoginEvent : public QEvent
+//! this object is an event containt a packet to send to the server
+class SendPacketEvent : public QEvent
 {
         public:
-            LoginEvent(QString l, QString p, uint t);
+            SendPacketEvent(const QByteArray p);
 
-            //! username
-            QString login;
-            //! password
-            QString pass;
-            //! type of login
-            uint    typeL;
+            //! packet to send
+            QByteArray pack;
 };
 
 #endif // CLIENTEVENTS_H

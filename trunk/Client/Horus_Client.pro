@@ -21,7 +21,6 @@ SOURCES += main.cpp \
     Loader.cpp \
     MainWindow.cpp \
     LoginDialog.cpp \
-    PacketSender.cpp \
     ClientEvents.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
@@ -42,7 +41,6 @@ HEADERS += NetworkManager.h \
     Loader.h \
     MainWindow.h \
     LoginDialog.h \
-    PacketSender.h \
     IPdfRendering.h \
     IMetadata.h \
     IMetaDataCreate.h
