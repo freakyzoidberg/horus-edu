@@ -5,6 +5,7 @@
 #include "../../ClientEvents.h"
 
 #include "disppdf.h"
+#include "pdfRendering.h"
 
 extern QEvent::Type ClientEvents::NetworkReceiveEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
@@ -99,7 +100,8 @@ void    DispPDF::dispPDFDoc(const QString & fileName)
         }
 
     if ((it = renderPdf->find(filePath.filePath())) == renderPdf->end())
-        it = renderPdf->insert(filePath.filePath(), new PdfRendering(filePath.filePath()));
+        it = renderPdf->insert(filePath.filePath(),
+                               new PdfRendering(filePath.filePath()));
 
     it.value()->render();
     // access

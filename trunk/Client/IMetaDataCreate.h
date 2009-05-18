@@ -9,6 +9,9 @@
 class   IMetaDataCreate : public IMetadata
 {
     public:
+    /*
+      methods to write data in the met file, probably using QtXmlModule
+      */
 };
 
 #endif // IMETADATACREATE_H
