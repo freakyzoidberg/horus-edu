@@ -4,8 +4,8 @@ NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
 {
     packManag = new PacketManager(this);
     packSend = new PacketSender(this);
-    connect(      this, SIGNAL(packetReceived(QByteArray)), packManag, SLOT(packetReceived(QByteArray)));
-    connect(packSend, SIGNAL(sendPacket(QByteArray)),           this, SLOT(sendPacket(QByteArray)));
+    connect(      this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
+    connect(packSend, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
     //connect(packManag, SIGNAL(sendPacket(QByteArray)),           this, SLOT(sendPacket(QByteArray)));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));

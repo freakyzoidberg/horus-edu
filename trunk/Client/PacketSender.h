@@ -52,7 +52,7 @@ class PacketSender : public QObject
 
     signals:
         //! signal emmited when a packet need to be send to the client
-        void sendPacket(QByteArray packet);
+        void sendPacket(const QByteArray& packet);
 };
 
 typedef void(PacketSender::*packetDirectionToSend)();

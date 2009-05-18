@@ -62,4 +62,5 @@ void CommSocket::sendPacket(const QByteArray& pac)
     quint32 size = qToLittleEndian(pac.length());
     write((char*)&size, sizeof(size));
     write(pac.data(), size);
+    flush();
 }
