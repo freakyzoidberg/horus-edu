@@ -26,6 +26,12 @@ void PacketManager::packetReceived(QByteArray p)
         (this->*packetDirections[ pac.packetType ])();
 }
 
+void PacketManager::PacketToSend(QEvent *e)
+{
+    SendPacketEvent *spe = static_cast<SendPacketEvent *>(e);
+    emit sendPacket(spe->pack);
+}
+
 void PacketManager::PacketError()
 {
     CommError err(packet);
@@ -36,21 +42,27 @@ void PacketManager::PacketInit()
 {
     CommInit i(packet);
     qDebug() << "[ in]" << i;
-    //TODO add protocol version compatible check
-   // i.fromName = CLIENT_NAME;
+    i.fromName = CLIENT_NAME;
+    emit sendPacket(i.getPacket());
+    qDebug() << "[ out]" << i;
 
-   QApplication::postEvent(this->parent, new QEvent(ClientEvents::InitEvent));
-   //emit sendPacket(i.getPacket());
-    //qDebug() << "[ out]" << i;
 
+    QSettings settings;
+    settings.beginGroup("SESSIONS");
+    if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60))
+    {
+        CommLogin  ls(CommLogin::LOGIN_SESSION);
+        ls.login = settings.value("sessionLogin", "").toString();
+        ls.sessionString = settings.value("sessionString", "").toByteArray();
+        emit sendPacket(ls.getPacket());
+        qDebug() << "[out]" << ls;
+    }
+    else
+    {
+        emit lwState(true);
+    }
+    settings.endGroup();
     state = LOGGED_OUT;
-
-    /*CommLogin l(packet);
-    l.method = CommLogin::LOGIN_PASSWORD;
-    l.login = "super-Menteur";
-    l.sha1Pass = QByteArray::fromHex("0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c");
-    emit sendPacket(l.getPacket());
-    qDebug() << "[out]" << l;*/
 }
 
 void PacketManager::PacketAlive()
@@ -65,15 +77,16 @@ void PacketManager::PacketLogin()
     QSettings   settings;
 
     CommLogin l(packet);
+
     if (l.method == CommLogin::ACCEPTED)
     {
         settings.beginGroup("SESSIONS");
-        QString session = l.sessionString.toHex();
-        settings.setValue("sessionString", session);
+        settings.setValue("sessionString", l.sessionString);
         settings.setValue("sessionTime", l.sessionTime);
         settings.setValue("sessionEnd", QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t());
         qDebug() << "[ in]" << l;
         settings.endGroup();
+        emit lwState(false);
     }
     else if (l.method == CommLogin::REFUSED)
     {

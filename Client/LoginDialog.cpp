@@ -24,7 +24,18 @@ void LoginDialog::on_connectButton_clicked()
 {
     if (l_ui.loginE->text() != "" || l_ui.passE->text() != "")
     {
-        LoginEvent *e = new LoginEvent(l_ui.loginE->text(),l_ui.passE->text(), 1);
+        QSettings   settings;
+        settings.beginGroup("SESSIONS");
+        settings.setValue("sessionString", "");
+        settings.setValue("sessionLogin", l_ui.loginE->text());
+        settings.setValue("sessionTime", "");
+        settings.setValue("sessionEnd", "");
+        CommLogin  l(CommLogin::LOGIN_PASSWORD);
+        l.login = l_ui.loginE->text();
+        l.sha1Pass = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
+        SendPacketEvent *e = new SendPacketEvent(l.getPacket());
         QApplication::postEvent(this->parent, e);
+        settings.endGroup();
+        qDebug() << "[ out]" << l;
     }
 }

@@ -8,7 +8,6 @@
 #include "../Common/CommSocket.h"
 
 #include    "PacketManager.h"
-#include    "PacketSender.h"
 #include    "ClientEvents.h"
 #include    "LoginDialog.h"
 
@@ -27,6 +26,8 @@ class NetworkManager : public CommSocket //, public QThread
     protected slots:
         //! event loop
         bool    event(QEvent *e);
+        //!
+        void    lwState(bool st);
     private slots:
         //! display the socket errors
         void    displayError(QAbstractSocket::SocketError);
@@ -35,8 +36,6 @@ class NetworkManager : public CommSocket //, public QThread
     private:
         //! packetManager to read the received packet
         PacketManager   *packManag;
-        //! packetSender to construct the packet to send
-        PacketSender   *packSend;
         //! flag for the singleton
         static bool instanceFlag;
         //! the instance of the singleton

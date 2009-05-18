@@ -5,6 +5,7 @@
 #include "ui_LoginDialog.h"
 #include "NetworkManager.h"
 #include "ClientEvents.h"
+#include "../Common/CommLogin.h"
 
 //! This Object is the window to login in the server with a username and password
 class LoginDialog : public QWidget {

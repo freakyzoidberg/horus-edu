@@ -3,43 +3,44 @@
 NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
 {
     packManag = new PacketManager(this);
-    packSend = new PacketSender(this);
     connect(      this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
-    connect(packSend, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
-    //connect(packManag, SIGNAL(sendPacket(QByteArray)),           this, SLOT(sendPacket(QByteArray)));
+    connect(packManag, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
+    connect(packManag, SIGNAL(lwState(bool)),           this, SLOT(lwState(bool)));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
     setObjectName("NetworkManager");
     this->ld = new LoginDialog(this);
-    //this->ld->show();
+    this->ld->show();
     //this->start();
 }
-
- NetworkManager::~NetworkManager()
- {
-        instanceFlag = false;
- }
-
-bool NetworkManager::instanceFlag = false;
-NetworkManager* NetworkManager::single = NULL;
-NetworkManager* NetworkManager::getInstance(QObject *parent)
-{
-    if(! instanceFlag)
-    {
-        single = new NetworkManager(parent);
-        instanceFlag = true;
-        return single;
-    }
-    else
-    {
-        return single;
-    }
-}
-
 
 void run()
 {
     //this->exec();
+}
+void    NetworkManager::lwState(bool st)
+{
+    if (st == true)
+        ld->show();
+    else
+        ld->hide();
+}
+
+bool    NetworkManager::event(QEvent *e)
+{
+    if(e->type() == ClientEvents::StartEvent)
+    {
+        qDebug() << "NewtworkManager: Recieve StartEvent";
+        connectToHostEncrypted("localhost", 42000);
+        return true;
+    }
+    else if (e->type() == ClientEvents::SendPacketEvent)
+    {
+        qDebug() << "NewtworkManager: Recieve LoginEvent";
+        packManag->PacketToSend(e);
+        return true;
+    }
+    return true;
 }
 
 void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
@@ -58,28 +59,28 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
      }
  }
 
+bool NetworkManager::instanceFlag = false;
+NetworkManager* NetworkManager::single = NULL;
+NetworkManager* NetworkManager::getInstance(QObject *parent)
+{
+    if(! instanceFlag)
+    {
+        single = new NetworkManager(parent);
+        instanceFlag = true;
+        return single;
+    }
+    else
+    {
+        return single;
+    }
+}
+NetworkManager::~NetworkManager()
+{
+    instanceFlag = false;
+}
+
 bool    NetworkManager::quit()
 {
     qDebug() << "Disconnected from server";
-    return true;
-}
-
-bool    NetworkManager::event(QEvent *e)
-{
-    if(e->type() == ClientEvents::StartEvent)
-    {
-        qDebug() << "NewtworkManager: Recieve StartEvent";
-        connectToHostEncrypted("localhost", 42000);
-    }
-    else if (e->type() == ClientEvents::LoginEvent)
-    {
-        qDebug() << "NewtworkManager: Recieve LoginEvent";
-        packSend->PacketToSend(4, e);
-    }
-    else if (e->type() == ClientEvents::InitEvent)
-    {
-        qDebug() << "NewtworkManager: Recieve InitEvent";
-        packSend->PacketToSend(2, e);
-    }
     return true;
 }

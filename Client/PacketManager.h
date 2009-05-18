@@ -13,45 +13,49 @@
 #include "../Common/CommError.h"
 #include "ClientEvents.h"
 
-
 //! This Object is the manager for each packet readed on the socket
 class   PacketManager : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
-public:
-    PacketManager(QObject* parent = 0);
+    public:
+        PacketManager(QObject* parent = 0);
+        void        PacketToSend(QEvent *e);
+    public slots:
+         //! read the first CommPacket and go to the associed method
+         /*!
+              \param pac received packet to manage
+          */
+         void       packetReceived(QByteArray pac);
 
-public slots:
-     //! read the first CommPacket and go to the associed method
-     /*!
-          \param pac received packet to manage
-      */
-     void       packetReceived(QByteArray pac);
+    private:
+        //! enumerate the differents state of the client
+        enum        tState {INIT, LOGGED_OUT, LOGGED_IN, DISCONNECTED};
+        //!  client's state
+        tState      state;
+        //!  PacketManager's parent to send event to NetworkManager
+        QObject *parent;
 
-private:
-    //! enumerate the differents state of the client
-    enum        tState {INIT, LOGGED_OUT, LOGGED_IN, DISCONNECTED};
-    //!  client's state
-    tState      state;
-    //!  PacketManager's parent to send event to NetworkManager
-    QObject *parent;
+        void        PacketError();
+        void        PacketInit();
+        void        PacketAlive();
+        void        PacketLogin();
+        void        PacketFile();
+        void        PacketConfig();
+        void        PacketPlugin();
 
-    void        PacketError();
-    void        PacketInit();
-    void        PacketAlive();
-    void        PacketLogin();
-    void        PacketFile();
-    void        PacketConfig();
-    void        PacketPlugin();
+        //! the received packet
+        /*! every methods of PacketManager read and truncate this value
+         */
+        QByteArray  packet;
 
-    //! the received packet
-    /*! every methods of PacketManager read and truncate this value
-     */
-    QByteArray  packet;
-
-    //! corespondance table between CommPacket::type and the methods
-    static void (PacketManager::*packetDirections[]) ();
+        //! corespondance table between CommPacket::type and the methods
+        static void (PacketManager::*packetDirections[]) ();
+    signals:
+        //! signal emmitted to send a packet
+        void sendPacket(const QByteArray&);
+        //! signal emmitted to manage the login window
+        void lwState(bool st);
 };
 
 typedef void(PacketManager::*packetDirection)();
