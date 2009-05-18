@@ -13,7 +13,7 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     this->setOrganizationName(ORGANIZATION_NAME);
     this->setOrganizationDomain(ORGANIZATION_DOMAIN);
     this->setApplicationName(CLIENT_NAME);
-    this->setApplicationVersion(CLIENT_VERSION);
+//    this->setApplicationVersion(CLIENT_VERSION);
     NetworkManager::getInstance(this);
     new PluginManager(this);
     this->loader = new Loader(this);
