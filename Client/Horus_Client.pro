@@ -26,7 +26,7 @@ SOURCES += main.cpp \
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
-    ../Coommon/PluginPacket.h \
+    ../Common/PluginPacket.h \
     ../Common/CommSocket.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
