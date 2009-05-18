@@ -12,13 +12,13 @@ class ThreadFiles : public QThread
 public:
     ThreadFiles(QObject* parent=0);
     ~ThreadFiles();
+    static QThread* instance();
 
 protected:
     void run();
 
 private:
-    //! contain the server for files transfert
-    FileServer* server;
+    static ThreadFiles* _instance;
 };
 
 #endif // THREADFILES_H

@@ -1,19 +1,24 @@
 #include "ThreadFiles.h"
 
+ThreadFiles* ThreadFiles::_instance = 0;
+
 ThreadFiles::ThreadFiles(QObject* p) : QThread(p)
 {
-    server = new FileServer(this);
+    _instance = this;
     start();
 }
 
 ThreadFiles::~ThreadFiles()
 {
-    delete server;
 }
 
 void ThreadFiles::run()
 {
-    sleep(2);
-    qDebug() << "yep";
+    FileServer server;
     exec();
+}
+
+QThread* ThreadFiles::instance()
+{
+    return _instance;
 }

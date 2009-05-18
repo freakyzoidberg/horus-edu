@@ -10,6 +10,7 @@ TEMPLATE = app
 SOURCES += main.cpp \
     Socket.cpp \
     ../Common/CommFile.cpp \
+    ../Common/CommFileInfo.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommSettings.cpp \

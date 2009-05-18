@@ -19,10 +19,10 @@ int main(int argc, char *argv[])
     for (int i = 0; i < QCoreApplication::arguments().count(); i++)
         if (QCoreApplication::arguments().at(i) == "--gen-config")
             {
-            Settings *tmpSetting = new Settings();
-            tmpSetting->FirstSetSettings();
-            delete tmpSetting;
-            return (0);
+                Settings *tmpSetting = new Settings();
+                tmpSetting->FirstSetSettings();
+                delete tmpSetting;
+                return (0);
            }
 
     Server theserver(&a);
