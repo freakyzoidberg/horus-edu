@@ -5,6 +5,7 @@
 #include <QHash>
 #include <QByteArray>
 #include <QSslSocket>
+#include <QTimer>
 #include <QFile>
 
 //! the object for each file transfert
@@ -13,6 +14,7 @@ class FileTransfert : public QObject
   Q_OBJECT
 public:
     FileTransfert(QFile* file);
+    ~FileTransfert();
     const QByteArray& getKey();
     void clientConnected(QSslSocket* socket);
 
@@ -23,8 +25,15 @@ private:
     //! opened local file
     QFile*      file;
 
+    QTimer*     timer;
+
+signals:
+    void start();
+
 private slots:
-    void endOfListening();
+    void startSlot();
+    void read();
+    void write();
 
 private:
     static QHash<QByteArray,FileTransfert*> transferts;

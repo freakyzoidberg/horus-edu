@@ -161,7 +161,7 @@ void ThreadPacket::PacketPlugin()
     int len = packet.length();
     CommPlugin mod(packet);
     qDebug() << "[ in]" << mod << "length:" << len;
-    new FileTransfert(0);
+    new FileTransfert(new QFile);
 
     IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetPlugin);
     if (plugin)
