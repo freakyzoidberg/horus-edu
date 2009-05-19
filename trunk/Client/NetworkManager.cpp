@@ -30,13 +30,13 @@ bool    NetworkManager::event(QEvent *e)
 {
     if(e->type() == ClientEvents::StartEvent)
     {
-        qDebug() << "NewtworkManager: Recieve StartEvent";
+        qDebug() << "NetworkManager: Recieve StartEvent";
         connectToHostEncrypted("localhost", 42000);
         return true;
     }
     else if (e->type() == ClientEvents::SendPacketEvent)
     {
-        qDebug() << "NewtworkManager: Recieve LoginEvent";
+        qDebug() << "NetworkManager: Recieve LoginEvent";
         packManag->PacketToSend(e);
         return true;
     }
