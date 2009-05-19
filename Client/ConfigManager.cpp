@@ -45,25 +45,39 @@ void    ConfigManager::run()
 
 void    ConfigManager::createConfig()
 {
-    QSettings settings;
+    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     QDir      pluginsDir;
     QString   path;
 
     if (!settings.contains("Version"))
         settings.setValue("Version", CLIENT_VERSION);
-    if (!settings.contains("Plugins/DirectoryPath"))
+    if (!settings.contains("Plugins/SystemDirectoryPath"))
     {
         path = PREFIX + QApplication::organizationName() + "/" + QApplication::applicationName() + "/Plugins";
         if (!pluginsDir.exists(path))
         {
-            qDebug() << "ConfigManager: Creating Plugins Directory." << path;
-            if (!pluginsDir.mkdir(path))
-                qDebug() << "ConfigManager: Unable to create Plugins path (not the rights ?).";
+            qDebug() << "ConfigManager: Creating Plugins System Directory." << path;
+            if (!pluginsDir.mkpath(path))
+                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
             else
-                settings.setValue("Plugins/DirectoryPath", path);
+                settings.setValue("Plugins/SystemDirectoryPath", path);
         }
         else
-            settings.setValue("Plugins/DirectoryPath", path);
+            settings.setValue("Plugins/SystemDirectoryPath", path);
+    }
+    if (!settings.contains("Plugins/UserDirectoryPath"))
+    {
+        path = QDir::homePath() + "/.Horus/Plugins";
+        if (!pluginsDir.exists(path))
+        {
+            qDebug() << "ConfigManager: Creating Plugins User Directory." << path;
+            if (!pluginsDir.mkpath(path))
+                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
+            else
+                settings.setValue("Plugins/UserDirectoryPath", path);
+        }
+        else
+            settings.setValue("Plugins/UserDirectoryPath", path);
     }
     settings.sync();
 }
