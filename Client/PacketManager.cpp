@@ -83,7 +83,9 @@ void PacketManager::PacketLogin()
         settings.beginGroup("SESSIONS");
         settings.setValue("sessionString", l.sessionString);
         settings.setValue("sessionTime", l.sessionTime);
-        settings.setValue("sessionEnd", QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t());
+        uint sessionEnd = QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t();
+        settings.setValue("sessionEnd", sessionEnd);
+        //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
         qDebug() << "[ in]" << l;
         settings.endGroup();
         emit lwState(false);
@@ -105,4 +107,25 @@ void PacketManager::PacketConfig()
 
 void PacketManager::PacketPlugin()
 {
+}
+
+void        PacketManager::sessionEnd()
+{
+     QMessageBox msgBox;
+     msgBox.setText("La session arrive a son terme");
+     msgBox.setInformativeText("Voulez vous renouveler la session?");
+     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+     msgBox.setDefaultButton(QMessageBox::Yes);
+     int ret = msgBox.exec();
+     switch (ret)
+     {
+       case QMessageBox::Save:
+           break;
+       case QMessageBox::Discard:
+           break;
+       case QMessageBox::Cancel:
+           break;
+       default:
+           break;
+     }
 }
