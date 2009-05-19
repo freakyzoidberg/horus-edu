@@ -11,7 +11,7 @@ CommPacket::CommPacket(QByteArray& a)
     read(a);
 }
 
-const QByteArray CommPacket::getPacket()
+const QByteArray CommPacket::getPacket() const
 {
     QByteArray a;
     write(a);
@@ -25,7 +25,7 @@ void CommPacket::read(QByteArray& a)
     a.remove(0,1);
 }
 
-void CommPacket::write(QByteArray& a)
+void CommPacket::write(QByteArray& a) const
 {
     a.append((char)packetType);
 }

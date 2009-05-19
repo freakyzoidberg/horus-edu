@@ -25,7 +25,7 @@ CommError::CommError(QByteArray& a) : CommPacket(CommPacket::ERROR)
     read(a);
 }
 
-const QByteArray CommError::getPacket()
+const QByteArray CommError::getPacket() const
 {
     QByteArray a;
     CommPacket::write(a);
@@ -41,7 +41,7 @@ void CommError::read(QByteArray& a)
     errorMessage = a;
 }
 
-void CommError::write(QByteArray& a)
+void CommError::write(QByteArray& a) const
 {
     a.append(errorType);
     a.append(errorMessage);

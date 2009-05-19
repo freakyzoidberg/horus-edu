@@ -1,7 +1,6 @@
 #ifndef COMMSOCKET_H
 #define COMMSOCKET_H
 
-#include <QSsl>
 #include <QSslSocket>
 
 //! Communication socket is a QSslSocket, shared onto Client and Server

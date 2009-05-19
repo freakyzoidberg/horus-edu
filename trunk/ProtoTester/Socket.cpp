@@ -140,17 +140,17 @@ void Socket::PacketPlugin()
 {
     CommPlugin p(packet);
     qDebug() << "[ in]" << p;
-
+/*
     QHash<QString, QVariant> h;
     h["int"] = 12345;
     h["txt"] = "asdasdasdasdasdasdoiu";
-
+*/
     //send settings
     CommSettings settings;
-    settings.method = CommSettings::SET;
+    settings.method = CommSettings::GET;
     settings.scope = CommSettings::CLIENT_USER_SCOPE;
     settings.plugin = "test";
-    settings.setVariantSettings(h);
+//    settings.setVariantSettings(h);
     sendPacket(settings.getPacket());
     qDebug() << "[out]" << settings;
 

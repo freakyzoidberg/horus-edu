@@ -19,7 +19,7 @@ public:
 
     CommFile(Method method=UNDEFINED, quint32 id=0);
     CommFile(QByteArray&);
-    const QByteArray getPacket();
+    const QByteArray getPacket() const;
 
     //! type of request
     Method      method;
@@ -43,7 +43,7 @@ public:
 
 private:
     void                read(QByteArray&);
-    void                write(QByteArray&);
+    void                write(QByteArray&) const;
 };
 
 QDebug operator<<(QDebug, const CommFile&);

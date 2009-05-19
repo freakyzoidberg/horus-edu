@@ -25,14 +25,14 @@ public:
     //! constructor when receiving a packet (just call a read())
     CommPacket(QByteArray&);
     //! create the concated packet
-    const QByteArray    getPacket();
+    const QByteArray    getPacket() const;
 
     //! type of the packet
     Type                packetType;
 
 protected:
     void                read(QByteArray&);
-    void                write(QByteArray&);
+    void                write(QByteArray&) const;
 };
 
 QDebug operator<<(QDebug, const CommPacket&);

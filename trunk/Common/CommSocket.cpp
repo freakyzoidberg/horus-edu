@@ -1,5 +1,6 @@
 #include "CommSocket.h"
 #include <QtEndian>
+#include <QSsl>
 
 CommSocket::CommSocket(QObject* parent) : QSslSocket(parent)
 {

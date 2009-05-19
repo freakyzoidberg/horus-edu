@@ -14,7 +14,7 @@ CommPlugin::CommPlugin(QByteArray& a)
     read(a);
 }
 
-const QByteArray CommPlugin::getPacket()
+const QByteArray CommPlugin::getPacket() const
 {
     QByteArray a;
     CommPacket::write(a);
@@ -31,7 +31,7 @@ void CommPlugin::read(QByteArray& a)
            >> packet.data;
 }
 
-void CommPlugin::write(QByteArray& a)
+void CommPlugin::write(QByteArray& a) const
 {
     QDataStream stream(&a, QIODevice::WriteOnly);
     stream.device()->seek(a.length());
