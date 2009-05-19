@@ -34,14 +34,14 @@ QDebug operator<<(QDebug d, const CommPacket& cr)
 {
     static const char*  typeNames[] =
     {
-        "Unknow",
-        "Error ",
-        "Init  ",
-        "Alive ",
-        "Login ",
-        "File  ",
-        "Config",
-        "Module"
+        "Unknow ",
+        "Error  ",
+        "Init   ",
+        "Alive  ",
+        "Login  ",
+        "File   ",
+        "Setting",
+        "Module "
     };
     return d << typeNames[ cr.packetType ] << '|';
 }

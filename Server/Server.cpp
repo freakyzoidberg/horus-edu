@@ -15,7 +15,7 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     new ThreadFiles(this);
 
     QSettings settings;
-    if (listen(QHostAddress::Any, settings.value("SERVER/SRV_PORT",12345).toInt()))
+    if (listen(QHostAddress::Any, settings.value("SERVER/SRV_PORT",42000).toInt()))
         qDebug() << "Server Listening on port:" << serverPort();
     else
         qDebug() << "Server Not listening" << errorString();

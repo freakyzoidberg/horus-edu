@@ -15,7 +15,8 @@ CommSocket::CommSocket(QObject* parent) : QSslSocket(parent)
     setPrivateKey("./ssl/Horus.key");
 
     sizePacket = 0;
-    connect(this, SIGNAL(encrypted()), this, SLOT(ready()));
+//    connect(this, SIGNAL(encrypted()), this, SLOT(ready()));
+    connect(this, SIGNAL(readyRead()), this, SLOT(bytesReceived()));
 }
 
 void CommSocket::errorSlot(QAbstractSocket::SocketError e)
@@ -27,14 +28,14 @@ void CommSocket::sslErrorsSlot(QList<QSslError> e)
 {
     qDebug() << "sslError" << e;
 }
-
+/*
 void CommSocket::ready()
 {
     qDebug() << "Encrypted";
 //    disconnect(this, SIGNAL(encrypted()), 0, 0);
-    connect(this, SIGNAL(readyRead()), this, SLOT(bytesReceived()));
+//    connect(this, SIGNAL(readyRead()), this, SLOT(bytesReceived()));
 }
-
+*/
 void CommSocket::bytesReceived()
 {
     if ( ! sizePacket)

@@ -13,6 +13,9 @@ public:
 protected:
     //! when a new connexion is openned
     void incomingConnection (int socket);
+
+private slots:
+    void readKey();
 };
 
 #endif // FILESERVER_H
