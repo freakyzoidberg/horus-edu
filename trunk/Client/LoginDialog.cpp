@@ -23,7 +23,7 @@ void LoginDialog::on_connectButton_clicked()
 {
     if (l_ui.loginE->text() != "" || l_ui.passE->text() != "")
     {
-        QSettings   settings;
+        QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
         settings.beginGroup("SESSIONS");
         settings.setValue("sessionString", "");
         settings.setValue("sessionLogin", l_ui.loginE->text());
