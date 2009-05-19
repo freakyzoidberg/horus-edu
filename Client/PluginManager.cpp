@@ -41,7 +41,7 @@ void    PluginManager::run()
 
 void    PluginManager::loadPlugins()
 {
-    QSettings   settings;
+    QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     QDir        pluginsDir;
     QString     pluginName;
     QStringList plugins;
