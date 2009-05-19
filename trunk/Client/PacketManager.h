@@ -11,7 +11,12 @@
 #include "../Common/CommPlugin.h"
 #include "../Common/CommPacket.h"
 #include "../Common/CommError.h"
+#include "../Common/CommSettings.h"
 #include "ClientEvents.h"
+#include "ClientApplication.h"
+#include "ConfigManager.h"
+
+class NetworkManager;
 
 //! This Object is the manager for each packet readed on the socket
 class   PacketManager : public QObject
@@ -36,15 +41,20 @@ class   PacketManager : public QObject
         enum        tState {INIT, LOGGED_OUT, LOGGED_IN, DISCONNECTED};
         //!  client's state
         tState      state;
-        //!  PacketManager's parent to send event to NetworkManager
-        QObject *parent;
+        //!  PacketManager's parent to send event to the ClientApplication Class
+        ClientApplication *parent;
+
+        //! Queue contains packets to send
+        QQueue<QByteArray> packetStack;
+        //! Send all the packets contained in packetStack
+        void        clearPacketStack();
 
         void        PacketError();
         void        PacketInit();
         void        PacketAlive();
         void        PacketLogin();
         void        PacketFile();
-        void        PacketConfig();
+        void        PacketSettings();
         void        PacketPlugin();
 
         //! the received packet

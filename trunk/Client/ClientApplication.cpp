@@ -1,7 +1,6 @@
 #include    "ClientApplication.h"
 #include    "../Common/Defines.h"
 #include    "Loader.h"
-#include    "NetworkManager.h"
 #include    "PluginManager.h"
 #include    "ConfigManager.h"
 #include    "ClientEvents.h"

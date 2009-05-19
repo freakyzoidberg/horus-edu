@@ -2,16 +2,15 @@
 
 NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
 {
-    packManag = new PacketManager(this);
+    this->packManag = new PacketManager(parent);
+    this->ld = new LoginDialog(parent);
     connect(      this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
     connect(packManag, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
+    connect(ld, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
     connect(packManag, SIGNAL(lwState(bool)),           this, SLOT(lwState(bool)));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
     setObjectName("NetworkManager");
-    this->ld = new LoginDialog(this);
-    this->ld->show();
-    //this->start();
 }
 
 void run()
