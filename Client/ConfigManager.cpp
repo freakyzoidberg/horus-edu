@@ -7,6 +7,9 @@
 
 #include "ClientEvents.h"
 #include "../Common/Defines.h"
+#include "../Common/CommSettings.h"
+#include "NetworkManager.h"
+#include "ClientEvents.h"
 
 ConfigManager::ConfigManager(ClientApplication *parent) : QThread(parent)
 {
@@ -84,6 +87,15 @@ void    ConfigManager::createConfig()
 
 void    ConfigManager::loadConfig()
 {
+    CommSettings    *packet;
+    NetworkManager  *networkManager;
+
+    packet = new CommSettings;
+    packet->method = CommSettings::GET;
+    packet->scope = CommSettings::CLIENT_SYSTEM_SCOPE;
+    packet->plugin = 0;
+    networkManager = this->parent->findChild<NetworkManager *>();
+    ClientApplication::postEvent(networkManager, new SendPacketEvent(packet->getPacket()));
 }
 
 void    ConfigManager::saveConfig()
