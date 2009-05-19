@@ -13,7 +13,10 @@ class   IMetaData
 {
     public:
         virtual const QString   getMetaFileName() const = 0;
-        virtual const QFile     getFile() const = 0;
+        virtual const QFile     *getMetaFile() const = 0;
+
+        virtual void            openMetaFile() = 0;
+        virtual void            closeMetaFile() = 0;
         /*
           methods to get the data, probably using something like QTXML module
          */

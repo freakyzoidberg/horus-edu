@@ -90,24 +90,24 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
 void    DispPDF::dispPDFDoc(const QString & fileName)
 {
     QFileInfo    filePath(fileName);
-    QMap<QString, PdfRendering::PdfRendering *>::iterator it;
+    QMap<QString, Metadata *>::iterator it;
 
     if (!filePath.isAbsolute())
         if (!filePath.makeAbsolute())
         {
-            qDebug() << "Cannot use the absolute path of the PDF file";
+            qDebug() << "Cannot use the absolute path of the Metafile";
             return ;
         }
 
-    if ((it = renderPdf->find(filePath.filePath())) == renderPdf->end())
-        it = renderPdf->insert(filePath.filePath(),
-                               new PdfRendering(filePath.filePath()));
+    if ((it = metaFiles->find(filePath.filePath())) == metaFiles->end())
+        it = metaFiles->insert(filePath.filePath(),
+                               new Metadata(filePath.filePath()));
 
-    it.value()->render();
+    //it.value()->render();
     // access
 }
 
-const QMap<QString, PdfRendering *>    *DispPDF::getRenderPdf() const
+const QMap<QString, Metadata *>    *DispPDF::getMetaFiles() const
 {
-    return renderPdf;
+    return metaFiles;
 }
