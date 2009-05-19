@@ -10,7 +10,9 @@
 #include "../../IPluginNetwork.h"
 #include "dispPDFClient.h"
 #include "dispPDFNetwork.h"
-#include "pdfRendering.h"
+//#include "pdfRendering.h"
+#include "metadata.h"
+
 
 #define PLUGIN_NAME "dispPDF"
 #define PLUGIN_VERSION "1.0"
@@ -89,7 +91,7 @@ public:
     /*
       \return the variable renderPdf
     */
-    const QMap<QString, PdfRendering *>    *getRenderPdf() const;
+    const QMap<QString, Metadata *>    *getMetaFiles() const;
 
     //! Open a pdf file
     /*
@@ -117,7 +119,7 @@ private:
     DispPDFNetwork   *pNetwork;
 
     //! QMap containing all the open PDF files with their name
-    QMap<QString, PdfRendering *>   *renderPdf;
+    QMap<QString,  Metadata *>   *metaFiles;
 };
 
 #endif // DISPPDF_H

@@ -17,10 +17,7 @@ class IMetadata;
 */
 class   IPdfRendering
 {
-    public:
-
-    IMetadata       *metaDatas;
-
+ public:
     //! return the name of the PDF file
     virtual const QString & getFileName() const = 0;
 
