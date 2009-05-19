@@ -55,6 +55,10 @@ private:
     void    loadNetwork();
     //! Method for start the loading of the configuration
     void    loadConfig();
+    //! Method for start the loading of the config
+    /*!
+     *  Send an StartEvent to the ConfigManager
+     */
 };
 
 #endif // LOADER_H

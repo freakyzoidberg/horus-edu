@@ -1,6 +1,7 @@
 #include "Loader.h"
-#include "NetworkManager.cpp"
-#include "PluginManager.cpp"
+#include "ConfigManager.h"
+#include "NetworkManager.h"
+#include "PluginManager.h"
 #include "ClientEvents.h"
 
 Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
@@ -31,6 +32,15 @@ void    Loader::loadPlugins()
     ++(this->processes);
     pluginManager = parent->findChild<PluginManager *>();
     QApplication::postEvent(pluginManager, new QEvent(ClientEvents::StartEvent));
+}
+
+void    Loader::loadConfig()
+{
+    ConfigManager   *configManager;
+
+    ++(this->processes);
+    configManager = parent->findChild<ConfigManager *>();
+    QApplication::postEvent(configManager, new QEvent(ClientEvents::StartEvent));
 }
 
 bool    Loader::event(QEvent *event)

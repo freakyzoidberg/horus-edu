@@ -1,4 +1,5 @@
 #include "ConfigManager.h"
+#include "ClientEvents.h"
 
 ConfigManager::ConfigManager(QObject *parent) : QThread(parent)
 {
