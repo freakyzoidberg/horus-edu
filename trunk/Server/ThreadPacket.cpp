@@ -57,6 +57,7 @@ void ThreadPacket::PacketInit()
 {
     CommInit init(packet);
     qDebug() << "[ in]" << init;
+
     if (socket->vState != ClientSocket::INIT)
         return sendError(CommError::ALREADY_INITIALIZED);
 
@@ -66,8 +67,9 @@ void ThreadPacket::PacketInit()
 void ThreadPacket::PacketAlive()
 {
     CommPacket a(CommPacket::ALIVE);
-    emit sendPacket(a.getPacket());
     qDebug() << "[ in]" << a;
+
+    emit sendPacket(a.getPacket());
     qDebug() << "[out]" << a;
 }
 
@@ -116,8 +118,20 @@ void ThreadPacket::PacketLogin()
 
 void ThreadPacket::PacketFile()
 {
+    CommFile f(packet);
+    qDebug() << "[ in]" << f;
+
     if (socket->vState != ClientSocket::CONNECTED)
       return sendError(CommError::NOT_INITIALIZED);
+
+    if ( ! socket->user.isLoggedIn())
+      return sendError(CommError::NOT_AUTHENTICATED);
+
+    FileTransfert* ft = new FileTransfert(new QFile);
+    CommFile resp(CommFile::FILE, 0);
+    resp.key = ft->getKey();
+    emit sendPacket(resp.getPacket());
+    qDebug() << "[out]" << resp;
 }
 
 void ThreadPacket::PacketSettings()
@@ -127,11 +141,9 @@ void ThreadPacket::PacketSettings()
     qDebug() << "[ in]" << s << "length" << len ;
 
     if (socket->vState != ClientSocket::CONNECTED)
-      return sendError(CommError::NOT_INITIALIZED);
-
+        return sendError(CommError::NOT_INITIALIZED);
     if ( ! socket->user.isLoggedIn())
-      return sendError(CommError::NOT_AUTHENTICATED);
-
+        return sendError(CommError::NOT_AUTHENTICATED);
     if (s.method != CommSettings::GET && s.method != CommSettings::SET)
         return sendError(CommError::PROTOCOL_ERROR);
 
@@ -156,16 +168,14 @@ void ThreadPacket::PacketSettings()
 
 void ThreadPacket::PacketPlugin()
 {
-    if (socket->vState != ClientSocket::CONNECTED)
-        return sendError(CommError::NOT_INITIALIZED);
-
-    if ( ! socket->user.isLoggedIn())
-      return sendError(CommError::NOT_AUTHENTICATED);
-
     int len = packet.length();
     CommPlugin mod(packet);
     qDebug() << "[ in]" << mod << "length:" << len;
-    new FileTransfert(new QFile);
+
+    if (socket->vState != ClientSocket::CONNECTED)
+        return sendError(CommError::NOT_INITIALIZED);
+    if ( ! socket->user.isLoggedIn())
+        return sendError(CommError::NOT_AUTHENTICATED);
 
     IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetPlugin);
     if (plugin)

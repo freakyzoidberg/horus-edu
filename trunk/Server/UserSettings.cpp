@@ -29,14 +29,17 @@ void UserSettings::readDatabase()
 
     qDebug() << "QUERY:" << query.executedQuery();
 
-    if ( ! query.exec() || ! query.next())
+    if ( ! query.exec())
     {
         qDebug() << query.lastError();
         return;
     }
 
-    settings = query.value(0).toByteArray();
-    exist = true;
+    if (query.next())
+    {
+        settings = query.value(0).toByteArray();
+        exist = true;
+    }
 }
 
 void UserSettings::set(const QByteArray& _settings)

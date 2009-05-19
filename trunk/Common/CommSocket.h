@@ -20,7 +20,7 @@ private:
 
 private slots:
     //! slot connected with QSslSocket::encrypted(): when the socket is encrypted and ready to read/write
-    void ready();
+//    void ready();
     //! slot connected with QTcpSocket::readyRead(): when so data just arrived
     void bytesReceived();
 

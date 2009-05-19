@@ -26,6 +26,6 @@ QDebug operator<<(QDebug d, const CommFileInfo& i)
              << i.size
              << i.ctime
              << i.mtime
-             << i.checksumSha1
+             << i.checksumSha1.toHex()
              << i.owner;
 }

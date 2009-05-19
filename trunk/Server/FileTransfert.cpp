@@ -52,7 +52,7 @@ void FileTransfert::clientConnected(QSslSocket* _socket)
 {
     socket = _socket;
     qDebug() << "FileTransfert::clientConnected";
-    disconnect(this, SLOT(startSlot()));
+    disconnect(timer, SIGNAL(timeout()), 0, 0);
     connect(socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
     transferts.remove(key);
 }

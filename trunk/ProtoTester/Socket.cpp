@@ -130,6 +130,10 @@ void Socket::PacketSettings()
 {
     CommSettings s(packet);
     qDebug() << "[ in]" << s;
+
+    CommFile f(CommFile::READ_FILE, 0);
+    sendPacket(f.getPacket());
+    qDebug() << "[out]" << f;
 }
 
 void Socket::PacketPlugin()

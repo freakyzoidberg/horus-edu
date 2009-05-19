@@ -99,7 +99,7 @@ QDebug operator<<(QDebug d, const CommFile& p)
 
     else if (p.method == CommFile::FILE)
         d << p.fileInfo
-          << p.key;
+          << p.key.toHex();
 
     return d;
 }

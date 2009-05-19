@@ -1,41 +1,37 @@
 #include "FileServer.h"
 
 #include <QSettings>
-
-//FileServer* FileServer::instance = 0;
+#include <QSslSocket>
 
 FileServer::FileServer()
 {
-/*    if (instance)
-    {
-        qDebug() << "error, FileServer already instancied.";
-        return;
-    }
-    instance = this;
-*/
     QSettings config;
     if (listen(QHostAddress::Any, config.value("SERVER/FILE_TRANSFERT_PORT", 42042).toInt()))
         qDebug() << "FileServer Listening on port:" << serverPort();
     else
         qDebug() << "FileServer Not listening:" << errorString();
-
-//    connect(this, SIGNAL(registerFileTransfertSignal(QByteArray,FileTransfert*)), this, SLOT(registerFileTransfertSlot(QByteArray,FileTransfert*)), Qt::QueuedConnection);
 }
 
 void FileServer::incomingConnection(int socket)
 {
     qDebug() << "FileServer::incommingConnection";
-    // Don't save the returned value, autodestructive object
-//    new FileTransfert(socket, this);
-}
-/*
-void FileServer::registerFileTransfert(const QByteArray& key, FileTransfert* ft)
-{
-    emit FileServer::instance->registerFileTransfertSignal(key, ft);
+    QSslSocket* s = new QSslSocket(this);
+
+    s->setProtocol(QSsl::SslV3);
+
+    //For test
+    s->setPeerVerifyMode(QSslSocket::VerifyNone);
+
+    s->setLocalCertificate("./ssl/Horus.crt");
+    s->setPrivateKey("./ssl/Horus.key");
+
+    connect(s, SIGNAL(readyRead()), this, SLOT(readKey()));
+
+    s->setSocketDescriptor(socket);
+
+    s->startServerEncryption();
 }
 
-void FileServer::registerFileTransfertSlot(const QByteArray& key, FileTransfert* ft)
+void FileServer::readKey()
 {
-    transferts[ key ] = ft;
 }
-*/
