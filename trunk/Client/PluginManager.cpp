@@ -14,14 +14,14 @@ PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(paren
 
 bool    PluginManager::event(QEvent *event)
 {
-    if (event->type() == ClientEvents::StartEvent/*StartEvent::type*/)
+    if (event->type() == ClientEvents::StartEvent)
     {
         qDebug() << "PluginManager: Receive StartEvent";
         this->loadPlugins();
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
         return (true);
     }
-    else if (event->type() == ClientEvents::StopEvent/*StopEvent::type*/)
+    else if (event->type() == ClientEvents::StopEvent)
     {
         qDebug() << "PluginManager: Receive StopEvent";
         return (true);
@@ -29,8 +29,7 @@ bool    PluginManager::event(QEvent *event)
     else
     {
         qDebug() << "PluginManager: Receive Event not managed";
-        QThread::event(event);
-        return (false);
+        return (QThread::event(event));
     }
 }
 

@@ -28,7 +28,7 @@ public:
      *  \param parent the parent ClientApplication
      */
     PluginManager(ClientApplication *parent = 0);
-    //! Surcharge of the event method
+    //! Overload of the event method
     /*!
      *  Unload the plugins when receive a StopEvent
      *  Load  the plugins when receive a StartEvent

@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     Loader.cpp \
     MainWindow.cpp \
     LoginDialog.cpp \
-    ClientEvents.cpp
+    ClientEvents.cpp \
+    ConfigManager.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -43,7 +44,8 @@ HEADERS += NetworkManager.h \
     LoginDialog.h \
     IPdfRendering.h \
     IMetadata.h \
-    IMetaDataCreate.h
+    IMetaDataCreate.h \
+    ConfigManager.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     logindialog.ui
