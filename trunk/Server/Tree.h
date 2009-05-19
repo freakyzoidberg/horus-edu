@@ -1,6 +1,6 @@
 #ifndef TREE_H
 #define TREE_H
-#include <QMap>
+#include <QHash>
 #include <QString>
 #include <Sql.h>
 class Tree
@@ -13,11 +13,11 @@ private:
     Tree *parent;
     QString type;
     QString name;
-    QMap<int, Tree*> sons;
+    QHash<int, Tree*> sons;
 
 
 public:
-    static QMap<int, Tree*> maptree;
+    static QHash<int, Tree*> maptree;
     Tree();
     ~Tree();
     bool    UpdateVector();
@@ -63,7 +63,7 @@ public:
     /*!
       \return Map of sons node
     */
-    QMap<int, Tree*> GetSonsNode() const;
+    QHash<int, Tree*> GetSonsNode() const;
 
     //! Get name of node
     /*!

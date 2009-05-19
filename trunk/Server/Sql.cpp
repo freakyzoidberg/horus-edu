@@ -2,13 +2,13 @@
 
 QMutex Sql::mymute;
 QSemaphore Sql::mtsema;
-QMap <QByteArray, bool> Sql::map;
+QHash <QByteArray, bool> Sql::map;
 
 Sql::Sql() : QByteArray("")
 {
     mtsema.acquire();
     mymute.lock();
-    for (QMap<QByteArray, bool>::const_iterator it = map.begin(); it != map.end(); it++)
+    for (QHash<QByteArray, bool>::const_iterator it = map.begin(); it != map.end(); it++)
     {
         if (*it)
         {

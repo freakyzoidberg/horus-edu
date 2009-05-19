@@ -1,8 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
+
 #include <QSettings>
-#include <QDebug>
-#include <QCoreApplication>
 
 //!  Manage settings for the server
 /*!

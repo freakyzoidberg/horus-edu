@@ -4,7 +4,6 @@
 #include <QByteArray>
 
 #include "../Common/CommSettings.h"
-#include "Sql.h"
 
 //! Interface to get/set the CommSettings values into the database. there is not security checks
 class UserSettings

@@ -1,9 +1,9 @@
 #include "Settings.h"
 
+#include <QDebug>
+
 Settings::Settings()
 {
-
-
 }
 
 void Settings::CheckSettings()

@@ -2,7 +2,6 @@
 
 #include "ThreadPacket.h"
 
-#include "Server.h"
 #include "PluginManager.h"
 #include "User.h"
 #include "UserSettings.h"
@@ -198,7 +197,7 @@ void ThreadPacket::PacketPlugin()
 
 }
 
-void ThreadPacket::sendError(CommError::Error error, const char* str)
+void ThreadPacket::sendError(CommError::Error error, const char* str) const
 {
     CommError err(error, str);
     qDebug() << "[out]" << err;

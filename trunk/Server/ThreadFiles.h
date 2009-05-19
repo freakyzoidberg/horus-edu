@@ -3,8 +3,6 @@
 
 #include <QThread>
 
-#include "FileServer.h"
-
 //! class creating the thread for the FileServer
 class ThreadFiles : public QThread
 {

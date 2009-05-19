@@ -43,7 +43,7 @@ void FileTransfert::write()
 {
 }
 
-const QByteArray& FileTransfert::getKey()
+const QByteArray& FileTransfert::getKey() const
 {
     return key;
 }

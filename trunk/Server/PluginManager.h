@@ -2,8 +2,6 @@
 #define PLUGINMANAGER_H
 
 #include <QObject>
-#include <QSettings>
-#include <QPluginLoader>
 
 #include "InterfaceServer.h"
 #include "Plugins/IServerPlugin.h"
@@ -16,7 +14,7 @@ public:
     //! return the global instance of this object
     static PluginManager* globalInstance();
     //! return the plugin with the name in parameter
-    IServerPlugin*        getPlugin(const QByteArray&);
+    IServerPlugin*        getPlugin(const QByteArray&) const;
 
 private:
     //! private construct: not possible to have multiple instance
