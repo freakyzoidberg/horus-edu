@@ -19,8 +19,10 @@ class ClientEvents
         static QEvent::Type UnloadPluginEvent;
         //! event to load a plugin
         static QEvent::Type LoadPluginEvent;
-        //!  event to send a packet to the the serv
+        //!  event to send a packet to the serv
         static QEvent::Type SendPacketEvent;
+        //!  event to recv a packet from the serv
+        static QEvent::Type RecvPacketEvent;
 };
 
 //! this object is an event containt a packet to send to the server
@@ -28,6 +30,16 @@ class SendPacketEvent : public QEvent
 {
         public:
             SendPacketEvent(const QByteArray p);
+
+            //! packet to send
+            QByteArray pack;
+};
+
+//! this object is an event containt a packet received from the server
+class RecvPacketEvent : public QEvent
+{
+        public:
+            RecvPacketEvent(const QByteArray p);
 
             //! packet to send
             QByteArray pack;
