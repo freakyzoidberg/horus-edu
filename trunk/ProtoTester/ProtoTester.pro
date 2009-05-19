@@ -9,10 +9,11 @@ CONFIG -= app_bundle
 TEMPLATE = app
 SOURCES += main.cpp \
     Socket.cpp \
+    ../Common/CommInit.cpp \
+    ../Common/CommError.cpp \
+    ../Common/CommLogin.cpp \
     ../Common/CommFile.cpp \
     ../Common/CommFileInfo.cpp \
-    ../Common/CommInit.cpp \
-    ../Common/CommLogin.cpp \
     ../Common/CommSettings.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommPlugin.cpp \

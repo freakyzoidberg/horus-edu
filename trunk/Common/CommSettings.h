@@ -34,7 +34,7 @@ public:
                   __LAST_SCOPE__ };
 
     CommSettings();
-    CommSettings(QByteArray&);
+    CommSettings(QByteArray& packet);
     const QByteArray    getPacket();
 
     //! method GET or SET settings
@@ -45,12 +45,12 @@ public:
     QByteArray          plugin;
 
     //! get all the settings in the binary format
-    QByteArray          getBinarySettings(void);
+    const QByteArray&   getBinarySettings();
     //! set all the settings in the binary format
     void                setBinarySettings(const QByteArray&);
 
     //! get all the settings in the QVariant format
-    QVariant            getVariantSettings(void);
+    QVariant            getVariantSettings();
     //! get all the settings in the QVariant format
     void                setVariantSettings(const QVariant&);
 

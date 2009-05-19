@@ -78,12 +78,12 @@ QDebug operator<<(QDebug d, const CommLogin& cl)
 {
     static const char*  typeMessages[] =
     {
-        "Undefined",
-        "Login Pass",
+        "Undefined    ",
+        "Login Pass   ",
         "Login Session",
-        "Logout",
-        "Accepted",
-        "Refused"
+        "Logout       ",
+        "Accepted     ",
+        "Refused      "
     };
 
     d << (CommPacket&)cl

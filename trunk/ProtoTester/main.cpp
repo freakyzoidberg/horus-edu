@@ -5,7 +5,11 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
-    Socket s(argv[1], 42000);
+    char* host = "localhost";
+    if (argc > 1)
+        host = argv[1];
+
+    Socket s(host, 42000);
 
     return a.exec();
 }

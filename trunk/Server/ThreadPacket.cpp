@@ -79,15 +79,19 @@ void ThreadPacket::PacketLogin()
     if (socket->vState != ClientSocket::CONNECTED)
       return sendError(CommError::NOT_INITIALIZED);
 
-    if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION)
+    if (login.method != CommLogin::LOGIN_PASSWORD &&
+        login.method != CommLogin::LOGIN_SESSION &&
+        login.method != CommLogin::LOGOUT)
       return sendError(CommError::PROTOCOL_ERROR);
 
     socket->waitOtherThreads();
 
     User& user = socket->user;
-    user.logout();
+    user.init();
 
-    if (login.method == CommLogin::LOGIN_SESSION)
+    if (login.method == CommLogin::LOGOUT)
+        user.logout();
+    else if (login.method == CommLogin::LOGIN_SESSION)
         user.login(login.login, true, login.sessionString);
     else
         user.login(login.login, false, login.sha1Pass);

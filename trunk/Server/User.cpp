@@ -8,6 +8,11 @@ QHash<quint32, User*> User::map;
 
 User::User()
 {
+    init();
+}
+
+void User::init()
+{
     id = 0;
     user = "";
     sessionString = "";
@@ -96,20 +101,15 @@ User* User::getUser(quint32 _id)
     return map[ _id ];
 }
 
-void User::destroySession()
-{
-    Sql con;
-    QSqlQuery query(QSqlDatabase::database(con));
-    query.prepare("UPDATE users SET session_key='' WHERE id=? LIMIT 1;");
-    query.addBindValue(id);
-    query.exec();
-
-    sessionString = "";
-}
-
 void User::logout()
 {
-    id = 0;
-    user = "";
-    sessionString = "";
+    if (isLoggedIn())
+    {
+        Sql con;
+        QSqlQuery query(QSqlDatabase::database(con));
+        query.prepare("UPDATE users SET session_key=NULL WHERE id=? LIMIT 1;");
+        query.addBindValue(id);
+        query.exec();
+    }
+    init();
 }
