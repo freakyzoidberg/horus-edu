@@ -27,10 +27,10 @@ public:
     void              login(const QString& _login, bool authSession, const QByteArray& _auth);
     //! create a new randow key for the session for a duration in parameter
     void              renewSession(quint32 duration = DEFAULT_SESSION_LIFETIME*60);
-    //! remove the session key from the database
-    void              destroySession();
-    //! re-initialize this object
+    //! remove the session key from the database and logout
     void              logout();
+    //! re-initialize this object
+    void              init();
 
     //! true if a user is loggued in , false otherwise
     bool              isLoggedIn() const;

@@ -48,5 +48,5 @@ QDebug operator<<(QDebug d, CommPlugin& cm)
              << cm.packet.packetVersion
              << cm.packet.sourcePlugin
              << cm.packet.targetPlugin
-             << cm.packet.data;
+             << cm.packet.data.typeName();
 }

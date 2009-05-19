@@ -20,8 +20,8 @@ public:
      * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
     enum                Method { UNDEFINED,
-                                 LOGIN_PASSWORD, LOGIN_SESSION, DESTROY_SESSION, //CLIENT  -> SERVER
-                                 ACCEPTED, REFUSED,                              // SERVER -> CLIENT
+                                 LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //CLIENT  -> SERVER
+                                 ACCEPTED, REFUSED,                     // SERVER -> CLIENT
                                  __LAST__ };
 
     CommLogin(Method);

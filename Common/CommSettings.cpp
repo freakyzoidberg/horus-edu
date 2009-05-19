@@ -23,7 +23,7 @@ const QByteArray CommSettings::getPacket()
     return a;
 }
 
-QByteArray CommSettings::getBinarySettings(void)
+const QByteArray& CommSettings::getBinarySettings()
 {
     return settings;
 }
@@ -33,7 +33,7 @@ void CommSettings::setBinarySettings(const QByteArray& b)
     settings = b;
 }
 
-QVariant CommSettings::getVariantSettings(void)
+QVariant CommSettings::getVariantSettings()
 {
     QVariant v;
     QDataStream stream(&settings, QIODevice::ReadOnly);
@@ -81,22 +81,23 @@ QDebug operator<<(QDebug d, const CommSettings& p)
 {
     static const char*  methodNames[] =
     {
-        "Undefined",
-        "Get",
-        "Set",
-        "Value",
+        "Undef ",
+        "Get   ",
+        "Set   ",
+        "Value ",
         "Denied"
     };
     static const char*  scopeNames[] =
     {
-        "Client-User Scope",
-        "Client-System_Scope",
-        "Server-User Scope",
-        "Server-System Scope"
+        "Client-User  ",
+        "Client-System",
+        "Server-User  ",
+        "Server-System"
     };
 
     return d << (CommPacket&)p
              << methodNames[ p.method ]
              << scopeNames[ p.scope ]
              << p.plugin;
+//             << p.getBinarySettings().length();
 }

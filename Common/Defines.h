@@ -50,6 +50,10 @@
 //! size of the file transfert authorisation key
 # define FILE_TRANSFERT_KEY_SIZE 32 // bytes -> 64char hexa
 #endif
+#ifndef FILE_TRANSFERT_WAIT_TIME
+//! duration of the authorization key stay available if not used (in second)
+# define FILE_TRANSFERT_WAIT_TIME 2 // 2s for test. after:// 300 // 5min
+#endif
 
 #define SHA1_WORD_SIZE 20 //bytes -> 40char hexa
 
