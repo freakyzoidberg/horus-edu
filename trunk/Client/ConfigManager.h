@@ -2,6 +2,8 @@
 #define CONFIGMANAGER_H
 
 #include <QThread>
+#include <QByteArray>
+
 #include "ClientApplication.h"
 
 //! Class managing the settings of the client
@@ -43,8 +45,13 @@ private:
      *  If first launch of the application, create a basic configuration.
      */
     void    createConfig();
-    //! Load the config from the server
-    void    loadConfig();
+    //! Send the packet get settings to the server
+    void    sendLoadConfig();
+    //! Receive the packet settings from the server
+    /*!
+     *  /param data the packet received
+     */
+    void    recvLoadConfig(QByteArray data);
     //! Save the config to the server
     void    saveConfig();
     //! the parent CLientApplication

@@ -23,8 +23,7 @@ bool    ConfigManager::event(QEvent *event)
     if (event->type() == ClientEvents::StartEvent)
     {
         qDebug() << "ConfigManager: Receive StartEvent";
-        this->loadConfig();
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+        this->sendLoadConfig();
         return (true);
     }
     else if (event->type() == ClientEvents::StopEvent)
@@ -32,6 +31,14 @@ bool    ConfigManager::event(QEvent *event)
         qDebug() << "ConfigManager: Receive StopEvent";
         this->saveConfig();
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StopEvent));
+        return (true);
+    }
+    else if (event->type() == ClientEvents::RecvPacketEvent)
+    {
+        RecvPacketEvent *recvEvent;
+
+        recvEvent = static_cast<RecvPacketEvent *>(event);
+        this->recvLoadConfig(recvEvent->pack);
         return (true);
     }
     else
@@ -85,17 +92,31 @@ void    ConfigManager::createConfig()
     settings.sync();
 }
 
-void    ConfigManager::loadConfig()
+void    ConfigManager::sendLoadConfig()
 {
-    CommSettings    *packet;
+    CommSettings    *UserPacket;
+    CommSettings    *SystemPacket;
     NetworkManager  *networkManager;
 
-    packet = new CommSettings;
-    packet->method = CommSettings::GET;
-    packet->scope = CommSettings::CLIENT_SYSTEM_SCOPE;
-    packet->plugin = 0;
+    SystemPacket = new CommSettings;
+    SystemPacket->method = CommSettings::GET;
+    SystemPacket->scope = CommSettings::CLIENT_SYSTEM_SCOPE;
+    SystemPacket->plugin = 0;
+    UserPacket = new CommSettings;
+    UserPacket->method = CommSettings::GET;
+    UserPacket->scope = CommSettings::CLIENT_USER_SCOPE;
+    UserPacket->plugin = 0;
     networkManager = this->parent->findChild<NetworkManager *>();
-    ClientApplication::postEvent(networkManager, new SendPacketEvent(packet->getPacket()));
+    ClientApplication::postEvent(networkManager, new SendPacketEvent(SystemPacket->getPacket()));
+    ClientApplication::postEvent(networkManager, new SendPacketEvent(UserPacket->getPacket()));
+}
+
+void    ConfigManager::recvLoadConfig(QByteArray data)
+{
+    CommSettings    *packet;
+
+    packet = new CommSettings(data);
+    qDebug() << "Received settings:" << packet;
 }
 
 void    ConfigManager::saveConfig()
