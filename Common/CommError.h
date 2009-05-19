@@ -16,7 +16,7 @@ public:
 
     CommError(Error _type, const char* _error = 0);
     CommError(QByteArray&);
-    const QByteArray getPacket();
+    const QByteArray getPacket() const;
 
     //! error code transmitted
     Error          errorType;
@@ -25,7 +25,7 @@ public:
 
 private:
     void           read(QByteArray&);
-    void           write(QByteArray&);
+    void           write(QByteArray&) const;
 };
 
 QDebug operator<<(QDebug, const CommError&);

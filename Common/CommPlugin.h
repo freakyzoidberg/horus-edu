@@ -14,14 +14,14 @@ class CommPlugin : public CommPacket
 public:
     CommPlugin(QByteArray&);
     CommPlugin(const PluginPacket&);
-    const QByteArray    getPacket();
+    const QByteArray    getPacket() const;
 
     //! content of the packet (visible by the plugin)
     PluginPacket packet;
 
 private:
     void                read(QByteArray&);
-    void                write(QByteArray&);
+    void                write(QByteArray&) const;
 };
 
 QDebug operator<<(QDebug, CommPlugin&);

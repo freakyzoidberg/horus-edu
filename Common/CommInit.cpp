@@ -11,7 +11,7 @@ CommInit::CommInit(QByteArray& a) : CommPacket(CommPacket::INIT)
     read(a);
 }
 
-const QByteArray CommInit::getPacket()
+const QByteArray CommInit::getPacket() const
 {
     QByteArray a;
     CommPacket::write(a);
@@ -26,7 +26,7 @@ void CommInit::read(QByteArray& a)
     fromName = a;
 }
 
-void CommInit::write(QByteArray& a)
+void CommInit::write(QByteArray& a) const
 {
     a.append(protoVersion);
     a.append(fromName);

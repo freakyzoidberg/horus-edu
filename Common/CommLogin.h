@@ -26,7 +26,7 @@ public:
 
     CommLogin(Method);
     CommLogin(QByteArray&);
-    const QByteArray    getPacket();
+    const QByteArray    getPacket() const;
 
     //! type of authentification packet
     Method              method;
@@ -41,7 +41,7 @@ public:
 
 private:
     void                read(QByteArray&);
-    void                write(QByteArray&);
+    void                write(QByteArray&) const;
 };
 
 QDebug operator<<(QDebug, const CommLogin&);

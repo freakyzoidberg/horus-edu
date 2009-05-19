@@ -1,7 +1,6 @@
 #ifndef COMMCONFIG_H
 #define COMMCONFIG_H
 
-#include <QHash>
 #include <QVariant>
 
 #include "CommPacket.h"
@@ -35,7 +34,7 @@ public:
 
     CommSettings();
     CommSettings(QByteArray& packet);
-    const QByteArray    getPacket();
+    const QByteArray    getPacket() const;
 
     //! method GET or SET settings
     Method              method;
@@ -45,12 +44,12 @@ public:
     QByteArray          plugin;
 
     //! get all the settings in the binary format
-    const QByteArray&   getBinarySettings();
+    const QByteArray&   getBinarySettings() const;
     //! set all the settings in the binary format
     void                setBinarySettings(const QByteArray&);
 
     //! get all the settings in the QVariant format
-    QVariant            getVariantSettings();
+    const QVariant      getVariantSettings() const;
     //! get all the settings in the QVariant format
     void                setVariantSettings(const QVariant&);
 
@@ -58,7 +57,7 @@ private:
     //! the settings in binary format
     QByteArray          settings;
     void                read(QByteArray&);
-    void                write(QByteArray&);
+    void                write(QByteArray&) const;
 };
 
 QDebug operator<<(QDebug, const CommSettings&);

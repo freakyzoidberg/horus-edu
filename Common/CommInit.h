@@ -13,7 +13,7 @@ class CommInit : public CommPacket
 public:
     CommInit(quint8 _protoVersion, const char* fromName);
     CommInit(QByteArray&);
-    const QByteArray getPacket();
+    const QByteArray getPacket() const;
 
     //! protocol version
     quint8          protoVersion;
@@ -22,7 +22,7 @@ public:
 
 private:
     void                read(QByteArray&);
-    void                write(QByteArray&);
+    void                write(QByteArray&) const;
 };
 
 QDebug operator<<(QDebug, const CommInit&);

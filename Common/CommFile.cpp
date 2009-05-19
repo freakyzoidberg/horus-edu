@@ -13,7 +13,7 @@ CommFile::CommFile(QByteArray& a) : CommPacket(CommPacket::FILE)
     read(a);
 }
 
-const QByteArray CommFile::getPacket()
+const QByteArray CommFile::getPacket() const
 {
     QByteArray a;
     CommPacket::write(a);
@@ -23,7 +23,7 @@ const QByteArray CommFile::getPacket()
 
 void CommFile::read(QByteArray& a)
 {
-    QDataStream stream(&a, QIODevice::ReadOnly);
+    QDataStream stream(a);
 
     quint8 m;
     stream >> m;
@@ -49,7 +49,7 @@ void CommFile::read(QByteArray& a)
                >> key;
 }
 
-void CommFile::write(QByteArray& a)
+void CommFile::write(QByteArray& a) const
 {
     QDataStream stream(&a, QIODevice::WriteOnly);
     stream.device()->seek(a.length());
@@ -87,7 +87,8 @@ QDebug operator<<(QDebug d, const CommFile& p)
         "File deleted"
     };
 
-    d << methods[ p.method ]
+    d << (CommPacket&)p
+      << methods[ p.method ]
       << p.id;
 
     if (p.method == CommFile::READ_FILE || p.method == CommFile::WRITE_FILE)

@@ -15,7 +15,7 @@ CommSettings::CommSettings(QByteArray& a) : CommPacket(CommPacket::SETTINGS)
     read(a);
 }
 
-const QByteArray CommSettings::getPacket()
+const QByteArray CommSettings::getPacket() const
 {
     QByteArray a;
     CommPacket::write(a);
@@ -23,7 +23,7 @@ const QByteArray CommSettings::getPacket()
     return a;
 }
 
-const QByteArray& CommSettings::getBinarySettings()
+const QByteArray& CommSettings::getBinarySettings() const
 {
     return settings;
 }
@@ -33,10 +33,10 @@ void CommSettings::setBinarySettings(const QByteArray& b)
     settings = b;
 }
 
-QVariant CommSettings::getVariantSettings()
+const QVariant CommSettings::getVariantSettings() const
 {
     QVariant v;
-    QDataStream stream(&settings, QIODevice::ReadOnly);
+    QDataStream stream(settings);
     stream >> v;
     return v;
 }
@@ -65,7 +65,7 @@ void CommSettings::read(QByteArray& a)
     settings = a;
 }
 
-void CommSettings::write(QByteArray& a)
+void CommSettings::write(QByteArray& a) const
 {
     a.append(method);
     if (method == PERMISSION_DENIED)
@@ -98,6 +98,6 @@ QDebug operator<<(QDebug d, const CommSettings& p)
     return d << (CommPacket&)p
              << methodNames[ p.method ]
              << scopeNames[ p.scope ]
-             << p.plugin;
-//             << p.getBinarySettings().length();
+             << p.plugin
+             << p.getVariantSettings();
 }

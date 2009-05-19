@@ -21,7 +21,7 @@ CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
     read(a);
 }
 
-const QByteArray CommLogin::getPacket()
+const QByteArray CommLogin::getPacket() const
 {
     QByteArray a;
     CommPacket::write(a);
@@ -52,7 +52,7 @@ void CommLogin::read(QByteArray& a)
     }
 }
 
-void CommLogin::write(QByteArray& a)
+void CommLogin::write(QByteArray& a) const
 {
     a.append(method);
 
