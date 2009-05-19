@@ -21,6 +21,9 @@ class   PacketManager : public QObject
     public:
         PacketManager(QObject* parent = 0);
         void        PacketToSend(QEvent *e);
+    private slots:
+        //! the callback for the sessionEnd timer
+        void        sessionEnd();
     public slots:
          //! read the first CommPacket and go to the associed method
          /*!

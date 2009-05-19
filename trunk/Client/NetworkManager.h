@@ -12,7 +12,7 @@
 #include    "LoginDialog.h"
 
 //! This Object is a singleton class, it manages the client network.
-class NetworkManager : public CommSocket //, public QThread
+class NetworkManager : public CommSocket
 {
     Q_OBJECT
 
