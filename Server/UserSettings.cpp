@@ -1,7 +1,5 @@
 #include "UserSettings.h"
-
-#include <QByteArray>
-#include <QDataStream>
+#include "Sql.h"
 
 UserSettings::UserSettings(quint32 _userId, const QByteArray& _plugin, CommSettings::Scope _scope)
 {

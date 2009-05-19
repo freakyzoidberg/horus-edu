@@ -33,7 +33,7 @@ private:
     void PacketPlugin();
 
     //! send an error to the client
-    void sendError(CommError::Error err, const char* str="");
+    void sendError(CommError::Error err, const char* str="") const;
 
     //! a pointer to the parent ClientSocket
     ClientSocket* socket;
@@ -47,7 +47,7 @@ private:
 
 signals:
     //! signal emmited when a packet need to be send to the client
-    void sendPacket(const QByteArray);
+    void sendPacket(const QByteArray) const;
 };
 
 typedef void(ThreadPacket::*packetDirection)();

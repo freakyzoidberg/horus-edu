@@ -1,5 +1,3 @@
-#include <QTime>
-
 #include "User.h"
 #include "Sql.h"
 #include "../Common/CommPlugin.h"
@@ -91,7 +89,7 @@ quint32 User::getId() const { return id; }
 const QString User::getUserName() const { return user; }
 User::Level User::getLevel() const { return level; }
 
-void User::sendPacket(const QByteArray& packet)
+void User::sendPacket(const QByteArray& packet) const
 {
     emit sendPacketSignal(packet);
 }

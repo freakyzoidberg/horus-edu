@@ -1,10 +1,8 @@
 #ifndef INTERFACESERVER_H
 #define INTERFACESERVER_H
 
-#include <QString>
-
 #include "Plugins/IServer.h"
-#include "../Common/CommPlugin.h"
+#include "../Common/PluginPacket.h"
 
 //! Interface given to each plugin to communicate with the server
 class InterfaceServer : public IServer

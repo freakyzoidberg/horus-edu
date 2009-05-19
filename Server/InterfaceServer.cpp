@@ -2,6 +2,7 @@
 #include "InterfaceServer.h"
 #include "Plugins/IServerPlugin.h"
 #include "User.h"
+#include "../Common/CommPlugin.h"
 
 InterfaceServer::InterfaceServer(IServerPlugin* p)
 {

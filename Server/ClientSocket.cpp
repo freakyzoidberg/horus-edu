@@ -1,3 +1,5 @@
+#include <QThreadPool>
+#include <QDebug>
 #include "ClientSocket.h"
 #include "ThreadPacket.h"
 #include "../Common/Defines.h"

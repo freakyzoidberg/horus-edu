@@ -3,10 +3,6 @@
 
 #include <QTcpServer>
 
-#include "../Common/Defines.h"
-#include "ClientSocket.h"
-#include "Settings.h"
-
 //! The base server. this object just listen to a port and create ClientSocket for each connexion
 class Server : public QTcpServer
 {

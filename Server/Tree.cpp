@@ -1,12 +1,13 @@
 #include "Tree.h"
-QMap<int, Tree*> Tree::maptree;
+
+QHash<int, Tree*> Tree::maptree;
+
 Tree::Tree()
 {
 }
 
 Tree::~Tree()
 {
-
 }
 
 bool     Tree::Delnode()
@@ -16,7 +17,7 @@ bool     Tree::Delnode()
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
 
-    for(QMap<int, Tree::Tree*>::iterator it = this->sons.begin(); it != this->sons.end(); ++it)
+    for(QHash<int, Tree::Tree*>::iterator it = this->sons.begin(); it != this->sons.end(); ++it)
     {
         query.prepare("UPDATE tree SET id_parent=? WHERE id=?;");
 
@@ -59,7 +60,7 @@ Tree* Tree::GetParent() const
 
 Tree* Tree::GetNodebyId(int id)
 {
-    QMap<int, Tree::Tree*>::const_iterator it = maptree.find(id);
+    QHash<int, Tree::Tree*>::const_iterator it = maptree.find(id);
     if (it != maptree.end())
         return it.value();
     else
@@ -239,7 +240,7 @@ bool Tree::MoveNode(Tree *father)
     }
 }
 
-QMap<int, Tree*> Tree::GetSonsNode() const
+QHash<int, Tree*> Tree::GetSonsNode() const
 {
     if (this != 0)
     {
@@ -247,7 +248,7 @@ QMap<int, Tree*> Tree::GetSonsNode() const
     }
     else
      {
-        QMap<int, Tree*> tmp;
+        QHash<int, Tree*> tmp;
         qDebug() << "CRITICAL ERROR   --  Null pointer -- GetSonsNode() method";
         return tmp;
     }
@@ -282,9 +283,9 @@ bool Tree::UpdateVector()
        maptree.insert(tempnode->id, tempnode);
    }
 
- for(QMap<int, Tree::Tree*>::const_iterator it = maptree.begin(); it != maptree.end(); ++it)
+ for(QHash<int, Tree::Tree*>::const_iterator it = maptree.begin(); it != maptree.end(); ++it)
   {
-     QMap<int, Tree::Tree*>::iterator it2 = maptree.find((*it)->parent_id);
+     QHash<int, Tree::Tree*>::iterator it2 = maptree.find((*it)->parent_id);
      if (it2 != maptree.end())
      {
          if (it2.value()->id != it.value()->id)
@@ -303,7 +304,7 @@ void Tree::ShowSons()
 {
     QString listsons = "";
     qDebug() << "---- Show Sons ---- of " << this->id;
-    for(QMap<int, Tree::Tree*>::const_iterator it = this->sons.begin(); it != this->sons.end(); ++it)
+    for(QHash<int, Tree::Tree*>::const_iterator it = this->sons.begin(); it != this->sons.end(); ++it)
         listsons += "  --  " + QVariant(it.value()->id).toString();
     listsons += "  --  ";
     qDebug() << listsons;
@@ -313,7 +314,7 @@ void Tree::ShowSons()
 void Tree::vecshow()
 {
     QString toto = " ";
-  for(QMap<int, Tree::Tree*>::const_iterator it = Tree::maptree.begin(); it != Tree::maptree.end(); ++it)
+  for(QHash<int, Tree::Tree*>::const_iterator it = Tree::maptree.begin(); it != Tree::maptree.end(); ++it)
   {
       it.value()->ShowSons();
   }

@@ -1,8 +1,9 @@
 #include "PluginManager.h"
+#include <QSettings>
+#include <QPluginLoader>
 #include <QCoreApplication>
 #include <QStringList>
-#include "../Common/CommPlugin.h"
-#include "User.h"
+#include <QDebug>
 
 PluginManager* PluginManager::instance = 0;
 PluginManager* PluginManager::globalInstance()
@@ -12,7 +13,7 @@ PluginManager* PluginManager::globalInstance()
     return instance;
 }
 
-IServerPlugin*  PluginManager::getPlugin(const QByteArray& name)
+IServerPlugin*  PluginManager::getPlugin(const QByteArray& name) const
 {
     return map[ name ];
 }

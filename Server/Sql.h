@@ -4,7 +4,7 @@
 #include <QByteArray>
 #include <QMutex>
 #include <QSemaphore>
-#include <QMap>
+#include <QHash>
 
 //!  Manage pool of sql connection
 /*!
@@ -37,7 +37,7 @@ private:
     //! Semaphore for single access socket to database
     static QSemaphore mtsema;
     //! Map of status of SQL connections
-    static  QMap<QByteArray, bool> map;
+    static  QHash<QByteArray, bool> map;
 };
 
 #endif

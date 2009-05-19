@@ -1,7 +1,6 @@
 #ifndef FILETRANSFERT_H
 #define FILETRANSFERT_H
 
-#include <QObject>
 #include <QHash>
 #include <QByteArray>
 #include <QSslSocket>
@@ -15,7 +14,7 @@ class FileTransfert : public QObject
 public:
     FileTransfert(QFile* file);
     ~FileTransfert();
-    const QByteArray& getKey();
+    const QByteArray& getKey() const;
     void clientConnected(QSslSocket* socket);
 
 private:

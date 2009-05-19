@@ -45,7 +45,7 @@ public:
     //! return the end time of the session
     const QDateTime&  getSessionEnd() const;
 
-    void              sendPacket(const QByteArray&);
+    void              sendPacket(const QByteArray&) const;
 
 private:
     quint32           id;
@@ -56,7 +56,7 @@ private:
 
 signals:
     //! called by a module to send a packet to an logged-in user
-    void              sendPacketSignal(const QByteArray&);
+    void              sendPacketSignal(const QByteArray&) const;
 
 
 

@@ -1,4 +1,5 @@
 #include "ThreadFiles.h"
+#include "FileServer.h"
 
 ThreadFiles* ThreadFiles::_instance = 0;
 

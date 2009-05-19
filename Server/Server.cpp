@@ -1,6 +1,9 @@
 #include "Server.h"
 #include "Sql.h"
 #include "ThreadFiles.h"
+#include "../Common/Defines.h"
+#include "ClientSocket.h"
+#include "Settings.h"
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {

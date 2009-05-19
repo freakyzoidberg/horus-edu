@@ -1,8 +1,6 @@
 #ifndef CLIENTSOCKET_H
 #define CLIENTSOCKET_H
 
-#include <QDebug>
-#include <QThreadPool>
 #include <QSemaphore>
 
 #include "User.h"
