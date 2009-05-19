@@ -42,56 +42,75 @@ void    PluginManager::run()
 void    PluginManager::loadPlugins()
 {
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    QDir        pluginsDir;
+    QDir        pluginsUserDir;
+    QDir        pluginsSystemDir;
     QString     pluginName;
     QStringList plugins;
 
     settings.beginGroup("Plugins");
-    pluginsDir = QDir(settings.value("DirectoryPath", "/Undefined").toString());
-    if (pluginsDir.absolutePath() == "/Undefined")
+    pluginsUserDir = QDir(settings.value("UserDirectoryPath", "/Undefined").toString());
+    pluginsSystemDir = QDir(settings.value("SystemDirectoryPath", "/Undefined").toString());
+    if (pluginsUserDir.absolutePath() == "/Undefined")
+        qDebug() << "PluginManager: Warning User Plugin path doesn't exist.";
+    if (pluginsSystemDir.absolutePath() == "/Undefined")
+        qDebug() << "PluginManager: Warning System Plugin path doesn't exist.";
+    if (pluginsUserDir.absolutePath() == "/Undefined" && pluginsSystemDir.absolutePath() == "/Undefined")
     {
-        qDebug() << "PluginManager: Error: Plugin path doesn't exist.";
+        qDebug() << "PluginManager: Error: No Plugin paths available.";
         return ;
     }
     plugins = settings.value("Load", QStringList()).toStringList();
     foreach (pluginName, plugins)
-        loadPlugin(pluginName, pluginsDir);
+        loadPlugin(pluginName, pluginsUserDir, pluginsSystemDir);
     settings.endGroup();
 }
 
-bool    PluginManager::loadPlugin(QString pluginName, QDir path)
+bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir systemPath)
 {
     qDebug() << "PluginManager: Loading" << pluginName;
-    QPluginLoader   loader(path.absoluteFilePath(pluginName));
-    QObject         *plugin = loader.instance();
+    QPluginLoader   *loader;
+    QObject         *plugin;
     IClientPlugin   *clientPlugin;
     QString         newPlugin;
-    bool            success = true;
+    bool            success;
 
+    success = true;
     if (findPlugin(pluginName))
         return (success);
+    loader = new QPluginLoader(userPath.absoluteFilePath(pluginName));
+    plugin = loader->instance();
+    qDebug() << "PluginManager: error while loading" << pluginName << ":" << loader->errorString();
+    if (!plugin)
+    {
+        delete loader;
+        loader = new QPluginLoader(systemPath.absoluteFilePath(pluginName));
+        plugin = loader->instance();
+    }
     if (plugin)
     {
         clientPlugin = qobject_cast<IClientPlugin *>(plugin);
         if (clientPlugin)
         {
             foreach (newPlugin, clientPlugin->getPluginsRequired())
-                success &= this->loadPlugin(newPlugin, path);
+                success &= this->loadPlugin(newPlugin, userPath, systemPath);
             if (success)
             {
                 pluginsList.insert(pluginName, clientPlugin);
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
-                    this->loadPlugin(newPlugin, path);
+                    this->loadPlugin(newPlugin, userPath, systemPath);
                 QApplication::postEvent(parent->loader, new QEvent(ClientEvents::LoadPluginEvent));
+                delete loader;
                 return (success);
             }
             qDebug() << "PluginManager: error while loading" << pluginName << ": Dependencies not satisfiables";
-            loader.unload();
+            loader->unload();
+            delete loader;
             return (false);
         }
     }
-    qDebug() << "PluginManager: error while loading" << pluginName << ":" << loader.errorString();
+    qDebug() << "PluginManager: error while loading" << pluginName << ":" << loader->errorString();
+    delete loader;
     return (false);
 }
 

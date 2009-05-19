@@ -59,10 +59,11 @@ private:
      *  Add successfully loaded plugins in the plugin list
      *  Send an PluginLoadedEvent for each successfull load
      *  \param pluginName The name of the plugin to load
-     *  \param path The path where is the plugin to load
+     *  \param userPath The user path where is the plugin to load
+     *  \param systemPath The system path where is the plugin to load if not found in the user path
      *  \return A boolean indicating the success
      */
-    bool    loadPlugin(QString pluginName, QDir path);
+    bool    loadPlugin(QString pluginName, QDir userPath, QDir systemPath);
     //! Find a loaded plugin
     /*!
      *  This method provide an access to each loaded plugins
