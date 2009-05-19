@@ -2,6 +2,7 @@
 #define CLIENTAPPLICATION_H
 
 #include    <QtGui/QApplication>
+#include    <QWidget>
 
 //! Main class representing the application
 /*!

@@ -2,6 +2,7 @@
 #define CONFIGMANAGER_H
 
 #include <QThread>
+#include "ClientApplication.h"
 
 //! Class managing the settings of the client
 /*!
@@ -19,7 +20,7 @@ public:
      *  Initialize and start the thread.
      *  \param parent the parent of ConfigManager
      */
-    ConfigManager(QObject *parent = 0);
+    ConfigManager(ClientApplication *parent = 0);
     //! Overload of the event method
     /*!
      *  Request new config from server when received a StartEvent
@@ -41,6 +42,8 @@ private:
     void    loadConfig();
     //! Save the config to the server
     void    saveConfig();
+    //! the parent CLientApplication
+    ClientApplication *parent;
 };
 
 #endif // CONFIGMANAGER_H
