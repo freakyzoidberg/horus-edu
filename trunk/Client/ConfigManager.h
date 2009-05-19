@@ -38,6 +38,11 @@ protected:
      */
     void    run();
 private:
+    //! Create a basic configuration
+    /*!
+     *  If first launch of the application, create a basic configuration.
+     */
+    void    createConfig();
     //! Load the config from the server
     void    loadConfig();
     //! Save the config to the server

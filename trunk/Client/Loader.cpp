@@ -12,6 +12,7 @@ Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
     this->processes = 0;
     this->processesComplete = 0;
     this->loadNetwork();
+    this->loadConfig();
     this->loadPlugins();
 }
 
@@ -50,8 +51,7 @@ bool    Loader::event(QEvent *event)
         event->accept();
         ++(this->processesComplete);
         this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);
-        //if (processes == processesComplete)
-        if (processes == processesComplete + 1) // waiting for NetworkManager to send events...
+        if (processes == processesComplete)
         {
 
             this->hide();
