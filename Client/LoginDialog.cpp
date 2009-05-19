@@ -1,6 +1,5 @@
 #include "LoginDialog.h"
 
-
 LoginDialog::LoginDialog(QObject *parent) : QWidget::QWidget()
 {
     this->parent = parent;
@@ -33,8 +32,7 @@ void LoginDialog::on_connectButton_clicked()
         CommLogin  l(CommLogin::LOGIN_PASSWORD);
         l.login = l_ui.loginE->text();
         l.sha1Pass = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
-        SendPacketEvent *e = new SendPacketEvent(l.getPacket());
-        QApplication::postEvent(this->parent, e);
+        emit sendPacket(l.getPacket());
         settings.endGroup();
         qDebug() << "[ out]" << l;
     }

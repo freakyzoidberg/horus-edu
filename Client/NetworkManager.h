@@ -17,7 +17,6 @@ class NetworkManager : public CommSocket
     Q_OBJECT
 
     public:
-        NetworkManager(QObject *parent = 0);
         //! method to get the singleton instance
         static  NetworkManager* getInstance(QObject *parent);
         ~NetworkManager();
@@ -34,6 +33,7 @@ class NetworkManager : public CommSocket
         bool    quit();
 
     private:
+        NetworkManager(QObject *parent = 0);
         //! packetManager to read the received packet
         PacketManager   *packManag;
         //! flag for the singleton

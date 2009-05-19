@@ -2,7 +2,7 @@
 
 PacketManager::PacketManager(QObject* parent) : QObject(parent)
 {
-    this->parent = parent;
+    this->parent = static_cast<ClientApplication *>(parent);
     state = DISCONNECTED;
 }
 
@@ -14,7 +14,7 @@ packetDirection PacketManager::packetDirections[] =
     &PacketManager::PacketAlive,
     &PacketManager::PacketLogin,
     &PacketManager::PacketFile,
-    &PacketManager::PacketConfig,
+    &PacketManager::PacketSettings,
     &PacketManager::PacketPlugin
 };
 
@@ -29,7 +29,21 @@ void PacketManager::packetReceived(QByteArray p)
 void PacketManager::PacketToSend(QEvent *e)
 {
     SendPacketEvent *spe = static_cast<SendPacketEvent *>(e);
-    emit sendPacket(spe->pack);
+    packetStack.enqueue(spe->pack);
+}
+
+void    PacketManager::clearPacketStack()
+{
+    if (state == PacketManager::LOGGED_IN)
+    {
+        if (packetStack.isEmpty() == false)
+        {
+            emit sendPacket(packetStack.dequeue());
+            clearPacketStack();
+        }
+        return;
+    }
+    return;
 }
 
 void PacketManager::PacketError()
@@ -62,7 +76,7 @@ void PacketManager::PacketInit()
         emit lwState(true);
     }
     settings.endGroup();
-    state = LOGGED_OUT;
+    state = INIT;
 }
 
 void PacketManager::PacketAlive()
@@ -72,7 +86,7 @@ void PacketManager::PacketAlive()
 
 void PacketManager::PacketLogin()
 {
-    if (state != LOGGED_OUT)
+    if (state != INIT)
         return;
     QSettings   settings;
 
@@ -89,6 +103,9 @@ void PacketManager::PacketLogin()
         qDebug() << "[ in]" << l;
         settings.endGroup();
         emit lwState(false);
+        state = PacketManager::LOGGED_IN;
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+        clearPacketStack();
     }
     else if (l.method == CommLogin::REFUSED)
     {
@@ -101,8 +118,13 @@ void PacketManager::PacketFile()
 {
 }
 
-void PacketManager::PacketConfig()
+void PacketManager::PacketSettings()
 {
+    CommSettings set(packet);
+    RecvPacketEvent *rpe = new RecvPacketEvent(set.getPacket());
+    ConfigManager   *configManager;
+    configManager = parent->findChild<ConfigManager *>();
+    QApplication::postEvent(configManager, rpe);
 }
 
 void PacketManager::PacketPlugin()
@@ -111,21 +133,5 @@ void PacketManager::PacketPlugin()
 
 void        PacketManager::sessionEnd()
 {
-     QMessageBox msgBox;
-     msgBox.setText("La session arrive a son terme");
-     msgBox.setInformativeText("Voulez vous renouveler la session?");
-     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
-     msgBox.setDefaultButton(QMessageBox::Yes);
-     int ret = msgBox.exec();
-     switch (ret)
-     {
-       case QMessageBox::Save:
-           break;
-       case QMessageBox::Discard:
-           break;
-       case QMessageBox::Cancel:
-           break;
-       default:
-           break;
-     }
+
 }
