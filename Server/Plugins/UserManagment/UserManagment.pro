@@ -3,7 +3,7 @@
 # -------------------------------------------------
 QT -= gui
 TEMPLATE = lib
-SOURCES = TestComm.cpp
-HEADERS =  TestComm.h
+SOURCES = UserManagment.cpp
+HEADERS =  UserManagment.h
 DESTDIR = .
-TARGET = $$qtLibraryTarget(TestComm)
+TARGET = $$qtLibraryTarget(UserManagment)

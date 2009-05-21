@@ -1,8 +1,6 @@
 #ifndef SOCKET_H
 #define SOCKET_H
 
-#include <QDebug>
-
 #include "../Common/CommSocket.h"
 
 class Socket : public CommSocket
