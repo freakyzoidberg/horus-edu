@@ -8,6 +8,7 @@
 #include "../Common/CommPacket.h"
 #include "../Common/CommSettings.h"
 
+#include <QDebug>
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QVariant>
