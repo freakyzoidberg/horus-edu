@@ -19,7 +19,6 @@ Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
 void    Loader::loadNetwork()
 {
     //NetworkManager *networkManager;
-
     ++(this->processes);
     //networkManager = parent->findChild<NetworkManager *>();
     QApplication::postEvent(ThreadNetwork::getInstance(this->parent), new QEvent(ClientEvents::StartEvent));

@@ -60,11 +60,11 @@ void PacketManager::PacketInit()
     emit sendPacket(i.getPacket());
     qDebug() << "[ out]" << i;
 
-
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     settings.beginGroup("SESSIONS");
     if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60))
     {
+        state = PacketManager::LOGIN_SESSION;
         CommLogin  ls(CommLogin::LOGIN_SESSION);
         ls.login = settings.value("sessionLogin", "").toString();
         ls.sessionString = settings.value("sessionString", "").toByteArray();
@@ -73,10 +73,11 @@ void PacketManager::PacketInit()
     }
     else
     {
+        state = INIT;
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::ShowLoginEvent));
     }
     settings.endGroup();
-    state = INIT;
+
 }
 
 void PacketManager::PacketAlive()
@@ -86,8 +87,6 @@ void PacketManager::PacketAlive()
 
 void PacketManager::PacketLogin()
 {
-    if (state != INIT)
-        return;
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 
     CommLogin l(packet);
@@ -102,9 +101,10 @@ void PacketManager::PacketLogin()
         //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
         qDebug() << "[ in]" << l;
         settings.endGroup();
-        state = PacketManager::LOGGED_IN;
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::HideLoginEvent));
+        if (state != PacketManager::LOGIN_SESSION)
+            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::HideLoginEvent));
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+        state = PacketManager::LOGGED_IN;
         clearPacketStack();
     }
     else if (l.method == CommLogin::REFUSED)
