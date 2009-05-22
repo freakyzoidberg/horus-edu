@@ -31,7 +31,7 @@ SendLoginEvent::SendLoginEvent(const QByteArray p) : QEvent(ClientEvents::SendLo
     pack = p;
 }
 
-SendLoginEvent::SendLoginEvent(const SendLoginEvent &s) : QEvent(ClientEvents::SendPacketEvent)
+SendLoginEvent::SendLoginEvent(const SendLoginEvent &s) : QEvent(ClientEvents::SendLoginEvent)
 {
     pack = s.pack;
 }

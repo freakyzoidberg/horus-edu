@@ -115,6 +115,7 @@ void    ConfigManager::recvLoadConfig(QByteArray data)
 
     packet = new CommSettings(data);
     qDebug() << "Received settings:" << packet;
+    QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
 }
 
 void    ConfigManager::saveConfig()

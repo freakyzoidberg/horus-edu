@@ -8,13 +8,12 @@ ThreadNetwork::ThreadNetwork(QObject* p) : QThread(p)
 
 void ThreadNetwork::run()
 {
-    exec();
+     nM = new NetworkManager(this->parent);
+     exec();
 }
 
 bool ThreadNetwork::event(QEvent *e)
 {
-    if (e->type() == ClientEvents::StartEvent)
-        nM = new NetworkManager(this->parent);
     if (e->type() >= QEvent::User)
     {
         if (e->type() == ClientEvents::SendPacketEvent)
@@ -24,8 +23,8 @@ bool ThreadNetwork::event(QEvent *e)
         }
         else if (e->type() == ClientEvents::SendLoginEvent)
         {
-            SendLoginEvent *spe = new SendLoginEvent(*(static_cast<SendLoginEvent *>(e)));
-            QApplication::postEvent(nM, spe);
+            SendLoginEvent *l = new SendLoginEvent(*(static_cast<SendLoginEvent *>(e)));
+            QApplication::postEvent(nM, l);
         }
         else
             QApplication::postEvent(nM, new QEvent(e->type()));

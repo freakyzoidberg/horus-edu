@@ -38,7 +38,7 @@ class   PacketManager : public QObject
 
     private:
         //! enumerate the differents state of the client
-        enum        tState {INIT, LOGGED_OUT, LOGGED_IN, DISCONNECTED};
+        enum        tState {INIT, LOGIN_SESSION, LOGGED_IN, DISCONNECTED};
         //!  client's state
         tState      state;
         //!  PacketManager's parent to send event to the ClientApplication Class
