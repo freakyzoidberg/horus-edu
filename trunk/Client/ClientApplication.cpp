@@ -6,6 +6,7 @@
 #include    "ClientEvents.h"
 #include    "MainWindow.h"
 #include    "LoginDialog.h"
+#include    "ThreadNetwork.h"
 #include    <QtDebug>
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
@@ -15,7 +16,7 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     this->setApplicationName(CLIENT_NAME);
     this->setApplicationVersion(CLIENT_VERSION);
     new ConfigManager(this);
-    NetworkManager::getInstance(this);
+    ThreadNetwork::getInstance(this);
     new PluginManager(this);
     this->loader = new Loader(this);
     this->mainWindow = new MainWindow(this);

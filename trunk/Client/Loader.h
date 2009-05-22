@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include "ui_Loader.h"
+#include    "LoginDialog.h"
 
 class ClientApplication;
 
@@ -48,6 +49,8 @@ private:
      *  Send an StartEvent to the PluginManager
      */
     void    loadPlugins();
+    //! login window
+    QWidget *ld;
     //! Method for start the loading of the network
     /*!
      *  Send an StartEvent to the NetworkManager

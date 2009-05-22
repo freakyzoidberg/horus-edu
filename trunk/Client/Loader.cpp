@@ -1,6 +1,6 @@
 #include "Loader.h"
 #include "ConfigManager.h"
-#include "NetworkManager.h"
+#include "ThreadNetwork.h"
 #include "PluginManager.h"
 #include "ClientEvents.h"
 
@@ -22,7 +22,7 @@ void    Loader::loadNetwork()
 
     ++(this->processes);
     //networkManager = parent->findChild<NetworkManager *>();
-    QApplication::postEvent(NetworkManager::getInstance(this->parent), new QEvent(ClientEvents::StartEvent));
+    QApplication::postEvent(ThreadNetwork::getInstance(this->parent), new QEvent(ClientEvents::StartEvent));
 
 }
 
@@ -58,6 +58,16 @@ bool    Loader::event(QEvent *event)
             parent->mainWindow->show();
         }
         return (true);
+    }
+    else if (event->type() == ClientEvents::ShowLoginEvent)
+    {
+        ld = new LoginDialog(this->parent);
+        ld->show();
+    }
+    else if (event->type() == ClientEvents::HideLoginEvent)
+    {
+        ld->hide();
+        delete ld;
     }
     return (QDialog::event(event));
 }

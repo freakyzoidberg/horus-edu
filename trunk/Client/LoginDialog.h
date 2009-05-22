@@ -3,7 +3,6 @@
 
 #include <QtGui/QWidget>
 #include "ui_LoginDialog.h"
-#include "NetworkManager.h"
 #include "ClientEvents.h"
 #include "../Common/CommLogin.h"
 
@@ -26,9 +25,6 @@ private:
 private slots:
     //! callback of the connect button, it send an event to NetworkManager
     void on_connectButton_clicked();
-signals:
-    //! signal emmitted to send a packet
-    void sendPacket(const QByteArray&);
 };
 
 #endif // LOGINDIALOG_H

@@ -1,33 +1,18 @@
 #include "NetworkManager.h"
 
-NetworkManager::NetworkManager(QObject *parent) : CommSocket(parent)
+NetworkManager::NetworkManager(QObject *parent) : CommSocket()
 {
     this->packManag = new PacketManager(parent);
-    this->ld = new LoginDialog(parent);
     connect(      this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
     connect(packManag, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
-    connect(ld, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
-    connect(packManag, SIGNAL(lwState(bool)),           this, SLOT(lwState(bool)));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
     setObjectName("NetworkManager");
 }
 
-void run()
-{
-    //this->exec();
-}
-void    NetworkManager::lwState(bool st)
-{
-    if (st == true)
-        ld->show();
-    else
-        ld->hide();
-}
-
 bool    NetworkManager::event(QEvent *e)
 {
-    if(e->type() == ClientEvents::StartEvent)
+   if(e->type() == ClientEvents::StartEvent)
     {
         qDebug() << "NetworkManager: Recieve StartEvent";
         connectToHostEncrypted("localhost", 42000);
@@ -35,11 +20,23 @@ bool    NetworkManager::event(QEvent *e)
     }
     else if (e->type() == ClientEvents::SendPacketEvent)
     {
-        qDebug() << "NetworkManager: Recieve LoginEvent";
+        qDebug() << "NetworkManager: Recieve Packet";
         packManag->PacketToSend(e);
         return true;
     }
-    return true;
+    else if (e->type() == ClientEvents::SendLoginEvent)
+    {
+        qDebug() << "NetworkManager: Recieve SendLoginEvent";
+        SendLoginEvent *spe = static_cast<SendLoginEvent *>(e);
+        this->sendPacket(spe->pack);
+        return true;
+    }
+    return QObject::event(e);
+}
+
+void    NetworkManager::quit()
+{
+
 }
 
 void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
@@ -57,29 +54,6 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
          qDebug() << tr("The following error occurred: %1.").arg(errorString());
      }
  }
-
-bool NetworkManager::instanceFlag = false;
-NetworkManager* NetworkManager::single = NULL;
-NetworkManager* NetworkManager::getInstance(QObject *parent)
-{
-    if(! instanceFlag)
-    {
-        single = new NetworkManager(parent);
-        instanceFlag = true;
-        return single;
-    }
-    else
-    {
-        return single;
-    }
-}
 NetworkManager::~NetworkManager()
 {
-    instanceFlag = false;
-}
-
-bool    NetworkManager::quit()
-{
-    qDebug() << "Disconnected from server";
-    return true;
 }

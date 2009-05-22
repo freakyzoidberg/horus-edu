@@ -1,6 +1,6 @@
 #include "PacketManager.h"
 
-PacketManager::PacketManager(QObject* parent) : QObject(parent)
+PacketManager::PacketManager(QObject* parent) : QObject()
 {
     this->parent = static_cast<ClientApplication *>(parent);
     state = DISCONNECTED;
@@ -73,7 +73,7 @@ void PacketManager::PacketInit()
     }
     else
     {
-        emit lwState(true);
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::ShowLoginEvent));
     }
     settings.endGroup();
     state = INIT;
@@ -102,13 +102,14 @@ void PacketManager::PacketLogin()
         //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
         qDebug() << "[ in]" << l;
         settings.endGroup();
-        emit lwState(false);
         state = PacketManager::LOGGED_IN;
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::HideLoginEvent));
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
         clearPacketStack();
     }
     else if (l.method == CommLogin::REFUSED)
     {
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::ShowLoginEvent));
         qDebug() << "[ in]" << l;
     }
 

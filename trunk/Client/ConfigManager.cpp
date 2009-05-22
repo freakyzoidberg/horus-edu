@@ -8,7 +8,7 @@
 #include "ClientEvents.h"
 #include "../Common/Defines.h"
 #include "../Common/CommSettings.h"
-#include "NetworkManager.h"
+#include "ThreadNetwork.h"
 #include "ClientEvents.h"
 
 ConfigManager::ConfigManager(ClientApplication *parent) : QThread(parent)
@@ -96,7 +96,6 @@ void    ConfigManager::sendLoadConfig()
 {
     CommSettings    *UserPacket;
     CommSettings    *SystemPacket;
-    NetworkManager  *networkManager;
 
     SystemPacket = new CommSettings;
     SystemPacket->method = CommSettings::GET;
@@ -106,9 +105,8 @@ void    ConfigManager::sendLoadConfig()
     UserPacket->method = CommSettings::GET;
     UserPacket->scope = CommSettings::CLIENT_USER_SCOPE;
     UserPacket->plugin = 0;
-    networkManager = this->parent->findChild<NetworkManager *>();
-    ClientApplication::postEvent(networkManager, new SendPacketEvent(SystemPacket->getPacket()));
-    ClientApplication::postEvent(networkManager, new SendPacketEvent(UserPacket->getPacket()));
+    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(SystemPacket->getPacket()));
+    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket->getPacket()));
 }
 
 void    ConfigManager::recvLoadConfig(QByteArray data)
