@@ -14,6 +14,7 @@ Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
     this->loadNetwork();
     this->loadConfig();
     this->loadPlugins();
+    ld = new LoginDialog(this->parent);
 }
 
 void    Loader::loadNetwork()
@@ -60,13 +61,15 @@ bool    Loader::event(QEvent *event)
     }
     else if (event->type() == ClientEvents::ShowLoginEvent)
     {
-        ld = new LoginDialog(this->parent);
         ld->show();
     }
     else if (event->type() == ClientEvents::HideLoginEvent)
     {
-        ld->hide();
-        delete ld;
+        if (ld != NULL)
+        {
+            ld->hide();
+            delete ld;
+        }
     }
     return (QDialog::event(event));
 }
