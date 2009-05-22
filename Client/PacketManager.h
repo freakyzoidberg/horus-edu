@@ -67,8 +67,6 @@ class   PacketManager : public QObject
     signals:
         //! signal emmitted to send a packet
         void sendPacket(const QByteArray&);
-        //! signal emmitted to manage the login window
-        void lwState(bool st);
 };
 
 typedef void(PacketManager::*packetDirection)();
