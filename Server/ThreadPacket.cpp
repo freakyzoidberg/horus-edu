@@ -28,7 +28,7 @@ void ThreadPacket::run()
    (this->*packetDirections[ pac.packetType ])();
 }
 
-packetDirection ThreadPacket::packetDirections[] =
+ThreadPacket::packetDirection ThreadPacket::packetDirections[] =
 {
     &ThreadPacket::PacketUndefined,
     &ThreadPacket::PacketError,

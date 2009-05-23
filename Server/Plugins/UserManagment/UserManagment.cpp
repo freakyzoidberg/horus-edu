@@ -1,14 +1,28 @@
 #include "UserManagment.h"
 
 #include <QDebug>
+#include <QHash>
 
 Q_EXPORT_PLUGIN2(UserManagment, UserManagment)
 
-void UserManagment::recvPacket(quint32 userId, const PluginPacket& packet) const
+QHash<QByteArray,UserManagment::requestFunction> UserManagment::requestFunctions;
+
+void UserManagment::recvPacket(quint32 userId, const PluginPacket& packet)
 {
-    QHash<QString,QVariant> response;
+    if ( ! requestFunctions.count())
+    {
+        requestFunctions["changePassword"] = &UserManagment::changePassword;
+        requestFunctions["createUser"]     = &UserManagment::createUser;
+    }
 
-//    if (packet.data.type() == response.t)
+    const QVariantHash request = packet.data.toHash();
+    QVariantHash response;
+    response["Request"] = request["Request"];
+    response["Success"] = false;
+//    response["Error"] = "Unknow error.";
 
-    server->sendPacket(userId, PluginPacket(packet.sourcePlugin, packet.data));
+    (this->*requestFunctions.value(request["Request"].toByteArray(),&UserManagment::unknownRequest))(request, response);
+    server->sendPacket(userId, PluginPacket(packet.sourcePlugin, response));
 }
+
+//requestFunction::
