@@ -20,7 +20,7 @@ class IServerPlugin : public QObject
     virtual quint8           version() const = 0;
 
     //! method called by the server core when a packet for this plugin is received
-    virtual void recvPacket(quint32 userId, const PluginPacket&) const = 0;
+    virtual void recvPacket(quint32 userId, const PluginPacket&) = 0;
 };
 
 Q_DECLARE_INTERFACE(IServerPlugin, "net.horus.Server.PluginInterface/1.0");

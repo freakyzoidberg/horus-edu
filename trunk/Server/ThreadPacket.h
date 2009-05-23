@@ -12,6 +12,8 @@ class ThreadPacket : public QObject, public QRunnable
 {
   Q_OBJECT
 
+  typedef void(ThreadPacket::*packetDirection)();
+
 public:
     ThreadPacket(ClientSocket* cs, const QByteArray& pac);
 
@@ -43,13 +45,11 @@ private:
     QByteArray    packet;
 
     //! corespondance table between CommPacket::type and the methods
-    static void (ThreadPacket::*packetDirections[]) ();
+    static packetDirection packetDirections[];
 
 signals:
     //! signal emmited when a packet need to be send to the client
     void sendPacket(const QByteArray) const;
 };
-
-typedef void(ThreadPacket::*packetDirection)();
 
 #endif // THREADPACKET_H
