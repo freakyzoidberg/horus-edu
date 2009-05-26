@@ -1,8 +1,11 @@
 #ifndef TESTCOMM_H
 #define TESTCOMM_H
 
+#include <QtSql>
+
 #include "../IServer.h"
 #include "../IServerPlugin.h"
+#include "../../Sql.h"
 
 //! a Server Plugin to test the communication between a Client Plugin and a Server Plugin
 class UserManagment : public IServerPlugin
@@ -13,13 +16,15 @@ class UserManagment : public IServerPlugin
   typedef void (UserManagment::*requestFunction)(const QVariantHash& request,QVariantHash& response);
 
 public:
+    UserManagment();
+
     inline const QByteArray  name()    const { return "UserManagment"; }
     inline quint8            version() const { return 0; }
 
     void recvPacket(quint32 userId, const PluginPacket&);
 
 private:
-    static QHash<QByteArray,requestFunction> requestFunctions;
+    QHash<QByteArray,requestFunction> requestFunctions;
 
     void  unknownRequest(const QVariantHash& request,QVariantHash& response);
     void  changePassword(const QVariantHash& request,QVariantHash& response);

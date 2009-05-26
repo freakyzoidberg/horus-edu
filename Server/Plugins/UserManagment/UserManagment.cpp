@@ -1,28 +1,48 @@
 #include "UserManagment.h"
-
 #include <QDebug>
 #include <QHash>
 
 Q_EXPORT_PLUGIN2(UserManagment, UserManagment)
 
-QHash<QByteArray,UserManagment::requestFunction> UserManagment::requestFunctions;
+UserManagment::UserManagment()
+{
+    requestFunctions["changePassword"] = &UserManagment::changePassword;
+    requestFunctions["createUser"]     = &UserManagment::createUser;
+}
 
 void UserManagment::recvPacket(quint32 userId, const PluginPacket& packet)
 {
-    if ( ! requestFunctions.count())
-    {
-        requestFunctions["changePassword"] = &UserManagment::changePassword;
-        requestFunctions["createUser"]     = &UserManagment::createUser;
-    }
-
     const QVariantHash request = packet.data.toHash();
     QVariantHash response;
-    response["Request"] = request["Request"];
-    response["Success"] = false;
-//    response["Error"] = "Unknow error.";
 
-    (this->*requestFunctions.value(request["Request"].toByteArray(),&UserManagment::unknownRequest))(request, response);
+    response["Request"] = request["Request"];
+
+    //fill response
+    (this->*requestFunctions.value(request["Request"].toByteArray(),//go to the target method
+                                   &UserManagment::unknownRequest)) //or if it'sunknown request
+                                                                    (request, response);//parameters
+
+    //send response
     server->sendPacket(userId, PluginPacket(packet.sourcePlugin, response));
 }
 
-//requestFunction::
+void UserManagment::unknownRequest(const QVariantHash& request, QVariantHash& response)
+{
+    response["Success"] = false;
+    response["Error"]   = 1;
+    response["ErrorMesssage"]   = "Unknow request";
+}
+
+void UserManagment::changePassword(const QVariantHash& request, QVariantHash& response)
+{
+    Sql conn;
+
+    QSqlQuery query(QSqlDatabase::database(conn));
+    query.prepare("SELECT id,level FROM users;");
+    query.exec();
+    query.next();
+}
+
+void UserManagment::createUser(const QVariantHash& request, QVariantHash& response)
+{
+}
