@@ -108,11 +108,10 @@ void Socket::PacketLogin()
         break;
 
     case 2:
-        QHash<QString, QVariant> h;
-        h["int"] = 12345;
-        h["txt"] = "asdasdasdasdasdasdoiu";
+        QVariantHash h;
+        h["Request"] = "changePassword";
         //send plugin
-        CommPlugin mod(PluginPacket("TestComm", h));
+        CommPlugin mod(PluginPacket("UserManagment", h));
         mod.packet.packetVersion = 42;
         mod.packet.sourcePlugin = "protoTester";
         sendPacket(mod.getPacket());
