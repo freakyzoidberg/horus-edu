@@ -10,7 +10,6 @@
 #include "../../IPluginNetwork.h"
 #include "dispPDFClient.h"
 #include "dispPDFNetwork.h"
-//#include "pdfRendering.h"
 #include "metadata.h"
 
 
