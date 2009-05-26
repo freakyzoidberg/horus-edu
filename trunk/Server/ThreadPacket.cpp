@@ -126,7 +126,10 @@ void ThreadPacket::PacketFile()
     if ( ! socket->user.isLoggedIn())
       return sendError(CommError::NOT_AUTHENTICATED);
 
-    FileTransfert* ft = new FileTransfert(new QFile);
+    QFile* file = new QFile("/tmp/test");
+    file->open(QFile::ReadOnly);
+
+    FileTransfert* ft = new FileTransfert(file);
     CommFile resp(CommFile::FILE, 0);
     resp.key = ft->getKey();
     emit sendPacket(resp.getPacket());
@@ -178,7 +181,12 @@ void ThreadPacket::PacketPlugin()
 
     IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetPlugin);
     if (plugin)
+    {
         plugin->recvPacket(socket->user.getId(), mod.packet);
+        ((InterfaceServer*)plugin->server)->cleanInterface();
+    }
+    // else TODO send an error "Plugin not found"
+
 
     //ZoidTest
     Tree *test = new Tree();

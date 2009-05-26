@@ -25,6 +25,8 @@ private:
     void PacketPlugin();
 
     QByteArray packet;
+    QSslSocket fileTransfert;
+    const char* host;
 
     //! corespondance table between CommPacket::type and the methods
     static void (Socket::*packetDirections[]) ();

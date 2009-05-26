@@ -37,10 +37,12 @@ void FileTransfert::startSlot()
 
 void FileTransfert::read()
 {
+    file->write(socket->read(4086));
 }
 
-void FileTransfert::write()
+void FileTransfert::write(qint64)
 {
+    socket->write(file->read(4086));
 }
 
 const QByteArray& FileTransfert::getKey() const
@@ -54,16 +56,27 @@ void FileTransfert::clientConnected(QSslSocket* _socket)
     qDebug() << "FileTransfert::clientConnected";
     disconnect(timer, SIGNAL(timeout()), 0, 0);
     connect(socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
-    transferts.remove(key);
+    connect(socket, SIGNAL(readyRead()), this, SLOT(read()));
+    connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(write(qint64)));
+    write(0);
 }
 
 FileTransfert::~FileTransfert()
 {
     delete timer;
     delete file;
-    if (socket)
-        delete socket;
-    transferts.remove(key);
     transferts.remove(key);
     qDebug() << "~FileTransfert()";
+}
+
+void FileTransfert::registerSocket(const QByteArray& key, QSslSocket* socket)
+{
+    FileTransfert* trans = transferts.value(key);
+    if ( ! trans)
+    {
+        delete socket;
+        return;
+    }
+
+    trans->clientConnected(socket);
 }

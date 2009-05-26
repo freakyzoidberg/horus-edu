@@ -35,12 +35,17 @@ void UserManagment::unknownRequest(const QVariantHash& request, QVariantHash& re
 
 void UserManagment::changePassword(const QVariantHash& request, QVariantHash& response)
 {
-    Sql conn;
-
-    QSqlQuery query(QSqlDatabase::database(conn));
-    query.prepare("SELECT id,level FROM users;");
-    query.exec();
-    query.next();
+    QSqlQuery query1 = server->getSqlQuery();
+    QSqlQuery query2 = server->getSqlQuery();
+    QSqlQuery query3 = server->getSqlQuery();
+    QSqlQuery query4 = server->getSqlQuery();
+    query1.prepare("SELECT id,level FROM users;");
+    query2.prepare("SELECT id,level FROM users;");
+    query1.exec();
+    query1.next();
+    query2.exec();
+    query2.next();
+//    server->freeSql();
 }
 
 void UserManagment::createUser(const QVariantHash& request, QVariantHash& response)

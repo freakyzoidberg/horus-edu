@@ -32,8 +32,10 @@ signals:
 private slots:
     void startSlot();
     void read();
-    void write();
+    void write(qint64);
 
+public:
+    static void registerSocket(const QByteArray& key, QSslSocket* socket);
 private:
     static QHash<QByteArray,FileTransfert*> transferts;
 };

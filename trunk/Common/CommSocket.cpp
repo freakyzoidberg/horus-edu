@@ -9,14 +9,13 @@ CommSocket::CommSocket(QObject* parent) : QSslSocket(parent)
 
     setProtocol(QSsl::SslV3);
 
-    //For test
+    //TODO later: For test
     setPeerVerifyMode(QSslSocket::VerifyNone);
 
     setLocalCertificate("./ssl/Horus.crt");
     setPrivateKey("./ssl/Horus.key");
 
     sizePacket = 0;
-//    connect(this, SIGNAL(encrypted()), this, SLOT(ready()));
     connect(this, SIGNAL(readyRead()), this, SLOT(bytesReceived()));
 }
 
@@ -29,14 +28,7 @@ void CommSocket::sslErrorsSlot(QList<QSslError> e)
 {
     qDebug() << "sslError" << e;
 }
-/*
-void CommSocket::ready()
-{
-    qDebug() << "Encrypted";
-//    disconnect(this, SIGNAL(encrypted()), 0, 0);
-//    connect(this, SIGNAL(readyRead()), this, SLOT(bytesReceived()));
-}
-*/
+
 void CommSocket::bytesReceived()
 {
     if ( ! sizePacket)

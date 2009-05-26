@@ -4,7 +4,7 @@ QMutex Sql::mymute;
 QSemaphore Sql::mtsema;
 QHash <QByteArray, bool> Sql::map;
 
-Sql::Sql() : QByteArray("")
+Sql::Sql()
 {
     mtsema.acquire();
     mymute.lock();
