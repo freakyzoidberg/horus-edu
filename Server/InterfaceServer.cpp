@@ -3,11 +3,11 @@
 #include "Plugins/IServerPlugin.h"
 #include "User.h"
 #include "../Common/CommPlugin.h"
-#include "Sql.h"
 
 InterfaceServer::InterfaceServer(IServerPlugin* p)
 {
     plugin = p;
+    sqlConnexion = 0;
 }
 
 void InterfaceServer::sendPacket(const quint32 userId, const PluginPacket& packet) const
@@ -30,7 +30,23 @@ IServerPlugin* InterfaceServer::getPlugin(const char* name) const
     return PluginManager::globalInstance()->getPlugin(name);
 }
 
-QByteArray* InterfaceServer::GetSql() const
+QSqlQuery InterfaceServer::getSqlQuery()
 {
-    return new Sql();
+    if ( ! sqlConnexion)
+        sqlConnexion = new Sql;
+
+    return QSqlQuery(QSqlDatabase::database(*sqlConnexion));
+}
+
+void InterfaceServer::freeSql()
+{
+    if ( ! sqlConnexion)
+        return;
+    delete sqlConnexion;
+    sqlConnexion = 0;
+}
+
+void InterfaceServer::cleanInterface()
+{
+    freeSql();
 }

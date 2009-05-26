@@ -6,6 +6,8 @@
 #include <QSemaphore>
 #include <QHash>
 
+#include "Plugins/IServer.h"
+
 //!  Manage pool of sql connection
 /*!
   SQL connection and query management for the server

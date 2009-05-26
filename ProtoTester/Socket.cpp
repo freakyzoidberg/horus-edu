@@ -13,8 +13,9 @@
 #include <QDateTime>
 #include <QVariant>
 
-Socket::Socket(const char* host, quint16 port) : CommSocket()
+Socket::Socket(const char* _host, quint16 port) : CommSocket()
 {
+    host = _host;
     connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(packetAvailable(const QByteArray&)));
     connect(this, SIGNAL(disconnected()), QCoreApplication::instance(), SLOT(quit()));
 
@@ -69,7 +70,7 @@ void Socket::PacketInit()
     sendPacket(init.getPacket());
     qDebug() << "[out]" << init;
 
-    //send login
+    //send loginqsqld
     CommLogin  l(CommLogin::LOGIN_PASSWORD);
     l.login = "super-Menteur";
     //l.login = QString::fromUtf8("toto42`~!@#$%^&*()-_=+' \";:汉语");
@@ -124,6 +125,18 @@ void Socket::PacketFile()
 {
     CommFile f(packet);
     qDebug() << "[ in]" << f;
+
+    fileTransfert.setProtocol(QSsl::SslV3);
+    //TODO later: For test
+    fileTransfert.setPeerVerifyMode(QSslSocket::VerifyNone);
+
+    fileTransfert.connectToHostEncrypted(host, 42042);
+    fileTransfert.waitForEncrypted();
+    qDebug() << f.key.toHex() << f.key.length();
+    fileTransfert.write(f.key);
+    fileTransfert.flush();
+    while (fileTransfert.waitForReadyRead())
+        qDebug() << fileTransfert.readAll();
 }
 
 void Socket::PacketSettings()
