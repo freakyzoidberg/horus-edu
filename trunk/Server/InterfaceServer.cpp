@@ -29,3 +29,8 @@ IServerPlugin* InterfaceServer::getPlugin(const char* name) const
 {
     return PluginManager::globalInstance()->getPlugin(name);
 }
+
+QByteArray* InterfaceServer::GetSql() const
+{
+    return new Sql();
+}

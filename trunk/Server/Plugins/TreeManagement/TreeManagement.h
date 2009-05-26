@@ -20,7 +20,7 @@ public:
     inline const QByteArray  name()    const { return "TreeManagement"; }
     inline quint8            version() const { return 1; }
 
-    void recvPacket(quint32 userId, const PluginPacket&) const;
+    void recvPacket(quint32 userId, const PluginPacket&);
 };
 
 
