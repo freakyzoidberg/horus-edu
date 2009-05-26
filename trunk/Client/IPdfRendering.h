@@ -34,7 +34,7 @@ class   IPdfRendering
     virtual int   getCurrentPageNumber() const = 0;
 
     //! open the pdfFile
-    virtual void        openFile() = 0;
+    virtual bool        openFile() = 0;
 
     //! close the pdfFile
     virtual void        closeFile() = 0;
