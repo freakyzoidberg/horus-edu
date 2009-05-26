@@ -98,6 +98,8 @@ public:
     */
     void    dispPDFDoc(const QString & fileName);
 
+    void            closeCourse(const QString & fileName);
+
 private:
     //! the name of the plugin
     QByteArray  name;
@@ -118,7 +120,7 @@ private:
     DispPDFNetwork   *pNetwork;
 
     //! QMap containing all the open PDF files with their name
-    QMap<QString,  Metadata *>   *metaFiles;
+    QMap<QString, Metadata *>   *metaFiles;
 };
 
 #endif // DISPPDF_H
