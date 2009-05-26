@@ -12,7 +12,8 @@ public:
 
     //! methode to send a packet from a server plugin to a client plugin
     void             sendPacket(const quint32 userId, const PluginPacket& packet) const;
-
+    //! return an Sql instance
+    QByteArray* GetSql() const;
     //! return another plugin loaded, return 0 if not found
     IServerPlugin*   getPlugin(const char* name) const;
 
