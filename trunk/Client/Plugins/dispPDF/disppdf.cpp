@@ -1,6 +1,7 @@
 #include <QtCore/qplugin.h>
 #include <QDebug>
 #include <QFileInfo>
+#include <QMapIterator>
 
 #include "../../ClientEvents.h"
 
@@ -24,8 +25,18 @@ DispPDF::DispPDF()
 
 DispPDF::~DispPDF()
 {
+    QMap<QString, Metadata *>::iterator   it, itend;
+
     if (pNetwork != NULL)
         delete pNetwork;
+
+    itend = metaFiles->end();
+    for (it = metaFiles->begin(); it != itend; ++it)
+    {
+        delete it.value();
+        metaFiles->erase(it);
+    }
+    delete metaFiles;
 }
 
 const QByteArray        DispPDF::getName() const
@@ -110,4 +121,19 @@ void    DispPDF::dispPDFDoc(const QString & fileName)
 const QMap<QString, Metadata *>    *DispPDF::getMetaFiles() const
 {
     return metaFiles;
+}
+
+void    DispPDF::closeCourse(const QString &fileName)
+{
+    QFileInfo    filePath(fileName);
+
+    if (!filePath.isAbsolute())
+        if (!filePath.makeAbsolute())
+        {
+            qDebug() << "Cannot use the absolute path of the Metafile";
+            return ;
+        }
+
+    delete metaFiles->value(filePath.filePath());
+    metaFiles->remove(filePath.filePath());
 }
