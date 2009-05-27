@@ -4,7 +4,6 @@
 #include <QDialog>
 
 #include "ui_Loader.h"
-#include    "LoginDialog.h"
 
 class ClientApplication;
 

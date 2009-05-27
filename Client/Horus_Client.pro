@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     LoginDialog.cpp \
     ClientEvents.cpp \
     ConfigManager.cpp \
-    ThreadNetwork.cpp
+    ThreadNetwork.cpp \
+    SettingsDialog.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -48,10 +49,12 @@ HEADERS += NetworkManager.h \
     IMetaDataCreate.h \
     ConfigManager.h \
     ThreadNetwork.h \
-    config.h
+    config.h \
+    SettingsDialog.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
-    logindialog.ui
+    logindialog.ui \
+    Ui/SettingsDialog.ui
 RESOURCES += Ui/Loader.qrc \
     Ui/MainWindow.qrc
 OTHER_FILES += 
