@@ -11,7 +11,7 @@ class TreeManagement : public IServerPlugin
 {
   Q_OBJECT
   Q_INTERFACES(IServerPlugin)
-    typedef void (TreeManagement::*requestFunction)(const QVariantHash& request,QVariantHash& response);
+    typedef void (TreeManagement::*requestFunction)(const QVariantHash& request,QVariantHash& response, qint32 iduser);
 public:
     TreeManagement();
     ~TreeManagement();
@@ -25,11 +25,11 @@ public:
 private:
      QHash<QByteArray,requestFunction> requestFunctions;
 
-    void  unknownRequest(const QVariantHash& request,QVariantHash& response);
-    void  gettree(const QVariantHash& request,QVariantHash& response);
-    void  setnode(const QVariantHash& request,QVariantHash& response);
+    void  unknownRequest(const QVariantHash& request,QVariantHash& response, qint32 iduser);
+    void  gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser);
+    void  setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser);
 
-    int   getidofusernode(const QVariantHash& request);
+    int   getidofusernode(const QVariantHash& request, qint32 iduser);
 
 };
 
