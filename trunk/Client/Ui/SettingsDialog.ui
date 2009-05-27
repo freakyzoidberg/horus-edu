@@ -14,21 +14,26 @@
    <string>Horus - Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="MainWindow.qrc">
+   <iconset resource="Loader.qrc">
     <normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
-     <widget class="QWidget" name="tab">
+     <widget class="QWidget" name="GeneralTab">
       <attribute name="title">
        <string>General</string>
       </attribute>
      </widget>
-     <widget class="QWidget" name="tab_2">
+     <widget class="QWidget" name="PluginTab">
+      <attribute name="title">
+       <string>Plugins</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="NetworkTab">
       <attribute name="title">
        <string>Network</string>
       </attribute>
@@ -48,7 +53,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="MainWindow.qrc"/>
+  <include location="Loader.qrc"/>
  </resources>
  <connections>
   <connection>

@@ -2,6 +2,7 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
+#include <QSettings>
 
 #include "ui_SettingsDialog.h"
 
@@ -14,6 +15,11 @@ public:
 
 private:
     Ui::Dialog  ui;
+    QSettings   *settings;
+
+    void        FillGeneralTab();
+    void        FillPluginTab();
+    void        FillNetworkTab();
 };
 
 #endif // SETTINGSDIALOG_H
