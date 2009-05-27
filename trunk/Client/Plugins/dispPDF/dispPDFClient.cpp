@@ -1,4 +1,4 @@
-#include "dispPDFClient.h"
+#include <dispPDFClient.h>
 
 void    dispPDFClient::sendPacket(const PluginPacket& packet) const
 {

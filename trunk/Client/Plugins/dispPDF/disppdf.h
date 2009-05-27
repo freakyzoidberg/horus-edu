@@ -6,12 +6,14 @@
 #include <QMap>
 #include <qt4/poppler-qt4.h>
 
-#include "../../IClientPlugin.h"
-#include "../../IPluginNetwork.h"
-#include "dispPDFClient.h"
-#include "dispPDFNetwork.h"
-#include "metadata.h"
+#include <IClientPlugin.h>
+#include <IPluginNetwork.h>
 
+#include <dispPDFClient.h>
+#include <dispPDFNetwork.h>
+#include <metadata.h>
+
+#include <config.h>
 
 #define PLUGIN_NAME "dispPDF"
 #define PLUGIN_VERSION "1.0"
@@ -23,8 +25,10 @@
 
 class DispPDF : public IClientPlugin
 {
- Q_OBJECT
+#ifndef DEBUG_VERSION
+    Q_OBJECT
  Q_INTERFACES(IClientPlugin)
+#endif
 
 public:
     //! allocate pNetwork and set some values
@@ -96,7 +100,7 @@ public:
     /*
     \param fileName the absolute path  to the file
     */
-    void    dispPDFDoc(const QString & fileName);
+    bool    dispPDFDoc(const QString & fileName);
 
     void            closeCourse(const QString & fileName);
 

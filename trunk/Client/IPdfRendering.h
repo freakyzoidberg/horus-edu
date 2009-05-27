@@ -2,6 +2,8 @@
 #define IPDFRENDERING_H
 
 #include <qt4/poppler-qt4.h>
+#include <QRectF>
+#include <QImage>
 
 #include "IMetadata.h"
 
@@ -53,7 +55,7 @@ class   IPdfRendering
 
     //! create the picture of the PDF, not finished. (need a solution to
     //! pass this image to the "core")
-    virtual void    render() = 0;
+    virtual QImage    render(QRectF *) = 0;
 
     //! modification of the scale factor, used when user zoom
     /*!

@@ -13,8 +13,11 @@ HEADERS += disppdf.h \
     dispPDFClient.h \
     dispPDFNetwork.h \
     pdfRendering.h \
-    metadata.h
+    metadata.h \
+    config.h
 INCLUDEPATH += . \
-    /usr/include/poppler
+    /usr/include/poppler \
+    ../../ \
+    ../../../Common
 DESTDIR = .
 TARGET = $$qtLibraryTarget(dispPDF)
