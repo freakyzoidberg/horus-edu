@@ -1,4 +1,5 @@
 #include "MainWindow.h"
+#include "SettingsDialog.h"
 
 MainWindow::MainWindow(QObject *parent) : QMainWindow::QMainWindow()
 {
@@ -31,5 +32,8 @@ void    MainWindow::createMenus()
 
 void    MainWindow::editSettings()
 {
+    SettingsDialog  *dialog;
 
+    dialog = new SettingsDialog(this);
+    dialog->show();
 }
