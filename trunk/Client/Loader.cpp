@@ -3,6 +3,7 @@
 #include "ThreadNetwork.h"
 #include "PluginManager.h"
 #include "ClientEvents.h"
+#include "LoginDialog.h"
 
 Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
 {
@@ -51,7 +52,8 @@ bool    Loader::event(QEvent *event)
         event->accept();
         ++(this->processesComplete);
         this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);
-        if (processes == processesComplete)
+        if (processes == processesComplete + 2) // Temporary trick while network still unloadable.
+//        if (processes == processesComplete)
         {
 
             this->hide();

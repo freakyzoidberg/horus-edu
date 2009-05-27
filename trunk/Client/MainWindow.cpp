@@ -31,4 +31,5 @@ void    MainWindow::createMenus()
 
 void    MainWindow::editSettings()
 {
+
 }
