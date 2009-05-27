@@ -1,4 +1,4 @@
-#include "dispPDFNetwork.h"
+#include <dispPDFNetwork.h>
 
 bool    DispPDFNetwork::eventHandler(QEvent *)
 {

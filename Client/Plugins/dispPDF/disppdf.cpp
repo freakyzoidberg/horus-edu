@@ -3,16 +3,20 @@
 #include <QFileInfo>
 #include <QMapIterator>
 
-#include "../../ClientEvents.h"
+#include <ClientEvents.h>
 
-#include "disppdf.h"
-#include "pdfRendering.h"
+#include <disppdf.h>
+#include <pdfRendering.h>
+
+#include <config.h>
 
 extern QEvent::Type ClientEvents::NetworkReceiveEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 extern QEvent::Type ClientEvents::LoadPluginEvent;
 
+#ifndef DEBUG_VERSION
 Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
+#endif
 
 DispPDF::DispPDF()
 {
@@ -21,6 +25,7 @@ DispPDF::DispPDF()
     pNetwork = new DispPDFNetwork();
     name = PLUGIN_NAME; /* dispPDF */
     version = PLUGIN_VERSION; /* 1.0 */
+    metaFiles = new QMap<QString, Metadata *>;
 }
 
 DispPDF::~DispPDF()
@@ -29,12 +34,14 @@ DispPDF::~DispPDF()
 
     if (pNetwork != NULL)
         delete pNetwork;
-
-    itend = metaFiles->end();
-    for (it = metaFiles->begin(); it != itend; ++it)
+    if (!metaFiles->empty())
     {
-        delete it.value();
-        metaFiles->erase(it);
+        itend = metaFiles->end();
+        for (it = metaFiles->begin(); it != itend; ++it)
+        {
+            delete it.value();
+           // metaFiles->erase(it);
+        }
     }
     delete metaFiles;
 }
@@ -98,7 +105,7 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
     return true;
 }
 
-void    DispPDF::dispPDFDoc(const QString & fileName)
+bool    DispPDF::dispPDFDoc(const QString & fileName)
 {
     QFileInfo    filePath(fileName);
     QMap<QString, Metadata *>::iterator it;
@@ -107,15 +114,19 @@ void    DispPDF::dispPDFDoc(const QString & fileName)
         if (!filePath.makeAbsolute())
         {
             qDebug() << "Cannot use the absolute path of the Metafile";
-            return ;
+            return false;
         }
 
     if ((it = metaFiles->find(filePath.filePath())) == metaFiles->end())
+    {
+        qDebug() << "open new course";
         it = metaFiles->insert(filePath.filePath(),
                                new Metadata(filePath.filePath()));
 
+    }
     //it.value()->render();
     // access
+    return true;
 }
 
 const QMap<QString, Metadata *>    *DispPDF::getMetaFiles() const

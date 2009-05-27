@@ -47,7 +47,8 @@ HEADERS += NetworkManager.h \
     IMetadata.h \
     IMetaDataCreate.h \
     ConfigManager.h \
-    ThreadNetwork.h
+    ThreadNetwork.h \
+    config.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     logindialog.ui
