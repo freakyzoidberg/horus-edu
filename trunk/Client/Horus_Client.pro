@@ -53,8 +53,9 @@ HEADERS += NetworkManager.h \
     SettingsDialog.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
-    logindialog.ui \
+    Ui/LoginDialog.ui \
     Ui/SettingsDialog.ui
 RESOURCES += Ui/Loader.qrc \
+    Ui/SettingsDialog.ui \
     Ui/MainWindow.qrc
 OTHER_FILES += 
