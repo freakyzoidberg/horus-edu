@@ -40,6 +40,10 @@ void  TreeManagement::unknownRequest(const QVariantHash& request,QVariantHash& r
 void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
     int firstnode = getidofusernode(request, iduser);
+    QHash<int, QVector<int> > usertree;
+
+    usertree.insert(Tree::GetNodebyId(firstnode)->Getid(), getvectorsonsfromidnode(firstnode));
+     // server->getTree().value(firstnode);
 }
 
 void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser)
@@ -53,4 +57,15 @@ int TreeManagement::getidofusernode(const QVariantHash &request, qint32 iduser)
     query1.addBindValue(iduser);
     query1.exec();
     return 1;
+}
+
+QVector<int> getvectorsonsfromidnode(qint32 idnode)
+{
+    QVector<int> sons;
+    sons.clear();
+    for(QHash<int, Tree::Tree*>::const_iterator it = Tree::Tree::GetNodebyId(idnode)->GetSonsNode().begin(); it != Tree::Tree::GetNodebyId(idnode)->GetSonsNode().end(); ++it)
+    {
+        sons.append(it.value()->Getid());
+     }
+    return sons;
 }
