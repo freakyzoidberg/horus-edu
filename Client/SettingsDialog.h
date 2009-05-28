@@ -12,6 +12,7 @@ class SettingsDialog : public QDialog
 
 public:
     SettingsDialog(QWidget *parent);
+    ~SettingsDialog();
 
 private:
     Ui::Dialog  ui;
