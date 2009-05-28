@@ -1,5 +1,5 @@
 #include "Tree.h"
-
+#include <Sql.h>
 QHash<int, Tree*> Tree::maptree;
 
 Tree::Tree()
@@ -269,7 +269,7 @@ bool Tree::UpdateVector()
        tempnode->id = 0;
        tempnode->user_ref = 0;
        tempnode->name = "/";
-        tempnode->type = "group";
+       tempnode->type = "group";
        tempnode->parent_id = 0;
        maptree.insert(tempnode->id, tempnode);
     while (query1.next())

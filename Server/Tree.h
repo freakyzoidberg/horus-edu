@@ -2,7 +2,7 @@
 #define TREE_H
 #include <QHash>
 #include <QString>
-#include <Sql.h>
+
 class Tree
 {
 
