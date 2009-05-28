@@ -30,6 +30,11 @@ IServerPlugin* InterfaceServer::getPlugin(const char* name) const
     return PluginManager::globalInstance()->getPlugin(name);
 }
 
+QHash<int, Tree*> InterfaceServer::getTree()
+{
+    return Tree::maptree;
+}
+
 QSqlQuery InterfaceServer::getSqlQuery()
 {
     if ( ! sqlConnexion)

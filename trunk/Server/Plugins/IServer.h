@@ -4,6 +4,7 @@
 #include <QByteArray>
 #include <QtSql>
 #include "../../Common/PluginPacket.h"
+#include "../Tree.h"
 
 class IServerPlugin;
 
@@ -15,6 +16,8 @@ public:
     virtual void           sendPacket(const quint32 userId, const PluginPacket& packet) const = 0;
     //! create a Sql and return a SqlQuery instance with this connexion
     virtual QSqlQuery getSqlQuery() = 0;
+
+    virtual QHash<int, Tree::Tree*> getTree() = 0;
     //! delete a Sql instance
     virtual void freeSql() = 0;
     //! return another plugin loaded, return 0 if not found
