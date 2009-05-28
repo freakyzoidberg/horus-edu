@@ -21,6 +21,9 @@ private:
     void        FillGeneralTab();
     void        FillPluginTab();
     void        FillNetworkTab();
+
+private slots:
+    void        Save();
 };
 
 #endif // SETTINGSDIALOG_H
