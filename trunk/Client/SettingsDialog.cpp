@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QDir>
 #include <QLineEdit>
+#include <QGroupBox>
 #include <QDebug>
 
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
@@ -16,6 +17,11 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
     this->FillGeneralTab();
     this->FillPluginTab();
     this->FillNetworkTab();
+}
+
+SettingsDialog::~SettingsDialog()
+{
+    delete this->settings;
 }
 
 void SettingsDialog::FillGeneralTab()
@@ -47,20 +53,30 @@ void SettingsDialog::FillPluginTab()
 
 void SettingsDialog::FillNetworkTab()
 {
-    QFormLayout *networkLayout;
+    QVBoxLayout *networkLayout;
+    QFormLayout *generalLayout;
+    QFormLayout *sessionLayout;
+    QGroupBox   *generalBox;
+    QGroupBox   *sessionBox;
 
-    networkLayout = new QFormLayout(this->ui.NetworkTab);
+    networkLayout = new QVBoxLayout(this->ui.NetworkTab);
+    generalBox = new QGroupBox("General");
+    sessionBox = new QGroupBox("Session");
+    networkLayout->addWidget(generalBox);
+    networkLayout->addWidget(sessionBox);
+    generalLayout = new QFormLayout(generalBox);
+    sessionLayout = new QFormLayout(sessionBox);
     settings->beginGroup("Network");
     foreach (QString key, settings->childKeys())
-        networkLayout->addRow(key, new QLineEdit(settings->value(key).toString()));
+        generalLayout->addRow(key, new QLineEdit(settings->value(key).toString()));
     if (!settings->childKeys().contains("Server", Qt::CaseInsensitive))
-        networkLayout->insertRow(0, "Server", new QLineEdit(""));
+        generalLayout->insertRow(0, "Server", new QLineEdit(""));
     if (!settings->childKeys().contains("Port", Qt::CaseInsensitive))
-        networkLayout->insertRow(0, "Port", new QLineEdit(""));
+        generalLayout->insertRow(0, "Port", new QLineEdit(""));
     settings->endGroup();
     settings->beginGroup("SESSIONS");
     foreach (QString key, settings->childKeys())
-        networkLayout->addRow(key, new QLineEdit(settings->value(key).toString()));
+        sessionLayout->addRow(key, new QLineEdit(settings->value(key).toString()));
     settings->endGroup();
     ui.NetworkTab->setLayout(networkLayout);
 }
