@@ -28,6 +28,9 @@ private:
     void  unknownRequest(const QVariantHash& request,QVariantHash& response, qint32 iduser);
     void  gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser);
     void  setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser);
+    void  getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser);
+    void  getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser);
+
 
     int   getidofusernode(const QVariantHash& request, qint32 iduser);
     void  addnodewithsons(QHash<QString, QVariant > *utree, qint32 id);
