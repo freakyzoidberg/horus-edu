@@ -52,8 +52,7 @@ bool    Loader::event(QEvent *event)
         event->accept();
         ++(this->processesComplete);
         this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);
-        if (processes == processesComplete + 2) // Temporary trick while network still unloadable.
-//        if (processes == processesComplete)
+        if (processes == processesComplete)
         {
 
             this->hide();
