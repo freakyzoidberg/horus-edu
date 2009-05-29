@@ -67,7 +67,7 @@ public:
     static User*               getUser(QString login);
 private:
     //! list of logged-in users
-    static QHash<quint32,User*> map;
+    static QHash<quint32,User*> loggedIn;
 };
 
 #endif // USER_H

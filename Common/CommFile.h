@@ -13,11 +13,12 @@ public:
      * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
     enum Method { UNDEFINED,
-                  LIST_DIR, READ_FILE, WRITE_FILE, DELETE_FILE, // CLIENT -> SERVER
-                  DIR, FILE, NOT_ALLOWED, NOT_FOUND, DELETED,   // SERVER -> CLIENT
+                  CONTENT_REQUEST, DELETE_REQUEST, STAT_REQUEST,// client -> server
+                  CONTENT,         DELETED,        STAT,        // server -> client
+                  PERMITION_DENIED, NOT_FOUND,                       // errors server -> client
                   __LAST__};
 
-    CommFile(Method method=UNDEFINED, quint32 id=0);
+    CommFile(Method method=UNDEFINED, quint32 id=0, QIODevice::OpenMode mode=0);
     CommFile(QByteArray&);
     const QByteArray getPacket() const;
 
@@ -30,6 +31,9 @@ public:
     /*! READ_FILE or WRITE_FILE */
     quint64     start;
 
+    //! open mode : READ/WRITE/APPEND/TRUNCATE
+    /*! FILE */
+    QIODevice::OpenMode mode;
     //! key to open the connexion to the new socket
     /*! FILE */
     QByteArray  key;
@@ -38,7 +42,7 @@ public:
     CommFileInfo        fileInfo;
 
     //! list of files in the node for the LIST request
-    /*! DIR */
+    /*! DIRECTORY */
     QList<CommFileInfo> fileList;
 
 private:

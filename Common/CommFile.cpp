@@ -1,8 +1,9 @@
 #include "CommFile.h"
 
-CommFile::CommFile(Method _method, quint32 _id) : CommPacket(CommPacket::FILE)
+CommFile::CommFile(Method _method, quint32 _id, QIODevice::OpenMode _mode) : CommPacket(CommPacket::FILE)
 {
     method = _method;
+    mode = _mode;
     id = _id;
     start = 0;
     key = "";
@@ -25,28 +26,27 @@ void CommFile::read(QByteArray& a)
 {
     QDataStream stream(a);
 
-    quint8 m;
-    stream >> m;
-    method = UNDEFINED;
+    quint8 m; stream >> m;
     if (m < __LAST__)
         method = (Method)m;
+    else
+        method = UNDEFINED;
 
-    stream >> id;
+    stream >> id
+           >> start
+           >> (quint8&)mode
+           >> fileInfo
+           >> key;
 
-    if (method == READ_FILE || method == WRITE_FILE)
-        stream >> start;
+    //Filter only these modes
+    mode &= QIODevice::ReadOnly|QIODevice::WriteOnly|QIODevice::Append|QIODevice::Truncate;
 
-    else if (method == DIR)
-        while ( ! stream.atEnd())
-        {
-            CommFileInfo i;
-            stream >> i;
-            fileList.append(i);
-        }
-
-    else if (method == FILE)
-        stream >> fileInfo
-               >> key;
+    while ( ! stream.atEnd())
+    {
+        CommFileInfo i;
+        stream >> i;
+        fileList.append(i);
+    }
 }
 
 void CommFile::write(QByteArray& a) const
@@ -55,18 +55,13 @@ void CommFile::write(QByteArray& a) const
     stream.device()->seek(a.length());
 
     stream << (quint8)method
-           << id;
-
-    if (method == READ_FILE || method == WRITE_FILE)
-        stream << start;
-
-    else if (method == DIR)
-        foreach (const CommFileInfo pos, fileList)
-            stream << pos;
-
-    else if (method == FILE)
-        stream << fileInfo
-               << key;
+           << id
+           << start
+           << (quint8)mode
+           << fileInfo
+           << key;
+    foreach (const CommFileInfo pos, fileList)
+        stream << pos;
 }
 
 QDebug operator<<(QDebug d, const CommFile& p)
@@ -89,18 +84,13 @@ QDebug operator<<(QDebug d, const CommFile& p)
 
     d << (CommPacket&)p
       << methods[ p.method ]
-      << p.id;
+      << p.id
+      << p.start
+      << p.fileInfo
+      << p.key.toHex();
 
-    if (p.method == CommFile::READ_FILE || p.method == CommFile::WRITE_FILE)
-        d << p.start;
-
-    else if (p.method == CommFile::DIR)
-        foreach (const CommFileInfo pos, p.fileList)
-            d << pos;
-
-    else if (p.method == CommFile::FILE)
-        d << p.fileInfo
-          << p.key.toHex();
+    foreach (const CommFileInfo pos, p.fileList)
+        d << pos;
 
     return d;
 }

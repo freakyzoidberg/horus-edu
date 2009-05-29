@@ -35,12 +35,12 @@ void FileTransfert::startSlot()
     timer->start(FILE_TRANSFERT_WAIT_TIME * 1000);
 }
 
-void FileTransfert::read()
+void FileTransfert::socketToFile()
 {
     file->write(socket->read(4086));
 }
 
-void FileTransfert::write(qint64)
+void FileTransfert::fileToSocket(qint64)
 {
     socket->write(file->read(4086));
 }
@@ -56,9 +56,13 @@ void FileTransfert::clientConnected(QSslSocket* _socket)
     qDebug() << "FileTransfert::clientConnected";
     disconnect(timer, SIGNAL(timeout()), 0, 0);
     connect(socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
-    connect(socket, SIGNAL(readyRead()), this, SLOT(read()));
-    connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(write(qint64)));
-    write(0);
+    if (file->openMode() & QFile::WriteOnly)
+        connect(socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
+    if (file->openMode() & QFile::ReadOnly)
+    {
+        connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)));
+        fileToSocket(0);
+    }
 }
 
 FileTransfert::~FileTransfert()

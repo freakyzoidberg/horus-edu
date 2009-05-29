@@ -129,9 +129,9 @@ void ThreadPacket::PacketFile()
     QFile* file = new QFile("/tmp/test");
     file->open(QFile::ReadOnly);
 
-    FileTransfert* ft = new FileTransfert(file);
-    CommFile resp(CommFile::FILE, 0);
-    resp.key = ft->getKey();
+//    FileTransfert* ft = new FileTransfert(file);
+    CommFile resp(CommFile::CONTENT_REQUEST, f.id);
+    resp.key = (new FileTransfert(file))->getKey();
     emit sendPacket(resp.getPacket());
     qDebug() << "[out]" << resp;
 }

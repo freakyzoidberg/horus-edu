@@ -24,8 +24,9 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
     connect(this,  SIGNAL(encrypted()),                         this, SLOT(ready()));
     connect(this,  SIGNAL(disconnected()),                      this, SLOT(tryToDelete()));
 
+    setLocalCertificate("./ssl/Horus.crt");
+    setPrivateKey("./ssl/Horus.key");
     setSocketDescriptor(_socket);
-
     startServerEncryption();
 }
 
