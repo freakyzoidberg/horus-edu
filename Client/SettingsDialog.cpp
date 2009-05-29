@@ -7,7 +7,6 @@
 #include <QDir>
 #include <QLineEdit>
 #include <QGroupBox>
-#include <QDebug>
 
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
 {
