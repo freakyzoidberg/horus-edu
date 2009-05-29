@@ -95,19 +95,17 @@ void    ConfigManager::createConfig()
 
 void    ConfigManager::sendLoadConfig()
 {
-    CommSettings    *SystemPacket;
-    CommSettings    *UserPacket;
+    CommSettings    SystemPacket;
+    CommSettings    UserPacket;
 
-    SystemPacket = new CommSettings;
-    SystemPacket->method = CommSettings::GET;
-    SystemPacket->scope = CommSettings::CLIENT_SYSTEM_SCOPE;
-    SystemPacket->plugin = 0;
-    UserPacket = new CommSettings;
-    UserPacket->method = CommSettings::GET;
-    UserPacket->scope = CommSettings::CLIENT_USER_SCOPE;
-    UserPacket->plugin = 0;
-    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(SystemPacket->getPacket()));
-    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket->getPacket()));
+    SystemPacket.method = CommSettings::GET;
+    SystemPacket.scope = CommSettings::CLIENT_SYSTEM_SCOPE;
+    SystemPacket.plugin = 0;
+    UserPacket.method = CommSettings::GET;
+    UserPacket.scope = CommSettings::CLIENT_USER_SCOPE;
+    UserPacket.plugin = 0;
+    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(SystemPacket.getPacket()));
+    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket.getPacket()));
 }
 
 void    ConfigManager::recvLoadConfig(QByteArray data)
@@ -121,12 +119,12 @@ void    ConfigManager::recvLoadConfig(QByteArray data)
 
 void    ConfigManager::saveConfig()
 {
-    CommSettings    *UserPacket;
+    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+    CommSettings    UserPacket;
 
-    UserPacket = new CommSettings;
-    UserPacket->method = CommSettings::SET;
-    UserPacket->scope = CommSettings::CLIENT_USER_SCOPE;
-    UserPacket->plugin = 0;
-    UserPacket->setVariantSettings(QVariant(QString("toto")));
-    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket->getPacket()));
+    UserPacket.method = CommSettings::SET;
+    UserPacket.scope = CommSettings::CLIENT_USER_SCOPE;
+    UserPacket.plugin = 0;
+    UserPacket.setVariantSettings(settings.value("Load"));
+    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket.getPacket()));
 }
