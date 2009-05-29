@@ -22,7 +22,7 @@ void UserSettings::readDatabase()
 
     query.prepare("SELECT value FROM settings WHERE user=? AND plugin=? AND scope=?;");
     query.addBindValue(userId);
-    query.addBindValue(plugin);
+    query.addBindValue(plugin.length() ? plugin : "");
     query.addBindValue(scope);
 
     qDebug() << "QUERY:" << query.executedQuery();
@@ -54,7 +54,7 @@ void UserSettings::set(const QByteArray& _settings)
 
     query.addBindValue(_settings, QSql::Binary);
     query.addBindValue(userId);
-    query.addBindValue(plugin);
+    query.addBindValue(plugin.length() ? plugin : "");
     query.addBindValue(scope);
 
     qDebug() << "QUERY:" << query.executedQuery();
