@@ -1,6 +1,6 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#undef DEBUG_VERSION
+#define DEBUG_VERSION
 
 #endif // CONFIG_H
