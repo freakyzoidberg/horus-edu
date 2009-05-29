@@ -8,7 +8,7 @@ PacketManager::PacketManager(QObject* parent) : QObject()
 
 packetDirection PacketManager::packetDirections[] =
 {
-    0,//for CommPacket::UNKNOW
+    0,//for CommPacket::UNDEFINED
     &PacketManager::PacketError,
     &PacketManager::PacketInit,
     &PacketManager::PacketAlive,
@@ -121,11 +121,9 @@ void PacketManager::PacketFile()
 
 void PacketManager::PacketSettings()
 {
-    CommSettings set(packet);
-    RecvPacketEvent *rpe = new RecvPacketEvent(set.getPacket());
-    ConfigManager   *configManager;
-    configManager = parent->findChild<ConfigManager *>();
-    QApplication::postEvent(configManager, rpe);
+//    CommSettings set(packet);
+    RecvPacketEvent *rpe = new RecvPacketEvent(packet);
+    QApplication::postEvent(parent->findChild<ConfigManager *>(), rpe);
 }
 
 void PacketManager::PacketPlugin()
