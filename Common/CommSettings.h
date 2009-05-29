@@ -50,7 +50,7 @@ public:
 
     //! get all the settings in the QVariant format
     const QVariant      getVariantSettings() const;
-    //! get all the settings in the QVariant format
+    //! set all the settings in the QVariant format
     void                setVariantSettings(const QVariant&);
 
 private:
