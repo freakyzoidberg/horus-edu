@@ -35,6 +35,8 @@ public:
     QHash<int, Tree*> getTree();
     //! retrieve sons of node
     QHash<int, Tree::Tree*> GetSonsNode(Tree::Tree *tree);
+    //! retrieve father of node from son id
+    Tree::Tree* getfatherbyid(qint32 id);
     //! retrieve id of node
     int getId(Tree::Tree *tree);
 
