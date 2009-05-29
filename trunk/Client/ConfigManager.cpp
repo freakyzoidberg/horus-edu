@@ -23,6 +23,7 @@ bool    ConfigManager::event(QEvent *event)
     if (event->type() == ClientEvents::StartEvent)
     {
         qDebug() << "ConfigManager: Receive StartEvent";
+        this->saveConfig(); //test purpose
         this->sendLoadConfig();
         return (true);
     }
@@ -94,8 +95,8 @@ void    ConfigManager::createConfig()
 
 void    ConfigManager::sendLoadConfig()
 {
-    CommSettings    *UserPacket;
     CommSettings    *SystemPacket;
+    CommSettings    *UserPacket;
 
     SystemPacket = new CommSettings;
     SystemPacket->method = CommSettings::GET;
@@ -114,10 +115,18 @@ void    ConfigManager::recvLoadConfig(QByteArray data)
     CommSettings    *packet;
 
     packet = new CommSettings(data);
-    qDebug() << "Received settings:" << packet;
+    qDebug() << "Received settings:" << packet->getVariantSettings().toString();
     QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
 }
 
 void    ConfigManager::saveConfig()
 {
+    CommSettings    *UserPacket;
+
+    UserPacket = new CommSettings;
+    UserPacket->method = CommSettings::SET;
+    UserPacket->scope = CommSettings::CLIENT_USER_SCOPE;
+    UserPacket->plugin = 0;
+    UserPacket->setVariantSettings(QVariant(QString("toto")));
+    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket->getPacket()));
 }
