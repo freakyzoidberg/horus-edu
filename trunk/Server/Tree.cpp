@@ -69,6 +69,20 @@ Tree* Tree::GetNodebyId(int id)
     }
 }
 
+int Tree::Getid() const
+{
+    if (this != 0)
+    {
+        return this->id;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- GetName() method";
+        return 0;
+    }
+
+}
+
 QString Tree::GetName() const
 {
     if (this != 0)

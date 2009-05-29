@@ -71,6 +71,11 @@ public:
     */
     QString GetName() const;
 
+    //! Get id of node
+    /*!
+      \return id of the node
+    */
+    int Getid() const;
     //! Set name of node
     /*!
       \param name new name for the corresponding node

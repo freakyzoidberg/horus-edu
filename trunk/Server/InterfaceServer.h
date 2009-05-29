@@ -15,11 +15,9 @@ public:
     //! methode to send a packet from a server plugin to a client plugin
     void             sendPacket(const quint32 userId, const PluginPacket& packet) const;
 
-    //! return Tree cached in Server
-    QHash<int, Tree*> getTree();
-
     //! create a Sql and return a SqlQuery instance with this connexion
     QSqlQuery getSqlQuery();
+
     //! delete the Sql instance
     void freeSql();
 
@@ -28,6 +26,19 @@ public:
 
     //! disconnect Sql connexion if exist
     void cleanInterface();
+
+
+
+    //! retrieve id of node
+    Tree::Tree* getnodebyid(qint32 id);
+    //! return Tree cached in Server
+    QHash<int, Tree*> getTree();
+    //! retrieve sons of node
+    QHash<int, Tree::Tree*> GetSonsNode(Tree::Tree *tree);
+    //! retrieve id of node
+    int getId(Tree::Tree *tree);
+
+
 
 private:
     //! the only connexion

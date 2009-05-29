@@ -30,6 +30,20 @@ IServerPlugin* InterfaceServer::getPlugin(const char* name) const
     return PluginManager::globalInstance()->getPlugin(name);
 }
 
+
+int InterfaceServer::getId(Tree::Tree* tree)
+{
+    return tree->Getid();
+}
+
+QHash<int, Tree::Tree*> InterfaceServer::GetSonsNode(Tree::Tree* tree)
+{
+    return tree->GetSonsNode();
+}
+Tree::Tree* InterfaceServer::getnodebyid(qint32 id)
+{
+    return Tree::GetNodebyId(id);
+}
 QHash<int, Tree*> InterfaceServer::getTree()
 {
     return Tree::maptree;

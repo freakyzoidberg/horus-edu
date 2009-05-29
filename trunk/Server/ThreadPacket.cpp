@@ -187,22 +187,6 @@ void ThreadPacket::PacketPlugin()
     }
     // else TODO send an error "Plugin not found"
 
-
-    //ZoidTest
-    Tree *test = new Tree();
-    test->UpdateVector();
-    //test->GetNodebyId(1)->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->GetParent()->ShowSons();
-    //test->GetNodebyId(1)->AddSon(0, "Test ADD son to 1", "GROUP");
-    //test = test->GetNodebyId(test->GetNodebyId(1)->GetParent()->AddSon(1, "Test ADD son to 0", "GROUP"));
-    //test->AddSon(1, "son1 ", "GROUP");
-    //test->AddSon(1, "son1 ", "GROUP");
-    //test->AddSon(1, "son1 ", "GROUP");
-    //test->GetNodebyId(test->AddSon(1, "son1 ", "GROUP"))->AddSon(1, "son2 ", "GROUP");
-    //test->AddSon(1, "son1 ", "GROUP");
-    test = Tree::GetNodebyId(231);
-    test->vecshow();
-    delete test;
-
 }
 
 void ThreadPacket::sendError(CommError::Error error, const char* str) const

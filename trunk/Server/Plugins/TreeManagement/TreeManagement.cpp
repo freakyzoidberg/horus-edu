@@ -42,7 +42,7 @@ void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response
     int firstnode = getidofusernode(request, iduser);
     QHash<int, QVector<int> > usertree;
 
-    usertree.insert(Tree::GetNodebyId(firstnode)->Getid(), getvectorsonsfromidnode(firstnode));
+    usertree.insert(server->getId(server->getnodebyid(firstnode)), getvectorsonsfromidnode(firstnode));
      // server->getTree().value(firstnode);
 }
 
@@ -56,14 +56,19 @@ int TreeManagement::getidofusernode(const QVariantHash &request, qint32 iduser)
     query1.prepare("SELECT id_group FROM user_has_group WHERE id_user =? LIMIT 1");
     query1.addBindValue(iduser);
     query1.exec();
-    return 1;
+    bool ok;
+    while (query1.next())
+    {
+        return query1.value(0).toInt(&ok);
+    }
+    return 0;
 }
 
-QVector<int> getvectorsonsfromidnode(qint32 idnode)
+QVector<int> TreeManagement::getvectorsonsfromidnode(qint32 idnode)
 {
     QVector<int> sons;
     sons.clear();
-    for(QHash<int, Tree::Tree*>::const_iterator it = Tree::Tree::GetNodebyId(idnode)->GetSonsNode().begin(); it != Tree::Tree::GetNodebyId(idnode)->GetSonsNode().end(); ++it)
+    for(QHash<int, Tree::Tree*>::const_iterator it = server->GetSonsNode(server->getnodebyid(idnode)).begin(); it != server->GetSonsNode(server->getnodebyid(idnode)).end(); ++it)
     {
         sons.append(it.value()->Getid());
      }
