@@ -8,12 +8,10 @@
 
 #include <IClientPlugin.h>
 #include <IPluginNetwork.h>
-
 #include <dispPDFClient.h>
 #include <dispPDFNetwork.h>
 #include <metadata.h>
 
-#include <config.h>
 
 #define PLUGIN_NAME "dispPDF"
 #define PLUGIN_VERSION "1.0"
@@ -25,10 +23,8 @@
 
 class DispPDF : public IClientPlugin
 {
-#ifndef DEBUG_VERSION
-    Q_OBJECT
- Q_INTERFACES(IClientPlugin)
-#endif
+// Q_OBJECT
+ //Q_INTERFACES(IClientPlugin)
 
 public:
     //! allocate pNetwork and set some values

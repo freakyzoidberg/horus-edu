@@ -8,15 +8,11 @@
 #include <disppdf.h>
 #include <pdfRendering.h>
 
-#include <config.h>
-
 extern QEvent::Type ClientEvents::NetworkReceiveEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 extern QEvent::Type ClientEvents::LoadPluginEvent;
 
-#ifndef DEBUG_VERSION
-Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
-#endif
+//Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
 
 DispPDF::DispPDF()
 {
@@ -34,12 +30,15 @@ DispPDF::~DispPDF()
 
     if (pNetwork != NULL)
         delete pNetwork;
-    if (!metaFiles->empty())
+    if (metaFiles && !metaFiles->empty())
     {
         itend = metaFiles->end();
         for (it = metaFiles->begin(); it != itend; ++it)
         {
+            //if (it.value() == NULL)
+                qDebug() << "houlalala";
             delete it.value();
+            qDebug() << "houlalali";
            // metaFiles->erase(it);
         }
     }
