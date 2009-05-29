@@ -13,6 +13,8 @@
 #include <QDateTime>
 #include <QVariant>
 
+QCryptographicHash crypto(QCryptographicHash::Sha1);
+
 Socket::Socket(const char* _host, quint16 port) : CommSocket()
 {
     host = _host;
@@ -111,6 +113,9 @@ void Socket::PacketLogin()
     case 2:
         QVariantHash h;
         h["Request"] = "changePassword";
+        crypto.reset();
+        crypto.addData("");
+        h["password"] = crypto.result();
         //send plugin
         CommPlugin mod(PluginPacket("UserManagment", h));
         mod.packet.packetVersion = 42;
@@ -152,7 +157,7 @@ void Socket::PacketSettings()
 void Socket::PacketPlugin()
 {
     CommPlugin p(packet);
-    qDebug() << "[ in]" << p;
+    qDebug() << "[ in]" << p << p.packet.data;
 /*
     QHash<QString, QVariant> h;
     h["int"] = 12345;
