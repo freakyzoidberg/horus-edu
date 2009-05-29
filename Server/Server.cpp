@@ -4,7 +4,7 @@
 #include "../Common/Defines.h"
 #include "ClientSocket.h"
 #include "Settings.h"
-
+#include "Tree.h"
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
     // Server mysql a configurer
@@ -16,6 +16,8 @@ Server::Server(QObject *parent) : QTcpServer(parent)
         qDebug() << "Server::Server() NO SQL !!!";
 
     new ThreadFiles(this);
+    Tree::UpdateVector();
+    //update tree
 
     QSettings settings;
     if (listen(QHostAddress::Any, settings.value("SERVER/SRV_PORT",42000).toInt()))

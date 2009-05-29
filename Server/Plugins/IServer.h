@@ -28,8 +28,10 @@ public:
     virtual QHash<int, Tree::Tree*> getTree() = 0;
     //! retrieve node by id
     virtual Tree::Tree* getnodebyid(qint32 id) = 0;
+    //! retrieve father of node from son id
+    virtual Tree::Tree* getfatherbyid(qint32 id) = 0;
     //! retrieve id of node
-    virtual int getId(Tree::Tree *tree) = 0;
+    virtual int getId(Tree::Tree* tree) = 0;
     //! retrieve sons of node
     virtual QHash<int, Tree::Tree*> GetSonsNode(Tree::Tree *tree) = 0;
 };

@@ -38,7 +38,13 @@ int InterfaceServer::getId(Tree::Tree* tree)
 
 QHash<int, Tree::Tree*> InterfaceServer::GetSonsNode(Tree::Tree* tree)
 {
+
     return tree->GetSonsNode();
+}
+
+Tree::Tree* InterfaceServer::getfatherbyid(qint32 id)
+{
+    return Tree::GetNodebyId(id)->GetParent();
 }
 Tree::Tree* InterfaceServer::getnodebyid(qint32 id)
 {

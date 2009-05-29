@@ -60,9 +60,12 @@ Tree* Tree::GetParent() const
 
 Tree* Tree::GetNodebyId(int id)
 {
+
     QHash<int, Tree::Tree*>::const_iterator it = maptree.find(id);
     if (it != maptree.end())
+    {
         return it.value();
+    }
     else
     {
         return 0;
@@ -272,7 +275,7 @@ QHash<int, Tree*> Tree::GetSonsNode() const
 
 bool Tree::UpdateVector()
 {
-    qDebug() << "updating vector from database";
+    qDebug() << "=== updating Tree from database ===";
     Sql con;
 
     QSqlQuery query1("SELECT * FROM tree", QSqlDatabase::database(con));
@@ -311,6 +314,7 @@ bool Tree::UpdateVector()
      else
          qDebug() << "link" << it.value()->id << " is detached !!!";
   }
+ qDebug() << "=== Finish updating Tree ===";
  return true;
 }
 

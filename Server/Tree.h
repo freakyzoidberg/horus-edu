@@ -20,7 +20,7 @@ public:
     static QHash<int, Tree*> maptree;
     Tree();
     ~Tree();
-    bool    UpdateVector();
+    static bool    UpdateVector();
     void    ShowSons();
     void    vecshow();
     Tree    *GetParent() const;
