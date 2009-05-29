@@ -13,7 +13,7 @@ class UserManagment : public IServerPlugin
   Q_OBJECT
   Q_INTERFACES(IServerPlugin)
 
-  typedef void (UserManagment::*requestFunction)(const QVariantHash& request,QVariantHash& response);
+  typedef void (UserManagment::*requestFunction)(quint32 userId, const QVariantHash& request,QVariantHash& response);
 
 public:
     UserManagment();
@@ -26,9 +26,10 @@ public:
 private:
     QHash<QByteArray,requestFunction> requestFunctions;
 
-    void  unknownRequest(const QVariantHash& request,QVariantHash& response);
-    void  changePassword(const QVariantHash& request,QVariantHash& response);
-    void      createUser(const QVariantHash& request,QVariantHash& response);
+    void unknownRequest     (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    void changeMyPassword   (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    void changeUserPassword (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    void createUser         (quint32 userId, const QVariantHash& request,QVariantHash& response);
 };
 
 #endif // TESTCOMM_H

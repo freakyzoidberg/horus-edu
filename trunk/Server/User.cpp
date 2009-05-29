@@ -2,7 +2,7 @@
 #include "Sql.h"
 #include "../Common/CommPlugin.h"
 
-QHash<quint32, User*> User::map;
+QHash<quint32, User*> User::loggedIn;
 
 User::User()
 {
@@ -46,7 +46,7 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
     level = (Level)query.value(1).toUInt();
     user = _login;
 
-    map[ id ] = this;
+    loggedIn[ id ] = this;
 }
 
 void User::renewSession(quint32 duration)
@@ -84,7 +84,7 @@ const QDateTime& User::getSessionEnd() const
     return sessionEnd;
 }
 
-bool User::isLoggedIn() const { return id ? true : false; }
+bool User::isLoggedIn() const { return loggedIn.contains(id); }
 quint32 User::getId() const { return id; }
 const QString User::getUserName() const { return user; }
 User::Level User::getLevel() const { return level; }
@@ -96,7 +96,7 @@ void User::sendPacket(const QByteArray& packet) const
 
 User* User::getUser(quint32 _id)
 {
-    return map[ _id ];
+    return loggedIn[ _id ];
 }
 
 void User::logout()
@@ -108,6 +108,7 @@ void User::logout()
         query.prepare("UPDATE users SET session_key=NULL WHERE id=? LIMIT 1;");
         query.addBindValue(id);
         query.exec();
+        loggedIn.remove(id);
     }
     init();
 }

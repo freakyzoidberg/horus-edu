@@ -31,8 +31,8 @@ signals:
 
 private slots:
     void startSlot();
-    void read();
-    void write(qint64);
+    void socketToFile();
+    void fileToSocket(qint64);
 
 public:
     static void registerSocket(const QByteArray& key, QSslSocket* socket);

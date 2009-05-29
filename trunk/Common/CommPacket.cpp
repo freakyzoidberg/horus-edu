@@ -41,7 +41,7 @@ QDebug operator<<(QDebug d, const CommPacket& cr)
         "Login  ",
         "File   ",
         "Setting",
-        "Module "
+        "Plugin "
     };
     return d << typeNames[ cr.packetType ] << '|';
 }

@@ -144,7 +144,7 @@ void Socket::PacketSettings()
     CommSettings s(packet);
     qDebug() << "[ in]" << s;
 
-    CommFile f(CommFile::READ_FILE, 0);
+    CommFile f(CommFile::CONTENT_REQUEST, 0);
     sendPacket(f.getPacket());
     qDebug() << "[out]" << f;
 }
@@ -160,9 +160,10 @@ void Socket::PacketPlugin()
 */
     //send settings
     CommSettings settings;
-    settings.method = CommSettings::GET;
+    settings.method = CommSettings::SET;
     settings.scope = CommSettings::CLIENT_USER_SCOPE;
     settings.plugin = "test";
+    settings.setVariantSettings("test");
 //    settings.setVariantSettings(h);
     sendPacket(settings.getPacket());
     qDebug() << "[out]" << settings;

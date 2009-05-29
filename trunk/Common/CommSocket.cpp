@@ -7,13 +7,8 @@ CommSocket::CommSocket(QObject* parent) : QSslSocket(parent)
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(errorSlot(QAbstractSocket::SocketError)));
     connect(this, SIGNAL(sslErrors(QList<QSslError>)),         this, SLOT(sslErrorsSlot(QList<QSslError>)));
 
-    setProtocol(QSsl::SslV3);
-
     //TODO later: For test
     setPeerVerifyMode(QSslSocket::VerifyNone);
-
-    setLocalCertificate("./ssl/Horus.crt");
-    setPrivateKey("./ssl/Horus.key");
 
     sizePacket = 0;
     connect(this, SIGNAL(readyRead()), this, SLOT(bytesReceived()));
