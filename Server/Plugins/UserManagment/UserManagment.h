@@ -24,12 +24,23 @@ public:
     void recvPacket(quint32 userId, const PluginPacket&);
 
 private:
+    //! functions for each request
+    /*! called by recvPacket */
     QHash<QByteArray,requestFunction> requestFunctions;
 
-    void unknownRequest     (quint32 userId, const QVariantHash& request,QVariantHash& response);
-    void changeMyPassword   (quint32 userId, const QVariantHash& request,QVariantHash& response);
-    void changeUserPassword (quint32 userId, const QVariantHash& request,QVariantHash& response);
-    void createUser         (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    //! if request is not found
+    void unknownRequest   (quint32 userId, const QVariantHash& request,QVariantHash& response);
+
+    //! the connected user can change his own password and an admin can change every passwords
+    void changePassword   (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    //! get informations about a user
+    void getUserInfo      (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    //! edit informations about a user
+    void setUserInfo      (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    //! create a new user
+    void createNewUser    (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    //! disable/enable a user
+    void disableUser      (quint32 userId, const QVariantHash& request,QVariantHash& response);
 };
 
 #endif // TESTCOMM_H

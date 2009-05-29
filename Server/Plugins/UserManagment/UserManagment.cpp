@@ -7,18 +7,32 @@ Q_EXPORT_PLUGIN2(UserManagment, UserManagment)
 
 UserManagment::UserManagment()
 {
-    requestFunctions["changeMyPassword"] = &UserManagment::changeMyPassword;
-    requestFunctions["changeUserPassword"] = &UserManagment::changeUserPassword;
-    requestFunctions["createUser"]     = &UserManagment::createUser;
+    requestFunctions["changePassword"] = &UserManagment::changePassword;
+    requestFunctions["getUserInfo"]    = &UserManagment::getUserInfo;
+    requestFunctions["setUserInfo"]    = &UserManagment::setUserInfo;
+    requestFunctions["createNewUser"]  = &UserManagment::createNewUser;
+    requestFunctions["disableUser"]    = &UserManagment::disableUser;
 }
 
 void UserManagment::recvPacket(quint32 userId, const PluginPacket& packet)
 {
-    const QVariantHash request = packet.data.toHash();
+    QVariantHash request = packet.data.toHash();
     QVariantHash response;
 
     response["Request"] = request["Request"];
     response["Success"] = false;
+
+    if ( ! request.contains("UserId"))
+        request["UserId"] = userId;
+
+    if (request["UserId"].toUInt() != userId && User::getUser(userId)->getLevel() > User::ADMINISTRATOR)
+    {
+        response["Success"] = false;
+        response["Error"]   = 3;
+        response["ErrorMesssage"]   = "Permition denied.";
+    }
+
+    response["UserId"] = request["UserId"];
 
     //fill response
     (this->*requestFunctions.value(request["Request"].toByteArray(),//go to the target method
@@ -36,20 +50,35 @@ void UserManagment::unknownRequest(quint32 userId, const QVariantHash& request, 
     response["ErrorMesssage"]   = "Unknow request.";
 }
 
-void UserManagment::changeMyPassword(quint32 userId, const QVariantHash& request, QVariantHash& response)
+void UserManagment::changePassword(quint32 userId, const QVariantHash& request, QVariantHash& response)
 {
-    if (! request.contains("OldPassword") || ! request.contains("NewPassword"))
+    if ( ! request.contains("password"))
     {
         response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'OldPassword' and 'NewPassword'";
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'password'";
         return;
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("UPDATE users SET password=? WHERE id=? AND password=?;");
-    query.addBindValue(request.value("NewPassword").toByteArray().toHex());
-    query.addBindValue(userId);
-    query.addBindValue(request.value("OldPassword").toByteArray().toHex());
+    if (request.contains("OldPassword"))
+    {
+        query.prepare("UPDATE users SET password=? WHERE password=? AND id=?;");
+        query.addBindValue(request["password"].toByteArray().toHex());
+        query.addBindValue(request["OldPassword"].toByteArray().toHex());
+    }
+    else if (User::getUser(userId)->getLevel() > User::ADMINISTRATOR)
+    {
+        query.prepare("UPDATE users SET password=? WHERE id=?;");
+        query.addBindValue(request["password"].toByteArray().toHex());
+    }
+    else
+    {
+        response["Error"]   = 2;
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'OldPassword'";
+        return;
+    }
+
+    query.addBindValue(request["UserId"]);
     if ( ! query.exec() || ! query.numRowsAffected() == 1)
     {
         response["Error"]   = 4;
@@ -60,36 +89,98 @@ void UserManagment::changeMyPassword(quint32 userId, const QVariantHash& request
     response["Success"] = true;
 }
 
-void UserManagment::changeUserPassword(quint32 userId, const QVariantHash& request, QVariantHash& response)
+void UserManagment::getUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
 {
-    if (User::getUser(userId)->getLevel() > User::ADMINISTRATOR)
+    QSqlQuery query = server->getSqlQuery();
+    query.prepare("SELECT login,level,last_login,address,phone,country,language FROM users WHERE id=?;");
+    query.addBindValue(request.value("UserId"));
+    if ( ! query.exec() || ! query.next())
     {
-        response["Error"]   = 3;
-        response["ErrorMesssage"]   = "Permition Denied.";
+        response["Error"]   = 5;
+        response["ErrorMesssage"] = "UserId " + request["UserId"].toString() + " not found.";
         return;
     }
 
-    if ( ! request.contains("UserId") || ! request.contains("Password"))
+    response["Success"]    = true;
+
+    response["login"]      = query.value(0);
+    response["level"]      = query.value(1);
+    response["last_login"] = query.value(2);
+    response["address"]    = query.value(3);
+    response["phone"]      = query.value(4);
+    response["country"]    = query.value(5);
+    response["language"]   = query.value(6);
+}
+
+void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
+{
+    if ( ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
+      || ! request.contains("country") || ! request.contains("language"))
     {
         response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'UserId' and 'Password'";
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'level','address','phone','counrty','language'";
+        return;
+    }
+
+    if (request["level"].toInt() < User::getUser(userId)->getLevel())
+    {
+        response["Error"]   = 3;
+        response["ErrorMesssage"]   = "Permition denied: You can't give more privileges than you have.";
         return;
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("UPDATE users SET password=? WHERE id=?;");
-    query.addBindValue(request.value("Password").toByteArray().toHex());
+    query.prepare("UPDATE users SET level=?,address=?,phone=?,country=?,language=? WHERE id=?;");
+    query.addBindValue(request["level"]);
+    query.addBindValue(request["address"]);
+    query.addBindValue(request["phone"]);
+    query.addBindValue(request["country"]);
+    query.addBindValue(request["language"]);
     query.addBindValue(request.value("UserId"));
-    if (query.exec() && query.numRowsAffected() == 1)
+
+    if ( ! query.exec())
     {
         response["Error"]   = 5;
-        response["ErrorMesssage"]   = "Invalid UserId " + request["UserId"].toString() + ".";
+        response["ErrorMesssage"]   = "UserId " + request["UserId"].toString() + " not found.";
         return;
     }
 
     response["Success"] = true;
 }
 
-void UserManagment::createUser(quint32 userId, const QVariantHash& request, QVariantHash& response)
+void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QVariantHash& response)
+{
+    if ( ! request.contains("login") || ! request.contains("password")
+      || ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
+      || ! request.contains("country") || ! request.contains("language"))
+    {
+        response["Error"]   = 2;
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'login','password','level','address','phone','counrty','language'";
+        return;
+    }
+
+    if (request["level"].toInt() < User::getUser(userId)->getLevel())
+    {
+        response["Error"]   = 3;
+        response["ErrorMesssage"]   = "Permition denied: You can't give more privileges than you have.";
+        return;
+    }
+
+    QSqlQuery query = server->getSqlQuery();
+    query.prepare("INSERT INTO users (login,password,level,address,phone,country,language) VALUES (?,?,?,?,?,?,?,?);");
+    query.addBindValue(request["login"]);
+    query.addBindValue(request["password"]);
+    query.addBindValue(request["level"]);
+    query.addBindValue(request["address"]);
+    query.addBindValue(request["phone"]);
+    query.addBindValue(request["country"]);
+    query.addBindValue(request["language"]);
+
+    query.exec();
+
+    response["UserId"] = query.lastInsertId();
+}
+
+void UserManagment::disableUser(quint32 userId, const QVariantHash& request,QVariantHash& response)
 {
 }
