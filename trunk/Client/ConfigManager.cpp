@@ -110,11 +110,14 @@ void    ConfigManager::sendLoadConfig()
 
 void    ConfigManager::recvLoadConfig(QByteArray data)
 {
-    CommSettings    *packet;
+    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+    CommSettings    packet(data);
 
-    packet = new CommSettings(data);
-    qDebug() << "Received settings:" << packet->getVariantSettings().toString();
-    QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+    if (packet.scope == CommSettings::CLIENT_USER_SCOPE);
+    {
+        settings.setValue("Load", packet.getVariantSettings().toString());
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+    }
 }
 
 void    ConfigManager::saveConfig()
