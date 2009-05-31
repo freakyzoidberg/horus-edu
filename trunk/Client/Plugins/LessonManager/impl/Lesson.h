@@ -41,12 +41,6 @@ private:
     QList<IObject *>          objects;
 };
 
-//! Provides an implementation of ILesson::IPage::IObject to be used by the plugin.
-class LObject : public ILesson::IPage::IObject
-{
-
-};
-
 //! Provides an implementation of ILesson to be used by the plugin.
 class Lesson : public ILesson
 {
