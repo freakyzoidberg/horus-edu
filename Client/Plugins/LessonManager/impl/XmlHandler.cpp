@@ -1,7 +1,7 @@
 #include <QDebug>
 #include "XmlHandler.h"
 
-XmlHandler::XmlHandler(Lesson *lesson) : lesson(lesson), hasLesson(false), currentElement(NULL)
+XmlHandler::XmlHandler(Lesson *lesson) : lesson(lesson), hasLesson(false), currentPage(NULL)
 {
 }
 
@@ -18,26 +18,37 @@ bool XmlHandler::startElement(const QString &namespaceURI, const QString &localN
     {
         if (!hasLesson || atts.count() != 1 || atts.qName(0) != "title")
             return false;
-        if (currentElement == NULL)
-            currentElement = lesson->addElement(ILesson::IElement::SECTION, atts.value(0));
+        if (sections.empty())
+            sections.push(dynamic_cast<ILesson::ISection*>(lesson->addElement(ILesson::IElement::SECTION, atts.value(0))));
         else
-            currentElement = lesson->addElement(ILesson::IElement::SECTION, atts.value(0), dynamic_cast<ILesson::ISection *>(currentElement));
+            sections.push(dynamic_cast<ILesson::ISection*>(lesson->addElement(ILesson::IElement::SECTION, atts.value(0), sections.top())));
     }
     else if (qName == "page")
     {
         if (!hasLesson || atts.count() != 1 || atts.qName(0) != "title")
             return false;
-        if (currentElement == NULL)
-            lesson->addElement(ILesson::IElement::PAGE, atts.value(0));
+        if (sections.empty())
+            currentPage = dynamic_cast<ILesson::IPage*>(lesson->addElement(ILesson::IElement::PAGE, atts.value(0)));
         else
-            lesson->addElement(ILesson::IElement::PAGE, atts.value(0), dynamic_cast<ILesson::ISection *>(currentElement));
+            currentPage = dynamic_cast<ILesson::IPage*>(lesson->addElement(ILesson::IElement::PAGE, atts.value(0), sections.top()));
+    }
+    else if (qName == "object")
+    {
+//        if (currentPage == NULL)
+//            return false;
+//
+//        currentPage->addObject(obj);
     }
     return true;
 }
 
-bool XmlHandler::endElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts)
+bool XmlHandler::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
 {
     if (qName == "lesson")
         hasLesson = false;
+    else if (qName == "section")
+        sections.pop();
+    else if (qName == "page")
+        currentPage = NULL;
     return true;
 }
