@@ -96,6 +96,19 @@ public:
     */
     bool SetUserRef(int user_ref);
 
+    //! Get type the node
+    /*!
+      \return user value of type
+    */
+    QString GetType() const;
+
+    //! Set typee of the node
+    /*!
+      \param type to be assigned to the node
+      \return Boolean state of the change type
+    */
+    bool SetType(QString type);
+
     //! check if the node has a father
     /*!
       \param if of the father node
