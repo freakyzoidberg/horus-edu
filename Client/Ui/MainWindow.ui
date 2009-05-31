@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Horus The Chorus</string>
+   <string>Horus</string>
   </property>
   <property name="windowIcon">
    <iconset resource="MainWindow.qrc">
