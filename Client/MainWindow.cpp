@@ -1,12 +1,13 @@
 #include "MainWindow.h"
 #include "SettingsDialog.h"
 
-MainWindow::MainWindow(QObject *parent) : QMainWindow::QMainWindow()
+MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
 {
     this->parent = parent;
     this->ui.setupUi(this);
     this->createActions();
     this->createMenus();
+    connect(this, SIGNAL(destroyed()), parent, SLOT(preExit()));
 }
 
 void    MainWindow::createActions()
@@ -14,7 +15,7 @@ void    MainWindow::createActions()
     exitAction = new QAction(tr("E&xit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
-    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
+    connect(exitAction, SIGNAL(triggered()), this->parent, SLOT(preExit()));
 
     settingsAction = new QAction(tr("&Settings"), this);
     settingsAction->setShortcut(tr("Ctrl+T"));

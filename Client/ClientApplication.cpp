@@ -58,3 +58,16 @@ void    ClientApplication::restartNetwork()
     //QApplication::postEvent(manager, new StartEvent);
 }
 
+void    ClientApplication::preExit()
+{
+    PluginManager   *pmanager;
+    ThreadNetwork   *nmanager;
+    ConfigManager   *cmanager;
+
+    pmanager = this->findChild<PluginManager *>();
+    nmanager = this->findChild<ThreadNetwork *>();
+    cmanager = this->findChild<ConfigManager *>();
+    QApplication::postEvent(nmanager, new QEvent(ClientEvents::StopEvent));
+    QApplication::postEvent(pmanager, new QEvent(ClientEvents::StopEvent));
+    QApplication::postEvent(cmanager, new QEvent(ClientEvents::StopEvent));
+}

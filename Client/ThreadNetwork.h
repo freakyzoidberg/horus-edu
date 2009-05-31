@@ -3,6 +3,7 @@
 
 #include <QThread>
 #include "NetworkManager.h"
+#include "ClientApplication.h"
 
 class ThreadNetwork : public QThread
 {
@@ -10,17 +11,17 @@ class ThreadNetwork : public QThread
     public:
         ~ThreadNetwork();
         NetworkManager *nM;
-        static  ThreadNetwork* getInstance(QObject *parent);
+        static  ThreadNetwork* getInstance(ClientApplication *parent = 0);
     protected:
         void run();
     private:
 
-        ThreadNetwork(QObject* parent=0);
+        ThreadNetwork(ClientApplication* parent=0);
         //! flag for the singleton
         static bool instanceFlag;
         //! the instance of the singleton
         static ThreadNetwork *single;
-        QObject *parent;
+        ClientApplication *parent;
     protected slots:
         //! event loop
         bool    event(QEvent *e);
