@@ -10,6 +10,7 @@ QEvent::Type ClientEvents::RecvPacketEvent = (QEvent::Type)QEvent::registerEvent
 QEvent::Type ClientEvents::ShowLoginEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::HideLoginEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::SendLoginEvent = (QEvent::Type)QEvent::registerEventType();
+QEvent::Type ClientEvents::PluginEvent = (QEvent::Type)QEvent::registerEventType();
 
 SendPacketEvent::SendPacketEvent(const QByteArray p) : QEvent(ClientEvents::SendPacketEvent)
 {
@@ -32,6 +33,16 @@ SendLoginEvent::SendLoginEvent(const QByteArray p) : QEvent(ClientEvents::SendLo
 }
 
 SendLoginEvent::SendLoginEvent(const SendLoginEvent &s) : QEvent(ClientEvents::SendLoginEvent)
+{
+    pack = s.pack;
+}
+
+PluginEvent::PluginEvent(const PluginPacket p) : QEvent(ClientEvents::PluginEvent)
+{
+    pack = p;
+}
+
+PluginEvent::PluginEvent(const PluginEvent &s) : QEvent(ClientEvents::PluginEvent)
 {
     pack = s.pack;
 }

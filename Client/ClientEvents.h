@@ -4,6 +4,7 @@
 #include <QEvent>
 #include <QString>
 #include "../Common/CommPacket.h"
+#include "../Common/PluginPacket.h"
 
 //! this Object contains all the client events types
 class ClientEvents
@@ -29,6 +30,8 @@ class ClientEvents
         static QEvent::Type HideLoginEvent;
         //!  event to send the login to server
         static QEvent::Type SendLoginEvent;
+        //!  event contain the plugin data
+        static QEvent::Type PluginEvent;
 };
 
 //! this object is an event containt a packet to send to the server
@@ -60,5 +63,15 @@ class SendLoginEvent : public QEvent
 
             //! packet to send
             QByteArray pack;
+};
+
+class PluginEvent : public QEvent
+{
+        public:
+            PluginEvent(const PluginPacket p);
+            PluginEvent(const PluginEvent &s);
+
+            //! packet to send
+            PluginPacket pack;
 };
 #endif // CLIENTEVENTS_H

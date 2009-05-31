@@ -37,7 +37,13 @@ public:
      *  \return the accept status of the event
      */
     bool    event(QEvent *event);
-
+    //! Find a loaded plugin
+    /*!
+     *  This method provide an access to each loaded plugins
+     *  \param name The name of the plugin requested
+     *  \return A pointer to the plugin requested or NULL if not found
+     */
+    QObject *findPlugin(QString &name) const;
 protected:
     //! The entry point of the thread
     /*!
@@ -64,13 +70,6 @@ private:
      *  \return A boolean indicating the success
      */
     bool    loadPlugin(QString pluginName, QDir userPath, QDir systemPath);
-    //! Find a loaded plugin
-    /*!
-     *  This method provide an access to each loaded plugins
-     *  \param name The name of the plugin requested
-     *  \return A pointer to the plugin requested or NULL if not found
-     */
-    QObject *findPlugin(QString &name) const;
 
 private:
     //! The list of loaded plugins
