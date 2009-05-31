@@ -88,8 +88,8 @@ void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& resp
     bool ok;
     int node = QVariant(request["idNode"]).toInt(&ok);
 
-    //response["userref"] =
-    //response["nodename"] =  usertree;
+    response["userref"] = server->getnodebyid(node)->user_ref;
+    response["nodename"] =  server->getnodebyid(node)->name;
     response["numberofsons"] = server->GetSonsNode(server->getnodebyid(node)).count();
     response["sonsid"] = getvectorsonsfromidnode(node);
 }
@@ -99,14 +99,85 @@ void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& resp
 void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
     bool ok;
-    if (request["admntreeact"] == "delnode")
-    delnode(request["id"].toInt(&ok));
+    if (request["Admntreeact"] == "Delnode")
+    {
+       if (delnode(request["Id"].toInt(&ok)))
+           response["Success"] = true;
+         else
+        {
+            response["Error"] = 1;
+            response["ErrorMessage"] = "cannot delete this node";
+         }
+         return;
+    }
+    else if (request["Admntreeact"] == "Mvnode")
+    {
+        if (mvnode(request["id"].toInt(&ok), request["Newfathe"].toInt(&ok)))    
+            response["Success"] = true;
+        else
+        {
+            response["Error"] = 1;
+            response["ErrorMessage"] = "cannot move this node";
+         }
+        return;
+    }
+    else if (request["Admntreeact"] == "Addnode")
+    {
+        if (addnode(request["Newfather"].toInt(&ok), request["Type"], request["Name"], request["UserRef"].toInt(&ok)))
+            response["Success"] = true;
+        else
+        {
+            response["Error"] = 1;
+            response["ErrorMessage"] = "cannot add this node";
+         }
+        return;
+    }
+    else if (request["Admntreeact"] == "Setnode")
+    {
+        if (setnode(request["Id"].toInt(&ok), request["Type"], request["Name"], request["UserRef"].toInt(&ok)))
+            response["Success"] = true;
+        else
+        {
+            response["Error"] = 1;
+            response["ErrorMessage"] = "cannot set this node";
+         }
+        return;
+    }
+    response["Error"] = 1;
+    response["ErrorMessage"] = "request not handled";
+    return;
 }
 
 
-void  TreeManagement::delnode(const int id)
+bool  TreeManagement::delnode(const int id)
 {
-    server->getnodebyid(id)->Delnode();
+    return (server->getnodebyid(id)->Delnode());
+}
+
+bool  mvnode(const int id, const int newfatherid)
+{
+    return (server->getnodebyid(id)->MoveNode(newfatherid));
+}
+
+bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref)
+{
+   if (server->getnodebyid(fatherid)->AddSon(user_ref, name, type) != 0)
+      return true;
+   else
+       return false;
+}
+
+bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref)
+{
+    bool res = true;
+    Tree* node =server->getnodebyid(nodeid);
+    if (node->GetName() != name)
+        res = ((res == false) ? false :(node->SetName(name) == false) ? false : true);
+    if (node->GetUserRef() != user_ref)
+        res = ((res == false) ? false :(node->SetUserRef(user_ref) == false) ? false : true);
+    if (node->GetType() != type)
+        res = ((res == false) ? false :(node->SetType(type) == false) ? false : true);
+    return res;
 }
 
 int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)

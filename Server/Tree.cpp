@@ -124,6 +124,45 @@ bool Tree::SetName(QString name)
     }
 }
 
+
+QString Tree::GetType() const
+{
+    if (this != 0)
+    {
+        return this->type;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- GetType() method";
+        return "";
+    }
+}
+
+bool Tree::SetType(QString type)
+{
+    if (this != 0)
+    {
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+    query.prepare("UPDATE tree SET type =? WHERE id=?;");
+    query.addBindValue(type);
+    query.addBindValue(this->id);
+
+    if ( ! query.exec())
+        {
+            qDebug() << query.lastError();
+            return 0;
+        }
+    this->type = type;
+    return true;
+    }
+    else
+    {
+        qDebug() << "CRITICAL ERROR   --  Null pointer -- SetType() method";
+        return false;
+    }
+}
+
 int Tree::GetUserRef() const
 {
     if (this != 0)

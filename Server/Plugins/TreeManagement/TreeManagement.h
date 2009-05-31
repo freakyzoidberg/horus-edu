@@ -36,7 +36,10 @@ private:
     int   getidofusernodeWoRequest(qint32 iduser);
     void  addnodewithsons(QHash<QString, QVariant > *utree, qint32 id);
     void  addfathers(QHash<QString, QVariant > *utree,const int id);
-    void  delnode(const int id);
+    bool  delnode(const int id);
+    bool  mvnode(const int id, const int newfatherid);
+    bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref);
+    bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref);
 
     //! get all node ids for a user
     /*!
