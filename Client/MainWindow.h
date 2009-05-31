@@ -20,7 +20,13 @@ public:
         \param parent The parent
      */
     MainWindow(ClientApplication *parent);
-
+    //! Overload of the event method
+    /*!
+     *  Call preExit from the ClientApplication when receive a CloseEvent
+     *  \param event the event received
+     *  \return the accept status of the event
+     */
+    bool event(QEvent *event);
 private slots:
     //! Display a dialog for editing the settings
     void editSettings();
