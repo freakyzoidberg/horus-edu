@@ -31,7 +31,6 @@ bool XmlHandler::startElement(const QString &namespaceURI, const QString &localN
             lesson->addElement(ILesson::IElement::PAGE, atts.value(0));
         else
             lesson->addElement(ILesson::IElement::PAGE, atts.value(0), dynamic_cast<ILesson::ISection *>(currentElement));
-        currentElement = NULL;
     }
     return true;
 }
