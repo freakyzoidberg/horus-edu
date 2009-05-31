@@ -23,7 +23,6 @@ bool    ConfigManager::event(QEvent *event)
     if (event->type() == ClientEvents::StartEvent)
     {
         qDebug() << "ConfigManager: Receive StartEvent";
-        this->saveConfig(); //test purpose
         this->sendLoadConfig();
         return (true);
     }
@@ -32,6 +31,7 @@ bool    ConfigManager::event(QEvent *event)
         qDebug() << "ConfigManager: Receive StopEvent";
         this->saveConfig();
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StopEvent));
+        this->exit(0);
         return (true);
     }
     else if (event->type() == ClientEvents::RecvPacketEvent)
@@ -113,7 +113,7 @@ void    ConfigManager::recvLoadConfig(QByteArray data)
     QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     CommSettings    packet(data);
 
-    if (packet.scope == CommSettings::CLIENT_USER_SCOPE);
+    if (packet.scope == CommSettings::CLIENT_USER_SCOPE)
     {
         settings.setValue("Load", packet.getVariantSettings().toString());
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));

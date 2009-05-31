@@ -11,6 +11,7 @@
  */
 class ClientApplication : public QApplication
 {
+    Q_OBJECT
 public:
     //! Constructor
     /*!
@@ -36,14 +37,17 @@ public:
      *  \return the accept status of the event
      */
     bool    event(QEvent *event);
-    //! Unload then load again all the plugins
-    void    reloadPlugins();
-    //! Stop then start again the network
-    void    restartNetwork();
     //! A pointer to the Loader Widget
     QWidget *loader;
     //! A pointer te the MainWindow Widget
     QWidget *mainWindow;
+    public slots:
+    //! Unload then load again all the plugins
+    void    reloadPlugins();
+    //! Stop then start again the network
+    void    restartNetwork();
+    //! Unload everything then exit
+    void    preExit();
 };
 
 

@@ -54,10 +54,18 @@ bool    Loader::event(QEvent *event)
         this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);
         if (processes == processesComplete)
         {
-
             this->hide();
             parent->mainWindow->show();
         }
+        return (true);
+    }
+    else if (event->type() == ClientEvents::StopEvent)
+    {
+        event->accept();
+        --(this->processesComplete);
+        this->ui.LoadingBar->setValue(100 * this->processesComplete / this->processes);
+        if (0 == processesComplete)
+            ClientApplication::exit(0);
         return (true);
     }
     else if (event->type() == ClientEvents::ShowLoginEvent)

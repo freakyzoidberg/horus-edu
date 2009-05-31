@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ui_MainWindow.h"
+#include "ClientApplication.h"
 
 //! Graphical class of the MainWindow
 /*!
@@ -18,7 +19,7 @@ public:
         Initialize UI, create actions and menus
         \param parent The parent
      */
-    MainWindow(QObject *parent);
+    MainWindow(ClientApplication *parent);
 
 private slots:
     //! Display a dialog for editing the settings
@@ -33,7 +34,7 @@ private:
     //! The graphical ui used for the MainWindow
     Ui::MainWindow ui;
     //! A pointer to its parent
-    QObject *parent;
+    ClientApplication *parent;
     //! The menu regrouping the mains actions of the Client
     QMenu   *fileMenu;
     //! The menu regrouping parameters and settings

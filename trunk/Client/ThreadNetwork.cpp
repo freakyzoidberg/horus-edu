@@ -1,6 +1,6 @@
 #include "ThreadNetwork.h"
 
-ThreadNetwork::ThreadNetwork(QObject* p) : QThread(p)
+ThreadNetwork::ThreadNetwork(ClientApplication* p) : QThread(p)
 {
     this->parent = p;
     start();
@@ -14,6 +14,11 @@ void ThreadNetwork::run()
 
 bool ThreadNetwork::event(QEvent *e)
 {
+    if (e->type() == ClientEvents::StopEvent)
+    {
+        QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StopEvent));
+        this->exit(0);// a modif pour que ca coupe bien le reseau, je te laisse faire ca abder ;)
+    }
     if (e->type() >= QEvent::User)
     {
         if (e->type() == ClientEvents::SendPacketEvent)
@@ -36,7 +41,7 @@ bool ThreadNetwork::event(QEvent *e)
 
 bool ThreadNetwork::instanceFlag = false;
 ThreadNetwork* ThreadNetwork::single = NULL;
-ThreadNetwork* ThreadNetwork::getInstance(QObject *parent)
+ThreadNetwork* ThreadNetwork::getInstance(ClientApplication *parent)
 {
     if(! instanceFlag)
     {

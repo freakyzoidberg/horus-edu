@@ -25,6 +25,7 @@ bool    PluginManager::event(QEvent *event)
     {
         qDebug() << "PluginManager: Receive StopEvent";
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StopEvent));
+        this->exit(0);
         return (true);
     }
     else
