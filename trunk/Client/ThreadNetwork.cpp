@@ -23,7 +23,7 @@ bool ThreadNetwork::event(QEvent *e)
         if (e->type() == ClientEvents::StopEvent)
         {
             QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StopEvent));
-            this->exit(0);// a modif pour que ca coupe bien le reseau, je te laisse faire ca abder ;)
+            this->exit(0);
         }
         if (e->type() == ClientEvents::SendPacketEvent)
         {

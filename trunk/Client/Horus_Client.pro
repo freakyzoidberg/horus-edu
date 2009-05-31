@@ -22,6 +22,7 @@ SOURCES += main.cpp \
     ConfigManager.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
+    ../Common/CommPlugin.cpp \
     MainBoard.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
@@ -48,6 +49,7 @@ HEADERS += NetworkManager.h \
     ConfigManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
+    ../Common/CommPlugin.h \
     MainBoard.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
