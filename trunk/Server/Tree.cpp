@@ -337,3 +337,18 @@ void Tree::vecshow()
       it.value()->ShowSons();
   }
 }
+
+bool Tree::HasFatherId(int fathernode)
+{
+    Tree *tmpnode = this;
+
+    while ((tmpnode != 0) && (tmpnode->parent_id != 0))
+    {
+        if (tmpnode->parent_id == fathernode)
+            return true;
+        else
+            tmpnode = tmpnode->parent;
+    }
+    return false;
+}
+
