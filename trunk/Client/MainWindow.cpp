@@ -7,7 +7,16 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
     this->ui.setupUi(this);
     this->createActions();
     this->createMenus();
-    connect(this, SIGNAL(destroyed()), parent, SLOT(preExit()));
+}
+
+bool MainWindow::event(QEvent *event)
+{
+    if (event->type() == QEvent::Close)
+    {
+        this->parent->preExit();
+        return (true);
+    }
+    return (QMainWindow::event(event));
 }
 
 void    MainWindow::createActions()
@@ -15,7 +24,7 @@ void    MainWindow::createActions()
     exitAction = new QAction(tr("E&xit"), this);
     exitAction->setShortcut(tr("Ctrl+Q"));
     exitAction->setStatusTip(tr("Exit the application"));
-    connect(exitAction, SIGNAL(triggered()), this->parent, SLOT(preExit()));
+    connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
     settingsAction = new QAction(tr("&Settings"), this);
     settingsAction->setShortcut(tr("Ctrl+T"));
