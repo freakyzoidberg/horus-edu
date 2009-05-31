@@ -46,7 +46,6 @@ HEADERS += NetworkManager.h \
     IMetaDataCreate.h \
     ConfigManager.h \
     ThreadNetwork.h \
-    config.h \
     SettingsDialog.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \

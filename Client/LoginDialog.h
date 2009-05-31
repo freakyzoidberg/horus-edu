@@ -24,6 +24,7 @@ private:
 
 private slots:
     //! callback of the connect button, it send an event to NetworkManager
+    void on_Form_destroyed();
     void on_connectButton_clicked();
 };
 

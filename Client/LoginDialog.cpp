@@ -38,3 +38,7 @@ void LoginDialog::on_connectButton_clicked()
         qDebug() << "[ out]" << l;
     }
 }
+
+void LoginDialog::on_Form_destroyed()
+{
+}
