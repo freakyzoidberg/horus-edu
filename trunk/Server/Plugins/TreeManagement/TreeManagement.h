@@ -35,6 +35,7 @@ private:
     int   getidofusernode(const QVariantHash& request, qint32 iduser);
     void  addnodewithsons(QHash<QString, QVariant > *utree, qint32 id);
     void  addfathers(QHash<QString, QVariant > *utree,const int id);
+    void  delnode(const int id);
     QList<QVariant> getvectorsonsfromidnode(qint32 idnode);
 
 };

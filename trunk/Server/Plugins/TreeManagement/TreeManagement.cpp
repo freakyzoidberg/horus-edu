@@ -98,6 +98,15 @@ void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& resp
 
 void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
+    bool ok;
+    if (request["admntreeact"] == "delnode")
+    delnode(request["id"].toInt(&ok));
+}
+
+
+void  TreeManagement::delnode(const int id)
+{
+    server->getnodebyid(id)->Delnode();
 }
 
 int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
