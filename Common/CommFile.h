@@ -13,10 +13,11 @@ public:
      * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
     enum Method { UNDEFINED,
-                  CONTENT_REQUEST, DELETE_REQUEST, STAT_REQUEST,// client -> server
-                  CONTENT,         DELETED,        STAT,        // server -> client
-                  PERMITION_DENIED, NOT_FOUND,                       // errors server -> client
-                  __LAST__};
+                  ACCESS_FILE, NEW_FILE, DELETE_FILE, STAT_FILE,
+                  NODE_LIST, USER_LIST,
+                  __LAST_METHOD__};
+    enum Error { NO_ERROR, PERMITION_DENIED, NOT_FOUND, ALREADY_EXIST, __LAST_ERROR__ };
+
 
     CommFile(Method method=UNDEFINED, quint32 id=0, QIODevice::OpenMode mode=0);
     CommFile(QByteArray&);
@@ -24,8 +25,8 @@ public:
 
     //! type of request
     Method      method;
-    //! the node in the organizational tree for a LIST request or the id of file fot a GET
-    quint32     id;
+    //! type of error
+    Error       error;
 
     //! first byte of the file to read or write (seek)
     /*! READ_FILE or WRITE_FILE */
@@ -44,6 +45,8 @@ public:
     //! list of files in the node for the LIST request
     /*! DIRECTORY */
     QList<CommFileInfo> fileList;
+    //! the node in the organizational tree for a LIST request or the id of file fot a GET
+    quint32     nodeId;
 
 private:
     void                read(QByteArray&);

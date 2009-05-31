@@ -5,6 +5,8 @@
 #include <QtSql>
 #include "../../Common/PluginPacket.h"
 #include "../Tree.h"
+#include "../../Common/Defines.h"
+
 
 class IServerPlugin;
 
@@ -20,7 +22,8 @@ public:
     virtual void freeSql() = 0;
     //! return another plugin loaded, return 0 if not found
     virtual IServerPlugin* getPlugin(const char* name) const = 0;
-
+    //! return the level of the connected user
+    virtual UserLevel getLevel(quint32 userId) const = 0;
 
     // Should be in independant interface ?
 

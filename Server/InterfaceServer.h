@@ -40,6 +40,8 @@ public:
     //! retrieve id of node
     int getId(Tree::Tree *tree);
 
+    //! return the level of the connected user
+    UserLevel getLevel(quint32 userId) const;
 
 
 private:
