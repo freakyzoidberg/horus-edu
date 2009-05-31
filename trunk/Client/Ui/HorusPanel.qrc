@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="Pictures" >
+    <file>HorusPanel_v1.png</file>
+  </qresource>
+</RCC>
