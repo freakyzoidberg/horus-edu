@@ -391,3 +391,16 @@ bool Tree::HasFatherId(int fathernode)
     return false;
 }
 
+bool Tree::HasAdminRightOnNodeAndFathers(int userid)
+{
+    Tree *tmpnode = this;
+
+    while ((tmpnode != 0) && (tmpnode->parent_id != 0))
+    {
+        if (tmpnode->GetUserRef() == userid)
+            return true;
+        else
+            tmpnode = tmpnode->parent;
+    }
+    return false;
+}

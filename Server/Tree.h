@@ -111,12 +111,17 @@ public:
 
     //! check if the node has a father
     /*!
-      \param if of the father node
+      \param id of the father node
       \return Boolean result
     */
     bool HasFatherId(int fathernode);
 
-
+    //! check if the user is admin on this or fathers node
+    /*!
+      \param id of user to test
+      \return Boolean result
+    */
+    bool HasAdminRightOnNodeAndFathers(int userid);
 
     static Tree* GetNodebyId(int id);
 };

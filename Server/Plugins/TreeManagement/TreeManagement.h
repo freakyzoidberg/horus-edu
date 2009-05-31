@@ -26,20 +26,20 @@ private:
      QHash<QByteArray,requestFunction> requestFunctions;
 
     void  unknownRequest(const QVariantHash& request,QVariantHash& response, qint32 iduser);
-    void  gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser);
-    void  setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser);
-    void  getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser);
-    void  getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser);
+    void  gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
+    void  setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser); // Admin protected
+    void  getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
+    void  getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser); //root admin Protected
 
 
     int   getidofusernode(const QVariantHash& request, qint32 iduser);
     int   getidofusernodeWoRequest(qint32 iduser);
     void  addnodewithsons(QHash<QString, QVariant > *utree, qint32 id);
     void  addfathers(QHash<QString, QVariant > *utree,const int id);
-    bool  delnode(const int id);
-    bool  mvnode(const int id, const int newfatherid);
-    bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref);
-    bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref);
+    bool  delnode(const int id, const int iduser);
+    bool  mvnode(const int id, const int newfatherid, const  int iduser);
+    bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser);
+    bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser);
 
     //! get all node ids for a user
     /*!
