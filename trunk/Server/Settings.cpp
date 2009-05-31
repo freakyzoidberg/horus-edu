@@ -1,14 +1,14 @@
 #include "Settings.h"
 
 #include <QDebug>
-
+#include <QDir>
 Settings::Settings()
 {
 }
 
 void Settings::CheckSettings()
 {
-    if (GetSettings("Version", "SETTINGS").toInt() != 4)
+    if (GetSettings("Version", "SETTINGS").toInt() != 5)
     {
             qFatal("Server Configuration not found, try running with     --gen-config");
         }
@@ -65,8 +65,31 @@ void Settings::FirstSetSettings()
      this->Gsettings.setValue("SRV_PORT", (line == "" ? "42000":line));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
-    this->Gsettings.setValue("Version", "4");
+    this->Gsettings.setValue("Version", "5");
+    streamo << "Fullpath to Horus Server diretory[ hint : /opt/Horus/Horus-server/] : ";
+    streamo.flush();
+    line = streami.readLine();
+    this->Gsettings.setValue("PluginsBase", (line == "" ? "/opt/Horus/Horus-server/Plugins/":line+"/Plugins"));
+    this->Gsettings.setValue("SoftFullPath", (line == "" ? "/opt/Horus/Horus-server/":line));
     this->Gsettings.endGroup();
+    QDir dir(line == "" ? "/opt/Horus/Horus-server/Plugins/":line+"/Plugins");
+    if (!dir.exists())
+     qWarning("Cannot find the plugin directory");
+        else
+        {
+            this->Gsettings.beginGroup("PLUGINS");
+            dir.setFilter(QDir::Dirs| QDir::NoDotAndDotDot);
+            QFileInfoList list = dir.entryInfoList();
+            for (int i = 0; i < list.size(); ++i) {
+               QFileInfo fileInfo = list.at(i);
+                streamo << "Enable plugin "+ fileInfo.fileName() +" [y/N] : ";
+                streamo.flush();
+                line = streami.readLine();
+                if ((line == "y") | (line == "o") | (line == "Y") | (line == "O"))
+                    this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".so"));
+                 }
+            this->Gsettings.endGroup();
+        }
     }
     else
        qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings.fileName();
