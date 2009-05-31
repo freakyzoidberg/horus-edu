@@ -15,7 +15,7 @@ class ThreadNetwork : public QThread
     protected:
         void run();
     private:
-
+        QMutex mutex;
         ThreadNetwork(ClientApplication* parent=0);
         //! flag for the singleton
         static bool instanceFlag;

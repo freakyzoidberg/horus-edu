@@ -3,24 +3,28 @@
 ThreadNetwork::ThreadNetwork(ClientApplication* p) : QThread(p)
 {
     this->parent = p;
+    nM = 0;
     start();
 }
 
 void ThreadNetwork::run()
 {
+     mutex.lock();
      nM = new NetworkManager(this->parent);
+     mutex.unlock();
      exec();
 }
 
 bool ThreadNetwork::event(QEvent *e)
 {
-    if (e->type() == ClientEvents::StopEvent)
-    {
-        QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StopEvent));
-        this->exit(0);// a modif pour que ca coupe bien le reseau, je te laisse faire ca abder ;)
-    }
+    mutex.lock();
     if (e->type() >= QEvent::User)
     {
+        if (e->type() == ClientEvents::StopEvent)
+        {
+            QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StopEvent));
+            this->exit(0);// a modif pour que ca coupe bien le reseau, je te laisse faire ca abder ;)
+        }
         if (e->type() == ClientEvents::SendPacketEvent)
         {
             SendPacketEvent *spe = new SendPacketEvent(*(static_cast<SendPacketEvent *>(e)));
@@ -33,6 +37,7 @@ bool ThreadNetwork::event(QEvent *e)
         }
         else
             QApplication::postEvent(nM, new QEvent(e->type()));
+        mutex.unlock();
         return true;
     }
     else
