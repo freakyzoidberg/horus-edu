@@ -111,13 +111,14 @@ void Socket::PacketLogin()
         break;
 
     case 2:
+        qDebug() << "case 2";
         QVariantHash h;
-        h["Request"] = "changePassword";
+        h["Request"] = "getNodeInfo";
         crypto.reset();
         crypto.addData("");
         h["password"] = crypto.result();
         //send plugin
-        CommPlugin mod(PluginPacket("UserManagment", h));
+        CommPlugin mod(PluginPacket("TreeManagement", h));
         mod.packet.packetVersion = 42;
         mod.packet.sourcePlugin = "protoTester";
         sendPacket(mod.getPacket());
