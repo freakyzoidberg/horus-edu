@@ -3,6 +3,7 @@
 
 #include "../ILesson.h"
 
+//! Provides an implementation of ILesson::ISection to be used by the plugin.
 class LSection : public ILesson::ISection
 {
 public:
@@ -21,6 +22,7 @@ private:
     QString     title;
 };
 
+//! Provides an implementation of ILesson::IPage to be used by the plugin.
 class LPage : public ILesson::IPage
 {
 public:
@@ -39,11 +41,13 @@ private:
     QList<IObject *>          objects;
 };
 
+//! Provides an implementation of ILesson::IPage::IObject to be used by the plugin.
 class LObject : public ILesson::IPage::IObject
 {
 
 };
 
+//! Provides an implementation of ILesson to be used by the plugin.
 class Lesson : public ILesson
 {
 public:
