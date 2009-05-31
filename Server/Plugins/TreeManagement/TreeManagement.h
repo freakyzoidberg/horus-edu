@@ -33,9 +33,19 @@ private:
 
 
     int   getidofusernode(const QVariantHash& request, qint32 iduser);
+    int   getidofusernodeWoRequest(qint32 iduser);
     void  addnodewithsons(QHash<QString, QVariant > *utree, qint32 id);
     void  addfathers(QHash<QString, QVariant > *utree,const int id);
     void  delnode(const int id);
+
+    //! get all node ids for a user
+    /*!
+      \param id of user
+      \return List of nodes id
+    */
+    QList<int> GetNodeList(int iduser);
+
+
     QList<QVariant> getvectorsonsfromidnode(qint32 idnode);
 
 };

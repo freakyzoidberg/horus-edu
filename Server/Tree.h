@@ -96,6 +96,14 @@ public:
     */
     bool SetUserRef(int user_ref);
 
+    //! check if the node has a father
+    /*!
+      \param if of the father node
+      \return Boolean result
+    */
+    bool HasFatherId(int fathernode);
+
+
 
     static Tree* GetNodebyId(int id);
 };

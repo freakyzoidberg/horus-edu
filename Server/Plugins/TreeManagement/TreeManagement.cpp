@@ -124,6 +124,21 @@ int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
     return 0;
 }
 
+int TreeManagement::getidofusernodeWoRequest(qint32 iduser)
+{
+    QSqlQuery query1 = server->getSqlQuery();
+    query1.prepare("SELECT id_group FROM user_has_group WHERE id_user =? LIMIT 1");
+    query1.addBindValue(iduser);
+    query1.exec();
+
+    bool ok;
+    while (query1.next())
+    {
+        return query1.value(0).toInt(&ok);
+    }
+    return 0;
+}
+
 QList<QVariant> TreeManagement::getvectorsonsfromidnode(int idnode)
 {
     QList<QVariant> sons;
@@ -163,4 +178,20 @@ void  TreeManagement::addfathers(QHash<QString, QVariant > *utree,const int id)
            addfathers(utree, server->getId(server->getfatherbyid(id)));
     }
 
+}
+
+QList<int> TreeManagement::GetNodeList(int iduser)
+{
+    QList<int> listret;
+    listret.clear();
+    int firstnode = getidofusernodeWoRequest(iduser);
+    QHash<QString, QVariant > usertree;
+    addnodewithsons(&usertree, firstnode);
+    addfathers(&usertree,firstnode);
+    bool ok;
+     for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
+    {
+        listret.append(QVariant(it.key()).toInt(&ok));
+    }
+return listret;
 }
