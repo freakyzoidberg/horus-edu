@@ -89,8 +89,8 @@ void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& resp
     bool ok;
     int node = QVariant(request["idNode"]).toInt(&ok);
 
-    response["userref"] = server->getnodebyid(node)->user_ref;
-    response["nodename"] =  server->getnodebyid(node)->name;
+    response["userref"] = server->getnodebyid(node)->GetUserRef();
+    response["nodename"] =  server->getnodebyid(node)->GetName();
     response["numberofsons"] = server->GetSonsNode(server->getnodebyid(node)).count();
     response["sonsid"] = getvectorsonsfromidnode(node);
 }
@@ -102,7 +102,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
     bool ok;
     if (request["Admntreeact"] == "Delnode")
     {
-       if (delnode(request["Id"].toInt(&ok)))
+       if (delnode(request["Id"].toInt(&ok), iduser))
            response["Success"] = true;
          else
         {
@@ -113,7 +113,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
     }
     else if (request["Admntreeact"] == "Mvnode")
     {
-        if (mvnode(request["id"].toInt(&ok), request["Newfathe"].toInt(&ok)))    
+        if (mvnode(request["id"].toInt(&ok), request["Newfathe"].toInt(&ok), iduser))
             response["Success"] = true;
         else
         {
@@ -124,7 +124,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
     }
     else if (request["Admntreeact"] == "Addnode")
     {
-        if (addnode(request["Newfather"].toInt(&ok), request["Type"], request["Name"], request["UserRef"].toInt(&ok)))
+        if (addnode(request["Newfather"].toInt(&ok), request["Type"].toString(), request["Name"].toString(), request["UserRef"].toInt(&ok), iduser))
             response["Success"] = true;
         else
         {
@@ -135,7 +135,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
     }
     else if (request["Admntreeact"] == "Setnode")
     {
-        if (setnode(request["Id"].toInt(&ok), request["Type"], request["Name"], request["UserRef"].toInt(&ok)))
+        if (editnode(request["Id"].toInt(&ok), request["Type"].toString(), request["Name"].toString(), request["UserRef"].toInt(&ok), iduser))
             response["Success"] = true;
         else
         {
@@ -159,7 +159,7 @@ bool  TreeManagement::delnode(const int id, const int iduser)
         return false;
 }
 
-bool  mvnode(const int id, const int newfatherid, const int iduser)
+bool  TreeManagement::mvnode(const int id, const int newfatherid, const int iduser)
 {
     Tree * node = server->getnodebyid(id);
     if (node->HasAdminRightOnNodeAndFathers(iduser))
@@ -168,7 +168,7 @@ bool  mvnode(const int id, const int newfatherid, const int iduser)
         return false;
 }
 
-bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser)
+bool  TreeManagement::addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser)
 {
     Tree * node = server->getnodebyid(fatherid);
     if (node->HasAdminRightOnNodeAndFathers(iduser))
@@ -182,7 +182,7 @@ bool  addnode(const int fatherid, const QString type, const QString name, const 
         return false;
 }
 
-bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser)
+bool  TreeManagement::editnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser)
 {
     bool res = true;
      Tree * node = server->getnodebyid(nodeid);

@@ -39,7 +39,7 @@ private:
     bool  delnode(const int id, const int iduser);
     bool  mvnode(const int id, const int newfatherid, const  int iduser);
     bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser);
-    bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser);
+    bool  editnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser);
 
     //! get all node ids for a user
     /*!
