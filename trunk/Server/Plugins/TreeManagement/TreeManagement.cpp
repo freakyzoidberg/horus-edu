@@ -41,6 +41,7 @@ void  TreeManagement::unknownRequest(const QVariantHash& request,QVariantHash& r
 
 void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
+
     int firstnode = getidofusernode(request, iduser);
     QHash<QString, QVariant > usertree;
     addnodewithsons(&usertree, firstnode);
@@ -149,28 +150,44 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
 }
 
 
-bool  TreeManagement::delnode(const int id)
+bool  TreeManagement::delnode(const int id, const int iduser)
 {
-    return (server->getnodebyid(id)->Delnode());
+    Tree * node = server->getnodebyid(id);
+    if (node->HasAdminRightOnNodeAndFathers(iduser))
+        return (node->Delnode());
+    else
+        return false;
 }
 
-bool  mvnode(const int id, const int newfatherid)
+bool  mvnode(const int id, const int newfatherid, const int iduser)
 {
-    return (server->getnodebyid(id)->MoveNode(newfatherid));
+    Tree * node = server->getnodebyid(id);
+    if (node->HasAdminRightOnNodeAndFathers(iduser))
+    return (node->MoveNode(newfatherid));
+    else
+        return false;
 }
 
-bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref)
+bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser)
 {
-   if (server->getnodebyid(fatherid)->AddSon(user_ref, name, type) != 0)
-      return true;
-   else
+    Tree * node = server->getnodebyid(fatherid);
+    if (node->HasAdminRightOnNodeAndFathers(iduser))
+    {
+      if (node->AddSon(user_ref, name, type) != 0)
+       return true;
+     else
        return false;
+    }
+    else
+        return false;
 }
 
-bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref)
+bool  setnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser)
 {
     bool res = true;
-    Tree* node =server->getnodebyid(nodeid);
+     Tree * node = server->getnodebyid(nodeid);
+    if (node->HasAdminRightOnNodeAndFathers(iduser))
+    {
     if (node->GetName() != name)
         res = ((res == false) ? false :(node->SetName(name) == false) ? false : true);
     if (node->GetUserRef() != user_ref)
@@ -178,6 +195,8 @@ bool  setnode(const int nodeid, const QString type, const QString name, const in
     if (node->GetType() != type)
         res = ((res == false) ? false :(node->SetType(type) == false) ? false : true);
     return res;
+    }
+    return false;
 }
 
 int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
