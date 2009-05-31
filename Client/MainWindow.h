@@ -5,6 +5,7 @@
 #include "ui_MainWindow.h"
 #include "ClientApplication.h"
 
+
 //! Graphical class of the MainWindow
 /*!
  *  Class containing the menus and the others widgets displayed.

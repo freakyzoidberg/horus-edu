@@ -62,7 +62,7 @@ void PacketManager::PacketInit()
 
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     settings.beginGroup("SESSIONS");
-    if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60) || settings.value("sessionTime", 0).toUInt() == 0)
+    if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60) /*|| settings.value("sessionTime", 0).toUInt() == 0*/)
     {
         state = PacketManager::LOGIN_SESSION;
         CommLogin  ls(CommLogin::LOGIN_SESSION);

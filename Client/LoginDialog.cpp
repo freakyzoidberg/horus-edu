@@ -1,7 +1,8 @@
 #include "LoginDialog.h"
 #include "ThreadNetwork.h"
 
-LoginDialog::LoginDialog(QObject *parent) : QWidget::QWidget()
+
+LoginDialog::LoginDialog(ClientApplication *parent) : QWidget::QWidget()
 {
     this->parent = parent;
     l_ui.setupUi(this);
@@ -12,13 +13,10 @@ LoginDialog::~LoginDialog()
 }
 
 
-/*bool    LoginDialog::event(QEvent *event)
+void    LoginDialog::closeEvent(QCloseEvent *event)
 {
-    if (event->type() == ClientEvents::LoginEvent)
-    {
-    }
-    return true;
-}*/
+        QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StartEvent));
+}
 
 void LoginDialog::on_connectButton_clicked()
 {
@@ -37,8 +35,4 @@ void LoginDialog::on_connectButton_clicked()
         settings.endGroup();
         qDebug() << "[ out]" << l;
     }
-}
-
-void LoginDialog::on_Form_destroyed()
-{
 }

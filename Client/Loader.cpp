@@ -72,7 +72,7 @@ bool    Loader::event(QEvent *event)
     {
         ld->show();
     }
-    else if (event->type() == ClientEvents::HideLoginEvent)
+    else if (event->type() == ClientEvents::HideLoginEvent || event->type() == QEvent::Close)
     {
         if (ld != NULL)
         {

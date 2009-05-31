@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "SettingsDialog.h"
 #include "MainBoard.h"
+#include "ClientEvents.h"
 
 MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
 {

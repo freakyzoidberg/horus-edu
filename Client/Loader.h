@@ -32,6 +32,8 @@ public:
      *  \return the accept status of the event
      */
     bool event(QEvent *event);
+    //! login window
+    QWidget *ld;
 
 private:
     //! The graphical ui used
@@ -48,8 +50,7 @@ private:
      *  Send an StartEvent to the PluginManager
      */
     void    loadPlugins();
-    //! login window
-    QWidget *ld;
+
     //! Method for start the loading of the network
     /*!
      *  Send an StartEvent to the NetworkManager
