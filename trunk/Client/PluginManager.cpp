@@ -5,6 +5,7 @@
 #include    "../Common/Defines.h"
 #include    <QDebug>
 #include    <QApplication>
+#include    "InterfaceClient.h"
 
 PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(parent)
 {
@@ -90,8 +91,10 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
     if (plugin)
     {
         clientPlugin = qobject_cast<IClientPlugin *>(plugin);
+
         if (clientPlugin)
         {
+            clientPlugin->client = new InterfaceClient(clientPlugin, this->parent);
             foreach (newPlugin, clientPlugin->getPluginsRequired())
                 success &= this->loadPlugin(newPlugin, userPath, systemPath);
             if (success)

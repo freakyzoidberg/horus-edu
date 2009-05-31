@@ -1,4 +1,5 @@
 #include "NetworkManager.h"
+#include    "PluginManager.h"
 
 NetworkManager::NetworkManager(QObject *parent) : CommSocket()
 {

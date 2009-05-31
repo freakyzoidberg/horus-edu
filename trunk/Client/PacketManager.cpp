@@ -62,7 +62,7 @@ void PacketManager::PacketInit()
 
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     settings.beginGroup("SESSIONS");
-    if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60) /*|| settings.value("sessionTime", 0).toUInt() == 0*/)
+    if (settings.value("sessionEnd", 0).toUInt() > (QDateTime::currentDateTime().toTime_t() + 60) || settings.value("sessionTime", 0).toUInt() == 0)
     {
         state = PacketManager::LOGIN_SESSION;
         CommLogin  ls(CommLogin::LOGIN_SESSION);
@@ -129,7 +129,14 @@ void PacketManager::PacketSettings()
 void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
-    qDebug() << "[ in]" << p << p.packet.data;
+
+    this->pM = parent->findChild<PluginManager *>();
+    QString target(p.packet.targetPlugin);
+    if (this->pM->findPlugin(target) != 0)
+    {
+        PluginEvent *pe = new PluginEvent(p.packet);
+        QApplication::postEvent(this->pM, pe);
+    }
 }
 
 void        PacketManager::sessionEnd()

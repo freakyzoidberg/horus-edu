@@ -15,6 +15,7 @@
 #include "ClientEvents.h"
 #include "ClientApplication.h"
 #include "ConfigManager.h"
+#include "PluginManager.h"
 
 class NetworkManager;
 
@@ -43,7 +44,6 @@ class   PacketManager : public QObject
         tState      state;
         //!  PacketManager's parent to send event to the ClientApplication Class
         ClientApplication *parent;
-
         //! Queue contains packets to send
         QQueue<QByteArray> packetStack;
         //! Send all the packets contained in packetStack
@@ -62,6 +62,8 @@ class   PacketManager : public QObject
          */
         QByteArray  packet;
 
+        //! pointer to PluginManager
+        PluginManager *pM;
         //! corespondance table between CommPacket::type and the methods
         static void (PacketManager::*packetDirections[]) ();
     signals:
