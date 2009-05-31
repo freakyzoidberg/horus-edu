@@ -26,7 +26,7 @@ void Settings::FirstSetSettings()
         QString line;
 
 
-
+    this->Gsettings.clear();
     qDebug() << "Settings::FirstSetSettings() Creating config in " <<  this->Gsettings.fileName();
     qDebug() << "Settings::FirstSetSettings() Default Value can be edited";
 
