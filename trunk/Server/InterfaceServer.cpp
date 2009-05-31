@@ -30,6 +30,10 @@ IServerPlugin* InterfaceServer::getPlugin(const char* name) const
     return PluginManager::globalInstance()->getPlugin(name);
 }
 
+UserLevel InterfaceServer::getLevel(quint32 userId) const
+{
+    return User::getUser(userId)->getLevel();
+}
 
 int InterfaceServer::getId(Tree::Tree* tree)
 {

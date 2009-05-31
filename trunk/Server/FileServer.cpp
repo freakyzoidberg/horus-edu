@@ -47,10 +47,7 @@ void FileServer::readKey()
     qDebug() << "FileServer::readKey";
     QSslSocket* s = (QSslSocket*)sender();
     if (s->bytesAvailable() < FILE_TRANSFERT_KEY_SIZE)
-    {
-        qDebug() << "too short................................";
         return;
-    }
 
     FileTransfert::registerSocket(s->read(FILE_TRANSFERT_KEY_SIZE), s);
 }

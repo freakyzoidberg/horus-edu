@@ -17,9 +17,6 @@ public:
     User();
     ~User();
 
-    //! enumerate the differents Level of users
-    enum Level { ROOT, ADMINISTRATOR, TEACHER, STUDENT, FAMILY, GUEST };
-
     //! check in the database the pair login/pass or login/session
     /*! if authSession = true: _auth is the session key
      *  else _auth is the password
@@ -39,7 +36,7 @@ public:
     //! return the login of the user
     const QString     getUserName() const;
     //! return the level of the user
-    Level             getLevel() const;
+    UserLevel             getLevel() const;
     //! return the curent session string
     const QByteArray& getSessionString() const;
     //! return the end time of the session
@@ -50,7 +47,7 @@ public:
 private:
     quint32           id;
     QString           user;
-    Level             level;
+    UserLevel         level;
     QByteArray        sessionString;
     QDateTime         sessionEnd;
 

@@ -25,7 +25,7 @@ void UserManagment::recvPacket(quint32 userId, const PluginPacket& packet)
     if ( ! request.contains("UserId"))
         request["UserId"] = userId;
 
-    if (request["UserId"].toUInt() != userId && User::getUser(userId)->getLevel() > User::ADMINISTRATOR)
+    if (request["UserId"].toUInt() != userId && server->getLevel(userId) > LEVEL_ADMINISTRATOR)
     {
         response["Success"] = false;
         response["Error"]   = 3;
@@ -66,7 +66,7 @@ void UserManagment::changePassword(quint32 userId, const QVariantHash& request, 
         query.addBindValue(request["password"].toByteArray().toHex());
         query.addBindValue(request["OldPassword"].toByteArray().toHex());
     }
-    else if (User::getUser(userId)->getLevel() > User::ADMINISTRATOR)
+    else if (server->getLevel(userId) > LEVEL_ADMINISTRATOR)
     {
         query.prepare("UPDATE users SET password=? WHERE id=?;");
         query.addBindValue(request["password"].toByteArray().toHex());
@@ -122,7 +122,7 @@ void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVar
         return;
     }
 
-    if (request["level"].toInt() < User::getUser(userId)->getLevel())
+    if (request["level"].toInt() < server->getLevel(userId))
     {
         response["Error"]   = 3;
         response["ErrorMesssage"]   = "Permition denied: You can't give more privileges than you have.";

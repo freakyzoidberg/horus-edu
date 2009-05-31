@@ -6,6 +6,7 @@
 #include "User.h"
 #include "UserSettings.h"
 #include "FileTransfert.h"
+#include "FileManagment.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
@@ -126,14 +127,77 @@ void ThreadPacket::PacketFile()
     if ( ! socket->user.isLoggedIn())
       return sendError(CommError::NOT_AUTHENTICATED);
 
-    QFile* file = new QFile("/tmp/test");
-    file->open(QFile::ReadOnly);
+    FileManagment fileMgmt;
+    QSettings settings;
+    f.error = CommFile::NO_ERROR;
 
-//    FileTransfert* ft = new FileTransfert(file);
-    CommFile resp(CommFile::CONTENT_REQUEST, f.id);
-    resp.key = (new FileTransfert(file))->getKey();
-    emit sendPacket(resp.getPacket());
-    qDebug() << "[out]" << resp;
+    if (f.method == CommFile::NODE_LIST) //TODO: more permitions checks: ACCESS_DIR and exists
+        f.fileList = fileMgmt.getNodeList(f.fileInfo.id);
+
+    else if (f.method == CommFile::USER_LIST) //TODO: more permitions checks: ACCESS_DIR and exists
+        f.fileList = fileMgmt.getUserList(socket->user.getId());
+
+    else if (f.method == CommFile::DELETE_FILE
+          || f.method == CommFile::ACCESS_FILE
+          || f.method == CommFile::NEW_FILE
+          || f.method == CommFile::STAT_FILE)
+    {
+        QFile* qfile = 0;
+        if (f.method != CommFile::NEW_FILE)
+        {
+            qfile = new QFile(settings.value("SETTINGS/FilesDirectory", "/opt/Horus/Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
+
+            if ( ! fileMgmt.fileExist(f.fileInfo.id) || ! qfile->exists())
+                f.error = CommFile::NOT_FOUND;
+        }
+
+        if (f.error == CommFile::NO_ERROR)
+        {
+            const CommFileInfo& fi = fileMgmt.getFileInfo(f.fileInfo.id);
+            if (f.method == CommFile::NEW_FILE && fi.id)
+                f.error = CommFile::ALREADY_EXIST;
+
+            if ((f.method == CommFile::DELETE_FILE
+              || f.method == CommFile::NEW_FILE)
+            && ! fileMgmt.userCanChangeNode(socket->user.getId(), f.fileInfo.id))
+                f.error = CommFile::PERMITION_DENIED;
+
+            else if (f.method == CommFile::DELETE_FILE
+                     &&  ! qfile->remove())
+                f.error = CommFile::PERMITION_DENIED;
+
+            if (f.method == CommFile::ACCESS_FILE
+             || f.method == CommFile::NEW_FILE)
+            {
+                if (f.method == CommFile::NEW_FILE)
+                {
+                    //TODO check fileInfo
+                    f.fileInfo.ownerId = socket->user.getId();
+                    fileMgmt.insertNewFile(f.fileInfo);
+                    qfile = new QFile(settings.value("SETTINGS/FilesDirectory", "/opt/Horus/Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
+                }
+
+                if (qfile->open(f.mode))
+                {
+                    //refresh FileInfo
+                    f.fileInfo = fileMgmt.getFileInfo(f.fileInfo.id);
+
+                    f.key = (new FileTransfert(qfile))->getKey();// activate the FileTransfert
+                }
+
+                else
+                    f.error = CommFile::PERMITION_DENIED;
+            }
+        }
+
+        if ( ! f.key.length() && qfile)
+            delete qfile;
+    }
+    else
+        return sendError(CommError::PROTOCOL_ERROR);
+
+    emit sendPacket(f.getPacket());
+    qDebug() << "[out]" << f;
 }
 
 void ThreadPacket::PacketSettings()
@@ -151,7 +215,7 @@ void ThreadPacket::PacketSettings()
 
     if ( s.scope == CommSettings::CLIENT_USER_SCOPE   || s.scope == CommSettings::SERVER_USER_SCOPE || //USER_SCOPE
         (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET) || //Read Client SYSTEM_SCOPE
-        socket->user.getLevel() <= User::ADMINISTRATOR) // ADMIN
+        socket->user.getLevel() <= LEVEL_ADMINISTRATOR) // ADMIN
     {
         UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
 

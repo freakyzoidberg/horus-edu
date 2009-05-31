@@ -25,8 +25,6 @@ void UserSettings::readDatabase()
     query.addBindValue(plugin.length() ? plugin : "");
     query.addBindValue(scope);
 
-    qDebug() << "QUERY:" << query.executedQuery();
-
     if ( ! query.exec())
     {
         qDebug() << query.lastError();
@@ -57,7 +55,6 @@ void UserSettings::set(const QByteArray& _settings)
     query.addBindValue(plugin.length() ? plugin : "");
     query.addBindValue(scope);
 
-    qDebug() << "QUERY:" << query.executedQuery();
     if ( ! query.exec())
     {
         qDebug() << query.lastError();

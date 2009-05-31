@@ -69,4 +69,7 @@
 # define SQLCONNECTIONCOUNT 5
 #endif
 
+//! enumerate the differents Level of users
+enum UserLevel { LEVEL_ROOT, LEVEL_ADMINISTRATOR, LEVEL_TEACHER, LEVEL_STUDENT, LEVEL_FAMILY, LEVEL_GUEST };
+
 #endif // DEFINES_H

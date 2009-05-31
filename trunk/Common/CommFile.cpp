@@ -3,9 +3,10 @@
 CommFile::CommFile(Method _method, quint32 _id, QIODevice::OpenMode _mode) : CommPacket(CommPacket::FILE)
 {
     method = _method;
-    mode = _mode;
-    id = _id;
+    error = NO_ERROR;
+    nodeId = _id;
     start = 0;
+    mode = _mode;
     key = "";
 }
 
@@ -26,13 +27,19 @@ void CommFile::read(QByteArray& a)
 {
     QDataStream stream(a);
 
-    quint8 m; stream >> m;
-    if (m < __LAST__)
-        method = (Method)m;
+    quint8 tmp; stream >> tmp;
+    if (tmp < __LAST_METHOD__)
+        method = (Method)tmp;
     else
         method = UNDEFINED;
 
-    stream >> id
+    stream >> tmp;
+    if (tmp < __LAST_ERROR__)
+        error = (Error)tmp;
+    else
+        error = NO_ERROR;
+
+    stream >> nodeId
            >> start
            >> (quint8&)mode
            >> fileInfo
@@ -55,7 +62,8 @@ void CommFile::write(QByteArray& a) const
     stream.device()->seek(a.length());
 
     stream << (quint8)method
-           << id
+           << (quint8)error
+           << nodeId
            << start
            << (quint8)mode
            << fileInfo
@@ -69,23 +77,28 @@ QDebug operator<<(QDebug d, const CommFile& p)
     static const char* methods[] =
     {
         "Undefined",
+        "Access File",
+        "New File",
+        "Delete File",
+        "Stat file",
 
-        "List Directory",
-        "Read File",
-        "Write File",
-        "Delete file",
-
-        "Directory content",
-        "File content",
-        "Transfert not allowed",
-        "File not found",
-        "File deleted"
+        "Node List",
+        "User List",
+    };
+    static const char* errors[] =
+    {
+        "No error",
+        "Permition Denied",
+        "File or node not found"
+        "File already exist"
     };
 
     d << (CommPacket&)p
       << methods[ p.method ]
-      << p.id
+      << errors[ p.error ]
+      << p.nodeId
       << p.start
+      << p.mode
       << p.fileInfo
       << p.key.toHex();
 

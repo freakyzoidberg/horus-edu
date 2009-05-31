@@ -11,6 +11,10 @@
 class CommFileInfo
 {
 public:
+    CommFileInfo();
+
+    //! id of the file
+    quint32     id;
     //! name of the file
     QString     fileName;
     //! actual size of the file
@@ -19,10 +23,12 @@ public:
     QDateTime   ctime;
     //! last modification date
     QDateTime   mtime;
-    //! sha1 checksum of the file
-    QByteArray  checksumSha1;
-    //! user id of the owner of the file
-    quint32     owner;
+    //! checksum sha1 of the file
+    QByteArray  hashSha1;
+    //! id of the owner
+    quint32     ownerId;
+    //! id of the parent node
+    quint32     nodeId;
 };
 
 QDebug operator<<(QDebug, const CommFileInfo&);

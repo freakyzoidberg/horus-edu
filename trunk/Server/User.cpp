@@ -43,7 +43,7 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
         return;
 
     id = query.value(0).toUInt();
-    level = (Level)query.value(1).toUInt();
+    level = (UserLevel)query.value(1).toUInt();
     user = _login;
 
     loggedIn[ id ] = this;
@@ -87,7 +87,7 @@ const QDateTime& User::getSessionEnd() const
 bool User::isLoggedIn() const { return loggedIn.contains(id); }
 quint32 User::getId() const { return id; }
 const QString User::getUserName() const { return user; }
-User::Level User::getLevel() const { return level; }
+UserLevel User::getLevel() const { return level; }
 
 void User::sendPacket(const QByteArray& packet) const
 {
