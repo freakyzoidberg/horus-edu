@@ -1,0 +1,12 @@
+Package: horus
+Version: 0.1.488
+Section: office
+Priority: optional
+Architecture: i386
+Essential: no
+Depends: libqt4-xml, libqt4-network
+Installed-Size: 220
+Maintainer: Horus Dev Team [contact@horus-edu.net]
+Provide: horus
+Description: Horus est un espace numerique de travail pour un systeme educatif.
+	     Horus couvre tout les aspects de la vie scolaire et integre efficacement l'outil informatique a la pedagogie.
