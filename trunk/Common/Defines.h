@@ -7,7 +7,7 @@
 #  elif defined(Q_OS_MAC)
 #   define PREFIX  "/MAC_FOLDER_SHIT" // un truc dans ce genre la
 #  else
-#   define PREFIX  "/usr/local/"
+#   define PREFIX  "/opt/"
 #  endif
 # endif
 
