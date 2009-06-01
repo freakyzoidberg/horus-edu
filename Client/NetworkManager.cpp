@@ -22,7 +22,7 @@ bool    NetworkManager::event(QEvent *e)
    if(e->type() == ClientEvents::StartEvent)
     {
         qDebug() << "NetworkManager: Recieve StartEvent";
-        connectToHostEncrypted(settings.value("Server"), settings.value("Port"));
+        connectToHostEncrypted(settings.value("Network/Server").toString(), settings.value("Network/Port").toUInt());
         return true;
     }
     else if (e->type() == ClientEvents::SendPacketEvent)
