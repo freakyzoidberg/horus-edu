@@ -33,9 +33,9 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
     QSqlQuery query(QSqlDatabase::database(con));
 
     if (authSession)
-        query.prepare("SELECT id,level FROM users WHERE login=? AND session_key=?;");
+        query.prepare("SELECT id,level FROM users WHERE enabled=1 AND login=? AND session_key=?;");
     else
-        query.prepare("SELECT id,level FROM users WHERE login=? AND password=?;");
+        query.prepare("SELECT id,level FROM users WHERE enabled=1 AND login=? AND password=?;");
 
     query.addBindValue(_login);
     query.addBindValue(_auth.toHex());

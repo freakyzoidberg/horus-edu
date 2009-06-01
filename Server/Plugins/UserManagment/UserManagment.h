@@ -3,9 +3,9 @@
 
 #include <QtSql>
 
+#include "../../../Common/Defines.h"
 #include "../IServer.h"
 #include "../IServerPlugin.h"
-#include "../../Sql.h"
 
 //! a Server Plugin to test the communication between a Client Plugin and a Server Plugin
 class UserManagment : public IServerPlugin
