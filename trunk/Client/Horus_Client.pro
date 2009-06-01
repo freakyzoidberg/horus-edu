@@ -23,7 +23,6 @@ SOURCES += main.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
     ../Common/CommPlugin.cpp \
-    MainBoard.cpp \
     InterfaceClient.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
@@ -50,12 +49,10 @@ HEADERS += NetworkManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
     ../Common/CommPlugin.h \
-    MainBoard.h \
     InterfaceClient.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
-    Ui/MainBoard.ui \
     Ui/SettingsDialog.ui
 RESOURCES += Ui/Loader.qrc \
     Ui/SettingsDialog.qrc \

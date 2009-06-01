@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 #include "SettingsDialog.h"
-#include "MainBoard.h"
 #include "ClientEvents.h"
 
 MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
@@ -9,7 +8,7 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
     this->ui.setupUi(this);
     this->createActions();
     this->createMenus();
-    this->setCentralWidget(new MainBoard);
+ //   this->setCentralWidget(new MainBoard(this));
 }
 
 bool MainWindow::event(QEvent *event)
