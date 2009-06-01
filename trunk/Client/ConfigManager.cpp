@@ -41,6 +41,10 @@ bool    ConfigManager::event(QEvent *event)
         this->recvLoadConfig(recvEvent->pack);
         return (true);
     }
+    else if (event->type() == ClientEvents::NetworkErrorEvent)
+    {
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+    }
     else
     {
         qDebug() << "ConfigManager: Received Event not managed";
