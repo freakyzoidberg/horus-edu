@@ -17,14 +17,12 @@ bool    PluginManager::event(QEvent *event)
 {
     if (event->type() == ClientEvents::StartEvent)
     {
-        qDebug() << "PluginManager: Receive StartEvent";
         this->loadPlugins();
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
         return (true);
     }
     else if (event->type() == ClientEvents::StopEvent)
     {
-        qDebug() << "PluginManager: Receive StopEvent";
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StopEvent));
         this->exit(0);
         return (true);

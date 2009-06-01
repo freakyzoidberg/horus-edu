@@ -29,3 +29,8 @@ QStringList         MainFrame::getPluginsRecommended() const
 {
     return (NULL);
 }
+
+bool                MainFrame::event(QEvent *event)
+{
+    return (false);
+}
