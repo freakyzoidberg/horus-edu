@@ -43,7 +43,7 @@ bool    ConfigManager::event(QEvent *event)
     }
     else
     {
-        qDebug() << "ConfigManager: Receive Event not managed";
+        qDebug() << "ConfigManager: Received Event not managed";
         return (QThread::event(event));
     }
 }

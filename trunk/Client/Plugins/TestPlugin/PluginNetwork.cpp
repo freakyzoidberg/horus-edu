@@ -5,14 +5,14 @@
 PluginNetwork::PluginNetwork()
 {
 }
-
+/*
 PluginPacket    *PluginNetwork::recvPacket() const
 {
     qDebug() << "Receiving transmission";
     return NULL;
 }
 
-/*
+
 bool    PluginNetwork::eventHandler(QEvent *event)
 {
     event = event; // remove 'unused parameter' warning !
