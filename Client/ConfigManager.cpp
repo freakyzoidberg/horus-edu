@@ -23,13 +23,11 @@ bool    ConfigManager::event(QEvent *event)
 {
     if (event->type() == ClientEvents::StartEvent)
     {
-        qDebug() << "ConfigManager: Receive StartEvent";
         this->sendLoadConfig();
         return (true);
     }
     else if (event->type() == ClientEvents::StopEvent)
     {
-        qDebug() << "ConfigManager: Receive StopEvent";
         this->saveConfig();
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StopEvent));
         this->exit(0);
