@@ -9,6 +9,8 @@ SOURCES += main.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
+    ../Common/CommFile.cpp \
+    ../Common/CommFileInfo.cpp \
     ../Common/CommError.cpp \
     ../Common/CommSettings.cpp \
     ../Common/CommPlugin.cpp \
@@ -24,12 +26,16 @@ SOURCES += main.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
     InterfaceClient.cpp \
-    InterfaceNetwork.cpp
+    InterfaceNetwork.cpp \
+    FileManager.cpp \
+    NetFile.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
     ../Common/PluginPacket.h \
     ../Common/CommSocket.h \
+    ../Common/CommFile.h \
+    ../Common/CommFileInfo.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \
@@ -55,7 +61,9 @@ HEADERS += NetworkManager.h \
     IDisplayable.h \
     IDisplayablePlugin.h \
     INetwork.h \
-    INetworkPlugin.h
+    INetworkPlugin.h \
+    FileManager.h \
+    NetFile.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
