@@ -1,0 +1,4 @@
+#ifndef IDISPLAYABLE_H
+#define IDISPLAYABLE_H
+
+#endif // IDISPLAYABLE_H

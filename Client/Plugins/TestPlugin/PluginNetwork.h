@@ -4,7 +4,7 @@
 #include <QEvent>
 #include <QtPlugin>
 #include <QObject>
-#include "../../IPluginNetwork.h"
+#include "../../INetworkPlugin.h"
 
 
 //!  Access to the network

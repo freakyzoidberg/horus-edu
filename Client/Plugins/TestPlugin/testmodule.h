@@ -6,7 +6,7 @@
 #include <QStringList>
 
 #include "../../IClientPlugin.h"
-#include "../../IPluginNetwork.h"
+#include "../../INetworkPlugin.h"
 
 #include "PluginNetwork.h"
 
