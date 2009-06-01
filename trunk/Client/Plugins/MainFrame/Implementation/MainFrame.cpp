@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+Q_EXPORT_PLUGIN2(MainFrame, MainFrame)
+
 MainFrame::MainFrame()
 {
 }
