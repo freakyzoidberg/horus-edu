@@ -3,15 +3,15 @@
 # -------------------------------------------------
 QT += xml
 TEMPLATE = lib
-SOURCES += impl/LessonManager.cpp \
-    impl/Lesson.cpp \
-    impl/XmlHandler.cpp
+SOURCES += Implementation/LessonManager.cpp \
+    Implementation/Lesson.cpp \
+    Implementation/XmlHandler.cpp
 HEADERS += ILessonManager.h \
     ILesson.h \
-	impl/LessonManager.h \
-    impl/LessonManager_global.h \
-    impl/Lesson.h \
-    impl/XmlHandler.h
+	Implementation/LessonManager.h \
+    Implementation/LessonManager_global.h \
+    Implementation/Lesson.h \
+    Implementation/XmlHandler.h
 INCLUDEPATH += .
 DESTDIR = .
 TARGET = $$qtLibraryTarget(lessonManagerModule)
