@@ -23,8 +23,10 @@ SOURCES += main.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
     ../Common/CommPlugin.cpp \
-    InterfaceClient.cpp
-    #NetworkSender.cpp
+    InterfaceClient.cpp \
+    Network.cpp
+
+# NetworkSender.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -35,7 +37,6 @@ HEADERS += NetworkManager.h \
     ../Common/CommError.h \
     ../Common/CommSettings.h \
     ../Common/CommPlugin.h \
-                        \
     InterfaceClient.h \
     IPdfRendering.h \
     IMetadata.h \
@@ -44,7 +45,6 @@ HEADERS += NetworkManager.h \
     IClientPlugin.h \
     IPluginNetwork.h \
     INetworkSender.h \
-                        \
     ClientApplication.h \
     PluginManager.h \
     PacketManager.h \
