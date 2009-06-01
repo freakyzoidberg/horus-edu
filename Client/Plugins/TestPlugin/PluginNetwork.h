@@ -37,6 +37,8 @@ public:
         */
         PluginNetwork();
 
+        PluginPacket    *recvPacket() const;
+
         //! Handle the events NetworkEvent
         /*!
           If the plugin received a network event, this method must handle it
@@ -44,21 +46,21 @@ public:
             \param event the event received
             \return true if the event was successfully handled, false eitherway
         */
-        bool    eventHandler(QEvent *event);
+       // bool    eventHandler(QEvent *event);
 
         //! Retrieved a packet
         /*!
           This method doesn't read directly on the socket. The client reads the socket
           and store the packet until the plugin can retrieve it
         */
-        void    retrievedPacket();
+        //void    retrievedPacket();
 
         //! Send a packet
         /*!
           This method doesn't write directly on the socket. It passes a packet
           to the client wich will send the packet on the network.
         */
-        void    buildPacket();
+        //void    buildPacket();
 };
 
 #endif // PLUGINNETWORK_H
