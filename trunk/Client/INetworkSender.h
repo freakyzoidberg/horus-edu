@@ -1,5 +1,0 @@
-#ifndef INETWORKSENDER_H
-#define INETWORKSENDER_H
-
-
-#endif // INETWORKSENDER_H
