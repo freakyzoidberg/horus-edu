@@ -41,7 +41,10 @@ void SettingsDialog::FillPluginTab()
     settings->beginGroup("Plugins");
     foreach (QString key, settings->childKeys())
     {
-        line = new QLineEdit(settings->value(key).toString());
+        if (key == "Load")
+            line = new QLineEdit(settings->value(key).toStringList().join(", "));
+        else
+            line = new QLineEdit(settings->value(key).toString());
         line->setObjectName(key);
         pluginLayout->addRow(key, line);
     }
@@ -118,7 +121,10 @@ void SettingsDialog::Save()
         settings->setValue(line->objectName(), line->text());
     settings->beginGroup("Plugins");
     foreach (QLineEdit *line, this->ui.PluginTab->findChildren<QLineEdit *>())
-        settings->setValue(line->objectName(), line->text());
+        if (line->objectName() == "Load")
+            settings->setValue(line->objectName(), QStringList(line->text().split(", ", QString::SkipEmptyParts)));
+        else
+            settings->setValue(line->objectName(), line->text());
     settings->endGroup();
     foreach (QLineEdit *line, this->ui.NetworkTab->findChildren<QLineEdit *>())
         if (line->objectName().contains("session_"))
