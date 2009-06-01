@@ -23,8 +23,8 @@ SOURCES += main.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
     ../Common/CommPlugin.cpp \
-    InterfaceClient.cpp \
-    NetworkSender.cpp
+    InterfaceClient.cpp
+    #NetworkSender.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
