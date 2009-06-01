@@ -23,7 +23,8 @@ SOURCES += main.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
     ../Common/CommPlugin.cpp \
-    InterfaceClient.cpp
+    InterfaceClient.cpp \
+    NetworkSender.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -32,25 +33,30 @@ HEADERS += NetworkManager.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \
-    ClientApplication.h \
-    IClientPlugin.h \
-    PluginManager.h \
-    PacketManager.h \
-    ClientEvents.h \
-    IClient.h \
     ../Common/CommSettings.h \
-    Loader.h \
-    MainWindow.h \
-    LoginDialog.h \
+    ../Common/CommPlugin.h \
+                        \
+    InterfaceClient.h \
     IPdfRendering.h \
     IMetadata.h \
     IMetaDataCreate.h \
+    IClient.h \
+    IClientPlugin.h \
+    IPluginNetwork.h \
+    INetworkSender.h \
+                        \
+    ClientApplication.h \
+    PluginManager.h \
+    PacketManager.h \
+    ClientEvents.h \
+    Loader.h \
+    MainWindow.h \
+    LoginDialog.h \
     ConfigManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
-    ../Common/CommPlugin.h \
-    InterfaceClient.h \
-    IPluginNetwork.h
+ #   INetworkReceiver.h \
+    NetworkSender.h \
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \

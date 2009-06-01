@@ -1,7 +1,6 @@
 #ifndef ICLIENT_H
 #define ICLIENT_H
 
-#include "../Common/PluginPacket.h"
 #include "IClientPlugin.h"
 
 //! Interface given to each client plugin to communicate with the client
@@ -11,12 +10,7 @@
 class IClient
 {
 public:
-    //! A function for providing to plugins the send of packets to the network
-    /*!
-     *  need to be in a network interface
-     *  \param packet the packet to send
-     */
-    virtual void            sendPacket(const PluginPacket& packet) const = 0;
+
     //! A function for providing to plugins the read of packets to the network
     /*!
      *  need to be in a network interface

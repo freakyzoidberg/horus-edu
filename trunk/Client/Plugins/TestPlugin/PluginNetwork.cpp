@@ -1,9 +1,18 @@
+#include <QDebug>
+
 #include "PluginNetwork.h"
 
 PluginNetwork::PluginNetwork()
 {
 }
 
+PluginPacket    *PluginNetwork::recvPacket() const
+{
+    qDebug() << "Receiving transmission";
+    return NULL;
+}
+
+/*
 bool    PluginNetwork::eventHandler(QEvent *event)
 {
     event = event; // remove 'unused parameter' warning !
@@ -18,4 +27,4 @@ void    PluginNetwork::retrievedPacket()
 void    PluginNetwork::buildPacket()
 {
     return ;
-}
+} */

@@ -13,8 +13,8 @@ class InterfaceClient : public IClient
 {
     public:
         InterfaceClient(IClientPlugin *p, ClientApplication *father);
-        void            sendPacket(const PluginPacket& packet) const;
         IClientPlugin   *getPlugin(const QByteArray name) const;
+
     private:
         IClientPlugin       *plugin;
         ClientApplication   *parent;

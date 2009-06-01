@@ -10,10 +10,11 @@ Q_EXPORT_PLUGIN2(testModule, testPlugin)
 extern QEvent::Type ClientEvents::NetworkReceiveEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 extern QEvent::Type ClientEvents::LoadPluginEvent;
+extern QEvent::Type ClientEvents::StartEvent;
 
 testPlugin::testPlugin()
 {
-    std::cout << "module testPlugin loaded." << std::endl;
+    std::cout << "module testPlugin loaded. HAHAHAHA" << std::endl;
     setModRecommended("NotAModule.so");
     pNetwork = new PluginNetwork();
 }
@@ -26,10 +27,13 @@ testPlugin::~testPlugin()
 
 bool    testPlugin::event(QEvent *event)
 {
+    if (event->type() == ClientEvents::StartEvent)
+        qDebug() << "Event received";
+
     if (event->type() == ClientEvents::NetworkReceiveEvent)
     {
         event->accept();        
-        return pNetwork->eventHandler(event);
+        return true; //pNetwork->eventHandler(event);
     }
     else if (event->type() == ClientEvents::LoadPluginEvent)
     {
