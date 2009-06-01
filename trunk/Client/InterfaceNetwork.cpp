@@ -1,17 +1,17 @@
+#include "InterfaceNetwork.h"
+
 #include    <QtGui/QApplication>
 
 #include "ThreadNetwork.h"
 
-#include "Network.h"
-
 #include "../Common/PluginPacket.h"
 #include "../Common/CommPlugin.h"
 
-Network::Network()
+InterfaceNetwork::InterfaceNetwork()
 {
 }
 
-void            Network::sendPacket(const PluginPacket& packet) const
+void            InterfaceNetwork::sendPacket(const PluginPacket& packet) const
 {
     CommPlugin p = packet;
 

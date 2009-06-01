@@ -24,7 +24,7 @@ SOURCES += main.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
     InterfaceClient.cpp \
-    Network.cpp
+    InterfaceNetwork.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -35,7 +35,6 @@ HEADERS += NetworkManager.h \
     ../Common/CommError.h \
     ../Common/CommSettings.h \
     ../Common/CommPlugin.h \
-    InterfaceClient.h \
     IPdfRendering.h \
     IMetadata.h \
     IMetaDataCreate.h \
@@ -52,11 +51,11 @@ HEADERS += NetworkManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
     InterfaceClient.h \
+    InterfaceNetwork.h \
     IDisplayable.h \
     IDisplayablePlugin.h \
     INetwork.h \
-    INetworkPlugin.h \
-    Network.h
+    INetworkPlugin.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
