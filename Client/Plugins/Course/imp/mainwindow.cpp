@@ -44,7 +44,7 @@ cours2->setText(0,"cours 2");
 Tree->insertTopLevelItem(0, cours1);
 Tree->insertTopLevelItem(1, cours2);
 
-connect ( &lesson1, SIGNAL( clicked() ), this, SLOT(ViewLesson()) );
+
 Tree->show();
 }
 
