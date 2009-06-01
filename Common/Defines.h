@@ -5,7 +5,7 @@
 #  if defined(Q_OS_WIN)
 #   define PREFIX  "${Program Files}" // un truc dans ce genre la
 #  elif defined(Q_OS_MAC)
-#   define PREFIX  "/MAC_FOLDER_SHIT" // un truc dans ce genre la
+#   define PREFIX  "/MAC_FOLDER" // un truc pas dans ce genre la
 #  else
 #   define PREFIX  "/opt/"
 #  endif

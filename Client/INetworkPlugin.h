@@ -7,7 +7,7 @@
 /*!
  *  Each plugin implementing this interface will be able to use the network: send and receive packets.
  */
-class IPluginNetwork
+class INetworkPlugin
 {
     public:
         //! Useless, must be deleted
@@ -18,6 +18,6 @@ class IPluginNetwork
         virtual void    buildPacket() = 0;
 };
 
-Q_DECLARE_INTERFACE(IPluginNetwork, "net.horus.Client.NetworkInterface/1.0");
+Q_DECLARE_INTERFACE(INetworkPlugin, "net.horus.Client.NetworkInterface/1.0");
 
 #endif // IPLUGINNETWORK_H
