@@ -20,7 +20,7 @@ bool    NetworkManager::event(QEvent *e)
 {
    if(e->type() == ClientEvents::StartEvent)
     {
-        QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat, this);
+        QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
         qDebug() << "NetworkManager: Recieve StartEvent";
         connectToHostEncrypted(settings.value("Network/Server").toString(), settings.value("Network/Port").toUInt());
         return true;

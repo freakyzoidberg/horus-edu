@@ -49,7 +49,8 @@ HEADERS += NetworkManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
     ../Common/CommPlugin.h \
-    InterfaceClient.h
+    InterfaceClient.h \
+    IPluginNetwork.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
