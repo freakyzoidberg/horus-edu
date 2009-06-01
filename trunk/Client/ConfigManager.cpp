@@ -44,6 +44,7 @@ bool    ConfigManager::event(QEvent *event)
     else if (event->type() == ClientEvents::NetworkErrorEvent)
     {
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+        return (true);
     }
     else
     {
