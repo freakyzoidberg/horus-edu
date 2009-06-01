@@ -32,6 +32,8 @@ class ClientEvents
         static QEvent::Type SendLoginEvent;
         //!  event contain the plugin data
         static QEvent::Type PluginEvent;
+        //!  event for the network errors
+        static QEvent::Type NetworkErrorEvent;
 };
 
 //! this object is an event containt a packet to send to the server
