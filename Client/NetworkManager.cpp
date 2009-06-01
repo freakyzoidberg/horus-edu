@@ -1,5 +1,6 @@
 #include "NetworkManager.h"
 #include    "PluginManager.h"
+#include <QSettings>
 
 NetworkManager::NetworkManager(QObject *parent) : CommSocket()
 {
@@ -17,10 +18,11 @@ NetworkManager::~NetworkManager()
 
 bool    NetworkManager::event(QEvent *e)
 {
+    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat, this);
    if(e->type() == ClientEvents::StartEvent)
     {
         qDebug() << "NetworkManager: Recieve StartEvent";
-        connectToHostEncrypted("localhost", 42000);
+        connectToHostEncrypted(settings.value("Server"), settings.value("Port"));
         return true;
     }
     else if (e->type() == ClientEvents::SendPacketEvent)
@@ -53,7 +55,7 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
          qDebug() << "The host was not found. Please check the host name and port settings.";
          break;
      case QAbstractSocket::ConnectionRefusedError:
-         qDebug() << "The connection was refused by the peer. Make sure the fortune server is running, and check that the host name and port settings are correct.";
+         qDebug() << "The connection was refused by the peer. Make sure the Horus server is running, and check that the host name and port settings are correct.";
          break;
      default:
          qDebug() << tr("The following error occurred: %1.").arg(errorString());
