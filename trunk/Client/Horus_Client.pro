@@ -41,7 +41,6 @@ HEADERS += NetworkManager.h \
     IMetaDataCreate.h \
     IClient.h \
     IClientPlugin.h \
-    IPluginNetwork.h \
     ClientApplication.h \
     PluginManager.h \
     PacketManager.h \
@@ -56,7 +55,8 @@ HEADERS += NetworkManager.h \
     IDisplayable.h \
     IDisplayablePlugin.h \
     INetwork.h \
-    INetworkPlugin.h
+    INetworkPlugin.h \
+    Network.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
