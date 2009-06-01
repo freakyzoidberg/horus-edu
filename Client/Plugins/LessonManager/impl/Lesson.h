@@ -41,6 +41,27 @@ private:
     QList<IObject *>          objects;
 };
 
+//! Provides an implementation of ILesson::IPage::IObject to be used by the plugin.
+class LObject : public ILesson::IPage::IObject
+{
+public:
+    LObject();
+    const QPointF&      getPosition() const;
+    void                setPosition(const QPointF& pos);
+    const QSizeF&       getSize() const;
+    void                setSize(const QSizeF& size);
+    const QString&      getType() const;
+    void                setType(const QString& type);
+    IController*        getController();
+    void                setController(IController *ctrl);
+
+private:
+    IController         *ctrl;
+    QPointF             position;
+    QSizeF              size;
+    QString             type;
+};
+
 //! Provides an implementation of ILesson to be used by the plugin.
 class Lesson : public ILesson
 {

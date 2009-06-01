@@ -6,7 +6,7 @@
 #include <QPointF>
 #include <QSizeF>
 
-//!  Interface of a lesson metadata representation.
+//! Interface of a lesson metadata representation.
 /*!
     This interface describes a lesson and its different components,
     such as the different sections, subsections and pages as well as
@@ -88,14 +88,29 @@ public:
         //! Interface of a page object.
         /*!
             A page object is a displayable zone which contains static or
-            interactive page content, some basic content type are part of the general
-            lesson interface, such as IText. Other types such as PDF elements require
-            the adequate plugin to be loaded.
+            interactive page content, the content types (for example: text, PDF, image, ...)
+            are controlled by an implementation of the class IController. These controllers
+            can be found in appropriate plugins.
         */
         class IObject
         {
             public:
             virtual ~IObject() {}
+
+            //! Interface of an object controller.
+            /*!
+                An object controller is a class that allows to display the content of
+                an object and bring it to life. The implementations of IController are
+                defined in separate plugins. The implementation of IObject is provided by
+                the plugin, users should not provide their own implementation.
+                However, no implementation of IController is provided by the plugin.
+                This is the role of some dedicated plugins.
+            */
+            class IController
+            {
+            public:
+                virtual ~IController() {}
+            };
 
             //! Retrieves the position of the object.
             /*!
@@ -124,10 +139,22 @@ public:
             //! Retrieves the type of the object.
             /*!
                 \return A string describing the type of the object, the appropriate
-                plugins need to be loaded for unknown types. The type is set by the subclass
-                implementing IObject.
+                plugins need to be loaded according to the type, they provide an implementation
+                of IController.
             */
             virtual const QString&      getType() const = 0;
+
+            //! Retrieves the controller of an object.
+            /*!
+                \return A pointer to the appropriate controller or NULL if the controller was not found.
+            */
+            virtual IController*        getController() = 0;
+
+            //! Sets the controller of an object.
+            /*!
+                \param ctrl A pointer to the appropriate controller for the object.
+            */
+            virtual void                setController(IController *ctrl) = 0;
         };
 
         //! Retrieves the objects contained in the page.

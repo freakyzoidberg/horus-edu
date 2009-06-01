@@ -30,6 +30,10 @@ const QList<ILesson::IElement *>& LSection::getElements() const
     return elements;
 }
 
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+
 LPage::LPage()
 {
 
@@ -59,6 +63,58 @@ void                    LPage::addObject(ILesson::IPage::IObject *object)
 {
     objects.push_back(object);
 }
+
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+
+LObject::LObject() : ctrl(NULL)
+{
+}
+
+const QPointF& LObject::getPosition() const
+{
+    return position;
+}
+
+void LObject::setPosition(const QPointF& pos)
+{
+    this->position = pos;
+}
+
+const QSizeF& LObject::getSize() const
+{
+    return size;
+}
+
+void LObject::setSize(const QSizeF& size)
+{
+    this->size = size;
+}
+
+const QString& LObject::getType() const
+{
+    return type;
+}
+
+void LObject::setType(const QString& type)
+{
+    this->type = type;
+}
+
+ILesson::IPage::IObject::IController* LObject::getController()
+{
+    return ctrl;
+}
+
+void LObject::setController(ILesson::IPage::IObject::IController *ctrl)
+{
+    this->ctrl = ctrl;
+}
+
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
 
 Lesson::Lesson()
 {

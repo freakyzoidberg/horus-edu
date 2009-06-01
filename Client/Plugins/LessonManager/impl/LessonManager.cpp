@@ -4,9 +4,13 @@
 #include <QFile>
 
 #include "../../ClientEvents.h"
+#include "../../IClient.h"
 #include "LessonManager.h"
 #include "Lesson.h"
 #include "XmlHandler.h"
+
+extern QEvent::Type ClientEvents::LoadPluginEvent;
+extern QEvent::Type ClientEvents::UnloadPluginEvent;
 
 Q_EXPORT_PLUGIN2(lessonManagerModule, LessonManager)
 
@@ -24,16 +28,16 @@ LessonManager::~LessonManager()
 
 bool    LessonManager::event(QEvent *event)
 {
-//    if (event->type() == ClientEvents::LoadPluginEvent)
-//    {
-//        event->accept();
-//        return eventHandlerLoad(event);
-//    }
-//    else if (event->type() == ClientEvents::UnloadPluginEvent)
-//    {
-//        event->accept();
-//        return eventHandlerUnload(event);
-//    }
+    if (event->type() == ClientEvents::LoadPluginEvent)
+    {
+        event->accept();
+        return eventHandlerLoad(event);
+    }
+    else if (event->type() == ClientEvents::UnloadPluginEvent)
+    {
+        event->accept();
+        return eventHandlerUnload(event);
+    }
     event->ignore();
     return QObject::event(event);
 }
@@ -136,13 +140,25 @@ void          LessonManager::writeXmlSection(const QList<ILesson::IElement *>& l
     while (it != list.end())
     {
         ILesson::ISection* sec = dynamic_cast<ILesson::ISection *>(*it);
-        if (sec == NULL)
+        ILesson::IPage* page = dynamic_cast<ILesson::IPage *>(*it);
+        if (page != NULL)
         {
             xmlWriter.writeStartElement("page");
             xmlWriter.writeAttribute("title", (*it)->getTitle());
+            const QList<ILesson::IPage::IObject *>& objs = page->getObjects();
+            QList<ILesson::IPage::IObject *>::const_iterator oit = objs.begin();
+            while (oit != objs.end())
+            {
+                xmlWriter.writeStartElement("object");
+                xmlWriter.writeAttribute("type", (*oit)->getType());
+                xmlWriter.writeAttribute("position", QString().setNum((*oit)->getPosition().x()) + "," + QString().setNum((*oit)->getPosition().y()));
+                xmlWriter.writeAttribute("size", QString().setNum((*oit)->getSize().width()) + "," + QString().setNum((*oit)->getSize().height()));
+                xmlWriter.writeEndElement();
+                oit++;
+            }
             xmlWriter.writeEndElement();
         }
-        else
+        else if (sec != NULL)
         {
             xmlWriter.writeStartElement("section");
             xmlWriter.writeAttribute("title", (*it)->getTitle());
