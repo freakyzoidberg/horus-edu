@@ -6,6 +6,7 @@
 #include "ClientEvents.h"
 #include "../Common/CommLogin.h"
 #include "ClientApplication.h"
+ #include <QKeyEvent>
 
 //! This Object is the window to login in the server with a username and password
 class LoginDialog : public QWidget {
@@ -22,10 +23,15 @@ private:
     void closeEvent(QCloseEvent *event);
     //! A pointer to its parent ClientApplication
     ClientApplication *parent;
-
+    //! Method to send an event to networkManager
+    void        connectMethod();
 private slots:
     //! callback of the connect button, it send an event to NetworkManager
     void on_connectButton_clicked();
+protected slots:
+    //! event loop
+    bool    event(QEvent *e);
+    void    keyPressEvent (QKeyEvent *event);
 };
 
 #endif // LOGINDIALOG_H

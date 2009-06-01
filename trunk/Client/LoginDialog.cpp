@@ -15,10 +15,26 @@ LoginDialog::~LoginDialog()
 
 void    LoginDialog::closeEvent(QCloseEvent *event)
 {
-        QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StartEvent));
+    QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StartEvent));
+}
+
+bool    LoginDialog::event(QEvent *event)
+{
+    return (QWidget::event(event));
+}
+
+void    LoginDialog::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() + 1 == Qt::Key_Enter)
+        connectMethod();
 }
 
 void LoginDialog::on_connectButton_clicked()
+{
+    connectMethod();
+}
+
+void    LoginDialog::connectMethod()
 {
     if (l_ui.loginE->text() != "" || l_ui.passE->text() != "")
     {
