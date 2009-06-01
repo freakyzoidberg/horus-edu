@@ -29,7 +29,7 @@ bool    PluginManager::event(QEvent *event)
     }
     else
     {
-        qDebug() << "PluginManager: Receive Event not managed";
+        qDebug() << "PluginManager: Received Event not managed";
         return (QThread::event(event));
     }
 }

@@ -1,7 +1,7 @@
 #ifndef IPLUGINNETWORK_H
 #define IPLUGINNETWORK_H
 
-#include <QEvent>
+#include "INetwork.h"
 
 //! Interface optionnal for using the network
 /*!
@@ -10,12 +10,12 @@
 class INetworkPlugin
 {
     public:
-        //! Useless, must be deleted
-        virtual bool    eventHandler(QEvent *) = 0;
-        //! Must be moved in a interface of the client like IClient
-        virtual void    retrievedPacket() = 0;
-        //! Must be moved in a interface of the client like IClient
-        virtual void    buildPacket() = 0;
+    //! Pointer to an implementation of the interface INetwork
+    /*!
+     *  This pointer is set by the Client while loading the plugin.
+     *  It let plugin access network ressources
+     */
+    INetwork    *network;
 };
 
 Q_DECLARE_INTERFACE(INetworkPlugin, "net.horus.Client.NetworkInterface/1.0");

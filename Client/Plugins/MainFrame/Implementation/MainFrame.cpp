@@ -1,5 +1,6 @@
 #include "MainFrame.h"
 
+#include <QDebug>
 
 MainFrame::MainFrame()
 {
@@ -17,20 +18,21 @@ const QByteArray    MainFrame::getVersion() const
 
 QStringList         MainFrame::getPluginsRequired() const
 {
-    return (NULL);
+    return (QStringList());
 }
 
 QStringList         MainFrame::getPluginsConflicts() const
 {
-    return (NULL);
+    return (QStringList());
 }
 
 QStringList         MainFrame::getPluginsRecommended() const
 {
-    return (NULL);
+    return (QStringList());
 }
 
 bool                MainFrame::event(QEvent *event)
 {
+    qDebug() << "MainFrame: Received Event not managed" << event;
     return (false);
 }

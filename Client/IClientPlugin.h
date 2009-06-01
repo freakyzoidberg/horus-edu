@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QEvent>
+#include <QStringList>
+#include <QByteArray>
 
 class IClient;
 

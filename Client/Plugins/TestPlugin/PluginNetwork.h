@@ -19,7 +19,7 @@
     It inheritates QObject and the interface (horus API) IPluginNetwork
 */
 
-class   PluginNetwork : public QObject, public IPluginNetwork
+class   PluginNetwork : public QObject, public INetworkPlugin
 {
  //! The Q_OBJECT and Q_INTERFACES macros
  /*! This two macros must be called to compile the plugin properly.
@@ -28,7 +28,7 @@ class   PluginNetwork : public QObject, public IPluginNetwork
  */
 
  Q_OBJECT
- Q_INTERFACES(IPluginNetwork)
+ Q_INTERFACES(INetworkPlugin)
 
 public:
         //! The constructor
@@ -37,7 +37,7 @@ public:
         */
         PluginNetwork();
 
-        PluginPacket    *recvPacket() const;
+//        PluginPacket    *recvPacket() const;
 
         //! Handle the events NetworkEvent
         /*!
