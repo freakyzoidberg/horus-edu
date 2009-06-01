@@ -68,7 +68,7 @@ void                    LPage::addObject(ILesson::IPage::IObject *object)
 /**********************************************************************/
 /**********************************************************************/
 
-LObject::LObject() : ctrl(NULL)
+LObject::LObject() : ctrl(NULL), widget(NULL)
 {
 }
 
@@ -100,6 +100,26 @@ const QString& LObject::getType() const
 void LObject::setType(const QString& type)
 {
     this->type = type;
+}
+
+QWidget* LObject::getWidget()
+{
+    return widget;
+}
+
+void LObject::setWidget(QWidget *widget)
+{
+    this->widget = widget;
+}
+
+const QMap<QString, int>& LObject::getRequiredFiles() const
+{
+    return requiredFiles;
+}
+
+void LObject::addRequiredFile(QString fileName)
+{
+    requiredFiles.insert(fileName, -1);
 }
 
 ILesson::IPage::IObject::IController* LObject::getController()

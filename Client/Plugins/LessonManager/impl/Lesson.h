@@ -1,6 +1,8 @@
 #ifndef LESSON_H
 #define LESSON_H
 
+#include <QMap>
+#include <QString>
 #include "../ILesson.h"
 
 //! Provides an implementation of ILesson::ISection to be used by the plugin.
@@ -52,6 +54,10 @@ public:
     void                setSize(const QSizeF& size);
     const QString&      getType() const;
     void                setType(const QString& type);
+    QWidget*            getWidget();
+    void                setWidget(QWidget *widget);
+    const QMap<QString, int>&    getRequiredFiles() const;
+    void                addRequiredFile(QString fileName);
     IController*        getController();
     void                setController(IController *ctrl);
 
@@ -60,6 +66,8 @@ private:
     QPointF             position;
     QSizeF              size;
     QString             type;
+    QWidget*            widget;
+    QMap<QString, int>  requiredFiles;
 };
 
 //! Provides an implementation of ILesson to be used by the plugin.
