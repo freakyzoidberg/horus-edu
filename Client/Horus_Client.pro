@@ -56,12 +56,7 @@ HEADERS += NetworkManager.h \
     IDisplayable.h \
     IDisplayablePlugin.h \
     INetwork.h \
-<<<<<<< .mine
-    Network.h
-=======
-    INetworkPlugin.h \
-    NetworkSender.h
->>>>>>> .r533
+    INetworkPlugin.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \

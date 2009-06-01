@@ -1,10 +1,9 @@
 #include    <QtGui/QApplication>
 
 #include "ThreadNetwork.h"
-<<<<<<< .mine
-=======
+
 #include "Network.h"
->>>>>>> .r533
+
 #include "../Common/PluginPacket.h"
 #include "../Common/CommPlugin.h"
 
