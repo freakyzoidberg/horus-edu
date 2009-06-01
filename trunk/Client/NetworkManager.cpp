@@ -4,11 +4,15 @@
 NetworkManager::NetworkManager(QObject *parent) : CommSocket()
 {
     this->packManag = new PacketManager(parent);
-    connect(      this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
-    connect(packManag, SIGNAL(sendPacket(const QByteArray&)),           this, SLOT(sendPacket(const QByteArray&)));
+    connect(this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
+    connect(packManag, SIGNAL(sendPacket(const QByteArray&)), this, SLOT(sendPacket(const QByteArray&)));
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
-    connect(this, SIGNAL(disconnected()),                      this, SLOT(quit()));
+    connect(this, SIGNAL(disconnected()), this, SLOT(quit()));
     setObjectName("NetworkManager");
+}
+
+NetworkManager::~NetworkManager()
+{
 }
 
 bool    NetworkManager::event(QEvent *e)
@@ -55,6 +59,3 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
          qDebug() << tr("The following error occurred: %1.").arg(errorString());
      }
  }
-NetworkManager::~NetworkManager()
-{
-}

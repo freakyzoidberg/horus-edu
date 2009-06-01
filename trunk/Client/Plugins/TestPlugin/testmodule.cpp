@@ -7,6 +7,10 @@
 
 Q_EXPORT_PLUGIN2(testModule, testPlugin)
 
+extern QEvent::Type ClientEvents::NetworkReceiveEvent;
+extern QEvent::Type ClientEvents::UnloadPluginEvent;
+extern QEvent::Type ClientEvents::LoadPluginEvent;
+
 testPlugin::testPlugin()
 {
     std::cout << "module testPlugin loaded." << std::endl;
