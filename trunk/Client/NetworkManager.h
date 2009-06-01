@@ -6,7 +6,7 @@
 #include <QHostAddress>
 
 #include "../Common/CommSocket.h"
-
+#include "ClientApplication.h"
 #include    "PacketManager.h"
 #include    "ClientEvents.h"
 
@@ -18,7 +18,7 @@ class NetworkManager : public CommSocket
     public:
         NetworkManager(QObject *parent = 0);
         ~NetworkManager();
-        QObject *parent;
+        ClientApplication *parent;
     protected slots:
         //! event loop
         bool    event(QEvent *e);
