@@ -1,4 +1,4 @@
-#include "mainframe.h"
+#include "MainFrame.h"
 
 
 MainFrame::MainFrame()
