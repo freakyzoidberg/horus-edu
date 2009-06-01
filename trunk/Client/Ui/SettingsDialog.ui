@@ -14,14 +14,14 @@
    <string>Horus - Settings</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Loader.qrc">
+   <iconset resource="SettingsDialog.qrc">
     <normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="GeneralTab">
       <attribute name="title">
@@ -53,7 +53,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="Loader.qrc"/>
+  <include location="SettingsDialog.qrc"/>
  </resources>
  <connections>
   <connection>

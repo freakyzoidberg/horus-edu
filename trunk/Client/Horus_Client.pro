@@ -5,28 +5,26 @@ QT += network
 TARGET = Horus_Client
 TEMPLATE = app
 SOURCES += main.cpp \
-    NetworkManager.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
+    ../Common/CommSettings.cpp \
+    ../Common/CommPlugin.cpp \
     ClientApplication.cpp \
+    NetworkManager.cpp \
     PluginManager.cpp \
     PacketManager.cpp \
-    ../Common/CommSettings.cpp \
+    ConfigManager.cpp \
     Loader.cpp \
     MainWindow.cpp \
     LoginDialog.cpp \
     ClientEvents.cpp \
-    ConfigManager.cpp \
     ThreadNetwork.cpp \
     SettingsDialog.cpp \
-    ../Common/CommPlugin.cpp \
     InterfaceClient.cpp \
     Network.cpp
-
-# NetworkSender.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -55,13 +53,11 @@ HEADERS += NetworkManager.h \
     ConfigManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
-    ../Common/CommPlugin.h \
     InterfaceClient.h \
-    IPluginNetwork.h \
     IDisplayable.h \
     IDisplayablePlugin.h \
     INetwork.h \
-    INetworkReceiver.h \
+    INetworkPlugin.h \
     NetworkSender.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \

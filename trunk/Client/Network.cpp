@@ -1,15 +1,15 @@
 #include    <QtGui/QApplication>
 
 #include "ThreadNetwork.h"
-#include "NetworkSender.h"
+#include "Network.h"
 #include "../Common/PluginPacket.h"
 #include "../Common/CommPlugin.h"
 
-NetworkSender::NetworkSender()
+Network::Network()
 {
 }
 
-void            NetworkSender::sendPacket(const PluginPacket& packet) const
+void            Network::sendPacket(const PluginPacket& packet) const
 {
     CommPlugin p = packet;
 
