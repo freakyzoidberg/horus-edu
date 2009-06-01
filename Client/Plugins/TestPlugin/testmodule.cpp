@@ -14,7 +14,7 @@ extern QEvent::Type ClientEvents::StartEvent;
 
 testPlugin::testPlugin()
 {
-    std::cout << "module testPlugin loaded. HAHAHAHA" << std::endl;
+    std::cout << "module testPlugin loaded." << std::endl;
     setModRecommended("NotAModule.so");
     pNetwork = new PluginNetwork();
 }
