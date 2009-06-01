@@ -55,8 +55,14 @@ HEADERS += NetworkManager.h \
     ConfigManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
- #   INetworkReceiver.h \
-    NetworkSender.h \
+    ../Common/CommPlugin.h \
+    InterfaceClient.h \
+    IPluginNetwork.h \
+    IDisplayable.h \
+    IDisplayablePlugin.h \
+    INetwork.h \
+    INetworkReceiver.h \
+    NetworkSender.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
