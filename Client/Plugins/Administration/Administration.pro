@@ -1,17 +1,13 @@
-#-------------------------------------------------
-#
+# -------------------------------------------------
 # Project created by QtCreator 2009-04-04T00:51:26
-#
-#-------------------------------------------------
-
-QT       += xml
-
+# -------------------------------------------------
+QT += xml
 TARGET = Administration
 TEMPLATE = lib
-
 DEFINES += ADMINISTRATION_LIBRARY
-
-SOURCES += administration.cpp
-
-HEADERS += administration.h\
-        Administration_global.h
+SOURCES += administration.cpp \
+    AdminFram.cpp
+HEADERS += administration.h \
+    Administration_global.h \
+    AdminFram.h
+FORMS += AdminFram.ui

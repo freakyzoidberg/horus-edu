@@ -30,6 +30,7 @@ void PacketManager::PacketToSend(QEvent *e)
 {
     SendPacketEvent *spe = static_cast<SendPacketEvent *>(e);
     packetStack.enqueue(spe->pack);
+    clearPacketStack();
 }
 
 void    PacketManager::clearPacketStack()

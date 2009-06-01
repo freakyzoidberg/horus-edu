@@ -18,6 +18,11 @@ Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
     ld = new LoginDialog(this->parent);
 }
 
+void    Loader::closeEvent(QCloseEvent *event)
+{
+    this->parent->preExit();
+}
+
 void    Loader::loadNetwork()
 {
     //NetworkManager *networkManager;
@@ -72,8 +77,9 @@ bool    Loader::event(QEvent *event)
     {
         ld->show();
     }
-    else if (event->type() == ClientEvents::HideLoginEvent || event->type() == QEvent::Close)
+    else if (event->type() == ClientEvents::HideLoginEvent)
     {
+
         if (ld != NULL)
         {
             ld->hide();
