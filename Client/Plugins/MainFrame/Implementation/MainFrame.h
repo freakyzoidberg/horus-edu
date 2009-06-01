@@ -3,6 +3,8 @@
 
 #include "MainFrame_global.h"
 
+#include <QtPlugin>
+
 #include "../../../IClientPlugin.h"
 
 class MAINFRAMESHARED_EXPORT MainFrame : public IClientPlugin
