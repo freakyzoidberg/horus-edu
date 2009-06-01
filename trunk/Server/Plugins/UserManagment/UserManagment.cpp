@@ -1,5 +1,4 @@
 #include "UserManagment.h"
-#include "../../User.h"
 #include <QDebug>
 #include <QHash>
 
@@ -159,7 +158,7 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
         return;
     }
 
-    if (request["level"].toInt() < User::getUser(userId)->getLevel())
+    if (request["level"].toInt() < server->getLevel(userId))
     {
         response["Error"]   = 3;
         response["ErrorMesssage"]   = "Permition denied: You can't give more privileges than you have.";
@@ -183,4 +182,14 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
 
 void UserManagment::disableUser(quint32 userId, const QVariantHash& request,QVariantHash& response)
 {
+    if (server->getLevel(userId) > LEVEL_ADMINISTRATOR)
+    {
+        response["Error"]   = 3;
+        response["ErrorMesssage"]   = "Permition denied.";
+        return;
+    }
+
+    QSqlQuery query = server->getSqlQuery();
+    query.prepare("UPDATE users SET (enabled=(enabled+1)%2);");
+    query.exec();
 }
