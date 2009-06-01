@@ -79,9 +79,9 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
         return (success);
     loader = new QPluginLoader(userPath.absoluteFilePath(pluginName));
     plugin = loader->instance();
-    qDebug() << "PluginManager: error while loading" << pluginName << ":" << loader->errorString();
     if (!plugin)
     {
+        qDebug() << "PluginManager: error while loading" << pluginName << ":" << loader->errorString();
         delete loader;
         loader = new QPluginLoader(systemPath.absoluteFilePath(pluginName));
         plugin = loader->instance();
