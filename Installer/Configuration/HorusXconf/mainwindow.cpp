@@ -277,3 +277,56 @@ QDir dir(ui->lineEdit_16->text());
         }
 }
 
+
+void MainWindow::writesettings()
+{
+    QString host = ui->lineEdit->text();
+    QString port = ui->lineEdit_2->text();
+    QString dbname = ui->lineEdit_3->text();
+    QString login = ui->lineEdit_4->text();
+    QString pass = ui->lineEdit_9->text();
+    QString servport = ui->lineEdit_13->text();
+    QString path = ui->lineEdit_16->text();
+    QLayoutItem *child;
+
+    if (this->Gsettings.status() == 0)
+    {
+    this->Gsettings.clear();
+    this->Gsettings.beginGroup("SQL");
+    this->Gsettings.setValue("SQL_DRIVER", ("QMYSQL"));
+    this->Gsettings.setValue("SQL_HOSTNAME", (host));
+    this->Gsettings.setValue("SQL_DBNAME", (dbname));
+    this->Gsettings.setValue("SQL_USERNAME", (login));
+    this->Gsettings.setValue("SQL_PASSWD", (pass));
+    this->Gsettings.setValue("SQL_PORT", (port));
+    this->Gsettings.endGroup();
+    this->Gsettings.beginGroup("SERVER");
+    this->Gsettings.setValue("SRV_PORT", (servport));
+    this->Gsettings.endGroup();
+    this->Gsettings.beginGroup("SETTINGS");
+    this->Gsettings.setValue("Version", "5");
+    this->Gsettings.setValue("PluginsBase", ( path+"/Plugins"));
+    this->Gsettings.setValue("SoftFullPath", (path));
+    this->Gsettings.endGroup();
+    this->Gsettings.beginGroup("PLUGINS");;
+    for (int i = 0; (i < ui->scrollArea->layout()->count()); i++)
+    {
+
+        if (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->isChecked())
+        {
+            ui->label_2->setText(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text());
+        this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text(),
+                                (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+"/lib"
+                               +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".so")));
+        }
+
+    }
+    this->Gsettings.endGroup();
+    }
+
+}
+
+void MainWindow::on_buttonBox_clicked(QAbstractButton* button)
+{
+    writesettings();
+}
