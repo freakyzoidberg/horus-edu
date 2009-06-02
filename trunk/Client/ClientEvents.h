@@ -33,7 +33,7 @@ class ClientEvents
         //!  event contain the plugin data
         static QEvent::Type PluginEvent;
         //!  event for the network errors
-        static QEvent::Type NetworkErrorEvent;
+        static QEvent::Type OfflineModeEvent;
 };
 
 //! this object is an event containt a packet to send to the server
