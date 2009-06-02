@@ -1,18 +1,21 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QLabel>
 #include <QTreeWidget>
-#include <QSize>
+#include <QPushButton>
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
-    ui->setupUi(this);
-    connect(ui->french, SIGNAL( clicked() ), this, SLOT( explorer() ) );
-    //connect(ui->english, SIGNAL( clicked() ), this, SLOT( explorer()));
+    QWidget fenetre;
+    QPushButton *french = new QPushButton("french");
+    QPushButton *english = new QPushButton("english");
 
-
-
+    QHBoxLayout *layout = new QHBoxLayout;
+    layout->addWidget(french);
+    layout->addWidget(english);
+    fenetre.setLayout(layout);
+    fenetre.show();
 }
 
 MainWindow::~MainWindow()
@@ -23,7 +26,6 @@ MainWindow::~MainWindow()
 void MainWindow::explorer()
 {
     //build tree
-
 QTreeWidget *Tree = new QTreeWidget(this->centralWidget());
 
 Tree->setMaximumWidth(200);
@@ -43,7 +45,6 @@ cours2->setText(0,"cours 2");
 
 Tree->insertTopLevelItem(0, cours1);
 Tree->insertTopLevelItem(1, cours2);
-
 
 Tree->show();
 }

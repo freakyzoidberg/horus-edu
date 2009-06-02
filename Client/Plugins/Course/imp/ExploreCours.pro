@@ -4,8 +4,7 @@
 #
 #-------------------------------------------------
 
-TARGET = ExploreCours
-TEMPLATE = app
+TEMPLATE = lib
 
 
 SOURCES += main.cpp\
@@ -14,3 +13,4 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+TARGET = $$qtLibraryTarget(ExploreCours)
