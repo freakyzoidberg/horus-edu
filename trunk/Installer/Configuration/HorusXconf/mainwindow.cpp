@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QtSql>
+#include <QCryptographicHash>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
@@ -95,9 +96,13 @@ void MainWindow::on_pushButton_4_clicked()
         if (db.open())
         {
             QSqlQuery *query1 = new QSqlQuery(db);
-            query1->prepare("SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';" \
-                            "DROP TABLE IF EXISTS `files`;" \
-                            "CREATE TABLE IF NOT EXISTS `files` (" \
+            query1->prepare("SET SQL_MODE='NO_AUTO_VALUE_ON_ZERO';");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("DROP TABLE IF EXISTS `files`;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("CREATE TABLE IF NOT EXISTS `files` (" \
                             "`id` int(11) NOT NULL auto_increment," \
                             "`name` varchar(255) NOT NULL," \
                             "`size` int(11) NOT NULL," \
@@ -109,13 +114,21 @@ void MainWindow::on_pushButton_4_clicked()
                             "PRIMARY KEY  (`id`)," \
                             "KEY `id_ower` (`id_owner`)," \
                             "KEY `id_tree` (`id_tree`)" \
-                            ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;" \
-                            "INSERT INTO `files` (`id`, `name`, `size`, `id_tree`, `id_owner`, `ctime`, `mtime`, `hash_sha1`) VALUES" \
+                            ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            /*
+            query1->prepare("INSERT INTO `files` (`id`, `name`, `size`, `id_tree`, `id_owner`, `ctime`, `mtime`, `hash_sha1`) VALUES" \
                             "(1, 'test.txt', 0, 0, 3, '2009-06-01 07:15:40', '2009-06-01 07:15:40', '')," \
                             "(2, 'test.txt', 0, 0, 3, '2009-06-01 17:38:29', '2009-06-01 17:38:29', '')," \
-                            "(3, 'test.txt', 0, 0, 3, '2009-06-01 17:39:57', '2009-06-01 17:39:57', '');" \
-                            "DROP TABLE IF EXISTS `settings`;" \
-                            "CREATE TABLE IF NOT EXISTS `settings` (" \
+                            "(3, 'test.txt', 0, 0, 3, '2009-06-01 17:39:57', '2009-06-01 17:39:57', '');");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            */
+            query1->prepare("DROP TABLE IF EXISTS `settings`;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("CREATE TABLE IF NOT EXISTS `settings` (" \
                             "`user` int(11) NOT NULL," \
                             "`plugin` varchar(255) NOT NULL," \
                             "`scope` int(1) NOT NULL," \
@@ -123,32 +136,42 @@ void MainWindow::on_pushButton_4_clicked()
                             "KEY `user` (`user`)," \
                             "KEY `module` (`plugin`)," \
                             "KEY `scope` (`scope`)" \
-                            ") ENGINE=MyISAM DEFAULT CHARSET=utf8;" \
-                            "INSERT INTO `settings` (`user`, `plugin`, `scope`, `value`) VALUES" \
+                            ") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("INSERT INTO `settings` (`user`, `plugin`, `scope`, `value`) VALUES" \
                             "(3, 'test', 0, 0x0000000a00000000080074006500730074)," \
-                            "(4, '', 0, 0x0000000a0000000000);" \
-                            "DROP TABLE IF EXISTS `tree`;" \
-                            "CREATE TABLE IF NOT EXISTS `tree` (" \
+                            "(4, '', 0, 0x0000000a0000000000);");
+            query1->prepare("DROP TABLE IF EXISTS `tree`;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("CREATE TABLE IF NOT EXISTS `tree` (" \
                             "`id` int(11) NOT NULL auto_increment," \
                             "`typeofnode` varchar(42) NOT NULL," \
                             "`name` varchar(128) NOT NULL," \
                             "`user_ref` int(11) NOT NULL default '0'," \
                             "`id_parent` int(11) NOT NULL default '0'," \
                             "PRIMARY KEY  (`id`)" \
-                            ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=237 ;" \
-                            "INSERT INTO `tree` (`id`, `typeofnode`, `name`, `user_ref`, `id_parent`) VALUES" \
-                            "(1, '', 'School', 0, 0)," \
-                            "(2, '', 'Prof', 0, 1)," \
-                            "(3, '', 'Promos', 0, 1)," \
-                            "(10, 'GROUP', 'devrait pas etre dans ma list', 0, 5)," \
+                            ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=237 ;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("INSERT INTO `tree` (`id`, `typeofnode`, `name`, `user_ref`, `id_parent`) VALUES" \
+                            "(1, '', 'School', 1, 0)," \
+                            "(2, '', 'Prof', 1, 1)," \
+                            "(3, '', 'Promos', 1, 1)," \
+                            "(10, 'GROUP', 'devrait pas etre dans ma list', 1, 5)," \
                             "(4, 'GROUP', 'group grand pere', 1, 0)," \
                             "(5, 'GROUP', 'groupe pere', 1, 4)," \
                             "(6, 'GROUP', 'mon groupe', 1, 5)," \
                             "(7, 'GROUP', 'fils 1', 1, 6)," \
                             "(8, 'GROUP', 'fils 2', 1, 6)," \
-                            "(9, 'GROUP', 'petit fils 1', 1, 7);" \
-                            "DROP TABLE IF EXISTS `users`;" \
-                            "CREATE TABLE IF NOT EXISTS `users` (" \
+                            "(9, 'GROUP', 'petit fils 1', 1, 7);");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("DROP TABLE IF EXISTS `users`;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("CREATE TABLE IF NOT EXISTS `users` (" \
                             "`id` int(11) NOT NULL auto_increment," \
                             "`enabled` tinyint(1) NOT NULL default '1'," \
                             "`login` varchar(32) NOT NULL," \
@@ -165,34 +188,48 @@ void MainWindow::on_pushButton_4_clicked()
                             "KEY `level` (`level`)," \
                             "KEY `login` (`login`)," \
                             "KEY `enabled` (`enabled`)" \
-                            ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;" \
-                            "INSERT INTO `users` (`id`, `enabled`, `login`, `level`, `password`, `session_key`, `session_end`, `last_login`, `address`, `phone`, `country`, `language`) VALUES" \
-                            "(1, 1, 'toto42`~!@#$%^&*()-_=+'' ;:汉语', 0, '4e1243bd22c66e76c2ba9eddc1f91394e57f9f83', NULL, '2009-06-01 17:40:22', '0000-00-00 00:00:00', '', '', '', '')," \
-                            "(3, 1, 'super-Menteur', 0, 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3', 'caa67207cd622c4d1593b436d85bf1bb2dc2a3822f2d6aabe38f886bda606559', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '')," \
-                            "(4, 1, 'toto', 0, '0b9c2625dc21ef05f6ad4ddf47c5f203837aa32c', '50709376df1275ed2faad2ccd049138d4c71e172653147fb1bf49e1573192813', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', '', '', '');" \
-                            "DROP TABLE IF EXISTS `user_has_group`;" \
-                            "CREATE TABLE IF NOT EXISTS `user_has_group` (" \
+                            ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("INSERT INTO `users` (`id`, `enabled`, `login`, `level`, `password`, `session_key`, `session_end`, `last_login`, `address`, `phone`, `country`, `language`) VALUES" \
+                            "(1, 1, '?', 0, '?', NULL, '2009-06-01 17:40:22', '0000-00-00 00:00:00', '', '', '', ''),");
+            query1->addBindValue(ui->lineEdit_14->text());
+            QVariant variantpass = QVariant(ui->lineEdit_15->text());
+            query1->addBindValue(QCryptographicHash::hash(variantpass.toByteArray(), QCryptographicHash::Sha1));
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("DROP TABLE IF EXISTS `user_has_group`;");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("CREATE TABLE IF NOT EXISTS `user_has_group` (" \
                             "`id_user` int(11) NOT NULL," \
                             "`id_group` int(11) NOT NULL," \
                             "KEY `id_user` (`id_user`)" \
-                            ") ENGINE=MyISAM DEFAULT CHARSET=utf8;" \
-                            "INSERT INTO `user_has_group` (`id_user`, `id_group`) VALUES" \
-                            "(3, 6);");
+                            ") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
             query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+            query1->prepare("INSERT INTO `user_has_group` (`id_user`, `id_group`) VALUES" \
+                            "(1, 1);");
+            query1->exec();
+            if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
+
             QPalette Pal(ui->label_2->palette());
-            if (query1->lastError().type() == 0)
+            if (query1->lastError().isValid() == false)
             {
 
                 Pal.setColor(QPalette::Foreground, Qt::green);
                    ui->label_2->setPalette(Pal);
                    ui->label_2->setText("Database deployed !");
+
             }
             else
             {
                 Pal.setColor(QPalette::Foreground, Qt::red);
                    ui->label_2->setPalette(Pal);
                    ui->label_2->setText("Error while deploying");
+                    ui->label_2->setText(query1->lastError().text());
             }
+
             delete query1;
         }
 
