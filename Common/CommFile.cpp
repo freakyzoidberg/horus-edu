@@ -78,7 +78,6 @@ QDebug operator<<(QDebug d, const CommFile& p)
     {
         "Undefined",
         "Access File",
-        "New File",
         "Delete File",
         "Stat file",
 
