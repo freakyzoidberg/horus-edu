@@ -108,13 +108,16 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
         QVariantHash user;
         user["id"]         = query.value(0);
         user["login"]      = query.value(1);
-        user["level"]      = query.value(2);
-        user["last_login"] = query.value(3);
-        user["address"]    = query.value(4);
-        user["phone"]      = query.value(5);
-        user["country"]    = query.value(6);
-        user["language"]   = query.value(7);
 
+        if (server->getLevel(userId) <= LEVEL_ADMINISTRATOR || query.value(0).toUInt() == userId)
+        {
+            user["level"]      = query.value(2);
+            user["last_login"] = query.value(3);
+            user["address"]    = query.value(4);
+            user["phone"]      = query.value(5);
+            user["country"]    = query.value(6);
+            user["language"]   = query.value(7);
+        }
         list.append(user);
     }
     response["Users"] = list;
