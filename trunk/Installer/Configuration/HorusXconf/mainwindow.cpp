@@ -158,14 +158,7 @@ void MainWindow::on_pushButton_4_clicked()
             query1->prepare("INSERT INTO `tree` (`id`, `typeofnode`, `name`, `user_ref`, `id_parent`) VALUES" \
                             "(1, '', 'School', 1, 0)," \
                             "(2, '', 'Prof', 1, 1)," \
-                            "(3, '', 'Promos', 1, 1)," \
-                            "(10, 'GROUP', 'devrait pas etre dans ma list', 1, 5)," \
-                            "(4, 'GROUP', 'group grand pere', 1, 0)," \
-                            "(5, 'GROUP', 'groupe pere', 1, 4)," \
-                            "(6, 'GROUP', 'mon groupe', 1, 5)," \
-                            "(7, 'GROUP', 'fils 1', 1, 6)," \
-                            "(8, 'GROUP', 'fils 2', 1, 6)," \
-                            "(9, 'GROUP', 'petit fils 1', 1, 7);");
+                            "(3, '', 'Promos', 1, 1)");
             query1->exec();
             if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
             query1->prepare("DROP TABLE IF EXISTS `users`;");
