@@ -26,26 +26,23 @@ private:
     ~NetFile();
 
 signals:
+    //! emitted when the fileInformation change
     void fileInfoUpdated();
+    //! emitted when a connexion to the server is opened (maybe useless)
     void connexionOpened();
-//    void progress(int percent);
-//    void ready();
+    //! emitted when the progress value change (for a down/upload)
+    void transfertProgress(int percent);
 
 public:
-//    bool  isSynchronized();
-//    int   getProgress();
+    //! return the progress value (for a down/upload)
+    int   getProgress();
 
     //! return the informations of the file (size,owner,...)
     const CommFileInfo& getInfo();
 
-    //! called by FileManager, update the NetFile in the list
-    void updateFileInfo(const CommFileInfo& info);
-    //! called by FileManager, open the connexion
-    void connexionAuthorized(const QByteArray& key);
 
-//    bool waitForSynchronized(int timeout=-1);
 
-    /******** virtual in QIODevice *********/
+/******** virtual in QIODevice *********/
     //bool atEnd () const;
     //qint64 bytesAvailable () const;
     //qint64 bytesToWrite () const;
@@ -55,7 +52,7 @@ public:
     //bool isSequential () const;
     //! open the transfert connexion if needed and the local file
     bool open(OpenMode mode);
-    //qint64 pos() const;
+    qint64 pos() const;
     //QByteArray readLine(qint64 maxSize=0);
     //qint64 size () const;
     //bool waitForBytesWritten(int timeout=-1);
@@ -68,6 +65,21 @@ protected:
     qint64 writeData(const char* data, qint64 maxSize);
 /****************************************/
 
+
+
+
+///////////////// INTERNAL USE ONLY (including FileManager)
+
+public:
+    //! called by FileManager, update the NetFile in the list
+    void updateFileInfo(const CommFileInfo& info);
+    //! called by FileManager, open the connexion
+    void connexionAuthorized(const QByteArray& key);
+
+private slots:
+    void connexionReadyRead();
+    void connexionBytesWritten(qint64);
+
 private:
     //! information of the current file
     CommFileInfo info;
@@ -75,8 +87,12 @@ private:
     QMutex       lock;
     //! the local file
     QFile        localFile;
+    //! keep the localFile position to be able to lseek when data are received from the server
+    qint64       localFilePos;
     //! the socket to the server if needed
     QSslSocket*  connexion;
+    //! keep the connexion position
+    qint64       connexionPos;
 };
 
 #endif // NETFILE_H
