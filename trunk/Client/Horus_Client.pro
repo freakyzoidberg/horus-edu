@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     InterfaceClient.cpp \
     InterfaceNetwork.cpp \
     FileManager.cpp \
-    NetFile.cpp
+    NetFile.cpp \
+    UserInfo.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -63,7 +64,8 @@ HEADERS += NetworkManager.h \
     INetwork.h \
     INetworkPlugin.h \
     FileManager.h \
-    NetFile.h
+    NetFile.h \
+    UserInfo.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
