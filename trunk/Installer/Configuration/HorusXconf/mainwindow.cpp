@@ -242,7 +242,7 @@ while ((child = ui->scrollArea->layout()->takeAt(0)) != 0) {
         child->widget()->deleteLater();
         delete child;
 }
-QDir dir(ui->lineEdit_16->text());
+QDir dir(ui->lineEdit_16->text()+"/Plugins/");
     if (dir.exists())
         {
 
@@ -264,7 +264,6 @@ QDir dir(ui->lineEdit_16->text());
                         QFileInfo filefilsInfo = listfils.at(j);
                         if (("lib"+fileInfo.fileName() + ".so") == (filefilsInfo.fileName()))
                             {
-                                 ui->label_2->setText(fileInfo.fileName());
                                 QCheckBox * pCheckBox = new QCheckBox
                                     ((fileInfo.fileName()));
 
@@ -287,7 +286,6 @@ void MainWindow::writesettings()
     QString pass = ui->lineEdit_9->text();
     QString servport = ui->lineEdit_13->text();
     QString path = ui->lineEdit_16->text();
-    QLayoutItem *child;
 
     if (this->Gsettings.status() == 0)
     {
@@ -314,7 +312,7 @@ void MainWindow::writesettings()
 
         if (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->isChecked())
         {
-            ui->label_2->setText(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text());
+
         this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text(),
                                 (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+"/lib"
                                +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".so")));
@@ -322,11 +320,16 @@ void MainWindow::writesettings()
 
     }
     this->Gsettings.endGroup();
+                    QPalette Pal(ui->label_6->palette());
+                    Pal.setColor(QPalette::Foreground, Qt::green);
+                   ui->label_6->setPalette(Pal);
+                   ui->label_6->setText("Configuration saved");
     }
 
 }
 
 void MainWindow::on_buttonBox_clicked(QAbstractButton* button)
 {
+
     writesettings();
 }
