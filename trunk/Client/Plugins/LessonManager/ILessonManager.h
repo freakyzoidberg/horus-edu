@@ -31,6 +31,19 @@ class ILessonManager
         \return The representation of the lesson newly created.
     */
     virtual ILesson*    createNewLesson(const QString& filename) = 0;
+
+    //! Displays a page of a lesson in the specified widget.
+    /*!
+        \param page The page to display.
+        \param widget The widget in which the page will be displayed.
+    */
+    virtual void        displayPage(ILesson::IPage *page, QWidget *widget) = 0;
+
+    //! Removes the displayed page from the display widget.
+    /*!
+        This method should be called subsequently to a call to displayPage().
+    */
+    virtual void        hideCurrentPage() = 0;
 };
 
 #endif // ILESSONMANAGER_H

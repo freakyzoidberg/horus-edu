@@ -150,6 +150,9 @@ public:
     void        saveLesson(const QString& filename, ILesson *lesson);
     ILesson*    createNewLesson(const QString& filename);
 
+    void        displayPage(ILesson::IPage *page, QWidget *widget);
+    void        hideCurrentPage();
+
  private:
     void        writeXmlSection(const QList<ILesson::IElement *>& list, QXmlStreamWriter& xmlWriter);
 
