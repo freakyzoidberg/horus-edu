@@ -122,6 +122,16 @@ void LObject::addRequiredFile(QString fileName)
     requiredFiles.insert(fileName, -1);
 }
 
+const QString&      LObject::getParameters() const
+{
+    return params;
+}
+
+void                LObject::setParameters(const QString& params)
+{
+    this->params = params;
+}
+
 ILesson::IPage::IObject::IController* LObject::getController()
 {
     return ctrl;

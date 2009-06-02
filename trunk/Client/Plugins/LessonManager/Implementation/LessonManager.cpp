@@ -2,9 +2,11 @@
 #include <QDebug>
 #include <QtXml/QXmlSimpleReader>
 #include <QFile>
+#include <QFrame>
 
 #include "../../ClientEvents.h"
 #include "../../IClient.h"
+#include "../ILesson.h"
 #include "LessonManager.h"
 #include "Lesson.h"
 #include "XmlHandler.h"
@@ -192,7 +194,18 @@ ILesson*      LessonManager::createNewLesson(const QString& filename)
 
 void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
 {
-
+    const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
+    QList<ILesson::IPage::IObject *>::const_iterator it = objects.begin();
+    while (it != objects.end())
+    {
+        QPointF position = (*it)->getPosition();
+        QSizeF size = (*it)->getSize();
+        QWidget *frame = new QWidget(widget);
+        frame->setGeometry((int)(position.x() * widget->geometry().width()) / 100, (int)(position.y() * widget->geometry().height()) / 100, (int)(size.width() * widget->geometry().width()) / 100, (int)(size.height() * widget->geometry().height()) / 100);
+        (*it)->setWidget(frame);
+        it++;
+    }
+    widget->update();
 }
 
 void        LessonManager::hideCurrentPage()
