@@ -192,10 +192,10 @@ void MainWindow::on_pushButton_4_clicked()
             query1->exec();
             if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
             query1->prepare("INSERT INTO `users` (`id`, `enabled`, `login`, `level`, `password`, `session_key`, `session_end`, `last_login`, `address`, `phone`, `country`, `language`) VALUES" \
-                            "(1, 1, '?', 0, '?', NULL, '2009-06-01 17:40:22', '0000-00-00 00:00:00', '', '', '', ''),");
+                            "(1, 1, ?, 0, ?, NULL, '2009-06-01 17:40:22', '0000-00-00 00:00:00', '', '', '', '');");
             query1->addBindValue(ui->lineEdit_14->text());
             QVariant variantpass = QVariant(ui->lineEdit_15->text());
-            query1->addBindValue(QCryptographicHash::hash(variantpass.toByteArray(), QCryptographicHash::Sha1));
+            query1->addBindValue(QVariant(QCryptographicHash::hash(variantpass.toByteArray(), QCryptographicHash::Sha1).toHex()).toString());
             query1->exec();
             if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
             query1->prepare("DROP TABLE IF EXISTS `user_has_group`;");
