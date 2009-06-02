@@ -5,9 +5,8 @@ QT += xml
 TARGET = Administration
 TEMPLATE = lib
 DEFINES += ADMINISTRATION_LIBRARY
-SOURCES += administration.cpp \
-    AdminFram.cpp
-HEADERS += administration.h \
-    Administration_global.h \
-    AdminFram.h
+SOURCES += AdministrationPlugin.cpp \
+            AdminFram.cpp
+HEADERS += AdministrationPlugin.h \
+            AdminFram.h
 FORMS += AdminFram.ui

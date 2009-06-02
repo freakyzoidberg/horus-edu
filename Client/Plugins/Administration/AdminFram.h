@@ -2,6 +2,7 @@
 #define ADMINFRAM_H
 
 #include "ui_AdminFram.h"
+#include "AdministrationPlugin.h"
 
 class AdminFram : public QWidget, private Ui::AdminForm
 {
