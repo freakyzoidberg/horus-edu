@@ -5,7 +5,10 @@
 #include    "../Common/Defines.h"
 #include    <QDebug>
 #include    <QApplication>
+#include    "IClientPlugin.h"
 #include    "InterfaceClient.h"
+#include    "INetworkPlugin.h"
+#include    "InterfaceNetwork.h"
 
 PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(parent)
 {
@@ -71,6 +74,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
     QPluginLoader   *loader;
     QObject         *plugin;
     IClientPlugin   *clientPlugin;
+    INetworkPlugin  *networkPlugin;
     QString         newPlugin;
     bool            success;
 
@@ -89,14 +93,16 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
     if (plugin)
     {
         clientPlugin = qobject_cast<IClientPlugin *>(plugin);
-
         if (clientPlugin)
         {
-            clientPlugin->client = new InterfaceClient(clientPlugin, this->parent);
             foreach (newPlugin, clientPlugin->getPluginsRequired())
                 success &= this->loadPlugin(newPlugin, userPath, systemPath);
             if (success)
             {
+                clientPlugin->client = new InterfaceClient(clientPlugin, this->parent);
+                networkPlugin = qobject_cast<INetworkPlugin *>(clientPlugin);
+                if (networkPlugin)
+                    networkPlugin->network = new InterfaceNetwork();
                 pluginsList.insert(pluginName, clientPlugin);
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
