@@ -33,6 +33,8 @@ private:
 
     //! the connected user can change his own password and an admin can change every passwords
     void changePassword   (quint32 userId, const QVariantHash& request,QVariantHash& response);
+    //! list all users
+    void listUsers        (quint32 userId, const QVariantHash& request,QVariantHash& response);
     //! get informations about a user
     void getUserInfo      (quint32 userId, const QVariantHash& request,QVariantHash& response);
     //! edit informations about a user
