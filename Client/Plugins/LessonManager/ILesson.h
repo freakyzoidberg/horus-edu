@@ -225,6 +225,22 @@ public:
             */
             virtual void                addRequiredFile(QString fileName) = 0;
 
+            //! Retrieves the object parameters.
+            /*!
+                \return The object parameters.
+                The control of the format and content of the string
+                is up to the specific controller of an object type.
+            */
+            virtual const QString&      getParameters() const = 0;
+
+            //! Sets the object parameters.
+            /*!
+                \param params A string describing the parameters of the object.
+                The control of the format and content of the string
+                is up to the specific controller of an object type.
+            */
+            virtual void                setParameters(const QString& params) = 0;
+
             //! Retrieves the controller of an object.
             /*!
                 \return A pointer to the appropriate controller or NULL if the controller was not found.

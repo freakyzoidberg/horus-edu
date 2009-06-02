@@ -58,6 +58,8 @@ public:
     void                setWidget(QWidget *widget);
     const QMap<QString, int>&    getRequiredFiles() const;
     void                addRequiredFile(QString fileName);
+    const QString&      getParameters() const;
+    void                setParameters(const QString& params);
     IController*        getController();
     void                setController(IController *ctrl);
 
@@ -66,6 +68,7 @@ private:
     QPointF             position;
     QSizeF              size;
     QString             type;
+    QString             params;
     QWidget*            widget;
     QMap<QString, int>  requiredFiles;
 };
