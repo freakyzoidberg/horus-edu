@@ -189,3 +189,13 @@ ILesson*      LessonManager::createNewLesson(const QString& filename)
     saveLesson(filename, lesson);
     return lesson;
 }
+
+void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
+{
+
+}
+
+void        LessonManager::hideCurrentPage()
+{
+
+}
