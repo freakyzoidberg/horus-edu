@@ -15,7 +15,7 @@ LoginDialog::~LoginDialog()
 
 void    LoginDialog::closeEvent(QCloseEvent *event)
 {
-    QApplication::postEvent(this->parent->loader, new QEvent(ClientEvents::StartEvent));
+    QApplication::postEvent(ThreadNetwork::getInstance(this->parent), new QEvent(ClientEvents::OfflineModeEvent));
 }
 
 bool    LoginDialog::event(QEvent *event)

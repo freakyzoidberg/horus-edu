@@ -40,12 +40,20 @@ bool    NetworkManager::event(QEvent *e)
         this->sendPacket(spe->pack);
         return true;
     }
+    else if (e->type() == ClientEvents::OfflineModeEvent)
+    {
+        qDebug() << "NetworkManager: Recieve OfflineModeEvent";
+        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+        QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+        this->disconnectFromHost();
+        return true;
+    }
     return QObject::event(e);
 }
 
 void    NetworkManager::quit()
 {
-
+    qDebug() <<  "Disconnected from server";
 }
 
 void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
@@ -53,17 +61,17 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
     switch (socketError) {
      case QAbstractSocket::RemoteHostClosedError:
          QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-         QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::NetworkErrorEvent));
+         QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
          break;
      case QAbstractSocket::HostNotFoundError:
          qDebug() << "The host was not found. Please check the host name and port settings.";
          QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-         QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::NetworkErrorEvent));
+         QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
          break;
      case QAbstractSocket::ConnectionRefusedError:
          qDebug() << "The connection was refused by the peer. Make sure the Horus server is running, and check that the host name and port settings are correct.";
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-        QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::NetworkErrorEvent));
+        QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
          break;
      default:
          qDebug() << tr("The following error occurred: %1.").arg(errorString());
