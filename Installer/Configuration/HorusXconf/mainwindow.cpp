@@ -2,11 +2,16 @@
 #include "ui_mainwindow.h"
 #include <QtSql>
 #include <QCryptographicHash>
-
+#include <QDir>
+#include <QCheckBox>
+ #include <QLayout>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
+        QVBoxLayout *mylayout = new QVBoxLayout();
+        ui->scrollArea->setLayout(mylayout);
+
 }
 
 MainWindow::~MainWindow()
@@ -227,3 +232,48 @@ void MainWindow::on_pushButton_4_clicked()
         }
 
 }
+
+void MainWindow::on_lineEdit_16_textChanged(QString )
+{
+
+
+QLayoutItem *child;
+while ((child = ui->scrollArea->layout()->takeAt(0)) != 0) {
+        child->widget()->deleteLater();
+        delete child;
+}
+QDir dir(ui->lineEdit_16->text());
+    if (dir.exists())
+        {
+
+            dir.setFilter(QDir::Dirs| QDir::NoDotAndDotDot);
+            QFileInfoList list = dir.entryInfoList();
+            for (int i = 0; i < list.size(); ++i)
+             {
+               QFileInfo fileInfo = list.at(i);
+
+                QDir dirfils(fileInfo.absoluteFilePath());
+                if (dirfils.exists())
+                    {
+
+                    dirfils.setFilter(QDir::Files| QDir::NoDotAndDotDot);
+                    QFileInfoList listfils = dirfils.entryInfoList();
+                    for (int j = 0; j < listfils.size(); ++j)
+                        {
+
+                        QFileInfo filefilsInfo = listfils.at(j);
+                        if (("lib"+fileInfo.fileName() + ".so") == (filefilsInfo.fileName()))
+                            {
+                                 ui->label_2->setText(fileInfo.fileName());
+                                QCheckBox * pCheckBox = new QCheckBox
+                                    ((fileInfo.fileName()));
+
+                                 ui->scrollArea->layout()->addWidget(pCheckBox);
+                                 //ui->scrollAreaWidgetContents->repaint();
+                             }
+                        }
+                    }
+             }
+        }
+}
+
