@@ -41,6 +41,11 @@ void NetFile::connexionAuthorized(const QByteArray& key)
 
     connexion = new QSslSocket(this);
 
+    //TODO: if file not opened from the begining
+    connexionPos = 0;
+
+    connect(connexion, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
+
     //TODO: get in settings
     //TODO: write only if no read needed
     connexion->setProtocol(QSsl::SslV3);
@@ -50,6 +55,33 @@ void NetFile::connexionAuthorized(const QByteArray& key)
     connexion->waitForEncrypted();
     connexion->write(key);
     connexion->flush();
+
+    connect(connexion, SIGNAL(bytesWritten(qint64)), this, SLOT(connexionBytesWritten(qint64)));
+
+    emit connexionOpened();
+}
+
+void NetFile::connexionReadyRead()
+{
+    qDebug() << "NetFile::connexionReadyRead()";
+    QByteArray buff = connexion->readAll();
+
+    localFile.seek(connexionPos);
+    localFile.write(buff);
+    localFile.seek(localFilePos);
+
+    emit readyRead();
+}
+
+void NetFile::connexionBytesWritten(qint64 len)
+{
+    qDebug() << "NetFile::connexionByteWritten(" << len << ")";
+    emit bytesWritten(len);
+}
+
+qint64 NetFile::pos() const
+{
+    return localFilePos;
 }
 
 NetFile::NetFile(const CommFileInfo& _info)
@@ -60,36 +92,20 @@ NetFile::NetFile(const CommFileInfo& _info)
 
 NetFile::~NetFile()
 {
+    close();
 }
-/*
-bool NetFile::isSynchronized()
-{
-    return waitForSynchronized(0);
-}
-*//*
+
 int NetFile::getProgress()
 {
-    if (isSynchronized())
-        return 100;
-    if (isInfoAvailable())
-        return 10;
-    return 1;
+    //TODO
+    return 0;
 }
-*/
+
 const CommFileInfo& NetFile::getInfo()
 {
     return info;
 }
-/*
-bool NetFile::waitForSynchronized(int timeout)
-{
-    if ( ! syncLock.tryLock(timeout))
-        return false;
 
-    syncLock.unlock();
-    return true;
-}
-*/
 bool NetFile::open(OpenMode mode)
 {
     //TODO: if (not already downloaded || mode & WriteOnly)
@@ -98,7 +114,8 @@ bool NetFile::open(OpenMode mode)
     //TODO: if ( not already downloaded && ! serverFile)
         //return false;
 
-    return true;//localFile.open(mode);
+    localFile.setFileName("/tmp/" + QVariant(info.id).toString());
+    return localFile.open(mode);
 }
 
 void NetFile::close()
@@ -113,12 +130,17 @@ void NetFile::close()
 
 qint64 NetFile::readData(char* data, qint64 maxSize)
 {
-    return localFile.read(data, maxSize);
+    qint64 len = localFile.read(data, maxSize);
+    localFilePos += len;
+    return len;
 }
 
 qint64 NetFile::writeData(const char* data, qint64 maxSize)
 {
-    qint64 lenWrite = maxSize;//serverFile.write(data, maxSize);
-    return localFile.write(data, lenWrite);
+    qint64 lenWrite = connexion->write(data, maxSize);
+    connexionPos += lenWrite;
+    lenWrite = localFile.write(data, lenWrite);
+    localFilePos += lenWrite;
+    return lenWrite;
 }
 

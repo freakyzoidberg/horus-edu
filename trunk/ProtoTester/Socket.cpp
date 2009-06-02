@@ -132,7 +132,8 @@ void Socket::PacketLogin()
 
 
 //SEND FILE REQUEST
-    CommFile f(CommFile::NEW_FILE);
+    CommFile f(CommFile::ACCESS_FILE);
+    f.fileInfo.id = 0;
     f.fileInfo.fileName = "test.txt";
     f.fileInfo.nodeId = 0;
     f.mode = QIODevice::ReadWrite;
