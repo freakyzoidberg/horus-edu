@@ -108,6 +108,7 @@ void ThreadPacket::PacketLogin()
 
     user.renewSession(DEFAULT_SESSION_LIFETIME * 60);
     CommLogin response(CommLogin::ACCEPTED);
+    response.level = user.getLevel();
     response.sessionString = user.getSessionString();
     response.sessionTime =   user.getSessionEnd().toTime_t() - QDateTime::currentDateTime().toTime_t();
 

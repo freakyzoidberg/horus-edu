@@ -15,6 +15,7 @@ CommLogin::CommLogin(Method t) : CommPacket(CommPacket::LOGIN)
 CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
 {
     login = "";
+    level = LEVEL_GUEST;
     sha1Pass = "";
     sessionTime = 0;
     sessionString = "";
@@ -46,8 +47,11 @@ void CommLogin::read(QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-        sessionTime = QVariant(a.mid(0, a[0])).toUInt();
-        a.remove(0, a[0]+1);
+        if ((char)a[0] < (char)__LAST_LEVEL__)
+            level = (UserLevel)(char)a[0];
+
+        sessionTime = QVariant(a.mid(1, a[1])).toUInt();
+        a.remove(0, a[1]+2);
         sessionString = a;
     }
 }
@@ -67,6 +71,7 @@ void CommLogin::write(QByteArray& a) const
     }
     else if (method == ACCEPTED)
     {
+        a.append((char)level);
         QByteArray time = QVariant(sessionTime).toByteArray();
         a.append(time.length());
         a.append(time);
@@ -90,7 +95,8 @@ QDebug operator<<(QDebug d, const CommLogin& cl)
       << typeMessages[ cl.method ];
 
     if (cl.method == CommLogin::ACCEPTED)
-        d << cl.sessionString.toHex()
+        d << cl.level
+          << cl.sessionString.toHex()
           << cl.sessionTime;
 
     else if (cl.method == CommLogin::LOGIN_PASSWORD)

@@ -32,6 +32,8 @@ public:
     Method              method;
     //! user login
     QString             login;
+    //! user level
+    UserLevel           level;
     //! binary hash of the password
     QByteArray          sha1Pass;
     //! duration of the session send (in second)
