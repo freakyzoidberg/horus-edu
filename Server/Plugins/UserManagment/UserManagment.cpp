@@ -7,6 +7,7 @@ Q_EXPORT_PLUGIN2(UserManagment, UserManagment)
 UserManagment::UserManagment()
 {
     requestFunctions["changePassword"] = &UserManagment::changePassword;
+    requestFunctions["listUsers"]    = &UserManagment::listUsers;
     requestFunctions["getUserInfo"]    = &UserManagment::getUserInfo;
     requestFunctions["setUserInfo"]    = &UserManagment::setUserInfo;
     requestFunctions["createNewUser"]  = &UserManagment::createNewUser;
@@ -86,6 +87,37 @@ void UserManagment::changePassword(quint32 userId, const QVariantHash& request, 
     }
 
     response["Success"] = true;
+}
+
+void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVariantHash& response)
+{
+    QSqlQuery query = server->getSqlQuery();
+    query.prepare("SELECT id,login,level,last_login,address,phone,country,language FROM users;");
+    query.addBindValue(request.value("UserId"));
+    if ( ! query.exec())
+    {
+        response["Error"]   = 5;
+        response["ErrorMesssage"] = "Database error.";
+        return;
+    }
+
+    response["Success"] = true;
+    QVariantList list;
+    while (query.next())
+    {
+        QVariantHash user;
+        user["id"]         = query.value(0);
+        user["login"]      = query.value(1);
+        user["level"]      = query.value(2);
+        user["last_login"] = query.value(3);
+        user["address"]    = query.value(4);
+        user["phone"]      = query.value(5);
+        user["country"]    = query.value(6);
+        user["language"]   = query.value(7);
+
+        list.append(user);
+    }
+    response["Users"] = list;
 }
 
 void UserManagment::getUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
