@@ -7,11 +7,10 @@
 #include <qt4/poppler-qt4.h>
 
 #include <IClientPlugin.h>
-#include <IPluginNetwork.h>
+#include <pdfRendering.h>
+#include <INetworkPlugin.h>
 #include <dispPDFClient.h>
 #include <dispPDFNetwork.h>
-#include <metadata.h>
-
 
 #define PLUGIN_NAME "dispPDF"
 #define PLUGIN_VERSION "1.0"
@@ -23,8 +22,8 @@
 
 class DispPDF : public IClientPlugin
 {
-// Q_OBJECT
- //Q_INTERFACES(IClientPlugin)
+    Q_OBJECT
+    Q_INTERFACES(IClientPlugin)
 
 public:
     //! allocate pNetwork and set some values
@@ -90,7 +89,7 @@ public:
     /*
       \return the variable renderPdf
     */
-    const QMap<QString, Metadata *>    *getMetaFiles() const;
+    const QMap<QString, PdfRendering *>    *getAllPdfFiles() const;
 
     //! Open a pdf file
     /*
@@ -117,10 +116,10 @@ private:
     QStringList pluginsRecommended;
 
     //! network access for the plugin dispPDF (im not sure it is necessary)
-    DispPDFNetwork   *pNetwork;
+    //DispPDFNetwork   *pNetwork;
 
     //! QMap containing all the open PDF files with their name
-    QMap<QString, Metadata *>   *metaFiles;
+    QMap<QString, PdfRendering *>   *pdfFiles;
 };
 
 #endif // DISPPDF_H

@@ -5,7 +5,6 @@ void    dispPDFClient::sendPacket(const PluginPacket& packet) const
 
 }
 
-
 void    dispPDFClient::recvPacket(const PluginPacket& packet) const
 {
 

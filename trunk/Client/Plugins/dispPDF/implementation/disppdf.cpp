@@ -12,37 +12,37 @@ extern QEvent::Type ClientEvents::NetworkReceiveEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 extern QEvent::Type ClientEvents::LoadPluginEvent;
 
-//Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
+Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
 
 DispPDF::DispPDF()
 {
     qDebug() << "[plugin dispPDF] : initialisation";
 
-    pNetwork = new DispPDFNetwork();
+    //pNetwork = new DispPDFNetwork();
     name = PLUGIN_NAME; /* dispPDF */
     version = PLUGIN_VERSION; /* 1.0 */
-    metaFiles = new QMap<QString, Metadata *>;
+    pdfFiles = new QMap<QString, PdfRendering *>;
 }
 
 DispPDF::~DispPDF()
 {
-    QMap<QString, Metadata *>::iterator   it, itend;
+    QMap<QString, PdfRendering *>::iterator   it, itend;
 
-    if (pNetwork != NULL)
-        delete pNetwork;
-    if (metaFiles && !metaFiles->empty())
+    //if (pNetwork != NULL)
+      //  delete pNetwork;
+    if (pdfFiles && !pdfFiles->empty())
     {
-        itend = metaFiles->end();
-        for (it = metaFiles->begin(); it != itend; ++it)
+        itend = pdfFiles->end();
+        for (it = pdfFiles->begin(); it != itend; ++it)
         {
             //if (it.value() == NULL)
                 qDebug() << "houlalala";
             delete it.value();
             qDebug() << "houlalali";
-           // metaFiles->erase(it);
+           // pdfFiles->erase(it);
         }
     }
-    delete metaFiles;
+    delete pdfFiles;
 }
 
 const QByteArray        DispPDF::getName() const
@@ -78,7 +78,7 @@ bool    DispPDF::event(QEvent *event)
     if (event->type() == ClientEvents::NetworkReceiveEvent)
     {
         event->accept();
-        return pNetwork->eventHandler(event);
+        //return pNetwork->eventHandler(event);
     }
     else if (event->type() == ClientEvents::LoadPluginEvent)
     {
@@ -107,7 +107,7 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
 bool    DispPDF::dispPDFDoc(const QString & fileName)
 {
     QFileInfo    filePath(fileName);
-    QMap<QString, Metadata *>::iterator it;
+    QMap<QString, PdfRendering *>::iterator it;
 
     if (!filePath.isAbsolute())
         if (!filePath.makeAbsolute())
@@ -116,11 +116,11 @@ bool    DispPDF::dispPDFDoc(const QString & fileName)
             return false;
         }
 
-    if ((it = metaFiles->find(filePath.filePath())) == metaFiles->end())
+    if ((it = pdfFiles->find(filePath.filePath())) == pdfFiles->end())
     {
         qDebug() << "open new course";
-        it = metaFiles->insert(filePath.filePath(),
-                               new Metadata(filePath.filePath()));
+        it = pdfFiles->insert(filePath.filePath(),
+                               new PdfRendering(filePath.filePath()));
 
     }
     //it.value()->render();
@@ -128,9 +128,9 @@ bool    DispPDF::dispPDFDoc(const QString & fileName)
     return true;
 }
 
-const QMap<QString, Metadata *>    *DispPDF::getMetaFiles() const
+const QMap<QString, PdfRendering *>    *DispPDF::getAllPdfFiles() const
 {
-    return metaFiles;
+    return pdfFiles;
 }
 
 void    DispPDF::closeCourse(const QString &fileName)
@@ -140,10 +140,10 @@ void    DispPDF::closeCourse(const QString &fileName)
     if (!filePath.isAbsolute())
         if (!filePath.makeAbsolute())
         {
-            qDebug() << "Cannot use the absolute path of the Metafile";
+            qDebug() << "Cannot use the absolute path of the pdf file";
             return ;
         }
 
-    delete metaFiles->value(filePath.filePath());
-    metaFiles->remove(filePath.filePath());
+    delete pdfFiles->value(filePath.filePath());
+    pdfFiles->remove(filePath.filePath());
 }
