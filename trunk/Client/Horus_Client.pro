@@ -65,7 +65,9 @@ HEADERS += NetworkManager.h \
     INetworkPlugin.h \
     FileManager.h \
     NetFile.h \
-    UserInfo.h
+    UserInfo.h \
+    IFile.h \
+    IFilePlugin.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
