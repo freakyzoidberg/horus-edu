@@ -4,18 +4,19 @@
 TEMPLATE = lib
 LIBS += -lpoppler-qt4 \
     -lpoppler
-SOURCES += disppdf.cpp \
-    dispPDFClient.cpp \
-    dispPDFNetwork.cpp \
-    pdfRendering.cpp \
-    metadata.cpp
-HEADERS += disppdf.h \
-    dispPDFClient.h \
-    dispPDFNetwork.h \
-    pdfRendering.h \
-    metadata.h \
+SOURCES += implementation/disppdf.cpp \
+    implementation/dispPDFClient.cpp \
+    #dispPDFNetwork.cpp \
+    implementation/pdfRendering.cpp
+   # metadata.cpp
+HEADERS += implementation/disppdf.h \
+    implementation/dispPDFClient.h \
+    #dispPDFNetwork.h \
+    implementation/pdfRendering.h \
+    # metadata.h \
     config.h
 INCLUDEPATH += . \
+    ./implementation \
     /usr/include/poppler \
     ../../ \
     ../../../Common

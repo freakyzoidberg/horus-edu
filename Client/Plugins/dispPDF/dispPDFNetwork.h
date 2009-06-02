@@ -4,10 +4,10 @@
 #include <QObject>
 #include <QEvent>
 
-#include <IPluginNetwork.h>
+#include <INetworkPlugin.h>
 
 //!Implementation of the interface IPluginNetwork
-class DispPDFNetwork : public QObject, public IPluginNetwork
+class DispPDFNetwork : public QObject, public INetworkPlugin
 {
  //Q_OBJECT
  //Q_INTERFACES(IPluginNetwork)
