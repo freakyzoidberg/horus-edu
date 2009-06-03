@@ -10,9 +10,9 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
     this->ui.setupUi(this);
     this->createActions();
     this->createMenus();
-    this->addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
     PluginManager *pluginManager = this->parent->findChild<PluginManager *>();
-    IDisplayablePlugin *mainBoard = pluginManager->findDisplayablePlugin("libMainFrame.so");
+    this->addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this, pluginManager));
+    IDisplayablePlugin *mainBoard = pluginManager->findDisplayablePlugin("MainFrame");
     if (mainBoard)
         this->setCentralWidget(mainBoard->getWidget());
 }
