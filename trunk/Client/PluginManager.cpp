@@ -149,7 +149,7 @@ INetworkPlugin *PluginManager::findNetworkPlugin(QString &pluginName) const
     return networkPluginsList.value(pluginName);
 }
 
-IDisplayablePlugin *PluginManager::findDisplayablePlugin(QString &pluginName) const
+IDisplayablePlugin *PluginManager::findDisplayablePlugin(QString pluginName) const
 {
     return displayablePluginsList.value(pluginName);
 }

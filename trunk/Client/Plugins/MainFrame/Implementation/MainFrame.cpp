@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+#include "MainFrameWidget.h"
+
 Q_EXPORT_PLUGIN2(MainFrame, MainFrame)
 
 MainFrame::MainFrame()
@@ -37,4 +39,9 @@ bool                MainFrame::event(QEvent *event)
 {
     qDebug() << "MainFrame: Received Event not managed" << event;
     return (false);
+}
+
+QWidget             *MainFrame::getWidget()
+{
+    return (new MainFrameWidget());
 }

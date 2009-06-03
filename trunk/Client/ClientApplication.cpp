@@ -4,7 +4,6 @@
 #include    "PluginManager.h"
 #include    "ConfigManager.h"
 #include    "ClientEvents.h"
-#include    "MainWindow.h"
 #include    "LoginDialog.h"
 #include    "ThreadNetwork.h"
 #include    <QtDebug>
@@ -20,7 +19,6 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     new ConfigManager(this);
     new PluginManager(this);
     this->loader = new Loader(this);
-    this->mainWindow = new MainWindow(this);
     this->loader->show();
 }
 
