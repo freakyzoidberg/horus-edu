@@ -8,7 +8,7 @@
 #include <disppdf.h>
 #include <pdfRendering.h>
 
-extern QEvent::Type ClientEvents::NetworkReceiveEvent;
+//extern QEvent::Type ClientEvents::NetworkReceiveEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 extern QEvent::Type ClientEvents::LoadPluginEvent;
 
@@ -18,7 +18,6 @@ DispPDF::DispPDF()
 {
     qDebug() << "[plugin dispPDF] : initialisation";
 
-    //pNetwork = new DispPDFNetwork();
     name = PLUGIN_NAME; /* dispPDF */
     version = PLUGIN_VERSION; /* 1.0 */
     pdfFiles = new QMap<QString, PdfRendering *>;
@@ -28,19 +27,11 @@ DispPDF::~DispPDF()
 {
     QMap<QString, PdfRendering *>::iterator   it, itend;
 
-    //if (pNetwork != NULL)
-      //  delete pNetwork;
     if (pdfFiles && !pdfFiles->empty())
     {
         itend = pdfFiles->end();
         for (it = pdfFiles->begin(); it != itend; ++it)
-        {
-            //if (it.value() == NULL)
-                qDebug() << "houlalala";
             delete it.value();
-            qDebug() << "houlalali";
-           // pdfFiles->erase(it);
-        }
     }
     delete pdfFiles;
 }
@@ -75,12 +66,12 @@ QStringList           DispPDF::getPluginsRecommended() const
 
 bool    DispPDF::event(QEvent *event)
 {
-    if (event->type() == ClientEvents::NetworkReceiveEvent)
-    {
-        event->accept();
-        //return pNetwork->eventHandler(event);
-    }
-    else if (event->type() == ClientEvents::LoadPluginEvent)
+    //if (event->type() == ClientEvents::NetworkReceiveEvent)
+    //{
+      //  event->accept();
+        //shenme shenme mingze buzhidao
+    //}
+    if (event->type() == ClientEvents::LoadPluginEvent)
     {
         event->accept();
         return eventHandlerLoad(event);
@@ -104,7 +95,17 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
     return true;
 }
 
-bool    DispPDF::dispPDFDoc(const QString & fileName)
+QImage    *DispPDF::dispPDFDoc(int fileId, int page,
+                            QRectF *partToDisplay)
+{
+    QString fileName;
+
+    //fileName = File->getNameById(fileId);
+    return dispPDFDoc(fileName, page, partToDisplay);
+}
+
+QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
+                            QRectF *partToDisplay)
 {
     QFileInfo    filePath(fileName);
     QMap<QString, PdfRendering *>::iterator it;
@@ -112,10 +113,11 @@ bool    DispPDF::dispPDFDoc(const QString & fileName)
     if (!filePath.isAbsolute())
         if (!filePath.makeAbsolute())
         {
-            qDebug() << "Cannot use the absolute path of the Metafile";
+            qDebug() << "Cannot use the absolute path of the pdf file";
             return false;
         }
 
+    //search if the pdf file is already open, if not add it in the map
     if ((it = pdfFiles->find(filePath.filePath())) == pdfFiles->end())
     {
         qDebug() << "open new course";
@@ -123,9 +125,7 @@ bool    DispPDF::dispPDFDoc(const QString & fileName)
                                new PdfRendering(filePath.filePath()));
 
     }
-    //it.value()->render();
-    // access
-    return true;
+    return it.value()->render(partToDisplay);
 }
 
 const QMap<QString, PdfRendering *>    *DispPDF::getAllPdfFiles() const
@@ -133,7 +133,15 @@ const QMap<QString, PdfRendering *>    *DispPDF::getAllPdfFiles() const
     return pdfFiles;
 }
 
-void    DispPDF::closeCourse(const QString &fileName)
+void    DispPDF::closePdfFile(int fileId)
+{
+    QString fileName;
+
+    //fileName = File->getNameById(fileId);
+    closePdfFile(fileName);
+}
+
+void    DispPDF::closePdfFile(const QString &fileName)
 {
     QFileInfo    filePath(fileName);
 

@@ -28,6 +28,6 @@ public:
     virtual IClientPlugin   *getPlugin(const QByteArray name) const = 0;
 };
 
-Q_DECLARE_INTERFACE(IClient, "net.horus.Client.PluginClientInterface/1.0");
+//Q_DECLARE_INTERFACE(IClient, "net.horus.Client.PluginClientInterface/1.0");
 
 #endif // ICLIENT_H
