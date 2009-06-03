@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>300</width>
     <height>300</height>
    </rect>
   </property>
@@ -16,9 +16,21 @@
     <height>36</height>
    </size>
   </property>
+  <property name="maximumSize">
+   <size>
+    <width>300</width>
+    <height>524287</height>
+   </size>
+  </property>
   <property name="windowIcon">
    <iconset resource="DockMenu.qrc">
     <normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel
+{
+	font-style: underline;
+}</string>
   </property>
   <property name="features">
    <set>QDockWidget::DockWidgetMovable</set>

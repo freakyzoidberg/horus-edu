@@ -66,6 +66,9 @@ void    PluginManager::loadPlugins()
     foreach (pluginName, plugins)
         loadPlugin(pluginName, pluginsUserDir, pluginsSystemDir);
     settings.endGroup();
+    QMap<QString, IClientPlugin *> newMap;
+    foreach (IClientPlugin *plugin, pluginsList)
+        newMap.insert(plugin->getName(), plugin);
 }
 
 bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir systemPath)
@@ -107,19 +110,19 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
                 if (networkPlugin)
                 {
                     networkPlugin->network = new InterfaceNetwork();
-                    networkPluginsList.insert(pluginName, networkPlugin);
+                    networkPluginsList.insert(clientPlugin->getName(), networkPlugin);
                 }
                 displayablePlugin = qobject_cast<IDisplayablePlugin *>(clientPlugin);
                 if (displayablePlugin)
                 {
                     displayablePlugin->display = new InterfaceDisplay();
-                    displayablePluginsList.insert(pluginName, displayablePlugin);
+                    displayablePluginsList.insert(clientPlugin->getName(), displayablePlugin);
                 }
                 filePlugin = qobject_cast<IFilePlugin *>(clientPlugin);
                 if (filePlugin)
                 {
                     filePlugin->file = new InterfaceFile();
-                    filePluginsList.insert(pluginName, filePlugin);
+                    filePluginsList.insert(clientPlugin->getName(), filePlugin);
                 }
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
