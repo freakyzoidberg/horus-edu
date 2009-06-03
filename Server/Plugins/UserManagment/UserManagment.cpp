@@ -95,13 +95,13 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
     if (request.contains("UserList"))
     {
         QVariantList list = request["UserList"].toList();
-        QString sql = "SELECT id,login,level,last_login,address,phone,country,language FROM users WHERE id IN (0";
+        QString sql = "SELECT id,login,level,last_login,address,phone,country,language,id_tree FROM users WHERE id IN (0";
         for (QVariantList::const_iterator i = list.constBegin(); i != list.constEnd(); ++i)
             list += "," + (*i).toUInt();
         query.prepare(sql+");");
     }
     else
-        query.prepare("SELECT id,login,level,last_login,address,phone,country,language FROM users;");
+        query.prepare("SELECT id,login,level,last_login,address,phone,country,language,id_tree FROM users;");
 
     if ( ! query.exec())
     {
@@ -126,6 +126,7 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
             user["phone"]      = query.value(5);
             user["country"]    = query.value(6);
             user["language"]   = query.value(7);
+            user["id_tree"]    = query.value(8);
         }
         list.append(user);
     }
@@ -135,7 +136,7 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
 void UserManagment::getUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
 {
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("SELECT login,level,last_login,address,phone,country,language FROM users WHERE id=?;");
+    query.prepare("SELECT login,level,last_login,address,phone,country,language,id_tree FROM users WHERE id=?;");
     query.addBindValue(request.value("UserId"));
     if ( ! query.exec() || ! query.next())
     {
@@ -153,15 +154,16 @@ void UserManagment::getUserInfo(quint32 userId, const QVariantHash& request,QVar
     response["phone"]      = query.value(4);
     response["country"]    = query.value(5);
     response["language"]   = query.value(6);
+    response["id_tree"]    = query.value(7);
 }
 
 void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
 {
     if ( ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
-      || ! request.contains("country") || ! request.contains("language"))
+      || ! request.contains("country") || ! request.contains("language") || ! request.contains("id_tree"))
     {
         response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'level','address','phone','counrty','language'";
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'level','address','phone','counrty','language','id_tree'";
         return;
     }
 
@@ -173,12 +175,13 @@ void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVar
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("UPDATE users SET level=?,address=?,phone=?,country=?,language=? WHERE id=?;");
+    query.prepare("UPDATE users SET level=?,address=?,phone=?,country=?,language=?,id_tree=? WHERE id=?;");
     query.addBindValue(request["level"]);
     query.addBindValue(request["address"]);
     query.addBindValue(request["phone"]);
     query.addBindValue(request["country"]);
     query.addBindValue(request["language"]);
+    query.addBindValue(request["id_tree"]);
     query.addBindValue(request.value("UserId"));
 
     if ( ! query.exec())
@@ -195,10 +198,10 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
 {
     if ( ! request.contains("login") || ! request.contains("password")
       || ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
-      || ! request.contains("country") || ! request.contains("language"))
+      || ! request.contains("country") || ! request.contains("language") ||  ! request.contains("id_tree"))
     {
         response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'login','password','level','address','phone','counrty','language'";
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'login','password','level','address','phone','counrty','language','id_tree'";
         return;
     }
 
@@ -210,7 +213,7 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("INSERT INTO users (login,password,level,address,phone,country,language) VALUES (?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO users (login,password,level,address,phone,country,language,id_tree) VALUES (?,?,?,?,?,?,?,?,?);");
     query.addBindValue(request["login"]);
     query.addBindValue(request["password"]);
     query.addBindValue(request["level"]);
@@ -218,6 +221,7 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     query.addBindValue(request["phone"]);
     query.addBindValue(request["country"]);
     query.addBindValue(request["language"]);
+    query.addBindValue(request["id_tree"]);
 
     query.exec();
 
