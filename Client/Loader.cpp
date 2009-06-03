@@ -29,7 +29,6 @@ void    Loader::loadNetwork()
     ++(this->processes);
     //networkManager = parent->findChild<NetworkManager *>();
     QApplication::postEvent(ThreadNetwork::getInstance(this->parent), new QEvent(ClientEvents::StartEvent));
-
 }
 
 void    Loader::loadPlugins()
