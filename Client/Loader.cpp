@@ -4,6 +4,7 @@
 #include "PluginManager.h"
 #include "ClientEvents.h"
 #include "LoginDialog.h"
+#include "MainWindow.h"
 
 Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
 {
@@ -59,6 +60,7 @@ bool    Loader::event(QEvent *event)
         if (processes == processesComplete)
         {
             this->hide();
+            parent->mainWindow = new MainWindow(this->parent);
             parent->mainWindow->show();
         }
         return (true);

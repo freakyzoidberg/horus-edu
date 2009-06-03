@@ -110,6 +110,7 @@ void SettingsDialog::FillNetworkTab()
     {
         line = new QLineEdit(settings->value(key).toString());
         line->setObjectName("session_" + key);
+        line->setReadOnly(true);
         sessionLayout->addRow(key, line);
     }
     settings->endGroup();

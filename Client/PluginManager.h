@@ -67,7 +67,7 @@ public:
      *  \param name The name of the plugin requested
      *  \return A pointer to the plugin requested or NULL if not found
      */
-    IDisplayablePlugin *findDisplayablePlugin(QString &name) const;
+    IDisplayablePlugin *findDisplayablePlugin(QString name) const;
 protected:
     //! The entry point of the thread
     /*!

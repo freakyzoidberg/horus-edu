@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "SettingsDialog.h"
 #include "ClientEvents.h"
+#include "PluginManager.h"
 
 MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
 {
@@ -8,7 +9,10 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
     this->ui.setupUi(this);
     this->createActions();
     this->createMenus();
- //   this->setCentralWidget(new MainBoard(this));
+    PluginManager *pluginManager = this->parent->findChild<PluginManager *>();
+    IDisplayablePlugin *mainBoard = pluginManager->findDisplayablePlugin("libMainFrame.so");
+    if (mainBoard)
+        this->setCentralWidget(mainBoard->getWidget());
 }
 
 bool MainWindow::event(QEvent *event)
