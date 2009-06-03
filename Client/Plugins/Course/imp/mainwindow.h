@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
+#include <QTreeWidget>
+#include <QPushButton>
 
 namespace Ui
 {
@@ -20,6 +22,13 @@ public slots:
     void ViewLesson();
 private:
     Ui::MainWindowClass *ui;
+    QWidget *fenetre;
+    QTreeWidget *tree;
+    QPushButton *french;
+    QPushButton *english;
+    QPushButton *math;
+    QPushButton *svt;
+
 };
 
 #endif // MAINWINDOW_H

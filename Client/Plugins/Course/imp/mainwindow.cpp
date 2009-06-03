@@ -1,21 +1,41 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QTreeWidget>
 #include <QPushButton>
 #include <QHBoxLayout>
+#include <QDesktopWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
-    QWidget fenetre;
-    QPushButton *french = new QPushButton("french");
-    QPushButton *english = new QPushButton("english");
+    QDesktopWidget *desktop = QApplication::desktop();
+    int x;
+    int y;
+
+    x = desktop->width();
+    y = desktop->height();
+    this->fenetre = new QWidget();
+    this->fenetre->resize(640,480);
+
+
+    this->french = new QPushButton("french");
+    this->english = new QPushButton("english");
+    this->math = new QPushButton("math");
+    this->svt = new QPushButton("svt");
 
     QHBoxLayout *layout = new QHBoxLayout;
+
     layout->addWidget(french);
     layout->addWidget(english);
-    fenetre.setLayout(layout);
-    fenetre.show();
+    layout->addWidget(math);
+    layout->addWidget(svt);
+
+    fenetre->setLayout(layout);
+    fenetre->move(10, 200);
+    fenetre->show();
+    QObject::connect(this->french, SIGNAL(clicked()), this, SLOT(explorer()));
+    QObject::connect(this->english, SIGNAL(clicked()), this, SLOT(explorer()));
+    QObject::connect(this->math, SIGNAL(clicked()), this, SLOT(explorer()));
+    QObject::connect(this->svt, SIGNAL(clicked()), this, SLOT(explorer()));
 }
 
 MainWindow::~MainWindow()
@@ -26,14 +46,15 @@ MainWindow::~MainWindow()
 void MainWindow::explorer()
 {
     //build tree
-QTreeWidget *Tree = new QTreeWidget(this->centralWidget());
+this->tree = new QTreeWidget(this->fenetre);
+this->tree->resize(150,200);
 
-Tree->setMaximumWidth(200);
-Tree->setColumnCount(1);
-Tree->setHeaderLabel("matiere");
+tree->setMaximumWidth(200);
+tree->setColumnCount(1);
+tree->setHeaderLabel("matiere");
 
 //build index
-QTreeWidgetItem *cours1 = new QTreeWidgetItem(Tree);
+QTreeWidgetItem *cours1 = new QTreeWidgetItem(tree);
 cours1->setText(0,"cours 1");
 
 //build child
@@ -43,16 +64,15 @@ lesson1->setText(0,"lesson 1");
 QTreeWidgetItem *cours2 = new QTreeWidgetItem;
 cours2->setText(0,"cours 2");
 
-Tree->insertTopLevelItem(0, cours1);
-Tree->insertTopLevelItem(1, cours2);
-
-Tree->show();
+tree->insertTopLevelItem(0, cours1);
+tree->insertTopLevelItem(1, cours2);
+tree->show();
 }
 
 void    MainWindow::ViewLesson()
 {
-   QTreeWidget *Tree = new QTreeWidget;
-Tree->setColumnCount(1);
-Tree->setHeaderLabel("test");
-Tree->show();
+   QTreeWidget *tree = new QTreeWidget;
+tree->setColumnCount(1);
+tree->setHeaderLabel("test");
+tree->show();
 }
