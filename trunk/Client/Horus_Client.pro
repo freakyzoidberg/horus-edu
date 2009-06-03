@@ -75,4 +75,4 @@ FORMS += Ui/Loader.ui \
 RESOURCES += Ui/Loader.qrc \
     Ui/SettingsDialog.qrc \
     Ui/MainWindow.qrc
-OTHER_FILES += 
+RC_FILE = Client.rc
