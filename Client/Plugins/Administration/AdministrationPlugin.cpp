@@ -4,12 +4,11 @@ Q_EXPORT_PLUGIN2(Administration, Administration)
 
 Administration::Administration()
 {
-    this->adminF = new AdminFram(this->network);
 }
 
 QWidget             *Administration::getWidget()
 {
-    return this->adminF;
+    return (new AdminFram(this->network));
 }
 
 void Administration::recvPacket(const PluginPacket& packet)
