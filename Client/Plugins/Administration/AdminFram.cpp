@@ -7,6 +7,8 @@ AdminFram::AdminFram(INetwork *reseau) : QWidget()
     uF = new UserFram(reseau);
     this->mainLayout->addWidget(tF, 0,0);
     this->mainLayout->addWidget(uF, 0,1);
+    this->mainLayout->setColumnStretch(0, 1);
+    this->mainLayout->setColumnStretch(1, 3);
     this->setLayout(this->mainLayout);
 }
 
