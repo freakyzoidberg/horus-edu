@@ -94,12 +94,23 @@ public:
     */
     const QMap<QString, PdfRendering *>    *getAllPdfFiles() const;
 
-    //! Open a pdf file
+    //! display a part of a pdf file
     /*
     \param fileName the absolute path  to the file
+    \param page the page you want to display
+    \param partToDisplay the part of the page you want to display
+    \return a pointer to the diaplayable image
     */
-    QImage    *dispPDFDoc(const QString & fileName, int page,
-                          QRectF *partToDisplay);
+    QImage    *dispPDFDoc(QString & fileName, int page,
+                          QRectF *partToDisplay, int fileId = -1);
+
+    //! //! display a part of a pdf file (overload)
+    /*
+    \param fileId the file identifier
+    \param page the page you want to display
+    \param partToDisplay the part of the page you want to display
+    \return a pointer to the diaplayable image
+    */
     QImage    *dispPDFDoc(int fileId, int page, QRectF *partToDisplay);
 
     /*!
@@ -135,9 +146,6 @@ private:
 
     //! The list of the name of plugins recommended by the dispPDF plugin
     QStringList pluginsRecommended;
-
-    //! network access for the plugin dispPDF (im not sure it is necessary)
-    //DispPDFNetwork   *pNetwork;
 
     //! QMap containing all the open PDF files with their name
     QMap<QString, PdfRendering *>   *pdfFiles;

@@ -29,7 +29,8 @@ SOURCES += main.cpp \
     FileManager.cpp \
     NetFile.cpp \
     UserInfo.cpp \
-    NotificationClient.cpp
+    NotificationClient.cpp \
+    File.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -67,7 +68,8 @@ HEADERS += NetworkManager.h \
     UserInfo.h \
     IFile.h \
     IFilePlugin.h \
-    NotificationClient.h
+    NotificationClient.h \
+    File.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \

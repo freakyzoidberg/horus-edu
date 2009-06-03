@@ -8,11 +8,12 @@
 
 #include <QDebug>
 
-PdfRendering::PdfRendering(const QString & fileName)
+PdfRendering::PdfRendering(const QString & fileName, int fileId)
 {
     this->fileName = fileName;
-    pdfDoc = NULL;
+    this->fileId = fileId;
 
+    pdfDoc = NULL;
     currentPage = NULL;
     currentPageNb = 1;
     scaleFactor = 1;
@@ -33,6 +34,11 @@ PdfRendering::~PdfRendering()
 const QString & PdfRendering::getFileName() const
 {
     return fileName;
+}
+
+int     PdfRendering::getFileId() const
+{
+    return fileId;
 }
 
 const Poppler::Document    *PdfRendering::getPdfDoc() const
@@ -92,13 +98,18 @@ void        PdfRendering::scaled(float scaleFactor)
 {   
     //to avoid big picture
     if (scaleFactor > 2)
-        scaleFactor = 2;
+        this->scaleFactor = 2;
 
-    this->scaleFactor = scaleFactor;
-    matrix->setMatrix(scaleFactor, 0, 0, scaleFactor, 0, 0);
+    if (!matrix)
+        matrix = new QMatrix(scaleFactor, 0, 0, scaleFactor, 0, 0);
+    else if (this->scaleFactor != scaleFactor)
+    {
+        this->scaleFactor = scaleFactor;
+        matrix->setMatrix(scaleFactor, 0, 0, scaleFactor, 0, 0);
+    }
 }
 
-bool        PdfRendering::loadPage(int pageNb)
+bool        PdfRendering::loadPage(unsigned int pageNb)
 {
     if (pdfDoc == NULL)
     {
@@ -106,19 +117,23 @@ bool        PdfRendering::loadPage(int pageNb)
         return false;
     }
 
-    if (pageNb < 0 || pageNb > pdfDoc->numPages())
+    if (pageNb > (unsigned int)(pdfDoc->numPages()))
     {
         qDebug() << "Page number out of range";
         return false;
     }
 
-    //free the old page
-    if (currentPage)
+    if (!currentPage)
+    {
+        currentPage = pdfDoc->page(pageNb);
+        currentPageNb = pageNb;
+    }
+    else if (pageNb != currentPageNb)
+    {
         delete currentPage;
-
-    //load the new one
-    currentPage = pdfDoc->page(pageNb);
-    currentPageNb = pageNb;
+        currentPage = pdfDoc->page(pageNb);
+        currentPageNb = pageNb;
+    }
     return true;
 }
 
@@ -136,18 +151,16 @@ QImage        *PdfRendering::render(int page, QRectF *partToDisplay)
 
 QImage  *PdfRendering::generateImg(QRectF * partToDisplay)
 {
-     QImage      image = currentPage->renderToImage(this->scaleFactor * 72.0,
-                                                   this->scaleFactor * 72.0);
+     QImage      image = currentPage->renderToImage(scaleFactor * 72.0,
+                                                    scaleFactor * 72.0);
     if (image.isNull())
     {
         qDebug() << "[dispPDF] Unable to generate an image from the PDF.";
         return NULL;
     }
 
-    if (!matrix)
-        matrix = new QMatrix(this->scaleFactor, 0, 0, this->scaleFactor, 0, 0);
-
     partToDisplay->adjust(-2, -2, 2, 2);
+    scaled(scaleFactor);
 
     QRect part = matrix->mapRect(*partToDisplay).toRect();
     QImage  *subImg = new QImage(image.copy(part));
