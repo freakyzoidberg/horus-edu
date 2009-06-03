@@ -6,6 +6,8 @@
 #include <QObject>
 #include "../../INetworkPlugin.h"
 #include "../../IClientPlugin.h"
+#include "../../../Common/PluginPacket.h"
+#include "AdminFram.h"
 
 class Administration : public IClientPlugin, public INetworkPlugin
 {
@@ -57,7 +59,7 @@ class Administration : public IClientPlugin, public INetworkPlugin
         */
         bool                    event(QEvent * event);
 
-        void recvPacket(const PluginPacket&);
+        void                    recvPacket(const PluginPacket&);
     private:
         //! the name of the plugin
         QByteArray          modName;
@@ -89,6 +91,11 @@ class Administration : public IClientPlugin, public INetworkPlugin
           The list contains the name of the exports
         */
         QStringList         exports;
+        //! adminF
+        /*!
+          The adminstration frame
+        */
+        AdminFram           *adminF;
 };
 
 #endif // ADMINISTRATION_H

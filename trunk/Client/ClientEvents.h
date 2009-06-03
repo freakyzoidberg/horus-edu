@@ -34,7 +34,7 @@ class ClientEvents
         static QEvent::Type PluginEvent;
         //!  event for the network errors
         static QEvent::Type OfflineModeEvent;
-            //!  event for the network errors
+        //!  event for the network errors
         static QEvent::Type CServerEmptyEvent;
 };
 

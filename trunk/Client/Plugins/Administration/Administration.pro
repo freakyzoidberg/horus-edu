@@ -8,12 +8,14 @@ DEFINES += ADMINISTRATION_LIBRARY
 SOURCES += AdministrationPlugin.cpp \
     AdminFram.cpp \
     UserManager.cpp \
-    TreeManager.cpp \
-    TreeFram.cpp
+    TreeFram.cpp \
+    UserFram.cpp
 HEADERS += AdministrationPlugin.h \
     AdminFram.h \
     UserManager.h \
     TreeManager.h \
-    TreeFram.h
+    TreeFram.h \
+    UserFram.h
 FORMS += AdminFram.ui \
-    TreeFram.ui
+    TreeFram.ui \
+    UserFram.ui
