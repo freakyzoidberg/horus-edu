@@ -35,9 +35,7 @@ public:
     QStringList         getPluginsRecommended() const;
     bool                event(QEvent *event);
     QWidget             *getWidget();
-public slots:
-    void explorer();
-    void ViewLesson();
+
 private:
     Ui::CourseClass *ui;
     QWidget *fenetre;
