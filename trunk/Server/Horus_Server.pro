@@ -30,7 +30,6 @@ SOURCES = main.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommFile.cpp \
     ../Common/CommSettings.cpp \
-    ../Common/CommFileInfo.cpp \
     FileManagment.cpp
 HEADERS = Sql.h \
     User.h \
