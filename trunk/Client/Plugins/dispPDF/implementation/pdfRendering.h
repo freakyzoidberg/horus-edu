@@ -36,7 +36,7 @@ class   PdfRendering : public IPdfRendering
             \param fileName the name of the file
             \the page you want to display
         */
-        PdfRendering(const QString & fileName);
+        PdfRendering(const QString & fileName, int fileId = -1);
 
         //! Destructor. CLose the pdf file.
         ~PdfRendering();
@@ -46,6 +46,8 @@ class   PdfRendering : public IPdfRendering
           \return the variable fileName
         */
         const QString & getFileName() const;
+        int             getFileId() const;
+
 
         //! return the poppler document
         /*!
@@ -72,7 +74,7 @@ class   PdfRendering : public IPdfRendering
         /*!
             \param pageNb the number of the page you wanna load
         */
-        bool        loadPage(int pageNb);
+        bool        loadPage(unsigned int pageNb);
 
         //! return the scaleFactor
         float       getScaleFactor() const;
@@ -117,6 +119,9 @@ class   PdfRendering : public IPdfRendering
         //! the name of the pdf file
         QString             fileName;
 
+        //! the id of the pdf file
+        int                 fileId;
+
         //! THE pdf file according to the lib poppler
         Poppler::Document   *pdfDoc;
 
@@ -124,7 +129,7 @@ class   PdfRendering : public IPdfRendering
         Poppler::Page       *currentPage;
 
         //! the number of the current page
-        int     currentPageNb;
+        unsigned int     currentPageNb;
 
         //! scale factor (like the 100%, 75%, etc view in most of the readers)
         float   scaleFactor;

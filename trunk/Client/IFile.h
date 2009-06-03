@@ -11,12 +11,14 @@ class   IFile
           retrieve a file using its name
           \param name the name of the file
         */
-        virtual void   needFile(const QString & fileName) = 0;
+        virtual bool   needFile(const QString & fileName) = 0;
         /*!
           retrieve a file using its name
           \param id the id of the file
         */
-        virtual void   needFile(int id) = 0;
+        virtual bool   needFile(int id) = 0;
+        virtual int    getFileIdByName(const QString & fileName) = 0;
+        virtual QString getNameById(int fileId) = 0;
 };
 
 #endif // IFILE_H

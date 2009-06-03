@@ -44,7 +44,7 @@ class   IPdfRendering
     /*!
       \param pageNb the number of the page you wanna load
     */
-    virtual bool        loadPage(int pageNb) = 0;
+    virtual bool        loadPage(unsigned int pageNb) = 0;
 
     //! return the scaleFactor
     virtual float       getScaleFactor() const = 0;

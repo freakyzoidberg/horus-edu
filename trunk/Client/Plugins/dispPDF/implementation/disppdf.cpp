@@ -26,7 +26,7 @@ DispPDF::~DispPDF()
 {
     QMap<QString, PdfRendering *>::iterator   it, itend;
 
-    if (pdfFiles && !pdfFiles->empty())
+    if (!pdfFiles->empty())
     {
         itend = pdfFiles->end();
         for (it = pdfFiles->begin(); it != itend; ++it)
@@ -35,28 +35,28 @@ DispPDF::~DispPDF()
     delete pdfFiles;
 }
 
-const QByteArray        DispPDF::getName() const
+const QByteArray    DispPDF::getName() const
 {
     return name;
 }
 
-const QByteArray        DispPDF::getVersion() const
+const QByteArray    DispPDF::getVersion() const
 {
     return version;
 }
 
-QStringList             DispPDF::getPluginsConflicts() const
+QStringList     DispPDF::getPluginsConflicts() const
 {
     return pluginsConflicts;
 }
 
 
-QStringList             DispPDF::getPluginsRequired() const
+QStringList     DispPDF::getPluginsRequired() const
 {
     return plugindRequired;
 }
 
-QStringList           DispPDF::getPluginsRecommended() const
+QStringList     DispPDF::getPluginsRecommended() const
 {
     return pluginsRecommended;
 }
@@ -90,16 +90,16 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
 }
 
 QImage    *DispPDF::dispPDFDoc(int fileId, int page,
-                            QRectF *partToDisplay)
+                               QRectF *partToDisplay)
 {
     QString fileName;
 
-    //fileName = File->getNameById(fileId);
-    return dispPDFDoc(fileName, page, partToDisplay);
+    fileName = file->getNameById(fileId);
+    return dispPDFDoc(fileName, page, partToDisplay, fileId);
 }
 
-QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
-                               QRectF *partToDisplay)
+QImage    *DispPDF::dispPDFDoc(QString & fileName, int page,
+                               QRectF *partToDisplay, int fileId)
 {
     QFileInfo    filePath(fileName);
     QMap<QString, PdfRendering *>::iterator it;
@@ -111,10 +111,31 @@ QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
             return NULL;
         }
 
-    //search if the pdf file is already open, if not add it in the map
+    //if the file doesn't exist recup it using the method of the IFile * interface
+    if (!filePath.exists())
+    {
+        bool  success;
+
+        if (fileId != -1)
+            success = file->needFile(fileId);
+        else
+            success = file->needFile(fileName);
+        if (!success)
+            return NULL;
+    }
+
+    if (fileId == -1)
+        fileId = file->getFileIdByName(filePath.filePath());
+    else if (fileName.isEmpty() || fileName.isNull())
+        fileName = file->getNameById(fileId);
+
+    /*
+       search if the pdf file is already in the map, if not add it in the map
+       and return the iterator.
+    */
     if ((it = pdfFiles->find(filePath.filePath())) == pdfFiles->end())
         it = pdfFiles->insert(filePath.filePath(),
-                               new PdfRendering(filePath.filePath()));
+                               new PdfRendering(filePath.filePath(), fileId));
 
     return it.value()->render(page, partToDisplay);
 }
@@ -128,7 +149,7 @@ void    DispPDF::closePdfFile(int fileId)
 {
     QString fileName;
 
-    //fileName = File->getNameById(fileId);
+    fileName = file->getNameById(fileId);
     closePdfFile(fileName);
 }
 
