@@ -105,7 +105,7 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
 
     if ( ! query.exec())
     {
-        response["Error"]   = 5;
+        response["Error"]   = 6;
         response["ErrorMesssage"] = "Database error.";
         return;
     }
@@ -117,6 +117,7 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
         QVariantHash user;
         user["id"]         = query.value(0);
         user["login"]      = query.value(1);
+        user["id_tree"]    = query.value(8);
 
         if (server->getLevel(userId) <= LEVEL_ADMINISTRATOR || query.value(0).toUInt() == userId)
         {
@@ -126,7 +127,6 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
             user["phone"]      = query.value(5);
             user["country"]    = query.value(6);
             user["language"]   = query.value(7);
-            user["id_tree"]    = query.value(8);
         }
         list.append(user);
     }
