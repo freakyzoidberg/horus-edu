@@ -7,6 +7,8 @@
 #include    <QApplication>
 #include    "InterfaceClient.h"
 #include    "InterfaceNetwork.h"
+#include    "InterfaceDisplay.h"
+#include    "InterfaceFile.h"
 
 PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(parent)
 {
@@ -74,6 +76,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
     IClientPlugin   *clientPlugin;
     INetworkPlugin  *networkPlugin;
     IDisplayablePlugin  *displayablePlugin;
+    IFilePlugin  *filePlugin;
     QString         newPlugin;
     bool            success;
 
@@ -109,8 +112,14 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
                 displayablePlugin = qobject_cast<IDisplayablePlugin *>(clientPlugin);
                 if (displayablePlugin)
                 {
-//                    displayblePlugin->?? = new InterfaceDisplayable();
+                    displayablePlugin->display = new InterfaceDisplay();
                     displayablePluginsList.insert(pluginName, displayablePlugin);
+                }
+                filePlugin = qobject_cast<IFilePlugin *>(clientPlugin);
+                if (filePlugin)
+                {
+                    filePlugin->file = new InterfaceFile();
+                    filePluginsList.insert(pluginName, filePlugin);
                 }
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
@@ -143,4 +152,9 @@ INetworkPlugin *PluginManager::findNetworkPlugin(QString &pluginName) const
 IDisplayablePlugin *PluginManager::findDisplayablePlugin(QString &pluginName) const
 {
     return displayablePluginsList.value(pluginName);
+}
+
+IFilePlugin *PluginManager::findFilePlugin(QString &pluginName) const
+{
+    return filePluginsList.value(pluginName);
 }
