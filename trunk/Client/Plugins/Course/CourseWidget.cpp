@@ -2,7 +2,7 @@
 
 CourseWidget::CourseWidget(): QFrame::QFrame()
 {
-    this->fenetre = new QWidget();
+    this->fenetre = new QWidget(this);
     this->fenetre->resize(640,480);
 
 
