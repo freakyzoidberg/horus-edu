@@ -11,7 +11,7 @@ class AdminFram : public QWidget, public Ui::AdminForm
     Q_OBJECT
     Q_DISABLE_COPY(AdminFram)
     public:
-        explicit AdminFram(QWidget *parent = 0);
+        explicit AdminFram(INetwork *reseau);
         void        packetManager(QVariantHash response);
     protected:
         virtual void changeEvent(QEvent *e);

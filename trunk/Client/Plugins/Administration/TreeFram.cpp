@@ -1,7 +1,7 @@
 #include "TreeFram.h"
 #include <QDebug>
 
-TreeFram::TreeFram(QWidget *parent) : QFrame(parent)
+TreeFram::TreeFram(INetwork *reseau) : QFrame()
 {
     setupUi(this);
     requestFunctions["getTree"]         = &TreeFram::getTreeResponse;
@@ -70,14 +70,14 @@ void    TreeFram::getTree()
     QVariantHash request;
     request["Request"]=  "getTree";
         QTreeWidgetItem *cours1 = new QTreeWidgetItem(this->treeWidget);
-    cours1->setText(0,"cours 1");
+    cours1->setText(0,"Promos");
 
     //build child
     QTreeWidgetItem *lesson1 = new QTreeWidgetItem(cours1);
-    lesson1->setText(0,"lesson 1");
+    lesson1->setText(0,"Class");
 
     QTreeWidgetItem *cours2 = new QTreeWidgetItem;
-    cours2->setText(0,"cours 2");
+    cours2->setText(0,"Profs");
 
     this->treeWidget->insertTopLevelItem(0, cours1);
     this->treeWidget->insertTopLevelItem(1, cours2);

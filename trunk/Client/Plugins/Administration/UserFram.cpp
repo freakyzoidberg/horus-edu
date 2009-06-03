@@ -1,6 +1,6 @@
 #include "UserFram.h"
 
-UserFram::UserFram(QWidget *parent) : QFrame(parent)
+UserFram::UserFram(INetwork *reseau) : QFrame()
 {
     setupUi(this);
     requestFunctions["changePassword"]  = &UserFram::changePasswordResponse;

@@ -6,14 +6,16 @@
 #include <QObject>
 #include "../../INetworkPlugin.h"
 #include "../../IClientPlugin.h"
+#include "../../IDisplayablePlugin.h"
 #include "../../../Common/PluginPacket.h"
 #include "AdminFram.h"
 
-class Administration : public IClientPlugin, public INetworkPlugin
+class Administration : public IClientPlugin, public INetworkPlugin, public IDisplayablePlugin
 {
     Q_OBJECT
     Q_INTERFACES(INetworkPlugin)
     Q_INTERFACES(IClientPlugin)
+    Q_INTERFACES(IDisplayablePlugin)
     public:
         Administration();
         //! return the name of the plugin
@@ -60,41 +62,9 @@ class Administration : public IClientPlugin, public INetworkPlugin
         bool                    event(QEvent * event);
 
         void                    recvPacket(const PluginPacket&);
+        QWidget                 *getWidget();
+        IDisplayable             *display;
     private:
-        //! the name of the plugin
-        QByteArray          modName;
-    
-        //! the version of the plugin
-        QByteArray          modVersion;
-    
-        //! conflicts between plugins
-        /*!
-          The list contains the name of the plugin which are in conflicts
-          with this one.
-        */
-        QStringList         modConflicts;
-    
-        //! plugin requiered
-        /*!
-          The list contains the name of the plugins required to use this one
-        */
-        QStringList         modRequired;
-    
-        //! plugin recommended
-        /*!
-          The list contains the name of the recommended plugins to use this one
-        */
-        QStringList         modRecommended;
-    
-        //! exports
-        /*!
-          The list contains the name of the exports
-        */
-        QStringList         exports;
-        //! adminF
-        /*!
-          The adminstration frame
-        */
         AdminFram           *adminF;
 };
 

@@ -72,16 +72,19 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
      case QAbstractSocket::RemoteHostClosedError:
          QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
          QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+         QApplication::postEvent(parent->nC, new QEvent(ClientEvents::OfflineModeEvent));
          break;
      case QAbstractSocket::HostNotFoundError:
          qDebug() << "The host was not found. Please check the host name and port settings.";
          QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
          QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+         QApplication::postEvent(parent->nC, new QEvent(ClientEvents::OfflineModeEvent));
          break;
      case QAbstractSocket::ConnectionRefusedError:
          qDebug() << "The connection was refused by the peer. Make sure the Horus server is running, and check that the host name and port settings are correct.";
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
         QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+        QApplication::postEvent(parent->nC, new QEvent(ClientEvents::OfflineModeEvent));
          break;
      default:
          qDebug() << tr("The following error occurred: %1.").arg(errorString());
