@@ -28,6 +28,7 @@ public:
      *  \return the accept status of the event
      */
     bool event(QEvent *event);
+
 private slots:
     //! Display a dialog for editing the settings
     void editSettings();
