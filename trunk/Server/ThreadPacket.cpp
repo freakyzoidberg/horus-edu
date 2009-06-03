@@ -140,34 +140,38 @@ void ThreadPacket::PacketFile()
 
     else if (f.method == CommFile::DELETE_FILE
           || f.method == CommFile::ACCESS_FILE
+          || f.method == CommFile::NEW_FILE
           || f.method == CommFile::STAT_FILE)
     {
         QFile* qfile = 0;
-        if (f.fileInfo.id != 0) //file may exist
+        if (f.method != CommFile::NEW_FILE)
         {
             qfile = new QFile(settings.value("SETTINGS/FilesDirectory", "/opt/Horus/Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
 
             if ( ! fileMgmt.fileExist(f.fileInfo.id) || ! qfile->exists())
                 f.error = CommFile::NOT_FOUND;
+
             else
                 f.fileInfo = fileMgmt.getFileInfo(f.fileInfo.id);
         }
 
         if (f.error == CommFile::NO_ERROR)
         {
-//            const CommFileInfo& fi = fileMgmt.getFileInfo(f.fileInfo.id);
+            //check user can create or remove a file in the node
             if ((f.method == CommFile::DELETE_FILE
-              || f.fileInfo.id == 0)
+              || f.method == CommFile::NEW_FILE)
             && ! fileMgmt.userCanChangeNode(socket->user.getId(), f.fileInfo.nodeId))
                 f.error = CommFile::PERMITION_DENIED;
 
+            //check if the file can be removed from the filesystem
             else if (f.method == CommFile::DELETE_FILE
                      &&  ! qfile->remove())
                 f.error = CommFile::PERMITION_DENIED;
 
-            if (f.method == CommFile::ACCESS_FILE)
+            if (f.method == CommFile::ACCESS_FILE
+             || f.method == CommFile::NEW_FILE)
             {
-                if (f.fileInfo.id == 0)
+                if (f.method == CommFile::NEW_FILE)
                 {
                     //TODO check fileInfo
                     f.fileInfo.ownerId = socket->user.getId();
@@ -175,11 +179,11 @@ void ThreadPacket::PacketFile()
                     qfile = new QFile(settings.value("SETTINGS/FilesDirectory", "/opt/Horus/Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
                 }
 
+                //check if the file can be created/read/write from the filesystem
                 if (qfile->open(f.mode))
                 {
-                    //refresh FileInfo
+                    //refresh FileInfo to be sure
                     f.fileInfo = fileMgmt.getFileInfo(f.fileInfo.id);
-
                     f.key = (new FileTransfert(qfile))->getKey();// activate the FileTransfert
                 }
 
