@@ -59,6 +59,7 @@ void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response
     }
     qDebug() << "=== END Tree Management DEBUG ===";
     response["userTree"] =  usertree;
+    response["Success"] = true;
 }
 
 void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
@@ -80,20 +81,30 @@ void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& respo
     }
     qDebug() << "=== END Tree Management DEBUG ===";
     response["AllTree"] =  usertree;
-
+    response["Success"] = true;
 
 }
 
 void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
     bool ok;
+    if (request.contains("idNode"))
+    {
     int node = QVariant(request["idNode"]).toInt(&ok);
 
-    response["userref"] = server->getnodebyid(node)->GetUserRef();
-    response["nodename"] =  server->getnodebyid(node)->GetName();
-    response["numberofsons"] = server->GetSonsNode(server->getnodebyid(node)).count();
-    response["sonsid"] = getvectorsonsfromidnode(node);
-    //response["userslist"] = list of users id
+      response["userref"] = server->getnodebyid(node)->GetUserRef();
+      response["nodename"] =  server->getnodebyid(node)->GetName();
+      response["numberofsons"] = server->GetSonsNode(server->getnodebyid(node)).count();
+      response["sonsid"] = getvectorsonsfromidnode(node);
+      response["userslist"] = userlist(node);
+      response["Success"] = true;
+    }
+    else
+    {
+        response["Success"] = false;
+        response["Error"]   = 1;
+        response["ErrorMesssage"]   = "no id specified";
+    }
 }
 
 
@@ -107,6 +118,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
            response["Success"] = true;
          else
         {
+             response["Success"] = false;
             response["Error"] = 1;
             response["ErrorMessage"] = "cannot delete this node";
          }
@@ -118,6 +130,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
             response["Success"] = true;
         else
         {
+            response["Success"] = false;
             response["Error"] = 1;
             response["ErrorMessage"] = "cannot move this node";
          }
@@ -129,6 +142,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
             response["Success"] = true;
         else
         {
+            response["Success"] = false;
             response["Error"] = 1;
             response["ErrorMessage"] = "cannot add this node";
          }
@@ -140,11 +154,13 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
             response["Success"] = true;
         else
         {
+            response["Success"] = false;
             response["Error"] = 1;
             response["ErrorMessage"] = "cannot set this node";
          }
         return;
     }
+    response["Success"] = false;
     response["Error"] = 1;
     response["ErrorMessage"] = "request not handled";
     return;
@@ -285,4 +301,21 @@ QList<int> TreeManagement::GetNodeList(int iduser)
         listret.append(QVariant(it.key()).toInt(&ok));
     }
 return listret;
+}
+
+QList<int> userlist(const int id_node)
+{
+    QList<int> res;
+    QSqlQuery query1 = server->getSqlQuery();
+    query1.prepare("SELECT id FROM users WHERE id_tree =?");
+    query1.addBindValue(id_node);
+    query1.exec();
+
+    bool ok;
+    res.clear();
+    while (query1.next())
+    {
+        res.append(query1.value(0).toInt(&ok));
+    }
+    return res;
 }
