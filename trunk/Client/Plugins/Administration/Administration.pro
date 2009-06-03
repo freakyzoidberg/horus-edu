@@ -6,7 +6,11 @@ TARGET = Administration
 TEMPLATE = lib
 DEFINES += ADMINISTRATION_LIBRARY
 SOURCES += AdministrationPlugin.cpp \
-            AdminFram.cpp
+    AdminFram.cpp \
+    UserManager.cpp \
+    TreeManager.cpp
 HEADERS += AdministrationPlugin.h \
-            AdminFram.h
+    AdminFram.h \
+    UserManager.h \
+    TreeManager.h
 FORMS += AdminFram.ui
