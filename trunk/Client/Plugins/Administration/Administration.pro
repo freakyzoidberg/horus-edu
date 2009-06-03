@@ -14,5 +14,4 @@ HEADERS += AdministrationPlugin.h \
     TreeFram.h \
     UserFram.h
 FORMS += AdminFram.ui \
-    TreeFram.ui \
     UserFram.ui

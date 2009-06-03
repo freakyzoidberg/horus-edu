@@ -1,30 +1,18 @@
 #include "TreeFram.h"
 #include <QDebug>
 
-TreeFram::TreeFram(INetwork *reseau) : QFrame()
+TreeFram::TreeFram(INetwork *reseau) : QTreeWidget()
 {
-    setupUi(this);
     requestFunctions["getTree"]         = &TreeFram::getTreeResponse;
     requestFunctions["getNodeInfo"]     = &TreeFram::getNodInfoResponse;
     requestFunctions["setNode"]         = &TreeFram::editNodeResponse;
-    this->connect(this->treeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
+    this->connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
     getTree();
 }
 
 void TreeFram::itemClicked(QTreeWidgetItem *item, int idx)
 {
     qDebug() << item->text(0);
-}
-
-void TreeFram::changeEvent(QEvent *e)
-{
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        retranslateUi(this);
-        break;
-    default:
-        break;
-    }
 }
 
 void    TreeFram::readResponse(QVariantHash response)
@@ -50,7 +38,7 @@ void    TreeFram::updateTree(QVariantHash tree)
         }
     }*/
     //build index
-    QTreeWidgetItem *cours1 = new QTreeWidgetItem(this->treeWidget);
+    QTreeWidgetItem *cours1 = new QTreeWidgetItem(this);
     cours1->setText(0,"cours 1");
 
     //build child
@@ -60,16 +48,16 @@ void    TreeFram::updateTree(QVariantHash tree)
     QTreeWidgetItem *cours2 = new QTreeWidgetItem;
     cours2->setText(0,"cours 2");
 
-    this->treeWidget->insertTopLevelItem(0, cours1);
-    this->treeWidget->insertTopLevelItem(1, cours2);
-    this->treeWidget->show();
+    this->insertTopLevelItem(0, cours1);
+    this->insertTopLevelItem(1, cours2);
+    //this->show();
 }
 
 void    TreeFram::getTree()
 {
     QVariantHash request;
     request["Request"]=  "getTree";
-        QTreeWidgetItem *cours1 = new QTreeWidgetItem(this->treeWidget);
+        QTreeWidgetItem *cours1 = new QTreeWidgetItem(this);
     cours1->setText(0,"Promos");
 
     //build child
@@ -79,9 +67,9 @@ void    TreeFram::getTree()
     QTreeWidgetItem *cours2 = new QTreeWidgetItem;
     cours2->setText(0,"Profs");
 
-    this->treeWidget->insertTopLevelItem(0, cours1);
-    this->treeWidget->insertTopLevelItem(1, cours2);
-    this->treeWidget->show();
+    this->insertTopLevelItem(0, cours1);
+    this->insertTopLevelItem(1, cours2);
+    //this->show();
 }
 
 void    TreeFram::getNodInfo()
