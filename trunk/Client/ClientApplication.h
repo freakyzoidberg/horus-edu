@@ -3,6 +3,7 @@
 
 #include    <QtGui/QApplication>
 #include    <QWidget>
+#include    "NotificationClient.h"
 
 //! Main class representing the application
 /*!
@@ -41,6 +42,8 @@ public:
     QWidget *loader;
     //! A pointer te the MainWindow Widget
     QWidget *mainWindow;
+    //! A pointer te the MainWindow Widget
+    NotificationClient *nC;
     public slots:
     //! Unload then load again all the plugins
     void    reloadPlugins();

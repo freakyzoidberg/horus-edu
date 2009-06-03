@@ -1,5 +1,6 @@
 #include "NetworkManager.h"
-#include    "PluginManager.h"
+#include "PluginManager.h"
+#include "NotificationClient.h"
 #include <QSettings>
 
 
@@ -23,8 +24,17 @@ bool    NetworkManager::event(QEvent *e)
    if(e->type() == ClientEvents::StartEvent)
     {
         QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-        qDebug() << "NetworkManager: Recieve StartEvent";
-        connectToHostEncrypted(settings.value("Network/Server").toString(), settings.value("Network/Port").toUInt());
+        if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
+        {
+            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+            QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+            QApplication::postEvent(parent->nC, new QEvent(ClientEvents::CServerEmptyEvent));
+        }
+        else
+        {
+            qDebug() << "NetworkManager: Recieve StartEvent";
+            connectToHostEncrypted(settings.value("Network/Server").toString(), settings.value("Network/Port").toUInt());
+        }
         return true;
     }
     else if (e->type() == ClientEvents::SendPacketEvent)

@@ -12,6 +12,8 @@ QEvent::Type ClientEvents::HideLoginEvent = (QEvent::Type)QEvent::registerEventT
 QEvent::Type ClientEvents::SendLoginEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::PluginEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::OfflineModeEvent = (QEvent::Type)QEvent::registerEventType();
+QEvent::Type ClientEvents::CServerEmptyEvent = (QEvent::Type)QEvent::registerEventType();
+
 
 SendPacketEvent::SendPacketEvent(const QByteArray p) : QEvent(ClientEvents::SendPacketEvent)
 {

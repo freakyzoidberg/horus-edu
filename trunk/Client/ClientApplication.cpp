@@ -11,6 +11,7 @@
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
 {
+    this->nC = new NotificationClient(this);
     ThreadNetwork::getInstance(this);
     this->setOrganizationName(ORGANIZATION_NAME);
     this->setOrganizationDomain(ORGANIZATION_DOMAIN);

@@ -3,6 +3,8 @@
 AdminFram::AdminFram(QWidget *parent) : QWidget(parent)
 {
     setupUi(this);
+    tF = new TreeFram(this);
+    this->mainLayout->addWidget(tF, 0,0);
 }
 
 void AdminFram::changeEvent(QEvent *e)
