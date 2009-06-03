@@ -203,7 +203,7 @@ bool  TreeManagement::editnode(const int nodeid, const QString type, const QStri
 int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
 {
     QSqlQuery query1 = server->getSqlQuery();
-    query1.prepare("SELECT id_group FROM users WHERE id =? LIMIT 1");
+    query1.prepare("SELECT id_tree FROM users WHERE id =? LIMIT 1");
     query1.addBindValue(iduser);
     query1.exec();
 
@@ -218,7 +218,7 @@ int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
 int TreeManagement::getidofusernodeWoRequest(qint32 iduser)
 {
     QSqlQuery query1 = server->getSqlQuery();
-    query1.prepare("SELECT id_group FROM users WHERE id =? LIMIT 1");
+    query1.prepare("SELECT id_tree FROM users WHERE id =? LIMIT 1");
     query1.addBindValue(iduser);
     query1.exec();
 

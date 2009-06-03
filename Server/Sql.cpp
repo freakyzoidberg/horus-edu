@@ -12,6 +12,10 @@ Sql::Sql()
     {
         if (*it)
         {
+            if (QSqlDatabase().database(it.key()).isOpen() == false)
+            {
+                qDebug() << "SQL connection have been closed, this should not happen";
+            }
             this->append(it.key());
             break;
         }
