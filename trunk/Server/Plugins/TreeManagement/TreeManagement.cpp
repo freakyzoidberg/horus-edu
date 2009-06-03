@@ -93,6 +93,7 @@ void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& resp
     response["nodename"] =  server->getnodebyid(node)->GetName();
     response["numberofsons"] = server->GetSonsNode(server->getnodebyid(node)).count();
     response["sonsid"] = getvectorsonsfromidnode(node);
+    //response["userslist"] = list of users id
 }
 
 
@@ -113,7 +114,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
     }
     else if (request["Admntreeact"] == "Mvnode")
     {
-        if (mvnode(request["id"].toInt(&ok), request["Newfathe"].toInt(&ok), iduser))
+        if (mvnode(request["Id"].toInt(&ok), request["Newfather"].toInt(&ok), iduser))
             response["Success"] = true;
         else
         {
@@ -202,7 +203,7 @@ bool  TreeManagement::editnode(const int nodeid, const QString type, const QStri
 int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
 {
     QSqlQuery query1 = server->getSqlQuery();
-    query1.prepare("SELECT id_group FROM user_has_group WHERE id_user =? LIMIT 1");
+    query1.prepare("SELECT id_group FROM users WHERE id =? LIMIT 1");
     query1.addBindValue(iduser);
     query1.exec();
 
@@ -217,7 +218,7 @@ int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
 int TreeManagement::getidofusernodeWoRequest(qint32 iduser)
 {
     QSqlQuery query1 = server->getSqlQuery();
-    query1.prepare("SELECT id_group FROM user_has_group WHERE id_user =? LIMIT 1");
+    query1.prepare("SELECT id_group FROM users WHERE id =? LIMIT 1");
     query1.addBindValue(iduser);
     query1.exec();
 
