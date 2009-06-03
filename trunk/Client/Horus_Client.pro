@@ -31,7 +31,8 @@ SOURCES += main.cpp \
     FileManager.cpp \
     NetFile.cpp \
     UserInfo.cpp \
-    NotificationClient.cpp
+    NotificationClient.cpp \
+    DockMenu.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -71,12 +72,15 @@ HEADERS += NetworkManager.h \
     FileManager.h \
     NetFile.h \
     UserInfo.h \
-    NotificationClient.h
+    NotificationClient.h \
+    DockMenu.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
-    Ui/SettingsDialog.ui
+    Ui/SettingsDialog.ui \
+    Ui/DockMenu.ui
 RESOURCES += Ui/Loader.qrc \
     Ui/SettingsDialog.qrc \
-    Ui/MainWindow.qrc
+    Ui/MainWindow.qrc \
+    Ui/DockMenu.qrc
 RC_FILE = Client.rc

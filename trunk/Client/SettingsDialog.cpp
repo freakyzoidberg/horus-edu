@@ -128,8 +128,6 @@ void SettingsDialog::Save()
             settings->setValue(line->objectName(), line->text());
     settings->endGroup();
     foreach (QLineEdit *line, this->ui.NetworkTab->findChildren<QLineEdit *>())
-        if (line->objectName().contains("session_"))
-            settings->setValue("SESSIONS/" + line->objectName().remove(0, 8), line->text());
-        else
+        if (!line->objectName().contains("session_"))
             settings->setValue("Network/" + line->objectName(), line->text());
 }
