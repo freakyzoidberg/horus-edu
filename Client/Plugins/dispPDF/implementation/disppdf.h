@@ -99,7 +99,7 @@ public:
     \param fileName the absolute path  to the file
     */
     QImage    *dispPDFDoc(const QString & fileName, int page,
-                       QRectF *partToDisplay);
+                          QRectF *partToDisplay);
     QImage    *dispPDFDoc(int fileId, int page, QRectF *partToDisplay);
 
     /*!

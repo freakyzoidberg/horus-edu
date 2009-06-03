@@ -8,7 +8,6 @@
 #include <disppdf.h>
 #include <pdfRendering.h>
 
-//extern QEvent::Type ClientEvents::NetworkReceiveEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 extern QEvent::Type ClientEvents::LoadPluginEvent;
 
@@ -66,11 +65,6 @@ QStringList           DispPDF::getPluginsRecommended() const
 
 bool    DispPDF::event(QEvent *event)
 {
-    //if (event->type() == ClientEvents::NetworkReceiveEvent)
-    //{
-      //  event->accept();
-        //shenme shenme mingze buzhidao
-    //}
     if (event->type() == ClientEvents::LoadPluginEvent)
     {
         event->accept();
@@ -105,7 +99,7 @@ QImage    *DispPDF::dispPDFDoc(int fileId, int page,
 }
 
 QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
-                            QRectF *partToDisplay)
+                               QRectF *partToDisplay)
 {
     QFileInfo    filePath(fileName);
     QMap<QString, PdfRendering *>::iterator it;
@@ -114,18 +108,15 @@ QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
         if (!filePath.makeAbsolute())
         {
             qDebug() << "Cannot use the absolute path of the pdf file";
-            return false;
+            return NULL;
         }
 
     //search if the pdf file is already open, if not add it in the map
     if ((it = pdfFiles->find(filePath.filePath())) == pdfFiles->end())
-    {
-        qDebug() << "open new course";
         it = pdfFiles->insert(filePath.filePath(),
                                new PdfRendering(filePath.filePath()));
 
-    }
-    return it.value()->render(partToDisplay);
+    return it.value()->render(page, partToDisplay);
 }
 
 const QMap<QString, PdfRendering *>    *DispPDF::getAllPdfFiles() const
