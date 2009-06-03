@@ -108,10 +108,13 @@ void SettingsDialog::FillNetworkTab()
     settings->beginGroup("SESSIONS");
     foreach (QString key, settings->childKeys())
     {
-        line = new QLineEdit(settings->value(key).toString());
-        line->setObjectName("session_" + key);
-        line->setReadOnly(true);
-        sessionLayout->addRow(key, line);
+        if (key != "sessionString")
+        {
+            line = new QLineEdit(settings->value(key).toString());
+            line->setObjectName("session_" + key);
+            line->setDisabled(true);
+            sessionLayout->addRow(key, line);
+        }
     }
     settings->endGroup();
 }
