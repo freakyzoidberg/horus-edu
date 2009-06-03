@@ -16,7 +16,7 @@ testPlugin::testPlugin()
 {
     std::cout << "module testPlugin loaded. PWET" << std::endl;
     setModRecommended("NotAModule.so");
-    pNetwork = new PluginNetwork();
+    //pNetwork = new PluginNetwork();
 }
 
 testPlugin::~testPlugin()
