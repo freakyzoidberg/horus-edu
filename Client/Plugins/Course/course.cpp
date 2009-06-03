@@ -1,56 +1,55 @@
-#include "Course.h"
-#include "Course_global.h"
 #include <QtCore/qplugin.h>
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QDesktopWidget>
-#include <iostream>
-#include <QAbstractButton>
+#include <QDebug>
+#include "Course.h"
+#include "CourseWidget.h"
 
+Q_EXPORT_PLUGIN2(Course, Course)
 
-Q_EXPORT_PLUGIN2(ExploreCours, Course)
-
-Course::Course(QWidget *parent)
+Course::Course()
 {
-    QDesktopWidget *desktop = QApplication::desktop();
-    int x;
-    int y;
 
-    x = desktop->width();
-    y = desktop->height();
-    this->fenetre = new QWidget();
-    this->fenetre->resize(640,480);
 
-    QPushButton *butt1 = new QPushButton("french");
-    //QAbstractButton *button = new QAbstractButton(butt1);
-/*
-    this->french = new QPushButton("french");
-    this->english = new QPushButton("english");
-    this->math = new QPushButton("math");
-    this->svt = new QPushButton("svt");
-
-    QHBoxLayout *layout = new QHBoxLayout;
-
-    layout->addWidget(french);
-    layout->addWidget(english);
-    layout->addWidget(math);
-    layout->addWidget(svt);
-
-    fenetre->setLayout(layout);
-    */
-    fenetre->move(10, 200);
-    fenetre->show();
-   /*
-    QObject::connect(this->french, SIGNAL(clicked()), this, SLOT(explorer()));
-    QObject::connect(this->english, SIGNAL(clicked()), this, SLOT(explorer()));
-    QObject::connect(this->math, SIGNAL(clicked()), this, SLOT(explorer()));
-    QObject::connect(this->svt, SIGNAL(clicked()), this, SLOT(explorer()));
-    */
 }
 
 Course::~Course()
 {
-    delete ui;
+
+}
+
+const QByteArray    Course::getName() const
+{
+    return ("Course");
+}
+
+const QByteArray    Course::getVersion() const
+{
+    return ("0.1");
+}
+
+QStringList         Course::getPluginsRequired() const
+{
+    return (QStringList());
+}
+
+QStringList         Course::getPluginsConflicts() const
+{
+    return (QStringList());
+}
+
+QStringList         Course::getPluginsRecommended() const
+{
+    return (QStringList());
+}
+
+bool                Course::event(QEvent *event)
+{
+    qDebug() << "Course: Received Event not managed" << event;
+    return (false);
+}
+
+QWidget             *Course::getWidget()
+{
+    return (new CourseWidget());
 }
 
 void Course::explorer()
