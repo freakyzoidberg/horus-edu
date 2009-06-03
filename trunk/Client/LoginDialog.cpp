@@ -25,7 +25,7 @@ bool    LoginDialog::event(QEvent *event)
 
 void    LoginDialog::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() + 1 == Qt::Key_Enter)
+    if (event->key() == Qt::Key_Return)
         connectMethod();
 }
 

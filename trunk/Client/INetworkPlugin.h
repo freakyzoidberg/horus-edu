@@ -16,6 +16,8 @@ class INetworkPlugin
      *  It let plugin access network ressources
      */
     INetwork    *network;
+    //! method called by the server core when a packet for this plugin is received
+    virtual void recvPacket(const PluginPacket&) = 0;
 };
 
 Q_DECLARE_INTERFACE(INetworkPlugin, "net.horus.Client.NetworkInterface/1.0");

@@ -2,6 +2,7 @@
 #define TREEFRAM_H
 
 #include "ui_TreeFram.h"
+#include "TreeManager.h"
 
 class TreeFram : public QFrame, private Ui::TreeFram
 {
@@ -12,7 +13,8 @@ class TreeFram : public QFrame, private Ui::TreeFram
 
     protected:
         virtual void changeEvent(QEvent *e);
-
+    private:
+        TreeManager tM;
 };
 
 #endif // TREEFRAM_H
