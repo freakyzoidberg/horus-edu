@@ -1,13 +1,13 @@
 #ifndef TREEFRAM_H
 #define TREEFRAM_H
 
-#include "ui_TreeFram.h"
+//#include "ui_TreeFram.h"
 #include <QHash>
 #include <QVariant>
 #include <QTreeWidgetItem>
 #include "../../INetworkPlugin.h"
 
-class TreeFram : public QFrame, private Ui::TreeFram
+class TreeFram : public QTreeWidget
 { 
     Q_OBJECT
     Q_DISABLE_COPY(TreeFram)
@@ -18,7 +18,6 @@ class TreeFram : public QFrame, private Ui::TreeFram
         explicit    TreeFram(INetwork *reseau);
         void        readResponse(QVariantHash response);
     protected:
-        virtual void changeEvent(QEvent *e);
     protected slots:
         void            itemClicked(QTreeWidgetItem*, int);
     private:
