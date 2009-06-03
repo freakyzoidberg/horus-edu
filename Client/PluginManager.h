@@ -7,6 +7,8 @@
 #include <QMap>
 #include <QDir>
 #include "IClientPlugin.h"
+#include "INetworkPlugin.h"
+#include "IDisplayablePlugin.h"
 #include "ClientApplication.h"
 
 //! Class managing the plugins of the Client
@@ -43,7 +45,21 @@ public:
      *  \param name The name of the plugin requested
      *  \return A pointer to the plugin requested or NULL if not found
      */
-    QObject *findPlugin(QString &name) const;
+    IClientPlugin *findPlugin(QString &name) const;
+    //! Find a loaded network plugin
+    /*!
+     *  This method provide an access to each loaded  network plugins
+     *  \param name The name of the plugin requested
+     *  \return A pointer to the plugin requested or NULL if not found
+     */
+    INetworkPlugin *findNetworkPlugin(QString &name) const;
+    //! Find a loaded displayable plugin
+    /*!
+     *  This method provide an access to each loaded displayable plugins
+     *  \param name The name of the plugin requested
+     *  \return A pointer to the plugin requested or NULL if not found
+     */
+    IDisplayablePlugin *findDisplayablePlugin(QString &name) const;
 protected:
     //! The entry point of the thread
     /*!
@@ -74,6 +90,10 @@ private:
 private:
     //! The list of loaded plugins
     QMap<QString, IClientPlugin *>    pluginsList;
+    //! The list of network plugins
+    QMap<QString, INetworkPlugin *>    networkPluginsList;
+    //! The list of displayable plugins
+    QMap<QString, IDisplayablePlugin *>    displayablePluginsList;
     //! The parent ClientApplication used to send events
     ClientApplication *parent;
 };

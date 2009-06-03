@@ -5,9 +5,7 @@
 #include    "../Common/Defines.h"
 #include    <QDebug>
 #include    <QApplication>
-#include    "IClientPlugin.h"
 #include    "InterfaceClient.h"
-#include    "INetworkPlugin.h"
 #include    "InterfaceNetwork.h"
 
 PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(parent)
@@ -75,6 +73,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
     QObject         *plugin;
     IClientPlugin   *clientPlugin;
     INetworkPlugin  *networkPlugin;
+    IDisplayablePlugin  *displayablePlugin;
     QString         newPlugin;
     bool            success;
 
@@ -100,10 +99,19 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
             if (success)
             {
                 clientPlugin->client = new InterfaceClient(clientPlugin, this->parent);
+                pluginsList.insert(pluginName, clientPlugin);
                 networkPlugin = qobject_cast<INetworkPlugin *>(clientPlugin);
                 if (networkPlugin)
+                {
                     networkPlugin->network = new InterfaceNetwork();
-                pluginsList.insert(pluginName, clientPlugin);
+                    networkPluginsList.insert(pluginName, networkPlugin);
+                }
+                displayablePlugin = qobject_cast<IDisplayablePlugin *>(clientPlugin);
+                if (displayablePlugin)
+                {
+//                    displayblePlugin->?? = new InterfaceDisplayable();
+                    displayablePluginsList.insert(pluginName, displayablePlugin);
+                }
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
                     this->loadPlugin(newPlugin, userPath, systemPath);
@@ -122,7 +130,17 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
     return (false);
 }
 
-QObject *PluginManager::findPlugin(QString &pluginName) const
+IClientPlugin *PluginManager::findPlugin(QString &pluginName) const
 {
     return pluginsList.value(pluginName);
+}
+
+INetworkPlugin *PluginManager::findNetworkPlugin(QString &pluginName) const
+{
+    return networkPluginsList.value(pluginName);
+}
+
+IDisplayablePlugin *PluginManager::findDisplayablePlugin(QString &pluginName) const
+{
+    return displayablePluginsList.value(pluginName);
 }
