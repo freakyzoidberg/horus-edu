@@ -42,7 +42,6 @@ HEADERS += NetworkManager.h \
     ../Common/CommError.h \
     ../Common/CommSettings.h \
     ../Common/CommPlugin.h \
-    IPdfRendering.h \
     IMetadata.h \
     IMetaDataCreate.h \
     IClient.h \

@@ -56,37 +56,37 @@ class Administration : public IClientPlugin, public INetworkPlugin
             \return a boolean indicating if the event was successefully handled (true)
         */
         bool                    event(QEvent * event);
-        private:
-            //! the name of the plugin
-            QByteArray          modName;
-
-            //! the version of the plugin
-            QByteArray          modVersion;
-
-            //! conflicts between plugins
-            /*!
-              The list contains the name of the plugin which are in conflicts
-              with this one.
-            */
-            QStringList         modConflicts;
-
-            //! plugin requiered
-            /*!
-              The list contains the name of the plugins required to use this one
-            */
-            QStringList         modRequired;
-
-            //! plugin recommended
-            /*!
-              The list contains the name of the recommended plugins to use this one
-            */
-            QStringList         modRecommended;
-
-            //! exports
-            /*!
-              The list contains the name of the exports
-            */
-            QStringList         exports;
+    private:
+        //! the name of the plugin
+        QByteArray          modName;
+    
+        //! the version of the plugin
+        QByteArray          modVersion;
+    
+        //! conflicts between plugins
+        /*!
+          The list contains the name of the plugin which are in conflicts
+          with this one.
+        */
+        QStringList         modConflicts;
+    
+        //! plugin requiered
+        /*!
+          The list contains the name of the plugins required to use this one
+        */
+        QStringList         modRequired;
+    
+        //! plugin recommended
+        /*!
+          The list contains the name of the recommended plugins to use this one
+        */
+        QStringList         modRecommended;
+    
+        //! exports
+        /*!
+          The list contains the name of the exports
+        */
+        QStringList         exports;
 };
 
 #endif // ADMINISTRATION_H
