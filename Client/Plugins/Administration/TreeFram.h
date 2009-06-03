@@ -4,7 +4,8 @@
 #include "ui_TreeFram.h"
 #include <QHash>
 #include <QVariant>
- #include <QTreeWidgetItem>
+#include <QTreeWidgetItem>
+#include "../../INetworkPlugin.h"
 
 class TreeFram : public QFrame, private Ui::TreeFram
 { 
@@ -14,7 +15,7 @@ class TreeFram : public QFrame, private Ui::TreeFram
     typedef void (TreeFram::*requestFunction)(QVariantHash& response);
 
     public:
-        explicit    TreeFram(QWidget *parent = 0);
+        explicit    TreeFram(INetwork *reseau);
         void        readResponse(QVariantHash response);
     protected:
         virtual void changeEvent(QEvent *e);

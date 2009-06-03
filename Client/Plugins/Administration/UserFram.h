@@ -2,6 +2,7 @@
 #define USERFRAM_H
 
 #include "ui_UserFram.h"
+#include "../../INetworkPlugin.h"
 
 class UserFram : public QFrame, private Ui::UserFram
 {
@@ -11,7 +12,7 @@ class UserFram : public QFrame, private Ui::UserFram
     typedef void (UserFram::*requestFunction)(QVariantHash& response);
 
     public:
-        explicit    UserFram(QWidget *parent = 0);
+        explicit    UserFram(INetwork *reseau);
         void        readResponse(QVariantHash response);
     protected:
         virtual void changeEvent(QEvent *e);

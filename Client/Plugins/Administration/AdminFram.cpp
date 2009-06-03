@@ -1,12 +1,12 @@
 #include "AdminFram.h"
 
-AdminFram::AdminFram(QWidget *parent) : QWidget(parent)
+AdminFram::AdminFram(INetwork *reseau) : QWidget()
 {
     setupUi(this);
-    tF = new TreeFram(this);
-    uF = new UserFram(this);
+    tF = new TreeFram(reseau);
+    uF = new UserFram(reseau);
     this->mainLayout->addWidget(tF, 0,0);
-    this->mainLayout->addWidget(uF, 0,1);
+    this->mainLayout->addWidget(uF, 0,0);
 }
 
 void AdminFram::changeEvent(QEvent *e)

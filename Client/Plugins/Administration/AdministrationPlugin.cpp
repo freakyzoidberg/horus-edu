@@ -4,8 +4,12 @@ Q_EXPORT_PLUGIN2(Administration, Administration)
 
 Administration::Administration()
 {
-    this->adminF = new AdminFram();
-    modName.append("Administration");
+    this->adminF = new AdminFram(this->network);
+}
+
+QWidget             *Administration::getWidget()
+{
+    return this->adminF;
 }
 
 void Administration::recvPacket(const PluginPacket& packet)
@@ -20,30 +24,30 @@ bool    Administration::event(QEvent *event)
 
 const QByteArray   Administration::getName() const
 {
-    return modName;
+    return ("Administration");
 }
 
 const QByteArray   Administration::getVersion() const
 {
-    return modVersion;
+    return ("1.0");
 }
 
 QStringList   Administration::getPluginsConflicts() const
 {
-    return modConflicts;
+    return (QStringList());
 }
 
 QStringList   Administration::getPluginsRequired() const
 {
-    return modRequired;
+    return (QStringList());
 }
 
 QStringList   Administration::getPluginsRecommended() const
 {
-    return modRecommended;
+    return (QStringList());
 }
 
 QStringList   Administration::getExports() const
 {
-    return exports;
+    return (QStringList());
 }
