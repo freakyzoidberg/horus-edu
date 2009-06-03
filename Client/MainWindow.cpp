@@ -2,6 +2,7 @@
 #include "SettingsDialog.h"
 #include "ClientEvents.h"
 #include "PluginManager.h"
+#include "DockMenu.h"
 
 MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
 {
@@ -9,6 +10,7 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
     this->ui.setupUi(this);
     this->createActions();
     this->createMenus();
+    this->addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
     PluginManager *pluginManager = this->parent->findChild<PluginManager *>();
     IDisplayablePlugin *mainBoard = pluginManager->findDisplayablePlugin("libMainFrame.so");
     if (mainBoard)
