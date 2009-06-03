@@ -13,7 +13,7 @@ public:
      * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
     enum Method { UNDEFINED,
-                  ACCESS_FILE, DELETE_FILE, STAT_FILE,
+                  ACCESS_FILE, NEW_FILE, DELETE_FILE, STAT_FILE,
                   NODE_LIST, USER_LIST,
                   __LAST_METHOD__};
     enum Error { NO_ERROR, PERMITION_DENIED, NOT_FOUND, ALREADY_EXIST, __LAST_ERROR__ };

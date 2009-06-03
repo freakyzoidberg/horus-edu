@@ -1,5 +1,10 @@
 #include "PacketManager.h"
 
+#include "FileManager.h"
+
+//test Git
+#include "NetFile.h"
+
 PacketManager::PacketManager(QObject* parent) : QObject()
 {
     this->parent = static_cast<ClientApplication *>(parent);
@@ -106,6 +111,10 @@ void PacketManager::PacketLogin()
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
         state = PacketManager::LOGGED_IN;
         clearPacketStack();
+
+        ///test de GIT, ne pas virer de suite
+//        NetFile* file = FileManager::globalInstance()->getFile(1);
+//        file->open(QIODevice::ReadOnly);
     }
     else if (l.method == CommLogin::REFUSED)
     {
@@ -117,6 +126,7 @@ void PacketManager::PacketLogin()
 
 void PacketManager::PacketFile()
 {
+    FileManager::globalInstance()->receiveFilePacket(packet);
 }
 
 void PacketManager::PacketSettings()

@@ -3,18 +3,45 @@
 #include <QApplication>
 #include "ThreadNetwork.h"
 
-FileManager* FileManager::instance = 0;
+FileManager FileManager::instance;
 
 FileManager::FileManager()
 {
-    inUse = false;
+    tmpNewFile = 0;
 }
 
 FileManager* FileManager::globalInstance()
 {
-    if ( ! instance)
-        instance = new FileManager;
-    return instance;
+    return &instance;
+}
+
+NetFile* FileManager::newFile(quint32 nodeId)
+{
+    if (tmpNewFile)
+    {
+    //TODO: change this way
+        qDebug() << "only one file can be created in the same time, please wait.";
+        return 0;
+    }
+
+    CommFileInfo info;
+    info.nodeId = nodeId;
+    tmpNewFile = new NetFile(info);
+    return tmpNewFile;
+}
+
+NetFile* FileManager::getFile(quint32 fileId)
+{
+    if ( ! fileList.contains(fileId))
+    {
+        CommFileInfo info;
+        info.id = fileId;
+        fileList[ fileId ] = new NetFile(info);
+        // update the fileInfo
+        getFileInfo(fileId);
+    }
+
+    return fileList[ fileId ];
 }
 
 void FileManager::getFileInfo(quint32 fileId)
@@ -35,12 +62,11 @@ void FileManager::getFileConnexion(quint32 fileId, QIODevice::OpenMode mode)
 }
 /*
 const QList<CommFileInfo> FileManager::getUserFileList()
-{
-}
-*//*
+{TODO}
+*/
+/*
 const QList<CommFileInfo> FileManager::getNodeFileList(quint32 nodeId)
-{
-}
+{TODO}
 */
 void FileManager::receiveFilePacket(QByteArray& p)
 {
@@ -51,9 +77,18 @@ void FileManager::receiveFilePacket(QByteArray& p)
         return;
     }
 
-    if (packet.method == CommFile::ACCESS_FILE || packet.method == CommFile::STAT_FILE)
+    if (packet.method == CommFile::NEW_FILE && tmpNewFile)
     {
-        NetFile* file = NetFile::getFile(packet.fileInfo.id);
+        fileList[ tmpNewFile->info.id ] = tmpNewFile;
+        tmpNewFile = 0;
+    }
+
+    if (packet.method == CommFile::ACCESS_FILE
+     || packet.method == CommFile::STAT_FILE
+     || packet.method == CommFile::NEW_FILE)
+    {
+        NetFile* file = getFile(packet.fileInfo.id);
+
         file->updateFileInfo(packet.fileInfo);
         if (packet.method == CommFile::ACCESS_FILE)
             file->connexionAuthorized(packet.key);

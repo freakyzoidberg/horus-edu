@@ -2,37 +2,15 @@
 
 #include "FileManager.h"
 
-QHash<quint32,NetFile*> NetFile::fileList;
-
-NetFile* NetFile::newFile(quint32 nodeId)
-{
-    CommFileInfo info;
-    info.nodeId = nodeId;
-    
-    NetFile* file = new NetFile(info);
-    //TODO: delete if not used
-    return file;
-}
-
-NetFile* NetFile::getFile(quint32 fileId)
-{
-    if ( ! fileList.contains(fileId))
-    {
-        CommFileInfo info;
-        info.id = fileId;
-        fileList[ fileId ] = new NetFile(info);
-    }
-
-    //FileManager::globalInstance()->getFileInfo(fileId);
-
-    return fileList[ fileId ];
-}
-
 void NetFile::updateFileInfo(const CommFileInfo& _info)
 {
     qDebug() << "NetFile::updateFileInfo(" << _info << ")";
-    info = _info;
-    emit fileInfoUpdated();
+    if (info != _info)
+    {
+        info = _info;
+        setFileName("/tmp/" + QVariant(info.id).toString());
+        emit fileInfoUpdated();
+    }
 }
 
 void NetFile::connexionAuthorized(const QByteArray& key)
@@ -66,9 +44,11 @@ void NetFile::connexionReadyRead()
     qDebug() << "NetFile::connexionReadyRead()";
     QByteArray buff = connexion->readAll();
 
-    localFile.seek(connexionPos);
-    localFile.write(buff);
-    localFile.seek(localFilePos);
+    qint64 savePos = pos();
+
+    seek(connexionPos);
+    write(buff);
+    seek(savePos);
 
     emit readyRead();
 }
@@ -79,15 +59,13 @@ void NetFile::connexionBytesWritten(qint64 len)
     emit bytesWritten(len);
 }
 
-qint64 NetFile::pos() const
-{
-    return localFilePos;
-}
-
 NetFile::NetFile(const CommFileInfo& _info)
 {
     info = _info;
     connexion = 0;
+    synchronized = false;
+    if (info.id)
+        setFileName("/tmp/" + QVariant(info.id).toString());
 }
 
 NetFile::~NetFile()
@@ -95,32 +73,33 @@ NetFile::~NetFile()
     close();
 }
 
-int NetFile::getProgress()
+int NetFile::getProgress() const
 {
     //TODO
     return 0;
 }
 
-const CommFileInfo& NetFile::getInfo()
+bool NetFile::isSynchronized() const
+{
+    return synchronized;
+}
+
+const CommFileInfo& NetFile::getInfo() const
 {
     return info;
 }
 
 bool NetFile::open(OpenMode mode)
 {
-    //TODO: if (not already downloaded || mode & WriteOnly)
-    FileManager::globalInstance()->getFileConnexion(info.id, mode);
+    if ( ! synchronized || mode & WriteOnly) // if not syncronized or open in write mode
+        FileManager::globalInstance()->getFileConnexion(info.id, mode);
 
-    //TODO: if ( not already downloaded && ! serverFile)
-        //return false;
-
-    localFile.setFileName("/tmp/" + QVariant(info.id).toString());
-    return localFile.open(mode);
+    return QFile::open(mode);
 }
 
 void NetFile::close()
 {
-    localFile.close();
+    QFile::close();
     if (connexion)
     {
         connexion->close();
@@ -128,19 +107,15 @@ void NetFile::close()
     }
 }
 
-qint64 NetFile::readData(char* data, qint64 maxSize)
-{
-    qint64 len = localFile.read(data, maxSize);
-    localFilePos += len;
-    return len;
-}
+//qint64 NetFile::readData(char* data, qint64 maxSize)
+//{
+//    return QFile::readData(data, maxSize);
+//}
 
 qint64 NetFile::writeData(const char* data, qint64 maxSize)
 {
-    qint64 lenWrite = connexion->write(data, maxSize);
-    connexionPos += lenWrite;
-    lenWrite = localFile.write(data, lenWrite);
-    localFilePos += lenWrite;
-    return lenWrite;
+    synchronized = false;
+    return QFile::writeData(data, maxSize);
+//    qint64 lenWrite = connexion->write(data, maxSize);
+//    connexionPos += lenWrite;
 }
-

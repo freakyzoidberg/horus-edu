@@ -5,7 +5,7 @@
 
 #include "NetFile.h"
 
-/*! WARNING, only one file in the same time for the moment!!!!!!!!
+/*!
  *  a class used to:
  *  - list directories
  *  - get informations about file(s)
@@ -16,28 +16,43 @@
 class FileManager : public QObject
 {
   Q_OBJECT
+
+    friend class NetFile;
+
+//private:
+//    friend NetFile::NetFile(const CommFileInfo& info);
+//    friend NetFile::~NetFile();
+
 public:
-    //! return the unique instance of FileManager
-    static FileManager* globalInstance();
+    //! return a new instance of NetFile. No errors
+    NetFile* newFile(quint32 nodeId);
+    //! return an instance of NetFile if the file is found on the server. 0 if not found or permition denied
+    NetFile* getFile(quint32 fileId);
 
-    //! return the info of the fileId
+private:
+    //! contain the list of NetFile
+    QHash<quint32,NetFile*> fileList;
+    NetFile*                tmpNewFile;
+
+    //! send the request to update the fileInfo of fileId
     void getFileInfo(quint32 fileId);
-    //! return the QSslSocket of the file of the server and update the fileInfo
+    //! send the request to open the file fileId and also update the fileInfo
     void getFileConnexion(quint32 fileId, QIODevice::OpenMode mode);
-    //! return the list of readable files by the current user
-//    const QList<CommFileInfo> getUserFileList();
-    //! return the list of readable files of the nodeId
-//    const QList<CommFileInfo> getNodeFileList(quint32 nodeId);
 
+    //! return the list of readable files by the current user
+//TODO    const QList<CommFileInfo> getUserFileList();
+    //! return the list of readable files of the nodeId
+//TODO    const QList<CommFileInfo> getNodeFileList(quint32 nodeId);
+
+public:
     //! called by packetManager when a FILE packet is received
     void receiveFilePacket(QByteArray&);
 
+    //! return the unique instance of FileManager
+    static FileManager* globalInstance();
 private:
     FileManager();
-    bool inUse;
-    static FileManager* instance;
-//    QObject* callbackObj;
-//    const char* callbackFct;
+    static FileManager instance;
 };
 
 #endif // FILEMANAGER_H
