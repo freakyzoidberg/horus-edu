@@ -92,8 +92,17 @@ void UserManagment::changePassword(quint32 userId, const QVariantHash& request, 
 void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVariantHash& response)
 {
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("SELECT id,login,level,last_login,address,phone,country,language FROM users;");
-    query.addBindValue(request.value("UserId"));
+    if (request.contains("UserList"))
+    {
+        QVariantList list = request["UserList"].toList();
+        QString sql = "SELECT id,login,level,last_login,address,phone,country,language FROM users WHERE id IN (0";
+        for (QVariantList::const_iterator i = list.constBegin(); i != list.constEnd(); ++i)
+            list += "," + (*i).toUInt();
+        query.prepare(sql+");");
+    }
+    else
+        query.prepare("SELECT id,login,level,last_login,address,phone,country,language FROM users;");
+
     if ( ! query.exec())
     {
         response["Error"]   = 5;
