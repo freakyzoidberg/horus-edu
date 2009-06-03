@@ -4,9 +4,11 @@
 #include <QStringList>
 #include <QObject>
 #include <QMap>
+#include <QRectF>
 #include <qt4/poppler-qt4.h>
 
 #include <IClientPlugin.h>
+#include <IFilePlugin.h>
 #include <pdfRendering.h>
 #include <INetworkPlugin.h>
 #include <dispPDFClient.h>
@@ -20,10 +22,11 @@
   To have more informations about horus plugins, see the plugin tesPlugin
 */
 
-class DispPDF : public IClientPlugin
+class DispPDF : public IClientPlugin, public IFilePlugin
 {
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
+    Q_INTERFACES(IFilePlugin)
 
 public:
     //! allocate pNetwork and set some values
@@ -95,9 +98,27 @@ public:
     /*
     \param fileName the absolute path  to the file
     */
-    bool    dispPDFDoc(const QString & fileName);
+    QImage    *dispPDFDoc(const QString & fileName, int page,
+                       QRectF *partToDisplay);
+    QImage    *dispPDFDoc(int fileId, int page, QRectF *partToDisplay);
 
-    void            closeCourse(const QString & fileName);
+    /*!
+      Close a pdf file and remove it from the map
+      \param fileName the name of the file
+     */
+    void    closePdfFile(const QString & fileName);
+
+    /*!
+      Close a pdf file and remove it from the map. When the name has been
+      resolved from the id it calls the closePdfFile(const QString &)
+      \param fileId the id of the file.
+    */
+    void    closePdfFile(int fileId);
+
+    /*!
+      inherited from IFile interface
+     */
+    IFile   *file;
 
 private:
     //! the name of the plugin

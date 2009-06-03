@@ -17,12 +17,10 @@ PdfRendering::PdfRendering(const QString & fileName)
     currentPageNb = 1;
     scaleFactor = 1;
     matrix = NULL;
-    //pdfImage = NULL;
 
- //   openFile();
-
-    // if (pdfDoc)
-    //    loadPage(currentPageNb);
+    openFile();
+    if (pdfDoc)
+      loadPage(currentPageNb);
 }
 
 PdfRendering::~PdfRendering()
@@ -76,7 +74,10 @@ void        PdfRendering::closeFile()
     {
         delete pdfDoc;
         pdfDoc = NULL;
+        return ;
     }
+    if (currentPage)
+        delete currentPage;
     currentPage = NULL;
     currentPageNb = 1;
 }
@@ -88,15 +89,16 @@ void        PdfRendering::reloadFile()
 }
 
 void        PdfRendering::scaled(float scaleFactor)
-{
-    /*QSize    scale = pdfImage.size();
+{   
+    //QSize    scale = pdfImage.size();
 
-    if (scaleFactor > 5)
-        scaleFactor = 5;
+    //to avoid big picture
+    if (scaleFactor > 2)
+        scaleFactor = 2;
 
-    scale.setHeight(scale.height() * scaleFactor);
-    scale.setWidth(scale.width() * scaleFactor);
-    pdfImage = pdfImage.scaled(scale, Qt::KeepAspectRatio); */
+    //scale.setHeight(scale.height() * scaleFactor);
+    //scale.setWidth(scale.width() * scaleFactor);
+    //pdfImage = pdfImage.scaled(scale, Qt::KeepAspectRatio);
     this->scaleFactor = scaleFactor;
     matrix->setMatrix(scaleFactor, 0, 0, scaleFactor, 0, 0);
 }
@@ -114,11 +116,16 @@ void        PdfRendering::loadPage(int pageNb)
         qDebug() << "Page number out of range";
         return ;
     }
+
+    //free the old page
+    if (currentPage)
+        delete currentPage;
+
     currentPage = pdfDoc->page(pageNb);
     currentPageNb = pageNb;
 }
 
-QImage        PdfRendering::render(QRectF *partToDisplay)
+QImage        *PdfRendering::render(QRectF *partToDisplay)
 {
     if (currentPage == NULL)
     {
@@ -130,7 +137,7 @@ QImage        PdfRendering::render(QRectF *partToDisplay)
     if (image.isNull())
     {
         qDebug() << "[dispPDF] Unable to generate an image from the PDF.";
-        return image;
+        return NULL;
     }
 
     if (!matrix)
@@ -139,7 +146,7 @@ QImage        PdfRendering::render(QRectF *partToDisplay)
     partToDisplay->adjust(-2, -2, 2, 2);
 
     QRect part = matrix->mapRect(*partToDisplay).toRect();
-    QImage  subImg = image.copy(part);
+    QImage  *subImg = new QImage(image.copy(part));
 
 //QRect highlightRect = matrix.mapRect(test2).toRect();
     //remplacer ce tas de mouise => lire les metadatas et render en consequence

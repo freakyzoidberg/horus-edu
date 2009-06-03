@@ -16,4 +16,6 @@ class   IFilePlugin
     IFile     *file;
 };
 
+Q_DECLARE_INTERFACE(IFilePlugin, "net.horus.Client.FileInterface/1.0");
+
 #endif // IFILEPLUGIN_H

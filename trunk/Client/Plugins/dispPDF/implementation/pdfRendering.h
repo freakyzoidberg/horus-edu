@@ -59,7 +59,7 @@ class   PdfRendering : public IPdfRendering
         void        setScaleFactor(const float scaleFactor);
 
         //! create the picture of the PDF, not finished
-        QImage        render(QRectF *partToDisplay);
+        QImage        *render(QRectF *partToDisplay);
 
         //! modification of the scale factor, used when user zoom
         /*!
