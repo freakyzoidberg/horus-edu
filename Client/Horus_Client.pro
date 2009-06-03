@@ -26,11 +26,12 @@ SOURCES += main.cpp \
     SettingsDialog.cpp \
     InterfaceClient.cpp \
     InterfaceNetwork.cpp \
+    InterfaceFile.cpp \
+    InterfaceDisplay.cpp \
     FileManager.cpp \
     NetFile.cpp \
     UserInfo.cpp \
-    NotificationClient.cpp \
-    File.cpp
+    NotificationClient.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -47,6 +48,16 @@ HEADERS += NetworkManager.h \
     IMetaDataCreate.h \
     IClient.h \
     IClientPlugin.h \
+    InterfaceClient.h \
+    INetwork.h \
+    INetworkPlugin.h \
+    InterfaceNetwork.h \
+    IDisplayable.h \
+    IDisplayablePlugin.h \
+    InterfaceDisplay.h \
+    IFile.h \
+    IFilePlugin.h \
+    InterfaceFile.h \
     ClientApplication.h \
     PluginManager.h \
     PacketManager.h \
@@ -57,19 +68,10 @@ HEADERS += NetworkManager.h \
     ConfigManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
-    InterfaceClient.h \
-    InterfaceNetwork.h \
-    IDisplayable.h \
-    IDisplayablePlugin.h \
-    INetwork.h \
-    INetworkPlugin.h \
     FileManager.h \
     NetFile.h \
     UserInfo.h \
-    IFile.h \
-    IFilePlugin.h \
-    NotificationClient.h \
-    File.h
+    NotificationClient.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \

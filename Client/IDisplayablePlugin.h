@@ -1,6 +1,8 @@
 #ifndef IDISPLAYABLEPLUGIN_H
 #define IDISPLAYABLEPLUGIN_H
 
+#include <QWidget>
+
 #include "IDisplayable.h"
 
 //! Interface optionnal for using the display
@@ -16,6 +18,7 @@ class IDisplayablePlugin
      *  It let plugin access display ressources
      */
     IDisplayable    *display;
+    virtual QWidget *getWidget() = 0;
 };
 
 Q_DECLARE_INTERFACE(IDisplayablePlugin, "net.horus.Client.DisplayableInterface/1.0");

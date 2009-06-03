@@ -1,5 +1,5 @@
-#ifndef FILE_H
-#define FILE_H
+#ifndef INTERFACEFILE_H
+#define INTERFACEFILE_H
 
 #include <QString>
 
@@ -11,10 +11,10 @@
   plugin using that compile.
 */
 
-class File : public IFile
+class InterfaceFile : public IFile
 {
     public:
-        File();
+        InterfaceFile();
         /*!
           retrieve a file using its name
           \param name the name of the file
@@ -30,4 +30,4 @@ class File : public IFile
         QString getNameById(int fileId);
 };
 
-#endif // FILE_H
+#endif // INTERFACEFILE_H
