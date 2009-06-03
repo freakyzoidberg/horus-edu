@@ -56,6 +56,8 @@ class Administration : public IClientPlugin, public INetworkPlugin
             \return a boolean indicating if the event was successefully handled (true)
         */
         bool                    event(QEvent * event);
+
+        void recvPacket(const PluginPacket&);
     private:
         //! the name of the plugin
         QByteArray          modName;

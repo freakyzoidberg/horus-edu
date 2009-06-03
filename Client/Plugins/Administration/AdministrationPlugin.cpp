@@ -4,6 +4,12 @@ Q_EXPORT_PLUGIN2(Administration, Administration)
 
 Administration::Administration()
 {
+    modName.append("Administration");
+}
+
+void Administration::recvPacket(const PluginPacket&)
+{
+
 }
 
 bool    Administration::event(QEvent *event)
