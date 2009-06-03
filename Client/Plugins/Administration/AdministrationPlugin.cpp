@@ -4,16 +4,18 @@ Q_EXPORT_PLUGIN2(Administration, Administration)
 
 Administration::Administration()
 {
+    this->adminF = new AdminFram();
     modName.append("Administration");
 }
 
-void Administration::recvPacket(const PluginPacket&)
+void Administration::recvPacket(const PluginPacket& packet)
 {
-
+    this->adminF->packetManager(packet.data.toHash());
 }
 
 bool    Administration::event(QEvent *event)
 {
+    return (QObject::event(event));
 }
 
 const QByteArray   Administration::getName() const

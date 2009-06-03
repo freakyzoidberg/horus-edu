@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>151</width>
+    <width>158</width>
     <height>481</height>
    </rect>
   </property>
@@ -19,15 +19,20 @@
   <property name="frameShadow">
    <enum>QFrame::Raised</enum>
   </property>
-  <widget class="QTreeView" name="TreeView">
+  <widget class="QTreeWidget" name="treeWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>131</width>
+     <width>141</width>
      <height>461</height>
     </rect>
    </property>
+   <column>
+    <property name="text">
+     <string>Groups</string>
+    </property>
+   </column>
   </widget>
  </widget>
  <resources/>
