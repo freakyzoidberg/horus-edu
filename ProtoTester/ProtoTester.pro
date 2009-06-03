@@ -13,7 +13,6 @@ SOURCES += main.cpp \
     ../Common/CommError.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommFile.cpp \
-    ../Common/CommFileInfo.cpp \
     ../Common/CommSettings.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommPlugin.cpp \

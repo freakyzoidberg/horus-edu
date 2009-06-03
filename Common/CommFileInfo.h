@@ -11,7 +11,7 @@
 class CommFileInfo
 {
 public:
-    CommFileInfo();
+    inline CommFileInfo() { id = 0; fileName = ""; size = 0; ownerId = 0; nodeId = 0; }
 
     //! id of the file
     quint32     id;
@@ -31,8 +31,48 @@ public:
     quint32     nodeId;
 };
 
-QDebug operator<<(QDebug, const CommFileInfo&);
-QDataStream& operator>>(QDataStream&, CommFileInfo&);
-QDataStream& operator<<(QDataStream&, const CommFileInfo&);
+inline bool   operator==(const CommFileInfo& a, const CommFileInfo& b) { return (
+    a.id       == b.id &&
+    a.fileName == b.fileName &&
+    a.mtime    == b.mtime &&
+    a.hashSha1 == b.hashSha1 &&
+    a.ownerId  == b.ownerId &&
+    a.nodeId   == b.nodeId
+); }
+
+inline bool   operator!=(const CommFileInfo& a, const CommFileInfo& b) { return ( ! (a == b)); }
+
+inline QDebug operator<<(QDebug d, const CommFileInfo& i) { return d
+    << i.id
+    << i.fileName
+    << i.size
+    << i.ctime
+    << i.mtime
+    << i.hashSha1.toHex()
+    << i.ownerId
+    << i.nodeId
+; }
+
+inline QDataStream& operator>>(QDataStream& s, CommFileInfo& i) { return s
+    >> i.id
+    >> i.fileName
+    >> i.size
+    >> i.ctime
+    >> i.mtime
+    >> i.hashSha1
+    >> i.ownerId
+    >> i.nodeId
+; }
+
+inline QDataStream& operator<<(QDataStream& s, const CommFileInfo& i) { return s
+    << i.id
+    << i.fileName
+    << i.size
+    << i.ctime
+    << i.mtime
+    << i.hashSha1
+    << i.ownerId
+    << i.nodeId
+; }
 
 #endif // COMMFILEINFO_H
