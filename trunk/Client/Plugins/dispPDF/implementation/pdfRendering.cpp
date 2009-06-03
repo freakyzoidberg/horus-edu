@@ -72,12 +72,12 @@ void        PdfRendering::closeFile()
 {
     if (pdfDoc != NULL)
     {
+       if (currentPage)
+            delete currentPage;
         delete pdfDoc;
         pdfDoc = NULL;
         return ;
     }
-    if (currentPage)
-        delete currentPage;
     currentPage = NULL;
     currentPageNb = 1;
 }
@@ -90,50 +90,54 @@ void        PdfRendering::reloadFile()
 
 void        PdfRendering::scaled(float scaleFactor)
 {   
-    //QSize    scale = pdfImage.size();
-
     //to avoid big picture
     if (scaleFactor > 2)
         scaleFactor = 2;
 
-    //scale.setHeight(scale.height() * scaleFactor);
-    //scale.setWidth(scale.width() * scaleFactor);
-    //pdfImage = pdfImage.scaled(scale, Qt::KeepAspectRatio);
     this->scaleFactor = scaleFactor;
     matrix->setMatrix(scaleFactor, 0, 0, scaleFactor, 0, 0);
 }
 
-void        PdfRendering::loadPage(int pageNb)
+bool        PdfRendering::loadPage(int pageNb)
 {
     if (pdfDoc == NULL)
     {
         qDebug() << "the document is not opened, cannot access pages";
-        return ;
+        return false;
     }
 
     if (pageNb < 0 || pageNb > pdfDoc->numPages())
     {
         qDebug() << "Page number out of range";
-        return ;
+        return false;
     }
 
     //free the old page
     if (currentPage)
         delete currentPage;
 
+    //load the new one
     currentPage = pdfDoc->page(pageNb);
     currentPageNb = pageNb;
+    return true;
 }
 
-QImage        *PdfRendering::render(QRectF *partToDisplay)
+QImage        *PdfRendering::render(int page, QRectF *partToDisplay)
 {
-    if (currentPage == NULL)
-    {
-        qDebug() << "NULL page";
-    }
-    QImage      image = currentPage->renderToImage(this->scaleFactor * 72.0,
-                                                   this->scaleFactor * 72.0);
+    if (!pdfDoc)
+        if (!openFile())
+            return NULL;
 
+    if (!loadPage(page))
+        return NULL;
+
+    return generateImg(partToDisplay);
+}
+
+QImage  *PdfRendering::generateImg(QRectF * partToDisplay)
+{
+     QImage      image = currentPage->renderToImage(this->scaleFactor * 72.0,
+                                                   this->scaleFactor * 72.0);
     if (image.isNull())
     {
         qDebug() << "[dispPDF] Unable to generate an image from the PDF.";
@@ -147,29 +151,6 @@ QImage        *PdfRendering::render(QRectF *partToDisplay)
 
     QRect part = matrix->mapRect(*partToDisplay).toRect();
     QImage  *subImg = new QImage(image.copy(part));
-
-//QRect highlightRect = matrix.mapRect(test2).toRect();
-    //remplacer ce tas de mouise => lire les metadatas et render en consequence
-    //virer les valeurs en durs, chercher dpiX et Y, possibilite de changer le scaleFactor
-    /*
-    QRgb    pixel;
-
-    highlightRect.adjust(-2, -2, 2, 2);
-
-    QImage highlight = image.copy(highlightRect);
-    QPainter painter;
-
-    pixel = image.pixel(0, 0);
-    painter.begin(&highlight);
-    painter.fillRect(highlight.rect(),
-                     QColor(qRed(pixel), qGreen(pixel), qBlue(pixel)));
-    painter.end();
-
-    painter.begin(&image);
-    painter.drawImage(highlightRect, highlight);
-    painter.end();
-*/  
-   // pdfImage = QPixmap::fromImage(image);
     return subImg;
 }
 

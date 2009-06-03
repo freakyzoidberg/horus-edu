@@ -9,12 +9,32 @@
 #include <qt4/poppler-qt4.h>
 
 //! class used to generate a displayble "image" of the PDF
+/*!
+    Each lesson is composed of further parts of documents, listed in the
+    metadata file.
+
+    In those lessons parts of pdf files can be displayed. The class
+    PdfRendering inherites from the interface IPdfRendering. It is
+    designed to generate a QImage of a part of a page the pdf file.
+
+    Each pdf file used in lessons must instanciate a PdfRendering.
+
+    The render(int page, QRectF *partToDisplay)  method is the "main"
+    method of this class, because it generates the QImage.
+
+    To display a pdf we use the poppler library, based on Qt4. It creates
+    QImage of a page of a pdf. Once the image of an entire page is created,
+    we extract the a rectangle (QRectF, the second parameter of the render()
+    method) which represents the part of the page we want to display in the
+    lesson.
+ */
 class   PdfRendering : public IPdfRendering
 {
     public:
         //! Constructor. Open the pdf file.
         /*!
             \param fileName the name of the file
+            \the page you want to display
         */
         PdfRendering(const QString & fileName);
 
@@ -52,14 +72,40 @@ class   PdfRendering : public IPdfRendering
         /*!
             \param pageNb the number of the page you wanna load
         */
-        void        loadPage(int pageNb);
+        bool        loadPage(int pageNb);
 
         //! return the scaleFactor
         float       getScaleFactor() const;
+
+        //!set the scale factor
+        /*!
+          \param scaleFactor the scale factor
+        */
         void        setScaleFactor(const float scaleFactor);
 
-        //! create the picture of the PDF, not finished
-        QImage        *render(QRectF *partToDisplay);
+        //! create the picture of the PDF.
+        /*!
+          Firts it tries to open the file if it not already loaded.
+          Second il tries to load the page specified by the parameter 'page'.
+          Then it calls the method generateImg
+
+          \param page the page number you want to display
+          \param partToDisplay a QRectF containing the cooridinate of
+          the part of the page 'page' youwant to display
+          \return a pointer to the QImage extracted from the pdf or NULL if an error occurs.
+        */
+        QImage        *render(int page, QRectF *partToDisplay);
+
+        //! create the picture of the PDF
+        /*!
+          Firts it render the entire page 'currentPage'.
+          Then it extracts the rectangle 'partToDisplay' from the previous generated image.
+
+          \param partToDisplay a QRectF containing the cooridinate of
+          the part of the page 'page' youwant to display
+          \return a pointer to the QImage extracted from the pdf or NULL if an error occurs.
+        */
+        QImage        *generateImg(QRectF *partToDisplay);
 
         //! modification of the scale factor, used when user zoom
         /*!
