@@ -4,10 +4,11 @@
 #include <QtGui/QMainWindow>
 #include <QTreeWidget>
 #include <QPushButton>
-#include "MainFrame_global.h"
 #include <QtPlugin>
-#include "../../../IClientPlugin.h"
-#include "../../../IDisplayablePlugin.h"
+#include "../../IClientPlugin.h"
+#include "../../IDisplayablePlugin.h"
+
+#include "Course_global.h"
 
 namespace Ui
 {
@@ -19,10 +20,21 @@ class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlug
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
     Q_INTERFACES(IDisplayablePlugin)
+   // Q_INTERFACES(INetworkPlugin)
+   // Q_INTERFACES(IFilePlugin)
 
 public:
     Course();
     ~Course();
+        IClient             *client;
+    IDisplayable             *display;
+    const QByteArray    getName() const;
+    const QByteArray    getVersion() const;
+    QStringList         getPluginsConflicts() const;
+    QStringList         getPluginsRequired() const;
+    QStringList         getPluginsRecommended() const;
+    bool                event(QEvent *event);
+    QWidget             *getWidget();
 public slots:
     void explorer();
     void ViewLesson();
