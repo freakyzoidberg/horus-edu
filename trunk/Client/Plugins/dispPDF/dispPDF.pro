@@ -13,9 +13,8 @@ HEADERS += implementation/disppdf.h \
     #implementation/dispPDFClient.h \
     #dispPDFNetwork.h \
     implementation/pdfRendering.h \
-    IPdfRendering.h \
+    IPdfRendering.h
     # metadata.h \
-    config.h
 INCLUDEPATH += . \
     ./implementation \
     /usr/include/poppler \
