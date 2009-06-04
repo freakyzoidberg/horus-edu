@@ -42,13 +42,21 @@ public:
     //! retrieve type of node
     virtual QString getNodeType(Tree::Tree* tree) = 0;
     //! retrieve user referee of node
-    virtual void setNodeUserRef(Tree::Tree* tree, int userref) = 0;
+    virtual bool setNodeUserRef(Tree::Tree* tree, int userref) = 0;
     //! retrieve name of node
-    virtual void setNodeName(Tree::Tree* tree, QString name) = 0;
+    virtual bool setNodeName(Tree::Tree* tree, QString name) = 0;
     //! retrieve type of node
-    virtual void setNodeType(Tree::Tree* tree, QString type) = 0;
+    virtual bool setNodeType(Tree::Tree* tree, QString type) = 0;
     //! retrieve sons of node
     virtual QHash<int, Tree::Tree*> GetNodeSonsNode(Tree::Tree *tree) = 0;
+    //! check is user has admin right on node
+    virtual bool HasNodeAdminRight(Tree::Tree *tree, int userid) = 0;
+    //! delete node from tree
+    virtual bool DelNode(Tree::Tree *node) = 0;
+    //! move node from tree
+    virtual bool MvNode(Tree::Tree *node, int father) = 0;
+    //! edit node of tree
+    virtual int AddNode(Tree::Tree *node, int userref, QString name, QString type) = 0;
 };
 
 #endif // ISERVER_H

@@ -56,19 +56,19 @@ QString InterfaceServer::getNodeType(Tree::Tree* tree)
 }
 
 
-void InterfaceServer::setNodeUserRef(Tree::Tree* tree, int userref)
+bool InterfaceServer::setNodeUserRef(Tree::Tree* tree, int userref)
 {
-    tree->SetUserRef(userref);
+    return tree->SetUserRef(userref);
 }
 
-void InterfaceServer::setNodeName(Tree::Tree* tree, QString name)
+bool InterfaceServer::setNodeName(Tree::Tree* tree, QString name)
 {
-    tree->SetName(name);
+    return tree->SetName(name);
 }
 
-void InterfaceServer::setNodeType(Tree::Tree* tree, QString type)
+bool InterfaceServer::setNodeType(Tree::Tree* tree, QString type)
 {
-    tree->SetType(type);
+    return tree->SetType(type);
 }
 
 QHash<int, Tree::Tree*> InterfaceServer::GetNodeSonsNode(Tree::Tree* tree)
@@ -88,6 +88,25 @@ Tree::Tree* InterfaceServer::getNodenodebyid(qint32 id)
 QHash<int, Tree*> InterfaceServer::getNodeTree()
 {
     return Tree::maptree;
+}
+bool InterfaceServer::HasNodeAdminRight(Tree::Tree *tree,int userid)
+{
+    return tree->HasAdminRightOnNodeAndFathers(userid);
+}
+
+bool InterfaceServer::DelNode(Tree::Tree *node)
+{
+    return node->Delnode();
+}
+
+bool InterfaceServer::MvNode(Tree::Tree *node, int father)
+{
+    return node->MoveNode(father);
+}
+
+int InterfaceServer::AddNode(Tree::Tree *node, int userref, QString name, QString type)
+{
+    return node->AddSon(userref, name, type);
 }
 
 QSqlQuery InterfaceServer::getSqlQuery()
