@@ -32,9 +32,6 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Horus Client.conf" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="en-us.wxl" />
     <EmbeddedResource Include="fr-fr.wxl" />
   </ItemGroup>
