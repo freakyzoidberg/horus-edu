@@ -69,8 +69,8 @@ void Settings::FirstSetSettings()
     streamo << "Fullpath to Horus Server diretory[ hint : /opt/Horus/Horus-server/] : ";
     streamo.flush();
     line = streami.readLine();
-    this->Gsettings.setValue("PluginsBase", (line == "" ? "/opt/Horus/Horus-server/Plugins/":line+"/Plugins"));
-    this->Gsettings.setValue("SoftFullPath", (line == "" ? "/opt/Horus/Horus-server/":line));
+    this->Gsettings.setValue("PluginsBase", (line == "" ? "/opt/Horus/Horus-server/Plugins/":line+"/Plugins/"));
+    this->Gsettings.setValue("SoftFullPath", (line == "" ? "/opt/Horus/Horus-server/":line +"/"));
     this->Gsettings.endGroup();
     QDir dir(line == "" ? "/opt/Horus/Horus-server/Plugins/":line+"/Plugins");
     if (!dir.exists())

@@ -317,8 +317,8 @@ void MainWindow::writesettings()
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
     this->Gsettings.setValue("Version", "5");
-    this->Gsettings.setValue("PluginsBase", ( path+"/Plugins"));
-    this->Gsettings.setValue("SoftFullPath", (path));
+    this->Gsettings.setValue("PluginsBase", ( path+"/Plugins/"));
+    this->Gsettings.setValue("SoftFullPath", (path+"/"));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("PLUGINS");;
     for (int i = 0; (i < ui->scrollArea->layout()->count()); i++)
@@ -330,7 +330,7 @@ void MainWindow::writesettings()
         this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text(),
                                 (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+"/lib"
                                  #ifdef WIN32
-                               +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".dll")));
+                                +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".dll")));
                                  #else
                                 +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".so")));
                                 #endif
