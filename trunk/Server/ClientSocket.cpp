@@ -4,6 +4,7 @@
 #include "ThreadPacket.h"
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
+#include "Settings.h"
 
 quint32 ClientSocket::nbCon = 0;
 
@@ -23,9 +24,9 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
     connect(this,  SIGNAL(packetReceived(const QByteArray&)),   this, SLOT(packetAvailable(const QByteArray&)));
     connect(this,  SIGNAL(encrypted()),                         this, SLOT(ready()));
     connect(this,  SIGNAL(disconnected()),                      this, SLOT(tryToDelete()));
-
-    setLocalCertificate("./ssl/Horus.crt");
-    setPrivateKey("./ssl/Horus.key");
+    Settings config;
+    setLocalCertificate(config.GetSettings("SoftFullPath","SETTINGS") + "./ssl/Horus.crt");
+    setPrivateKey(config.GetSettings("SoftFullPath","SETTINGS") + "./ssl/Horus.key");
     setSocketDescriptor(_socket);
     startServerEncryption();
 }

@@ -19,8 +19,8 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     Tree::UpdateVector();
     //update tree
 
-    QSettings settings;
-    if (listen(QHostAddress::Any, settings.value("SERVER/SRV_PORT",42000).toInt()))
+    //QSettings settings;
+    if (listen(QHostAddress::Any, config->GetSettings("SRV_PORT","SERVER").toInt()))
         qDebug() << "Server Listening on port:" << serverPort();
     else
         qDebug() << "Server Not listening" << errorString();
