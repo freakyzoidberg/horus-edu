@@ -40,7 +40,11 @@ void User::login(const QString& _login, bool authSession, const QByteArray& _aut
     query.addBindValue(_login);
     query.addBindValue(_auth.toHex());
     if ( ! query.exec() || ! query.next())
+    {
+        qDebug() << "ERROR while logging in, either user/session not found or sql error";
+        qDebug() << query.lastError().text();
         return;
+    }
 
     id = query.value(0).toUInt();
     level = (UserLevel)query.value(1).toUInt();
