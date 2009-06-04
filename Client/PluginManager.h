@@ -46,7 +46,7 @@ public:
      *  \param name The name of the plugin requested
      *  \return A pointer to the plugin requested or NULL if not found
      */
-    IClientPlugin *findPlugin(QString &name) const;
+    IClientPlugin *findPlugin(QString name) const;
     //! Find a loaded network plugin
     /*!
      *  This method provide an access to each loaded  network plugins

@@ -43,5 +43,5 @@ bool                MainFrame::event(QEvent *event)
 
 QWidget             *MainFrame::getWidget()
 {
-    return (new MainFrameWidget());
+    return (new MainFrameWidget(this));
 }
