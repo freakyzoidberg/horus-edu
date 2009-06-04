@@ -10,9 +10,7 @@
 #include <IClientPlugin.h>
 #include <IFilePlugin.h>
 #include <pdfRendering.h>
-#include <INetworkPlugin.h>
 #include <dispPDFClient.h>
-#include <dispPDFNetwork.h>
 
 #define PLUGIN_NAME "dispPDF"
 #define PLUGIN_VERSION "1.0"
@@ -111,7 +109,7 @@ public:
     \param partToDisplay the part of the page you want to display
     \return a pointer to the diaplayable image
     */
-    QImage    *dispPDFDoc(int fileId, int page, QRectF *partToDisplay);
+    QImage    *dispPDFDoc(quint32 fileId, int page, QRectF *partToDisplay);
 
     /*!
       Close a pdf file and remove it from the map
@@ -126,10 +124,12 @@ public:
     */
     void    closePdfFile(int fileId);
 
+    bool    PluginEventHandler(QEvent *event);
+
     /*!
       inherited from IFile interface
      */
-    IFile   *file;
+   //IFile   *file;
 
 private:
     //! the name of the plugin

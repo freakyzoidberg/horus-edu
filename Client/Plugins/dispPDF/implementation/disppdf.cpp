@@ -2,14 +2,19 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QMapIterator>
+#include <QVariant>
+#include <QList>
 
 #include <ClientEvents.h>
 
 #include <disppdf.h>
 #include <pdfRendering.h>
 
+#include <IFile.h>
+
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 extern QEvent::Type ClientEvents::LoadPluginEvent;
+extern QEvent::Type ClientEvents::PluginEvent;
 
 Q_EXPORT_PLUGIN2(dispPDF, DispPDF)
 
@@ -65,6 +70,13 @@ QStringList     DispPDF::getPluginsRecommended() const
 
 bool    DispPDF::event(QEvent *event)
 {
+    qDebug() << "Incoming transmission.";
+    if  (event->type() == ClientEvents::PluginEvent)
+    {
+        qDebug() << "I read ya... Sir!";
+        event->accept();
+        return PluginEventHandler(event);
+    }
     if (event->type() == ClientEvents::LoadPluginEvent)
     {
         event->accept();
@@ -79,6 +91,28 @@ bool    DispPDF::event(QEvent *event)
     return QObject::event(event);
 }
 
+bool    DispPDF::PluginEventHandler(QEvent *event)
+{
+    QVariant    data;
+    QList<QVariant> dataList;
+    quint32     fileId;
+    int         page;
+
+    PluginEvent *pe = static_cast<PluginEvent *>(event);
+    data = pe->pack.data;
+
+    dataList = data.toList();
+    fileId = dataList.at(0).toInt();
+    page = dataList.at(1).toInt();
+    QRectF  *rect = new QRectF(dataList.at(2).toRectF());
+    QString fileName(dataList.at(3).toString());
+    if (fileName.isEmpty() || fileName.isNull())
+        dispPDFDoc(fileName, page, rect, fileId);
+    else
+        dispPDFDoc(fileId, page, rect);
+    return true;
+}
+
 bool    DispPDF::eventHandlerLoad(QEvent *event)
 {
     return true;
@@ -89,12 +123,16 @@ bool    DispPDF::eventHandlerUnload(QEvent *event)
     return true;
 }
 
-QImage    *DispPDF::dispPDFDoc(int fileId, int page,
+QImage    *DispPDF::dispPDFDoc(quint32 fileId, int page,
                                QRectF *partToDisplay)
 {
     QString fileName;
+    IFile   *file;
 
-    fileName = file->getNameById(fileId);
+    file = fileManager->getFile(fileId);
+    if (!file)
+       return NULL;
+    fileName = file->getLocalFileName();
     return dispPDFDoc(fileName, page, partToDisplay, fileId);
 }
 
@@ -112,7 +150,7 @@ QImage    *DispPDF::dispPDFDoc(QString & fileName, int page,
         }
 
     //if the file doesn't exist recup it using the method of the IFile * interface
-    if (!filePath.exists())
+    /*if (!filePath.exists())
     {
         bool  success;
 
@@ -127,7 +165,7 @@ QImage    *DispPDF::dispPDFDoc(QString & fileName, int page,
     if (fileId == -1)
         fileId = file->getFileIdByName(filePath.filePath());
     else if (fileName.isEmpty() || fileName.isNull())
-        fileName = file->getNameById(fileId);
+        fileName = file->getNameById(fileId);*/
 
     /*
        search if the pdf file is already in the map, if not add it in the map
@@ -149,7 +187,8 @@ void    DispPDF::closePdfFile(int fileId)
 {
     QString fileName;
 
-    fileName = file->getNameById(fileId);
+    //fileName = file->getNameById(fileId);
+
     closePdfFile(fileName);
 }
 
