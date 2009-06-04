@@ -33,15 +33,15 @@ void Tree::receiveUserTree(const QVariantHash& response)
     if ( ! response["Success"].toBool())
         return;
 
-    QVariantHash tree = response["userTree"];
+    QVariantHash usertree = response["userTree"].toHash();
     for (QVariantHash::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
     {
         qDebug() << "User Tree node :" << it.key();
-        tmplist = it.value().toList();
-        for (int i = 0; i < tmplist.size(); ++i)
-        {
-            qDebug() << "         sons :" << (tmplist.value(i));
-        }
+        //tmplist = it.value().toList();
+//        for (int i = 0; i < tmplist.size(); ++i)
+//        {
+//            qDebug() << "         sons :" << (tmplist.value(i));
+//        }
     }
 }
 
@@ -59,15 +59,6 @@ void Tree::receiveUpdate(int _id, int _parent, int _user_ref, QString _name, QSt
 void     Tree::Delnode()
 {
 }
-for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
-    {
-        qDebug() << "User Tree node :" << it.key();
-    tmplist = it.value().toList();
-       for (int i = 0; i < tmplist.size(); ++i)
-        {
-          qDebug() << "         sons :" << (tmplist.value(i));
-        }
-    }
 
 void Tree::SetName(QString name)
 {
