@@ -6,6 +6,7 @@
 #include <QPointF>
 #include <QSizeF>
 #include <QtGui/QWidget>
+#include <QAbstractItemModel>
 
 //! Interface of a lesson metadata representation.
 /*!
@@ -17,7 +18,7 @@
     Don't create your own concrete class for the types ILesson and its subtypes,
     use the types provided by the plugin.
 */
-class ILesson
+class ILesson : public QAbstractItemModel
 {
 public:
     virtual ~ILesson() {}
