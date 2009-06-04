@@ -7,6 +7,7 @@
 
 class ITreePlugin
 {
+public:
     virtual ITree* getNodeById(int id) = 0;
     virtual QAbstractItemModel* getTreeModel() = 0;
 };

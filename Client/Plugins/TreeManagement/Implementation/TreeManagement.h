@@ -2,6 +2,7 @@
 #define TREEMANAGEMENT_H
 
 #include "TreeManagement_global.h"
+#include "TreeModel.h"
 
 class TREEMANAGEMENTSHARED_EXPORT TreeManagement : public IClientPlugin, public INetworkPlugin, public ITreePlugin
 {
@@ -49,7 +50,7 @@ public:
 
     inline Tree* getNodeById(int id) { return Tree::GetNodebyId(id); }
 
-    inline QAbstractItemModel* getTreeModel() { return 0; }
+    inline QAbstractItemModel* getTreeModel() { return new TreeModel(); }
 
     //! Surcharge of the method event
     /*!
