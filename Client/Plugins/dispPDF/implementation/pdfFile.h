@@ -36,7 +36,7 @@ class   PdfFile : public IPdfFile
             \param fileName the name of the file
             \the page you want to display
         */
-        PdfFile(const QString & fileName, int fileId = -1);
+        PdfFile(const QString & fileName);
 
         //! Destructor. CLose the pdf file.
         ~PdfFile();
@@ -122,9 +122,6 @@ class   PdfFile : public IPdfFile
     private:
         //! the name of the pdf file
         QString             fileName;
-
-        //! the id of the pdf file
-        int                 fileId;
 
         //! THE pdf file according to the lib poppler
         Poppler::Document   *pdfDoc;

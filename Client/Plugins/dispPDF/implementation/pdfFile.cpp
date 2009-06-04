@@ -7,10 +7,9 @@
 
 #include <QDebug>
 
-PdfFile::PdfFile(const QString & fileName, int fileId)
+PdfFile::PdfFile(const QString & fileName)
 {
     this->fileName = fileName;
-    this->fileId = fileId;
 
     pdfDoc = NULL;
     currentPage = NULL;
@@ -33,11 +32,6 @@ PdfFile::~PdfFile()
 const QString & PdfFile::getFileName() const
 {
     return fileName;
-}
-
-int     PdfFile::getFileId() const
-{
-    return fileId;
 }
 
 const Poppler::Document    *PdfFile::getPdfDoc() const

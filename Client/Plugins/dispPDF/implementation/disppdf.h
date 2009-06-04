@@ -28,7 +28,7 @@ class DispPDF : public IClientPlugin, public IFilePlugin, public IPdfRendering
     Q_INTERFACES(IFilePlugin)
 
 public:
-    //! allocate pNetwork and set some values
+    //! set some values
     DispPDF();
 
     //! free pNetwork
@@ -50,19 +50,19 @@ public:
     /*!
       \return the variable pluginsConflicts
     */
-    QStringList             getPluginsConflicts() const;
+    QStringList     getPluginsConflicts() const;
 
     //! Return the list of plugins requiered
     /*!
       \return the variable pluginsRequiered
     */
-    QStringList             getPluginsRequired() const;
+    QStringList     getPluginsRequired() const;
 
     //! Return the list of plugins recommended
     /*!
         \return the variable pluginsRecommended
     */
-    QStringList             getPluginsRecommended() const;
+    QStringList     getPluginsRecommended() const;
 
     //QStringList           getExports();
 
@@ -71,14 +71,15 @@ public:
       \param event the event received by the plugin
       \return true if the event was successfully handled, false eitherway
     */
-    bool                    event(QEvent *event);
+    bool    event(QEvent *event);
 
     //! Handle the event loadEvent
     /*!
       \param event the event received by the plugin
       \return true if the event was successfully handled, false eitherway
     */
-    bool                    eventHandlerLoad(QEvent *event);
+    bool    eventHandlerLoad(QEvent *event);
+    bool    PluginEventHandler(QEvent *event);
 
     //! Handle the event unloadEvent
     /*!
@@ -91,7 +92,7 @@ public:
     /*
       \return the variable renderPdf
     */
-    const QMap<QString, IPdfFile *>    *getAllPdfFiles() const;
+    const QMap<quint32, IPdfFile *>    *getAllPdfFiles() const;
 
     //! display a part of a pdf file
     /*
@@ -112,24 +113,11 @@ public:
      QImage    *dispPDFDoc(quint32 fileId, int page, QRectF *partToDisplay);
 
     /*!
-      Close a pdf file and remove it from the map
-      \param fileName the name of the file
-     */
-    void    closePdfFile(const QString & fileName);
-
-    /*!
       Close a pdf file and remove it from the map. When the name has been
       resolved from the id it calls the closePdfFile(const QString &)
       \param fileId the id of the file.
     */
     void    closePdfFile(int fileId);
-
-    bool    PluginEventHandler(QEvent *event);
-
-    /*!
-      inherited from IFile interface
-     */
-   //IFile   *file;
 
 private:
     //! the name of the plugin
@@ -148,7 +136,7 @@ private:
     QStringList pluginsRecommended;
 
     //! QMap containing all the open PDF files with their name
-    QMap<QString, IPdfFile *>   *pdfFiles;
+    QMap<quint32, IPdfFile *>   *pdfFiles;
 };
 
 #endif // DISPPDF_H
