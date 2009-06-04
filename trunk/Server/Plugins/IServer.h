@@ -35,6 +35,18 @@ public:
     virtual Tree::Tree* getfatherbyid(qint32 id) = 0;
     //! retrieve id of node
     virtual int getId(Tree::Tree* tree) = 0;
+    //! retrieve user referee of node
+    virtual int getUserRef(Tree::Tree* tree) = 0;
+    //! retrieve name of node
+    virtual QString getName(Tree::Tree* tree) = 0;
+    //! retrieve type of node
+    virtual QString getType(Tree::Tree* tree) = 0;
+    //! retrieve user referee of node
+    virtual void setUserRef(Tree::Tree* tree, int userref) = 0;
+    //! retrieve name of node
+    virtual void setName(Tree::Tree* tree, QString name) = 0;
+    //! retrieve type of node
+    virtual void setType(Tree::Tree* tree, QString type) = 0;
     //! retrieve sons of node
     virtual QHash<int, Tree::Tree*> GetSonsNode(Tree::Tree *tree) = 0;
 };
