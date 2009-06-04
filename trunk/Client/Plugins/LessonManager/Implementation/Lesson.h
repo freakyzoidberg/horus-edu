@@ -5,8 +5,16 @@
 #include <QString>
 #include "../ILesson.h"
 
+//! Convenience class to allow polymorphic cast on LSection, LPage and Lesson
+class LItem
+{
+ public:
+    LItem() {}
+    virtual ~LItem() {}
+};
+
 //! Provides an implementation of ILesson::ISection to be used by the plugin.
-class LSection : public ILesson::ISection
+class LSection : public ILesson::ISection, public LItem
 {
 public:
     LSection();
@@ -21,11 +29,11 @@ public:
 
 private:
     QList<ILesson::IElement *>    elements;
-    QString     title;
+    QString                       title;
 };
 
 //! Provides an implementation of ILesson::IPage to be used by the plugin.
-class LPage : public ILesson::IPage
+class LPage : public ILesson::IPage, public LItem
 {
 public:
     LPage();
@@ -39,8 +47,8 @@ public:
     void                    addObject(IObject *object);
 
 private:
-    QString     title;
-    QList<IObject *>          objects;
+    QString             title;
+    QList<IObject *>    objects;
 };
 
 //! Provides an implementation of ILesson::IPage::IObject to be used by the plugin.
@@ -74,7 +82,7 @@ private:
 };
 
 //! Provides an implementation of ILesson to be used by the plugin.
-class Lesson : public ILesson
+class Lesson : public ILesson, public LItem
 {
 public:
     Lesson();
@@ -85,12 +93,21 @@ public:
     IElement*               addElement(IElement::Type type, const QString& title);
     IElement*               addElement(IElement::Type type, const QString& title, const ISection *section);
 
+public:
+    QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+    QModelIndex parent(const QModelIndex &child) const;
+    int         rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int         columnCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant    data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+
 private:
-    LSection*               findSection(QList<IElement *>& list, const ISection *section);
+    LSection*   findSection(QList<IElement *>& list, const ISection *section);
+    void*       findNodeParent(const QList<ILesson::IElement *>& list, void *parent, const void* node) const;
 
 private:
     QList<IElement *>  elements;
     QString  title;
+    QModelIndex        invalidIdx;
 };
 
 #endif // LESSON_H

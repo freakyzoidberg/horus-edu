@@ -214,3 +214,72 @@ LSection* Lesson::findSection(QList<ILesson::IElement *>& list, const ILesson::I
     }
     return NULL;
 }
+
+void* Lesson::findNodeParent(const QList<ILesson::IElement *>& list, void *parent, const void* node) const
+{
+    QList<ILesson::IElement *>::const_iterator it = list.begin();
+    LSection *sec;
+    while (it != list.end())
+    {
+        if (*it == node)
+            return parent;
+        else if ((sec = dynamic_cast<LSection *>(*it)) != NULL)
+        {
+            void *res = findNodeParent(sec->getElementsP(), sec, node);
+            if (res != NULL)
+                return res;
+        }
+        it++;
+    }
+    return NULL;
+}
+
+QModelIndex Lesson::index(int row, int column, const QModelIndex &parent) const
+{
+    if (parent.isValid())
+    {
+        if (row == 0)
+            return createIndex(row, column, parent.internalPointer());
+        LSection* section = dynamic_cast<LSection *>((LItem *)parent.internalPointer());
+        return createIndex(row, column, section->getElements().at(row));
+    }
+    if (row == 0)
+        createIndex(row, column, (void *)this);
+    return createIndex(row, column, elements.at(row));
+}
+
+QModelIndex Lesson::parent(const QModelIndex &child) const
+{
+    void *ptr = child.internalPointer();
+    if (child == invalidIdx || child.internalPointer() == this)
+        return invalidIdx;
+    void *node = findNodeParent(elements, (void *)this, child.internalPointer());
+    if (node != NULL)
+        return createIndex(0, 0, node);
+    return invalidIdx;
+}
+
+int         Lesson::rowCount(const QModelIndex &parent) const
+{
+    Lesson *lesson = NULL;
+    LSection *section = NULL;
+    if (parent == invalidIdx)
+        return 0;
+    if ((lesson = dynamic_cast<Lesson *>((LItem *)parent.internalPointer())) != NULL)
+        return lesson->getElements().count();
+    else if ((section = dynamic_cast<LSection *>((LItem *)parent.internalPointer())) != NULL)
+        return section->getElements().count();
+    return 0;
+}
+
+int         Lesson::columnCount(const QModelIndex &parent) const
+{
+    if (parent == invalidIdx)
+        return 0;
+    return 1;
+}
+
+QVariant    Lesson::data(const QModelIndex &index, int role) const
+{
+    return QVariant();
+}
