@@ -72,10 +72,12 @@ class SendLoginEvent : public QEvent
 class PluginEvent : public QEvent
 {
         public:
-            PluginEvent(const PluginPacket p);
+            PluginEvent(const PluginPacket p, QString pT);
             PluginEvent(const PluginEvent &s);
 
             //! packet to send
             PluginPacket pack;
+            //! plugin target
+            QString pTarget;
 };
 #endif // CLIENTEVENTS_H

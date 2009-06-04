@@ -1,8 +1,12 @@
 #include "UserFram.h"
+#include "../../../Common/PluginPacket.h"
+#include <QDebug>
 
 UserFram::UserFram(INetwork *reseau) : QFrame()
 {
+    res = reseau;
     setupUi(this);
+    this->setLayout(this->userLayout);
     requestFunctions["changePassword"]  = &UserFram::changePasswordResponse;
     requestFunctions["listUsers"]       = &UserFram::listUsersResponse;
     requestFunctions["getUserInfo"]     = &UserFram::getUserInfoResponse;
@@ -11,6 +15,15 @@ UserFram::UserFram(INetwork *reseau) : QFrame()
     requestFunctions["disableUser"]     = &UserFram::disableUserResponse;
 }
 
+void    UserFram::on_GetUsers_clicked()
+{
+    QVariantHash request;
+
+    request["Request"] =  "listUsers";
+    PluginPacket pP("UserManagment", request);
+
+    this->res->sendPacket(pP);
+}
 void    UserFram::changeEvent(QEvent *e)
 {
     switch (e->type()) {
@@ -101,7 +114,7 @@ void    UserFram::changePasswordResponse(QVariantHash &response)
 
 void    UserFram::listUsersResponse(QVariantHash &response)
 {
-
+    qDebug() << response;
 }
 
 void    UserFram::getUserInfoResponse(QVariantHash &response)

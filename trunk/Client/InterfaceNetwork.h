@@ -7,7 +7,7 @@
 class InterfaceNetwork : public INetwork
 {
 public:
-    InterfaceNetwork();
+    InterfaceNetwork(IClientPlugin   *plugin);
     void sendPacket(const PluginPacket& packet) const;
 
 private:

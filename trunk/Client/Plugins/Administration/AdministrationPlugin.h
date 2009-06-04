@@ -59,13 +59,14 @@ class Administration : public IClientPlugin, public INetworkPlugin, public IDisp
             \param event the event received by the plugin
             \return a boolean indicating if the event was successefully handled (true)
         */
-        bool                    event(QEvent * event);
 
         void                    recvPacket(const PluginPacket&);
         QWidget                 *getWidget();
         IDisplayable             *display;
     private:
         AdminFram           *adminF;
+    public slots:
+        bool                    event(QEvent * event);
 };
 
 #endif // ADMINISTRATION_H
