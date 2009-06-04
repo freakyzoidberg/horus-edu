@@ -1,10 +1,6 @@
 #include "Tree.h"
 
-#include <QApplication>
-
-#include "../Common/CommPlugin.h"
-#include "ThreadNetwork.h"
-
+#include <QDebug>
 
 QHash<int, Tree*> Tree::maptree;
 Tree* Tree::GetNodebyId(int id)
@@ -14,18 +10,6 @@ Tree* Tree::GetNodebyId(int id)
         return *it;
 
     return new Tree(id);
-}
-
-void Tree::updateUserTree()
-{
-    QVariantHash request;
-    request["Request"] = "getTree+";
-
-    PluginPacket req("TreeManagement", request);
-    req.sourcePlugin = "TreeManagement";
-    req.packetVersion = 0;
-
-    QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(CommPlugin(req).getPacket()));
 }
 
 void Tree::receiveUserTree(const QVariantHash& response)
