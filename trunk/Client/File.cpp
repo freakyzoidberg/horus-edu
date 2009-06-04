@@ -107,6 +107,7 @@ void File::connexionBytesWritten(qint64 len)
 
 //    file.open(openMode());
 
+    qDebug() << file.errorString();
     qint64 savePos = file.pos();
     file.seek(connexionPos);
     connexionPos += connexion.write(file.read(len));

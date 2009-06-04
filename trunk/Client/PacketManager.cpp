@@ -3,8 +3,9 @@
 #include "IClientPlugin.h"
 #include "FileManager.h"
 
-//test Git
-//#include "File.h"
+//test Git, to autoload everything after conect
+//#include "FileManager.h"
+#include "Tree.h"
 
 PacketManager::PacketManager(QObject* parent) : QObject()
 {
@@ -114,9 +115,9 @@ void PacketManager::PacketLogin()
         state = PacketManager::LOGGED_IN;
         clearPacketStack();
 
-        ///test de GIT, ne pas virer de suite
-//        File* file = FileManager::globalInstance()->getFile(1);
-//        file->open(QIODevice::ReadOnly);
+        ///test de GIT, ne pas virer de suite, pour version 6juin
+        Tree::updateUserTree();
+        //FileManager::updateUserFiles();
     }
     else if (l.method == CommLogin::REFUSED)
     {
@@ -142,12 +143,19 @@ void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
     qDebug() << "[ in]" << p;
+
+    //GiT: for the 6 june version...
+    if (p.packet.targetPlugin == "TreeManager")
+		{
+        Tree::receiveUserTree(p.packet.data.toHash());
+				return;
+		}
+
     this->pM = parent->findChild<PluginManager *>();
-    QString target(p.packet.targetPlugin);
 
     INetworkPlugin *networkP = this->pM->findNetworkPlugin(target);
 
-    PluginEvent *pe = new PluginEvent(p.packet, target);
+    PluginEvent *pe = new PluginEvent(p.packet, p.packet.targetPlugin);
 
     QApplication::postEvent(this->pM, pe);
 }
