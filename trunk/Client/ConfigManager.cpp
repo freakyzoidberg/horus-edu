@@ -66,6 +66,20 @@ void    ConfigManager::createConfig()
 
     if (!settings.contains("Version"))
         settings.setValue("Version", CLIENT_VERSION);
+    if (!settings.contains("LessonsDirectoryPath"))
+    {
+        path = QDir::homePath() + "/.Horus/Lessons";
+        if (!pluginsDir.exists(path))
+        {
+            qDebug() << "ConfigManager: Creating Lessons User Directory." << path;
+            if (!pluginsDir.mkpath(path))
+                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
+            else
+                settings.setValue("LessonsDirectoryPath", path);
+        }
+        else
+            settings.setValue("LessonsDirectoryPath", path);
+    }
     if (!settings.contains("Plugins/UserDirectoryPath"))
     {
         path = QDir::homePath() + "/.Horus/Plugins";
