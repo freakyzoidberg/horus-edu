@@ -53,3 +53,7 @@ QWidget             *Course::getWidget()
 }
 
 
+void                Course::recvPacket(const PluginPacket &packet)
+{
+    //do something
+}

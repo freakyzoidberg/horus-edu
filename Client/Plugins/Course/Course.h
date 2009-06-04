@@ -3,10 +3,11 @@
 
 #include <QtGui/QMainWindow>
 #include <QTreeWidget>
-#include <QPushButton>
 #include <QtPlugin>
 #include "../../IClientPlugin.h"
 #include "../../IDisplayablePlugin.h"
+#include "../../INetworkPlugin.h"
+#include "../../IFilePlugin.h"
 
 #include "Course_global.h"
 
@@ -15,25 +16,28 @@ namespace Ui
     class CourseClass;
 }
 
-class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlugin
+class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlugin, public INetworkPlugin, public IFilePlugin
 {
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
     Q_INTERFACES(IDisplayablePlugin)
-   // Q_INTERFACES(INetworkPlugin)
-   // Q_INTERFACES(IFilePlugin)
+    Q_INTERFACES(INetworkPlugin)
+    Q_INTERFACES(IFilePlugin)
 
 public:
     Course();
     ~Course();
-        IClient             *client;
-    IDisplayable             *display;
+    IClient             *client;
+    IDisplayable        *display;
+    INetwork            *network;
+    IFileManager        *filemanager;
     const QByteArray    getName() const;
     const QByteArray    getVersion() const;
     QStringList         getPluginsConflicts() const;
     QStringList         getPluginsRequired() const;
     QStringList         getPluginsRecommended() const;
     bool                event(QEvent *event);
+    void                recvPacket(const PluginPacket& packet);
     QWidget             *getWidget();
 
 private:
