@@ -5,13 +5,15 @@
 #include <QDir>
 #include <QCheckBox>
  #include <QLayout>
+ #include <QCompleter>
+ #include <QDirModel>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
         QVBoxLayout *mylayout = new QVBoxLayout();
         ui->scrollArea->setLayout(mylayout);
-
+        on_lineEdit_16_textChanged("");
 }
 
 MainWindow::~MainWindow()
@@ -243,6 +245,7 @@ while ((child = ui->scrollArea->layout()->takeAt(0)) != 0) {
         delete child;
 }
 QDir dir(ui->lineEdit_16->text()+"/Plugins/");
+
     if (dir.exists())
         {
 
@@ -274,6 +277,13 @@ QDir dir(ui->lineEdit_16->text()+"/Plugins/");
                     }
              }
         }
+    else
+    {
+        QCompleter *completer = new QCompleter(this);
+        completer->setCompletionMode(QCompleter::InlineCompletion);
+        completer->setModel(new QDirModel(completer));
+        ui->lineEdit_16->setCompleter(completer);
+    }
 }
 
 
