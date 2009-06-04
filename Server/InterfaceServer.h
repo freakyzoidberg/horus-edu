@@ -39,7 +39,18 @@ public:
     Tree::Tree* getfatherbyid(qint32 id);
     //! retrieve id of node
     int getId(Tree::Tree *tree);
-
+    //! retrieve user referee of node
+    int getUserRef(Tree::Tree* tree);
+    //! retrieve name of node
+    QString getName(Tree::Tree* tree);
+    //! retrieve type of node
+    QString getType(Tree::Tree* tree);
+    //! retrieve user referee of node
+    void setUserRef(Tree::Tree* tree, int userref);
+    //! retrieve name of node
+    void setName(Tree::Tree* tree, QString name);
+    //! retrieve type of node
+    void setType(Tree::Tree* tree, QString type);
     //! return the level of the connected user
     UserLevel getLevel(quint32 userId) const;
 

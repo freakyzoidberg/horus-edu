@@ -40,6 +40,37 @@ int InterfaceServer::getId(Tree::Tree* tree)
     return tree->Getid();
 }
 
+int InterfaceServer::getUserRef(Tree::Tree* tree)
+{
+    return tree->GetUserRef();
+}
+
+QString InterfaceServer::getName(Tree::Tree* tree)
+{
+    return tree->GetName();
+}
+
+QString InterfaceServer::getType(Tree::Tree* tree)
+{
+    return tree->GetType();
+}
+
+
+void InterfaceServer::setUserRef(Tree::Tree* tree, int userref)
+{
+    tree->SetUserRef(userref);
+}
+
+void InterfaceServer::setName(Tree::Tree* tree, QString name)
+{
+    tree->SetName(name);
+}
+
+void InterfaceServer::setType(Tree::Tree* tree, QString type)
+{
+    tree->SetType(type);
+}
+
 QHash<int, Tree::Tree*> InterfaceServer::GetSonsNode(Tree::Tree* tree)
 {
 
