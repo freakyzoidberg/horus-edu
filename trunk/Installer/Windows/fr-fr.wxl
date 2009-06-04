@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="fr-fr" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+	<String Id="ClientMenuShortcutsTitle">Raccourci menu Démarrer</String>
+	<String Id="ClientDesktopShortcutTitle">Raccourci bureau</String>
+	<String Id="PluginsTitle">Modules</String>
+	<String Id="MainFrameTitle">Unité principale</String>
+	<String Id="CourseTitle">Cours</String>
+	<String Id="AdminTitle">Administration</String>
+	<String Id="UninstallTitle">Désinstaller l'application cliente Horus</String>
+	<String Id="ServerTitle">Serveur horus</String>
+</WixLocalization>
