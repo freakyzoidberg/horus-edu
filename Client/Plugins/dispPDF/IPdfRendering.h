@@ -1,8 +1,12 @@
 #ifndef IPDFFILE_H
 #define IPDFFILE_H
 
+#include <QObject>
+#include <QImage>
+
 class   IPdfRendering
 {
+
     public:
 
     //! display a part of a pdf file
