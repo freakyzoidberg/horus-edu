@@ -265,7 +265,11 @@ QDir dir(ui->lineEdit_16->text()+"/Plugins/");
                         {
 
                         QFileInfo filefilsInfo = listfils.at(j);
+                        #ifdef WIN32
+                        if (("lib"+fileInfo.fileName() + ".dll") == (filefilsInfo.fileName()))
+                        #else
                         if (("lib"+fileInfo.fileName() + ".so") == (filefilsInfo.fileName()))
+                        #endif
                             {
                                 QCheckBox * pCheckBox = new QCheckBox
                                     ((fileInfo.fileName()));
@@ -325,7 +329,11 @@ void MainWindow::writesettings()
 
         this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text(),
                                 (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+"/lib"
-                               +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".so")));
+                                 #ifdef WIN32
+                               +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".dll")));
+                                 #else
+                                +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".so")));
+                                #endif
         }
 
     }
