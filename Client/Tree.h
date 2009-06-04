@@ -26,6 +26,7 @@ signals:
 
 public:
     inline Tree    *GetParent() const { return parent; }
+    inline bool    isFilled() const { return filled; }
     //! insert node
     /*!
       add son node attached on the current node (this)
@@ -124,7 +125,7 @@ public:
     bool HasAdminRightOnNodeOrFathers(int userid);
 
 private:
-    inline Tree(int _id) { id=_id; user_ref=0; parent=0; maptree[id]=this; }
+    inline Tree(int _id) { id=_id; user_ref=0; parent=0; maptree[id]=this; filled=false; }
     inline ~Tree() {}
     int id;
     int user_ref;
@@ -132,6 +133,7 @@ private:
     QString type;
     QString name;
     QHash<int,Tree*> sons;
+    bool filled;
 };
 
 #endif // TREE_H

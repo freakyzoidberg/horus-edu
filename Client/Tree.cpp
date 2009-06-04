@@ -62,10 +62,11 @@ void Tree::receiveUpdate(const int _id, const int _parent, const int _user_ref, 
     name = _name;
     type = _type;
     sons = _sons;
+    filled = true;
 
-   qDebug() << "Tree::receiveUpdate :" << id << parent << user_ref << name << type << sons;
+    qDebug() << "Tree::receiveUpdate :" << id << parent << user_ref << name << type << sons;
 
-   emit nodeUpdated();
+    emit nodeUpdated();
 }
 
 void     Tree::Delnode()
