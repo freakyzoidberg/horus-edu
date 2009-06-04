@@ -13,24 +13,24 @@ class ILessonManager
     public:
     //! Retrieves a specific lesson.
     /*!
-        \param filename The metadata file representing the lesson.
+        \param fileId The metadata file representing the lesson.
         \return The representation of the lesson.
     */
-    virtual ILesson*    getLesson(const QString& filename) = 0;
+    virtual ILesson*    getLesson(quint32 fileId) = 0;
 
     //! Saves a lesson into a metadata file.
     /*!
-        \param filename The name of the metadata file in which to save the lesson.
+        \param fileId The name of the metadata file in which to save the lesson.
         \param lesson The lesson representation to save.
     */
-    virtual void        saveLesson(const QString& filename, ILesson *lesson) = 0;
+    virtual void        saveLesson(quint32 fileId, ILesson *lesson) = 0;
 
     //! Creates a new lesson.
     /*!
-        \param filename The metadata file representing the lesson to create.
+        \param fileId The metadata file representing the lesson to create.
         \return The representation of the lesson newly created.
     */
-    virtual ILesson*    createNewLesson(const QString& filename) = 0;
+    virtual ILesson*    createNewLesson(quint32 fileId) = 0;
 
     //! Displays a page of a lesson in the specified widget.
     /*!
@@ -45,5 +45,7 @@ class ILessonManager
     */
     virtual void        hideCurrentPage() = 0;
 };
+
+Q_DECLARE_INTERFACE(ILessonManager, "net.horus.Client.LessonManagerInterface/1.0");
 
 #endif // ILESSONMANAGER_H
