@@ -46,11 +46,19 @@ public:
     //! retrieve type of node
     QString getNodeType(Tree::Tree* tree);
     //! retrieve user referee of node
-    void setNodeUserRef(Tree::Tree* tree, int userref);
+    bool setNodeUserRef(Tree::Tree* tree, int userref);
     //! retrieve name of node
-    void setNodeName(Tree::Tree* tree, QString name);
+    bool setNodeName(Tree::Tree* tree, QString name);
     //! retrieve type of node
-    void setNodeType(Tree::Tree* tree, QString type);
+    bool setNodeType(Tree::Tree* tree, QString type);
+    //! check is user has admin right on node
+    bool HasNodeAdminRight(Tree::Tree *tree, int userid);
+    //! delete node from tree
+    bool DelNode(Tree::Tree *node);
+    //! move node from tree
+    bool MvNode(Tree::Tree *node, int father);
+    //! edit node of tree
+    int AddNode(Tree::Tree *node, int userref, QString name, QString type);
     //! return the level of the connected user
     UserLevel getLevel(quint32 userId) const;
 

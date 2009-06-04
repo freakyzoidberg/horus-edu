@@ -171,8 +171,8 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
 bool  TreeManagement::delnode(const int id, const int iduser)
 {
     Tree * node = server->getNodenodebyid(id);
-    if (node->HasAdminRightOnNodeAndFathers(iduser))
-        return (node->Delnode());
+    if (server->HasNodeAdminRight(node, iduser))
+        return (server->DelNode(node));
     else
         return false;
 }
@@ -180,8 +180,8 @@ bool  TreeManagement::delnode(const int id, const int iduser)
 bool  TreeManagement::mvnode(const int id, const int newfatherid, const int iduser)
 {
     Tree * node = server->getNodenodebyid(id);
-    if (node->HasAdminRightOnNodeAndFathers(iduser))
-    return (node->MoveNode(newfatherid));
+    if (server->HasNodeAdminRight(node, iduser))
+    return (server->MvNode(node, newfatherid));
     else
         return false;
 }
@@ -189,9 +189,9 @@ bool  TreeManagement::mvnode(const int id, const int newfatherid, const int idus
 bool  TreeManagement::addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser)
 {
     Tree * node = server->getNodenodebyid(fatherid);
-    if (node->HasAdminRightOnNodeAndFathers(iduser))
+    if (server->HasNodeAdminRight(node, iduser))
     {
-      if (node->AddSon(user_ref, name, type) != 0)
+      if (server->AddNode(node,user_ref, name, type) != 0)
        return true;
      else
        return false;
@@ -204,7 +204,7 @@ bool  TreeManagement::editnode(const int nodeid, const QString type, const QStri
 {
     bool res = true;
      Tree * node = server->getNodenodebyid(nodeid);
-    if (node->HasAdminRightOnNodeAndFathers(iduser))
+    if (server->HasNodeAdminRight(node, iduser))
     {
     if (server->getNodeName(node) != name)
         res = ((res == false) ? false : (server->setNodeName(node, name) == false) ? false : true);
