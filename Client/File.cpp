@@ -158,7 +158,10 @@ qint64 File::writeData(const char* data, qint64 maxSize)
 qint64 File::readData(char* data, qint64 maxSize)
 {
     qDebug() << "File::readData()";
-    return file.read(data, maxSize);
+    qint64 fileRead = file.read(data, maxSize);
+    if (fileRead < 0 && connexion.isOpen())
+        return 0;
+    return fileRead;
 }
 
 void File::fileBytesWritten(qint64)
