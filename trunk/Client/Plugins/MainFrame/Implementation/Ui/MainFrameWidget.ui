@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Frame</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/Pictures/GrayLogoBackground.png);</string>
+  </property>
   <property name="frameShape">
    <enum>QFrame::StyledPanel</enum>
   </property>
@@ -20,6 +23,8 @@
    <enum>QFrame::Raised</enum>
   </property>
  </widget>
- <resources/>
+ <resources>
+  <include location="MainFrame.qrc"/>
+ </resources>
  <connections/>
 </ui>

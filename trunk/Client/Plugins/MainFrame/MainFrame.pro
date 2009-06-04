@@ -10,4 +10,5 @@ SOURCES += Implementation/MainFrame.cpp \
 HEADERS += Implementation/MainFrame.h \
     MainFrame_global.h \
     Implementation/MainFrameWidget.h
-FORMS += Implementation/Ui/MainFrame.ui
+FORMS += Implementation/Ui/MainFrameWidget.ui
+RESOURCES += Implementation/Ui/MainFrameWidget.qrc

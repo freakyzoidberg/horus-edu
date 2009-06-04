@@ -7,6 +7,7 @@ MainFrameWidget::MainFrameWidget() : QFrame::QFrame()
 {
     QGridLayout *layout = new QGridLayout;
 
+    ui.setupUi(this);
     layout->addWidget(new QPushButton("Horus the Chorus"), 0, 0, 1, 2);
     layout->addWidget(new QPushButton("My last classes"), 1, 0);
     layout->addWidget(new QPushButton("My last mails"), 1, 1);
