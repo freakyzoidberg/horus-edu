@@ -3,14 +3,58 @@
 
 AdminFram::AdminFram(INetwork *reseau) : QWidget()
 {
+
+    this->res = reseau;
     setupUi(this);
-    tF = new TreeFram(reseau);
-    uF = new UserFram(reseau);
-    this->mainLayout->addWidget(tF, 0, 0);
-    this->mainLayout->addWidget(uF, 0, 1);
-    this->mainLayout->setColumnStretch(0, 1);
-    this->mainLayout->setColumnStretch(1, 3);
     this->setLayout(this->mainLayout);
+    this->fillTab();
+
+}
+
+void AdminFram::fillTab()
+{
+    tF = new TreeFram(this->res);
+    uF = new UserFram(this->res);
+    this->classLayout->addWidget(tF, 0, 0);
+    this->classLayout->addWidget(uF, 0, 1);
+    this->classLayout->setColumnStretch(0, 1);
+    this->classLayout->setColumnStretch(1, 3);
+    this->classTab->setLayout(classLayout);
+    tF = new TreeFram(this->res);
+    uF = new UserFram(this->res);
+    this->studentLayout->addWidget(tF, 0, 0);
+    this->studentLayout->addWidget(uF, 0, 1);
+    this->studentLayout->setColumnStretch(0, 1);
+    this->studentLayout->setColumnStretch(1, 3);
+    this->studentTab->setLayout(studentLayout);
+    tF = new TreeFram(this->res);
+    uF = new UserFram(this->res);
+    this->teacherLayout->addWidget(tF, 0, 0);
+    this->teacherLayout->addWidget(uF, 0, 1);
+    this->teacherLayout->setColumnStretch(0, 1);
+    this->teacherLayout->setColumnStretch(1, 3);
+    this->teacherTab->setLayout(teacherLayout);
+    tF = new TreeFram(this->res);
+    uF = new UserFram(this->res);
+    this->salleLayout->addWidget(tF, 0, 0);
+    this->salleLayout->addWidget(uF, 0, 1);
+    this->salleLayout->setColumnStretch(0, 1);
+    this->salleLayout->setColumnStretch(1, 3);
+    this->salleTab->setLayout(salleLayout);
+    tF = new TreeFram(this->res);
+    uF = new UserFram(this->res);
+    this->cursusLayout->addWidget(tF, 0, 0);
+    this->cursusLayout->addWidget(uF, 0, 1);
+    this->cursusLayout->setColumnStretch(0, 1);
+    this->cursusLayout->setColumnStretch(1, 3);
+    this->cursusTab->setLayout(cursusLayout);
+    tF = new TreeFram(this->res);
+    uF = new UserFram(this->res);
+    this->fileLayout->addWidget(tF, 0, 0);
+    this->fileLayout->addWidget(uF, 0, 1);
+    this->fileLayout->setColumnStretch(0, 1);
+    this->fileLayout->setColumnStretch(1, 3);
+    this->fileTab->setLayout(fileLayout);
 }
 
 void AdminFram::changeEvent(QEvent *e)
@@ -32,12 +76,10 @@ void AdminFram::packetManager(QVariantHash response)
         response["Request"] == "createNewUser" ||
         response["Request"] == "disableUser")
     {
-        //if (this->uF == 0)
-        //    qDebug() << "test";
-        //this->uF->readResponse(response);
+        this->uF->readResponse(response);
     }
     else
     {
-        //this->tF->readResponse(response);
+        this->tF->readResponse(response);
     }
 }

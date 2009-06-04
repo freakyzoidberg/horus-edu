@@ -32,11 +32,13 @@ bool    PluginManager::event(QEvent *event)
     }
     else if (event->type() == ClientEvents::PluginEvent)
     {
+        //qDebug() << "step1";
         PluginEvent *pe = static_cast<PluginEvent *>(event);
 
         INetworkPlugin *networkP = this->findNetworkPlugin(pe->pTarget);
         if (networkP != 0 )
         {
+            //qDebug() << "step2";
             networkP->recvPacket(pe->pack);
         }
         return (true);

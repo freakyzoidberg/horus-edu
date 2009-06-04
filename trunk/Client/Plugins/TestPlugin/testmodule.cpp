@@ -97,7 +97,7 @@ void    testPlugin::setModRecommended(const QString name)
 
 const QByteArray   testPlugin::getName() const
 {
-    return modName;
+    return "testModule";
 }
 
 const QByteArray   testPlugin::getVersion() const
