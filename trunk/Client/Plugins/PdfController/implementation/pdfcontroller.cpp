@@ -2,6 +2,8 @@
 #include <QtCore/qplugin.h>
 #include <QStringList>
 #include <QRectF>
+#include <QPixmap>
+#include <QLabel>
 
 #include <ClientEvents.h>
 #include <IClient.h>
@@ -123,7 +125,18 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         image = pdf->dispPDFDoc(fileName, page, rect);
 
         if (!image)
+        {
             qDebug() << "Call the shot";
+             delete rect;
+            return ;
+        }
+
+        QImage disp = image->scaled(object->getSize().width() * 100,
+                                    object->getSize().height() * 100);
+
+        QPixmap pix = QPixmap::fromImage(disp);
+        QLabel label(object->getWidget());
+        label.setPixmap(pix);
         delete rect;
         delete image;
     }
