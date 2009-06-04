@@ -49,6 +49,8 @@ public:
 
     inline Tree* getNodeById(int id) { return Tree::GetNodebyId(id); }
 
+    inline QAbstractItemModel* getTreeModel() { return 0; }
+
     //! Surcharge of the method event
     /*!
      *  Each plugin must manage events that it will receive.
