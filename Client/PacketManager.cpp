@@ -146,13 +146,13 @@ void PacketManager::PacketPlugin()
 
     //GiT: for the 6 june version...
     if (p.packet.targetPlugin == "TreeManager")
-		{
+    {
         Tree::receiveUserTree(p.packet.data.toHash());
-				return;
-		}
+        return;
+    }
 
     this->pM = parent->findChild<PluginManager *>();
-
+    QString target(p.packet.targetPlugin);
     INetworkPlugin *networkP = this->pM->findNetworkPlugin(target);
 
     PluginEvent *pe = new PluginEvent(p.packet, p.packet.targetPlugin);
