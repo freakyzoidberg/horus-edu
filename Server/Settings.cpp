@@ -80,16 +80,41 @@ void Settings::FirstSetSettings()
             this->Gsettings.beginGroup("PLUGINS");
             dir.setFilter(QDir::Dirs| QDir::NoDotAndDotDot);
             QFileInfoList list = dir.entryInfoList();
-            for (int i = 0; i < list.size(); ++i) {
+            for (int i = 0; i < list.size(); ++i)
+             {
                QFileInfo fileInfo = list.at(i);
-                streamo << "Enable plugin "+ fileInfo.fileName() +" [y/N] : ";
-                streamo.flush();
-                line = streami.readLine();
-                if ((line == "y") | (line == "o") | (line == "Y") | (line == "O"))
-                    this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".so"));
-                 }
+
+                QDir dirfils(fileInfo.absoluteFilePath());
+                if (dirfils.exists())
+                    {
+
+                    dirfils.setFilter(QDir::Files| QDir::NoDotAndDotDot);
+                    QFileInfoList listfils = dirfils.entryInfoList();
+                    for (int j = 0; j < listfils.size(); ++j)
+                        {
+
+                        QFileInfo filefilsInfo = listfils.at(j);
+                        #ifdef WIN32
+                        if (("lib"+fileInfo.fileName() + ".dll") == (filefilsInfo.fileName()))
+                        #else
+                        if (("lib"+fileInfo.fileName() + ".so") == (filefilsInfo.fileName()))
+                        #endif
+                            {
+                                streamo << "Enable plugin "+ fileInfo.fileName() +" [y/N] : ";
+                                streamo.flush();
+                                line = streami.readLine();
+                                if ((line == "y") | (line == "o") | (line == "Y") | (line == "O"))
+                                #ifdef WIN32
+                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".so"));
+                                #else
+                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".dll"));
+                                #endif
+                             }
+                             }
+                        }
+                    }
             this->Gsettings.endGroup();
-        }
+        }     
     }
     else
        qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings.fileName();

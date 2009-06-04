@@ -2,7 +2,7 @@
 #define TREEMANAGEMENT_H
 
 #include <QDebug>
-
+#include <QVariant>
 #include "../IServer.h"
 #include "../IServerPlugin.h"
 
@@ -11,7 +11,7 @@ class TreeManagement : public IServerPlugin
 {
   Q_OBJECT
   Q_INTERFACES(IServerPlugin)
-    typedef void (TreeManagement::*requestFunction)(const QVariantHash& request,QVariantHash& response, qint32 iduser);
+    typedef void (TreeManagement::*requestFunction) (const QVariantHash& request, QVariantHash& response, qint32 iduser);
 public:
     TreeManagement();
     ~TreeManagement();
