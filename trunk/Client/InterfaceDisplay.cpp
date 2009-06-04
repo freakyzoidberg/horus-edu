@@ -1,10 +1,11 @@
 #include "InterfaceDisplay.h"
 
-InterfaceDisplay::InterfaceDisplay()
+InterfaceDisplay::InterfaceDisplay(ClientApplication *app)
 {
+    this->app = app;
 }
 
-bool    InterfaceDisplay::setCentralWidget(QWidget *widget)
+void    InterfaceDisplay::setCentralWidget(QWidget *widget)
 {
-    return (false);
+    return (app->mainWindow->setCentralWidget(widget));
 }

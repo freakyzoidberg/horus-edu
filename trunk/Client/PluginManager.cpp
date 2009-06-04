@@ -129,7 +129,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
                 displayablePlugin = qobject_cast<IDisplayablePlugin *>(clientPlugin);
                 if (displayablePlugin)
                 {
-                    displayablePlugin->display = new InterfaceDisplay();
+                    displayablePlugin->display = new InterfaceDisplay(this->parent);
                     displayablePluginsList.insert(clientPlugin->getName(), displayablePlugin);
                 }
                 filePlugin = qobject_cast<IFilePlugin *>(clientPlugin);

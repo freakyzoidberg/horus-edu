@@ -6,7 +6,7 @@
 class   IDisplayable
 {
  public:
-    virtual bool setCentralWidget(QWidget *widget) = 0;
+    virtual void setCentralWidget(QWidget *widget) = 0;
 };
 
 #endif // IDISPLAYABLE_H

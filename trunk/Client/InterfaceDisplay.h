@@ -3,11 +3,16 @@
 
 #include "IDisplayable.h"
 
+#include "ClientApplication.h"
+
 class InterfaceDisplay : public IDisplayable
 {
 public:
-    InterfaceDisplay();
-    bool setCentralWidget(QWidget *widget);
+    InterfaceDisplay(ClientApplication *app);
+    void setCentralWidget(QWidget *widget);
+
+private:
+    ClientApplication *app;
 };
 
 #endif // INTERFACEDISPLAY_H

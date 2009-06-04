@@ -5,17 +5,6 @@
 
 Q_EXPORT_PLUGIN2(Course, Course)
 
-Course::Course()
-{
-
-
-}
-
-Course::~Course()
-{
-
-}
-
 const QByteArray    Course::getName() const
 {
     return ("Course");

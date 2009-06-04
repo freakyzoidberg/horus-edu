@@ -25,12 +25,6 @@ class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlug
     Q_INTERFACES(IFilePlugin)
 
 public:
-    Course();
-    ~Course();
-    IClient             *client;
-    IDisplayable        *display;
-    INetwork            *network;
-    IFileManager        *filemanager;
     const QByteArray    getName() const;
     const QByteArray    getVersion() const;
     QStringList         getPluginsConflicts() const;

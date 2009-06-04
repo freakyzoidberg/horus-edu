@@ -2,7 +2,7 @@
 #define CLIENTAPPLICATION_H
 
 #include    <QtGui/QApplication>
-#include    <QWidget>
+#include    <QMainWindow>
 #include    "NotificationClient.h"
 
 //! Main class representing the application
@@ -41,7 +41,7 @@ public:
     //! A pointer to the Loader Widget
     QWidget *loader;
     //! A pointer te the MainWindow Widget
-    QWidget *mainWindow;
+    QMainWindow *mainWindow;
     //! A pointer te the MainWindow Widget
     NotificationClient *nC;
     public slots:
