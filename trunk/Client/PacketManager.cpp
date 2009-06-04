@@ -145,7 +145,7 @@ void PacketManager::PacketPlugin()
     qDebug() << "[ in]" << p;
 
     //GiT: for the 6 june version...
-    if (p.packet.targetPlugin == "TreeManager")
+    if (p.packet.targetPlugin == "TreeManagement")
     {
         Tree::receiveUserTree(p.packet.data.toHash());
         return;
