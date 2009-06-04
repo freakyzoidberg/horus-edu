@@ -65,6 +65,8 @@ void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response
 
 void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
+// a alleger des que possible ;)
+
 
     int firstnode = getidofusernode(request, iduser);
     QHash<QString, QVariant > usertree;
@@ -77,8 +79,8 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
     {
         QHash<QString, QVariant> infos;
         qDebug() << "User Tree node :" << it.key();
-        tmplist = it.value().toList();
-        infos.insert("sons", tmplist);
+        //tmplist = it.value().toList();
+        infos.insert("sons", it.value());
         infos.insert("name", server->getNodeName(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
