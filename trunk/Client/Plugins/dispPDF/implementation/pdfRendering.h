@@ -62,6 +62,9 @@ class   PdfRendering : public IPdfRendering
         int   getCurrentPageNumber() const;
 
         //! open the pdfFile
+        /*
+        \return true if the file successfully opened, false either
+        */
         bool        openFile();
 
         //! close the pdfFile
@@ -73,6 +76,7 @@ class   PdfRendering : public IPdfRendering
         //! set one from the pdf document, check if the page is not out of range
         /*!
             \param pageNb the number of the page you wanna load
+            \return true if the page 'page' is loaded, false either
         */
         bool        loadPage(unsigned int pageNb);
 
