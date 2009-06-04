@@ -14,7 +14,6 @@ MainFrameWidget::MainFrameWidget(MainFrame *plugin) : QFrame::QFrame()
     this->plugin = plugin;
     ui.setupUi(this);
     course = plugin->client->getPlugin("Course");
-    qDebug() << course;
     if (course)
     {
         button = new QPushButton("My Lessons");
