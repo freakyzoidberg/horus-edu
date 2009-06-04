@@ -23,7 +23,7 @@ void Tree::receiveUserTree(const QVariantHash& response)
         QVariantHash elem = (*it).toHash();
         int idNode = it.key().toInt();
         QVariantList list = elem["sons"].toList();
-        QHash<int,Tree*> sons;
+        QHash<int,ITree*> sons;
         for (QVariantList::const_iterator it2 = list.begin(); it2 != list.end(); ++it2)
         {
             int idSon = (*it2).toInt();
@@ -38,10 +38,11 @@ void Tree::receiveUserTree(const QVariantHash& response)
     }
 }
 
-void Tree::receiveUpdate(const int _id, const int _parent, const int _user_ref, const QString _name, const QString _type, const QHash<int,Tree*> _sons)
+void Tree::receiveUpdate(const int _id, const int _parent, const int _user_ref, const QString _name, const QString _type, const QHash<int,ITree*> _sons)
 {
     id = _id;
     parent = GetNodebyId(_parent);
+    parent->sons[id] = this;
     user_ref = _user_ref;
     name = _name;
     type = _type;
@@ -77,7 +78,7 @@ void Tree::MoveNode(int idfather)
 {
 }
 
-void Tree::MoveNode(Tree *father)
+void Tree::MoveNode(ITree *father)
 {
 }
 

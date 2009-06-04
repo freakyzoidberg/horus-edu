@@ -5,9 +5,9 @@
 #include <QHash>
 #include <QString>
 
-//#include "../ITree.h"
+#include "../ITree.h"
 
-class Tree : public QObject//ITree
+class Tree : public ITree
 {
   Q_OBJECT
 
@@ -21,7 +21,7 @@ private:
 
 
 public slots:
-    void receiveUpdate(const int _id, const int _parent, const int _user_ref, const QString _name, const QString _type, const QHash<int,Tree*> _sons);
+    void receiveUpdate(const int _id, const int _parent, const int _user_ref, const QString _name, const QString _type, const QHash<int,ITree*> _sons);
 signals:
     void nodeUpdated();
 
@@ -55,7 +55,7 @@ public:
       \param idmove node to move
       \param idfather node id of new father
     */
-    void MoveNode(Tree* father);
+    void MoveNode(ITree* father);
 
     //! Delete node and attach child to first father
     /*!
@@ -67,7 +67,7 @@ public:
     /*!
       \return Map of sons node
     */
-    inline const QHash<int,Tree*>& GetSonsNode() const { return sons; }
+    inline const QHash<int,ITree*>& GetSonsNode() const { return sons; }
 
     //! Get name of node
     /*!
@@ -134,7 +134,7 @@ private:
     Tree *parent;
     QString type;
     QString name;
-    QHash<int,Tree*> sons;
+    QHash<int,ITree*> sons;
     bool filled;
 };
 
