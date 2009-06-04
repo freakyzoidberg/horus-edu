@@ -1,7 +1,7 @@
 #include "ClassFram.h"
 
-ClassFram::ClassFram(QWidget *parent) :
-    QFrame(parent){
+ClassFram::ClassFram(INetwork *res) :
+    QFrame(){
     setupUi(this);
 }
 

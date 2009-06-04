@@ -4,6 +4,10 @@
 #include "ui_AdminFram.h"
 #include "TreeFram.h"
 #include "UserFram.h"
+#include "ClassFram.h"
+#include "FileFram.h"
+#include "SalleFram.h"
+#include "TeacherFram.h"
 #include <QVariant>
 
 class AdminFram : public QWidget, public Ui::AdminForm
@@ -18,6 +22,10 @@ class AdminFram : public QWidget, public Ui::AdminForm
     private:
         TreeFram    *tF;
         UserFram    *uF;
+        ClassFram   *cF;
+        TeacherFram *teachF;
+        SalleFram   *sF;
+        FileFram    *fF;
         INetwork    *res;
         void        fillTab();
 };

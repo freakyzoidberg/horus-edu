@@ -1,7 +1,7 @@
 #include "TeacherFram.h"
 
-TeacherFram::TeacherFram(QWidget *parent) :
-    QFrame(parent){
+TeacherFram::TeacherFram(INetwork *res) :
+    QFrame(){
     setupUi(this);
 }
 

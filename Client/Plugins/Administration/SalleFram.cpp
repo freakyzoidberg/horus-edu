@@ -1,7 +1,7 @@
 #include "SalleFram.h"
 
-SalleFram::SalleFram(QWidget *parent) :
-    QFrame(parent){
+SalleFram::SalleFram(INetwork *res) :
+    QFrame(){
     setupUi(this);
 }
 
