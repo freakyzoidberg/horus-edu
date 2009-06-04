@@ -19,7 +19,7 @@ QWidget             *Administration::getWidget()
 
 void Administration::recvPacket(const PluginPacket& packet)
 {
-        this->adminF->packetManager(packet.data.toHash());
+    this->adminF->packetManager(packet.data.toHash());
 }
 
 bool    Administration::event(QEvent *event)

@@ -142,14 +142,14 @@ void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
     qDebug() << "[ in]" << p;
-    //this->pM = parent->findChild<PluginManager *>();
+    this->pM = parent->findChild<PluginManager *>();
     QString target(p.packet.targetPlugin);
-    //INetworkPlugin *networkP = this->pM->findNetworkPlugin(target);
-    //this->pM = this->findChild<PluginManager *>();
+
+    INetworkPlugin *networkP = this->pM->findNetworkPlugin(target);
+
     PluginEvent *pe = new PluginEvent(p.packet, target);
 
-    QApplication::postEvent(this->parent->findChild<PluginManager *>(), pe);
-        //networkP->recvPacket(p.packet);
+    QApplication::postEvent(this->pM, pe);
 }
 
 void        PacketManager::sessionEnd()

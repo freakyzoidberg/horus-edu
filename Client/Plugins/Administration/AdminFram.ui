@@ -26,6 +26,157 @@
     <property name="spacing">
      <number>0</number>
     </property>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="adminTab">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="classTab">
+       <attribute name="title">
+        <string>Classe</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>-11</x>
+          <y>-1</y>
+          <width>741</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="classLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="studentTab">
+       <attribute name="title">
+        <string>Etudiant</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_3">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>731</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="studentLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="teacherTab">
+       <attribute name="title">
+        <string>Professeur</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_4">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>731</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="teacherLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="salleTab">
+       <attribute name="title">
+        <string>Salle</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_5">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>721</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="salleLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="cursusTab">
+       <attribute name="title">
+        <string>Cursus</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_6">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>721</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="cursusLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="fileTab">
+       <attribute name="title">
+        <string>Fichiers</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_7">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>721</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="fileLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="bddTab">
+       <attribute name="title">
+        <string>BDD</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_8">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>721</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="bddLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="treeTab">
+       <attribute name="title">
+        <string>Arbre</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_9">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>721</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="treeLayout"/>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="printTab">
+       <attribute name="title">
+        <string>Imprimente</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_10">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>721</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="printLayout"/>
+       </widget>
+      </widget>
+     </widget>
+    </item>
    </layout>
   </widget>
  </widget>

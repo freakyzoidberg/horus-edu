@@ -18,7 +18,8 @@ class AdminFram : public QWidget, public Ui::AdminForm
     private:
         TreeFram    *tF;
         UserFram    *uF;
-
+        INetwork    *res;
+        void        fillTab();
 };
 
 #endif // ADMINFRAM_H
