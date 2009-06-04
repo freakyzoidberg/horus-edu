@@ -6,7 +6,9 @@
 #include "../../Common/PluginPacket.h"
 #include "../Tree.h"
 #include "../../Common/Defines.h"
-
+#if QT_VERSION < 0x040500
+    typedef QHash<QString, QVariant> QVariantHash;
+#endif
 
 class IServerPlugin;
 
