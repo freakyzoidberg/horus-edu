@@ -1,8 +1,0 @@
-Package: Horus-Server
-Version: 0.486
-Section: net
-Priority: optional
-Architecture: all
-Depends: libqtcore4 ( >= 4.4.3-1), libqt4-sql ( >= 4.4.3-1), libqt4-network ( >= 4.4.3-1), libqt4-sql-mysql ( >= 4.4.3-1)
-Maintainer: contact@horus-edu.net
-Description: Horus server including mandatory plugins
