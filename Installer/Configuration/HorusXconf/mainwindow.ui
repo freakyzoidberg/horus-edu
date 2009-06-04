@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>614</width>
-    <height>491</height>
+    <width>612</width>
+    <height>489</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -201,7 +201,7 @@
       <item row="3" column="2">
        <widget class="QLineEdit" name="lineEdit_16">
         <property name="text">
-         <string>/opt/Horus/Horus-Server/</string>
+         <string>/opt/Horus/Horus-server/</string>
         </property>
        </widget>
       </item>
@@ -241,7 +241,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>579</width>
+           <width>577</width>
            <height>76</height>
           </rect>
          </property>
@@ -257,7 +257,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>614</width>
+     <width>612</width>
      <height>25</height>
     </rect>
    </property>
