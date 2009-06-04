@@ -27,6 +27,10 @@
 					<Component Id="QtNetwork4" Guid="07fa073e-0113-4b73-a11b-00536f83b5e8" KeyPath="yes">
 						<File Name='QtNetwork4.dll' Source='CoreDLL/QtNetwork4.dll' />
 					</Component>
+					<Component Id='OpenSSL' Guid='5a8df2eb-b043-4506-b85f-5ad31c947d6b'>
+						<File Name='ssleay32.dll' Source='CoreDLL/ssleay32.dll' />
+						<File Name='libeay32.dll' Source='CoreDLL/libeay32.dll' />
+					</Component>
 					<Directory Id="PLUGINDIR" Name="Plugins">
 						<Component Id="ClientPluginLessonManager" Guid="65b38138-a23a-4533-99f2-ecac289a39a7">
 							<File Name="LessonManager.dll" Source="../../Client\Plugins\LessonManager\release\LessonManager.dll" KeyPath="yes"/>
@@ -77,6 +81,7 @@
 			<ComponentRef Id="QtCore4" />
 			<ComponentRef Id="QtGui4" />
 			<ComponentRef Id="QtNetwork4" />
+			<ComponentRef Id="OpenSSL" />
 			<Feature Id="ClientShortcutsFeature" Title ="!(loc.ClientMenuShortcutsTitle)" Level="1">
 				<ComponentRef Id="ClientMenuShortcut"/>
 			</Feature>
@@ -85,7 +90,11 @@
 			</Feature>
 			<Feature Id="ClientPlugginsFeature" Title="!(loc.PluginsTitle)" Level="1" Absent="disallow" ConfigurableDirectory="PLUGINDIR">
 				<ComponentRef Id="ClientPluginLessonManager" />
-				<Feature Id="ClientLoginPluginFeature" Title="Login" Level="1" Absent="disallow">
+				<Feature Id="ClientMainFramePluginFeature" Title="!(loc.MainFrameTitle)" Level="1" Absent="disallow">
+				</Feature>
+				<Feature Id="ClientCoursePluginFeature" Title="!(loc.CourseTitle)" Level="1">
+				</Feature>
+				<Feature Id="ClientAdminPluginFeature" Title="!(loc.AdminTitle)" Level="1">
 				</Feature>
 			</Feature>
 		</Feature>

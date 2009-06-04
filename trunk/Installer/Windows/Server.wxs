@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="0c78287d-e260-4d13-97bf-b967a14ff683" Name="HorusServerInstaller" Language="1033" Version="1.0.0.0" Manufacturer="HorusServerInstaller" UpgradeCode="859dc3be-25ee-444c-bf11-5c7cd6ea2dff">
+	<Product Id="0c78287d-e260-4d13-97bf-b967a14ff683" Name="!(loc.ServerTitle)" Language="1033" Version="1.0.0.0" Manufacturer="HorusServerInstaller" UpgradeCode="859dc3be-25ee-444c-bf11-5c7cd6ea2dff">
 		<Package InstallerVersion="200" Compressed="yes" />
 
 		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
