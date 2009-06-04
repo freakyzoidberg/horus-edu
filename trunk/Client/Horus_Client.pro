@@ -26,10 +26,9 @@ SOURCES += main.cpp \
     SettingsDialog.cpp \
     InterfaceClient.cpp \
     InterfaceNetwork.cpp \
-    InterfaceFile.cpp \
     InterfaceDisplay.cpp \
     FileManager.cpp \
-    NetFile.cpp \
+    File.cpp \
     UserInfo.cpp \
     NotificationClient.cpp \
     DockMenu.cpp
@@ -56,9 +55,8 @@ HEADERS += NetworkManager.h \
     IDisplayable.h \
     IDisplayablePlugin.h \
     InterfaceDisplay.h \
-    IFile.h \
+    IFileManager.h \
     IFilePlugin.h \
-    InterfaceFile.h \
     ClientApplication.h \
     PluginManager.h \
     PacketManager.h \
@@ -70,9 +68,10 @@ HEADERS += NetworkManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
     FileManager.h \
-    NetFile.h \
+    File.h \
     UserInfo.h \
     NotificationClient.h \
+    IFile.h \
     DockMenu.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \

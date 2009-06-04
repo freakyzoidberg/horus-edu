@@ -69,6 +69,8 @@ class   PacketManager : public QObject
     signals:
         //! signal emmitted to send a packet
         void sendPacket(const QByteArray&);
+        //! signal emmitted when a file packet is detected
+        void recvFilePacket(QByteArray);
 };
 
 typedef void(PacketManager::*packetDirection)();
