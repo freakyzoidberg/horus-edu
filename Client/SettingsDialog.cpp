@@ -2,7 +2,6 @@
 
 #include <QtGui>
 #include <QFormLayout>
-#include <QVBoxLayout>
 #include <QLabel>
 #include <QDir>
 #include <QLineEdit>
@@ -26,10 +25,24 @@ SettingsDialog::~SettingsDialog()
 
 void SettingsDialog::FillGeneralTab()
 {
-    QVBoxLayout *generalLayout;
+    QFormLayout *generalLayout;
+    QLineEdit   *line;
 
-    generalLayout = new QVBoxLayout(this->ui.GeneralTab);
-    generalLayout->addWidget(new QLabel("No general settings for now..."));
+    generalLayout = new QFormLayout(this->ui.GeneralTab);
+    foreach (QString key, settings->childKeys())
+    {
+        line = new QLineEdit(settings->value(key).toString());
+        if (key == "Version")
+            line->setDisabled(true);
+        line->setObjectName(key);
+        generalLayout->addRow(key, line);
+    }
+    if (!settings->childKeys().contains("LessonsDirectoryPath", Qt::CaseInsensitive))
+    {
+        line = new QLineEdit();
+        line->setObjectName("LessonsDirectoryPath");
+        generalLayout->insertRow(0, "LessonDirectoryPath", line);
+    }
 }
 
 void SettingsDialog::FillPluginTab()

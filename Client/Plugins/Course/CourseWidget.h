@@ -7,6 +7,7 @@
 #include <QTreeView>
 
 #include "Course.h"
+#include "../../IFile.h"
 
 class CourseWidget : public QSplitter
 {
@@ -18,8 +19,11 @@ private:
     QAbstractItemModel  *model;
     QTreeView *lesson;
     Course *plugin;
+    IFile *file;
+    QModelIndex item;
 
 private slots:
     void select(const QModelIndex &item);
+    void ready();
 };
 #endif // COURSEWIDGET_H
