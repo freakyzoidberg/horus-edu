@@ -19,7 +19,7 @@ public:
      *  Each plugin must have an unique name.
      *  \return the name of the plugin
      */
-    inline const QByteArray    getName() const { return "TreeManagment"; }
+    inline const QByteArray    getName() const { return "TreeManagement"; }
     //! The version of the plugin
     /*!
      *  This function provide the version of the plugin.
