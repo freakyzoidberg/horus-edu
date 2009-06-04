@@ -1,7 +1,7 @@
 #include "FileFram.h"
 
-FileFram::FileFram(QWidget *parent) :
-    QFrame(parent){
+FileFram::FileFram(INetwork *res) : QFrame()
+{
     setupUi(this);
 }
 

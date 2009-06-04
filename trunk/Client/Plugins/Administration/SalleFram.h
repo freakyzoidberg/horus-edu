@@ -2,12 +2,13 @@
 #define SALLEFRAM_H
 
 #include "ui_SalleFram.h"
+#include "../../INetworkPlugin.h"
 
 class SalleFram : public QFrame, private Ui::SalleFram {
     Q_OBJECT
     Q_DISABLE_COPY(SalleFram)
 public:
-    explicit SalleFram(QWidget *parent = 0);
+    explicit SalleFram(INetwork *res);
 
 protected:
     virtual void changeEvent(QEvent *e);
