@@ -1,21 +1,23 @@
 #ifndef TREE_H
 #define TREE_H
 
+#include <QVariant>
 #include <QHash>
 #include <QString>
-#include <QVariant>
 
-class Tree : public QObject
+//#include "../ITree.h"
+
+class Tree : public QObject//ITree
 {
   Q_OBJECT
 
-
 public:
     static Tree* GetNodebyId(int id);
+    static inline int countNodes() { return maptree.count(); }
     static void updateUserTree();
     static void receiveUserTree(const QVariantHash& response);
 private:
-    static QHash<int, Tree*> maptree;
+    static QHash<int,Tree*> maptree;
 
 
 public slots:
