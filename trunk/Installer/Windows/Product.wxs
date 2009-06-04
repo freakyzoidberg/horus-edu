@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="2dafa691-cbb8-49b7-9581-3732dd3f3f76" Name="Horus" Language="1033" Version="1.0.0.0" Manufacturer="Horus" UpgradeCode="e47dbf4f-8dbf-4256-a4f0-7c476e313134">
+		<Package InstallerVersion="200" Compressed="yes" />
+
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+		<Icon Id="HorusIcon.ico" SourceFile="../../Client/Icon.ico" />
+		<Property Id="ARPPRODUCTICON" Value="HorusIcon.ico" />
+		<SetDirectory Id="HorusConfFolder" Value="[WindowsVolume]\Documents and Settings\[LogonUser]\.Horus\" />
+		
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLDIR" Name="Horus">
+					<Component Id="ClientMainExe" Guid="8e1af3bd-93bf-47f0-a7d4-02359cc0439f">
+						<File Name='Horus_Client.exe' Source='../../Client/release/Horus_Client.exe' KeyPath='yes' />
+					</Component>
+					<Component Id="MingwLibrary10" Guid="142937ff-b5be-49ce-b21a-cff1d52003db" KeyPath="yes">
+						<File Name='mingwm10.dll' Source='CoreDLL/mingwm10.dll'/>
+					</Component>
+					<Component Id="QtCore4" Guid="b6f03124-0948-4f2c-ab61-c5da9f2f843c" KeyPath="yes">
+						<File Name='QtCore4.dll' Source='CoreDLL/QtCore4.dll' />
+					</Component>
+					<Component Id="QtGui4" Guid="68bf494d-0e44-4538-bc93-4bb6f5cf5957" KeyPath="yes">
+						<File Name='QtGui4.dll' Source='CoreDLL/QtGui4.dll' />
+					</Component>
+					<Component Id="QtNetwork4" Guid="07fa073e-0113-4b73-a11b-00536f83b5e8" KeyPath="yes">
+						<File Name='QtNetwork4.dll' Source='CoreDLL/QtNetwork4.dll' />
+					</Component>
+					<Directory Id="PLUGINDIR" Name="Plugins">
+						<Component Id="ClientPluginLessonManager" Guid="65b38138-a23a-4533-99f2-ecac289a39a7">
+							<File Name="LessonManager.dll" Source="../../Client\Plugins\LessonManager\release\LessonManager.dll" KeyPath="yes"/>
+						</Component>
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="HorusConfFolder" Name=".Horus">
+				<Component Id="HorusConfFile" Guid="251451ed-3922-44f4-979b-4d4d6a6fd9ac">
+					<File Name="Horus Client.conf" Source="Config/Horus Client.conf" />
+					<RemoveFolder Id="HorusConfFolder" On="uninstall"/>
+					<RegistryValue Root="HKCU" Key="Software\Horus" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+				</Component>
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="Horus"/>
+			</Directory>
+			<Directory Id="DesktopFolder">
+				<Component Id="ClientDesktopShortcut" Guid="d68c4826-cbdb-47ee-822b-ab2756c1b8c7">
+					<Shortcut Id="ClientDesktopShortcutId"
+						  Name="Horus"
+						  Description="Horus client application"
+						  Target="[INSTALLDIR]Horus_Client.exe"
+						  WorkingDirectory="INSTALLDIR" />
+					<RegistryValue Root="HKCU" Key="Software\Horus" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+				</Component>
+			</Directory>
+		</Directory>
+		
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ClientMenuShortcut" Guid="88db0009-c896-4408-b8ef-2818e4460cb9">
+				<Shortcut Id="ClientStartMenuShortcut"
+						  Name="Horus"
+						  Description="Horus client application"
+						  Target="[INSTALLDIR]Horus_Client.exe"
+						  WorkingDirectory="INSTALLDIR" />
+				<Shortcut Id="UninstallClient"
+						  Name="Uninstall Horus client application"
+						  Target="[System64Folder]msiexec.exe"
+						  Arguments="/x [ProductCode]"
+						  Description="Uninstalls Horus client application" />
+				<RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+				<RegistryValue Root="HKCU" Key="Software\Horus" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+			</Component>
+		</DirectoryRef>
+		
+		<Feature Id="ClientMainExeFeature" Title="Horus client application" Level="1" ConfigurableDirectory='INSTALLDIR'>
+			<ComponentRef Id="ClientMainExe" />
+			<ComponentRef Id="HorusConfFile" />
+			<ComponentRef Id="MingwLibrary10" />
+			<ComponentRef Id="QtCore4" />
+			<ComponentRef Id="QtGui4" />
+			<ComponentRef Id="QtNetwork4" />
+			<Feature Id="ClientShortcutsFeature" Title ="Start menu shortcuts" Level="1">
+				<ComponentRef Id="ClientMenuShortcut"/>
+			</Feature>
+			<Feature Id="ClientDesktopFeature" Title ="Desktop shortcut" Level="1">
+				<ComponentRef Id="ClientDesktopShortcut"/>
+			</Feature>
+			<Feature Id="ClientPlugginsFeature" Title="Plugins" Level="1" Absent="disallow" ConfigurableDirectory="PLUGINDIR">
+				<ComponentRef Id="ClientPluginLessonManager" />
+				<Feature Id="ClientLoginPluginFeature" Title="Login" Level="1" Absent="disallow">
+				</Feature>
+			</Feature>
+		</Feature>
+
+		<UIRef Id="WixUI_FeatureTree" />
+		<UIRef Id="WixUI_ErrorProgressText" />
+
+		<WixVariable Id="WixUIBannerBmp" Value="banner.bmp" />
+		<WixVariable Id="WixUIDialogBmp" Value="dialog.bmp" />
+	</Product>
+</Wix>

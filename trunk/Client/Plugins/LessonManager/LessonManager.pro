@@ -8,10 +8,10 @@ SOURCES += Implementation/LessonManager.cpp \
     Implementation/XmlHandler.cpp
 HEADERS += ILessonManager.h \
     ILesson.h \
-	Implementation/LessonManager.h \
+    Implementation/LessonManager.h \
     Implementation/LessonManager_global.h \
     Implementation/Lesson.h \
     Implementation/XmlHandler.h
 INCLUDEPATH += .
 DESTDIR = .
-TARGET = $$qtLibraryTarget(lessonManagerModule)
+TARGET = $$qtLibraryTarget(LessonManager)

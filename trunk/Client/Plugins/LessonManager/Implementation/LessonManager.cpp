@@ -14,7 +14,7 @@
 extern QEvent::Type ClientEvents::LoadPluginEvent;
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
 
-Q_EXPORT_PLUGIN2(lessonManagerModule, LessonManager)
+Q_EXPORT_PLUGIN2(LessonManager, LessonManager)
 
 LessonManager::LessonManager()
 {
