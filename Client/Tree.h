@@ -19,7 +19,7 @@ private:
 
 
 public slots:
-    void receiveUpdate(int _id, int _parent, int _user_ref, QString _name, QString _type);
+    void receiveUpdate(const int _id, const int _parent, const int _user_ref, const QString _name, const QString _type, const QHash<int,Tree*> _sons);
 signals:
     void nodeUpdated();
 
@@ -131,7 +131,7 @@ private:
     Tree *parent;
     QString type;
     QString name;
-    QHash<int, Tree*> sons;
+    QHash<int,Tree*> sons;
 };
 
 #endif // TREE_H

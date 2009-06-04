@@ -19,10 +19,10 @@ Tree* Tree::GetNodebyId(int id)
 void Tree::updateUserTree()
 {
     QVariantHash request;
-    request["Request"] = "getTree";
+    request["Request"] = "getTree+";
 
-    PluginPacket req("TreeManagment", request);
-    req.sourcePlugin = "TreeManagment";
+    PluginPacket req("TreeManagement", request);
+    req.sourcePlugin = "TreeManagement";
     req.packetVersion = 0;
 
     QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(CommPlugin(req).getPacket()));
@@ -36,24 +36,36 @@ void Tree::receiveUserTree(const QVariantHash& response)
     QVariantHash usertree = response["userTree"].toHash();
     for (QVariantHash::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
     {
-        qDebug() << "User Tree node :" << it.key();
-        //tmplist = it.value().toList();
-//        for (int i = 0; i < tmplist.size(); ++i)
-//        {
-//            qDebug() << "         sons :" << (tmplist.value(i));
-//        }
+        QVariantHash elem = (*it).toHash();
+        int idNode = it.key().toInt();
+        QVariantList list = elem["sons"].toList();
+        QHash<int,Tree*> sons;
+        for (QVariantList::const_iterator it2 = list.begin(); it2 != list.end(); ++it2)
+        {
+            int idSon = (*it2).toInt();
+            sons[ idSon ] = GetNodebyId(idSon);
+        }
+        GetNodebyId(idNode)->receiveUpdate(idNode,
+                                           elem["parentId"].toInt(),
+                                           elem["userref"].toInt(),
+                                           elem["name"].toString(),
+                                           elem["type"].toString(),
+                                           sons);
     }
 }
 
-void Tree::receiveUpdate(int _id, int _parent, int _user_ref, QString _name, QString _type)
+void Tree::receiveUpdate(const int _id, const int _parent, const int _user_ref, const QString _name, const QString _type, const QHash<int,Tree*> _sons)
 {
     id = _id;
     parent = GetNodebyId(_parent);
     user_ref = _user_ref;
     name = _name;
     type = _type;
+    sons = _sons;
 
-    emit nodeUpdated();
+   qDebug() << "Tree::receiveUpdate :" << id << parent << user_ref << name << type << sons;
+
+   emit nodeUpdated();
 }
 
 void     Tree::Delnode()
