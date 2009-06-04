@@ -30,11 +30,22 @@ bool    PluginManager::event(QEvent *event)
         this->exit(0);
         return (true);
     }
+    else if (event->type() == ClientEvents::PluginEvent)
+    {
+        PluginEvent *pe = static_cast<PluginEvent *>(event);
+
+        INetworkPlugin *networkP = this->findNetworkPlugin(pe->pTarget);
+        if (networkP != 0 )
+        {
+            networkP->recvPacket(pe->pack);
+        }
+    }
     else
     {
         qDebug() << "PluginManager: Received Event not managed";
         return (QThread::event(event));
     }
+
 }
 
 void    PluginManager::run()
@@ -109,7 +120,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
                 networkPlugin = qobject_cast<INetworkPlugin *>(clientPlugin);
                 if (networkPlugin)
                 {
-                    networkPlugin->network = new InterfaceNetwork();
+                    networkPlugin->network = new InterfaceNetwork(clientPlugin);
                     networkPluginsList.insert(clientPlugin->getName(), networkPlugin);
                 }
                 displayablePlugin = qobject_cast<IDisplayablePlugin *>(clientPlugin);

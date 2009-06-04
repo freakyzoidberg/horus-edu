@@ -1,4 +1,5 @@
 #include "AdminFram.h"
+#include <QDebug>
 
 AdminFram::AdminFram(INetwork *reseau) : QWidget()
 {
@@ -31,10 +32,12 @@ void AdminFram::packetManager(QVariantHash response)
         response["Request"] == "createNewUser" ||
         response["Request"] == "disableUser")
     {
-
+        //if (this->uF == 0)
+        //    qDebug() << "test";
+        //this->uF->readResponse(response);
     }
     else
     {
-
+        //this->tF->readResponse(response);
     }
 }

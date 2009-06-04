@@ -37,6 +37,7 @@ class TreeFram : public QTreeWidget
         //! functions for each request
         /*! called by AdminFram */
         QHash<QByteArray,requestFunction> requestFunctions;
+        INetwork    *res;
 };
 
 #endif // TREEFRAM_H

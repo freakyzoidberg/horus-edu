@@ -1,5 +1,6 @@
 #include "PacketManager.h"
-
+#include "INetworkPlugin.h"
+#include "IClientPlugin.h"
 #include "FileManager.h"
 
 //test Git
@@ -139,14 +140,15 @@ void PacketManager::PacketSettings()
 void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
-
-    this->pM = parent->findChild<PluginManager *>();
+    qDebug() << "[ in]" << p;
+    //this->pM = parent->findChild<PluginManager *>();
     QString target(p.packet.targetPlugin);
-    if (this->pM->findPlugin(target) != 0)
-    {
-        PluginEvent *pe = new PluginEvent(p.packet);
-        QApplication::postEvent(this->pM, pe);
-    }
+    //INetworkPlugin *networkP = this->pM->findNetworkPlugin(target);
+    //this->pM = this->findChild<PluginManager *>();
+    PluginEvent *pe = new PluginEvent(p.packet, target);
+
+    QApplication::postEvent(this->parent->findChild<PluginManager *>(), pe);
+        //networkP->recvPacket(p.packet);
 }
 
 void        PacketManager::sessionEnd()

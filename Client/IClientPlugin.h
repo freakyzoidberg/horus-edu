@@ -59,6 +59,7 @@ class IClientPlugin : public QObject
      *  \param event the event received
      *  \return the accept status of the event
      */
+ public slots:
     virtual bool                event(QEvent *event) = 0;
 };
 

@@ -7,8 +7,9 @@
 #include "../Common/PluginPacket.h"
 #include "../Common/CommPlugin.h"
 
-InterfaceNetwork::InterfaceNetwork()
+InterfaceNetwork::InterfaceNetwork(IClientPlugin   *plugin)
 {
+    this->plugin = plugin;
 }
 
 void            InterfaceNetwork::sendPacket(const PluginPacket& packet) const
@@ -18,5 +19,5 @@ void            InterfaceNetwork::sendPacket(const PluginPacket& packet) const
     p.packet.packetVersion = plugin->getVersion().toUInt();
     p.packet.sourcePlugin = plugin->getName();
 
-    QApplication::postEvent(ThreadNetwork::getInstance(), new PluginEvent(p.packet));
+    QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(p.getPacket()));
 }

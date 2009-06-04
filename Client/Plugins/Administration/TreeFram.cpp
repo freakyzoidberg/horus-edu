@@ -1,8 +1,13 @@
 #include "TreeFram.h"
 #include <QDebug>
+#include "../../../Common/PluginPacket.h"
+
 
 TreeFram::TreeFram(INetwork *reseau) : QTreeWidget()
 {
+    res = reseau;
+    QTreeWidgetItem *hItem = this->headerItem();
+    hItem->setText(0, "Groupes");
     requestFunctions["getTree"]         = &TreeFram::getTreeResponse;
     requestFunctions["getNodeInfo"]     = &TreeFram::getNodInfoResponse;
     requestFunctions["setNode"]         = &TreeFram::editNodeResponse;

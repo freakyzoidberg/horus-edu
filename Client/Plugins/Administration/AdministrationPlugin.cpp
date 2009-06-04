@@ -1,6 +1,10 @@
 #include "AdministrationPlugin.h"
+#include <QDebug>
+#include "../../ClientEvents.h"
 
 Q_EXPORT_PLUGIN2(Administration, Administration)
+
+extern QEvent::Type ClientEvents::PluginEvent;
 
 Administration::Administration()
 {
@@ -13,11 +17,17 @@ QWidget             *Administration::getWidget()
 
 void Administration::recvPacket(const PluginPacket& packet)
 {
-    this->adminF->packetManager(packet.data.toHash());
+        this->adminF->packetManager(packet.data.toHash());
 }
 
 bool    Administration::event(QEvent *event)
 {
+    if(event->type() == ClientEvents::PluginEvent)
+    {
+        qDebug() << "here";
+        PluginEvent *pe = static_cast<PluginEvent *>(event);
+        this->adminF->packetManager(pe->pack.data.toHash());
+    }
     return (QObject::event(event));
 }
 
