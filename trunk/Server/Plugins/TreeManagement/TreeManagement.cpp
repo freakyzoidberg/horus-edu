@@ -5,6 +5,7 @@ Q_EXPORT_PLUGIN2(TreeManagement, TreeManagement);
 TreeManagement::TreeManagement()
 {
     requestFunctions["getTree"] = &TreeManagement::gettree;
+     requestFunctions["getTree+"] = &TreeManagement::gettreeplus;
     requestFunctions["getAllTree"] = &TreeManagement::getAlltree;
     requestFunctions["getNodeInfo"] = &TreeManagement::getnodeinfo;
     requestFunctions["setNode"] = &TreeManagement::setnode;
@@ -61,6 +62,34 @@ void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response
     response["userTree"] =  usertree;
     response["Success"] = true;
 }
+
+void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser)
+{
+
+    int firstnode = getidofusernode(request, iduser);
+    QHash<QString, QVariant > usertree;
+    addnodewithsons(&usertree, firstnode);
+    addfathers(&usertree,firstnode);
+    qDebug() << "=== Tree Management DEBUG ===";
+    QList<QVariant> tmplist;
+    bool ok;
+    for (QHash<QString, QVariant >::iterator it = usertree.begin(); it != usertree.end(); ++it)
+    {
+        QHash<QString, QVariant> infos;
+        qDebug() << "User Tree node :" << it.key();
+        tmplist = it.value().toList();
+        infos.insert("sons", tmplist);
+        infos.insert("name", server->getNodeName(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
+        infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
+        infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
+        infos.insert("parentid", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
+        it.value() = infos;
+    }
+    qDebug() << "=== END Tree Management DEBUG ===";
+    response["userTree"] =  usertree;
+    response["Success"] = true;
+}
+
 
 void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
@@ -284,6 +313,7 @@ void  TreeManagement::addfathers(QHash<QString, QVariant > *utree,const int id)
         utree->insert(QVariant(server->getNodeId(server->getNodefatherbyid(id))).toString(), tmpvec);
         if ((server->getNodeId(server->getNodefatherbyid(id)) != 0))
            addfathers(utree, server->getNodeId(server->getNodefatherbyid(id)));
+
     }
 
 }

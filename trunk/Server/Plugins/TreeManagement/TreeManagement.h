@@ -27,6 +27,7 @@ private:
 
     void  unknownRequest(const QVariantHash& request,QVariantHash& response, qint32 iduser);
     void  gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
+     void  gettreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
     void  setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser); // Admin protected
     void  getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
     void  getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser); //root admin Protected
