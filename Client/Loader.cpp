@@ -19,11 +19,6 @@ Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
     ld = new LoginDialog(this->parent);
 }
 
-void    Loader::closeEvent(QCloseEvent *event)
-{
-    this->parent->preExit();
-}
-
 void    Loader::loadNetwork()
 {
     //NetworkManager *networkManager;
@@ -87,5 +82,7 @@ bool    Loader::event(QEvent *event)
             delete ld;
         }
     }
+    if (event->type() == QEvent::Close)
+        this->parent->preExit();
     return (QDialog::event(event));
 }

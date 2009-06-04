@@ -44,8 +44,6 @@ private:
     int processesComplete;
     //! A pointer to its parent ClientApplication
     ClientApplication *parent;
-    //! Overload of the CloseEvent method
-    void closeEvent(QCloseEvent *event);
     //! Method for start the loading of the plugins
     /*!
      *  Send an StartEvent to the PluginManager

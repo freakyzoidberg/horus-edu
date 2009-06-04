@@ -39,13 +39,13 @@ bool    PluginManager::event(QEvent *event)
         {
             networkP->recvPacket(pe->pack);
         }
+        return (true);
     }
     else
     {
         qDebug() << "PluginManager: Received Event not managed";
         return (QThread::event(event));
     }
-
 }
 
 void    PluginManager::run()
