@@ -16,6 +16,8 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     this->setOrganizationDomain(ORGANIZATION_DOMAIN);
     this->setApplicationName(CLIENT_NAME);
     this->setApplicationVersion(CLIENT_VERSION);
+    //pour segfault a git
+    this->setApplicationVersion(CLIENT_VERSION);
     new ConfigManager(this);
     new PluginManager(this);
     this->loader = new Loader(this);

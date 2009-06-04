@@ -89,7 +89,7 @@ QDebug operator<<(QDebug d, const CommFile& p)
     {
         "No error",
         "Permition Denied",
-        "File or node not found"
+        "File or node not found",
         "File already exist"
     };
 

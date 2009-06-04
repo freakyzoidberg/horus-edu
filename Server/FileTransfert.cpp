@@ -37,12 +37,19 @@ void FileTransfert::startSlot()
 
 void FileTransfert::socketToFile()
 {
-    file->write(socket->read(4086));
+    qDebug() << "FileTransfert::socketToFile";
+    file->write(socket->readAll());
 }
 
-void FileTransfert::fileToSocket(qint64)
+void FileTransfert::fileToSocket(qint64 len)
 {
-    socket->write(file->read(4086));
+    qDebug() << "FileTransfert::fileToSocket";
+    socket->write(file->read(len));
+    if (file->atEnd())
+    {
+        socket->flush();
+        socket->close();
+    }
 }
 
 const QByteArray& FileTransfert::getKey() const
@@ -61,7 +68,7 @@ void FileTransfert::clientConnected(QSslSocket* _socket)
     if (file->openMode() & QFile::ReadOnly)
     {
         connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)));
-        fileToSocket(0);
+        fileToSocket(8192);
     }
 }
 

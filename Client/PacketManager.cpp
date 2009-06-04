@@ -4,12 +4,13 @@
 #include "FileManager.h"
 
 //test Git
-#include "NetFile.h"
+//#include "File.h"
 
 PacketManager::PacketManager(QObject* parent) : QObject()
 {
     this->parent = static_cast<ClientApplication *>(parent);
     state = DISCONNECTED;
+    connect(this, SIGNAL(recvFilePacket(QByteArray)), FileManager::instance(), SLOT(receiveFilePacket(QByteArray)));
 }
 
 packetDirection PacketManager::packetDirections[] =
@@ -114,7 +115,7 @@ void PacketManager::PacketLogin()
         clearPacketStack();
 
         ///test de GIT, ne pas virer de suite
-//        NetFile* file = FileManager::globalInstance()->getFile(1);
+//        File* file = FileManager::globalInstance()->getFile(1);
 //        file->open(QIODevice::ReadOnly);
     }
     else if (l.method == CommLogin::REFUSED)
@@ -127,7 +128,7 @@ void PacketManager::PacketLogin()
 
 void PacketManager::PacketFile()
 {
-    FileManager::globalInstance()->receiveFilePacket(packet);
+    emit recvFilePacket(packet);
 }
 
 void PacketManager::PacketSettings()

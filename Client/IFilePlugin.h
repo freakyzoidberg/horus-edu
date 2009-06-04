@@ -3,7 +3,7 @@
 
 #include <QIODevice>
 
-#include "IFile.h"
+#include "IFileManager.h"
 
 class   IFilePlugin
 {
@@ -13,7 +13,7 @@ class   IFilePlugin
        implementing this interface will be able to retrieve
        files they need if their are not in local.
     */
-    IFile     *file;
+    IFileManager     *fileManager;
 };
 
 Q_DECLARE_INTERFACE(IFilePlugin, "net.horus.Client.FileInterface/1.0");

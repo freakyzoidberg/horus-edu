@@ -3,48 +3,55 @@
 #include <QApplication>
 #include "ThreadNetwork.h"
 
-FileManager FileManager::instance;
+//FileManager FileManager::instance;
 
 FileManager::FileManager()
 {
+    moveToThread(QApplication::instance()->thread());
     tmpNewFile = 0;
 }
 
-FileManager* FileManager::globalInstance()
+FileManager* FileManager::instance()
 {
-    return &instance;
+    static FileManager i;
+    return &i;
 }
 
-NetFile* FileManager::newFile(quint32 nodeId)
+IFile* FileManager::newFile(quint32 nodeId)
 {
     if (tmpNewFile)
     {
-    //TODO: change this way
+    //TODO: try to change this way
         qDebug() << "only one file can be created in the same time, please wait.";
         return 0;
     }
 
     CommFileInfo info;
     info.nodeId = nodeId;
-    tmpNewFile = new NetFile(info);
+    tmpNewFile = new File(info);
+    emit fileListUpdated();
+    emit nodeFileListUpdated(nodeId);
     return tmpNewFile;
 }
 
-NetFile* FileManager::getFile(quint32 fileId)
+IFile* FileManager::getFile(quint32 fileId)
 {
-    if ( ! fileList.contains(fileId))
+    if ( ! fileHash.contains(fileId))
     {
         CommFileInfo info;
         info.id = fileId;
-        fileList[ fileId ] = new NetFile(info);
+        fileHash[ fileId ] = new File(info);
+
+        emit fileListUpdated();
+
         // update the fileInfo
-        getFileInfo(fileId);
+//        askForFileInfo(fileId);
     }
 
-    return fileList[ fileId ];
+    return fileHash[ fileId ];
 }
 
-void FileManager::getFileInfo(quint32 fileId)
+void FileManager::askForFileInfo(quint32 fileId) const
 {
     CommFile packet;
     packet.method = CommFile::STAT_FILE;
@@ -52,23 +59,34 @@ void FileManager::getFileInfo(quint32 fileId)
     QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(packet.getPacket()));
 }
 
-void FileManager::getFileConnexion(quint32 fileId, QIODevice::OpenMode mode)
+void FileManager::askForFileConnexion(quint32 fileId, QIODevice::OpenMode mode) const
 {
     CommFile packet;
-    packet.method = CommFile::ACCESS_FILE;
+    if (fileId)
+        packet.method = CommFile::ACCESS_FILE;
+    else
+        packet.method = CommFile::NEW_FILE;
     packet.mode = mode;
     packet.fileInfo.id = fileId;
     QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(packet.getPacket()));
 }
-/*
-const QList<CommFileInfo> FileManager::getUserFileList()
-{TODO}
-*/
-/*
-const QList<CommFileInfo> FileManager::getNodeFileList(quint32 nodeId)
-{TODO}
-*/
-void FileManager::receiveFilePacket(QByteArray& p)
+
+const QList<IFile*> FileManager::getFullFileList() const
+{
+    QList<IFile*> list;
+    for (QHash<quint32,File*>::const_iterator i = fileHash.begin(); i != fileHash.end(); ++i)
+        list.append(*i);
+}
+
+const QList<IFile*> FileManager::getNodeFileList(quint32 nodeId) const
+{
+    QList<IFile*> list;
+    for (QHash<quint32,File*>::const_iterator i = fileHash.begin(); i != fileHash.end(); ++i)
+        if ((*i)->getInfo().nodeId == nodeId)
+            list.append(*i);
+}
+
+void FileManager::receiveFilePacket(QByteArray p)
 {
     CommFile packet(p);
     if (packet.error)
@@ -79,7 +97,7 @@ void FileManager::receiveFilePacket(QByteArray& p)
 
     if (packet.method == CommFile::NEW_FILE && tmpNewFile)
     {
-        fileList[ tmpNewFile->info.id ] = tmpNewFile;
+        fileHash[ tmpNewFile->info.id ] = tmpNewFile;
         tmpNewFile = 0;
     }
 
@@ -87,12 +105,28 @@ void FileManager::receiveFilePacket(QByteArray& p)
      || packet.method == CommFile::STAT_FILE
      || packet.method == CommFile::NEW_FILE)
     {
-        NetFile* file = getFile(packet.fileInfo.id);
-
+        File* file = (File*)getFile(packet.fileInfo.id);
         file->updateFileInfo(packet.fileInfo);
-        if (packet.method == CommFile::ACCESS_FILE)
+
+        if (packet.method == CommFile::ACCESS_FILE
+         || packet.method == CommFile::NEW_FILE)
             file->connexionAuthorized(packet.key);
     }
+
+    else if (packet.method == CommFile::NODE_LIST
+          || packet.method == CommFile::USER_LIST)
+    {
+        //TODO: emmit less signal: only if a real change append on the viewed nodes
+
+        for (QList<CommFileInfo>::const_iterator i = packet.fileList.begin(); i != packet.fileList.end(); ++i)
+        {
+            ((File*)getFile((*i).id))->updateFileInfo(*i);
+            emit nodeFileListUpdated((*i).nodeId);
+        }
+
+        emit fileListUpdated();
+    }
+
     else
-        qDebug() << "FileManager::receiveFilePacket not yet:" << packet;
+        qDebug() << "FileManager::receiveFilePacket invalid packet" << packet;
 }

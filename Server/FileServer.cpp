@@ -49,6 +49,7 @@ void FileServer::readKey()
     if (s->bytesAvailable() < FILE_TRANSFERT_KEY_SIZE)
         return;
 
+    s->disconnect(this, SLOT(readKey()));
     FileTransfert::registerSocket(s->read(FILE_TRANSFERT_KEY_SIZE), s);
 }
 

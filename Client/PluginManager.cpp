@@ -8,7 +8,7 @@
 #include    "InterfaceClient.h"
 #include    "InterfaceNetwork.h"
 #include    "InterfaceDisplay.h"
-#include    "InterfaceFile.h"
+#include    "FileManager.h"
 
 PluginManager::PluginManager(ClientApplication *parent) : QThread::QThread(parent)
 {
@@ -132,7 +132,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
                 filePlugin = qobject_cast<IFilePlugin *>(clientPlugin);
                 if (filePlugin)
                 {
-                    filePlugin->file = new InterfaceFile();
+                    filePlugin->fileManager = FileManager::instance();
                     filePluginsList.insert(clientPlugin->getName(), filePlugin);
                 }
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
