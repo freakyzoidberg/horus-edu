@@ -4,7 +4,6 @@
 #include <QPainter>
 
 #include <pdfRendering.h>
-#include <metadata.h>
 
 #include <QDebug>
 
