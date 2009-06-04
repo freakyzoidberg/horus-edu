@@ -8,11 +8,13 @@ extern QEvent::Type ClientEvents::PluginEvent;
 
 Administration::Administration()
 {
+    this->adminF = new AdminFram(this->network);
 }
 
 QWidget             *Administration::getWidget()
 {
-    return (new AdminFram(this->network));
+    this->adminF = new AdminFram(this->network);
+    return (this->adminF);
 }
 
 void Administration::recvPacket(const PluginPacket& packet)
