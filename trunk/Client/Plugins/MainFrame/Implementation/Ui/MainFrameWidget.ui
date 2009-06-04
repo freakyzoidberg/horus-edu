@@ -6,15 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>731</width>
+    <height>765</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Frame</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-image: url(:/Pictures/GrayLogoBackground.png);</string>
+   <string notr="true">QFrame
+{
+	background-image: url(:/Pictures/HorusPanelBackground-NoFx.png);
+background-position: center;
+background-repeat: non;
+}
+</string>
   </property>
   <property name="frameShape">
    <enum>QFrame::StyledPanel</enum>
@@ -24,7 +30,7 @@
   </property>
  </widget>
  <resources>
-  <include location="MainFrame.qrc"/>
+  <include location="MainFrameWidget.qrc"/>
  </resources>
  <connections/>
 </ui>

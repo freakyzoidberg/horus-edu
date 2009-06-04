@@ -82,6 +82,7 @@ void    PluginManager::loadPlugins()
     QMap<QString, IClientPlugin *> newMap;
     foreach (IClientPlugin *plugin, pluginsList)
         newMap.insert(plugin->getName(), plugin);
+    this->pluginsList = newMap;
 }
 
 bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir systemPath)
@@ -117,7 +118,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
                 success &= this->loadPlugin(newPlugin, userPath, systemPath);
             if (success)
             {
-                clientPlugin->client = new InterfaceClient(clientPlugin, this->parent);
+                clientPlugin->client = new InterfaceClient(this);
                 pluginsList.insert(pluginName, clientPlugin);
                 networkPlugin = qobject_cast<INetworkPlugin *>(clientPlugin);
                 if (networkPlugin)
@@ -155,7 +156,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
     return (false);
 }
 
-IClientPlugin *PluginManager::findPlugin(QString &pluginName) const
+IClientPlugin *PluginManager::findPlugin(QString pluginName) const
 {
     return pluginsList.value(pluginName);
 }

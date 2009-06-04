@@ -1,12 +1,11 @@
 #include "InterfaceClient.h"
 
-InterfaceClient::InterfaceClient(IClientPlugin *p, ClientApplication *parent)
+InterfaceClient::InterfaceClient(PluginManager *pM)
 {
-    this->parent = parent;
-    plugin = p;
+    this->pM = pM;
 }
 
 IClientPlugin   *InterfaceClient::getPlugin(const QByteArray name) const
 {
-    return 0;
+    return (pM->findPlugin(QString(name)));
 }

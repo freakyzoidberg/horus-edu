@@ -16,8 +16,6 @@ class MAINFRAMESHARED_EXPORT MainFrame : public IClientPlugin, public IDisplayab
 
 public:
     MainFrame();
-    IClient             *client;
-    IDisplayable             *display;
     const QByteArray    getName() const;
     const QByteArray    getVersion() const;
     QStringList         getPluginsConflicts() const;
