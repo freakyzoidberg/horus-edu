@@ -1,7 +1,9 @@
 #ifndef ICLIENT_H
 #define ICLIENT_H
 
-#include "IClientPlugin.h"
+#include <QByteArray>
+
+class IClientPlugin;
 
 //! Interface given to each client plugin to communicate with the client
 /*!

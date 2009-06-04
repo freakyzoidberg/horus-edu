@@ -8,13 +8,14 @@
 #include <QList>
 
 #include "../../IClientPlugin.h"
+#include "../../IFilePlugin.h"
 #include "ILessonManager.h"
 
 //!  LessonManager plugin
 /*!
 
 */
-class LessonManager : public IClientPlugin, public ILessonManager
+class LessonManager : public IClientPlugin, public IFilePlugin, public ILessonManager
 {
  //! The Q_OBJECT and Q_INTERFACES macros
  /*! This two macros must be called to compile the plugin properly.
@@ -24,6 +25,8 @@ class LessonManager : public IClientPlugin, public ILessonManager
 
  Q_OBJECT
  Q_INTERFACES(IClientPlugin)
+ Q_INTERFACES(IFilePlugin)
+ Q_INTERFACES(ILessonManager)
 
 public:
     //! The constructor.
@@ -146,9 +149,9 @@ public:
 
 
 
-    ILesson*    getLesson(const QString& filename);
-    void        saveLesson(const QString& filename, ILesson *lesson);
-    ILesson*    createNewLesson(const QString& filename);
+    ILesson*    getLesson(quint32 fileId);
+    void        saveLesson(quint32 fileId, ILesson *lesson);
+    ILesson*    createNewLesson(quint32 fileId);
 
     void        displayPage(ILesson::IPage *page, QWidget *widget);
     void        hideCurrentPage();

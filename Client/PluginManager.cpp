@@ -141,7 +141,7 @@ bool    PluginManager::loadPlugin(QString pluginName, QDir userPath, QDir system
                 qDebug() << "PluginManager: plugin" << pluginName << "loaded";
                 foreach (newPlugin, clientPlugin->getPluginsRecommended())
                     this->loadPlugin(newPlugin, userPath, systemPath);
-                QApplication::postEvent(parent->loader, new QEvent(ClientEvents::LoadPluginEvent));
+                QApplication::postEvent(clientPlugin, new QEvent(ClientEvents::LoadPluginEvent));
                 delete loader;
                 return (success);
             }

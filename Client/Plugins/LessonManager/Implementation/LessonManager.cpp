@@ -6,6 +6,7 @@
 
 #include "../../ClientEvents.h"
 #include "../../IClient.h"
+#include "../../IFile.h"
 #include "../ILesson.h"
 #include "LessonManager.h"
 #include "Lesson.h"
@@ -120,10 +121,10 @@ QStringList   LessonManager::getExports() const
     return exports;
 }
 
-ILesson*      LessonManager::getLesson(const QString& filename)
+ILesson*      LessonManager::getLesson(quint32 fileId)
 {
     Lesson *lesson = new Lesson();
-    QFile *xmlfile = new QFile(filename);
+    IFile *xmlfile = this->fileManager->getFile(fileId);
     QXmlSimpleReader xmlReader;
     QXmlInputSource *source = new QXmlInputSource(xmlfile);
     XmlHandler *handler = new XmlHandler(lesson);
@@ -171,9 +172,9 @@ void          LessonManager::writeXmlSection(const QList<ILesson::IElement *>& l
     }
 }
 
-void          LessonManager::saveLesson(const QString& filename, ILesson *lesson)
+void          LessonManager::saveLesson(quint32 fileId, ILesson *lesson)
 {
-    QFile *xmlfile = new QFile(filename);
+    IFile *xmlfile = this->fileManager->getFile(fileId);
     xmlfile->open(QIODevice::WriteOnly | QIODevice::Truncate);
     QXmlStreamWriter xmlWriter(xmlfile);
     xmlWriter.writeStartDocument("1.0");
@@ -185,10 +186,10 @@ void          LessonManager::saveLesson(const QString& filename, ILesson *lesson
     xmlfile->close();
 }
 
-ILesson*      LessonManager::createNewLesson(const QString& filename)
+ILesson*      LessonManager::createNewLesson(quint32 fileId)
 {
     Lesson *lesson = new Lesson();
-    saveLesson(filename, lesson);
+    saveLesson(fileId, lesson);
     return lesson;
 }
 

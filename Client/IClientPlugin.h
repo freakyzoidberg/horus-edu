@@ -6,7 +6,7 @@
 #include <QStringList>
 #include <QByteArray>
 
-class IClient;
+#include "IClient.h"
 
 //! Interface needed for each plugins of the Client
 /*!

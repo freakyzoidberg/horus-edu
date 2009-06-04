@@ -38,7 +38,7 @@ bool                Course::event(QEvent *event)
 
 QWidget             *Course::getWidget()
 {
-    return (new CourseWidget());
+    return (new CourseWidget(this));
 }
 
 
