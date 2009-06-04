@@ -94,6 +94,7 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
     IPdfRendering   *pdf;
     QStringList  parameters = object->getParameters().split(":");
     int index;
+    bool ok;
 
     clientPlugin = this->client->getPlugin("dispPDF");
     if (!clientPlugin)
@@ -114,11 +115,41 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         QRectF  *rect;
         QImage  *image;
 
-        page = splitParams.at(0).toInt();
-        topX = splitParams.at(1).toFloat();
-        topY = splitParams.at(2).toFloat();
-        height = splitParams.at(3).toFloat();
-        width = splitParams.at(4).toFloat();
+        page = splitParams.at(0).toInt(&ok);
+        if (!ok)
+        {
+            qDebug() << "Invalid conversion";
+            delete rect;
+            return ;
+        }
+        topX = splitParams.at(1).toFloat(&ok);
+        if (!ok)
+        {
+            qDebug() << "Invalid conversion";
+            delete rect;
+            return ;
+        }
+        topY = splitParams.at(2).toFloat(&ok);
+        if (!ok)
+        {
+            qDebug() << "Invalid conversion";
+            delete rect;
+            return ;
+        }
+        height = splitParams.at(3).toFloat(&ok);
+        if (!ok)
+        {
+            qDebug() << "Invalid conversion";
+            delete rect;
+            return ;
+        }
+        width = splitParams.at(4).toFloat(&ok);
+        if (!ok)
+        {
+            qDebug() << "Invalid conversion";
+            delete rect;
+            return ;
+        }
 
         rect = new QRectF(topX, topY, height, width);
 
