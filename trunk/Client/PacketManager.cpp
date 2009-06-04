@@ -5,7 +5,7 @@
 
 //test Git, to autoload everything after conect
 //#include "FileManager.h"
-#include "Tree.h"
+//#include "Tree.h"
 
 PacketManager::PacketManager(QObject* parent) : QObject()
 {
@@ -116,7 +116,7 @@ void PacketManager::PacketLogin()
         clearPacketStack();
 
         ///test de GIT, ne pas virer de suite, pour version 6juin
-        Tree::updateUserTree();
+  //      Tree::updateUserTree();
         //FileManager::updateUserFiles();
     }
     else if (l.method == CommLogin::REFUSED)
@@ -145,11 +145,11 @@ void PacketManager::PacketPlugin()
     qDebug() << "[ in]" << p;
 
     //GiT: for the 6 june version...
-    if (p.packet.targetPlugin == "TreeManagement")
-    {
-        Tree::receiveUserTree(p.packet.data.toHash());
-        return;
-    }
+//    if (p.packet.targetPlugin == "TreeManagement")
+//    {
+//        Tree::receiveUserTree(p.packet.data.toHash());
+//        return;
+//    }
 
     this->pM = parent->findChild<PluginManager *>();
     QString target(p.packet.targetPlugin);
