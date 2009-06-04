@@ -8,9 +8,10 @@
 #include <qt4/poppler-qt4.h>
 
 #include <IClientPlugin.h>
+#include <IPdfFile.h>
+#include <IPdfRendering.h>
 #include <IFilePlugin.h>
-#include <pdfRendering.h>
-#include <dispPDFClient.h>
+#include <pdfFile.h>
 
 #define PLUGIN_NAME "dispPDF"
 #define PLUGIN_VERSION "1.0"
@@ -20,7 +21,7 @@
   To have more informations about horus plugins, see the plugin tesPlugin
 */
 
-class DispPDF : public IClientPlugin, public IFilePlugin
+class DispPDF : public IClientPlugin, public IFilePlugin, public IPdfRendering
 {
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
@@ -90,7 +91,7 @@ public:
     /*
       \return the variable renderPdf
     */
-    const QMap<QString, PdfRendering *>    *getAllPdfFiles() const;
+    const QMap<QString, IPdfFile *>    *getAllPdfFiles() const;
 
     //! display a part of a pdf file
     /*
@@ -99,8 +100,7 @@ public:
     \param partToDisplay the part of the page you want to display
     \return a pointer to the diaplayable image
     */
-    QImage    *dispPDFDoc(QString & fileName, int page,
-                          QRectF *partToDisplay, int fileId = -1);
+    QImage    *dispPDFDoc(const QString & fileName, int page, QRectF *partToDisplay, int fileId = -1);
 
     //! //! display a part of a pdf file (overload)
     /*
@@ -109,7 +109,7 @@ public:
     \param partToDisplay the part of the page you want to display
     \return a pointer to the diaplayable image
     */
-    QImage    *dispPDFDoc(quint32 fileId, int page, QRectF *partToDisplay);
+     QImage    *dispPDFDoc(quint32 fileId, int page, QRectF *partToDisplay);
 
     /*!
       Close a pdf file and remove it from the map
@@ -148,7 +148,7 @@ private:
     QStringList pluginsRecommended;
 
     //! QMap containing all the open PDF files with their name
-    QMap<QString, PdfRendering *>   *pdfFiles;
+    QMap<QString, IPdfFile *>   *pdfFiles;
 };
 
 #endif // DISPPDF_H

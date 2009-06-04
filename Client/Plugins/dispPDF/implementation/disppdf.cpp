@@ -8,7 +8,7 @@
 #include <ClientEvents.h>
 
 #include <disppdf.h>
-#include <pdfRendering.h>
+#include <IPdfFile.h>
 
 #include <IFile.h>
 
@@ -24,12 +24,12 @@ DispPDF::DispPDF()
 
     name = PLUGIN_NAME; /* dispPDF */
     version = PLUGIN_VERSION; /* 1.0 */
-    pdfFiles = new QMap<QString, PdfRendering *>;
+    pdfFiles = new QMap<QString, IPdfFile *>;
 }
 
 DispPDF::~DispPDF()
 {
-    QMap<QString, PdfRendering *>::iterator   it, itend;
+    QMap<QString, IPdfFile *>::iterator   it, itend;
 
     if (!pdfFiles->empty())
     {
@@ -136,11 +136,11 @@ QImage    *DispPDF::dispPDFDoc(quint32 fileId, int page,
     return dispPDFDoc(fileName, page, partToDisplay, fileId);
 }
 
-QImage    *DispPDF::dispPDFDoc(QString & fileName, int page,
+QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
                                QRectF *partToDisplay, int fileId)
 {
     QFileInfo    filePath(fileName);
-    QMap<QString, PdfRendering *>::iterator it;
+    QMap<QString, IPdfFile *>::iterator it;
 
     if (!filePath.isAbsolute())
         if (!filePath.makeAbsolute())
@@ -173,12 +173,12 @@ QImage    *DispPDF::dispPDFDoc(QString & fileName, int page,
     */
     if ((it = pdfFiles->find(filePath.filePath())) == pdfFiles->end())
         it = pdfFiles->insert(filePath.filePath(),
-                               new PdfRendering(filePath.filePath(), fileId));
+                               new PdfFile(filePath.filePath(), fileId));
 
     return it.value()->render(page, partToDisplay);
 }
 
-const QMap<QString, PdfRendering *>    *DispPDF::getAllPdfFiles() const
+const QMap<QString, IPdfFile *>    *DispPDF::getAllPdfFiles() const
 {
     return pdfFiles;
 }
