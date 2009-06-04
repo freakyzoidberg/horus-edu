@@ -29,6 +29,7 @@ SOURCES += main.cpp \
     InterfaceDisplay.cpp \
     FileManager.cpp \
     File.cpp \
+    Tree.cpp \
     UserInfo.cpp \
     NotificationClient.cpp \
     DockMenu.cpp
@@ -69,6 +70,7 @@ HEADERS += NetworkManager.h \
     SettingsDialog.h \
     FileManager.h \
     File.h \
+    Tree.h \
     UserInfo.h \
     NotificationClient.h \
     IFile.h \
