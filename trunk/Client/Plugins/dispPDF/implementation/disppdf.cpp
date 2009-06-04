@@ -24,12 +24,12 @@ DispPDF::DispPDF()
 
     name = PLUGIN_NAME; /* dispPDF */
     version = PLUGIN_VERSION; /* 1.0 */
-    pdfFiles = new QMap<QString, IPdfFile *>;
+    pdfFiles = new QMap<quint32, IPdfFile *>;
 }
 
 DispPDF::~DispPDF()
 {
-    QMap<QString, IPdfFile *>::iterator   it, itend;
+    QMap<quint32, IPdfFile *>::iterator   it, itend;
 
     if (!pdfFiles->empty())
     {
@@ -140,7 +140,7 @@ QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
                                QRectF *partToDisplay, int fileId)
 {
     QFileInfo    filePath(fileName);
-    QMap<QString, IPdfFile *>::iterator it;
+    QMap<quint32, IPdfFile *>::iterator it;
 
     if (!filePath.isAbsolute())
         if (!filePath.makeAbsolute())
@@ -171,38 +171,18 @@ QImage    *DispPDF::dispPDFDoc(const QString & fileName, int page,
        search if the pdf file is already in the map, if not add it in the map
        and return the iterator.
     */
-    if ((it = pdfFiles->find(filePath.filePath())) == pdfFiles->end())
-        it = pdfFiles->insert(filePath.filePath(),
-                               new PdfFile(filePath.filePath(), fileId));
-
+    if ((it = pdfFiles->find(fileId)) == pdfFiles->end())
+        it = pdfFiles->insert(fileId, new PdfFile(filePath.filePath()));
     return it.value()->render(page, partToDisplay);
 }
 
-const QMap<QString, IPdfFile *>    *DispPDF::getAllPdfFiles() const
+const QMap<quint32, IPdfFile *>    *DispPDF::getAllPdfFiles() const
 {
     return pdfFiles;
 }
 
 void    DispPDF::closePdfFile(int fileId)
 {
-    QString fileName;
-
-    //fileName = file->getNameById(fileId);
-
-    closePdfFile(fileName);
-}
-
-void    DispPDF::closePdfFile(const QString &fileName)
-{
-    QFileInfo    filePath(fileName);
-
-    if (!filePath.isAbsolute())
-        if (!filePath.makeAbsolute())
-        {
-            qDebug() << "Cannot use the absolute path of the pdf file";
-            return ;
-        }
-
-    delete pdfFiles->value(filePath.filePath());
-    pdfFiles->remove(filePath.filePath());
+    delete pdfFiles->value(fileId);
+    pdfFiles->remove(fileId);
 }
