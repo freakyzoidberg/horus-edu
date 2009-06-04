@@ -1,19 +1,13 @@
 #ifndef COURSEWIDGET_H
 #define COURSEWIDGET_H
-#include <QFrame>
-#include <QWidget>
+#include <QSplitter>
 #include <QTreeWidget>
 
-class CourseWidget : public QFrame
+class CourseWidget : public QSplitter
 {
-    public:
-CourseWidget();
-~CourseWidget();
-public slots:
-    void explorer();
-    void ViewLesson();
-    private:
-    QWidget *fenetre;
-    QTreeWidget *tree;
+public:
+    CourseWidget();
+
+private:
 };
 #endif // COURSEWIDGET_H

@@ -8,7 +8,7 @@
 
 class MainFrameWidget : public QFrame
 {
-
+    Q_OBJECT
 public:
     MainFrameWidget(MainFrame *plugin);
 
@@ -16,7 +16,7 @@ private:
     Ui::Frame   ui;
     MainFrame *plugin;
 
-private slots:
+public slots:
     void buttonClicked();
 };
 
