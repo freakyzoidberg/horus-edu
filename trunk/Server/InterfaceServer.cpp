@@ -35,57 +35,57 @@ UserLevel InterfaceServer::getLevel(quint32 userId) const
     return User::getUser(userId)->getLevel();
 }
 
-int InterfaceServer::getId(Tree::Tree* tree)
+int InterfaceServer::getNodeId(Tree::Tree* tree)
 {
     return tree->Getid();
 }
 
-int InterfaceServer::getUserRef(Tree::Tree* tree)
+int InterfaceServer::getNodeUserRef(Tree::Tree* tree)
 {
     return tree->GetUserRef();
 }
 
-QString InterfaceServer::getName(Tree::Tree* tree)
+QString InterfaceServer::getNodeName(Tree::Tree* tree)
 {
     return tree->GetName();
 }
 
-QString InterfaceServer::getType(Tree::Tree* tree)
+QString InterfaceServer::getNodeType(Tree::Tree* tree)
 {
     return tree->GetType();
 }
 
 
-void InterfaceServer::setUserRef(Tree::Tree* tree, int userref)
+void InterfaceServer::setNodeUserRef(Tree::Tree* tree, int userref)
 {
     tree->SetUserRef(userref);
 }
 
-void InterfaceServer::setName(Tree::Tree* tree, QString name)
+void InterfaceServer::setNodeName(Tree::Tree* tree, QString name)
 {
     tree->SetName(name);
 }
 
-void InterfaceServer::setType(Tree::Tree* tree, QString type)
+void InterfaceServer::setNodeType(Tree::Tree* tree, QString type)
 {
     tree->SetType(type);
 }
 
-QHash<int, Tree::Tree*> InterfaceServer::GetSonsNode(Tree::Tree* tree)
+QHash<int, Tree::Tree*> InterfaceServer::GetNodeSonsNode(Tree::Tree* tree)
 {
 
     return tree->GetSonsNode();
 }
 
-Tree::Tree* InterfaceServer::getfatherbyid(qint32 id)
+Tree::Tree* InterfaceServer::getNodefatherbyid(qint32 id)
 {
     return Tree::GetNodebyId(id)->GetParent();
 }
-Tree::Tree* InterfaceServer::getnodebyid(qint32 id)
+Tree::Tree* InterfaceServer::getNodenodebyid(qint32 id)
 {
     return Tree::GetNodebyId(id);
 }
-QHash<int, Tree*> InterfaceServer::getTree()
+QHash<int, Tree*> InterfaceServer::getNodeTree()
 {
     return Tree::maptree;
 }

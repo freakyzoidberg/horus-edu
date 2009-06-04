@@ -40,7 +40,7 @@ private:
     bool  mvnode(const int id, const int newfatherid, const  int iduser);
     bool  addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser);
     bool  editnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser);
-
+    QList<QVariant> userlist(const int id_node);
     //! get all node ids for a user
     /*!
       \param id of user

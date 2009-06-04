@@ -92,11 +92,12 @@ void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& resp
     {
     int node = QVariant(request["idNode"]).toInt(&ok);
 
-      response["userref"] = server->getnodebyid(node)->GetUserRef();
-      response["nodename"] =  server->getnodebyid(node)->GetName();
-      response["numberofsons"] = server->GetSonsNode(server->getnodebyid(node)).count();
+      response["userref"] = server->getNodeUserRef(server->getNodenodebyid(node));
+      response["nodename"] =  server->getNodeName(server->getNodenodebyid(node));
+      response["numberofsons"] = server->GetNodeSonsNode(server->getNodenodebyid(node)).count();
       response["sonsid"] = getvectorsonsfromidnode(node);
       response["userslist"] = userlist(node);
+      response["type"] = server->getNodeType(server->getNodenodebyid(node));
       response["Success"] = true;
     }
     else
@@ -169,7 +170,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
 
 bool  TreeManagement::delnode(const int id, const int iduser)
 {
-    Tree * node = server->getnodebyid(id);
+    Tree * node = server->getNodenodebyid(id);
     if (node->HasAdminRightOnNodeAndFathers(iduser))
         return (node->Delnode());
     else
@@ -178,7 +179,7 @@ bool  TreeManagement::delnode(const int id, const int iduser)
 
 bool  TreeManagement::mvnode(const int id, const int newfatherid, const int iduser)
 {
-    Tree * node = server->getnodebyid(id);
+    Tree * node = server->getNodenodebyid(id);
     if (node->HasAdminRightOnNodeAndFathers(iduser))
     return (node->MoveNode(newfatherid));
     else
@@ -187,7 +188,7 @@ bool  TreeManagement::mvnode(const int id, const int newfatherid, const int idus
 
 bool  TreeManagement::addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser)
 {
-    Tree * node = server->getnodebyid(fatherid);
+    Tree * node = server->getNodenodebyid(fatherid);
     if (node->HasAdminRightOnNodeAndFathers(iduser))
     {
       if (node->AddSon(user_ref, name, type) != 0)
@@ -202,15 +203,15 @@ bool  TreeManagement::addnode(const int fatherid, const QString type, const QStr
 bool  TreeManagement::editnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser)
 {
     bool res = true;
-     Tree * node = server->getnodebyid(nodeid);
+     Tree * node = server->getNodenodebyid(nodeid);
     if (node->HasAdminRightOnNodeAndFathers(iduser))
     {
-    if (node->GetName() != name)
-        res = ((res == false) ? false :(node->SetName(name) == false) ? false : true);
-    if (node->GetUserRef() != user_ref)
-        res = ((res == false) ? false :(node->SetUserRef(user_ref) == false) ? false : true);
-    if (node->GetType() != type)
-        res = ((res == false) ? false :(node->SetType(type) == false) ? false : true);
+    if (server->getNodeName(node) != name)
+        res = ((res == false) ? false : (server->setNodeName(node, name) == false) ? false : true);
+    if (server->getNodeUserRef(node) != user_ref)
+        res = ((res == false) ? false :(server->setNodeUserRef(node,user_ref) == false) ? false : true);
+    if (server->getNodeType(node) != type)
+        res = ((res == false) ? false :(server->setNodeType(node, type) == false) ? false : true);
     return res;
     }
     return false;
@@ -251,11 +252,11 @@ QList<QVariant> TreeManagement::getvectorsonsfromidnode(int idnode)
     QList<QVariant> sons;
 
     sons.clear();
-    QHash<int, Tree::Tree*> nodesons = server->GetSonsNode(server->getnodebyid(idnode));
+    QHash<int, Tree::Tree*> nodesons = server->GetNodeSonsNode(server->getNodenodebyid(idnode));
 
     for(QHash<int, Tree::Tree*>::iterator it = nodesons.begin(); it != nodesons.end(); ++it)
     {
-       sons.append(QVariant(server->getId(it.value())));
+       sons.append(QVariant(server->getNodeId(it.value())));
      }
     return sons;
 }
@@ -263,7 +264,7 @@ void  TreeManagement::addnodewithsons(QHash<QString, QVariant > *utree, int id)
 {
     QList<QVariant> tmpvec = getvectorsonsfromidnode(id);
 
-   utree->insert(QVariant(server->getId(server->getnodebyid(id))).toString(), tmpvec);
+   utree->insert(QVariant(server->getNodeId(server->getNodenodebyid(id))).toString(), tmpvec);
    bool ok;
     for (QList<QVariant>::const_iterator it = tmpvec.begin(); it != tmpvec.end(); ++it)
     {
@@ -275,14 +276,14 @@ void  TreeManagement::addnodewithsons(QHash<QString, QVariant > *utree, int id)
 void  TreeManagement::addfathers(QHash<QString, QVariant > *utree,const int id)
 {
 
-    if ((server->getfatherbyid(id) != 0))
+    if ((server->getNodefatherbyid(id) != 0))
     {
          QVariant tmpvec;
 
         tmpvec.toList().append(QVariant(id));
-        utree->insert(QVariant(server->getId(server->getfatherbyid(id))).toString(), tmpvec);
-        if ((server->getId(server->getfatherbyid(id)) != 0))
-           addfathers(utree, server->getId(server->getfatherbyid(id)));
+        utree->insert(QVariant(server->getNodeId(server->getNodefatherbyid(id))).toString(), tmpvec);
+        if ((server->getNodeId(server->getNodefatherbyid(id)) != 0))
+           addfathers(utree, server->getNodeId(server->getNodefatherbyid(id)));
     }
 
 }
@@ -303,9 +304,9 @@ QList<int> TreeManagement::GetNodeList(int iduser)
 return listret;
 }
 
-QList<int> userlist(const int id_node)
+QList<QVariant> TreeManagement::userlist(const int id_node)
 {
-    QList<int> res;
+    QList<QVariant> res;
     QSqlQuery query1 = server->getSqlQuery();
     query1.prepare("SELECT id FROM users WHERE id_tree =?");
     query1.addBindValue(id_node);

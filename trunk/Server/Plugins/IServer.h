@@ -28,27 +28,27 @@ public:
     // Should be in independant interface ?
 
     //! retrieve the tree for a plugin
-    virtual QHash<int, Tree::Tree*> getTree() = 0;
+    virtual QHash<int, Tree::Tree*> getNodeTree() = 0;
     //! retrieve node by id
-    virtual Tree::Tree* getnodebyid(qint32 id) = 0;
+    virtual Tree::Tree* getNodenodebyid(qint32 id) = 0;
     //! retrieve father of node from son id
-    virtual Tree::Tree* getfatherbyid(qint32 id) = 0;
+    virtual Tree::Tree* getNodefatherbyid(qint32 id) = 0;
     //! retrieve id of node
-    virtual int getId(Tree::Tree* tree) = 0;
+    virtual int getNodeId(Tree::Tree* tree) = 0;
     //! retrieve user referee of node
-    virtual int getUserRef(Tree::Tree* tree) = 0;
+    virtual int getNodeUserRef(Tree::Tree* tree) = 0;
     //! retrieve name of node
-    virtual QString getName(Tree::Tree* tree) = 0;
+    virtual QString getNodeName(Tree::Tree* tree) = 0;
     //! retrieve type of node
-    virtual QString getType(Tree::Tree* tree) = 0;
+    virtual QString getNodeType(Tree::Tree* tree) = 0;
     //! retrieve user referee of node
-    virtual void setUserRef(Tree::Tree* tree, int userref) = 0;
+    virtual void setNodeUserRef(Tree::Tree* tree, int userref) = 0;
     //! retrieve name of node
-    virtual void setName(Tree::Tree* tree, QString name) = 0;
+    virtual void setNodeName(Tree::Tree* tree, QString name) = 0;
     //! retrieve type of node
-    virtual void setType(Tree::Tree* tree, QString type) = 0;
+    virtual void setNodeType(Tree::Tree* tree, QString type) = 0;
     //! retrieve sons of node
-    virtual QHash<int, Tree::Tree*> GetSonsNode(Tree::Tree *tree) = 0;
+    virtual QHash<int, Tree::Tree*> GetNodeSonsNode(Tree::Tree *tree) = 0;
 };
 
 #endif // ISERVER_H
