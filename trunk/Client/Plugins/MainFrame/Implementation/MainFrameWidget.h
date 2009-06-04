@@ -8,6 +8,7 @@
 
 class MainFrameWidget : public QFrame
 {
+
 public:
     MainFrameWidget(MainFrame *plugin);
 
