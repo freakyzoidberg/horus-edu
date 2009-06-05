@@ -87,6 +87,13 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
         infos.insert("parentid", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         it.value() = infos;
     }
+   for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
+    {
+        qDebug() << "User Tree node :" << it.key();
+        tmplist = it.value().toList();
+
+    }
+
     qDebug() << "=== END Tree Management DEBUG ===";
     response["userTree"] =  usertree;
     response["Success"] = true;
