@@ -14,8 +14,8 @@
 #ifndef SERVER_NAME
 # define SERVER_NAME "Horus Server"
 #endif
-
-
+ #include <QCompleter>
+#include <QKeyEvent>
 namespace Ui
 {
     class MainWindowClass;
@@ -33,6 +33,11 @@ private:
     Ui::MainWindowClass *ui;
     void writesettings();
     QSettings Gsettings;
+    QCompleter *completer;
+
+protected:
+    void keyPressEvent(QKeyEvent *e);
+
 
 private slots:
     void on_buttonBox_2_clicked(QAbstractButton* button);
