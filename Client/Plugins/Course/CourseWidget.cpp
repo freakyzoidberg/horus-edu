@@ -38,8 +38,8 @@ void CourseWidget::select(const QModelIndex &item)
     this->file = this->plugin->fileManager->getFile(2);// need to use next line
 //    this->file = this->plugin->fileManager->getFile(item.data(42).toUInt());
     this->item = item;
-    file->open(QIODevice::ReadOnly);
-    connect(file, SIGNAL(readyRead()), this, SLOT(ready()));
+//    file->open(QIODevice::ReadOnly);
+//    connect(file, SIGNAL(readyRead()), this, SLOT(ready()));
 }
 
 void CourseWidget::ready()
@@ -53,7 +53,7 @@ void CourseWidget::ready()
     lessonManager = qobject_cast<ILessonManager *>(this->plugin->client->getPlugin("LessonManager"));
     if (lessonManager)
     {
-        this->lesson->setModel(lessonManager->getLesson(2));// need to use next line
+//        this->lesson->setModel(lessonManager->getLesson(2));// need to use next line
 //        this->lesson->setModel(lessonManager->getLesson(item.data(42).toUInt()));
     }
 }

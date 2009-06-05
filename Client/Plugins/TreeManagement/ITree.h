@@ -52,7 +52,7 @@ public:
     /*!
       \return Map of sons node
     */
-    virtual const QHash<int,ITree*>& GetSonsNode() const = 0;
+    virtual const QVector<ITree*>& GetSonsNode() const = 0;
 
     //! Get name of node
     /*!
