@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include <QHash>
+#include <QVector>
 #include <QString>
 
 #include "../ITree.h"
@@ -21,7 +22,7 @@ private:
 
 
 public slots:
-    void receiveUpdate(const int _id, const int _parent, const int _user_ref, const QString _name, const QString _type, const QHash<int,ITree*> _sons);
+    void receiveUpdate(const int _id, Tree* _parent, const int _user_ref, const QString _name, const QString _type, const QVector<ITree*> _sons);
 signals:
     void nodeUpdated();
 
@@ -67,7 +68,7 @@ public:
     /*!
       \return Map of sons node
     */
-    inline const QHash<int,ITree*>& GetSonsNode() const { return sons; }
+    inline const QVector<ITree*>& GetSonsNode() const { return sons; }
 
     //! Get name of node
     /*!
@@ -127,14 +128,14 @@ public:
     bool HasAdminRightOnNodeOrFathers(int userid);
 
 private:
-    inline Tree(int _id) { id=_id; user_ref=0; parent=0; maptree[id]=this; filled=false; }
+    inline Tree(int _id) { id=_id; user_ref=0; parent=0; name="invalid"; filled=false; }
     inline ~Tree() {}
     int id;
     int user_ref;
     Tree *parent;
     QString type;
     QString name;
-    QHash<int,ITree*> sons;
+    QVector<ITree*> sons;
     bool filled;
 };
 
