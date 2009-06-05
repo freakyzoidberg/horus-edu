@@ -13,50 +13,44 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
     if ( ! index.isValid())
         return QVariant();
 
+    qDebug() << ((Tree*)(index.internalPointer()))->GetName();
     return QVariant(((Tree*)(index.internalPointer()))->GetName());
 }
 
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const
 {
-    Tree* node;
-    if (parent.isValid())
-        node = (Tree*)(parent.internalPointer());
-    else
-        node = Tree::GetNodebyId(0);
+    if ( ! parent.isValid())
+        return createIndex(row, column, Tree::GetNodebyId(0));
 
+    Tree* node = (Tree*)(parent.internalPointer());
     if ( ! node->GetSonsNode().count())
         return QModelIndex();
 
-    qDebug() << "index" << node->Getid() << node->GetSonsNode().count() << row << column;
+//    qDebug() << "index" << node->Getid() << node->GetSonsNode().count() << row << column << node->GetSonsNode().at(row)->GetName();
 
-    return createIndex(row, 0, node->GetSonsNode().at(row));
+    return createIndex(row, column, node->GetSonsNode().at(row));
 }
 
 QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 {
     if ( ! index.isValid())
         return QModelIndex();
-//        return createIndex(0, 0, Tree::GetNodebyId(0));
 
-    Tree* p = ((Tree*)(index.internalPointer()))->GetParent();
-    if (p->Getid() == 0)
+    Tree* i = ((Tree*)(index.internalPointer()));
+    if (i->Getid() == 0)
         return QModelIndex();
 
-    qDebug() << "parent" << p->Getid() << p->GetSonsNode().count();
+    i = i->GetParent();
 
-    return createIndex(p->GetParent()->GetSonsNode().indexOf(p), 0, p);
+//    qDebug() << "parent" << p->Getid() << p->GetSonsNode().count();
+
+    return createIndex(i->GetParent()->GetSonsNode().indexOf(i), 0, i);
 }
 
 int TreeModel::rowCount ( const QModelIndex & parent ) const
 {
-    Tree* p;
-
     if ( ! parent.isValid())
-        p = Tree::GetNodebyId(0);
-    else
-        p = ((Tree*)(parent.internalPointer()));
+        return 1;
 
-    qDebug() << "rowCount" << p->Getid() << p->GetSonsNode().count();
-
-    return p->GetSonsNode().count();
+    return ((Tree*)(parent.internalPointer()))->GetSonsNode().count();
 }
