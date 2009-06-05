@@ -36,8 +36,8 @@ signals:
     //! emitted when the progress value change (for a down/upload)
     void progressChange(int percent);
 
-//protected:
-//    virtual ~IFile() = 0;
+protected:
+    virtual ~IFile() {}
 };
 
 #endif // IFILE_H
