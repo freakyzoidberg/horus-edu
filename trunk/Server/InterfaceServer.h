@@ -65,7 +65,7 @@ public:
 
 private:
     //! the only connexion
-    Sql* sqlConnexion;
+    QHash<Qt::HANDLE,Sql*> sqlConnexions;
     //! instance of the associated plugin
     IServerPlugin*   plugin;
 };
