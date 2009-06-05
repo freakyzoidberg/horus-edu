@@ -32,8 +32,8 @@ void    UserFram::fillUserFram()
 
     this->menuW->setLayout(this->menuLayout);
     this->formW->setLayout(this->formLayout);
-    this->userLayout->setRowStretch(0, 1);
-    this->userLayout->setRowStretch(1, 18);
+    this->userLayout->setRowStretch(1, 1);
+    this->userLayout->setRowStretch(0, 18);
     this->mainLayout->setColumnStretch(0, 1);
     this->mainLayout->setColumnStretch(1, 3);
     this->setLayout(this->mainLayout);

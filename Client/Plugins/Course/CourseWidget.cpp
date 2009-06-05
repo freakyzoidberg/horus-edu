@@ -68,6 +68,7 @@ void CourseWidget::ready()
 {
     disconnect(this->lessonFile, SIGNAL(readyRead()), this, SLOT(ready()));
     this->lessonFile->close();
+    this->lessonFile->open(QIODevice::ReadOnly);
     this->lessonView->setModel(this->lessonManager->getLesson(this->fileIndex));
     connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
 }

@@ -14,11 +14,11 @@
    <string>Frame</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QFrame
+   <string notr="true">.MainFrameWidget
 {
 	background-image: url(:/Pictures/HorusPanelBackground-NoFx.png);
-background-position: center;
-background-repeat: non;
+	background-position: center;
+	background-repeat: non;
 }
 </string>
   </property>
@@ -29,8 +29,6 @@ background-repeat: non;
    <enum>QFrame::Raised</enum>
   </property>
  </widget>
- <resources>
-  <include location="MainFrameWidget.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
