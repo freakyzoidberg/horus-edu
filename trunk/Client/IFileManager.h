@@ -2,6 +2,7 @@
 #define IFILEMANAGER_H
 
 #include <QFile>
+#include <QHash>
 #include "IFile.h"
 
 /*!
@@ -22,7 +23,8 @@ public:
     virtual IFile* getFile(quint32 fileId) = 0;
 
     //! Return the full list of readable files. May be incomplete the first time. See SIGNAL(fileListUpdated(quint32)))
-    virtual const QList<IFile*> getFullFileList() const = 0;
+    //virtual const QList<IFile*> getFullFileList() const = 0;
+    virtual const QHash<quint32,IFile*> getFullFileList() const = 0;
     //! Return the list of readable files of the nodeId. May be incomplete the first time. See SIGNAL(fileListUpdated(quint32)))
     virtual const QList<IFile*> getNodeFileList(quint32 nodeId) const = 0;
     //TODO: more filters

@@ -22,7 +22,6 @@ void Tree::receiveUserTree(const QVariantHash& response)
         QVariantHash elem = (*it).toHash();
         int idNode = it.key().toInt();
         QVariantList list = elem["sons"].toList();
-        qDebug() << idNode << list;
         QVector<ITree*> childs;
         for (QVariantList::const_iterator it2 = list.begin(); it2 != list.end(); ++it2)
             childs.append( GetNodebyId( (*it2).toInt() ) );
@@ -53,8 +52,6 @@ void Tree::receiveUpdate(const int _id, Tree* _parent, const int _user_ref, cons
     name = _name;
     type = _type;
     filled = true;
-
-    qDebug() << "Tree::receiveUpdate :" << this << id << parent << parent->Getid() << user_ref << name << type << sons;
 
     emit nodeUpdated();
 }

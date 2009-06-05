@@ -17,7 +17,7 @@ public:
     static inline int countNodes() { return maptree.count(); }
     static void updateUserTree();
     static void receiveUserTree(const QVariantHash& response);
-private:
+//private:
     static QHash<int,Tree*> maptree;
 
 

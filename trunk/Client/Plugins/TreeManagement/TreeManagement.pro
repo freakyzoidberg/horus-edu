@@ -12,5 +12,6 @@ HEADERS += Implementation/TreeManagement.h \
     Implementation/Tree.h \
     Implementation/TreeModel.h \
     ITree.h \
+    ../../IFile.h \
     TreeManagement_global.h \
     ITreePlugin.h

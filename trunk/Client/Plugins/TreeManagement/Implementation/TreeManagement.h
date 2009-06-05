@@ -4,12 +4,13 @@
 #include "TreeManagement_global.h"
 #include "TreeModel.h"
 
-class TREEMANAGEMENTSHARED_EXPORT TreeManagement : public IClientPlugin, public INetworkPlugin, public ITreePlugin
+class TREEMANAGEMENTSHARED_EXPORT TreeManagement : public IClientPlugin, public INetworkPlugin, public ITreePlugin, public IFilePlugin
 {
   Q_OBJECT
   Q_INTERFACES(IClientPlugin)
   Q_INTERFACES(INetworkPlugin)
   Q_INTERFACES(ITreePlugin)
+  Q_INTERFACES(IFilePlugin)
 
 public:
     TreeManagement();
@@ -50,7 +51,7 @@ public:
 
     inline Tree* getNodeById(int id) { return Tree::GetNodebyId(id); }
 
-    inline QAbstractItemModel* getTreeModel() { return new TreeModel(); }
+    inline QAbstractItemModel* getTreeModel() { return new TreeModel(fileManager); }
 
     //! Surcharge of the method event
     /*!

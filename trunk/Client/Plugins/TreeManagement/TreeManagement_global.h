@@ -6,6 +6,7 @@
 
 #include "../../IClientPlugin.h"
 #include "../../INetworkPlugin.h"
+#include "../../IFilePlugin.h"
 #include "ITreePlugin.h"
 
 #if defined(TREEMANAGEMENT_LIBRARY)
