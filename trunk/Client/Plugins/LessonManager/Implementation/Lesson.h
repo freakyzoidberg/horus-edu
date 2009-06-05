@@ -3,51 +3,50 @@
 
 #include <QMap>
 #include <QString>
+#include <QIcon>
 #include "../ILesson.h"
 
-//! Convenience class to allow polymorphic cast on LSection, LPage and Lesson
-class LItem
+class LElement : virtual public ILesson::IElement
 {
- public:
-    LItem() {}
-    virtual ~LItem() {}
+public:
+    LElement(LElement *parent);
+
+    LElement    *getParent();
+    const QString&  getTitle() const;
+    void            setTitle(const QString& title);
+
+private:
+    LElement    *parent;
+    QString     title;
 };
 
 //! Provides an implementation of ILesson::ISection to be used by the plugin.
-class LSection : public ILesson::ISection, public LItem
+class LSection : public ILesson::ISection, public LElement
 {
 public:
-    LSection();
+    LSection(LElement *parent);
     ~LSection() {}
 
-    const Type                      getType() const;
-    const QString&                  getTitle() const;
-    void                            setTitle(const QString& title);
-
+    const Type                        getType() const;
     QList<ILesson::IElement *>&       getElementsP();
     const QList<ILesson::IElement *>& getElements() const;
 
 private:
     QList<ILesson::IElement *>    elements;
-    QString                       title;
 };
 
 //! Provides an implementation of ILesson::IPage to be used by the plugin.
-class LPage : public ILesson::IPage, public LItem
+class LPage : public ILesson::IPage, public LElement
 {
 public:
-    LPage();
+    LPage(LElement *parent);
     ~LPage() {}
 
     const Type              getType() const;
-    const QString&          getTitle() const;
-    void                    setTitle(const QString& title);
-
-    const QList<IObject *>&   getObjects() const;
+    const QList<IObject *>& getObjects() const;
     void                    addObject(IObject *object);
 
 private:
-    QString             title;
     QList<IObject *>    objects;
 };
 
@@ -82,7 +81,7 @@ private:
 };
 
 //! Provides an implementation of ILesson to be used by the plugin.
-class Lesson : public ILesson, public LItem
+class Lesson : public ILesson
 {
 public:
     Lesson();
@@ -99,15 +98,18 @@ public:
     int         rowCount(const QModelIndex &parent = QModelIndex()) const;
     int         columnCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant    data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    QVariant    headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
 
 private:
     LSection*   findSection(QList<IElement *>& list, const ISection *section);
-    void*       findNodeParent(const QList<ILesson::IElement *>& list, void *parent, const void* node) const;
 
 private:
     QList<IElement *>  elements;
     QString  title;
-    QModelIndex        invalidIdx;
+
+    static QIcon    lessonIcon;
+    static QIcon    sectionIcon;
+    static QIcon    pageIcon;
 };
 
 #endif // LESSON_H
