@@ -13,6 +13,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
         QVBoxLayout *mylayout = new QVBoxLayout();
         ui->scrollArea->setLayout(mylayout);
+#ifdef WIN32
+        ui->lineEdit_16->setText("C:\\Program Files\\Horus\\");
+#else
+        ui->lineEdit_16->setText("/opt/Horus/Horus-server/");
+#endif
         on_lineEdit_16_textChanged("");
 }
 
@@ -244,11 +249,21 @@ while ((child = ui->scrollArea->layout()->takeAt(0)) != 0) {
         child->widget()->deleteLater();
         delete child;
 }
+QPalette Pal(ui->label_9->palette());
 QDir dir(ui->lineEdit_16->text()+"/Plugins/");
-
-    if (dir.exists())
+if (dir.exists())
+     {
+QDir dir3(ui->lineEdit_16->text()+"/ssl/");
+    if (dir3.exists())
         {
-
+        Pal.setColor(QPalette::Foreground, Qt::green);
+                ui->label_9->setPalette(Pal);
+        }
+    else
+        {
+        Pal.setColor(QPalette::Foreground, Qt::red);
+                ui->label_9->setPalette(Pal);
+        }
             dir.setFilter(QDir::Dirs| QDir::NoDotAndDotDot);
             QFileInfoList list = dir.entryInfoList();
             for (int i = 0; i < list.size(); ++i)
@@ -283,9 +298,14 @@ QDir dir(ui->lineEdit_16->text()+"/Plugins/");
         }
     else
     {
+
+        Pal.setColor(QPalette::Foreground, Qt::red);
+                ui->label_9->setPalette(Pal);
+
         QCompleter *completer = new QCompleter(this);
         completer->setCompletionMode(QCompleter::InlineCompletion);
         completer->setModel(new QDirModel(completer));
+
         ui->lineEdit_16->setCompleter(completer);
     }
 }
