@@ -128,7 +128,7 @@ public:
     bool HasAdminRightOnNodeOrFathers(int userid);
 
 private:
-    inline Tree(int _id) { id=_id; user_ref=0; parent=0; name="invalid"; filled=false; }
+    inline Tree(int _id) { id=_id; user_ref=0; parent=this; name="invalid"; filled=false; }
     inline ~Tree() {}
     int id;
     int user_ref;
