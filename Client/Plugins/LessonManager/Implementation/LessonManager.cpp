@@ -210,7 +210,7 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
     widget->update();
 }
 
-void        LessonManager::hideCurrentPage()
+void        LessonManager::hidePage(ILesson::IPage *page)
 {
 
 }
