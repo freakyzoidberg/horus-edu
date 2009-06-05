@@ -132,6 +132,7 @@ ILesson*      LessonManager::getLesson(quint32 fileId)
     xmlReader.setErrorHandler(handler);
     if (!xmlReader.parse(source))
         qDebug() << "Xml Parsing failed.";
+
     delete handler;
     delete xmlfile;
     return lesson;
