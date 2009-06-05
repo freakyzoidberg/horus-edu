@@ -31,6 +31,7 @@ private:
     void  setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser); // Admin protected
     void  getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
     void  getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser); //root admin Protected
+    void  getAlltreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser); //root admin Protected
 
 
     int   getidofusernode(const QVariantHash& request, qint32 iduser);
