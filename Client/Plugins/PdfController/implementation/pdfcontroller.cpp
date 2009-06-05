@@ -7,7 +7,7 @@
 
 #include <ClientEvents.h>
 #include <IClient.h>
-#include "../../dispPDF/IPdfRendering.h"
+#include "../../dispPDF/implementation/disppdf.h"
 #include "pdfcontroller.h"
 
 extern QEvent::Type ClientEvents::UnloadPluginEvent;
@@ -103,7 +103,7 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         return ;
     }
 
-    pdf = (IPdfRendering *)clientPlugin;
+    pdf = (IPdfRendering *)(clientPlugin);
 
     for (it = requieredFiles.begin(), index = 0; it != itend; ++it, ++index)
     {
