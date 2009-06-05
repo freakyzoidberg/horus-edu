@@ -84,14 +84,14 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
         infos.insert("name", server->getNodeName(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("parentid", server->getNodeId(server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok)))));
+        infos.insert("parentid", server->getNodeId(server->getNodefatherbyid(QVariant(it.key()).toInt(&ok))));
         it.value() = infos;
     }
    for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
     {
         qDebug() << "User Tree node :" << it.key();
         tmplist = it.value().toList();
-
+        
     }
 
     qDebug() << "=== END Tree Management DEBUG ===";
