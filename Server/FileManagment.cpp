@@ -96,7 +96,28 @@ void FileManagment::insertNewFile(CommFileInfo& file)
 
 const QList<CommFileInfo> FileManagment::getUserList(quint32 userId)
 {
-    return getNodeList(0);
+    QList<CommFileInfo> list;
+
+    Sql con;
+    QSqlQuery query(QSqlDatabase::database(con));
+
+    query.prepare("SELECT id,name,size,id_owner,ctime,mtime,hash_sha1,id_tree FROM files;");
+
+    if (query.exec())
+        while (query.next())
+        {
+            lastFileInfo.id = query.value(0).toUInt();
+            lastFileInfo.fileName = query.value(1).toString();
+            lastFileInfo.size = query.value(2).toULongLong();
+            lastFileInfo.ownerId = query.value(3).toUInt();
+            lastFileInfo.ctime = query.value(4).toDateTime();
+            lastFileInfo.mtime = query.value(5).toDateTime();
+            lastFileInfo.hashSha1 = query.value(6).toByteArray();
+            lastFileInfo.nodeId = query.value(7).toUInt();
+            list.append(lastFileInfo);
+        }
+
+    return list;
 }
 
 bool FileManagment::userCanReadFile(quint32 userId, quint32 fileId)

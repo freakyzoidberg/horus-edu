@@ -25,19 +25,22 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 
     if (role == Qt::DisplayRole)
     {
+
         Tree* node = dynamic_cast<Tree*>(static_cast<QObject*>(index.internalPointer()));
         if (node)
         {
-            qDebug() << "TreeModel::data Tree" << node->Getid();
+//            qDebug() << "TreeModel::data Tree" << node->Getid();
             if (index.column() == 1)
                 return QVariant(node->GetName());
             return QVariant(node->Getid());
         }
 
-        IFile* file = dynamic_cast<IFile*>(static_cast<QObject*>(index.internalPointer()));
+        //IFile* file = dynamic_cast<IFile*>(static_cast<QObject*>(index.internalPointer()));
+        //IFile* file = qobject_cast<IFile*>((QObject*)(index.internalPointer()));
+        IFile* file = (IFile*)(index.internalPointer());
         if (file)
         {
-            qDebug() << "TreeModel::data IFile";
+//            qDebug() << "TreeModel::data IFile";
             if (index.column() == 1)
                 return QVariant(file->getInfo().fileName);
             return QVariant(file->getInfo().id);
@@ -57,7 +60,7 @@ QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent )
         int nbChilds = node->GetSonsNode().size();
         int nbFiles = filesByParent.values(node->Getid()).size();
 
-        qDebug() << "TreeModel::index" << nbChilds << nbFiles;
+//        qDebug() << "TreeModel::index" << nbChilds << nbFiles;
 
         if (nbChilds + nbFiles <= 0)
             return QModelIndex();
@@ -65,6 +68,7 @@ QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent )
         if (row < nbChilds)
             return createIndex(row, column, node->GetSonsNode().at(row));
 
+//        qDebug() << "put file pointer" << filesByParent.values(node->Getid()).at( row - nbChilds )->getInfo();
         return createIndex(row, column, filesByParent.values(node->Getid()).at( row - nbChilds ));
     }
     return QModelIndex();
@@ -78,7 +82,7 @@ QModelIndex TreeModel::parent ( const QModelIndex & index ) const
     Tree* node = dynamic_cast<Tree*>(static_cast<QObject*>(index.internalPointer()));
     if (node)
     {
-         qDebug() << "TreeModel::parent Tree" << node->Getid();
+//         qDebug() << "TreeModel::parent Tree" << node->Getid();
         if (node == node->GetParent())
             return QModelIndex();
 
@@ -86,10 +90,14 @@ QModelIndex TreeModel::parent ( const QModelIndex & index ) const
     }
     else
     {
-        qDebug() << "TreeModel::parent IFile";
-        IFile* file = dynamic_cast<IFile*>(static_cast<QObject*>(index.internalPointer()));
+//        qDebug() << "TreeModel::parent IFile";
+//        IFile* file = dynamic_cast<IFile*>(static_cast<QObject*>(index.internalPointer()));
+        IFile* file = (IFile*)(index.internalPointer());
         if (file)
+        {
+//            qDebug() << file->getInfo();
             node = Tree::GetNodebyId( file->getInfo().nodeId );
+        }
         else
             return QModelIndex();
     }
@@ -109,6 +117,6 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
     if ( ! p)
         return 0;
 
-    qDebug() << "TreeModel::rowCount" << p->GetSonsNode().size() + filesByParent.values(p->Getid()).size();
+//    qDebug() << "TreeModel::rowCount" << p->Getid() << p->GetSonsNode().size() + filesByParent.values(p->Getid()).size();
     return p->GetSonsNode().size() + filesByParent.values(p->Getid()).size();
 }
