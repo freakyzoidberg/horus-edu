@@ -63,7 +63,7 @@ public:
         A section of a lesson is a container for subsections or pages.
         It is meant for the teacher to organize his lesson as a hierarchy.
     */
-    class ISection : public IElement
+    class ISection : virtual public IElement
     {
         public:
         virtual ~ISection() {}
@@ -82,7 +82,7 @@ public:
         the students computers. It is the element of a lesson that contains the
         actual displayable content such as text, PDF elements, images, quizz, etc...
     */
-    class IPage : public IElement
+    class IPage : virtual public IElement
     {
         public:
         virtual ~IPage() {}

@@ -15,3 +15,4 @@ HEADERS += ILessonManager.h \
 INCLUDEPATH += .
 DESTDIR = .
 TARGET = $$qtLibraryTarget(LessonManager)
+RESOURCES += Implementation/TreeIcons.qrc

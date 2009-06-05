@@ -1,6 +1,29 @@
 #include "Lesson.h"
 
-LSection::LSection()
+LElement::LElement(LElement *parent) : parent(parent)
+{
+}
+
+LElement    *LElement::getParent()
+{
+    return parent;
+}
+
+const QString&          LElement::getTitle() const
+{
+    return title;
+}
+
+void                    LElement::setTitle(const QString& title)
+{
+    this->title = title;
+}
+
+/**********************************************************************/
+/**********************************************************************/
+/**********************************************************************/
+
+LSection::LSection(LElement *parent) : LElement(parent)
 {
 
 }
@@ -8,16 +31,6 @@ LSection::LSection()
 const ILesson::IElement::Type                      LSection::getType() const
 {
     return ILesson::IElement::SECTION;
-}
-
-const QString&                  LSection::getTitle() const
-{
-    return title;
-}
-
-void                            LSection::setTitle(const QString& title)
-{
-    this->title = title;
 }
 
 QList<ILesson::IElement *>&       LSection::getElementsP()
@@ -34,7 +47,7 @@ const QList<ILesson::IElement *>& LSection::getElements() const
 /**********************************************************************/
 /**********************************************************************/
 
-LPage::LPage()
+LPage::LPage(LElement *parent) : LElement(parent)
 {
 
 }
@@ -42,16 +55,6 @@ LPage::LPage()
 const ILesson::IElement::Type              LPage::getType() const
 {
     return ILesson::IElement::PAGE;
-}
-
-const QString&          LPage::getTitle() const
-{
-    return title;
-}
-
-void                    LPage::setTitle(const QString& title)
-{
-    this->title = title;
 }
 
 const QList<ILesson::IPage::IObject *>&   LPage::getObjects() const
@@ -169,11 +172,11 @@ ILesson::IElement* Lesson::addElement(ILesson::IElement::Type type, const QStrin
 {
     if (type == ILesson::IElement::PAGE)
     {
-        elements.push_back(new LPage());
+        elements.push_back(new LPage(NULL));
     }
     else if (type == ILesson::IElement::SECTION)
     {
-        elements.push_back(new LSection());
+        elements.push_back(new LSection(NULL));
     }
     elements.last()->setTitle(title);
     return elements.last();
@@ -186,11 +189,11 @@ ILesson::IElement* Lesson::addElement(ILesson::IElement::Type type, const QStrin
         return NULL;
     if (type == ILesson::IElement::PAGE)
     {
-        sec->getElementsP().push_back(new LPage());
+        sec->getElementsP().push_back(new LPage(sec));
     }
     else if (type == ILesson::IElement::SECTION)
     {
-        sec->getElementsP().push_back(new LSection());
+        sec->getElementsP().push_back(new LSection(sec));
     }
     sec->getElementsP().last()->setTitle(title);
     return sec->getElementsP().last();
@@ -203,29 +206,12 @@ LSection* Lesson::findSection(QList<ILesson::IElement *>& list, const ILesson::I
     while (it != list.end())
     {
         if (*it == section)
+        {
             return dynamic_cast<LSection *>(*it);
+        }
         else if ((sec = dynamic_cast<LSection *>(*it)) != NULL)
         {
             LSection *res = findSection(sec->getElementsP(), section);
-            if (res != NULL)
-                return res;
-        }
-        it++;
-    }
-    return NULL;
-}
-
-void* Lesson::findNodeParent(const QList<ILesson::IElement *>& list, void *parent, const void* node) const
-{
-    QList<ILesson::IElement *>::const_iterator it = list.begin();
-    LSection *sec;
-    while (it != list.end())
-    {
-        if (*it == node)
-            return parent;
-        else if ((sec = dynamic_cast<LSection *>(*it)) != NULL)
-        {
-            void *res = findNodeParent(sec->getElementsP(), sec, node);
             if (res != NULL)
                 return res;
         }
@@ -238,48 +224,115 @@ QModelIndex Lesson::index(int row, int column, const QModelIndex &parent) const
 {
     if (parent.isValid())
     {
-        if (row == 0)
-            return createIndex(row, column, parent.internalPointer());
-        LSection* section = dynamic_cast<LSection *>((LItem *)parent.internalPointer());
-        return createIndex(row, column, section->getElements().at(row));
+        if (parent.internalPointer() == this)
+            return createIndex(row, column, elements.at(row));
+        LSection* section = dynamic_cast<LSection *>(static_cast<ILesson::IElement *>(parent.internalPointer()));
+        if (section != NULL)
+            return createIndex(row, column, section->getElements().at(row));
+        return QModelIndex();
     }
     if (row == 0)
-        createIndex(row, column, (void *)this);
-    return createIndex(row, column, elements.at(row));
+        return createIndex(row, column, (void *)this);
+    return QModelIndex();
 }
 
 QModelIndex Lesson::parent(const QModelIndex &child) const
 {
-    void *ptr = child.internalPointer();
-    if (child == invalidIdx || child.internalPointer() == this)
-        return invalidIdx;
-    void *node = findNodeParent(elements, (void *)this, child.internalPointer());
-    if (node != NULL)
-        return createIndex(0, 0, node);
-    return invalidIdx;
+    if (!child.isValid() || child.internalPointer() == this)
+        return QModelIndex();
+    LElement *elem = dynamic_cast<LElement *>(static_cast<ILesson::IElement *>(child.internalPointer()));
+    if (elem->getTitle() == "Apercu")
+    {
+        int x = 42;
+        x++;
+    }
+    if (elem != NULL)
+    {
+        if (elem->getParent() != NULL)
+        {
+            int i;
+            if (elem->getParent()->getParent() != NULL)
+            {
+                LSection *section = static_cast<LSection *>(elem->getParent()->getParent());
+                for (i = 0; i < section->getElementsP().count(); ++i)
+                {
+                    if (section->getElementsP().at(i) == dynamic_cast<ILesson::IElement *>((elem->getParent())))
+                        break;
+                }
+                if (i < section->getElementsP().count())
+                    return createIndex(i, 0, dynamic_cast<ILesson::IElement *>((elem->getParent())));
+                return QModelIndex();
+            }
+            else
+            {
+                for (i = 0; i < elements.count(); ++i)
+                {
+                    if (elements.at(i) == dynamic_cast<ILesson::IElement *>((elem->getParent())))
+                        break;
+                }
+                if (i < elements.count())
+                    return createIndex(i, 0, dynamic_cast<ILesson::IElement *>((elem->getParent())));
+            }
+        }
+        else
+        {
+            return createIndex(0, 0, (void *)this);
+        }
+    }
+    return QModelIndex();
 }
 
 int         Lesson::rowCount(const QModelIndex &parent) const
 {
-    Lesson *lesson = NULL;
     LSection *section = NULL;
-    if (parent == invalidIdx)
-        return 0;
-    if ((lesson = dynamic_cast<Lesson *>((LItem *)parent.internalPointer())) != NULL)
-        return lesson->getElements().count();
-    else if ((section = dynamic_cast<LSection *>((LItem *)parent.internalPointer())) != NULL)
+    if (!parent.isValid())
+        return 1;
+    if (parent.internalPointer() == this)
+        return elements.count();
+    else if ((section = dynamic_cast<LSection *>(static_cast<ILesson::IElement *>(parent.internalPointer()))) != NULL)
         return section->getElements().count();
     return 0;
 }
 
 int         Lesson::columnCount(const QModelIndex &parent) const
 {
-    if (parent == invalidIdx)
-        return 0;
     return 1;
 }
 
 QVariant    Lesson::data(const QModelIndex &index, int role) const
 {
+    LSection *section = NULL;
+    LPage *page = NULL;
+    if (role == Qt::DisplayRole)
+    {
+        if (index.internalPointer() == this)
+            return QVariant(title);
+        else if ((section = dynamic_cast<LSection *>(static_cast<ILesson::IElement *>(index.internalPointer()))) != NULL)
+            return QVariant(section->getTitle());
+        else if ((page = dynamic_cast<LPage *>(static_cast<ILesson::IElement *>(index.internalPointer()))) != NULL)
+            return QVariant(page->getTitle());
+    }
+    else if (role == Qt::DecorationRole)
+    {
+        if (index.internalPointer() == this)
+            return QVariant(QVariant::Icon, &Lesson::lessonIcon);
+        else if ((section = dynamic_cast<LSection *>(static_cast<ILesson::IElement *>(index.internalPointer()))) != NULL)
+            return QVariant(QVariant::Icon, &Lesson::sectionIcon);
+        else if ((page = dynamic_cast<LPage *>(static_cast<ILesson::IElement *>(index.internalPointer()))) != NULL)
+            return QVariant(QVariant::Icon, &Lesson::pageIcon);
+    }
     return QVariant();
 }
+
+QVariant    Lesson::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (section == 0 && (orientation == Qt::Horizontal || orientation == Qt::Vertical) && role == Qt::DisplayRole)
+    {
+        return QVariant(title);
+    }
+    return QVariant();
+}
+
+QIcon    Lesson::lessonIcon(":/Icons/LessonIcon.png");
+QIcon    Lesson::sectionIcon(":/Icons/SectionIcon.png");
+QIcon    Lesson::pageIcon(":/Icons/PageIcon.png");
