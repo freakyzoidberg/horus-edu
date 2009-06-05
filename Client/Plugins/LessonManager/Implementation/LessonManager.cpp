@@ -208,9 +208,21 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
         it++;
     }
     widget->update();
+    displayedPages.insert(page, widget);
 }
 
 void        LessonManager::hidePage(ILesson::IPage *page)
 {
-
+    QMap<ILesson::IPage *, QWidget *>::iterator it = displayedPages.find(page);
+    if (it != displayedPages.end())
+    {
+        const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
+        QList<ILesson::IPage::IObject *>::const_iterator oit = objects.begin();
+        while (oit != objects.end())
+        {
+            delete *oit;
+        }
+        it.value()->update();
+        displayedPages.remove(page);
+    }
 }

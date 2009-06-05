@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QtXml/QXmlStreamWriter>
 #include <QList>
+#include <QWidget>
 
 #include "../../IClientPlugin.h"
 #include "../../IFilePlugin.h"
@@ -160,6 +161,7 @@ public:
     void        writeXmlSection(const QList<ILesson::IElement *>& list, QXmlStreamWriter& xmlWriter);
 
  private:
+    QMap<ILesson::IPage *, QWidget *>  displayedPages;
     //QMap<QString, QString>  availableControllers;
     //QMap<QString, ILesson::IElement::>
 
