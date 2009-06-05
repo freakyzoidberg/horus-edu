@@ -43,7 +43,14 @@ void    TreeFram::updateTree(QVariantHash tree)
         }
     }*/
     //build index
-    QTreeWidgetItem *cours1 = new QTreeWidgetItem(this);
+    //this->show();
+}
+
+void    TreeFram::getTree()
+{
+    QVariantHash request;
+    request["Request"]=  "getTree";
+    /*QTreeWidgetItem *cours1 = new QTreeWidgetItem(this);
     cours1->setText(0,"cours 1");
 
     //build child
@@ -54,26 +61,7 @@ void    TreeFram::updateTree(QVariantHash tree)
     cours2->setText(0,"cours 2");
 
     this->insertTopLevelItem(0, cours1);
-    this->insertTopLevelItem(1, cours2);
-    //this->show();
-}
-
-void    TreeFram::getTree()
-{
-    QVariantHash request;
-    request["Request"]=  "getTree";
-        QTreeWidgetItem *cours1 = new QTreeWidgetItem(this);
-    cours1->setText(0,"Promos");
-
-    //build child
-    QTreeWidgetItem *lesson1 = new QTreeWidgetItem(cours1);
-    lesson1->setText(0,"Class");
-
-    QTreeWidgetItem *cours2 = new QTreeWidgetItem;
-    cours2->setText(0,"Profs");
-
-    this->insertTopLevelItem(0, cours1);
-    this->insertTopLevelItem(1, cours2);
+    this->insertTopLevelItem(1, cours2);*/
     //this->show();
 }
 
