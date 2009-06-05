@@ -7,7 +7,6 @@
 InterfaceServer::InterfaceServer(IServerPlugin* p)
 {
     plugin = p;
-    sqlConnexion = 0;
 }
 
 void InterfaceServer::sendPacket(const quint32 userId, const PluginPacket& packet) const
@@ -111,18 +110,18 @@ int InterfaceServer::AddNode(Tree::Tree *node, int userref, QString name, QStrin
 
 QSqlQuery InterfaceServer::getSqlQuery()
 {
-    if ( ! sqlConnexion)
-        sqlConnexion = new Sql;
+    if ( ! sqlConnexions.contains(QThread::currentThreadId()))
+        sqlConnexions[QThread::currentThreadId()] = new Sql;
 
-    return QSqlQuery(QSqlDatabase::database(*sqlConnexion));
+    return QSqlQuery(QSqlDatabase::database(*sqlConnexions[QThread::currentThreadId()]));
 }
 
 void InterfaceServer::freeSql()
 {
-    if ( ! sqlConnexion)
+    if ( ! sqlConnexions.contains(QThread::currentThreadId()))
         return;
-    delete sqlConnexion;
-    sqlConnexion = 0;
+    delete sqlConnexions.value(QThread::currentThreadId());
+    sqlConnexions.remove(QThread::currentThreadId());
 }
 
 void InterfaceServer::cleanInterface()
