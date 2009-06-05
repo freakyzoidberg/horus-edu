@@ -46,7 +46,7 @@ void TeacherFram::itemClicked(QTreeWidgetItem *item, int idx)
     this->languageTxt->setText(this->proflist[item->data(1, 0).toString()]["language"].toString());
     this->prenomTxt->setText(this->proflist[item->data(1, 0).toString()]["name"].toString());
     this->nomTxt->setText(this->proflist[item->data(1, 0).toString()]["surname"].toString());
-    this->date->setSelectedDate(this->proflist[item->data(1, 0).toString()]["birth_day"].toDate());
+    this->date->setSelectedDate(this->proflist[item->data(1, 0).toString()]["birth_date"].toDate());
     this->activeBox->setChecked(this->proflist[item->data(1, 0).toString()]["language"].toBool());
 }
 
@@ -168,7 +168,7 @@ void    TeacherFram::setUserInfo()
     request["phone"] = this->phoneTxt->text();
     request["name"] = this->prenomTxt->text();
     request["surname"] = this->nomTxt->text();
-    request["birth_day"] = this->date->selectedDate();
+    request["birth_date"] = this->date->selectedDate();
     request["picture"] = "vide";
     request["country"] = this->paysTxt->text();
     request["language"] = this->languageTxt->text();
@@ -218,7 +218,7 @@ void    TeacherFram::createNewUser()
     request["phone"] = this->phoneTxt->text();
     request["name"] = this->prenomTxt->text();
     request["surname"] = this->nomTxt->text();
-    request["birth_day"] = this->date->selectedDate();
+    request["birth_date"] = this->date->selectedDate();
     request["picture"] = "vide";
     request["country"] = this->paysTxt->text();
     request["language"] = this->languageTxt->text();
@@ -258,13 +258,13 @@ void    TeacherFram::listUsersResponse(QVariantHash &response)
 {
     if (response["Success"] == false)
         return;
+    this->proflist.clear();
+    this->profTree->clear();
     QTreeWidgetItem *profs = new QTreeWidgetItem(this->profTree);
     profs->setText(0,"Etudiants");
     QVariantList list;
     list = response["Users"].toList();
     QList<QVariant>::iterator i;
-    this->proflist.clear();
-    //this->profTree->clear();
     for (i = list.begin(); i != list.end(); ++i)
     {
         if (QVariant(*i).toHash()["level"] == LEVEL_TEACHER)
