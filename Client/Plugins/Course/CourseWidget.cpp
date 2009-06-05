@@ -42,11 +42,14 @@ void CourseWidget::buildLessonTree()
 
 void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
 {
-    this->lessonFile = this->fileManager->getFile(2);// need to use next line
-//    this->lessonFile = this->fileManager->getFile(item.data(42).toUInt());
-    this->lessonIndex = lessonIndex;
-    lessonFile->open(QIODevice::ReadOnly);
-    connect(lessonFile, SIGNAL(readyRead()), this, SLOT(ready()));
+    this->fileIndex = lessonIndex.data(Qt::UserRole).toUInt();
+    this->fileIndex = 2; // ----------------- NEED TO BE DELETED
+    if (this->fileIndex)
+    {
+        this->lessonFile = this->fileManager->getFile(this->fileIndex);
+        lessonFile->open(QIODevice::ReadOnly);
+        connect(this->lessonFile, SIGNAL(readyRead()), this, SLOT(ready()));
+    }
 }
 
 void CourseWidget::pageSelected(const QModelIndex &item)
@@ -65,7 +68,6 @@ void CourseWidget::ready()
 {
     disconnect(this->lessonFile, SIGNAL(readyRead()), this, SLOT(ready()));
     this->lessonFile->close();
-    this->lessonView->setModel(this->lessonManager->getLesson(2));// need to use next line
-//  this->lesson->setModel(lessonManager->getLesson(item.data(42).toUInt()));
+    this->lessonView->setModel(this->lessonManager->getLesson(this->fileIndex));
     connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
 }
