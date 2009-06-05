@@ -13,6 +13,7 @@ File::File(const CommFileInfo& _info)
 
 File::~File()
 {
+    qDebug() << "--------DELETE";
     close();
 }
 
@@ -141,8 +142,9 @@ bool File::open(OpenMode mode)
 
 void File::close()
 {
-//    file.close();
-//    connexion.close();
+    file.close();
+    connexion.close();
+    this->synchronized = true;
     qDebug() << "File::close()";
 }
 
