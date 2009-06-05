@@ -24,7 +24,7 @@ UserFram::UserFram(INetwork *reseau, QObject *parent) : QFrame()
     connect(this->studentTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
     this->SaveButton->hide();
     listUsers();
-    this->getTree();
+    //this->getTree();
 }
 
 void    UserFram::fillUserFram()
@@ -103,7 +103,7 @@ void UserFram::itemClicked(QTreeWidgetItem *item, int idx)
     this->languageTxt->setText(this->studentlist[item->data(1, 0).toString()]["language"].toString());
     this->prenomTxt->setText(this->studentlist[item->data(1, 0).toString()]["name"].toString());
     this->nomTxt->setText(this->studentlist[item->data(1, 0).toString()]["surname"].toString());
-    this->date->setSelectedDate(this->studentlist[item->data(1, 0).toString()]["birth_day"].toDate());
+    this->date->setSelectedDate(this->studentlist[item->data(1, 0).toString()]["birth_date"].toDate());
 
     this->activeBox->setChecked(this->studentlist[item->data(1, 0).toString()]["enabled"].toBool());
     //qDebug() << this->studentlist[item->data(1, 0).toString()]["login"];
@@ -166,7 +166,7 @@ void    UserFram::setUserInfo()
     request["country"] = this->paysTxt->text();
     request["name"] = this->prenomTxt->text();
     request["surname"] = this->nomTxt->text();
-    request["birth_day"] = this->date->selectedDate();
+    request["birth_date"] = this->date->selectedDate();
     request["picture"] = "vide";
     request["language"] = this->languageTxt->text();
     request["id_tree"] = "0";
@@ -213,7 +213,7 @@ void    UserFram::createNewUser()
     request["level"] = LEVEL_STUDENT;
     request["name"] = this->prenomTxt->text();
     request["surname"] = this->nomTxt->text();
-    request["birth_day"] = this->date->selectedDate();
+    request["birth_date"] = this->date->selectedDate();
     request["picture"] = "vide";
     request["address"] = this->addrTxt->text();
     request["phone"] = this->phoneTxt->text();
@@ -316,6 +316,7 @@ void    UserFram::createNewUserResponse(QVariantHash &response)
     }
     else
     {
+        qDebug() << response;
         msg.append("l'ajout de l'etudiant a echoue \n");
         msgBox.setText(msg);
         msgBox.exec();
