@@ -195,6 +195,7 @@ ILesson*      LessonManager::createNewLesson(quint32 fileId)
 
 void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
 {
+    ILesson::IPage::IObject::IController *controller;
     const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
     QList<ILesson::IPage::IObject *>::const_iterator it = objects.begin();
     while (it != objects.end())
@@ -204,6 +205,9 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
         QWidget *frame = new QWidget(widget);
         frame->setGeometry((int)(position.x() * widget->geometry().width()) / 100, (int)(position.y() * widget->geometry().height()) / 100, (int)(size.width() * widget->geometry().width()) / 100, (int)(size.height() * widget->geometry().height()) / 100);
         (*it)->setWidget(frame);
+        controller = dynamic_cast<ILesson::IPage::IObject::IController *>(this->client->getPlugin(QString((*it)->getType() + "Controller").toAscii()));
+        if (controller)
+            controller->showObject(*it);
         it++;
     }
     widget->update();
@@ -212,16 +216,16 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
 
 void        LessonManager::hidePage(ILesson::IPage *page)
 {
-    QMap<ILesson::IPage *, QWidget *>::iterator it = displayedPages.find(page);
-    if (it != displayedPages.end())
-    {
-        const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
-        QList<ILesson::IPage::IObject *>::const_iterator oit = objects.begin();
-        while (oit != objects.end())
-        {
-            delete *oit;
-        }
-        it.value()->update();
-        displayedPages.remove(page);
-    }
+//    QMap<ILesson::IPage *, QWidget *>::iterator it = displayedPages.find(page);
+//    if (it != displayedPages.end())
+//    {
+//        const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
+//        QList<ILesson::IPage::IObject *>::const_iterator oit = objects.begin();
+//        while (oit != objects.end())
+//        {
+//            delete *oit;
+//        }
+//        it.value()->update();
+//        displayedPages.remove(page);
+//    }
 }
