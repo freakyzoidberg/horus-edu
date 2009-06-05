@@ -16,12 +16,11 @@ namespace Ui
     class CourseClass;
 }
 
-class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlugin, public INetworkPlugin, public IFilePlugin
+class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlugin, public IFilePlugin
 {
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
     Q_INTERFACES(IDisplayablePlugin)
-    Q_INTERFACES(INetworkPlugin)
     Q_INTERFACES(IFilePlugin)
 
 public:
@@ -31,7 +30,6 @@ public:
     QStringList         getPluginsRequired() const;
     QStringList         getPluginsRecommended() const;
     bool                event(QEvent *event);
-    void                recvPacket(const PluginPacket& packet);
     QWidget             *getWidget();
 
 private:

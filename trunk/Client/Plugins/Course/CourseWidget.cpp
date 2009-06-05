@@ -4,71 +4,68 @@
 #include <QTreeView>
 #include <QDebug>
 
-#include "../LessonManager/ILessonManager.h"
-#include "../TreeManagement/ITreePlugin.h"
-
-CourseWidget::CourseWidget(Course *plugin): QSplitter::QSplitter()
+CourseWidget::CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFileManager *fileManager): QSplitter::QSplitter()
 {
-    QAbstractItemModel *model;
-    QTreeView *view;
-    ITreePlugin *treePlugin;
-
-    treePlugin = qobject_cast<ITreePlugin *>(plugin->client->getPlugin("TreeManagement"));
-    model = treePlugin->getTreeModel();
-    this->plugin = plugin;
-    this->model = model;
-    view = new QTreeView(this);
-    view->setModel(this->model);
-    view->setAnimated(true);
-    view->setAutoExpandDelay(500);
-    view->setRootIsDecorated(false);
-    this->addWidget(view);
-    lesson = new QTreeView(this);
-    lesson->setAnimated(true);
-    lesson->setAutoExpandDelay(500);
-    lesson->setRootIsDecorated(false);
-    this->addWidget(lesson);
-    this->page = new QWidget;
-    this->addWidget(page);
-    view->setSelectionMode(QAbstractItemView::SingleSelection);
-    view->setSelectionBehavior(QAbstractItemView::SelectItems);
-    connect(view->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
-    QModelIndex toto;
-//    select(toto);
+    this->lessonManager = lessonManager;
+    this->treePlugin = treePlugin;
+    this->fileManager = fileManager;
+    this->buildCategoryTree();
+    this->buildLessonTree();
+    this->pageWidget = new QWidget;
+    this->addWidget(this->pageWidget);
 }
 
-void CourseWidget::lessonSelected(const QModelIndex &item)
+void CourseWidget::buildCategoryTree()
 {
-    this->file = this->plugin->fileManager->getFile(2);// need to use next line
-//    this->file = this->plugin->fileManager->getFile(item.data(42).toUInt());
-    this->item = item;
-    file->open(QIODevice::ReadOnly);
-    connect(file, SIGNAL(readyRead()), this, SLOT(ready()));
+    this->categoryModel = this->treePlugin->getTreeModel();
+    this->categoryView = new QTreeView(this);
+    this->categoryView->setModel(this->categoryModel);
+    this->categoryView->setAnimated(true);
+    this->categoryView->setAutoExpandDelay(500);
+    this->categoryView->setRootIsDecorated(false);
+    this->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
+    this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
+    this->addWidget(this->categoryView);
+}
+
+void CourseWidget::buildLessonTree()
+{
+    this->lessonView = new QTreeView(this);
+    this->lessonView->setAnimated(true);
+    this->lessonView->setAutoExpandDelay(500);
+    this->lessonView->setRootIsDecorated(false);
+    this->lessonView->setSelectionMode(QAbstractItemView::SingleSelection);
+    this->lessonView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    this->addWidget(this->lessonView);
+}
+
+void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
+{
+    this->lessonFile = this->fileManager->getFile(2);// need to use next line
+//    this->lessonFile = this->fileManager->getFile(item.data(42).toUInt());
+    this->lessonIndex = lessonIndex;
+    lessonFile->open(QIODevice::ReadOnly);
+    connect(lessonFile, SIGNAL(readyRead()), this, SLOT(ready()));
 }
 
 void CourseWidget::pageSelected(const QModelIndex &item)
 {
-    ILessonManager *lessonManager;
+    ILesson::IPage *page;
 
-    lessonManager = qobject_cast<ILessonManager *>(this->plugin->client->getPlugin("LessonManager"));
-    if (lessonManager)
+    page = item.data(Qt::UserRole).value<ILesson::IPage *>();
+    if (page)
     {
-        lessonManager->hideCurrentPage();
-        lessonManager->displayPage(item.data(Qt::UserRole).value<ILesson::IPage *>(), this->page);
+        this->lessonManager->hidePage(page);
+        this->lessonManager->displayPage(page, this->pageWidget);
     }
 }
 
 void CourseWidget::ready()
 {
-    ILessonManager *lessonManager;
-
-    disconnect(file, SIGNAL(readyRead()), this, SLOT(ready()));
-    this->file->close();
-    lessonManager = qobject_cast<ILessonManager *>(this->plugin->client->getPlugin("LessonManager"));
-    if (lessonManager)
-    {
-        this->lesson->setModel(lessonManager->getLesson(2));// need to use next line
-//        this->lesson->setModel(lessonManager->getLesson(item.data(42).toUInt()));
-        connect(lesson->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
-    }
+    disconnect(this->lessonFile, SIGNAL(readyRead()), this, SLOT(ready()));
+    this->lessonFile->close();
+    this->lessonView->setModel(this->lessonManager->getLesson(2));// need to use next line
+//  this->lesson->setModel(lessonManager->getLesson(item.data(42).toUInt()));
+    connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
 }
