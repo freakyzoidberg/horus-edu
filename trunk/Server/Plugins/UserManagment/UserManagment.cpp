@@ -213,7 +213,7 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("INSERT INTO users (login,password,level,address,phone,country,language,id_tree) VALUES (?,?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO users (login,password,level,address,phone,country,language,id_tree) VALUES (?,?,?,?,?,?,?,?);");
     query.addBindValue(request["login"]);
     query.addBindValue(request["password"]);
     query.addBindValue(request["level"]);
