@@ -5,12 +5,17 @@ TEMPLATE = lib
 
 SOURCES += implementation/pdfcontroller.cpp
 HEADERS += IPdfController.h \
-    implementation/pdfcontroller.h
+    implementation/pdfcontroller.h \
+    ../../dispPDF/IPdfFile.h \
+    ../../dispPDF/implementation/dispPDF.h
 
 INCLUDEPATH += . \
     ./implementation \
     ../../ \
-    ../../../Common
+    ../../../Common \
+    ../../dispPDF/ \
+    ../../dispPDF/implementation \
+    /usr/include/poppler
 
 DESTDIR = .
 
