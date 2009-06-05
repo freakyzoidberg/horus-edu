@@ -6,7 +6,7 @@ UserFram::UserFram(INetwork *reseau) : QFrame()
 {
     res = reseau;
     setupUi(this);
-    this->setLayout(this->userLayout);
+    fillUserFram();
     requestFunctions["changePassword"]  = &UserFram::changePasswordResponse;
     requestFunctions["listUsers"]       = &UserFram::listUsersResponse;
     requestFunctions["getUserInfo"]     = &UserFram::getUserInfoResponse;
@@ -15,7 +15,16 @@ UserFram::UserFram(INetwork *reseau) : QFrame()
     requestFunctions["disableUser"]     = &UserFram::disableUserResponse;
 }
 
-void    UserFram::on_GetUsers_clicked()
+void    UserFram::fillUserFram()
+{
+    this->menuW->setLayout(this->menuLayout);
+    this->formW->setLayout(this->fLayout);
+    this->userLayout->setRowStretch(0, 1);
+    this->userLayout->setRowStretch(1, 18);
+    this->setLayout(this->userLayout);
+}
+
+void    UserFram::on_AddButton_clicked()
 {
     QVariantHash request;
 
@@ -23,6 +32,21 @@ void    UserFram::on_GetUsers_clicked()
     PluginPacket pP("UserManagment", request);
 
     this->res->sendPacket(pP);
+}
+
+void    UserFram::on_SaveButton_clicked()
+{
+    qDebug() << "Save";
+}
+
+void    UserFram::on_DelButton_clicked()
+{
+    qDebug() << "Del";
+}
+
+void    UserFram::on_CancelButton_clicked()
+{
+    qDebug() << "Cancel";
 }
 void    UserFram::changeEvent(QEvent *e)
 {

@@ -161,7 +161,7 @@
       </widget>
       <widget class="QWidget" name="printTab">
        <attribute name="title">
-        <string>Imprimente</string>
+        <string>Imprimante</string>
        </attribute>
        <widget class="QWidget" name="gridLayoutWidget_10">
         <property name="geometry">

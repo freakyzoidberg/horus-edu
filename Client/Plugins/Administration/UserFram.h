@@ -31,10 +31,14 @@ class UserFram : public QFrame, private Ui::UserFram
         void    createNewUser();
         void    disableUser();
         void    unknownResponse(QVariantHash &response);
+        void    fillUserFram();
         INetwork    *res;
     private slots:
     //! callback of the GetUsers button, it send an event to NetworkManager
-    void    on_GetUsers_clicked();
+    void    on_AddButton_clicked();
+    void    on_CancelButton_clicked();
+    void    on_SaveButton_clicked();
+    void    on_DelButton_clicked();
 
 
 };
