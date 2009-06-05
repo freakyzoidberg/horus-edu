@@ -87,6 +87,8 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
         infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("parentid", server->getNodeId(server->getNodefatherbyid(QVariant(it.key()).toInt(&ok))));
+        infos.insert("userslist", userlist(QVariant(it.key()).toInt(&ok)));
+        infos.insert("numberofsons",it.value().toList().count());
         it.value() = infos;
     }
    for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
@@ -144,6 +146,8 @@ void  TreeManagement::getAlltreeplus(const QVariantHash& request,QVariantHash& r
         infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
         infos.insert("parentid", server->getNodeId(server->getNodefatherbyid(QVariant(it.key()).toInt(&ok))));
+        infos.insert("userslist", userlist(QVariant(it.key()).toInt(&ok)));
+        infos.insert("numberofsons",it.value().toList().count());
         it.value() = infos;
 
     }
