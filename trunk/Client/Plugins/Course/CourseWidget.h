@@ -36,7 +36,7 @@ private:
     QTreeView           *categoryView;
     QTreeView           *lessonView;
     QWidget             *pageWidget;
-    QModelIndex         lessonIndex;
+    quint32             fileIndex;
     IFile               *lessonFile;
 
 };
