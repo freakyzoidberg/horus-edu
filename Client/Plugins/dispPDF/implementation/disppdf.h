@@ -13,6 +13,8 @@
 #include <IFilePlugin.h>
 #include <pdfFile.h>
 
+#include "dispPDF_global.h"
+
 #define PLUGIN_NAME "dispPDF"
 #define PLUGIN_VERSION "1.0"
 
@@ -26,6 +28,7 @@ class DispPDF : public IClientPlugin, public IFilePlugin, public IPdfRendering
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
     Q_INTERFACES(IFilePlugin)
+    Q_INTERFACES(IPdfRendering)
 
 public:
     //! set some values
