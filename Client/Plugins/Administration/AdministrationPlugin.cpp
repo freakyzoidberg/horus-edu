@@ -1,6 +1,6 @@
 #include "AdministrationPlugin.h"
 #include <QDebug>
-#include "../../ClientEvents.h"
+
 
 Q_EXPORT_PLUGIN2(Administration, Administration)
 
@@ -8,7 +8,6 @@ extern QEvent::Type ClientEvents::PluginEvent;
 
 Administration::Administration()
 {
-    this->adminF = new AdminFram(this->network);
 }
 
 QWidget             *Administration::getWidget()

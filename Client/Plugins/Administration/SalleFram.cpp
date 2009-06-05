@@ -1,8 +1,12 @@
 #include "SalleFram.h"
 
 SalleFram::SalleFram(INetwork *res) :
-    QFrame(){
+    QFrame()
+{
     setupUi(this);
+    this->mainLayout->setColumnStretch(0, 1);
+    this->mainLayout->setColumnStretch(1, 3);
+    this->setLayout(this->mainLayout);
 }
 
 void SalleFram::changeEvent(QEvent *e)
