@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
         QVBoxLayout *mylayout = new QVBoxLayout();
+
         ui->scrollArea->setLayout(mylayout);
 #ifdef WIN32
         ui->lineEdit_16->setText("C:\\Program Files\\Horus\\");
@@ -59,15 +60,13 @@ void MainWindow::on_pushButton_clicked()
         db.setPassword(pass);
         db.setPort(port.toInt(&ok));
         QPalette Pal(ui->label_2->palette());
-        if ((!db.open()) || (ui->lineEdit_14->text().size() == 0) || (ui->lineEdit_15->text().size() == 0) || (ui->lineEdit_15->text() != ui->lineEdit_11->text()))
-             {
+        if (!db.open())
+        {
             Pal.setColor(QPalette::Foreground, Qt::red);
                 ui->label_2->setPalette(Pal);
 
-            ui->label_2->setText("Error");
+            ui->label_2->setText("Error at DB connection");
             ui->pushButton_4->setEnabled(false);
-            //ui->lineEdit_2->setForegroundRole(QPalette::Foreground green
-            //qDebug() << db.lastError();
         }
         else
         {
@@ -82,7 +81,20 @@ void MainWindow::on_pushButton_clicked()
             ui->lineEdit_11->setReadOnly(true);
             ui->lineEdit_14->setReadOnly(true);
             ui->lineEdit_15->setReadOnly(true);
-            ui->pushButton_4->setEnabled(true);
+            ui->pushButton_4->setEnabled(false);
+            if ((ui->lineEdit_14->text().size() > 0) &&  (ui->lineEdit_15->text() == ui->lineEdit_11->text()) && (ui->lineEdit_15->text().size() > 0))
+             {
+                ui->pushButton_4->setEnabled(true);
+            }
+            else if ((ui->lineEdit_14->text().size() > 0))
+            {
+                Pal.setColor(QPalette::Foreground, Qt::red);
+                ui->label_2->setPalette(Pal);
+                ui->label_2->setText("Error Missing default Admins credentials");
+            //ui->lineEdit_2->setForegroundRole(QPalette::Foreground green
+            //qDebug() << db.lastError();
+            }
+
             ui->pushButton->setText("Reset");
              db.close();
          }
@@ -302,8 +314,10 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
         Pal.setColor(QPalette::Foreground, Qt::red);
                 ui->label_9->setPalette(Pal);
 
-        QCompleter *completer = new QCompleter(this);
-        completer->setCompletionMode(QCompleter::InlineCompletion);
+       // QCompleter *completer = new QCompleter(this);
+        completer = new QCompleter(this);
+         completer->setWrapAround(true);
+        completer->setCompletionMode(QCompleter::PopupCompletion);
         completer->setModel(new QDirModel(completer));
 
         ui->lineEdit_16->setCompleter(completer);
@@ -376,3 +390,23 @@ void MainWindow::on_buttonBox_2_clicked(QAbstractButton* button)
 {
     exit(0);
 }
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+ {
+     if (completer && completer->popup()->isVisible()) {
+         // The following keys are forwarded by the completer to the widget
+        switch (e->key()) {
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+        case Qt::Key_Escape:
+        case Qt::Key_Tab:
+        case Qt::Key_Backtab:
+        case Qt::Key_Down:
+        case Qt::Key_Up:
+             e->ignore();
+             return; // let the completer do default behavior
+        default:
+            break;
+        }
+     }
+ }
