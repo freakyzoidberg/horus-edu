@@ -44,12 +44,12 @@ void  TreeManagement::unknownRequest(const QVariantHash& request,QVariantHash& r
 
 void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
-
+    qDebug() << "=== Tree Management DEBUG gettree()===";
     int firstnode = getidofusernode(request, iduser);
     QHash<QString, QVariant > usertree;
     addnodewithsons(&usertree, firstnode);
     addfathers(&usertree,firstnode);
-    qDebug() << "=== Tree Management DEBUG ===";
+
     QList<QVariant> tmplist;
     for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
     {
@@ -69,12 +69,12 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
 {
 // a alleger des que possible ;)
 
-
+    qDebug() << "=== Tree Management DEBUG gettreeplus()===";
     int firstnode = getidofusernode(request, iduser);
     QHash<QString, QVariant > usertree;
     addnodewithsons(&usertree, firstnode);
     addfathers(&usertree,firstnode);
-    qDebug() << "=== Tree Management DEBUG ===";
+
     QList<QVariant> tmplist;
     bool ok;
     for (QHash<QString, QVariant >::iterator it = usertree.begin(); it != usertree.end(); ++it)
@@ -106,11 +106,11 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
 
 void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
+    qDebug() << "=== Tree Management DEBUG getAlltree()===";
     int firstnode = 0;
     QHash<QString, QVariant > usertree;
     addnodewithsons(&usertree, firstnode);
     addfathers(&usertree,firstnode);
-    qDebug() << "=== Tree Management DEBUG ===";
     QList<QVariant> tmplist;
     for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
     {
@@ -129,11 +129,12 @@ void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& respo
 
 void  TreeManagement::getAlltreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
+    qDebug() << "=== Tree Management DEBUG getAlltreeplus===";
     int firstnode = 0;
     QHash<QString, QVariant > usertree;
     addnodewithsons(&usertree, firstnode);
     addfathers(&usertree,firstnode);
-    qDebug() << "=== Tree Management DEBUG ===";
+
     QList<QVariant> tmplist;
     bool ok;
     for (QHash<QString, QVariant >::iterator it = usertree.begin(); it != usertree.end(); ++it)
@@ -159,6 +160,7 @@ void  TreeManagement::getAlltreeplus(const QVariantHash& request,QVariantHash& r
 
 void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
+    qDebug() << "=== Tree Management DEBUG getnodeinfo() ===";
     bool ok;
     if (request.contains("idNode"))
     {
@@ -178,12 +180,14 @@ void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& resp
         response["Error"]   = 1;
         response["ErrorMesssage"]   = "no id specified";
     }
+    qDebug() << "=== END Tree Management DEBUG ===";
 }
 
 
 
 void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser)
 {
+    qDebug() << "=== Tree Management DEBUG setnode()===";
     bool ok;
     if (request["Admntreeact"] == "Delnode")
     {
@@ -242,6 +246,7 @@ void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response
 
 bool  TreeManagement::delnode(const int id, const int iduser)
 {
+    qDebug() << "=== Tree Management DEBUG delnode()===";
     Tree * node = server->getNodenodebyid(id);
     if (server->HasNodeAdminRight(node, iduser))
         return (server->DelNode(node));
@@ -251,6 +256,7 @@ bool  TreeManagement::delnode(const int id, const int iduser)
 
 bool  TreeManagement::mvnode(const int id, const int newfatherid, const int iduser)
 {
+    qDebug() << "=== Tree Management DEBUG mvnode()===";
     Tree * node = server->getNodenodebyid(id);
     if (server->HasNodeAdminRight(node, iduser))
     return (server->MvNode(node, newfatherid));
@@ -260,6 +266,7 @@ bool  TreeManagement::mvnode(const int id, const int newfatherid, const int idus
 
 bool  TreeManagement::addnode(const int fatherid, const QString type, const QString name, const int user_ref, const int iduser)
 {
+    qDebug() << "=== Tree Management DEBUG addnode()===";
     Tree * node = server->getNodenodebyid(fatherid);
     if (server->HasNodeAdminRight(node, iduser))
     {
@@ -274,6 +281,7 @@ bool  TreeManagement::addnode(const int fatherid, const QString type, const QStr
 
 bool  TreeManagement::editnode(const int nodeid, const QString type, const QString name, const int user_ref, const int iduser)
 {
+    qDebug() << "=== Tree Management DEBUG editnode()===";
     bool res = true;
      Tree * node = server->getNodenodebyid(nodeid);
     if (server->HasNodeAdminRight(node, iduser))
@@ -291,6 +299,7 @@ bool  TreeManagement::editnode(const int nodeid, const QString type, const QStri
 
 int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
 {
+    qDebug() << "=== Tree Management DEBUG getidofusernode()===";
     QSqlQuery query1 = server->getSqlQuery();
     query1.prepare("SELECT id_tree FROM users WHERE id =? LIMIT 1");
     query1.addBindValue(iduser);
@@ -306,6 +315,7 @@ int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
 
 int TreeManagement::getidofusernodeWoRequest(qint32 iduser)
 {
+    qDebug() << "=== Tree Management DEBUG getidofusernodeworequest()===";
     QSqlQuery query1 = server->getSqlQuery();
     query1.prepare("SELECT id_tree FROM users WHERE id =? LIMIT 1");
     query1.addBindValue(iduser);
@@ -321,6 +331,7 @@ int TreeManagement::getidofusernodeWoRequest(qint32 iduser)
 
 QList<QVariant> TreeManagement::getvectorsonsfromidnode(int idnode)
 {
+    qDebug() << "=== Tree Management DEBUG getvectorssonsfromidnode()===";
     QList<QVariant> sons;
 
     sons.clear();
@@ -334,6 +345,7 @@ QList<QVariant> TreeManagement::getvectorsonsfromidnode(int idnode)
 }
 void  TreeManagement::addnodewithsons(QHash<QString, QVariant > *utree, int id)
 {
+    qDebug() << "=== Tree Management DEBUG addnodewithsons()===";
     QList<QVariant> tmpvec = getvectorsonsfromidnode(id);
 
    utree->insert(QVariant(server->getNodeId(server->getNodenodebyid(id))).toString(), tmpvec);
@@ -347,7 +359,7 @@ void  TreeManagement::addnodewithsons(QHash<QString, QVariant > *utree, int id)
 
 void  TreeManagement::addfathers(QHash<QString, QVariant > *utree,const int id)
 {
-
+    qDebug() << "=== Tree Management DEBUG addfathers()===";
     if ((server->getNodefatherbyid(id) != 0))
     {
          QVariant tmpvec;
@@ -363,6 +375,7 @@ void  TreeManagement::addfathers(QHash<QString, QVariant > *utree,const int id)
 
 QList<int> TreeManagement::GetNodeList(int iduser)
 {
+    qDebug() << "=== Tree Management DEBUG getnodelist()===";
     QList<int> listret;
     listret.clear();
     int firstnode = getidofusernodeWoRequest(iduser);
@@ -379,6 +392,7 @@ return listret;
 
 QList<QVariant> TreeManagement::userlist(const int id_node)
 {
+    qDebug() << "=== Tree Management DEBUG userlist()===";
     QList<QVariant> res;
     QSqlQuery query1 = server->getSqlQuery();
     query1.prepare("SELECT id FROM users WHERE id_tree =?");
