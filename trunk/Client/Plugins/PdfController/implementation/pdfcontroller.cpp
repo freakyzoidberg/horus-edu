@@ -97,6 +97,13 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
     int             index;
     bool            ok;
 
+    if (object->getType() != this->getSupportedType())
+    {
+        qDebug() << "[Plugin pdfcontroller] Type error:";
+        qDebug() << "\tThe type of your IObject is" << object->getType();
+        qDebug() << "\tThe controller pdfcontroller handle " << this->getSupportedType() << " type.";
+    }
+
     if (parameters.count() != requieredFiles.count())
     {
         qDebug() << "Error parsing params string";

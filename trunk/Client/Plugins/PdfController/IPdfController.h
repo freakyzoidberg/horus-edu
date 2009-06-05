@@ -9,7 +9,7 @@
 class IPdfController
 {
     public:
-        virtual void    setObject(ILesson::IPage::IObject *object) = 0;
+        virtual void  setObject(ILesson::IPage::IObject *object) = 0;
         virtual const QList<ILesson::IPage::IObject *> &    getObjects() = 0;
 };
 
