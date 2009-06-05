@@ -6,7 +6,11 @@ QHash<int, Tree*> Tree::maptree;
 Tree* Tree::GetNodebyId(int id)
 {
     if ( ! maptree.contains(id))
-        maptree[id] = new Tree(id);
+    {
+        Tree* node = new Tree(id);
+        node->setProperty("type","ITree");
+        maptree[id] = node;
+    }
 
     return maptree[id];
 }
