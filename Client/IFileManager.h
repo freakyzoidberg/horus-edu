@@ -2,8 +2,7 @@
 #define IFILEMANAGER_H
 
 #include <QFile>
-//#include "IFile.h"
-class IFile;
+#include "IFile.h"
 
 /*!
  *  a class used to:

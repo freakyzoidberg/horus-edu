@@ -1,7 +1,11 @@
-#include <QtCore/qplugin.h>
 #include <QDebug>
+#include <QLabel>
+
 #include "Course.h"
 #include "CourseWidget.h"
+
+#include "../LessonManager/ILessonManager.h"
+#include "../TreeManagement/ITreePlugin.h"
 
 Q_EXPORT_PLUGIN2(Course, Course)
 
@@ -38,11 +42,15 @@ bool                Course::event(QEvent *event)
 
 QWidget             *Course::getWidget()
 {
-    return (new CourseWidget(this));
-}
+    ILessonManager  *lessonManager;
+    ITreePlugin     *treePlugin;
+    QWidget         *error;
 
-
-void                Course::recvPacket(const PluginPacket &packet)
-{
-    //do something
+    lessonManager = qobject_cast<ILessonManager *>(this->client->getPlugin("LessonManager"));
+    treePlugin = qobject_cast<ITreePlugin *>(this->client->getPlugin("TreeManagement"));
+    if (lessonManager && treePlugin)
+        return (new CourseWidget(lessonManager, treePlugin, this->fileManager));
+    error = new QWidget();
+    new QLabel("This Plugin depend of 'LessonManager' and 'TreeManagement' plugins.", error);
+    return (error);
 }

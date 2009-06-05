@@ -1,31 +1,43 @@
 #ifndef COURSEWIDGET_H
 #define COURSEWIDGET_H
 
-#include <QSplitter>
-#include <QModelIndex>
-#include <QAbstractItemModel>
-#include <QTreeView>
+#include                <QSplitter>
+#include                <QModelIndex>
+#include                <QAbstractItemModel>
+#include                <QTreeView>
 
-#include "Course.h"
-#include "../../IFile.h"
+#include                "../../IFileManager.h"
+#include                "../LessonManager/ILessonManager.h"
+#include                "../TreeManagement/ITreePlugin.h"
 
-class CourseWidget : public QSplitter
+
+class                   CourseWidget : public QSplitter
 {
     Q_OBJECT
+
 public:
-    CourseWidget(Course *plugin);
+                        CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFileManager *fileManager);
 
 private:
-    QAbstractItemModel  *model;
-    QTreeView *lesson;
-    QWidget *page;
-    Course *plugin;
-    IFile *file;
-    QModelIndex item;
+    void                buildCategoryTree();
+    void                buildLessonTree();
 
 private slots:
     void lessonSelected(const QModelIndex &item);
     void pageSelected(const QModelIndex &item);
     void ready();
+
+private:
+    ILessonManager      *lessonManager;
+    ITreePlugin         *treePlugin;
+    IFileManager        *fileManager;
+    QAbstractItemModel  *categoryModel;
+    QAbstractItemModel  *lessonModel;
+    QTreeView           *categoryView;
+    QTreeView           *lessonView;
+    QWidget             *pageWidget;
+    QModelIndex         lessonIndex;
+    IFile               *lessonFile;
+
 };
 #endif // COURSEWIDGET_H
