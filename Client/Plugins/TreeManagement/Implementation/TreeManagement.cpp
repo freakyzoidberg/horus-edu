@@ -15,6 +15,7 @@ TreeManagement::TreeManagement()
 
 void TreeManagement::recvPacket(const PluginPacket& p)
 {
+    qDebug() << "toto";
     Tree::receiveUserTree(p.data.toHash());
 }
 
