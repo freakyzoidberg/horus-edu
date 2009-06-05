@@ -226,6 +226,7 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     query.exec();
 
     response["UserId"] = query.lastInsertId();
+    response["Success"] = true;
 }
 
 void UserManagment::disableUser(quint32 userId, const QVariantHash& request,QVariantHash& response)
