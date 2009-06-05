@@ -6,8 +6,11 @@
 
 #include "../LessonManager/ILessonManager.h"
 #include "../TreeManagement/ITreePlugin.h"
+#include "../../ClientEvents.h"
 
 Q_EXPORT_PLUGIN2(Course, Course)
+
+extern QEvent::Type ClientEvents::LoadPluginEvent;
 
 const QByteArray    Course::getName() const
 {
@@ -36,6 +39,8 @@ QStringList         Course::getPluginsRecommended() const
 
 bool                Course::event(QEvent *event)
 {
+    if (event->type() == ClientEvents::LoadPluginEvent)
+        return (true);
     qDebug() << "Course: Received Event not managed" << event;
     return (false);
 }
