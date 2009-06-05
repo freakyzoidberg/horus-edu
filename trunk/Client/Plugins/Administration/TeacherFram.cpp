@@ -36,13 +36,17 @@ void    TeacherFram::fillTeacherFram()
 
 void TeacherFram::itemClicked(QTreeWidgetItem *item, int idx)
 {
-
+    this->AddButton->hide();
+    this->SaveButton->show();
     this->loginTxt->setText(this->proflist[item->data(1, 0).toString()]["login"].toString());
     this->passTxt->setText(this->proflist[item->data(1, 0).toString()]["password"].toString());
     this->addrTxt->setText(this->proflist[item->data(1, 0).toString()]["address"].toString());
     this->phoneTxt->setText(this->proflist[item->data(1, 0).toString()]["phone"].toString());
     this->paysTxt->setText(this->proflist[item->data(1, 0).toString()]["country"].toString());
     this->languageTxt->setText(this->proflist[item->data(1, 0).toString()]["language"].toString());
+    this->prenomTxt->setText(this->proflist[item->data(1, 0).toString()]["name"].toString());
+    this->nomTxt->setText(this->proflist[item->data(1, 0).toString()]["surname"].toString());
+    this->date->setSelectedDate(this->proflist[item->data(1, 0).toString()]["birth_day"].toDate());
     this->activeBox->setChecked(this->proflist[item->data(1, 0).toString()]["language"].toBool());
 }
 
@@ -79,7 +83,11 @@ void    TeacherFram::on_CancelButton_clicked()
     msgBox.setDefaultButton(QMessageBox::Yes);
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
+    {
+        this->AddButton->show();
+        this->SaveButton->hide();
         this->clearForm();
+    }
 
     qDebug() << "Cancel";
     return;
@@ -138,7 +146,11 @@ void    TeacherFram::setUserInfo()
     if(this->paysTxt->text() == "")
         Error.append("Pays |");
     if(this->languageTxt->text() == "")
-        Error.append("Pays |");
+        Error.append("Language |");
+    if(this->prenomTxt->text() == "")
+        Error.append("Prenom |");
+    if(this->nomTxt->text() == "")
+        Error.append("Nom |");
     if (Error != "")
     {
         QString msg;
@@ -154,6 +166,10 @@ void    TeacherFram::setUserInfo()
     request["level"] = LEVEL_TEACHER;
     request["address"] = this->addrTxt->text();
     request["phone"] = this->phoneTxt->text();
+    request["name"] = this->prenomTxt->text();
+    request["surname"] = this->nomTxt->text();
+    request["birth_day"] = this->date->selectedDate();
+    request["picture"] = "vide";
     request["country"] = this->paysTxt->text();
     request["language"] = this->languageTxt->text();
     request["id_tree"] = "9";
@@ -180,7 +196,11 @@ void    TeacherFram::createNewUser()
     if(this->paysTxt->text() == "")
         Error.append("Pays |");
     if(this->languageTxt->text() == "")
-        Error.append("Pays |");
+        Error.append("Language |");
+    if(this->prenomTxt->text() == "")
+        Error.append("Prenom |");
+    if(this->nomTxt->text() == "")
+        Error.append("Nom |");
     if (Error != "")
     {
         QString msg;
@@ -196,6 +216,10 @@ void    TeacherFram::createNewUser()
     request["level"] = LEVEL_TEACHER;
     request["address"] = this->addrTxt->text();
     request["phone"] = this->phoneTxt->text();
+    request["name"] = this->prenomTxt->text();
+    request["surname"] = this->nomTxt->text();
+    request["birth_day"] = this->date->selectedDate();
+    request["picture"] = "vide";
     request["country"] = this->paysTxt->text();
     request["language"] = this->languageTxt->text();
     request["id_tree"] = "9";
@@ -260,30 +284,46 @@ void    TeacherFram::getUserInfoResponse(QVariantHash &response)
 
 void    TeacherFram::setUserInfoResponse(QVariantHash &response)
 {
+    QMessageBox msgBox;
+    QString msg;
     if (response["Success"] == true)
     {
-        QString msg;
+
         msg.append("les infos du professeur ont ete modifié avec succes \n");
-        QMessageBox msgBox;
         msgBox.setText(msg);
         msgBox.exec();
         clearForm();
+        this->AddButton->show();
+        this->SaveButton->hide();
+    }
+    else
+    {
+        msg.append("la modification des infos a echoue \n");
+        msgBox.setText(msg);
+        msgBox.exec();
     }
 }
 
 void    TeacherFram::createNewUserResponse(QVariantHash &response)
 {
+    QMessageBox msgBox;
+    QString msg;
     if (response["Success"] == true)
     {
         QString msg;
         msg.append("le professeur a ete rajoute avec succes \n");
-        QMessageBox msgBox;
         msgBox.setText(msg);
         msgBox.exec();
         clearForm();
+        this->AddButton->show();
+        this->SaveButton->hide();
     }
-
-    qDebug() << response;
+    else
+    {
+        msg.append("l'ajout de l'utilisateur a echoue \n");
+        msgBox.setText(msg);
+        msgBox.exec();
+    }
 }
 
 void    TeacherFram::clearForm()
