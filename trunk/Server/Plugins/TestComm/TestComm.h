@@ -1,6 +1,6 @@
 #ifndef TESTCOMM_H
 #define TESTCOMM_H
-
+#include <QDebug>
 #include "../IServer.h"
 #include "../IServerPlugin.h"
 
