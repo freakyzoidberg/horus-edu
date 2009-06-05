@@ -35,6 +35,7 @@ private:
     QSettings Gsettings;
 
 private slots:
+    void on_buttonBox_2_clicked(QAbstractButton* button);
     void on_buttonBox_clicked(QAbstractButton* button);
     void on_lineEdit_16_textChanged(QString );
     void on_pushButton_4_clicked();
