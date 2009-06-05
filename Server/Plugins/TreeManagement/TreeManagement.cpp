@@ -47,6 +47,8 @@ void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response
     qDebug() << "=== Tree Management DEBUG gettree()===";
     int firstnode = getidofusernode(request, iduser);
     QHash<QString, QVariant > usertree;
+    if (firstnode > -1)
+    {
     addnodewithsons(&usertree, firstnode);
     addfathers(&usertree,firstnode);
 
@@ -63,6 +65,13 @@ void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response
     qDebug() << "=== END Tree Management DEBUG ===";
     response["userTree"] =  usertree;
     response["Success"] = true;
+    }
+    else
+    {
+    qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+    response["userTree"] =  usertree;
+    response["Success"] = true;
+    }
 }
 
 void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser)
@@ -71,8 +80,13 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
 
     qDebug() << "=== Tree Management DEBUG gettreeplus()===";
     int firstnode = getidofusernode(request, iduser);
+
     QHash<QString, QVariant > usertree;
+
+    if (firstnode > -1)
+    {
     addnodewithsons(&usertree, firstnode);
+
     addfathers(&usertree,firstnode);
 
     QList<QVariant> tmplist;
@@ -101,6 +115,13 @@ void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& resp
     qDebug() << "=== END Tree Management DEBUG ===";
     response["userTree"] =  usertree;
     response["Success"] = true;
+    }
+    else
+    {
+    qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+    response["userTree"] =  usertree;
+    response["Success"] = true;
+    }
 }
 
 
@@ -109,6 +130,8 @@ void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& respo
     qDebug() << "=== Tree Management DEBUG getAlltree()===";
     int firstnode = 0;
     QHash<QString, QVariant > usertree;
+        if (firstnode > -1)
+    {
     addnodewithsons(&usertree, firstnode);
     addfathers(&usertree,firstnode);
     QList<QVariant> tmplist;
@@ -124,6 +147,13 @@ void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& respo
     qDebug() << "=== END Tree Management DEBUG ===";
     response["AllTree"] =  usertree;
     response["Success"] = true;
+    }
+        else
+        {
+             qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+            response["AllTree"] =  usertree;
+            response["Success"] = true;
+        }
 
 }
 
@@ -132,6 +162,8 @@ void  TreeManagement::getAlltreeplus(const QVariantHash& request,QVariantHash& r
     qDebug() << "=== Tree Management DEBUG getAlltreeplus===";
     int firstnode = 0;
     QHash<QString, QVariant > usertree;
+    if (firstnode > -1)
+    {
     addnodewithsons(&usertree, firstnode);
     addfathers(&usertree,firstnode);
 
@@ -155,6 +187,13 @@ void  TreeManagement::getAlltreeplus(const QVariantHash& request,QVariantHash& r
     qDebug() << "=== END Tree Management DEBUG ===";
     response["AllTree"] =  usertree;
     response["Success"] = true;
+    }
+        else
+        {
+             qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+            response["AllTree"] =  usertree;
+            response["Success"] = true;
+        }
 }
 
 
@@ -360,6 +399,7 @@ void  TreeManagement::addnodewithsons(QHash<QString, QVariant > *utree, int id)
 void  TreeManagement::addfathers(QHash<QString, QVariant > *utree,const int id)
 {
     qDebug() << "=== Tree Management DEBUG addfathers()===";
+    qDebug() << "id =" << id;
     if ((server->getNodefatherbyid(id) != 0))
     {
          QVariant tmpvec;
