@@ -43,7 +43,7 @@ void UserManagment::recvPacket(quint32 userId, const PluginPacket& packet)
     server->sendPacket(userId, PluginPacket(packet.sourcePlugin, response));
 }
 
-void UserManagment::unknownRequest(quint32 userId, const QVariantHash& request, QVariantHash& response)
+void UserManagment::unknownRequest(quint32, const QVariantHash&, QVariantHash& response)
 {
     response["Success"] = false;
     response["Error"]   = 1;
@@ -95,13 +95,13 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
     if (request.contains("UserList"))
     {
         QVariantList list = request["UserList"].toList();
-        QString sql = "SELECT id,login,level,last_login,address,phone,country,language,id_tree,enabled FROM users WHERE id IN (0";
+        QString sql = "SELECT id,login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users WHERE id IN (0";
         for (QVariantList::const_iterator i = list.constBegin(); i != list.constEnd(); ++i)
             list += "," + (*i).toUInt();
         query.prepare(sql+");");
     }
     else
-        query.prepare("SELECT id,login,level,last_login,address,phone,country,language,id_tree,enabled FROM users;");
+        query.prepare("SELECT id,login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users;");
 
     if ( ! query.exec())
     {
@@ -123,21 +123,25 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
         {
             user["level"]      = query.value(2);
             user["last_login"] = query.value(3);
-            user["address"]    = query.value(4);
-            user["phone"]      = query.value(5);
-            user["country"]    = query.value(6);
-            user["language"]   = query.value(7);
-            user["enabled"]    = query.value(9);
+            user["surname"]    = query.value(4);
+            user["name"]       = query.value(5);
+            user["birth_date"] = query.value(6);
+            user["picture"]    = query.value(7);
+            user["address"]    = query.value(8);
+            user["phone"]      = query.value(9);
+            user["country"]    = query.value(10);
+            user["language"]   = query.value(11);
+            user["enabled"]    = query.value(12);
         }
         list.append(user);
     }
     response["Users"] = list;
 }
 
-void UserManagment::getUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
+void UserManagment::getUserInfo(quint32, const QVariantHash& request,QVariantHash& response)
 {
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("SELECT login,level,last_login,address,phone,country,language,id_tree,enabled FROM users WHERE id=?;");
+    query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users WHERE id=?;");
     query.addBindValue(request.value("UserId"));
     if ( ! query.exec() || ! query.next())
     {
@@ -151,22 +155,27 @@ void UserManagment::getUserInfo(quint32 userId, const QVariantHash& request,QVar
     response["login"]      = query.value(0);
     response["level"]      = query.value(1);
     response["last_login"] = query.value(2);
-    response["address"]    = query.value(3);
-    response["phone"]      = query.value(4);
-    response["country"]    = query.value(5);
-    response["language"]   = query.value(6);
-    response["id_tree"]    = query.value(7);
-    response["enabled"]    = query.value(8);
+    response["surname"]    = query.value(3);
+    response["name"]       = query.value(4);
+    response["birth_date"] = query.value(5);
+    response["picture"]    = query.value(6);
+    response["address"]    = query.value(7);
+    response["phone"]      = query.value(8);
+    response["country"]    = query.value(9);
+    response["language"]   = query.value(10);
+    response["id_tree"]    = query.value(11);
+    response["enabled"]    = query.value(12);
 }
 
 void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
 {
     if ( ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
       || ! request.contains("country") || ! request.contains("language") || ! request.contains("id_tree")
-      || ! request.contains("enabled"))
+      || ! request.contains("surname") || ! request.contains("name") || ! request.contains("birth_date")
+      || ! request.contains("picture") || ! request.contains("enabled"))
     {
         response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'level','address','phone','counrty','language','id_tree','enabled'";
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'level','address','phone','counrty','language','id_tree','enabled','surname','name','birth_date','picture'";
         return;
     }
 
@@ -178,7 +187,7 @@ void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVar
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("UPDATE users SET level=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=? WHERE id=?;");
+    query.prepare("UPDATE users SET level=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,surname=?,name=?,birth_date=?,picture=? WHERE id=?;");
     query.addBindValue(request["level"]);
     query.addBindValue(request["address"]);
     query.addBindValue(request["phone"]);
@@ -186,6 +195,10 @@ void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVar
     query.addBindValue(request["language"]);
     query.addBindValue(request["id_tree"]);
     query.addBindValue(request["enabled"]);
+    query.addBindValue(request["surname"]);
+    query.addBindValue(request["name"]);
+    query.addBindValue(request["birth_date"]);
+    query.addBindValue(request["picture"]);
     query.addBindValue(request["UserId"]);
 
     if ( ! query.exec())
@@ -203,10 +216,11 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     if ( ! request.contains("login") || ! request.contains("password")
       || ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
       || ! request.contains("country") || ! request.contains("language") ||  ! request.contains("id_tree")
-      || ! request.contains("enabled"))
+      || ! request.contains("surname") || ! request.contains("name") || ! request.contains("birth_date")
+      || ! request.contains("picture") || ! request.contains("enabled"))
     {
         response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'login','password','level','address','phone','counrty','language','id_tree','enabled'";
+        response["ErrorMesssage"]   = "Invalid request: You must fill 'login','password','level','address','phone','counrty','language','id_tree','enabled','surname','name','birth_date','picture'";
         return;
     }
 
@@ -218,7 +232,7 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("INSERT INTO users (login,password,level,address,phone,country,language,id_tree,enabled) VALUES (?,?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO users (login,password,level,address,phone,country,language,id_tree,enabled,surname,name,birth_date,picture) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
     query.addBindValue(request["login"]);
     query.addBindValue(request["password"]);
     query.addBindValue(request["level"]);
@@ -226,8 +240,12 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     query.addBindValue(request["phone"]);
     query.addBindValue(request["country"]);
     query.addBindValue(request["language"]);
-    query.addBindValue(request["enabled"]);
     query.addBindValue(request["id_tree"]);
+    query.addBindValue(request["enabled"]);
+    query.addBindValue(request["surname"]);
+    query.addBindValue(request["name"]);
+    query.addBindValue(request["birth_date"]);
+    query.addBindValue(request["picture"]);
 
     query.exec();
 
@@ -235,7 +253,7 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
     response["Success"] = true;
 }
 
-void UserManagment::disableUser(quint32 userId, const QVariantHash& request,QVariantHash& response)
+void UserManagment::disableUser(quint32 userId, const QVariantHash& request, QVariantHash& response)
 {
     if (server->getLevel(userId) > LEVEL_ADMINISTRATOR)
     {
@@ -245,7 +263,8 @@ void UserManagment::disableUser(quint32 userId, const QVariantHash& request,QVar
     }
 
     QSqlQuery query = server->getSqlQuery();
-    query.prepare("UPDATE id,enabled users SET (enabled=(enabled+1)%2);");
+    query.prepare("UPDATE id,enabled users SET (enabled=(enabled+1)%2) WHERE id=?;");
+    query.addBindValue(request["userId"]);
     query.exec();
     response["id"]    = query.value(0);
     response["enabled"]    = query.value(1);
