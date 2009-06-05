@@ -241,11 +241,6 @@ QModelIndex Lesson::parent(const QModelIndex &child) const
     if (!child.isValid() || child.internalPointer() == this)
         return QModelIndex();
     LElement *elem = dynamic_cast<LElement *>(static_cast<ILesson::IElement *>(child.internalPointer()));
-    if (elem->getTitle() == "Apercu")
-    {
-        int x = 42;
-        x++;
-    }
     if (elem != NULL)
     {
         if (elem->getParent() != NULL)
