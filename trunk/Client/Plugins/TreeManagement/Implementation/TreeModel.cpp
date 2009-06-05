@@ -10,6 +10,9 @@ int TreeModel::columnCount ( const QModelIndex & parent ) const
 
 QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 {
+    if (role != Qt::DisplayRole)
+        return QVariant();
+
     if ( ! index.isValid())
         return QVariant();
 
