@@ -303,4 +303,6 @@ public:
     virtual IElement*               addElement(IElement::Type type, const QString& title, const ISection* section) = 0;
 };
 
+Q_DECLARE_METATYPE(ILesson::IPage *);
+
 #endif // ILESSON_H
