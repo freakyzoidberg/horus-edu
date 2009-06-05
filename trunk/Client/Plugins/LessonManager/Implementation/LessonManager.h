@@ -160,7 +160,8 @@ public:
     void        writeXmlSection(const QList<ILesson::IElement *>& list, QXmlStreamWriter& xmlWriter);
 
  private:
-    //QMap<QString, >
+    //QMap<QString, QString>  availableControllers;
+    //QMap<QString, ILesson::IElement::>
 
  private:
     //! the name of the plugin
