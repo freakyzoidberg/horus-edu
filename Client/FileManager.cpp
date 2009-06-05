@@ -9,6 +9,7 @@ FileManager::FileManager()
 {
     moveToThread(QApplication::instance()->thread());
     tmpNewFile = 0;
+    haveFullList = false;
 }
 
 FileManager* FileManager::instance()
@@ -59,6 +60,16 @@ void FileManager::askForFileInfo(quint32 fileId) const
     QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(packet.getPacket()));
 }
 
+void FileManager::askForFileFullList() const
+{
+    if (haveFullList)
+        return;
+
+    CommFile packet;
+    packet.method = CommFile::USER_LIST;
+    QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(packet.getPacket()));
+}
+
 void FileManager::askForFileConnexion(quint32 fileId, QIODevice::OpenMode mode) const
 {
     CommFile packet;
@@ -71,17 +82,24 @@ void FileManager::askForFileConnexion(quint32 fileId, QIODevice::OpenMode mode) 
     QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(packet.getPacket()));
 }
 
+const QHash<quint32,IFile*> FileManager::getFullFileList() const
+{
+    askForFileFullList();
+    return fileHash;
+}
+/*
 const QList<IFile*> FileManager::getFullFileList() const
 {
+    askForFileFullList();
     QList<IFile*> list;
     for (QHash<quint32,File*>::const_iterator i = fileHash.begin(); i != fileHash.end(); ++i)
         list.append(*i);
 }
-
+*/
 const QList<IFile*> FileManager::getNodeFileList(quint32 nodeId) const
 {
     QList<IFile*> list;
-    for (QHash<quint32,File*>::const_iterator i = fileHash.begin(); i != fileHash.end(); ++i)
+    for (QHash<quint32,IFile*>::const_iterator i = fileHash.begin(); i != fileHash.end(); ++i)
         if ((*i)->getInfo().nodeId == nodeId)
             list.append(*i);
 }
@@ -123,7 +141,8 @@ void FileManager::receiveFilePacket(QByteArray p)
             ((File*)getFile((*i).id))->updateFileInfo(*i);
             emit nodeFileListUpdated((*i).nodeId);
         }
-
+        if (packet.method == CommFile::USER_LIST)
+            haveFullList = true;
         emit fileListUpdated();
     }
 
