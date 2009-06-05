@@ -160,6 +160,9 @@ public:
     void        writeXmlSection(const QList<ILesson::IElement *>& list, QXmlStreamWriter& xmlWriter);
 
  private:
+    //QMap<QString, >
+
+ private:
     //! the name of the plugin
     QByteArray          modName;
 
