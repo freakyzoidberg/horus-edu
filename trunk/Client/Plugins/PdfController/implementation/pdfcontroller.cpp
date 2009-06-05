@@ -209,14 +209,3 @@ const QString&  pdfController::getSupportedType() const
 {
     return supportedType;
 }
-
-void    pdfController::setObject(ILesson::IPage::IObject *object)
-{
-    if (object->getType() == this->supportedType)
-        objects.append(object);
-}
-
-const QList<ILesson::IPage::IObject * > & pdfController::getObjects()
-{
-    return this->objects;
-}

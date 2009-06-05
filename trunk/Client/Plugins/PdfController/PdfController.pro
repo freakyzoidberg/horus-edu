@@ -4,8 +4,7 @@
 TEMPLATE = lib
 
 SOURCES += implementation/pdfcontroller.cpp
-HEADERS += IPdfController.h \
-    implementation/pdfcontroller.h
+HEADERS += implementation/pdfcontroller.h
 
 INCLUDEPATH += . \
     ./implementation \
