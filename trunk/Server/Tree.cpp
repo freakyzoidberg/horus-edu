@@ -327,6 +327,7 @@ bool Tree::UpdateVector()
        tempnode->name = "/";
        tempnode->type = "group";
        tempnode->parent_id = 0;
+        tempnode->parent = tempnode;
        maptree.insert(tempnode->id, tempnode);
     while (query1.next())
     {
