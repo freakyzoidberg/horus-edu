@@ -22,6 +22,7 @@ UserFram::UserFram(INetwork *reseau, QObject *parent) : QFrame()
     requestFunctions["setNode"]         = &UserFram::editNodeResponse;
     connect(this, SIGNAL(sender(QString)), this->parent, SLOT(sender(QString)));
     connect(this->studentTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
+    this->SaveButton->hide();
     listUsers();
     this->getTree();
 }
@@ -71,7 +72,11 @@ void    UserFram::on_CancelButton_clicked()
     msgBox.setDefaultButton(QMessageBox::Yes);
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
+    {
+        this->AddButton->show();
+        this->SaveButton->hide();
         this->clearForm();
+    }
     return;
     qDebug() << "Cancel";
 }
@@ -88,13 +93,19 @@ void    UserFram::changeEvent(QEvent *e)
 
 void UserFram::itemClicked(QTreeWidgetItem *item, int idx)
 {
+    this->AddButton->hide();
+    this->SaveButton->show();
     this->loginTxt->setText(this->studentlist[item->data(1, 0).toString()]["login"].toString());
     this->passTxt->setText(this->studentlist[item->data(1, 0).toString()]["password"].toString());
     this->addrTxt->setText(this->studentlist[item->data(1, 0).toString()]["address"].toString());
     this->phoneTxt->setText(this->studentlist[item->data(1, 0).toString()]["phone"].toString());
     this->paysTxt->setText(this->studentlist[item->data(1, 0).toString()]["country"].toString());
     this->languageTxt->setText(this->studentlist[item->data(1, 0).toString()]["language"].toString());
-    this->activeBox->setChecked(this->studentlist[item->data(1, 0).toString()]["language"].toBool());
+    this->prenomTxt->setText(this->studentlist[item->data(1, 0).toString()]["name"].toString());
+    this->nomTxt->setText(this->studentlist[item->data(1, 0).toString()]["surname"].toString());
+    this->date->setSelectedDate(this->studentlist[item->data(1, 0).toString()]["birth_day"].toDate());
+
+    this->activeBox->setChecked(this->studentlist[item->data(1, 0).toString()]["enabled"].toBool());
     //qDebug() << this->studentlist[item->data(1, 0).toString()]["login"];
 }
 
@@ -132,7 +143,11 @@ void    UserFram::setUserInfo()
     if(this->paysTxt->text() == "")
         Error.append("Pays |");
     if(this->languageTxt->text() == "")
-        Error.append("Pays |");
+        Error.append("Language |");
+    if(this->prenomTxt->text() == "")
+        Error.append("Prenom |");
+    if(this->nomTxt->text() == "")
+        Error.append("Nom |");
     if (Error != "")
     {
         QString msg;
@@ -149,8 +164,12 @@ void    UserFram::setUserInfo()
     request["address"] = this->addrTxt->text();
     request["phone"] = this->phoneTxt->text();
     request["country"] = this->paysTxt->text();
+    request["name"] = this->prenomTxt->text();
+    request["surname"] = this->nomTxt->text();
+    request["birth_day"] = this->date->selectedDate();
+    request["picture"] = "vide";
     request["language"] = this->languageTxt->text();
-    request["id_tree"] = "9";
+    request["id_tree"] = "0";
     request["enabled"] = this->activeBox->isChecked();
     PluginPacket pP("UserManagment", request);
     emit sender("students");
@@ -174,7 +193,11 @@ void    UserFram::createNewUser()
     if(this->paysTxt->text() == "")
         Error.append("Pays |");
     if(this->languageTxt->text() == "")
-        Error.append("Pays |");
+        Error.append("Language |");
+    if(this->prenomTxt->text() == "")
+        Error.append("Prenom |");
+    if(this->nomTxt->text() == "")
+        Error.append("Nom |");
     if (Error != "")
     {
         QString msg;
@@ -188,11 +211,15 @@ void    UserFram::createNewUser()
     request["login"] = this->loginTxt->text();
     request["password"] = QCryptographicHash::hash(this->passTxt->text().toUtf8(), QCryptographicHash::Sha1).toHex();
     request["level"] = LEVEL_STUDENT;
+    request["name"] = this->prenomTxt->text();
+    request["surname"] = this->nomTxt->text();
+    request["birth_day"] = this->date->selectedDate();
+    request["picture"] = "vide";
     request["address"] = this->addrTxt->text();
     request["phone"] = this->phoneTxt->text();
     request["country"] = this->paysTxt->text();
     request["language"] = this->languageTxt->text();
-    request["id_tree"] = "9";
+    request["id_tree"] = "0";
     request["enabled"] = this->activeBox->isChecked();
     PluginPacket pP("UserManagment", request);
     emit sender("students");
@@ -225,13 +252,13 @@ void    UserFram::listUsersResponse(QVariantHash &response)
 {
     if (response["Success"] == false)
         return;
+    this->studentlist.clear();
+    this->studentTree->clear();
     QTreeWidgetItem *students = new QTreeWidgetItem(this->studentTree);
     students->setText(0,"Etudiants");
     QVariantList list;
     list = response["Users"].toList();
     QList<QVariant>::iterator i;
-    this->studentlist.clear();
-    //this->studentTree->clear();
     for (i = list.begin(); i != list.end(); ++i)
     {
         if (QVariant(*i).toHash()["level"] == LEVEL_STUDENT)
@@ -251,6 +278,8 @@ void    UserFram::getUserInfoResponse(QVariantHash &response)
 
 void    UserFram::setUserInfoResponse(QVariantHash &response)
 {
+    QMessageBox msgBox;
+    QString msg;
     if (response["Success"] == true)
     {
         QString msg;
@@ -259,24 +288,38 @@ void    UserFram::setUserInfoResponse(QVariantHash &response)
         msgBox.setText(msg);
         msgBox.exec();
         clearForm();
+        this->AddButton->show();
+        this->SaveButton->hide();
         this->listUsers();
+    }
+    else
+    {
+        msg.append("la modification des infos a echoue \n");
+        msgBox.setText(msg);
+        msgBox.exec();
     }
     //qDebug() << response;
 }
 
 void    UserFram::createNewUserResponse(QVariantHash &response)
 {
+    QMessageBox msgBox;
+    QString msg;
     if (response["Success"] == true)
     {
-        QString msg;
         msg.append("l'etudiant a ete rajoute avec succes \n");
-        QMessageBox msgBox;
         msgBox.setText(msg);
         msgBox.exec();
+        this->AddButton->show();
+        this->SaveButton->hide();
         clearForm();
     }
-
-    qDebug() << response;
+    else
+    {
+        msg.append("l'ajout de l'etudiant a echoue \n");
+        msgBox.setText(msg);
+        msgBox.exec();
+    }
 }
 
 void    UserFram::clearForm()

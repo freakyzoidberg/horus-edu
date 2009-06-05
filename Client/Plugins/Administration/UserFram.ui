@@ -24,7 +24,7 @@
     <rect>
      <x>-1</x>
      <y>-1</y>
-     <width>581</width>
+     <width>621</width>
      <height>551</height>
     </rect>
    </property>
@@ -45,7 +45,7 @@
     </item>
     <item row="0" column="1">
      <layout class="QGridLayout" name="userLayout">
-      <item row="1" column="0">
+      <item row="0" column="0">
        <widget class="QGroupBox" name="formW">
         <property name="title">
          <string>Formulaire</string>
@@ -55,8 +55,8 @@
           <rect>
            <x>30</x>
            <y>10</y>
-           <width>520</width>
-           <height>432</height>
+           <width>557</width>
+           <height>578</height>
           </rect>
          </property>
          <layout class="QHBoxLayout" name="formLayout">
@@ -81,8 +81,18 @@
             <item row="1" column="1">
              <widget class="QLineEdit" name="loginTxt"/>
             </item>
+            <item row="2" column="0">
+             <widget class="QLabel" name="label_12">
+              <property name="text">
+               <string>Password</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="1">
+             <widget class="QLineEdit" name="passTxt"/>
+            </item>
             <item row="3" column="1">
-             <widget class="QDateEdit" name="dateEdit"/>
+             <widget class="QCalendarWidget" name="date"/>
             </item>
             <item row="4" column="0">
              <widget class="QLabel" name="label_2">
@@ -174,20 +184,10 @@
             <item row="12" column="1">
              <widget class="QLineEdit" name="languageTxt"/>
             </item>
-            <item row="2" column="1">
-             <widget class="QLineEdit" name="passTxt"/>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_12">
-              <property name="text">
-               <string>Password</string>
-              </property>
-             </widget>
-            </item>
             <item row="0" column="1">
              <widget class="QCheckBox" name="activeBox">
               <property name="text">
-               <string>Activé</string>
+               <string>Active</string>
               </property>
              </widget>
             </item>
@@ -226,7 +226,7 @@
         </widget>
        </widget>
       </item>
-      <item row="0" column="0">
+      <item row="1" column="0">
        <widget class="QFrame" name="menuW">
         <widget class="QWidget" name="horizontalLayoutWidget">
          <property name="geometry">
@@ -248,7 +248,7 @@
           <item>
            <widget class="QPushButton" name="SaveButton">
             <property name="text">
-             <string>Sauvegarder</string>
+             <string>Sauvgarder</string>
             </property>
            </widget>
           </item>
