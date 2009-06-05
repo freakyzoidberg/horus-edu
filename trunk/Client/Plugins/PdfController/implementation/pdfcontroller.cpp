@@ -88,13 +88,20 @@ bool    pdfController::eventHandlerUnload(QEvent *event)
 
 void    pdfController::showObject(ILesson::IPage::IObject *object)
 {
-    QMap<QString, int>      requieredFiles = object->getRequiredFiles();
+    QMap<QString, int>              requieredFiles = object->getRequiredFiles();
     QMap<QString, int>::iterator    it, itend = requieredFiles.end();
+
     IClientPlugin   *clientPlugin;
     IPdfRendering   *pdf;
-    QStringList  parameters = object->getParameters().split(":");
-    int index;
-    bool ok;
+    QStringList     parameters = object->getParameters().split(":");
+    int             index;
+    bool            ok;
+
+    if (parameters.count() != requieredFiles.count())
+    {
+        qDebug() << "Error parsing params string";
+        return ;
+    }
 
     clientPlugin = this->client->getPlugin("dispPDF");
     if (!clientPlugin)
@@ -114,6 +121,12 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         float   topX, topY, height, width;
         QRectF  *rect;
         QImage  *image;
+
+        if (splitParams.size() != 5)
+        {
+            qDebug() << "Error while parsing params string";
+            continue ;
+        }
 
         page = splitParams.at(0).toInt(&ok);
         if (!ok)
@@ -152,19 +165,16 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         }
 
         rect = new QRectF(topX, topY, height, width);
-
         image = pdf->dispPDFDoc(fileName, page, rect);
-
         if (!image)
         {
             qDebug() << "Call the shot";
-             delete rect;
+            delete rect;
             return ;
         }
 
         QImage disp = image->scaled(object->getSize().width() * 100,
                                     object->getSize().height() * 100);
-
         QPixmap pix = QPixmap::fromImage(disp);
         QLabel label(object->getWidget());
         label.setPixmap(pix);
@@ -185,7 +195,7 @@ void    pdfController::hideObject(ILesson::IPage::IObject *object)
 
 void    pdfController::configureObject(ILesson::IPage::IObject *object)
 {
-
+ //build the configuration string:
 }
 
 const QString&  pdfController::getSupportedType() const
