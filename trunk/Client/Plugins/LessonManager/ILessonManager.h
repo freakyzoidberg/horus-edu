@@ -43,7 +43,7 @@ class ILessonManager
     /*!
         This method should be called subsequently to a call to displayPage().
     */
-    virtual void        hideCurrentPage() = 0;
+    virtual void        hidePage(ILesson::IPage *page) = 0;
 };
 
 Q_DECLARE_INTERFACE(ILessonManager, "net.horus.Client.LessonManagerInterface/1.0");

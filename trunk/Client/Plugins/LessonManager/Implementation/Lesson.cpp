@@ -319,7 +319,11 @@ QVariant    Lesson::data(const QModelIndex &index, int role) const
     else if (role == Qt::UserRole)
     {
         if ((page = dynamic_cast<LPage *>(static_cast<ILesson::IElement *>(index.internalPointer()))) != NULL)
-            return QVariant(QVariant::UserType, page);
+        {
+            QVariant v;
+            v.setValue(static_cast<ILesson::IPage *>(page));
+            return v;
+        }
     }
     return QVariant();
 }

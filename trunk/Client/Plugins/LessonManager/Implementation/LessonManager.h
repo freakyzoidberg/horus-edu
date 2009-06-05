@@ -154,7 +154,7 @@ public:
     ILesson*    createNewLesson(quint32 fileId);
 
     void        displayPage(ILesson::IPage *page, QWidget *widget);
-    void        hideCurrentPage();
+    void        hidePage(ILesson::IPage *page);
 
  private:
     void        writeXmlSection(const QList<ILesson::IElement *>& list, QXmlStreamWriter& xmlWriter);
