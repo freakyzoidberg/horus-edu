@@ -67,6 +67,7 @@ private slots:
     void connexionReadyRead();
     void connexionBytesWritten(qint64);
     void synchronize();
+    void connexionDisconnected();
 };
 
 #endif // FILE_H

@@ -23,6 +23,11 @@ int File::getProgress() const
     return 0;
 }
 
+void File::connexionDisconnected()
+{
+    emit fileSynchronized();
+}
+
 bool File::isSynchronized() const
 {
     return synchronized;
@@ -70,6 +75,7 @@ void File::connexionAuthorized(const QByteArray& key)
     connexion.setProtocol(QSsl::SslV3);
     //TODO later: For test
     connexion.setPeerVerifyMode(QSslSocket::VerifyNone);
+    connect(&connexion, SIGNAL(disconnected()), this, SLOT(connexionDisconnected()));
     connexion.connectToHostEncrypted("localhost", 42042, QIODevice::ReadWrite);
     connexion.waitForEncrypted();
     connect(&connexion, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
