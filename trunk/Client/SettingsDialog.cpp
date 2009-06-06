@@ -117,6 +117,12 @@ void SettingsDialog::FillNetworkTab()
         line->setObjectName("Port");
         generalLayout->insertRow(0, "Port", line);
     }
+    if (!settings->childKeys().contains("PortTransfert", Qt::CaseInsensitive))
+    {
+        line = new QLineEdit();
+        line->setObjectName("PortTransfert");
+        generalLayout->insertRow(0, "PortTransfert", line);
+    }
     settings->endGroup();
     settings->beginGroup("SESSIONS");
     foreach (QString key, settings->childKeys())
