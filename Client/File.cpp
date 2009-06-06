@@ -43,7 +43,8 @@ const CommFileInfo& File::getInfo() const
 
 const QString File::getLocalFileName() const
 {
-     return QDir::tempPath() + '/' + QVariant(info.id).toString();
+    QSettings settings;
+    return settings.value("TmpDir", QDir::tempPath()).toString() + '/' + QVariant(info.id).toString();
 }
 
 void File::setFileName(const QString& name)
