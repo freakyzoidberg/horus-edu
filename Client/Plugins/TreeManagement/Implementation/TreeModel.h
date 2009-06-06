@@ -24,6 +24,8 @@ private:
     static QIcon    ClassIcon;
     static QIcon    MatiereIcon;
     static QIcon    FileIcon;
+    static QIcon    GroupIcon;
+    static QIcon    RootIcon;
 };
 
 #endif // TREEMODEL_H

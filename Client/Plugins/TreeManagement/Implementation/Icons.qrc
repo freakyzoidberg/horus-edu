@@ -3,5 +3,7 @@
         <file>ClassIcon.png</file>
         <file>FileIcon.png</file>
         <file>MatiereIcon.png</file>
+        <file>GroupIcon.png</file>
+        <file>RootIcon.png</file>
     </qresource>
 </RCC>

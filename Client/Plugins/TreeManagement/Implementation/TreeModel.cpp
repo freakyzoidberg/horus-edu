@@ -7,6 +7,8 @@
 QIcon TreeModel::MatiereIcon(":/Icons/MatiereIcon.png");
 QIcon TreeModel::ClassIcon(":/Icons/ClassIcon.png");
 QIcon TreeModel::FileIcon(":/Icons/FileIcon.png");
+QIcon TreeModel::GroupIcon(":/Icons/GroupIcon.png");
+QIcon TreeModel::RootIcon(":/Icons/RootIcon.png");
 
 TreeModel::TreeModel(IFileManager* _fileManager)
 {
