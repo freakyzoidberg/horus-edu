@@ -2,6 +2,9 @@
 #include <QtCore/qplugin.h>
 #include <QStringList>
 #include <QRectF>
+#include <QVariant>
+#include <QSettings>
+#include <QDir>
 #include <QPixmap>
 #include <QLabel>
 
@@ -89,18 +92,16 @@ bool    pdfController::eventHandlerUnload(QEvent *event)
 
 void    pdfController::showObject(ILesson::IPage::IObject *object)
 {
-     qDebug() << "jsuis dans le controle";
-
-    /*QMap<QString, int>              requieredFiles = object->getRequiredFiles();
-    QMap<QString, int>::iterator    it, itend = requieredFiles.end();*/
-
+    QList<unsigned int>     requieredFiles = object->getRequiredFiles();
+    QStringList             parameters = object->getParameters().split(":");
     IClientPlugin   *clientPlugin;
     IPdfRendering   *pdf;
-    QStringList     parameters = object->getParameters().split(":");
-    int             index = 0;
+    int             index;
     bool            ok;
+    QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+    QVariant    conf;
 
-    qDebug() << "Parameters:" << object->getParameters();
+    qDebug() << "Nuclear launch detected.";
 
     if (object->getType() != this->getSupportedType())
     {
@@ -109,11 +110,7 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         qDebug() << "\tThe controller pdfcontroller handle " << this->getSupportedType() << " type.";
     }
 
-/*    if (parameters.count() != requieredFiles.count())
-    {
-        qDebug() << "Error parsing params string";
-        return ;
-    }*/
+    conf = settings.value("General/TmpDir");
 
     clientPlugin = this->client->getPlugin("dispPDF");
     if (!clientPlugin)
@@ -128,23 +125,18 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         return ;
     }
 
-   // for (it = requieredFiles.begin(), index = 0; it != itend; ++it, ++index)
+   for (index = 0; index < requieredFiles.count(); ++index)
     {
         qDebug() << "I dont have time to *BLEEP* around";
-        //parse parameters
-        QString fileName; // = it.key();
-        QStringList splitParams = parameters.at(index).split(";");
-        int     page;
-        float   topX, topY, height, width;
+        QVariant        var(requieredFiles.at(index));
+        QString         fileName = conf.toString() + var.toString();
+        QStringList     splitParams = parameters.at(index).split(";");
+        int             page;
+        float           topX, topY, height, width;
         QRectF  *rect;
         QImage  *image;
 
-/*
-        if (splitParams.size() != 5)
-        {
-            qDebug() << "Error while parsing params string";
-            return ;
-        }*/
+        qDebug() << "FILLLLEEENNNAAEMMMM:" << fileName;
 
         page = splitParams.at(0).toInt(&ok);
         if (!ok)
@@ -183,7 +175,7 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         }
 
         rect = new QRectF(topX, topY, height, width);
-        image = pdf->dispPDFDoc("Ancient_Finnish_Costumes.PDF", page, rect, 0);
+        image = pdf->dispPDFDoc(fileName, page, rect, 0);
         if (!image)
         {
             qDebug() << "Call the shot";
@@ -203,7 +195,6 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         object->getWidget()->show();
         delete rect;
         delete image;
-        //break ;
     }
 }
 
