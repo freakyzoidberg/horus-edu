@@ -1,6 +1,7 @@
 #include "File.h"
 #include "FileManager.h"
 
+#include <QDir>
 #include <QApplication>
 
 File::File(const CommFileInfo& _info)
@@ -41,7 +42,7 @@ const CommFileInfo& File::getInfo() const
 
 const QString File::getLocalFileName() const
 {
-     return "/tmp/" + QVariant(info.id).toString();
+     return QDir::tempPath() + '/' + QVariant(info.id).toString();
 }
 
 void File::setFileName(const QString& name)
