@@ -22,6 +22,7 @@ Modèle de tectonique des plaques.
 	</page>
 	<section title="Tectonique des plaques et convection dans le manteau">
 	  <page title="Les limites du modèle">
+	     <object type="Pdf" position="100,100" size="200,200" parameters="8;100.00;100.00;200.00;200.00:" requirements="42"/>
 		<object type="text" position="10,10" size="40,30" parameters="text">
 La tectonique des plaques est parfaitement valable pour les plaques océaniques (ou pour les parties océaniques des plaques mixtes). En effet, les plaques océaniques sont minces et rigides; leurs limites sont très nettes (ride médio-océanique, failles transformantes ou zones de subduction). Par contre, les plaques continentales sont beaucoup plus épaisses et moins rigides. Les limites de plaques sont donc beaucoup plus floues, et l'on peut considérer comme limite la suture paléogéographique (l'ancien océan), ou la zone qui se déforme actuellement (dans les cas de l'Himalaya-Tibet, la différence est de plusieurs milliers de km).
 		</object>
