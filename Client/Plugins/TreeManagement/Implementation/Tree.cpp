@@ -8,7 +8,7 @@ Tree* Tree::GetNodebyId(int id)
     if ( ! maptree.contains(id))
     {
         Tree* node = new Tree(id);
-        node->setProperty("type","ITree");
+        node->setObjectName("ITree");
         maptree[id] = node;
     }
 

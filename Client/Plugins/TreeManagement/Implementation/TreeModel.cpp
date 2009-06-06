@@ -23,39 +23,20 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
     if ( ! index.isValid())
         return QVariant();
 
-    if (role == Qt::DisplayRole || role == Qt::UserRole)
+    QObject* obj = ((QObject*)index.internalPointer());
+    qDebug() << obj->objectName();
+
+    if (role == Qt::DisplayRole)
     {
-
-//        qDebug() << ((QObject*)(index.internalPointer()))->property("type");
-
-        if (role == Qt::DisplayRole)
-        {
-
-        Tree* node = dynamic_cast<Tree*>(static_cast<QObject*>(index.internalPointer()));
-        if (node)
-        {
-//            qDebug() << "TreeModel::data Tree" << node->Getid();
-//            if (index.column() == 1)
-                return QVariant(node->GetName());
-//            return QVariant(node->Getid());
-        }
-
-        }
-
-        //IFile* file = dynamic_cast<IFile*>(static_cast<QObject*>(index.internalPointer()));
-        //IFile* file = qobject_cast<IFile*>((QObject*)(index.internalPointer()));
-        IFile* file = (IFile*)(index.internalPointer());
-        if (file)
-        {
-//            qDebug() << "TreeModel::data IFile";
-//            if (index.column() == 1)
-            if (role == Qt::DisplayRole)
-                return QVariant(file->getInfo().fileName);
-            else
-                return QVariant(file->getInfo().id);
-//            return QVariant(file->getInfo().id);
-        }
+        if (obj->objectName() == "ITree")
+            return QVariant(((ITree*)obj)->GetName());
+        if (obj->objectName() == "IFile")
+            return QVariant(((IFile*)obj)->getInfo().fileName);
     }
+    else if (role == Qt::UserRole &&
+             obj->objectName() == "IFile")
+        return QVariant(((IFile*)obj)->getInfo().id);
+
     return QVariant();
 }
 
