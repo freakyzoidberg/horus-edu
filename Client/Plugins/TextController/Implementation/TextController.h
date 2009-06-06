@@ -4,6 +4,7 @@
 #include "TextController_global.h"
 
 #include <QtPlugin>
+#include <QLabel>
 
 #include "../../IClientPlugin.h"
 #include "../LessonManager/ILesson.h"
@@ -27,6 +28,9 @@ public:
     void                activateObject(ILesson::IPage::IObject *object);
     void                hideObject(ILesson::IPage::IObject *object);
     void                configureObject(ILesson::IPage::IObject *object);
+
+private:
+    QLabel              *text;
 };
 
 #endif // TEXTCONTROLLER_H

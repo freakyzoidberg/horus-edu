@@ -10,7 +10,6 @@ extern QEvent::Type ClientEvents::LoadPluginEvent;
 
 TextController::TextController()
 {
-    qDebug() << "coucou";
 }
 
 const QByteArray    TextController::getName() const
@@ -48,11 +47,15 @@ bool                TextController::event(QEvent *event)
 
 const QString&      TextController::getSupportedType() const
 {
-    return (QString("text"));
+    return ("text");
 }
 
 void                TextController::showObject(ILesson::IPage::IObject *object)
 {
+    if (object->getParameters().left(5) == "text=")
+        this->text = new QLabel(object->getParameters().mid(5), object->getWidget());
+    else if (object->getParameters().left(5) == "file=")
+        object = object;
 }
 
 void                TextController::activateObject(ILesson::IPage::IObject *object)
