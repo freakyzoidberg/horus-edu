@@ -91,4 +91,5 @@ bool    XmlHandler::characters(const QString& ch)
 {
     if (currentObject != NULL)
         currentObject->setContent(ch);
+    return (true);
 }
