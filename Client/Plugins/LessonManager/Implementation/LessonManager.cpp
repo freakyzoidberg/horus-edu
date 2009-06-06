@@ -196,6 +196,31 @@ ILesson*      LessonManager::createNewLesson(quint32 fileId)
 
 void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
 {
+    QList<quint32> files;
+    const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
+    QList<ILesson::IPage::IObject *>::const_iterator it = objects.begin();
+    this->page = page;
+    this->widget = widget;
+    file = 0;
+    while (it != objects.end())
+    {
+        files = (*it)->getRequiredFiles();
+        if (files.size() > 0)
+        {
+            file = fileManager->getFile(files.at(0));
+            file->open(QIODevice::ReadOnly);
+            connect(file, SIGNAL(fileSynchronized()), this, SLOT(readyDisplayPage()));
+            break;
+        }
+        it++;
+    }
+    this->readyDisplayPage();
+}
+
+void        LessonManager::readyDisplayPage()
+{
+    if (file)
+        this->disconnect(file, SIGNAL(fileSynchronized()), this, SLOT(readyDisplayPage()));
     IController *controller;
     const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
     QList<ILesson::IPage::IObject *>::const_iterator it = objects.begin();
@@ -213,6 +238,7 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
         if (controller && controller->getSupportedType() == (*it)->getType())
         {
             controller->showObject(*it);
+            (*it)->getWidget()->show();
         }
         else
             qDebug() << "LessonManager: DisplayPage: display failed";
