@@ -2,7 +2,7 @@
 #define TREEMODEL_H
 
 #include <QMultiHash>
-
+#include <QtGui/QIcon>
 #include <QAbstractItemModel>
 #include "../../IFilePlugin.h"
 
@@ -22,6 +22,10 @@ private:
 //    IFileManager* fileManager;
     QMultiHash<quint32,IFile*> filesByParent;
     QHash<quint32,IFile*>      filesById;
+
+    static QIcon    ClassIcon;
+    static QIcon    MatiereIcon;
+    static QIcon    FileIcon;
 };
 
 #endif // TREEMODEL_H
