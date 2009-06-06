@@ -135,12 +135,12 @@ void                LObject::setParameters(const QString& params)
     this->params = params;
 }
 
-ILesson::IPage::IObject::IController* LObject::getController()
+IController* LObject::getController()
 {
     return ctrl;
 }
 
-void LObject::setController(ILesson::IPage::IObject::IController *ctrl)
+void LObject::setController(IController *ctrl)
 {
     this->ctrl = ctrl;
 }

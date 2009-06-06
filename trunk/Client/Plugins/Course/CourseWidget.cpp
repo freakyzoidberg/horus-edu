@@ -24,9 +24,10 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setAutoExpandDelay(500);
     this->categoryView->setRootIsDecorated(false);
     this->categoryView->setHeaderHidden(true);
-    this->categoryView->expand(this->categoryView->rootIndex());
     this->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
+    this->categoryView->expandAll();
+    this->categoryView->indexAbove(this->categoryView->rootIndex());
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
     this->addWidget(this->categoryView);
 }
@@ -71,5 +72,6 @@ void CourseWidget::ready()
     this->lessonFile->close();
     this->lessonFile->open(QIODevice::ReadOnly);
     this->lessonView->setModel(this->lessonManager->getLesson(this->fileIndex));
+    this->lessonView->expandAll();
     connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
 }

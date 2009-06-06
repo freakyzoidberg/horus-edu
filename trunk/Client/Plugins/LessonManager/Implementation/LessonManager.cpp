@@ -8,6 +8,7 @@
 #include "../../IClient.h"
 #include "../../IFile.h"
 #include "../ILesson.h"
+#include "../IController.h"
 #include "LessonManager.h"
 #include "Lesson.h"
 #include "XmlHandler.h"
@@ -195,7 +196,7 @@ ILesson*      LessonManager::createNewLesson(quint32 fileId)
 
 void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
 {
-    ILesson::IPage::IObject::IController *controller;
+    IController *controller;
     const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
     QList<ILesson::IPage::IObject *>::const_iterator it = objects.begin();
     while (it != objects.end())
@@ -205,11 +206,12 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
         QWidget *frame = new QWidget(widget);
         frame->setGeometry((int)(position.x() * widget->geometry().width()) / 100, (int)(position.y() * widget->geometry().height()) / 100, (int)(size.width() * widget->geometry().width()) / 100, (int)(size.height() * widget->geometry().height()) / 100);
         (*it)->setWidget(frame);
-        controller = dynamic_cast<ILesson::IPage::IObject::IController *>(this->client->getPlugin(QString((*it)->getType() + "Controller").toAscii()));
+        controller = qobject_cast<IController *>(this->client->getPlugin(QString((*it)->getType() + "Controller").toAscii()));
         qDebug() << "LessonManager: DisplayPage: Trying to display" << (*it)->getType() << "using controller"<< QString((*it)->getType() + "Controller").toAscii();
-        qDebug() << controller;
         if (controller && controller->getSupportedType() == (*it)->getType())
+        {
             controller->showObject(*it);
+        }
         else
             qDebug() << "LessonManager: DisplayPage: display failed";
         it++;

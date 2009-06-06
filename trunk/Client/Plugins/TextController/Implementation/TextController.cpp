@@ -10,6 +10,7 @@ extern QEvent::Type ClientEvents::LoadPluginEvent;
 
 TextController::TextController()
 {
+    this->type = "text";
 }
 
 const QByteArray    TextController::getName() const
@@ -47,7 +48,7 @@ bool                TextController::event(QEvent *event)
 
 const QString&      TextController::getSupportedType() const
 {
-    return ("text");
+    return (this->type);
 }
 
 void                TextController::showObject(ILesson::IPage::IObject *object)
