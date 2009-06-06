@@ -30,6 +30,7 @@ IFile* FileManager::newFile(quint32 nodeId)
     CommFileInfo info;
     info.nodeId = nodeId;
     tmpNewFile = new File(info);
+    tmpNewFile->setObjectName("IFile");
     emit fileListUpdated();
     emit nodeFileListUpdated(nodeId);
     return tmpNewFile;
@@ -41,7 +42,9 @@ IFile* FileManager::getFile(quint32 fileId)
     {
         CommFileInfo info;
         info.id = fileId;
-        fileHash[ fileId ] = new File(info);
+        IFile* file = new File(info);
+        file->setObjectName("IFile");
+        fileHash[ fileId ] = file;
 
         emit fileListUpdated();
 
