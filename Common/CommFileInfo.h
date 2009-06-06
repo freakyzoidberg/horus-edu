@@ -17,6 +17,8 @@ public:
     quint32     id;
     //! name of the file
     QString     fileName;
+    //! mime-type of the file
+    QString     mimeType;
     //! actual size of the file
     quint64     size;
     //! creation time
@@ -34,6 +36,7 @@ public:
 inline bool   operator==(const CommFileInfo& a, const CommFileInfo& b) { return (
     a.id       == b.id &&
     a.fileName == b.fileName &&
+    a.mimeType == b.mimeType &&
     a.mtime    == b.mtime &&
     a.hashSha1 == b.hashSha1 &&
     a.ownerId  == b.ownerId &&
@@ -45,6 +48,7 @@ inline bool   operator!=(const CommFileInfo& a, const CommFileInfo& b) { return 
 inline QDebug operator<<(QDebug d, const CommFileInfo& i) { return d
     << i.id
     << i.fileName
+    << i.mimeType
     << i.size
     << i.ctime
     << i.mtime
@@ -56,6 +60,7 @@ inline QDebug operator<<(QDebug d, const CommFileInfo& i) { return d
 inline QDataStream& operator>>(QDataStream& s, CommFileInfo& i) { return s
     >> i.id
     >> i.fileName
+    >> i.mimeType
     >> i.size
     >> i.ctime
     >> i.mtime
@@ -67,6 +72,7 @@ inline QDataStream& operator>>(QDataStream& s, CommFileInfo& i) { return s
 inline QDataStream& operator<<(QDataStream& s, const CommFileInfo& i) { return s
     << i.id
     << i.fileName
+    << i.mimeType
     << i.size
     << i.ctime
     << i.mtime
