@@ -111,3 +111,9 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
 //    qDebug() << "TreeModel::rowCount" << p->Getid() << p->GetSonsNode().size() + filesByParent.values(p->Getid()).size();
     return p->GetSonsNode().size() + filesByParent.values(p->Getid()).size();
 }
+
+QIcon TreeModel::MatiereIcon(":/Icons/MatiereIcon.png");
+
+QIcon TreeModel::ClassIcon(":/Icons/ClassIcon.png");
+
+QIcon TreeModel::FileIcon(":/Icons/FileIcon.png");

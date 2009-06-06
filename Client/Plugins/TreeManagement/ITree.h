@@ -112,7 +112,7 @@ public:
     virtual bool HasAdminRightOnNodeOrFathers(int userid) = 0;
 
 protected:
-    virtual ~ITree() = 0;
+    virtual ~ITree() {}
 };
 
 #endif // ITREE_H
