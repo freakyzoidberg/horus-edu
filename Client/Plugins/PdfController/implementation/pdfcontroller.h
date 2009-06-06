@@ -6,12 +6,14 @@
 #include <IClientPlugin.h>
 
 #include "../../LessonManager/ILessonManager.h"
+#include "../../LessonManager/IController.h"
 
 class   pdfController : public IClientPlugin,
-                        public ILesson::IPage::IObject::IController
+                        public IController
 {
         Q_OBJECT
         Q_INTERFACES(IClientPlugin)
+        Q_INTERFACES(IController)
 
     public:
         pdfController();

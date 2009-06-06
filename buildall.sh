@@ -2,7 +2,7 @@
 #
 #	Build Client and Server
 #	     with plugins
-#	   V0.1 By Zoidberg
+#	   V0.1 By Zoid *berg = NULL;
 #
 
 VERT="\\033[1;32m"

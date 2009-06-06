@@ -208,6 +208,8 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
         (*it)->setWidget(frame);
         controller = qobject_cast<IController *>(this->client->getPlugin(QString((*it)->getType() + "Controller").toAscii()));
         qDebug() << "LessonManager: DisplayPage: Trying to display" << (*it)->getType() << "using controller"<< QString((*it)->getType() + "Controller").toAscii();
+        if (!controller)
+            qDebug() << "controle NULL";
         if (controller && controller->getSupportedType() == (*it)->getType())
         {
             controller->showObject(*it);

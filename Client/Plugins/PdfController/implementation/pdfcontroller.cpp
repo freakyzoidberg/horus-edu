@@ -19,7 +19,7 @@ Q_EXPORT_PLUGIN2(pdfcontroller, pdfController)
 pdfController::pdfController()
 {
     qDebug() << "All right, bring it on!";
-    supportedType = "PDF";
+    supportedType = "Pdf";
 }
 
 pdfController::~pdfController()
@@ -29,7 +29,7 @@ pdfController::~pdfController()
 
 const QByteArray    pdfController::getName() const
 {
-    return "PDFController";
+    return "PdfController";
 }
 
 const QByteArray    pdfController::getVersion() const
@@ -88,6 +88,8 @@ bool    pdfController::eventHandlerUnload(QEvent *event)
 
 void    pdfController::showObject(ILesson::IPage::IObject *object)
 {
+     qDebug() << "jsuis dans le controle";
+
     QMap<QString, int>              requieredFiles = object->getRequiredFiles();
     QMap<QString, int>::iterator    it, itend = requieredFiles.end();
 
@@ -97,6 +99,7 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
     int             index;
     bool            ok;
 
+    /*
     if (object->getType() != this->getSupportedType())
     {
         qDebug() << "[Plugin pdfcontroller] Type error:";
@@ -109,26 +112,32 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         qDebug() << "Error parsing params string";
         return ;
     }
-
+    */
     clientPlugin = this->client->getPlugin("dispPDF");
     if (!clientPlugin)
     {
         qDebug() << "Nuclear launch detected.";
         return ;
     }
-
     pdf = qobject_cast<IPdfRendering *>(clientPlugin);
-
-    for (it = requieredFiles.begin(), index = 0; it != itend; ++it, ++index)
+    if (!pdf)
     {
+        qDebug() << "ta mere";
+        return ;
+    }
+
+   // for (it = requieredFiles.begin(), index = 0; it != itend; ++it, ++index)
+    {
+        qDebug() << "I dont have time to *BLEEP* around";
         //parse parameters
-        QString fileName = it.key();
-        QStringList splitParams = parameters.at(index).split(";");
-        int     page;
-        float   topX, topY, height, width;
+        QString fileName; // = it.key();
+        //QStringList splitParams = parameters.at(index).split(";");
+        int     page = 10;
+        float   topX = 100, topY = 100, height = 50, width = 50;
         QRectF  *rect;
         QImage  *image;
 
+        /*
         if (splitParams.size() != 5)
         {
             qDebug() << "Error while parsing params string";
@@ -169,10 +178,10 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
             qDebug() << "Invalid conversion";
             delete rect;
             return ;
-        }
+        } */
 
         rect = new QRectF(topX, topY, height, width);
-        image = pdf->dispPDFDoc(fileName, page, rect);
+        image = pdf->dispPDFDoc("adobe_supplement_iso32000.pdf", page, rect, 0);
         if (!image)
         {
             qDebug() << "Call the shot";
@@ -180,13 +189,17 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
             return ;
         }
 
-        QImage disp = image->scaled(object->getSize().width() * 100,
-                                    object->getSize().height() * 100);
-        QPixmap pix = QPixmap::fromImage(disp);
-        QLabel label(object->getWidget());
-        label.setPixmap(pix);
+        QImage disp = image->scaled(object->getSize().width(),
+                                    object->getSize().height());
+        qDebug() << "try to display";
+        QPixmap pix = QPixmap::fromImage(*image);
+        QLabel *label = new QLabel(); //object->getWidget()
+        label->setPixmap(pix);
+        label->show();
+        object->getWidget()->show();
         delete rect;
         delete image;
+        //break ;
     }
 }
 
