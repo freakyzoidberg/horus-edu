@@ -206,8 +206,11 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
         frame->setGeometry((int)(position.x() * widget->geometry().width()) / 100, (int)(position.y() * widget->geometry().height()) / 100, (int)(size.width() * widget->geometry().width()) / 100, (int)(size.height() * widget->geometry().height()) / 100);
         (*it)->setWidget(frame);
         controller = dynamic_cast<ILesson::IPage::IObject::IController *>(this->client->getPlugin(QString((*it)->getType() + "Controller").toAscii()));
-        if (controller)
+        qDebug() << "LessonManager: DisplayPage: Trying to display" << (*it)->getType() << "using controller"<< QString((*it)->getType() + "Controller").toAscii();
+        if (controller && controller->getSupportedType() == (*it)->getType())
             controller->showObject(*it);
+        else
+            qDebug() << "LessonManager: DisplayPage: display failed";
         it++;
     }
     widget->update();

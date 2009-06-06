@@ -25,7 +25,7 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setRootIsDecorated(false);
     this->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
-    //connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
+    connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
     this->addWidget(this->categoryView);
 }
 
@@ -43,12 +43,11 @@ void CourseWidget::buildLessonTree()
 void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
 {
     this->fileIndex = lessonIndex.data(Qt::UserRole).toUInt();
-    this->fileIndex = 2; // ----------------- NEED TO BE DELETED
     if (this->fileIndex)
     {
         this->lessonFile = this->fileManager->getFile(this->fileIndex);
         lessonFile->open(QIODevice::ReadOnly);
-        connect(this->lessonFile, SIGNAL(readyRead()), this, SLOT(ready()));
+        connect(this->lessonFile, SIGNAL(fileSynchronized()), this, SLOT(ready()));
     }
 }
 
