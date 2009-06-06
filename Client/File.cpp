@@ -43,8 +43,12 @@ const CommFileInfo& File::getInfo() const
 
 const QString File::getLocalFileName() const
 {
-    QSettings settings;
-    return settings.value("TmpDir", QDir::tempPath()).toString() + '/' + QVariant(info.id).toString();
+    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+    QString dir = settings.value("TmpDir", QDir::tempPath()).toString();
+    QDir d(dir);
+    if ( ! d.exists(dir))
+        d.mkpath(dir);
+    return  dir + '/' + QVariant(info.id).toString();
 }
 
 void File::setFileName(const QString& name)
