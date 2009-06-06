@@ -3,14 +3,24 @@
 #include <QFileSystemModel>
 #include <QTreeView>
 #include <QDebug>
+#include <QVBoxLayout>
 
 CourseWidget::CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFileManager *fileManager): QSplitter::QSplitter()
 {
+    QWidget *leftPane;
+    QVBoxLayout *layout;
+
     this->lessonManager = lessonManager;
     this->treePlugin = treePlugin;
     this->fileManager = fileManager;
     this->buildCategoryTree();
     this->buildLessonTree();
+    leftPane = new QWidget(this);
+    this->addWidget(leftPane);
+    layout = new QVBoxLayout(leftPane);
+    layout->addWidget(this->categoryView);
+    layout->addWidget(this->lessonView);
+    leftPane->setLayout(layout);
     this->pageWidget = new QWidget;
     this->addWidget(this->pageWidget);
 }
@@ -29,7 +39,6 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->expandAll();
     this->categoryView->indexAbove(this->categoryView->rootIndex());
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
-    this->addWidget(this->categoryView);
 }
 
 void CourseWidget::buildLessonTree()
@@ -40,7 +49,6 @@ void CourseWidget::buildLessonTree()
     this->lessonView->setRootIsDecorated(false);
     this->lessonView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->lessonView->setSelectionBehavior(QAbstractItemView::SelectItems);
-    this->addWidget(this->lessonView);
 }
 
 void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)

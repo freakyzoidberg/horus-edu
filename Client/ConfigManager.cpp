@@ -108,6 +108,12 @@ void    ConfigManager::createConfig()
         else
             settings.setValue("Plugins/SystemDirectoryPath", path);
     }
+    if (!settings.contains("Network/Server"))
+        settings.setValue("Network/Server", "localhost");
+    if (!settings.contains("Network/Port"))
+        settings.setValue("Network/Port", 42000);
+    if (!settings.contains("Network/PortTransfert"))
+        settings.setValue("Network/PortTransfert", 42042);
     settings.sync();
 }
 
