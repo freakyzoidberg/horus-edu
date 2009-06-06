@@ -90,8 +90,8 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
 {
      qDebug() << "jsuis dans le controle";
 
-    QMap<QString, int>              requieredFiles = object->getRequiredFiles();
-    QMap<QString, int>::iterator    it, itend = requieredFiles.end();
+    /*QMap<QString, int>              requieredFiles = object->getRequiredFiles();
+    QMap<QString, int>::iterator    it, itend = requieredFiles.end();*/
 
     IClientPlugin   *clientPlugin;
     IPdfRendering   *pdf;
@@ -193,9 +193,9 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
                                     object->getSize().height());
         qDebug() << "try to display";
         QPixmap pix = QPixmap::fromImage(*image);
-        QLabel *label = new QLabel(); //object->getWidget()
+        QLabel *label = new QLabel(object->getWidget()); //
         label->setPixmap(pix);
-        label->show();
+        //label->show();
         object->getWidget()->show();
         delete rect;
         delete image;
