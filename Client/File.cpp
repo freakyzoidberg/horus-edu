@@ -3,6 +3,7 @@
 
 #include <QDir>
 #include <QApplication>
+#include <QSettings>
 
 File::File(const CommFileInfo& _info)
 {
@@ -78,7 +79,10 @@ void File::connexionAuthorized(const QByteArray& key)
     //TODO later: For test
     connexion.setPeerVerifyMode(QSslSocket::VerifyNone);
     connect(&connexion, SIGNAL(disconnected()), this, SLOT(connexionDisconnected()));
-    connexion.connectToHostEncrypted("localhost", 42042, QIODevice::ReadWrite);
+    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+    connexion.connectToHostEncrypted(settings.value("Network/Server", "localhost").toString(),
+                                     settings.value("Network/PortTransfert", 42042).toInt(),
+                                     QIODevice::ReadWrite);
     connexion.waitForEncrypted();
     connect(&connexion, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
     if (openMode() & WriteOnly)
