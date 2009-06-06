@@ -48,11 +48,11 @@ void FileTest::launchTest()
 {
     qDebug() << "Debut de tests des fichiers.";
 
-    f1 = fileManager->newFile(0);
+//    f1 = fileManager->newFile(0);
 //    f1 = fileManager->getFile(1);
 //    connect(f1, SIGNAL(connexionOpened()), this, SLOT(t1()));
-    qDebug() << f1->open(QIODevice::WriteOnly);
-    t1();
+//    qDebug() << f1->open(QIODevice::WriteOnly);
+//    t1();
 
 //    f2 = fileManager->getFile(2);
 //    connect(f2, SIGNAL(readyRead()), this, SLOT(t2()));
