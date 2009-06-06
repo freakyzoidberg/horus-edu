@@ -27,6 +27,7 @@ public:
     virtual const QHash<quint32,IFile*> getFullFileList() const = 0;
     //! Return the list of readable files of the nodeId. May be incomplete the first time. See SIGNAL(fileListUpdated(quint32)))
     virtual const QList<IFile*> getNodeFileList(quint32 nodeId) const = 0;
+    virtual int countNodeFileList(quint32 nodeId) const = 0;
     //TODO: more filters
     //const QList<File*> getFileListByCTime(....); ByMtime By
 
