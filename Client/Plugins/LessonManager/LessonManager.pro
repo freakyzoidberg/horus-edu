@@ -11,7 +11,8 @@ HEADERS += ILessonManager.h \
     Implementation/LessonManager.h \
     Implementation/LessonManager_global.h \
     Implementation/Lesson.h \
-    Implementation/XmlHandler.h
+    Implementation/XmlHandler.h \
+    IController.h
 INCLUDEPATH += .
 DESTDIR = .
 TARGET = $$qtLibraryTarget(LessonManager)

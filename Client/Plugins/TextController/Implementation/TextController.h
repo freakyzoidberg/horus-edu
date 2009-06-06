@@ -8,12 +8,13 @@
 
 #include "../../IClientPlugin.h"
 #include "../LessonManager/ILesson.h"
+#include "../LessonManager/IController.h"
 
-class TEXTCONTROLLERSHARED_EXPORT TextController : public IClientPlugin, public ILesson::IPage::IObject::IController
+class TEXTCONTROLLERSHARED_EXPORT TextController : public IClientPlugin, public IController
 {
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
-    Q_INTERFACES(ILesson::IPage::IObject::IController)
+    Q_INTERFACES(IController)
 
 public:
     TextController();
@@ -30,6 +31,7 @@ public:
     void                configureObject(ILesson::IPage::IObject *object);
 
 private:
+    QString             type;
     QLabel              *text;
 };
 
