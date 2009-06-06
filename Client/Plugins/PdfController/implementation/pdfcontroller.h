@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include <IClientPlugin.h>
+#include <QLabel>
 
 #include "../../LessonManager/ILessonManager.h"
 #include "../../LessonManager/IController.h"
@@ -136,6 +137,8 @@ class   pdfController : public IClientPlugin,
 
         //! The list of the name of plugins recommended by the dispPDF plugin
         QStringList pluginsRecommended;
+
+        QLabel  *label;
 
         QString     supportedType;
         QList<ILesson::IPage::IObject *> objects;
