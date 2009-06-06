@@ -49,6 +49,10 @@ class UserFram : public QFrame, private Ui::UserFram
         INetwork    *res;
         QObject     *parent;
         QHash<QString, QVariantHash> studentlist;
+        QVariant         id;
+        QHash<QString, QVariant>  sTree;
+        QHash<QString, QVariant>  classes;
+        void    fillStudentTree(QHash<QString, QVariant > &usertree, QHash<QString, QVariant > node, int nodeid);
     private slots:
         //! callback of the GetUsers button, it send an event to NetworkManager
         void    on_AddButton_clicked();

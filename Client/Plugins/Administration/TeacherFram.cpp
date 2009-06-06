@@ -20,14 +20,15 @@ TeacherFram::TeacherFram(INetwork *res, QObject     *parent) :
     requestFunctions["disableUser"]     = &TeacherFram::disableUserResponse;
     connect(this->profTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
     connect(this, SIGNAL(sender(QString)), this->parent, SLOT(sender(QString)));
+    this->SaveButton->hide();
 }
 
 void    TeacherFram::fillTeacherFram()
 {
     this->menuW->setLayout(this->menuLayout);
     this->formW->setLayout(this->formLayout);
-    this->userLayout->setRowStretch(0, 1);
-    this->userLayout->setRowStretch(1, 18);
+    this->userLayout->setRowStretch(1, 1);
+    this->userLayout->setRowStretch(0, 18);
     this->mainLayout->setColumnStretch(0, 1);
     this->mainLayout->setColumnStretch(1, 3);
     this->setLayout(this->mainLayout);
@@ -47,7 +48,8 @@ void TeacherFram::itemClicked(QTreeWidgetItem *item, int idx)
     this->prenomTxt->setText(this->proflist[item->data(1, 0).toString()]["name"].toString());
     this->nomTxt->setText(this->proflist[item->data(1, 0).toString()]["surname"].toString());
     this->date->setSelectedDate(this->proflist[item->data(1, 0).toString()]["birth_date"].toDate());
-    this->activeBox->setChecked(this->proflist[item->data(1, 0).toString()]["language"].toBool());
+    id = item->data(1, 0);
+    this->activeBox->setChecked(this->proflist[item->data(1, 0).toString()]["enabled"].toBool());
 }
 
 void    TeacherFram::on_AddButton_clicked()
@@ -58,8 +60,8 @@ void    TeacherFram::on_AddButton_clicked()
 void    TeacherFram::on_SaveButton_clicked()
 {
     QMessageBox msgBox;
-    msgBox.setText("Confirmation de l'annulation");
-    msgBox.setInformativeText("Etes-vous sur de vouloir annulé?");
+    msgBox.setText("Confirmation de la sauvgarde");
+    msgBox.setInformativeText("Etes-vous sur de vouloir sauvegarder?");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
     int ret = msgBox.exec();
@@ -173,6 +175,7 @@ void    TeacherFram::setUserInfo()
     request["country"] = this->paysTxt->text();
     request["language"] = this->languageTxt->text();
     request["id_tree"] = "9";
+    request["UserId"] = id;
     request["enabled"] = this->activeBox->isChecked();
     PluginPacket pP("UserManagment", request);
     emit sender("profs");
@@ -227,7 +230,6 @@ void    TeacherFram::createNewUser()
     PluginPacket pP("UserManagment", request);
     emit sender("profs");
     this->res->sendPacket(pP);
-    this->listUsers();
 }
 
 void    TeacherFram::disableUser()
@@ -261,7 +263,7 @@ void    TeacherFram::listUsersResponse(QVariantHash &response)
     this->proflist.clear();
     this->profTree->clear();
     QTreeWidgetItem *profs = new QTreeWidgetItem(this->profTree);
-    profs->setText(0,"Etudiants");
+    profs->setText(0,"Professeurs");
     QVariantList list;
     list = response["Users"].toList();
     QList<QVariant>::iterator i;
@@ -275,6 +277,7 @@ void    TeacherFram::listUsersResponse(QVariantHash &response)
             itemTree->setText(0, QVariant(*i).toHash()["login"].toString());
         }
     }
+    this->profTree->expandAll();
 }
 
 void    TeacherFram::getUserInfoResponse(QVariantHash &response)
@@ -292,9 +295,12 @@ void    TeacherFram::setUserInfoResponse(QVariantHash &response)
         msg.append("les infos du professeur ont ete modifié avec succes \n");
         msgBox.setText(msg);
         msgBox.exec();
-        clearForm();
+        if (this->profTree->currentItem() != 0 )
+            this->profTree->currentItem()->setSelected(false);
         this->AddButton->show();
         this->SaveButton->hide();
+        clearForm();
+        this->listUsers();
     }
     else
     {
@@ -314,9 +320,12 @@ void    TeacherFram::createNewUserResponse(QVariantHash &response)
         msg.append("le professeur a ete rajoute avec succes \n");
         msgBox.setText(msg);
         msgBox.exec();
-        clearForm();
+        if (this->profTree->currentItem() != 0 )
+            this->profTree->currentItem()->setSelected(false);
         this->AddButton->show();
         this->SaveButton->hide();
+        clearForm();
+        this->listUsers();
     }
     else
     {
