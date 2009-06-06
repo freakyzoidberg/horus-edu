@@ -146,7 +146,7 @@ void ThreadPacket::PacketFile()
         QFile* qfile = 0;
         if (f.method != CommFile::NEW_FILE)
         {
-            qfile = new QFile(settings.value("SETTINGS/FilesDirectory", "/opt/Horus/Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
+            qfile = new QFile(settings.value("SETTINGS/SoftFullPath", "/opt/Horus").toString() + '/' + settings.value("SETTINGS/FilesDirectory", "Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
 
             if ( ! fileMgmt.fileExist(f.fileInfo.id) || ! qfile->exists())
                 f.error = CommFile::NOT_FOUND;
