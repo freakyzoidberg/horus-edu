@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<lesson title="Tectonique des plaques">
+	<page title="Histoire">
+		<object type="text" position="10,10" size="40,30" parameters="text">
+Au début du XXe siècle, Alfred Wegener remarque que par la disposition des continents, la côte est de l'Amérique du Sud semble s'emboiter parfaitement dans la côte ouest de l'Afrique. D'autres bien avant lui s'en sont aperçus mais il est le premier à alors proposer, à partir de cette observation, la théorie de la dérive des continents : un supercontinent, la Pangée, se serait fragmenté au début de l'ère secondaire et, depuis cette date, les masses continentales issues de cette fragmentation dériveraient à la surface de la Terre. Cette intuition, pourtant étayée par des faits convaincants, a longtemps été rejetée par des géologues, Wegener proposait comme explication le broutage des continents sur le fond des océans pour expliquer la dérive. Mais, dans cette vision théorique, la dérive se caractérise par la formation de trou béant. Les mécanismes et La morphologie interne de la Terre étaient encore inconnus pour une interprétation plausible de la dérive.
+		</object>
+	</page>
+	<page title="Le modèle actuel">
+		<object type="text" position="10,10" size="40,30" parameters="text">
+n admet à présent que les plaques tectoniques sont portées par les mouvements du manteau asthénosphérique sous-jacent et subissent des interactions dont les trois types principaux sont :
+
+    * la divergence : se dit d'un mouvement éloignant deux plaques l'une de l'autre, laissant le manteau remonter entre elles. Leur frontière divergente correspond à une ride océanique ou dorsale, lieu de création de lithosphère océanique et théâtre de volcanisme intense. Le volcanisme au niveau des dorsales est généralement basaltique, avec une géochimie tholéiitique. C'est à travers ce mouvement que se crée la croûte lithosphérique (couche rigide située au dessus du manteau supérieur) ;
+
+Modèle de tectonique des plaques.
+
+    * la convergence : se dit d'un mouvement rapprochant deux plaques l'une de l'autre, compensant ainsi l'expansion océanique en d'autres zones du globe. Trois types de frontière de plaques convergentes accommodent le rapprochement :
+          o une zone de subduction là où une plaque (en général la plus dense) plonge sous une autre, moins dense ; le volcanisme au-dessus des zones de subduction est généralement andésitique, avec une géochimie calco-alcaline. La côte ouest de l'Amérique du Sud en est un exemple ;
+          o une zone de collision, là où deux plaques se confrontent. C'est le cas notamment de la chaîne de l'Himalaya, à la frontière entre la plaque indienne et la plaque eurasienne ;
+          o une zone d'obduction, là où une lithosphère océanique est transportée sur un continent. On ne connait pas d'obduction actuellement active à la surface du globe terrestre ;
+
+		</object>
+	</page>
+	<section title="Tectonique des plaques et convection dans le manteau">
+	  <page title="Les limites du modèle">
+		<object type="text" position="10,10" size="40,30" parameters="text">
+La tectonique des plaques est parfaitement valable pour les plaques océaniques (ou pour les parties océaniques des plaques mixtes). En effet, les plaques océaniques sont minces et rigides; leurs limites sont très nettes (ride médio-océanique, failles transformantes ou zones de subduction). Par contre, les plaques continentales sont beaucoup plus épaisses et moins rigides. Les limites de plaques sont donc beaucoup plus floues, et l'on peut considérer comme limite la suture paléogéographique (l'ancien océan), ou la zone qui se déforme actuellement (dans les cas de l'Himalaya-Tibet, la différence est de plusieurs milliers de km).
+		</object>
+		<object type="text" position="50,10" size="40,30" parameters="text">
+De plus, ce manque de rigidité induit la présence d'une multitude de "blocs" ou de "microplaques", plus ou moins indépendantes. La mosaïque en Méditerranée en est un bon exemple, avec une multitude de systèmes en extension (mer Tyrrhénienne, mer d'Alboran, mer Égée) dans un contexte compressif (rapprochement des plaques africaines et européennes). Le modèle de tectonique des plaques trouve ici ses limites, et certains modèles peuvent mieux expliquer certaines structures sans la tectonique des plaques (dans l'Est du plateau Tibétain, par exemple)[1].
+		</object>
+	  </page>
+	  <page title="Devenir des continents; leur rassemblement périodique et histoire du climat">
+		<object type="text" position="20,30" size="50,45" parameters="text">
+Xavier Le Pichon,[Note 1] Jean-Michel Gaulier[Note 2] et Coll. ont modélisé le mouvement de cinq continents se déplaçant de façon aléatoire[Note 3] à une vitesse de 100 millimètres par an.[Note 4] Leurs calculs montrent qu'il faudrait quelques 430 millions d'années pour que, leurs déplacements convergeant, ces continents s'unissent. Dès lors, rien n'interdit de penser que cela se concrétisera.
+
+La chaleur de la Terre ne s'évacue pas de la même façon selon que les continents sont regroupés en un seul ou qu'ils sont dispersés comme c'est le cas aujourd'hui et selon leur position (qui influe sur leur albédo, plus claires en zone polaire par exemple). Les chaines de montagnes terrestres ou sous marines modifient respectivement la circulation des masses d'air humide et des courants marins.
+Un supercontinent forme un « bouclier thermique » qui modifie la manière dont la chaleur s'évacue. Il se disloquera nécessairement en plusieurs fragments. Cela marquera le début d'un nouveau cycle de Wilson ainsi baptisé en l'honneur de John Tuzo Wilson (1908-1993), géophysicien canadien, qui a, le premier, émis l'hypothèse de ce rassemblement périodique des continents.
+		</object>
+	  </page>
+	</section>
+	  <page title="Devenir des continents; leur rassemblement périodique et histoire du climat">
+		<object type="text" position="20.99998887776654321,10" size="50,45" parameters="text">
+Xavier Le Pichon,[Note 1] Jean-Michel Gaulier[Note 2] et Coll. ont modélisé le mouvement de cinq continents se déplaçant de façon aléatoire[Note 3] à une vitesse de 100 millimètres par an.[Note 4] Leurs calculs montrent qu'il faudrait quelques 430 millions d'années pour que, leurs déplacements convergeant, ces continents s'unissent. Dès lors, rien n'interdit de penser que cela se concrétisera.
+
+La chaleur de la Terre ne s'évacue pas de la même façon selon que les continents sont regroupés en un seul ou qu'ils sont dispersés comme c'est le cas aujourd'hui et selon leur position (qui influe sur leur albédo, plus claires en zone polaire par exemple). Les chaines de montagnes terrestres ou sous marines modifient respectivement la circulation des masses d'air humide et des courants marins.
+Un supercontinent forme un « bouclier thermique » qui modifie la manière dont la chaleur s'évacue. Il se disloquera nécessairement en plusieurs fragments. Cela marquera le début d'un nouveau cycle de Wilson ainsi baptisé en l'honneur de John Tuzo Wilson (1908-1993), géophysicien canadien, qui a, le premier, émis l'hypothèse de ce rassemblement périodique des continents.
+		</object>
+	  </page>
+</lesson>
