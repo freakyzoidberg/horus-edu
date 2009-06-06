@@ -33,7 +33,19 @@
 					</Component>
 					<Directory Id="PLUGINDIR" Name="Plugins">
 						<Component Id="ClientPluginLessonManager" Guid="65b38138-a23a-4533-99f2-ecac289a39a7">
-							<File Name="LessonManager.dll" Source="../../Client\Plugins\LessonManager\release\LessonManager.dll" KeyPath="yes"/>
+							<File Name="LessonManager.dll" Source="..\..\Client\Plugins\LessonManager\release\LessonManager.dll" KeyPath="yes"/>
+						</Component>
+						<Component Id="ClientPluginAdministration" Guid="a0facbdf-5f29-4ac8-a32a-851f07383cd2">
+							<File Name="Administration.dll" Source="..\..\Client\Plugins\Administration\release\Administration.dll" KeyPath="yes" />
+						</Component>
+						<Component Id="ClientPluginTreeManagement" Guid="84aba3d2-2fd2-44a3-a6c8-991ae9254c2f">
+							<File Name="TreeManagement.dll" Source="..\..\Client\Plugins\TreeManagement\release\TreeManagement.dll" KeyPath="yes" />
+						</Component>
+						<Component Id="ClientPluginCourse" Guid="8ee021e8-293c-47c2-ba99-0d5920408ed1">
+							<File Name="Course.dll" Source="..\..\Client\Plugins\Course\release\Course.dll" KeyPath="yes" />
+						</Component>
+						<Component Id="ClientPluginMainFrame" Guid="d6801f3f-3030-42de-acfd-9b0935629ba3">
+							<File Name="MainFrame.dll" Source="..\..\Client\Plugins\MainFrame\release\MainFrame.dll" KeyPath="yes" />
 						</Component>
 					</Directory>
 				</Directory>
@@ -89,12 +101,17 @@
 				<ComponentRef Id="ClientDesktopShortcut"/>
 			</Feature>
 			<Feature Id="ClientPlugginsFeature" Title="!(loc.PluginsTitle)" Level="1" Absent="disallow" ConfigurableDirectory="PLUGINDIR">
-				<ComponentRef Id="ClientPluginLessonManager" />
+				
 				<Feature Id="ClientMainFramePluginFeature" Title="!(loc.MainFrameTitle)" Level="1" Absent="disallow">
+					<ComponentRef Id="ClientPluginMainFrame" />
 				</Feature>
 				<Feature Id="ClientCoursePluginFeature" Title="!(loc.CourseTitle)" Level="1">
+					<ComponentRef Id="ClientPluginCourse" />
+					<ComponentRef Id="ClientPluginLessonManager" />
+					<ComponentRef Id="ClientPluginTreeManagement" />
 				</Feature>
 				<Feature Id="ClientAdminPluginFeature" Title="!(loc.AdminTitle)" Level="1">
+					<ComponentRef Id="ClientPluginAdministration" />
 				</Feature>
 			</Feature>
 		</Feature>
