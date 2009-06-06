@@ -78,7 +78,7 @@ void File::connexionAuthorized(const QByteArray& key)
     connexion.setPeerVerifyMode(QSslSocket::VerifyNone);
     connect(&connexion, SIGNAL(disconnected()), this, SLOT(connexionDisconnected()));
     connexion.connectToHostEncrypted("localhost", 42042, QIODevice::ReadWrite);
-    connexion.waitForEncrypted();
+    //connexion.waitForEncrypted();
     connect(&connexion, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
     if (openMode() & WriteOnly)
         connect(&connexion, SIGNAL(bytesWritten(qint64)), this, SLOT(connexionBytesWritten(qint64)));
