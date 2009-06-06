@@ -19,19 +19,20 @@ const CommFileInfo& FileManagment::getFileInfo(quint32 fileId)
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
 
-    query.prepare("SELECT name,size,id_tree,id_owner,ctime,mtime,hash_sha1 FROM files WHERE id=?;");
+    query.prepare("SELECT name,mime,size,id_tree,id_owner,ctime,mtime,hash_sha1 FROM files WHERE id=?;");
     query.addBindValue(fileId);
     if ( ! query.exec() || ! query.next())
         return lastFileInfo;
 
     lastFileInfo.id = fileId;
     lastFileInfo.fileName = query.value(0).toString();
-    lastFileInfo.size = query.value(1).toULongLong();
-    lastFileInfo.nodeId = query.value(2).toUInt();
-    lastFileInfo.ownerId = query.value(3).toUInt();
-    lastFileInfo.ctime = query.value(4).toDateTime();
-    lastFileInfo.mtime = query.value(5).toDateTime();
-    lastFileInfo.hashSha1 = query.value(6).toByteArray();
+    lastFileInfo.mimeType = query.value(1).toString();
+    lastFileInfo.size = query.value(2).toULongLong();
+    lastFileInfo.nodeId = query.value(3).toUInt();
+    lastFileInfo.ownerId = query.value(4).toUInt();
+    lastFileInfo.ctime = query.value(5).toDateTime();
+    lastFileInfo.mtime = query.value(6).toDateTime();
+    lastFileInfo.hashSha1 = query.value(7).toByteArray();
     return lastFileInfo;
 }
 
@@ -50,7 +51,7 @@ const QList<CommFileInfo> FileManagment::getNodeList(quint32 nodeId)
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
 
-    query.prepare("SELECT id,name,size,id_owner,ctime,mtime,hash_sha1 FROM files WHERE id_tree=?;");
+    query.prepare("SELECT id,name,mime,size,id_owner,ctime,mtime,hash_sha1 FROM files WHERE id_tree=?;");
     query.addBindValue(nodeId);
 
     if (query.exec())
@@ -58,12 +59,13 @@ const QList<CommFileInfo> FileManagment::getNodeList(quint32 nodeId)
         {
             lastFileInfo.id = query.value(0).toUInt();
             lastFileInfo.fileName = query.value(1).toString();
-            lastFileInfo.size = query.value(2).toULongLong();
+            lastFileInfo.mimeType = query.value(2).toString();
+            lastFileInfo.size = query.value(3).toULongLong();
             lastFileInfo.nodeId = nodeId;
-            lastFileInfo.ownerId = query.value(3).toUInt();
-            lastFileInfo.ctime = query.value(4).toDateTime();
-            lastFileInfo.mtime = query.value(5).toDateTime();
-            lastFileInfo.hashSha1 = query.value(6).toByteArray();
+            lastFileInfo.ownerId = query.value(4).toUInt();
+            lastFileInfo.ctime = query.value(5).toDateTime();
+            lastFileInfo.mtime = query.value(6).toDateTime();
+            lastFileInfo.hashSha1 = query.value(7).toByteArray();
             list.append(lastFileInfo);
         }
 
@@ -80,8 +82,9 @@ void FileManagment::insertNewFile(CommFileInfo& file)
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
 
-    query.prepare("INSERT INTO files (name,id_owner,ctime,mtime) VALUES (?,?,?,?);");
+    query.prepare("INSERT INTO files (name,mime,id_owner,ctime,mtime) VALUES (?,?,?,?);");
     query.addBindValue(file.fileName);
+    query.addBindValue(file.mimeType);
     query.addBindValue(file.ownerId);
     query.addBindValue(file.ctime);
     query.addBindValue(file.mtime);
@@ -101,19 +104,20 @@ const QList<CommFileInfo> FileManagment::getUserList(quint32 userId)
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
 
-    query.prepare("SELECT id,name,size,id_owner,ctime,mtime,hash_sha1,id_tree FROM files;");
+    query.prepare("SELECT id,name,mime,size,id_owner,ctime,mtime,hash_sha1,id_tree FROM files;");
 
     if (query.exec())
         while (query.next())
         {
             lastFileInfo.id = query.value(0).toUInt();
             lastFileInfo.fileName = query.value(1).toString();
-            lastFileInfo.size = query.value(2).toULongLong();
-            lastFileInfo.ownerId = query.value(3).toUInt();
-            lastFileInfo.ctime = query.value(4).toDateTime();
-            lastFileInfo.mtime = query.value(5).toDateTime();
-            lastFileInfo.hashSha1 = query.value(6).toByteArray();
-            lastFileInfo.nodeId = query.value(7).toUInt();
+            lastFileInfo.mimeType = query.value(2).toString();
+            lastFileInfo.size = query.value(3).toULongLong();
+            lastFileInfo.ownerId = query.value(4).toUInt();
+            lastFileInfo.ctime = query.value(5).toDateTime();
+            lastFileInfo.mtime = query.value(6).toDateTime();
+            lastFileInfo.hashSha1 = query.value(7).toByteArray();
+            lastFileInfo.nodeId = query.value(8).toUInt();
             list.append(lastFileInfo);
         }
 
