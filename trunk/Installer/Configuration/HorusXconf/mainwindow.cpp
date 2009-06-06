@@ -148,6 +148,7 @@ void MainWindow::on_pushButton_4_clicked()
                     "(2, 'Histoire de costume', 'x-horus/x-lesson', 0, 241, 3, '2009-06-01 17:38:29', '2009-06-01 17:38:29', ''),"\
                     "(3, 'Tectonique des plaques', 'x-horus/x-lesson', 0, 243, 3, '2009-06-01 17:39:57', '2009-06-01 17:39:57', ''),"\
                     "(4, 'Reglement interieur.pdf', 'application/pdf', 0, 258, 4, '2009-06-06 11:44:20', '2009-06-06 11:44:20', ''),"\
+		    "(42, 'Chine.pdf', 'application/pdf', 0, 3, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),"\
                     "(259, 'Decharge de responsabilitee.pdf', 'application/pdf', 0, 256, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', ''),"\
                     "(260, 'Fiche descriptive.pdf', 'application/pdf', 0, 257, 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '');");
             query1->exec();

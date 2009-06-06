@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <lesson title="Histoire du costume">
 	<page title="Origine">
-		<object type="text" position="10,10" size="40,30" parameters="text">
+		<object type="text" position="10,10" size="140,130" parameters="text">
 Il est encore difficile de déterminer si le costume précède ou non l'habillement (entendu comme port de vêtements circonstanciés selon leur utilité). Les Anciens, tels les grecs ou les chinois, ont pensé que l'Homme s'était vêtu pour se protéger du climat, tandis que la Bible comme les ethnologues nos contemporains ont évoqué des raisons psychologiques : la pudeur pour la première, les tabous et la magie pour les seconds. Les tribus habitant la Terre de Feu à l'extrême sud du continent américain au climat sub-arctique découverts quasiment nus, et enduits de graisse de phoque pour se garantir de la rigueur du climat, au début du XXe siècle, sembleraient donner raison tant à la Bible qu'aux chercheurs modernes. Sans doute les deux raisons évoquées ici ont eu autant d'importance et le costume a eu d'autres raisons qu'exclusivement utilitaires. Le désir de plaire n'a cependant dû intervenir qu'assez tardivement, se vêtir, outre aux motivations strictement utilitaires, eut probablement avant tout des raisons magico-religieuses.
 		</object>
 	</page>
 	<page title="Le costume durant la Préhistoire">
-		<object type="text" position="10,10" size="40,30" parameters="text">
+		<object type="text" position="10,10" size="140,130" parameters="text">
 Les vêtements de cuir ou de fourrure ont probablement été les premiers à avoir été portés. Dès le Paléolithique moyen, au Moustérien, le travail du cuir est attesté par les analyses tracéologiques des outils de pierre taillée.
 
 Au Paléolithique supérieur, des courants d'échange ont pu être mise en évidence pour le silex mais aussi pour l'ambre et les coquillages, témoignant du goût pour la parure. Au Solutréen (- 22 à - 17 000 ans BP), les premières aiguilles à chas en os témoignent de techniques de couture élaborées. L'habillement durant les périodes froides du Paléolithique supérieur était peut-être analogue à celui des Eskimos.
@@ -22,7 +22,7 @@ La peinture corporelle (comme chez les aborigènes australiens) devait tenir une
 	</page>
 	<section title="Origine des archétypes">
 	  <page title="Régions des plaines">
-		<object type="text" position="10,10" size="40,30" parameters="text">
+		<object type="text" position="10,10" size="140,130" parameters="text">
     * Sumer
 
 Il s'agit des régions intérieures d'altitude basse ou faible de la Mésopotamie, la péninsule Arabique, la Palestine et la Syrie. Le costume des civilisations pré-aryennes les plus anciennes de l'Asie mineure est sans conteste celui de Sumer et d'Akkad et fut porté avant le IIIe millénaire du golfe Persique à la Méditerranée. Il s'agissait d'un pagne destiné à couvrir les hanches et tombant à mi-jambe, d'abord en peau retournée puis en tissus.
@@ -33,7 +33,7 @@ Les femmes portent une tunique à manches courtes et par-dessus également un ch
 
 Les peaux continuent à être portées par les deux sexes.
 		</object>
-		<object type="text" position="50,10" size="40,30" parameters="text">
+		<object type="text" position="50,10" size="140,130" parameters="text">
     * Assyrie
 
 Les Akkadiens, peuple sémite différent des Sumériens et ne parlant pas la même langue, adoptent cependant entièrement le costume primitif sumérien qu'ils enrichissent et tendent à emphatiser. Dans son ensemble, le costume assyro-babylonien connait une évolution (les étoffes sont richement décorées et colorées) mais ne sera pas essentiellement différent. Les coiffures masculines sont cependant plus élaborées, les cheveux sont portés longs et frisés au fer ainsi que la barbe en ondes régulières. Le goût de la parure est manifeste, les bijoux, nombreux, s'alourdissent, pendants d'oreilles, colliers à plusieurs rangs composés d'amulettes, sont portés par les deux sexes. Hommes comme femmes sont communément chaussés de sandales laissant le dessus du pied découvert, lacé à la cheville, le gros orteil passant dans un anneau. La chaussure fermée fait son apparition, introduite par les populations des montagnes.
@@ -44,12 +44,12 @@ Au IIIe millénaire, la suprématie de la civilisation sumérienne formée depui
 		</object>
 	  </page>
 	  <page title="Régions côtières">
-		<object type="text" position="20,30" size="50,45" parameters="text">
+		<object type="text" position="20,30" size="150,145" parameters="text">
 D'altitude variable, il s'agit essentiellement des régions de la Méditerranée orientale et des bords de la mer Noire, mais d'autres aussi. Ce n'est qu'à partir de l'invasion dorienne et des migrations qu'elle provoque que les colonies ioniennes forment un groupe puissant et homogène. Le costume des populations côtières de la mer Noire jusqu'à l'Oronte semble au départ ne pas avoir été très différent du costume sumérien dans sa variante montagnarde apportée par les Hittites telles que les manches longues des pasteurs.
 		</object>
 	  </page>
 	  <page title="Régions montagneuses">
-		<object type="image" position="20,30" size="50,45" parameters="text">
+		<object type="image" position="20,30" size="150,145" parameters="text">
 Il semble qu'en réalité la tunique ait été apportée dans ces montagnes par les caravanes de Sumer, adoptée et perfectionnée par les populations autochtones. Celles-ci, contraintes de s'habiller chaudement, la portèrent par-dessus le jupon sumérien. Enveloppant tout le corps et adaptée au climat des plateaux d'Asie centrale balayés par les vents, elle sera le vêtement porté par les Mèdes. Cette tunique est fermée sur le devant, courte pour les hommes et longue pour les femmes. Elle est figurée adhérente sur la statuaire ; en réalité elle était portée large. Le grand châle sumérien était porté par dessus durant la saison froide, servant de manteau, comme aux temps plus anciens de Ur et de Mari, garni d'un bourrelet.
 
 Les femmes semblent avoir porté cette robe-tunique soit tombant droit sur les pieds, avec des manches très courtes, ou traînante avec des manches évasées arrivant au poignet. Il semble qu'une jupe de tissu très fin et à plis ait été portée à la saison chaude. Le serapis de l'époque gréco-persane semble en être ultérieurement dérivé. Les Grecs d'Asie mineure avaient emprunté cette longue tunique fine, ample et plissée aux Lydiens.
@@ -57,16 +57,17 @@ Les femmes semblent avoir porté cette robe-tunique soit tombant droit sur les p
 	  </page>
 	</section>
 	  <page title="La steppe">
-		<object type="text" position="20.99998887776654321,10" size="50,45" parameters="text">
+		<object type="text" position="20.99998887776654321,10" size="150,145" parameters="text">
 es peuples venus des steppes, Huns, Scythes, Alains et Sarmates ont porté l'habillement de cuir et de peaux typique des cavaliers : la tunique, le pantalon long, généralement des bottes servant de jambières, et la toque de fourrure ou de feutre. Ces peuples ont exercé une influence considérable sur ceux avec lesquels ils sont entrés en contact et qui portaient généralement une robe. Il s'agit là d'un costume de chasse et de guerre. Dans l'iconographie, les Scythes par exemple sont toujours vus avec les cheveux longs et de longues moustaches.
 		</object>
-		<object type="text" position="20.99998887776654321,30" size="50,45" parameters="text">
+		<object type="text" position="20.99998887776654321,50" size="150,45" parameters="text">
 Polybe, en -179, a signalé leurs cottes de mailles et leurs casques coniques et Ammien Marcellin au IVe siècle de notre ère rapporte que ce type de costume était toujours de mise chez ces peuples. Il les décrit portant une casaque de peaux de rats cousues ensemble sur une tunique de lin, la tête couverte d'un casque ou d'un bonnet rejeté en arrière et des peaux de bouc autour de leurs jambes. Leurs chaussures, sans forme, faites pour monter à cheval, ne leur permettaient pas de marcher.
 		</object>
-		<object type="text" position="20.99998887776654321,50" size="50,45" parameters="text">
+		<object type="text" position="20.99998887776654321,100" size="150,45" parameters="text">
 Le pantalon est alors une nouveauté absolue dans le monde antique, de l'Europe à la Chine.
 
 Leurs parures consistaient en plaques de métal, gravées ou ornées en repoussé, cousues sur les vêtements par des fils passant dans de petits trous prévus à cet effet. On pense que ce type d'ornement est à l'origine des décorations cousues sur les étoffes, les appliques.
 		</object>
+		 <object type="Pdf" position="4,2" size="200,200" parameters="10;100.00;100.00;200.00;200.00:" requirements="42"/>
 	  </page>
 </lesson>
