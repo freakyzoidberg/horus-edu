@@ -63,7 +63,7 @@ bool        PdfFile::openFile()
         qDebug() << "An error occured: cannot open pdf file";
         return false;
     }
-    qDebug() << "pdf file successfully opened";
+    qDebug() << "pdf " << fileName << " file successfully opened";
     return true;
 }
 
@@ -104,6 +104,8 @@ void        PdfFile::scaled(float scaleFactor)
 
 bool        PdfFile::loadPage(unsigned int pageNb)
 {
+    qDebug() << "[dispPDF] loading page " << pageNb;
+
     if (pdfDoc == NULL)
     {
         qDebug() << "the document is not opened, cannot access pages";
@@ -151,6 +153,8 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
         qDebug() << "[dispPDF] Unable to generate an image from the PDF.";
         return NULL;
     }
+
+    qDebug() << "[dispPDF] Image successfully generated";
 
     partToDisplay->adjust(-2, -2, 2, 2);
     scaled(scaleFactor);

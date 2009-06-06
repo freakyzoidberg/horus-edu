@@ -131,7 +131,7 @@ QImage    *DispPDF::dispPDFDoc(quint32 fileId, int page,
 
     file = fileManager->getFile(fileId);
     if (!file)
-       return NULL;
+       return 0;
     fileName = file->getLocalFileName();
     return dispPDFDoc(fileName, page, partToDisplay, fileId);
 }
