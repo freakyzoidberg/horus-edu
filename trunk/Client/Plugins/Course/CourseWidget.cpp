@@ -23,6 +23,7 @@ CourseWidget::CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugi
     leftPane->setLayout(layout);
     this->pageWidget = new QWidget;
     this->addWidget(this->pageWidget);
+    oldpage = 0;
 }
 
 void CourseWidget::buildCategoryTree()
@@ -53,6 +54,8 @@ void CourseWidget::buildLessonTree()
 
 void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
 {
+        if (oldpage)
+        this->lessonManager->hidePage(oldpage);
     this->fileIndex = lessonIndex.data(Qt::UserRole).toUInt();
     if (this->fileIndex)
     {
@@ -62,18 +65,17 @@ void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
     }
 }
 
-void CourseWidget::pageSelected(const QModelIndex &item, const QModelIndex &olditem)
+void CourseWidget::pageSelected(const QModelIndex &item)
 {
     ILesson::IPage *page;
-    ILesson::IPage *oldpage;
-
     page = item.data(Qt::UserRole).value<ILesson::IPage *>();
-    oldpage = olditem.data(Qt::UserRole).value<ILesson::IPage *>();
+        if (oldpage)
+        this->lessonManager->hidePage(oldpage);
     if (page)
     {
-        this->lessonManager->hidePage(oldpage);
         this->lessonManager->displayPage(page, this->pageWidget);
     }
+    oldpage = item.data(Qt::UserRole).value<ILesson::IPage *>();
 }
 
 void CourseWidget::ready()
@@ -83,5 +85,5 @@ void CourseWidget::ready()
     this->lessonFile->open(QIODevice::ReadOnly);
     this->lessonView->setModel(this->lessonManager->getLesson(this->fileIndex));
     this->lessonView->expandAll();
-    connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex, QModelIndex)));
+    connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
 }
