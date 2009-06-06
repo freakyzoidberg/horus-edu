@@ -4,7 +4,7 @@
 #include "TextController_global.h"
 
 #include <QtPlugin>
-#include <QLabel>
+#include <QWidget>
 
 #include "../../IClientPlugin.h"
 #include "../LessonManager/ILesson.h"
@@ -32,7 +32,7 @@ public:
 
 private:
     QString             type;
-    QLabel              *text;
+    QWidget              *text;
 };
 
 #endif // TEXTCONTROLLER_H

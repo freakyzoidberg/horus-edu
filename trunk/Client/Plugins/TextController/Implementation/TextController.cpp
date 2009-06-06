@@ -1,6 +1,7 @@
 #include "TextController.h"
 
 #include <QDebug>
+#include <QTextBrowser>
 
 #include "../../ClientEvents.h"
 
@@ -53,8 +54,14 @@ const QString&      TextController::getSupportedType() const
 
 void                TextController::showObject(ILesson::IPage::IObject *object)
 {
+    QTextBrowser *browser;
+
     if (object->getParameters() == "text")
-        this->text = new QLabel(object->getContent(), object->getWidget());
+    {
+        browser = new QTextBrowser(object->getWidget());
+        browser->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        browser->insertPlainText(object->getContent());
+    }
     else if (object->getParameters() == "file")
         object = object;
 }

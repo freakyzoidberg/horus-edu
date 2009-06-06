@@ -196,6 +196,13 @@ public:
       The list contains the name of the exports
     */
     QStringList         exports;
+
+    private:
+    IFile *file;
+    ILesson::IPage *page;
+    QWidget *widget;
+    private slots:
+    void readyDisplayPage();
 };
 
 
