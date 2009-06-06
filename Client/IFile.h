@@ -17,6 +17,7 @@ public:
     virtual bool isSynchronized() const = 0;
     //! open the transfert connexion if needed and the local file
     virtual bool open(OpenMode mode) = 0;
+    virtual bool isOopen() const = 0;
     //! close after finishing the curent synchronization
     virtual void close() = 0;
     //! return the localFileName

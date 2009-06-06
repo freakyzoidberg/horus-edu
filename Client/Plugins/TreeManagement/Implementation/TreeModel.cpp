@@ -4,6 +4,10 @@
 
 #include <QDebug>
 
+QIcon TreeModel::MatiereIcon(":/Icons/MatiereIcon.png");
+QIcon TreeModel::ClassIcon(":/Icons/ClassIcon.png");
+QIcon TreeModel::FileIcon(":/Icons/FileIcon.png");
+
 TreeModel::TreeModel(IFileManager* _fileManager)
 {
     fileManager = _fileManager;
@@ -14,6 +18,25 @@ int TreeModel::columnCount ( const QModelIndex & ) const
     return 1;
 }
 
+int TreeModel::rowCount ( const QModelIndex & parent ) const
+{
+    if ( ! parent.isValid())
+        return 1;
+
+    QObject* obj = ((QObject*)(parent.internalPointer()));
+    if (obj->objectName() != "ITree")
+        return 0;
+
+    return ((ITree*)obj)->GetSonsNode().size() + fileManager->countNodeFileList( ((ITree*)obj)->Getid() );
+}
+/*
+QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
+{
+   if (role == Qt::DisplayRole)
+        return QVariant("");
+   return QVariant();
+}
+*/
 QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 {
     if ( ! index.isValid())
@@ -91,21 +114,3 @@ QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 
     return createIndex(node->GetParent()->GetSonsNode().indexOf(node), 0, node);
 }
-
-int TreeModel::rowCount ( const QModelIndex & parent ) const
-{
-    if ( ! parent.isValid())
-        return 1;
-
-    QObject* obj = ((QObject*)(parent.internalPointer()));
-    if (obj->objectName() != "ITree")
-        return 0;
-
-    return ((ITree*)obj)->GetSonsNode().size() + fileManager->countNodeFileList( ((ITree*)obj)->Getid() );
-}
-
-QIcon TreeModel::MatiereIcon(":/Icons/MatiereIcon.png");
-
-QIcon TreeModel::ClassIcon(":/Icons/ClassIcon.png");
-
-QIcon TreeModel::FileIcon(":/Icons/FileIcon.png");

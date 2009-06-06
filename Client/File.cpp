@@ -25,6 +25,7 @@ int File::getProgress() const
 
 void File::connexionDisconnected()
 {
+    synchronized = true;
     emit fileSynchronized();
 }
 
@@ -127,6 +128,7 @@ void File::connexionBytesWritten(qint64 len)
 
 bool File::open(OpenMode mode)
 {
+    bool ret = true;
     setOpenMode(mode);
 
     qDebug() << "File::open(" << openMode() << ")";
@@ -139,11 +141,24 @@ bool File::open(OpenMode mode)
         FileManager::instance()->askForFileConnexion(info.id, mode);
     }
 
-    file.setFileName(getLocalFileName());
-    bool ret = file.open(mode | ReadWrite);
+    if ( ! isOopen())
+        file.setFileName(getLocalFileName());
+    if ( ! isOopen())
+    {
+        if ( ! isSynchronized())
+            ret = file.open(mode | ReadWrite | Truncate);
+        else
+            ret = file.open(mode);
+    }
     file.seek(0);
-    qDebug() << ret;
+
+    emit fileSynchronized();
     return ret;
+}
+
+bool File::isOopen() const
+{
+    return file.isOpen();
 }
 
 void File::close()
