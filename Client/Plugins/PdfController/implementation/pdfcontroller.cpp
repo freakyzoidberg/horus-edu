@@ -94,12 +94,14 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
 {
     QList<unsigned int>     requieredFiles = object->getRequiredFiles();
     QStringList             parameters = object->getParameters().split(":");
-    IClientPlugin   *clientPlugin;
-    IPdfRendering   *pdf;
-    int             index;
+    IClientPlugin           *clientPlugin;
+    IPdfRendering           *pdf;
+    int             index = 0;
     bool            ok;
+
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    QVariant    conf;
+    QVariant conf = settings.value("TmpDir", QVariant(QDir::homePath() + "/.Horus/Plugins/tmp/"));
+    qDebug() << "FILLLLEEENNNAAEMMMM:" << conf.toString();
 
     qDebug() << "Nuclear launch detected.";
 
@@ -109,8 +111,6 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         qDebug() << "\tThe type of your IObject is" << object->getType();
         qDebug() << "\tThe controller pdfcontroller handle " << this->getSupportedType() << " type.";
     }
-
-    conf = settings.value("General/TmpDir");
 
     clientPlugin = this->client->getPlugin("dispPDF");
     if (!clientPlugin)
@@ -125,18 +125,16 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         return ;
     }
 
-   for (index = 0; index < requieredFiles.count(); ++index)
+  for (index = 0; index < requieredFiles.count(); ++index)
     {
         qDebug() << "I dont have time to *BLEEP* around";
         QVariant        var(requieredFiles.at(index));
-        QString         fileName = conf.toString() + var.toString();
+        QString         fileName = conf.toString() + "/" + var.toString();
         QStringList     splitParams = parameters.at(index).split(";");
         int             page;
         float           topX, topY, height, width;
         QRectF  *rect;
         QImage  *image;
-
-        qDebug() << "FILLLLEEENNNAAEMMMM:" << fileName;
 
         page = splitParams.at(0).toInt(&ok);
         if (!ok)
@@ -173,7 +171,7 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
             delete rect;
             return ;
         }
-
+    qDebug() << "true file name:" << fileName;
         rect = new QRectF(topX, topY, height, width);
         image = pdf->dispPDFDoc(fileName, page, rect, 0);
         if (!image)
