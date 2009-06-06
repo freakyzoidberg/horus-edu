@@ -117,7 +117,7 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
         QVariantHash user;
         user["id"]         = query.value(0);
         user["login"]      = query.value(1);
-        user["id_tree"]    = query.value(8);
+        user["id_tree"]    = query.value(12);
 
         if (server->getLevel(userId) <= LEVEL_ADMINISTRATOR || query.value(0).toUInt() == userId)
         {
@@ -131,7 +131,7 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
             user["phone"]      = query.value(9);
             user["country"]    = query.value(10);
             user["language"]   = query.value(11);
-            user["enabled"]    = query.value(12);
+            user["enabled"]    = query.value(13);
         }
         list.append(user);
     }
