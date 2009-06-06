@@ -23,6 +23,7 @@ public:
     bool isSynchronized() const;
     //! open the transfert connexion if needed and the local file
     bool open(OpenMode mode);
+    bool isOopen() const;
     //! close after finishing the curent synchronization
     void close();
     //! return the localFileName
