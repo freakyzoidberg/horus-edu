@@ -20,6 +20,7 @@ pdfController::pdfController()
 {
     qDebug() << "All right, bring it on!";
     supportedType = "Pdf";
+    label = NULL;
 }
 
 pdfController::~pdfController()
@@ -96,10 +97,11 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
     IClientPlugin   *clientPlugin;
     IPdfRendering   *pdf;
     QStringList     parameters = object->getParameters().split(":");
-    int             index;
+    int             index = 0;
     bool            ok;
 
-    /*
+    qDebug() << "Parameters:" << object->getParameters();
+
     if (object->getType() != this->getSupportedType())
     {
         qDebug() << "[Plugin pdfcontroller] Type error:";
@@ -107,12 +109,12 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         qDebug() << "\tThe controller pdfcontroller handle " << this->getSupportedType() << " type.";
     }
 
-    if (parameters.count() != requieredFiles.count())
+/*    if (parameters.count() != requieredFiles.count())
     {
         qDebug() << "Error parsing params string";
         return ;
-    }
-    */
+    }*/
+
     clientPlugin = this->client->getPlugin("dispPDF");
     if (!clientPlugin)
     {
@@ -131,18 +133,18 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         qDebug() << "I dont have time to *BLEEP* around";
         //parse parameters
         QString fileName; // = it.key();
-        //QStringList splitParams = parameters.at(index).split(";");
-        int     page = 10;
-        float   topX = 100, topY = 100, height = 50, width = 50;
+        QStringList splitParams = parameters.at(index).split(";");
+        int     page;
+        float   topX, topY, height, width;
         QRectF  *rect;
         QImage  *image;
 
-        /*
+/*
         if (splitParams.size() != 5)
         {
             qDebug() << "Error while parsing params string";
-            continue ;
-        }
+            return ;
+        }*/
 
         page = splitParams.at(0).toInt(&ok);
         if (!ok)
@@ -178,10 +180,10 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
             qDebug() << "Invalid conversion";
             delete rect;
             return ;
-        } */
+        }
 
         rect = new QRectF(topX, topY, height, width);
-        image = pdf->dispPDFDoc("adobe_supplement_iso32000.pdf", page, rect, 0);
+        image = pdf->dispPDFDoc("Ancient_Finnish_Costumes.PDF", page, rect, 0);
         if (!image)
         {
             qDebug() << "Call the shot";
@@ -191,11 +193,13 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
 
         QImage disp = image->scaled(object->getSize().width(),
                                     object->getSize().height());
-        qDebug() << "try to display";
         QPixmap pix = QPixmap::fromImage(*image);
-        QLabel *label = new QLabel(object->getWidget()); //
+
+        if (label)
+            delete label;
+
+        label = new QLabel(object->getWidget());
         label->setPixmap(pix);
-        //label->show();
         object->getWidget()->show();
         delete rect;
         delete image;
@@ -210,6 +214,8 @@ void    pdfController::activateObject(ILesson::IPage::IObject *object)
 
 void    pdfController::hideObject(ILesson::IPage::IObject *object)
 {
+        if (label)
+            delete label;
         object->getWidget()->hide();
 }
 
