@@ -151,19 +151,17 @@ public:
             */
             virtual void                setWidget(QWidget *widget) = 0;
 
-            //! Retrieves a map of filenames associated with their database ID required by the object.
+            //! Retrieves a list of file ids.
             /*!
-                The string refers to a local filename which will be used by the IObject controller to
-                display the object.
-                The int refers to an ID of the actual file source in the server database.
+                The qint32s refer to an ID of the actual file source in the server database.
             */
-            virtual const QMap<QString, int>&    getRequiredFiles() const = 0;
+            virtual const QList<quint32>&    getRequiredFiles() const = 0;
 
             //! Adds a file dependency for the specified plugin.
             /*!
-                \param fileName The local file name.
+                \param id The file id.
             */
-            virtual void                addRequiredFile(QString fileName) = 0;
+            virtual void                addRequiredFile(quint32 id) = 0;
 
             //! Retrieves the object parameters.
             /*!
@@ -180,6 +178,10 @@ public:
                 is up to the specific controller of an object type.
             */
             virtual void                setParameters(const QString& params) = 0;
+
+            virtual const QString&      getContent() const = 0;
+
+            virtual void                setContent(const QString& content) = 0;
 
             //! Retrieves the controller of an object.
             /*!

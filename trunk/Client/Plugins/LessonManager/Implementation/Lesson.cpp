@@ -115,14 +115,14 @@ void LObject::setWidget(QWidget *widget)
     this->widget = widget;
 }
 
-const QMap<QString, int>& LObject::getRequiredFiles() const
+const QList<quint32>& LObject::getRequiredFiles() const
 {
     return requiredFiles;
 }
 
-void LObject::addRequiredFile(QString fileName)
+void LObject::addRequiredFile(quint32 id)
 {
-    requiredFiles.insert(fileName, -1);
+    requiredFiles.push_back(id);
 }
 
 const QString&      LObject::getParameters() const
@@ -143,6 +143,16 @@ IController* LObject::getController()
 void LObject::setController(IController *ctrl)
 {
     this->ctrl = ctrl;
+}
+
+const QString&      LObject::getContent() const
+{
+    return content;
+}
+
+void                LObject::setContent(const QString& content)
+{
+    this->content = content;
 }
 
 /**********************************************************************/

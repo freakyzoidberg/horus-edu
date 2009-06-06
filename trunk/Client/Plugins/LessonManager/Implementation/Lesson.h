@@ -63,10 +63,12 @@ public:
     void                setType(const QString& type);
     QWidget*            getWidget();
     void                setWidget(QWidget *widget);
-    const QMap<QString, int>&    getRequiredFiles() const;
-    void                addRequiredFile(QString fileName);
+    const QList<quint32>&    getRequiredFiles() const;
+    void                addRequiredFile(quint32 id);
     const QString&      getParameters() const;
     void                setParameters(const QString& params);
+    const QString&      getContent() const;
+    void                setContent(const QString& content);
     IController*        getController();
     void                setController(IController *ctrl);
 
@@ -76,8 +78,9 @@ private:
     QSizeF              size;
     QString             type;
     QString             params;
+    QString             content;
     QWidget*            widget;
-    QMap<QString, int>  requiredFiles;
+    QList<quint32>      requiredFiles;
 };
 
 //! Provides an implementation of ILesson to be used by the plugin.

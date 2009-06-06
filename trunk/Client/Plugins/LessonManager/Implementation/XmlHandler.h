@@ -11,12 +11,14 @@ public:
     XmlHandler(Lesson *lesson);
     bool    startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts);
     bool    endElement(const QString &namespaceURI, const QString &localName, const QString &qName);
+    bool    characters(const QString& ch);
 
 private:
     Lesson* lesson;
     bool hasLesson;
     QStack<ILesson::ISection*> sections;
     ILesson::IPage* currentPage;
+    ILesson::IPage::IObject* currentObject;
 };
 
 #endif // XMLHANDLER_H
