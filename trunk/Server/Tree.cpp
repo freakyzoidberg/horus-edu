@@ -325,7 +325,7 @@ bool Tree::UpdateVector()
        tempnode->id = 0;
        tempnode->user_ref = 0;
        tempnode->name = "School";
-       tempnode->type = "";
+       tempnode->type = "school";
        tempnode->parent_id = 0;
         tempnode->parent = tempnode;
        maptree.insert(tempnode->id, tempnode);
