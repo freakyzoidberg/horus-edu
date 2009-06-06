@@ -1,7 +1,7 @@
 #include <QDebug>
 #include "XmlHandler.h"
 
-XmlHandler::XmlHandler(Lesson *lesson) : lesson(lesson), hasLesson(false), currentPage(NULL)
+XmlHandler::XmlHandler(Lesson *lesson) : lesson(lesson), hasLesson(false), currentPage(NULL), currentObject(NULL)
 {
 }
 
@@ -38,6 +38,7 @@ bool XmlHandler::startElement(const QString &namespaceURI, const QString &localN
             return false;
         LObject* obj = new LObject();
         obj->setType(atts.value(0));
+        startCDATA();
         if (atts.count() > 1)
         {
             for (int i = 1; i < atts.count(); ++i)
@@ -52,9 +53,19 @@ bool XmlHandler::startElement(const QString &namespaceURI, const QString &localN
                     QStringList list = atts.value(i).split(',');
                     obj->setSize(QSizeF(list.at(0).toFloat(), list.at(1).toFloat()));
                 }
+                else if (atts.qName(i) == "parameters")
+                {
+                    obj->setParameters(atts.value(i));
+                }
+                else if (atts.qName(i) == "requirements")
+                {
+                    QStringList ids = atts.value(i).split(',');
+                    for (int j = 0; j < ids.count(); ++j)
+                         obj->addRequiredFile(ids.at(j).toUInt());
+                }
             }
         }
-
+        currentObject = obj;
         currentPage->addObject(obj);
     }
     return true;
@@ -68,5 +79,16 @@ bool XmlHandler::endElement(const QString &namespaceURI, const QString &localNam
         sections.pop();
     else if (qName == "page")
         currentPage = NULL;
+    else if (qName == "object")
+    {
+        endCDATA();
+        currentObject = NULL;
+    }
     return true;
+}
+
+bool    XmlHandler::characters(const QString& ch)
+{
+    if (currentObject != NULL)
+        currentObject->setContent(ch);
 }
