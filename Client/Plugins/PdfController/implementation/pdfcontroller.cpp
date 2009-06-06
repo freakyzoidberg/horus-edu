@@ -29,7 +29,7 @@ pdfController::~pdfController()
 
 const QByteArray    pdfController::getName() const
 {
-    return name;
+    return "PDFController";
 }
 
 const QByteArray    pdfController::getVersion() const

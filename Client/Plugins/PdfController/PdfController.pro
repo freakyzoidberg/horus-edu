@@ -14,6 +14,6 @@ INCLUDEPATH += . \
 
 DESTDIR = .
 
-TARGET = $$qtLibraryTarget(pdfcontroller)
+TARGET = $$qtLibraryTarget(PdfController)
 
 DESTDIR = .
