@@ -24,7 +24,7 @@ private:
 
 private slots:
     void lessonSelected(const QModelIndex &item);
-    void pageSelected(const QModelIndex &item, const QModelIndex &olditem);
+    void pageSelected(const QModelIndex &item);
     void ready();
 
 private:
@@ -38,6 +38,6 @@ private:
     QWidget             *pageWidget;
     quint32             fileIndex;
     IFile               *lessonFile;
-
+    ILesson::IPage *oldpage;
 };
 #endif // COURSEWIDGET_H
