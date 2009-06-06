@@ -9,6 +9,7 @@ QIcon TreeModel::ClassIcon(":/Icons/ClassIcon.png");
 QIcon TreeModel::FileIcon(":/Icons/FileIcon.png");
 QIcon TreeModel::GroupIcon(":/Icons/GroupIcon.png");
 QIcon TreeModel::RootIcon(":/Icons/RootIcon.png");
+QIcon TreeModel::DefaultIcon(":/Icons/DefaultIcon.png");
 
 TreeModel::TreeModel(IFileManager* _fileManager)
 {
@@ -72,7 +73,7 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
                 return QVariant(QVariant::Icon, &ClassIcon);
             if (((ITree*)obj)->GetType() == "SUBJECT")
                 return QVariant(QVariant::Icon, &MatiereIcon);
-            //return QVariant(QVariant::Icon, &DefaultIcon);
+            return QVariant(QVariant::Icon, &DefaultIcon);
         }
     }
 
