@@ -21,8 +21,9 @@ public:
 private:
     IFileManager* fileManager;
 
-    static QIcon    ClassIcon;
-    static QIcon    MatiereIcon;
+    static QIcon    LessonIcon;
+    static QIcon    GradeIcon;
+    static QIcon    SubjectIcon;
     static QIcon    FileIcon;
     static QIcon    GroupIcon;
     static QIcon    RootIcon;

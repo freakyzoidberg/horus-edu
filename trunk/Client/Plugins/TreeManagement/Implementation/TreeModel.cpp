@@ -4,8 +4,9 @@
 
 #include <QDebug>
 
-QIcon TreeModel::MatiereIcon(":/Icons/MatiereIcon.png");
-QIcon TreeModel::ClassIcon(":/Icons/ClassIcon.png");
+QIcon TreeModel::LessonIcon(":/Icons/LessonIcon.png");
+QIcon TreeModel::SubjectIcon(":/Icons/MatiereIcon.png");
+QIcon TreeModel::GradeIcon(":/Icons/ClassIcon.png");
 QIcon TreeModel::FileIcon(":/Icons/FileIcon.png");
 QIcon TreeModel::GroupIcon(":/Icons/GroupIcon.png");
 QIcon TreeModel::RootIcon(":/Icons/RootIcon.png");
@@ -56,13 +57,18 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
     }
 
    else if (role == Qt::UserRole &&
-             obj->objectName() == "IFile")
-        return QVariant(((IFile*)obj)->getInfo().id);
+             obj->objectName() == "IFile" &&
+             ((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
+       return QVariant(((IFile*)obj)->getInfo().id);
 
     else if (role == Qt::DecorationRole)
     {
         if (obj->objectName() == "IFile")
+        {
+            if (((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
+                return QVariant(QVariant::Icon, &LessonIcon);
             return QVariant(QVariant::Icon, &FileIcon);
+        }
         if (obj->objectName() == "ITree")
         {
             if (((ITree*)obj)->GetType() == "ROOT")
@@ -70,9 +76,9 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
             if (((ITree*)obj)->GetType() == "GROUP")
                 return QVariant(QVariant::Icon, &GroupIcon);
             if (((ITree*)obj)->GetType() == "GRADE")
-                return QVariant(QVariant::Icon, &ClassIcon);
+                return QVariant(QVariant::Icon, &GradeIcon);
             if (((ITree*)obj)->GetType() == "SUBJECT")
-                return QVariant(QVariant::Icon, &MatiereIcon);
+                return QVariant(QVariant::Icon, &SubjectIcon);
             return QVariant(QVariant::Icon, &DefaultIcon);
         }
     }
