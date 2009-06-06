@@ -6,5 +6,6 @@
         <file>GroupIcon.png</file>
         <file>RootIcon.png</file>
         <file>DefaultIcon.png</file>
+        <file>LessonIcon.png</file>
     </qresource>
 </RCC>
