@@ -19,9 +19,7 @@ public:
     /**************************************/
 
 private:
-//    IFileManager* fileManager;
-    QMultiHash<quint32,IFile*> filesByParent;
-    QHash<quint32,IFile*>      filesById;
+    IFileManager* fileManager;
 
     static QIcon    ClassIcon;
     static QIcon    MatiereIcon;

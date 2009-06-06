@@ -105,6 +105,16 @@ const QList<IFile*> FileManager::getNodeFileList(quint32 nodeId) const
     for (QHash<quint32,IFile*>::const_iterator i = fileHash.begin(); i != fileHash.end(); ++i)
         if ((*i)->getInfo().nodeId == nodeId)
             list.append(*i);
+    return list;
+}
+
+int FileManager::countNodeFileList(quint32 nodeId) const
+{
+    int n = 0;
+    for (QHash<quint32,IFile*>::const_iterator i = fileHash.begin(); i != fileHash.end(); ++i)
+        if ((*i)->getInfo().nodeId == nodeId)
+            n++;
+    return n;
 }
 
 void FileManager::receiveFilePacket(QByteArray p)
