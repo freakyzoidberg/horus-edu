@@ -62,14 +62,16 @@ void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
     }
 }
 
-void CourseWidget::pageSelected(const QModelIndex &item)
+void CourseWidget::pageSelected(const QModelIndex &item, const QModelIndex &olditem)
 {
     ILesson::IPage *page;
+    ILesson::IPage *oldpage;
 
     page = item.data(Qt::UserRole).value<ILesson::IPage *>();
+    oldpage = olditem.data(Qt::UserRole).value<ILesson::IPage *>();
     if (page)
     {
-        this->lessonManager->hidePage(page);
+        this->lessonManager->hidePage(oldpage);
         this->lessonManager->displayPage(page, this->pageWidget);
     }
 }
@@ -81,5 +83,5 @@ void CourseWidget::ready()
     this->lessonFile->open(QIODevice::ReadOnly);
     this->lessonView->setModel(this->lessonManager->getLesson(this->fileIndex));
     this->lessonView->expandAll();
-    connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
+    connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex, QModelIndex)));
 }

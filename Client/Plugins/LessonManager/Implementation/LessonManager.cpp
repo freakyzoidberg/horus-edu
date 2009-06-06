@@ -250,16 +250,18 @@ void        LessonManager::readyDisplayPage()
 
 void        LessonManager::hidePage(ILesson::IPage *page)
 {
-//    QMap<ILesson::IPage *, QWidget *>::iterator it = displayedPages.find(page);
-//    if (it != displayedPages.end())
-//    {
-//        const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
-//        QList<ILesson::IPage::IObject *>::const_iterator oit = objects.begin();
-//        while (oit != objects.end())
-//        {
-//            delete *oit;
-//        }
-//        it.value()->update();
-//        displayedPages.remove(page);
-//    }
+    QMap<ILesson::IPage *, QWidget *>::iterator it = displayedPages.find(page);
+    if (it != displayedPages.end())
+    {
+        const QList<ILesson::IPage::IObject *>& objects = page->getObjects();
+        QList<ILesson::IPage::IObject *>::const_iterator oit = objects.begin();
+        while (oit != objects.end())
+        {
+ //           delete *oit;
+            (*oit)->getWidget()->hide();
+            oit++;
+        }
+        it.value()->update();
+        displayedPages.remove(page);
+    }
 }

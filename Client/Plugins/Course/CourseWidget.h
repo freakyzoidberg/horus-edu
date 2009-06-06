@@ -24,7 +24,7 @@ private:
 
 private slots:
     void lessonSelected(const QModelIndex &item);
-    void pageSelected(const QModelIndex &item);
+    void pageSelected(const QModelIndex &item, const QModelIndex &olditem);
     void ready();
 
 private:
