@@ -26,6 +26,7 @@ private:
     static QIcon    FileIcon;
     static QIcon    GroupIcon;
     static QIcon    RootIcon;
+    static QIcon    DefaultIcon;
 };
 
 #endif // TREEMODEL_H
