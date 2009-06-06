@@ -47,6 +47,9 @@
 						<Component Id="ClientPluginMainFrame" Guid="d6801f3f-3030-42de-acfd-9b0935629ba3">
 							<File Name="MainFrame.dll" Source="..\..\Client\Plugins\MainFrame\release\MainFrame.dll" KeyPath="yes" />
 						</Component>
+						<Component Id="ClientPluginTextController" Guid="fd9dbfb9-0465-4049-9b6c-9edf915352ef">
+							<File Name="TextController.dll" Source="..\..\Client\Plugins\TextController\release\TextController.dll" KeyPath="yes" />
+						</Component>
 					</Directory>
 				</Directory>
 			</Directory>
@@ -109,6 +112,7 @@
 					<ComponentRef Id="ClientPluginCourse" />
 					<ComponentRef Id="ClientPluginLessonManager" />
 					<ComponentRef Id="ClientPluginTreeManagement" />
+					<ComponentRef Id="ClientPluginTextController" />
 				</Feature>
 				<Feature Id="ClientAdminPluginFeature" Title="!(loc.AdminTitle)" Level="1">
 					<ComponentRef Id="ClientPluginAdministration" />
