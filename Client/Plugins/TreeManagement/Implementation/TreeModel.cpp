@@ -63,7 +63,17 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
         if (obj->objectName() == "IFile")
             return QVariant(QVariant::Icon, &FileIcon);
         if (obj->objectName() == "ITree")
-            return QVariant(QVariant::Icon, &MatiereIcon);
+        {
+            if (((ITree*)obj)->GetType() == "ROOT")
+                return QVariant(QVariant::Icon, &RootIcon);
+            if (((ITree*)obj)->GetType() == "GROUP")
+                return QVariant(QVariant::Icon, &GroupIcon);
+            if (((ITree*)obj)->GetType() == "GRADE")
+                return QVariant(QVariant::Icon, &ClassIcon);
+            if (((ITree*)obj)->GetType() == "SUBJECT")
+                return QVariant(QVariant::Icon, &MatiereIcon);
+            //return QVariant(QVariant::Icon, &DefaultIcon);
+        }
     }
 
     return QVariant();
