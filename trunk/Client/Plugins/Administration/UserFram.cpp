@@ -23,8 +23,8 @@ UserFram::UserFram(INetwork *reseau, QObject *parent) : QFrame()
     connect(this, SIGNAL(sender(QString)), this->parent, SLOT(sender(QString)));
     connect(this->studentTree, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(itemClicked(QTreeWidgetItem*, int)));
     this->SaveButton->hide();
-    listUsers();
-    //this->getTree();
+    //listUsers();
+    this->getTree();
 }
 
 void    UserFram::fillUserFram()
@@ -95,6 +95,7 @@ void UserFram::itemClicked(QTreeWidgetItem *item, int idx)
 {
     this->AddButton->hide();
     this->SaveButton->show();
+    id = item->data(1, 0);
     this->loginTxt->setText(this->studentlist[item->data(1, 0).toString()]["login"].toString());
     this->passTxt->setText(this->studentlist[item->data(1, 0).toString()]["password"].toString());
     this->addrTxt->setText(this->studentlist[item->data(1, 0).toString()]["address"].toString());
@@ -104,7 +105,6 @@ void UserFram::itemClicked(QTreeWidgetItem *item, int idx)
     this->prenomTxt->setText(this->studentlist[item->data(1, 0).toString()]["name"].toString());
     this->nomTxt->setText(this->studentlist[item->data(1, 0).toString()]["surname"].toString());
     this->date->setSelectedDate(this->studentlist[item->data(1, 0).toString()]["birth_date"].toDate());
-
     this->activeBox->setChecked(this->studentlist[item->data(1, 0).toString()]["enabled"].toBool());
     //qDebug() << this->studentlist[item->data(1, 0).toString()]["login"];
 }
@@ -116,7 +116,6 @@ void    UserFram::listUsers()
     request["Request"] =  "listUsers";
     PluginPacket pP("UserManagment", request);
     this->res->sendPacket(pP);
-    emit sender("students");
 }
 
 void    UserFram::getUserInfo()
@@ -148,6 +147,12 @@ void    UserFram::setUserInfo()
         Error.append("Prenom |");
     if(this->nomTxt->text() == "")
         Error.append("Nom |");
+    if (this->studentTree->currentItem() == 0)
+    {
+        Error.append("Veuillez selectionner une classe");
+    }
+    else if (classes.contains(this->studentTree->currentItem()->data(1,0).toString()) == false)
+            Error.append("Veuillez selectionner une classe");
     if (Error != "")
     {
         QString msg;
@@ -169,10 +174,13 @@ void    UserFram::setUserInfo()
     request["birth_date"] = this->date->selectedDate();
     request["picture"] = "vide";
     request["language"] = this->languageTxt->text();
-    request["id_tree"] = "0";
+    request["id_tree"] = this->studentTree->currentItem()->data(1,0);
+    request["UserId"] = id;
+    qDebug() << this->activeBox->isChecked();
     request["enabled"] = this->activeBox->isChecked();
     PluginPacket pP("UserManagment", request);
     emit sender("students");
+
     this->res->sendPacket(pP);
 }
 
@@ -198,6 +206,13 @@ void    UserFram::createNewUser()
         Error.append("Prenom |");
     if(this->nomTxt->text() == "")
         Error.append("Nom |");
+    if (this->studentTree->currentItem() == 0)
+    {
+        Error.append("Veuillez selectionner une classe");
+    }
+    else if (classes.contains(this->studentTree->currentItem()->data(1,0).toString()) == false)
+            Error.append("Veuillez selectionner une classe");
+
     if (Error != "")
     {
         QString msg;
@@ -219,12 +234,14 @@ void    UserFram::createNewUser()
     request["phone"] = this->phoneTxt->text();
     request["country"] = this->paysTxt->text();
     request["language"] = this->languageTxt->text();
-    request["id_tree"] = "0";
+    request["id_tree"] = this->studentTree->currentItem()->data(1,0);
+    qDebug() << this->activeBox->isChecked();
     request["enabled"] = this->activeBox->isChecked();
     PluginPacket pP("UserManagment", request);
     emit sender("students");
     this->res->sendPacket(pP);
-    this->listUsers();
+    this->getTree();
+    //this->listUsers();
 }
 
 void    UserFram::disableUser()
@@ -254,19 +271,87 @@ void    UserFram::listUsersResponse(QVariantHash &response)
         return;
     this->studentlist.clear();
     this->studentTree->clear();
+    this->classes.clear();
     QTreeWidgetItem *students = new QTreeWidgetItem(this->studentTree);
-    students->setText(0,"Etudiants");
+    students->setText(0,"Classes");
     QVariantList list;
     list = response["Users"].toList();
-    QList<QVariant>::iterator i;
-    for (i = list.begin(); i != list.end(); ++i)
+
+    for (QHash<QString, QVariant >::iterator it = sTree.begin(); it != sTree.end(); ++it)
     {
-        if (QVariant(*i).toHash()["level"] == LEVEL_STUDENT)
+        if (it.value().toHash()["type"] == "CLASSES")
+            students->setData(1,0, it.key());
+        if (it.value().toHash()["type"] == "GRADE")
         {
-            QTreeWidgetItem *itemTree = new QTreeWidgetItem(students);
-            this->studentlist.insert(QVariant(*i).toHash()["id"].toString(), QVariant(*i).toHash());
-            itemTree->setData(1,0, QVariant(*i).toHash()["id"].toString());
-            itemTree->setText(0, QVariant(*i).toHash()["login"].toString());
+
+            QTreeWidgetItem *classitem = new QTreeWidgetItem(students);
+            classitem->setText(0, it.value().toHash()["name"].toString());
+            classitem->setData(1,0, it.key());
+            classes.insert(it.key(), it.key());
+            QList<QVariant>::iterator i;
+            for (i = list.begin(); i != list.end(); ++i)
+            {
+                if (QVariant(*i).toHash()["level"] == LEVEL_STUDENT)
+                {
+                    if (QVariant(*i).toHash()["id_tree"] == it.key())
+                    {
+                        QTreeWidgetItem *itemTree = new QTreeWidgetItem(classitem);
+                        this->studentlist.insert(QVariant(*i).toHash()["id"].toString(), QVariant(*i).toHash());
+                        itemTree->setData(1,0, QVariant(*i).toHash()["id"].toString());
+                        itemTree->setText(0, QVariant(*i).toHash()["login"].toString());
+                    }
+                  }
+             }
+        }
+    }
+    this->studentTree->expandAll();
+}
+
+void    UserFram::getTreeResponse(QVariantHash &response)
+{
+    QHash<QString, QVariant > usertree;
+    sTree = response["AllTree"].toHash();
+
+    for (QHash<QString, QVariant >::iterator it = sTree.begin(); it != sTree.end(); ++it)
+    {
+        if (it.value().toHash()["type"] == "CLASSES")
+        {
+            fillStudentTree(usertree, it.value().toHash(), it.key().toInt());
+        }
+    }
+    sTree = usertree;
+    listUsers();
+}
+
+void    UserFram::fillStudentTree(QHash<QString, QVariant > &usertree, QHash<QString, QVariant > node, int nodeid)
+{
+    QHash<QString, QVariant > tmptree;
+    tmptree.insert("type", node["type"]);
+    tmptree.insert("name", node["name"]);
+    tmptree.insert("userref", node["userref"]);
+    tmptree.insert("parentid", node["parentid"]);
+    if (node["type"] == "GRADE")
+        tmptree.insert("numberofsons", 0);
+    else
+        tmptree.insert("numberofsons", node["numberofsons"]);
+    tmptree.insert("userlist", node["userlist"]);
+    if (node["type"] == "GRADE")
+        tmptree.insert("sons", QList<QVariant>());
+    else
+        tmptree.insert("sons", QVariant(node["sons"]));
+    usertree.insert(QVariant(nodeid).toString(), tmptree);
+    if (node["type"] != "GRADE")
+    {
+        for (int i = 0; i < node["sons"].toList().size(); i++)
+        {
+            for (QHash<QString, QVariant >::iterator it = sTree.begin(); it != sTree.end(); ++it)
+            {
+
+                if ((it.key() == node["sons"].toList().at(i)))
+                {
+                    fillStudentTree(usertree, it.value().toHash(), it.key().toInt());
+                }
+            }
         }
     }
 }
@@ -288,9 +373,12 @@ void    UserFram::setUserInfoResponse(QVariantHash &response)
         msgBox.setText(msg);
         msgBox.exec();
         clearForm();
+        if (this->studentTree->currentItem() != 0 )
+            this->studentTree->currentItem()->setSelected(false);
         this->AddButton->show();
         this->SaveButton->hide();
-        this->listUsers();
+        //this->listUsers();
+        this->getTree();
     }
     else
     {
@@ -310,9 +398,12 @@ void    UserFram::createNewUserResponse(QVariantHash &response)
         msg.append("l'etudiant a ete rajoute avec succes \n");
         msgBox.setText(msg);
         msgBox.exec();
+        if (this->studentTree->currentItem() != 0 )
+            this->studentTree->currentItem()->setSelected(false);
         this->AddButton->show();
         this->SaveButton->hide();
         clearForm();
+        this->getTree();
     }
     else
     {
@@ -370,7 +461,6 @@ void    UserFram::getTree()
     request["Request"]=  "getAllTree+";
 
     PluginPacket pP("TreeManagement", request);
-    emit sender("students");
     this->res->sendPacket(pP);
 }
 
@@ -411,17 +501,6 @@ void            UserFram::editNode(QString id, QString type, QString name, QStri
     request["Type"] = type;
     request["Name"] = name;
     request["UserRef"] = userId;
-}
-
-void    UserFram::getTreeResponse(QVariantHash &response)
-{
-    QHash<QString, QVariant > usertree;
-    usertree = response["AllTree"].toHash();
-    for (QHash<QString, QVariant >::iterator it = usertree.begin(); it != usertree.end(); ++it)
-    {
-        qDebug() << "User Tree node :" << it.key();
-        //tmplist = it.value().toList();
-    }
 }
 
 void    UserFram::getNodInfoResponse(QVariantHash &response)

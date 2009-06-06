@@ -26,6 +26,59 @@ void    TreeFram::readResponse(QVariantHash response)
                                    &TreeFram::unknownResponse))
                                    (response);
 }
+/*
+void    UserFram::getTreeResponse(QVariantHash &response)
+{
+    QHash<QString, QVariant > usertree;
+    sTree = response["AllTree"].toHash();
+
+    for (QHash<QString, QVariant >::iterator it = sTree.begin(); it != sTree.end(); ++it)
+    {
+        if (it.value().toHash()["type"] == "CLASSES")
+        {
+            fillStudentTree(usertree, it.value().toHash(), it.key().toInt());
+        }
+    }
+    sTree = usertree;
+    fillUiStudentTree();
+}
+void    UserFram::fillUiStudentTree()
+{
+
+}
+
+void    UserFram::fillStudentTree(QHash<QString, QVariant > &usertree, QHash<QString, QVariant > node, int nodeid)
+{
+    QHash<QString, QVariant > tmptree;
+    tmptree.insert("type", node["type"]);
+    tmptree.insert("name", node["name"]);
+    tmptree.insert("userref", node["userref"]);
+    tmptree.insert("parentid", node["parentid"]);
+    if (node["type"] == "GRADE")
+        tmptree.insert("numberofsons", 0);
+    else
+        tmptree.insert("numberofsons", node["numberofsons"]);
+    tmptree.insert("userlist", node["userlist"]);
+    if (node["type"] == "GRADE")
+        tmptree.insert("sons", QList<QVariant>());
+    else
+        tmptree.insert("sons", QVariant(node["sons"]));
+    usertree.insert(QVariant(nodeid).toString(), tmptree);
+    if (node["type"] != "GRADE")
+    {
+        for (int i = 0; i < node["sons"].toList().size(); i++)
+        {
+            for (QHash<QString, QVariant >::iterator it = sTree.begin(); it != sTree.end(); ++it)
+            {
+
+                if ((it.key() == node["sons"].toList().at(i)))
+                {
+                    fillStudentTree(usertree, it.value().toHash(), it.key().toInt());
+                }
+            }
+        }
+    }
+}*/
 
 void    TreeFram::unknownResponse(QVariantHash &response)
 {

@@ -47,6 +47,7 @@ class TeacherFram : public QFrame, private Ui::TeacherFram
         INetwork    *res;
         QObject     *parent;
         QHash<QString, QVariantHash> proflist;
+        QVariant         id;
     private slots:
         //! callback of the GetUsers button, it send an event to NetworkManager
         void    on_AddButton_clicked();
