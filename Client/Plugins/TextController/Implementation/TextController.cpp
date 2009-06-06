@@ -53,9 +53,9 @@ const QString&      TextController::getSupportedType() const
 
 void                TextController::showObject(ILesson::IPage::IObject *object)
 {
-    if (object->getParameters().left(5) == "text=")
-        this->text = new QLabel(object->getParameters().mid(5), object->getWidget());
-    else if (object->getParameters().left(5) == "file=")
+    if (object->getParameters() == "text")
+        this->text = new QLabel(object->getContent(), object->getWidget());
+    else if (object->getParameters() == "file")
         object = object;
 }
 
