@@ -1,6 +1,6 @@
 #include "Sql.h"
 
-QMutex Sql::mymute;
+QMutex Sql::mymute(QMutex::Recursive);
 QSemaphore Sql::mtsema;
 QHash <QByteArray, bool> Sql::map;
 

@@ -349,7 +349,7 @@ bool Tree::UpdateVector()
             it2.value()->sons.insert(it.value()->id, it.value());
 
          it.value()->parent = it2.value();
-         qDebug() << "link" << it.value()->id << " to " <<  it2.value()->id;
+        // qDebug() << "link" << it.value()->id << " to " <<  it2.value()->id;
      }
      else
          qDebug() << "link" << it.value()->id << " is detached !!!";
@@ -372,10 +372,10 @@ void Tree::ShowSons()
 void Tree::vecshow()
 {
     QString toto = " ";
-  for(QHash<int, Tree::Tree*>::const_iterator it = Tree::maptree.begin(); it != Tree::maptree.end(); ++it)
-  {
-      it.value()->ShowSons();
-  }
+//  for(QHash<int, Tree::Tree*>::const_iterator it = Tree::maptree.begin(); it != Tree::maptree.end(); ++it)
+ // {
+ //     it.value()->ShowSons();
+//  }
 }
 
 bool Tree::HasFatherId(int fathernode)
