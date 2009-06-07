@@ -30,7 +30,8 @@ SOURCES = main.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommFile.cpp \
     ../Common/CommSettings.cpp \
-    FileManagment.cpp
+    FileManagment.cpp \
+    Logs.cpp
 HEADERS = Sql.h \
     User.h \
     Server.h \
@@ -57,4 +58,5 @@ HEADERS = Sql.h \
     ../Common/CommFile.h \
     ../Common/CommSettings.h \
     ../Common/CommFileInfo.h \
-    FileManagment.h
+    FileManagment.h \
+    Logs.h
