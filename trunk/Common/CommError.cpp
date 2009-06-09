@@ -19,7 +19,7 @@ CommError::CommError(Error _type, const char* _errorMessage) : CommPacket(CommPa
         errorMessage = _errorMessage;
 }
 
-CommError::CommError(QByteArray& a) : CommPacket(CommPacket::ERROR)
+CommError::CommError(const QByteArray& a) : CommPacket(CommPacket::ERROR)
 {
     errorType = UNDEFINED;
     read(a);
@@ -33,12 +33,12 @@ const QByteArray CommError::getPacket() const
     return a;
 }
 
-void CommError::read(QByteArray& a)
+void CommError::read(const QByteArray& a)
 {
-    if ((char)a[0] < (char)__LAST__)
-        errorType = (Error)(char)a[0];
-    a.remove(0, 1);
-    errorMessage = a;
+    int len = lenParent();
+    if ((char)a[ len ] < (char)__LAST__)
+        errorType = (Error)(char)a[ len ];
+    errorMessage = a.mid(len + 1);
 }
 
 void CommError::write(QByteArray& a) const

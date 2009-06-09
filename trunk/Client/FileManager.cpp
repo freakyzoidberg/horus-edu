@@ -27,7 +27,7 @@ IFile* FileManager::newFile(quint32 nodeId)
         return 0;
     }
 
-    CommFileInfo info;
+    FileInfo info;
     info.nodeId = nodeId;
     tmpNewFile = new File(info);
     tmpNewFile->setObjectName("IFile");
@@ -40,7 +40,7 @@ IFile* FileManager::getFile(quint32 fileId)
 {
     if ( ! fileHash.contains(fileId))
     {
-        CommFileInfo info;
+        FileInfo info;
         info.id = fileId;
         IFile* file = new File(info);
         file->setObjectName("IFile");
@@ -149,7 +149,7 @@ void FileManager::receiveFilePacket(QByteArray p)
     {
         //TODO: emmit less signal: only if a real change append on the viewed nodes
 
-        for (QList<CommFileInfo>::const_iterator i = packet.fileList.begin(); i != packet.fileList.end(); ++i)
+        for (QList<FileInfo>::const_iterator i = packet.fileList.begin(); i != packet.fileList.end(); ++i)
         {
             ((File*)getFile((*i).id))->updateFileInfo(*i);
             emit nodeFileListUpdated((*i).nodeId);

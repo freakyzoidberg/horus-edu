@@ -1,61 +1,55 @@
-#include "UserManagment.h"
+#include "UserManagement.h"
 #include <QDebug>
 #include <QHash>
 
-Q_EXPORT_PLUGIN2(UserManagment, UserManagment)
+Q_EXPORT_PLUGIN2(UserManagement, UserManagement)
 
-UserManagment::UserManagment()
+UserManagement::UserManagement()
 {
-    requestFunctions["changePassword"] = &UserManagment::changePassword;
-    requestFunctions["listUsers"]    = &UserManagment::listUsers;
-    requestFunctions["getUserInfo"]    = &UserManagment::getUserInfo;
-    requestFunctions["setUserInfo"]    = &UserManagment::setUserInfo;
-    requestFunctions["createNewUser"]  = &UserManagment::createNewUser;
-    requestFunctions["disableUser"]    = &UserManagment::disableUser;
+    requestFunctions["changePassword"] = &UserManagement::changePassword;
+    requestFunctions["listUsers"]    = &UserManagement::listUsers;
+    requestFunctions["getUserInfo"]    = &UserManagement::getUserInfo;
+    requestFunctions["setUserInfo"]    = &UserManagement::setUserInfo;
+    requestFunctions["createNewUser"]  = &UserManagement::createNewUser;
+    requestFunctions["disableUser"]    = &UserManagement::disableUser;
 }
 
-void UserManagment::recvPacket(quint32 userId, const PluginPacket& packet)
+void UserManagement::recvPacket(quint32 userId, const PluginPacket& request)
 {
-    QVariantHash request = packet.data.toHash();
-    QVariantHash response;
+    PluginPacket response(request.sourcePlugin, request.request);
 
-    response["Request"] = request["Request"];
-    response["Success"] = false;
+    QVariantHash reqHash = request.data.toHash();
 
-    if ( ! request.contains("UserId"))
-        request["UserId"] = userId;
+    if ( ! reqHash.contains("UserId"))
+        reqHash["UserId"] = userId;
 
-    if (request["UserId"].toUInt() != userId && server->getLevel(userId) > LEVEL_ADMINISTRATOR)
+    if (reqHash["UserId"].toUInt() != userId && server->getLevel(userId) > LEVEL_ADMINISTRATOR)
     {
-        response["Success"] = false;
-        response["Error"]   = 3;
-        response["ErrorMesssage"]   = "Permition denied.";
+        response.error = 3;
+        response.errorMessage = "Permition denied.";
     }
 
-    response["UserId"] = request["UserId"];
-
-    //fill response
-    (this->*requestFunctions.value(request["Request"].toByteArray(),//go to the target method
-                                   &UserManagment::unknownRequest)) //or if it'sunknown request
-                                                                    (userId, request, response);//parameters
+    if ( ! response.error)
+        (this->*requestFunctions.value(request.request,//go to the target method
+                                       &UserManagement::unknownRequest)) //or if it'sunknown request
+                                                                       (userId, reqHash, response);//parameters
 
     //send response
-    server->sendPacket(userId, PluginPacket(packet.sourcePlugin, response));
+    server->sendPacket(userId, response);
 }
 
-void UserManagment::unknownRequest(quint32, const QVariantHash&, QVariantHash& response)
+void UserManagement::unknownRequest(quint32, const QVariantHash&, PluginPacket& response)
 {
-    response["Success"] = false;
-    response["Error"]   = 1;
-    response["ErrorMesssage"]   = "Unknow request.";
+    response.error          = 1;
+    response.errorMessage   = "Unknow request.";
 }
 
-void UserManagment::changePassword(quint32 userId, const QVariantHash& request, QVariantHash& response)
+void UserManagement::changePassword(quint32 userId, const QVariantHash& request, PluginPacket& response)
 {
     if ( ! request.contains("password"))
     {
-        response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'password'";
+        response.error        = 2;
+        response.errorMessage = "Invalid request: You must fill 'password'";
         return;
     }
 
@@ -73,23 +67,21 @@ void UserManagment::changePassword(quint32 userId, const QVariantHash& request, 
     }
     else
     {
-        response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'OldPassword'";
+        response.error        = 2;
+        response.errorMessage = "Invalid request: You must fill 'OldPassword'";
         return;
     }
 
     query.addBindValue(request["UserId"]);
     if ( ! query.exec() || ! query.numRowsAffected() == 1)
     {
-        response["Error"]   = 4;
-        response["ErrorMesssage"]   = "Passwords doesn't match.";
+        response.error        = 4;
+        response.errorMessage = "Passwords doesn't match.";
         return;
     }
-
-    response["Success"] = true;
 }
 
-void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVariantHash& response)
+void UserManagement::listUsers(quint32 userId, const QVariantHash& request,PluginPacket& response)
 {
     QSqlQuery query = server->getSqlQuery();
     if (request.contains("UserList"))
@@ -105,12 +97,11 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
 
     if ( ! query.exec())
     {
-        response["Error"]   = 6;
-        response["ErrorMesssage"] = "Database error.";
+        response.error        = 6;
+        response.errorMessage = "Database error.";
         return;
     }
 
-    response["Success"] = true;
     QVariantList list;
     while (query.next())
     {
@@ -135,54 +126,54 @@ void UserManagment::listUsers(quint32 userId, const QVariantHash& request,QVaria
         }
         list.append(user);
     }
-    response["Users"] = list;
+    response.data = list;
 }
 
-void UserManagment::getUserInfo(quint32, const QVariantHash& request,QVariantHash& response)
+void UserManagement::getUserInfo(quint32, const QVariantHash& request,PluginPacket& response)
 {
     QSqlQuery query = server->getSqlQuery();
     query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users WHERE id=?;");
     query.addBindValue(request.value("UserId"));
     if ( ! query.exec() || ! query.next())
     {
-        response["Error"]   = 5;
-        response["ErrorMesssage"] = "UserId " + request["UserId"].toString() + " not found.";
+        response.error        = 5;
+        response.errorMessage = "UserId " + request["UserId"].toString() + " not found.";
         return;
     }
 
-    response["Success"]    = true;
-
-    response["login"]      = query.value(0);
-    response["level"]      = query.value(1);
-    response["last_login"] = query.value(2);
-    response["surname"]    = query.value(3);
-    response["name"]       = query.value(4);
-    response["birth_date"] = query.value(5);
-    response["picture"]    = query.value(6);
-    response["address"]    = query.value(7);
-    response["phone"]      = query.value(8);
-    response["country"]    = query.value(9);
-    response["language"]   = query.value(10);
-    response["id_tree"]    = query.value(11);
-    response["enabled"]    = query.value(12);
+    QVariantHash resp;
+    resp["login"]      = query.value(0);
+    resp["level"]      = query.value(1);
+    resp["last_login"] = query.value(2);
+    resp["surname"]    = query.value(3);
+    resp["name"]       = query.value(4);
+    resp["birth_date"] = query.value(5);
+    resp["picture"]    = query.value(6);
+    resp["address"]    = query.value(7);
+    resp["phone"]      = query.value(8);
+    resp["country"]    = query.value(9);
+    resp["language"]   = query.value(10);
+    resp["id_tree"]    = query.value(11);
+    resp["enabled"]    = query.value(12);
+    response.data = resp;
 }
 
-void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVariantHash& response)
+void UserManagement::setUserInfo(quint32 userId, const QVariantHash& request,PluginPacket& response)
 {
     if ( ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
       || ! request.contains("country") || ! request.contains("language") || ! request.contains("id_tree")
       || ! request.contains("surname") || ! request.contains("name") || ! request.contains("birth_date")
       || ! request.contains("picture") || ! request.contains("enabled"))
     {
-        response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'level','address','phone','counrty','language','id_tree','enabled','surname','name','birth_date','picture'";
+        response.error        = 2;
+        response.errorMessage = "Invalid request: You must fill 'level','address','phone','counrty','language','id_tree','enabled','surname','name','birth_date','picture'";
         return;
     }
 
     if (request["level"].toInt() < server->getLevel(userId))
     {
-        response["Error"]   = 3;
-        response["ErrorMesssage"]   = "Permition denied: You can't give more privileges than you have.";
+        response.error        = 3;
+        response.errorMessage = "Permition denied: You can't give more privileges than you have.";
         return;
     }
 
@@ -203,15 +194,13 @@ void UserManagment::setUserInfo(quint32 userId, const QVariantHash& request,QVar
 
     if ( ! query.exec())
     {
-        response["Error"]   = 5;
-        response["ErrorMesssage"]   = "UserId " + request["UserId"].toString() + " not found.";
+        response.error        = 5;
+        response.errorMessage = "UserId " + request["UserId"].toString() + " not found.";
         return;
     }
-
-    response["Success"] = true;
 }
 
-void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QVariantHash& response)
+void UserManagement::createNewUser(quint32 userId, const QVariantHash& request,PluginPacket& response)
 {
     if ( ! request.contains("login") || ! request.contains("password")
       || ! request.contains("level") ||  ! request.contains("address") ||  ! request.contains("phone")
@@ -219,15 +208,15 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
       || ! request.contains("surname") || ! request.contains("name") || ! request.contains("birth_date")
       || ! request.contains("picture") || ! request.contains("enabled"))
     {
-        response["Error"]   = 2;
-        response["ErrorMesssage"]   = "Invalid request: You must fill 'login','password','level','address','phone','counrty','language','id_tree','enabled','surname','name','birth_date','picture'";
+        response.error        = 2;
+        response.errorMessage = "Invalid request: You must fill 'login','password','level','address','phone','counrty','language','id_tree','enabled','surname','name','birth_date','picture'";
         return;
     }
 
     if (request["level"].toInt() < server->getLevel(userId))
     {
-        response["Error"]   = 3;
-        response["ErrorMesssage"]   = "Permition denied: You can't give more privileges than you have.";
+        response.error        = 3;
+        response.errorMessage = "Permition denied: You can't give more privileges than you have.";
         return;
     }
 
@@ -249,16 +238,17 @@ void UserManagment::createNewUser(quint32 userId, const QVariantHash& request,QV
 
     query.exec();
 
-    response["UserId"] = query.lastInsertId();
-    response["Success"] = true;
+    QVariantHash resp = request;
+    resp["UserId"] = query.lastInsertId();
+    response.data = resp;
 }
 
-void UserManagment::disableUser(quint32 userId, const QVariantHash& request, QVariantHash& response)
+void UserManagement::disableUser(quint32 userId, const QVariantHash& request, PluginPacket& response)
 {
     if (server->getLevel(userId) > LEVEL_ADMINISTRATOR)
     {
-        response["Error"]   = 3;
-        response["ErrorMesssage"]   = "Permition denied.";
+        response.error        = 3;
+        response.errorMessage = "Permition denied. Only ADMINISTRATOR and ROOT can disable a user.";
         return;
     }
 
@@ -266,6 +256,8 @@ void UserManagment::disableUser(quint32 userId, const QVariantHash& request, QVa
     query.prepare("UPDATE id,enabled users SET (enabled=(enabled+1)%2) WHERE id=?;");
     query.addBindValue(request["userId"]);
     query.exec();
-    response["id"]    = query.value(0);
-    response["enabled"]    = query.value(1);
+
+    QVariantHash resp;
+    resp["id"]    = query.value(0);
+    resp["enabled"]    = query.value(1);
 }

@@ -13,6 +13,7 @@ SOURCES += main.cpp \
     ../Common/CommError.cpp \
     ../Common/CommSettings.cpp \
     ../Common/CommPlugin.cpp \
+    ../Common/PluginPacket.cpp \
     ClientApplication.cpp \
     NetworkManager.cpp \
     PluginManager.cpp \
@@ -38,7 +39,7 @@ HEADERS += NetworkManager.h \
     ../Common/PluginPacket.h \
     ../Common/CommSocket.h \
     ../Common/CommFile.h \
-    ../Common/CommFileInfo.h \
+    ../Common/FileInfo.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \

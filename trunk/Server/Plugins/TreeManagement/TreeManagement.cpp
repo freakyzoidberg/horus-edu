@@ -5,12 +5,11 @@ Q_EXPORT_PLUGIN2(TreeManagement, TreeManagement);
 TreeManagement::TreeManagement()
 {
     requestFunctions["getTree"] = &TreeManagement::gettree;
-     requestFunctions["getTree+"] = &TreeManagement::gettreeplus;
+    requestFunctions["getTree+"] = &TreeManagement::gettreeplus;
     requestFunctions["getAllTree"] = &TreeManagement::getAlltree;
     requestFunctions["getAllTree+"] = &TreeManagement::getAlltreeplus;
     requestFunctions["getNodeInfo"] = &TreeManagement::getnodeinfo;
     requestFunctions["setNode"] = &TreeManagement::setnode;
-    //qDebug() << "TreeManagement has arrived";
 }
 
 TreeManagement::~TreeManagement()
@@ -18,268 +17,225 @@ TreeManagement::~TreeManagement()
     qDebug() << "bye bye TreeManagement";
 }
 
-void TreeManagement::recvPacket(quint32 userId, const PluginPacket& packet)
+void TreeManagement::recvPacket(quint32 userId, const PluginPacket& request)
 {
-    const QVariantHash request = packet.data.toHash();
-    QVariantHash response;
-
-    response["Request"] = request["Request"];
+    PluginPacket response(request.sourcePlugin, request.request);
+    const QVariantHash reqHash = request.data.toHash();
 
     //fill response
-    (this->*requestFunctions.value(request["Request"].toByteArray(),//go to the target method
-                                   &TreeManagement::unknownRequest)) //or if it'sunknown request
-                                                                    (request, response, userId);//parameters
+    (this->*requestFunctions.value(request.request,//go to the target method
+                                   &TreeManagement::unknownRequest)) //or if it's unknown request
+                                                                    (reqHash, response, userId);//parameters
 
     //send response
-    server->sendPacket(userId, PluginPacket(packet.sourcePlugin, response));
+    server->sendPacket(userId, response);
 }
 
-void  TreeManagement::unknownRequest(const QVariantHash& request,QVariantHash& response, qint32 iduser)
+void  TreeManagement::unknownRequest(const QVariantHash&, PluginPacket& response, qint32)
 {
-
-    response["Success"] = false;
-    response["Error"]   = 1;
-    response["ErrorMesssage"]   = "Unknow request";
+    response.error        = 1;
+    response.errorMessage = "Unknow request";
 }
 
-void  TreeManagement::gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
+void  TreeManagement::gettree(const QVariantHash& request, PluginPacket& response, qint32 iduser)
 {
     qDebug() << "=== Tree Management DEBUG gettree()===";
     int firstnode = getidofusernode(request, iduser);
-    QHash<QString, QVariant > usertree;
+    QVariantHash usertree;
     if (firstnode > -1)
     {
-    addnodewithsons(&usertree, firstnode);
-    addfathers(&usertree,firstnode);
+        addnodewithsons(&usertree, firstnode);
+        addfathers(&usertree,firstnode);
 
-    QList<QVariant> tmplist;
-    for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
-    {
-        qDebug() << "User Tree node :" << it.key();
-    tmplist = it.value().toList();
-       for (int i = 0; i < tmplist.size(); ++i)
+        QVariantList tmplist;
+        for (QVariantHash::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
         {
-          qDebug() << "         sons :" << (tmplist.value(i));
+            //qDebug() << "User Tree node :" << it.key();
+            tmplist = it.value().toList();
+            for (int i = 0; i < tmplist.size(); ++i)
+            {
+                qDebug() << "         sons :" << (tmplist.value(i));
+            }
         }
-    }
-    qDebug() << "=== END Tree Management DEBUG ===";
-    response["userTree"] =  usertree;
-    response["Success"] = true;
+        qDebug() << "=== END Tree Management DEBUG ===";
+        response.data = usertree;
     }
     else
     {
-    qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
-    response["userTree"] =  usertree;
-    response["Success"] = true;
+        qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+        response.data = usertree;
     }
 }
 
-void  TreeManagement::gettreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser)
+void  TreeManagement::gettreeplus(const QVariantHash& request, PluginPacket& response, qint32 iduser)
 {
 // a alleger des que possible ;)
 
     qDebug() << "=== Tree Management DEBUG gettreeplus()===";
     int firstnode = getidofusernode(request, iduser);
 
-    QHash<QString, QVariant > usertree;
+    QVariantHash usertree;
 
     if (firstnode > -1)
     {
-    addnodewithsons(&usertree, firstnode);
+        addnodewithsons(&usertree, firstnode);
 
-    addfathers(&usertree,firstnode);
+        addfathers(&usertree,firstnode);
 
-    QList<QVariant> tmplist;
-    bool ok;
-    for (QHash<QString, QVariant >::iterator it = usertree.begin(); it != usertree.end(); ++it)
-    {
-        QHash<QString, QVariant> infos;
-        qDebug() << "User Tree node :" << it.key();
-        //tmplist = it.value().toList();
-        infos.insert("sons", it.value());
-        infos.insert("name", server->getNodeName(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("parentid", server->getNodeId(server->getNodefatherbyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("userslist", userlist(QVariant(it.key()).toInt(&ok)));
-        infos.insert("numberofsons",it.value().toList().count());
-        it.value() = infos;
-    }
-   for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
-    {
-        qDebug() << "User Tree node :" << it.key();
-        tmplist = it.value().toList();
-        
-    }
-
-    qDebug() << "=== END Tree Management DEBUG ===";
-    response["userTree"] =  usertree;
-    response["Success"] = true;
+        QVariantList tmplist;
+        for (QVariantHash::iterator it = usertree.begin(); it != usertree.end(); ++it)
+        {
+            QVariantHash infos;
+            quint32 id = it.key().toInt();
+            infos["id"] = id;
+            infos["name"] = server->getNodeName(server->getNodenodebyid(id));
+            infos["type"] = server->getNodeType(server->getNodenodebyid(id));
+            infos["userref"] = server->getNodeUserRef(server->getNodenodebyid(id));
+            infos["parentid"] = server->getNodeId(server->getNodefatherbyid(id));
+            tmplist.append(infos);
+        }
+        qDebug() << "=== END Tree Management DEBUG ===";
+        response.data = tmplist;
     }
     else
     {
-    qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
-    response["userTree"] =  usertree;
-    response["Success"] = true;
+        qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+        //response.data = usertree;
     }
 }
 
 
-void  TreeManagement::getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser)
+void  TreeManagement::getAlltree(const QVariantHash&, PluginPacket& response, qint32 iduser)
 {
     qDebug() << "=== Tree Management DEBUG getAlltree()===";
     int firstnode = 0;
-    QHash<QString, QVariant > usertree;
-        if (firstnode > -1)
-    {
-    addnodewithsons(&usertree, firstnode);
-    addfathers(&usertree,firstnode);
-    QList<QVariant> tmplist;
-    for (QHash<QString, QVariant >::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
-    {
-        qDebug() << "User Tree node :" << it.key();
-    tmplist = it.value().toList();
-       for (int i = 0; i < tmplist.size(); ++i)
-        {
-          qDebug() << "         sons :" << (tmplist.value(i));
-        }
-    }
-    qDebug() << "=== END Tree Management DEBUG ===";
-    response["AllTree"] =  usertree;
-    response["Success"] = true;
-    }
-        else
-        {
-             qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
-            response["AllTree"] =  usertree;
-            response["Success"] = true;
-        }
-
-}
-
-void  TreeManagement::getAlltreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser)
-{
-    qDebug() << "=== Tree Management DEBUG getAlltreeplus===";
-    int firstnode = 0;
-    QHash<QString, QVariant > usertree;
+    QVariantHash usertree;
     if (firstnode > -1)
     {
-    addnodewithsons(&usertree, firstnode);
-    addfathers(&usertree,firstnode);
-
-    QList<QVariant> tmplist;
-    bool ok;
-    for (QHash<QString, QVariant >::iterator it = usertree.begin(); it != usertree.end(); ++it)
-    { 
-     QHash<QString, QVariant> infos;
-        qDebug() << "User Tree node :" << it.key();
-        //tmplist = it.value().toList();
-        infos.insert("sons", it.value());
-        infos.insert("name", server->getNodeName(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("parentid", server->getNodeId(server->getNodefatherbyid(QVariant(it.key()).toInt(&ok))));
-        infos.insert("userslist", userlist(QVariant(it.key()).toInt(&ok)));
-        infos.insert("numberofsons",it.value().toList().count());
-        it.value() = infos;
-
-    }
-    qDebug() << "=== END Tree Management DEBUG ===";
-    response["AllTree"] =  usertree;
-    response["Success"] = true;
-    }
-        else
+        addnodewithsons(&usertree, firstnode);
+        addfathers(&usertree,firstnode);
+        QVariantList tmplist;
+        for (QVariantHash::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
         {
-             qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
-            response["AllTree"] =  usertree;
-            response["Success"] = true;
+            //qDebug() << "User Tree node :" << it.key();
+            tmplist = it.value().toList();
+            for (int i = 0; i < tmplist.size(); ++i)
+                qDebug() << "         sons :" << (tmplist.value(i));
         }
-}
-
-
-void  TreeManagement::getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser)
-{
-    //qDebug() << "=== Tree Management DEBUG getnodeinfo() ===";
-    bool ok;
-    if (request.contains("idNode"))
-    {
-    int node = QVariant(request["idNode"]).toInt(&ok);
-
-      response["userref"] = server->getNodeUserRef(server->getNodenodebyid(node));
-      response["nodename"] =  server->getNodeName(server->getNodenodebyid(node));
-      response["numberofsons"] = server->GetNodeSonsNode(server->getNodenodebyid(node)).count();
-      response["sonsid"] = getvectorsonsfromidnode(node);
-      response["userslist"] = userlist(node);
-      response["type"] = server->getNodeType(server->getNodenodebyid(node));
-      response["Success"] = true;
+        qDebug() << "=== END Tree Management DEBUG ===";
+        response.data = usertree;
     }
     else
     {
-        response["Success"] = false;
-        response["Error"]   = 1;
-        response["ErrorMesssage"]   = "no id specified";
+         qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+        response.data = usertree;
     }
-  //  qDebug() << "=== END Tree Management DEBUG ===";
+}
+
+void  TreeManagement::getAlltreeplus(const QVariantHash&, PluginPacket& response, qint32 iduser)
+{
+    qDebug() << "=== Tree Management DEBUG getAlltreeplus===";
+    int firstnode = 0;
+    QVariantHash usertree;
+    if (firstnode > -1)
+    {
+        addnodewithsons(&usertree, firstnode);
+        addfathers(&usertree,firstnode);
+
+        QVariantList tmplist;
+        bool ok;
+        for (QVariantHash::iterator it = usertree.begin(); it != usertree.end(); ++it)
+        {
+            QVariantHash infos;
+            //qDebug() << "User Tree node :" << it.key();
+            infos.insert("sons", it.value());
+            infos.insert("name", server->getNodeName(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
+            infos.insert("type", server->getNodeType(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
+            infos.insert("userref", server->getNodeUserRef(server->getNodenodebyid(QVariant(it.key()).toInt(&ok))));
+            infos.insert("parentid", server->getNodeId(server->getNodefatherbyid(QVariant(it.key()).toInt(&ok))));
+            infos.insert("userslist", userlist(QVariant(it.key()).toInt(&ok)));
+            infos.insert("numberofsons",it.value().toList().count());
+            it.value() = infos;
+
+        }
+        qDebug() << "=== END Tree Management DEBUG ===";
+        response.data = usertree;
+    }
+    else
+    {
+         qDebug() << "WARNING -- ASK FOR USER TREE FOR A USER NOT LINKED TO TREE: user id =" << iduser;
+        response.data = usertree;
+    }
+}
+
+
+void  TreeManagement::getnodeinfo(const QVariantHash& request, PluginPacket& response, qint32)
+{
+    bool ok;
+    if (request.contains("idNode"))
+    {
+        int node = QVariant(request["idNode"]).toInt(&ok);
+
+        QVariantHash resp;
+
+        resp["userref"] = server->getNodeUserRef(server->getNodenodebyid(node));
+        resp["nodename"] =  server->getNodeName(server->getNodenodebyid(node));
+        resp["numberofsons"] = server->GetNodeSonsNode(server->getNodenodebyid(node)).count();
+        resp["sonsid"] = getvectorsonsfromidnode(node);
+        resp["userslist"] = userlist(node);
+        resp["type"] = server->getNodeType(server->getNodenodebyid(node));
+        response.data = resp;
+    }
+    else
+    {
+        response.error        = 1;
+        response.errorMessage = "no id specified";
+    }
 }
 
 
 
-void  TreeManagement::setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser)
+void  TreeManagement::setnode(const QVariantHash& request, PluginPacket& response, qint32 iduser)
 {
-   // qDebug() << "=== Tree Management DEBUG setnode()===";
     bool ok;
     if (request["Admntreeact"] == "Delnode")
     {
-       if (delnode(request["Id"].toInt(&ok), iduser))
-           response["Success"] = true;
-         else
+        if ( ! delnode(request["Id"].toInt(&ok), iduser))
         {
-             response["Success"] = false;
-            response["Error"] = 1;
-            response["ErrorMessage"] = "cannot delete this node";
-         }
-         return;
+            response.error        = 1;
+            response.errorMessage = "cannot delete this node";
+        }
+        return;
     }
     else if (request["Admntreeact"] == "Mvnode")
     {
-        if (mvnode(request["Id"].toInt(&ok), request["Newfather"].toInt(&ok), iduser))
-            response["Success"] = true;
-        else
+        if ( ! mvnode(request["Id"].toInt(&ok), request["Newfather"].toInt(&ok), iduser))
         {
-            response["Success"] = false;
-            response["Error"] = 1;
-            response["ErrorMessage"] = "cannot move this node";
+            response.error        = 1;
+            response.errorMessage = "cannot move this node";
          }
         return;
     }
     else if (request["Admntreeact"] == "Addnode")
     {
-        if (addnode(request["Newfather"].toInt(&ok), request["Type"].toString(), request["Name"].toString(), request["UserRef"].toInt(&ok), iduser))
-            response["Success"] = true;
-        else
+        if ( ! addnode(request["Newfather"].toInt(&ok), request["Type"].toString(), request["Name"].toString(), request["UserRef"].toInt(&ok), iduser))
         {
-            response["Success"] = false;
-            response["Error"] = 1;
-            response["ErrorMessage"] = "cannot add this node";
+            response.error        = 1;
+            response.errorMessage = "cannot add this node";
          }
         return;
     }
     else if (request["Admntreeact"] == "Setnode")
     {
-        if (editnode(request["Id"].toInt(&ok), request["Type"].toString(), request["Name"].toString(), request["UserRef"].toInt(&ok), iduser))
-            response["Success"] = true;
-        else
+        if ( ! editnode(request["Id"].toInt(&ok), request["Type"].toString(), request["Name"].toString(), request["UserRef"].toInt(&ok), iduser))
         {
-            response["Success"] = false;
-            response["Error"] = 1;
-            response["ErrorMessage"] = "cannot set this node";
+            response.error        = 1;
+            response.errorMessage = "cannot set this node";
          }
         return;
     }
-    response["Success"] = false;
-    response["Error"] = 1;
-    response["ErrorMessage"] = "request not handled";
-    return;
+    response.error        = 1;
+    response.errorMessage = "request not handled";
 }
 
 
@@ -336,7 +292,7 @@ bool  TreeManagement::editnode(const int nodeid, const QString type, const QStri
     return false;
 }
 
-int TreeManagement::getidofusernode(const QVariantHash& request, qint32 iduser)
+int TreeManagement::getidofusernode(const QVariantHash&, qint32 iduser)
 {
   //  qDebug() << "=== Tree Management DEBUG getidofusernode()===";
     QSqlQuery query1 = server->getSqlQuery();
@@ -382,21 +338,18 @@ QList<QVariant> TreeManagement::getvectorsonsfromidnode(int idnode)
      }
     return sons;
 }
-void  TreeManagement::addnodewithsons(QHash<QString, QVariant > *utree, int id)
+void  TreeManagement::addnodewithsons(QVariantHash *utree, int id)
 {
  //   qDebug() << "=== Tree Management DEBUG addnodewithsons()===";
-    QList<QVariant> tmpvec = getvectorsonsfromidnode(id);
+    QVariantList tmpvec = getvectorsonsfromidnode(id);
 
-   utree->insert(QVariant(server->getNodeId(server->getNodenodebyid(id))).toString(), tmpvec);
-   bool ok;
-    for (QList<QVariant>::const_iterator it = tmpvec.begin(); it != tmpvec.end(); ++it)
-    {
+    utree->insert(QVariant(server->getNodeId(server->getNodenodebyid(id))).toString(), tmpvec);
+    bool ok;
+    for (QVariantList::const_iterator it = tmpvec.begin(); it != tmpvec.end(); ++it)
         addnodewithsons(utree, QVariant(*it).toInt(&ok));
-    }
-
 }
 
-void  TreeManagement::addfathers(QHash<QString, QVariant > *utree,const int id)
+void  TreeManagement::addfathers(QVariantHash *utree,const int id)
 {
  //   qDebug() << "=== Tree Management DEBUG addfathers()===";
     qDebug() << "id =" << id;

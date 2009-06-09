@@ -15,22 +15,18 @@ Tree* Tree::GetNodebyId(int id)
     return maptree[id];
 }
 
-void Tree::receiveUserTree(const QVariantHash& response)
+void Tree::receiveUserTree(const QVariantList& usertree)
 {
-    if ( ! response["Success"].toBool())
-        return;
-
-    QVariantHash usertree = response["userTree"].toHash();
-    for (QVariantHash::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
+    for (QVariantList::const_iterator it = usertree.begin(); it != usertree.end(); ++it)
     {
         QVariantHash elem = (*it).toHash();
-        int idNode = it.key().toInt();
-        QVariantList list = elem["sons"].toList();
+        int idNode = elem["id"].toInt();
+//        QVariantList list = elem["sons"].toList();
         QVector<ITree*> childs;
-        for (QVariantList::const_iterator it2 = list.begin(); it2 != list.end(); ++it2)
-            childs.append( GetNodebyId( (*it2).toInt() ) );
+//        for (QVariantList::const_iterator it2 = list.begin(); it2 != list.end(); ++it2)
+//            childs.append( GetNodebyId( (*it2).toInt() ) );
 
-        //qDebug() << "Tree::receiveUpdate :" << idNode << elem["parentid"] << elem;
+//        qDebug() << "Tree::receiveUpdate :" << elem["id"] << elem["parentid"] << elem;
         GetNodebyId(idNode)->receiveUpdate(idNode,
                                            GetNodebyId(elem["parentid"].toInt()),
                                            elem["userref"].toInt(),
@@ -48,9 +44,9 @@ void Tree::receiveUpdate(const int _id, Tree* _parent, const int _user_ref, cons
     if (parent != this && ! parent->sons.contains(this))
         parent->sons.append(this);
 
-    for (QVector<ITree*>::const_iterator i = _sons.begin(); i != _sons.end(); ++i)
-        if ( ! sons.contains(*i))
-            sons.append(*i);
+//    for (QVector<ITree*>::const_iterator i = _sons.begin(); i != _sons.end(); ++i)
+//        if ( ! sons.contains(*i))
+//            sons.append(*i);
 
     user_ref = _user_ref;
     name = _name;

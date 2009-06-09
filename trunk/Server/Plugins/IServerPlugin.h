@@ -17,7 +17,7 @@ class IServerPlugin : public QObject
     //! return the name of the plugin
     virtual const QByteArray name() const = 0;
     //! return the version of the plugin
-    virtual quint8           version() const = 0;
+    virtual const QByteArray version() const = 0;
 
     //! method called by the server core when a packet for this plugin is received
     virtual void recvPacket(quint32 userId, const PluginPacket&) = 0;

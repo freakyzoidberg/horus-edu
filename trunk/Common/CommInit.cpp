@@ -6,7 +6,7 @@ CommInit::CommInit(quint8 _protoVersion, const char* _fromName) : CommPacket(Com
     fromName  = _fromName;
 }
 
-CommInit::CommInit(QByteArray& a) : CommPacket(CommPacket::INIT)
+CommInit::CommInit(const QByteArray& a) : CommPacket(CommPacket::INIT)
 {
     read(a);
 }
@@ -19,11 +19,11 @@ const QByteArray CommInit::getPacket() const
     return a;
 }
 
-void CommInit::read(QByteArray& a)
+void CommInit::read(const QByteArray& a)
 {
-    protoVersion = a[0];
-    a.remove(0, 1);
-    fromName = a;
+    int len = lenParent();
+    protoVersion = a[ len ];
+    fromName = a.mid(len + 1);
 }
 
 void CommInit::write(QByteArray& a) const

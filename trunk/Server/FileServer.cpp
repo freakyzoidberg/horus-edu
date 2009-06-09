@@ -1,6 +1,6 @@
 #include "FileServer.h"
 
-#include <QSettings>
+#include "Settings.h"
 
 #include "../Common/Defines.h"
 
@@ -29,8 +29,9 @@ void FileServer::incomingConnection(int socket)
     //TODO later: For test
     s->setPeerVerifyMode(QSslSocket::VerifyNone);
 
-    s->setLocalCertificate("./ssl/Horus.crt");
-    s->setPrivateKey("./ssl/Horus.key");
+    Settings config;
+    s->setLocalCertificate(config.GetSettings("SoftFullPath","SETTINGS") + "./ssl/Horus.crt");
+    s->setPrivateKey(config.GetSettings("SoftFullPath","SETTINGS") + "./ssl/Horus.key");
 
     s->connect(s, SIGNAL(readyRead()), this, SLOT(readKey()));
 

@@ -3,10 +3,6 @@
 #include "IClientPlugin.h"
 #include "FileManager.h"
 
-//test Git, to autoload everything after conect
-//#include "FileManager.h"
-//#include "Tree.h"
-
 PacketManager::PacketManager(QObject* parent) : QObject()
 {
     this->parent = static_cast<ClientApplication *>(parent);
@@ -67,7 +63,7 @@ void PacketManager::PacketInit()
     qDebug() << "[ in]" << i;
     i.fromName = CLIENT_NAME;
     emit sendPacket(i.getPacket());
-    qDebug() << "[ out]" << i;
+    qDebug() << "[out]" << i;
 
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     settings.beginGroup("SESSIONS");
@@ -114,10 +110,6 @@ void PacketManager::PacketLogin()
         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
         state = PacketManager::LOGGED_IN;
         clearPacketStack();
-
-        ///test de GIT, ne pas virer de suite, pour version 6juin
-  //      Tree::updateUserTree();
-        //FileManager::updateUserFiles();
     }
     else if (l.method == CommLogin::REFUSED)
     {
@@ -143,13 +135,6 @@ void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
     qDebug() << "[ in]" << p;
-
-    //GiT: for the 6 june version...
-//    if (p.packet.targetPlugin == "TreeManagement")
-//    {
-//        Tree::receiveUserTree(p.packet.data.toHash());
-//        return;
-//    }
 
     this->pM = parent->findChild<PluginManager *>();
     QString target(p.packet.targetPlugin);

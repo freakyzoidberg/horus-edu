@@ -15,7 +15,7 @@ public:
     enum           Error { UNDEFINED, NOT_INITIALIZED, ALREADY_INITIALIZED, NOT_AUTHENTICATED, UNKNOWN_PROTO_VERSION, PROTOCOL_ERROR, __LAST__ };
 
     CommError(Error _type, const char* _error = 0);
-    CommError(QByteArray&);
+    CommError(const QByteArray&);
     const QByteArray getPacket() const;
 
     //! error code transmitted
@@ -24,7 +24,7 @@ public:
     QByteArray     errorMessage;
 
 private:
-    void           read(QByteArray&);
+    void           read(const QByteArray&);
     void           write(QByteArray&) const;
 };
 

@@ -12,18 +12,18 @@
 class CommPlugin : public CommPacket
 {
 public:
-    CommPlugin(QByteArray&);
+    CommPlugin(const QByteArray&);
     CommPlugin(const PluginPacket&);
     const QByteArray    getPacket() const;
 
     //! content of the packet (visible by the plugin)
-    PluginPacket packet;
+    PluginPacket        packet;
 
 private:
-    void                read(QByteArray&);
+    void                read(const QByteArray&);
     void                write(QByteArray&) const;
 };
 
-QDebug operator<<(QDebug, CommPlugin&);
+QDebug operator<<(QDebug, const CommPlugin&);
 
 #endif // COMMMODULE_H

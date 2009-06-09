@@ -12,7 +12,7 @@ class CommInit : public CommPacket
 {
 public:
     CommInit(quint8 _protoVersion, const char* fromName);
-    CommInit(QByteArray&);
+    CommInit(const QByteArray&);
     const QByteArray getPacket() const;
 
     //! protocol version
@@ -21,7 +21,7 @@ public:
     QByteArray      fromName;
 
 private:
-    void                read(QByteArray&);
+    void                read(const QByteArray&);
     void                write(QByteArray&) const;
 };
 

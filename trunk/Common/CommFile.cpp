@@ -10,7 +10,7 @@ CommFile::CommFile(Method _method, quint32 _id, QIODevice::OpenMode _mode) : Com
     key = "";
 }
 
-CommFile::CommFile(QByteArray& a) : CommPacket(CommPacket::FILE)
+CommFile::CommFile(const QByteArray& a) : CommPacket(CommPacket::FILE)
 {
     read(a);
 }
@@ -23,7 +23,7 @@ const QByteArray CommFile::getPacket() const
     return a;
 }
 
-void CommFile::read(QByteArray& a)
+void CommFile::read(const QByteArray& a)
 {
     QDataStream stream(a);
 
@@ -50,7 +50,7 @@ void CommFile::read(QByteArray& a)
 
     while ( ! stream.atEnd())
     {
-        CommFileInfo i;
+        FileInfo i;
         stream >> i;
         fileList.append(i);
     }
@@ -68,7 +68,7 @@ void CommFile::write(QByteArray& a) const
            << (quint8)mode
            << fileInfo
            << key;
-    foreach (const CommFileInfo pos, fileList)
+    foreach (const FileInfo pos, fileList)
         stream << pos;
 }
 
@@ -77,6 +77,7 @@ QDebug operator<<(QDebug d, const CommFile& p)
     static const char* methods[] =
     {
         "Undefined",
+
         "Access File",
         "New File",
         "Delete File",
@@ -102,7 +103,7 @@ QDebug operator<<(QDebug d, const CommFile& p)
       << p.fileInfo
       << p.key.toHex();
 
-    foreach (const CommFileInfo pos, p.fileList)
+    foreach (const FileInfo pos, p.fileList)
         d << pos;
 
     return d;

@@ -2,23 +2,20 @@
 #include <QDateTime>
 #include <QtEndian>
 #include <QVariant>
+#include <QDataStream>
 
 CommLogin::CommLogin(Method t) : CommPacket(CommPacket::LOGIN)
 {
     method  = t;
-    login = "";
-    sha1Pass = "";
+    level = LEVEL_GUEST;
     sessionTime = 0;
-    sessionString = "";
 }
 
-CommLogin::CommLogin(QByteArray& a) : CommPacket(CommPacket::LOGIN)
+CommLogin::CommLogin(const QByteArray& a) : CommPacket(CommPacket::LOGIN)
 {
-    login = "";
+    method  = UNDEFINED;
     level = LEVEL_GUEST;
-    sha1Pass = "";
     sessionTime = 0;
-    sessionString = "";
     read(a);
 }
 
@@ -30,52 +27,54 @@ const QByteArray CommLogin::getPacket() const
     return a;
 }
 
-void CommLogin::read(QByteArray& a)
+void CommLogin::read(const QByteArray& a)
 {
-    if ((char)a[0] < (char)__LAST__)
-        method = (Method)(char)a[0];
-    a.remove(0,1);
+    QDataStream stream(a);
+    stream.device()->seek( lenParent() );
+
+    stream >> (quint8&)method;
+    if (method >= __LAST__)
+        method = UNDEFINED;
 
     if (method == LOGIN_PASSWORD || method == LOGIN_SESSION)
     {
-        login = a.mid(1, a[0]);
-        a.remove(0, a[0] + 1);
+        stream >> login;
         if (method == LOGIN_PASSWORD)
-            sha1Pass = a;
+            stream >> sha1Pass;
         else
-            sessionString = a;
+            stream >> sessionString;
     }
     else if (method == ACCEPTED)
     {
-        if ((char)a[0] < (char)__LAST_LEVEL__)
-            level = (UserLevel)(char)a[0];
+        stream >> (quint8&)level;
+        if (level >= __LAST_LEVEL__)
+            level = LEVEL_GUEST;
 
-        sessionTime = QVariant(a.mid(1, a[1])).toUInt();
-        a.remove(0, a[1]+2);
-        sessionString = a;
+        stream >> sessionTime;
+        stream >> sessionString;
     }
 }
 
 void CommLogin::write(QByteArray& a) const
 {
-    a.append(method);
+    QDataStream stream(&a, QIODevice::WriteOnly);
+    stream.device()->seek( lenParent() );
+
+    stream << (quint8)method;
 
     if (method == LOGIN_PASSWORD || method == LOGIN_SESSION)
     {
-        a.append(login.length());
-        a.append(login);
+        stream << login;
         if (method == LOGIN_PASSWORD)
-            a.append(sha1Pass);
+            stream << sha1Pass;
         else
-            a.append(sessionString);
+            stream << sessionString;
     }
     else if (method == ACCEPTED)
     {
-        a.append((char)level);
-        QByteArray time = QVariant(sessionTime).toByteArray();
-        a.append(time.length());
-        a.append(time);
-        a.append(sessionString);
+        stream << (quint8)level;
+        stream << sessionTime;
+        stream << sessionString;
     }
  }
 

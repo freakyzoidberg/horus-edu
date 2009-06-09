@@ -2,21 +2,21 @@
 #define FILEMANAGMENT_H
 
 #include <QList>
-#include "../Common/CommFileInfo.h"
+#include "../Common/FileInfo.h"
 
 class FileManagment
 {
 public:
     FileManagment();
 
-    //! return the CommFileInfo of fileId
-    const CommFileInfo& getFileInfo       (quint32 fileId);
-    //! return the list of CommFileInfo of the node
-    const QList<CommFileInfo> getNodeList (quint32 nodeId);
-    //! return the list of CommFileInfo of the user
-    const QList<CommFileInfo> getUserList (quint32 userId);
+    //! return the FileInfo of fileId
+    const FileInfo& getFileInfo       (quint32 fileId);
+    //! return the list of FileInfo of the node
+    const QList<FileInfo> getNodeList (quint32 nodeId);
+    //! return the list of FileInfo of the user
+    const QList<FileInfo> getUserList (quint32 userId);
     //! insert new file
-    void insertNewFile(CommFileInfo& file);
+    void insertNewFile(FileInfo& file);
 
     //! true if the file exist
     bool                fileExist         (quint32 fileId);
@@ -31,7 +31,7 @@ public:
     bool                userCanChangeNode (quint32 userId, quint32 nodeId);
 
 private:
-    CommFileInfo        lastFileInfo;
+    FileInfo            lastFileInfo;
 };
 
 #endif // FILEMANAGMENT_H

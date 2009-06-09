@@ -116,10 +116,7 @@ void    TeacherFram::changePassword()
 
 void    TeacherFram::listUsers()
 {
-    QVariantHash request;
-
-    request["Request"] =  "listUsers";
-    PluginPacket pP("UserManagment", request);
+    PluginPacket pP("UserManagment", "listUsers");
     this->res->sendPacket(pP);
 
 }
@@ -136,7 +133,6 @@ void    TeacherFram::setUserInfo()
     QVariantHash request;
     QString      Error = "";
 
-    request["Request"] =  "setUserInfo";
     if(this->loginTxt->text() == "")
         Error.append("Login |");
     if(this->passTxt->text() == "")
@@ -177,7 +173,7 @@ void    TeacherFram::setUserInfo()
     request["id_tree"] = "9";
     request["UserId"] = id;
     request["enabled"] = this->activeBox->isChecked();
-    PluginPacket pP("UserManagment", request);
+    PluginPacket pP("UserManagment", "setUserInfo", request);
     emit sender("profs");
     this->res->sendPacket(pP);
 }
@@ -187,7 +183,6 @@ void    TeacherFram::createNewUser()
     QVariantHash request;
     QString      Error = "";
 
-    request["Request"] =  "createNewUser";
     if(this->loginTxt->text() == "")
         Error.append("Login |");
     if(this->passTxt->text() == "")
@@ -227,7 +222,7 @@ void    TeacherFram::createNewUser()
     request["language"] = this->languageTxt->text();
     request["id_tree"] = "9";
     request["enabled"] = this->activeBox->isChecked();
-    PluginPacket pP("UserManagment", request);
+    PluginPacket pP("UserManagment", "createNewUser", request);
     emit sender("profs");
     this->res->sendPacket(pP);
 }

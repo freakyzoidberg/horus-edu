@@ -25,7 +25,7 @@ public:
                                  __LAST__ };
 
     CommLogin(Method);
-    CommLogin(QByteArray&);
+    CommLogin(const QByteArray&);
     const QByteArray    getPacket() const;
 
     //! type of authentification packet
@@ -42,7 +42,7 @@ public:
     QByteArray          sessionString;
 
 private:
-    void                read(QByteArray&);
+    void                read(const QByteArray&);
     void                write(QByteArray&) const;
 };
 
