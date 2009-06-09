@@ -9,7 +9,7 @@ FileManagment::FileManagment()
     lastFileInfo.id = 0;
 }
 
-const CommFileInfo& FileManagment::getFileInfo(quint32 fileId)
+const FileInfo& FileManagment::getFileInfo(quint32 fileId)
 {
     if (lastFileInfo.id == fileId)
         return lastFileInfo;
@@ -44,9 +44,9 @@ bool FileManagment::fileExist(quint32 fileId)
     return false;
 }
 
-const QList<CommFileInfo> FileManagment::getNodeList(quint32 nodeId)
+const QList<FileInfo> FileManagment::getNodeList(quint32 nodeId)
 {
-    QList<CommFileInfo> list;
+    QList<FileInfo> list;
 
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
@@ -72,7 +72,7 @@ const QList<CommFileInfo> FileManagment::getNodeList(quint32 nodeId)
     return list;
 }
 
-void FileManagment::insertNewFile(CommFileInfo& file)
+void FileManagment::insertNewFile(FileInfo& file)
 {
     file.ctime = QDateTime::currentDateTime();
     file.mtime = QDateTime::currentDateTime();
@@ -97,9 +97,9 @@ void FileManagment::insertNewFile(CommFileInfo& file)
     lastFileInfo = file;
 }
 
-const QList<CommFileInfo> FileManagment::getUserList(quint32 userId)
+const QList<FileInfo> FileManagment::getUserList(quint32 userId)
 {
-    QList<CommFileInfo> list;
+    QList<FileInfo> list;
 
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));

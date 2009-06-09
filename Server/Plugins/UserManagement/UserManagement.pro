@@ -4,7 +4,7 @@
 QT -= gui
 QT += sql
 TEMPLATE = lib
-SOURCES = UserManagment.cpp
-HEADERS = UserManagment.h
+SOURCES = UserManagement.cpp
+HEADERS = UserManagement.h
 DESTDIR = .
-TARGET = $$qtLibraryTarget(UserManagment)
+TARGET = $$qtLibraryTarget(UserManagement)

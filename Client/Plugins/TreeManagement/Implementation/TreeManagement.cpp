@@ -15,11 +15,14 @@ TreeManagement::TreeManagement()
 
 void TreeManagement::recvPacket(const PluginPacket& p)
 {
-    Tree::receiveUserTree(p.data.toHash());
+//    qDebug() << p.data;
+    if (p.error)
+        return;
+    Tree::receiveUserTree(p.data.toList());
     for (QHash<int,Tree*>::const_iterator it = Tree::maptree.begin(); it != Tree::maptree.end(); ++it)
     {
         Tree* i = *it;
-        qDebug() << "TreeManagement::recvPacket NODE:" << i->Getid() << i << i->GetParent()->Getid() << i->GetParent() << i->GetSonsNode() << i->GetName();
+        qDebug() << "TreeManagement::recvPacket id:" << i->Getid() << "parent:" << i->GetParent()->Getid() << i->GetName();
     }
 }
 
@@ -29,9 +32,7 @@ bool TreeManagement::event(QEvent* event)
 //    if (event->type() == ClientEvents::LoadPluginEvent)
     {
 //        qDebug() << "TreeManagement::LoadPluginEvent";
-        QVariantHash request;
-        request["Request"] = "getTree+";
-        network->sendPacket(PluginPacket("TreeManagement", request));
+        network->sendPacket(PluginPacket("TreeManagement", "getTree+"));
 
         fileManager->getFullFileList();
     }

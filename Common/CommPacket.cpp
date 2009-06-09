@@ -5,7 +5,7 @@ CommPacket::CommPacket(Type _type)
     packetType = _type;
 }
 
-CommPacket::CommPacket(QByteArray& a)
+CommPacket::CommPacket(const QByteArray& a)
 {
     packetType = UNDEFINED;
     read(a);
@@ -18,16 +18,15 @@ const QByteArray CommPacket::getPacket() const
     return a;
 }
 
-void CommPacket::read(QByteArray& a)
+void CommPacket::read(const QByteArray& a)
 {
     if ((char)a[0] < (char)__LAST__)
         packetType = (Type)(char)a[0];
-    a.remove(0,1);
 }
 
 void CommPacket::write(QByteArray& a) const
 {
-    a.append((char)packetType);
+    a = QByteArray(1,(char)packetType);
 }
 
 QDebug operator<<(QDebug d, const CommPacket& cr)

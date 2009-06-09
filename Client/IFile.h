@@ -3,7 +3,7 @@
 
 #include <QIODevice>
 
-#include "../Common/CommFileInfo.h"
+#include "../Common/FileInfo.h"
 
 class IFile : public QIODevice
 {
@@ -12,7 +12,7 @@ public:
     //! return the progress value (for a down/up-load)
     virtual int   getProgress() const = 0;
     //! return the informations of the file (size,owner,...)
-    virtual const CommFileInfo& getInfo() const = 0;
+    virtual const FileInfo& getInfo() const = 0;
     //! return true if the localfile is the same as the server
     virtual bool isSynchronized() const = 0;
     //! open the transfert connexion if needed and the local file

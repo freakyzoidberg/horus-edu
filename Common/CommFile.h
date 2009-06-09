@@ -2,7 +2,7 @@
 #define COMMFILE_H
 
 #include "CommPacket.h"
-#include "CommFileInfo.h"
+#include "FileInfo.h"
 
 //! Communication packet to ask for file transfert authorisation and file list
 class CommFile : public CommPacket
@@ -20,37 +20,37 @@ public:
 
 
     CommFile(Method method=UNDEFINED, quint32 id=0, QIODevice::OpenMode mode=0);
-    CommFile(QByteArray&);
+    CommFile(const QByteArray&);
     const QByteArray getPacket() const;
 
     //! type of request
-    Method      method;
+    Method              method;
     //! type of error
-    Error       error;
+    Error               error;
 
     //! first byte of the file to read or write (seek)
     /*! ACCESS_FILE */
-    quint64     start;
+    quint64             start;
 
     //! open mode : READ/WRITE/APPEND/TRUNCATE
     /*! ACCESS_FILE or DELETE_FILE or STAT_FILE */
     QIODevice::OpenMode mode;
     //! key to open the connexion to the new socket
     /*! ACCESS_FILE or DELETE_FILE or STAT_FILE */
-    QByteArray  key;
+    QByteArray          key;
     //! info of one file for the GET request
     /*! ACCESS_FILE or DELETE_FILE or STAT_FILE */
-    CommFileInfo        fileInfo;
+    FileInfo            fileInfo;
 
     //! list of files in the node for the LIST request
     /*! NODE_LIST or USER_LIST */
-    QList<CommFileInfo> fileList;
+    QList<FileInfo> fileList;
     //! the node in the organizational tree for a LIST request or the id of file fot a GET
     /*! NODE_LIST */
-    quint32     nodeId;
+    quint32             nodeId;
 
 private:
-    void                read(QByteArray&);
+    void                read(const QByteArray&);
     void                write(QByteArray&) const;
 };
 

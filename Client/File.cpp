@@ -5,7 +5,7 @@
 #include <QApplication>
 #include <QSettings>
 
-File::File(const CommFileInfo& _info)
+File::File(const FileInfo& _info)
 {
     info = _info;
     synchronized = false;
@@ -36,7 +36,7 @@ bool File::isSynchronized() const
     return synchronized;
 }
 
-const CommFileInfo& File::getInfo() const
+const FileInfo& File::getInfo() const
 {
     return info;
 }
@@ -55,7 +55,7 @@ void File::setFileName(const QString& name)
 {
     info.fileName = name;
 }
-void File::updateFileInfo(const CommFileInfo& _info)
+void File::updateFileInfo(const FileInfo& _info)
 {
     qDebug() << "File::updateFileInfo(" << _info << ")";
 

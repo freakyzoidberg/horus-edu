@@ -8,7 +8,7 @@ CommSettings::CommSettings() : CommPacket(CommPacket::SETTINGS)
     scope = CLIENT_USER_SCOPE;
 }
 
-CommSettings::CommSettings(QByteArray& a) : CommPacket(CommPacket::SETTINGS)
+CommSettings::CommSettings(const QByteArray& a) : CommPacket(CommPacket::SETTINGS)
 {
     method = UNDEFINED;
     scope = CLIENT_USER_SCOPE;
@@ -48,21 +48,23 @@ void CommSettings::setVariantSettings(const QVariant& v)
     stream << v;
 }
 
-void CommSettings::read(QByteArray& a)
+void CommSettings::read(const QByteArray& a)
 {
-    if ((char)a[0] < (char)__LAST__)
-        method = (Method)(char)a[0];
+    int pos = lenParent();
+
+    if ((char)a[ pos ] < (char)__LAST__)
+        method = (Method)(char)a[ pos ];
 
     if (method == PERMISSION_DENIED)
         return;
 
-    if ((char)a[1] < (char)__LAST_SCOPE__)
-        scope = (Scope)(char)a[1];
+    if ((char)a[pos + 1] < (char)__LAST_SCOPE__)
+        scope = (Scope)(char)a[pos + 1];
 
-    plugin = a.mid(3, a[2]);
-    a.remove(0, 3 + a[2]);
+    pos += 2;
 
-    settings = a;
+    plugin   = a.mid(pos + 1 , a[pos]);
+    settings = a.mid(pos + 1 + a[pos]);
 }
 
 void CommSettings::write(QByteArray& a) const

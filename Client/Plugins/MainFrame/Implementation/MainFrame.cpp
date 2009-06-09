@@ -42,10 +42,7 @@ QStringList         MainFrame::getPluginsRecommended() const
 
 bool                MainFrame::event(QEvent *event)
 {
-    QVariantHash request;
-
-    request["Request"] = "getUserInfo";
-    network->sendPacket(PluginPacket("UserManagment", request));
+    network->sendPacket(PluginPacket("UserManagment", "getUserInfo"));
     if (event->type() == ClientEvents::LoadPluginEvent)
         return (true);
     qDebug() << "MainFrame: Received Event not managed" << event;

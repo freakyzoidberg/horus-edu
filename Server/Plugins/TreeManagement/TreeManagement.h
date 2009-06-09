@@ -11,27 +11,27 @@ class TreeManagement : public IServerPlugin
 {
   Q_OBJECT
   Q_INTERFACES(IServerPlugin)
-    typedef void (TreeManagement::*requestFunction) (const QVariantHash& request, QVariantHash& response, qint32 iduser);
+    typedef void (TreeManagement::*requestFunction) (const QVariantHash& request, PluginPacket& response, qint32 iduser);
 public:
     TreeManagement();
     ~TreeManagement();
 
 public:
     inline const QByteArray  name()    const { return "TreeManagement"; }
-    inline quint8            version() const { return 1; }
+    inline const QByteArray  version() const { return "0.1"; }
 
     void recvPacket(quint32 userId, const PluginPacket&);
 
 private:
      QHash<QByteArray,requestFunction> requestFunctions;
 
-    void  unknownRequest(const QVariantHash& request,QVariantHash& response, qint32 iduser);
-    void  gettree(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
-     void  gettreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
-    void  setnode(const QVariantHash& request,QVariantHash& response, qint32 iduser); // Admin protected
-    void  getnodeinfo(const QVariantHash& request,QVariantHash& response, qint32 iduser); // user or admin protected
-    void  getAlltree(const QVariantHash& request,QVariantHash& response, qint32 iduser); //root admin Protected
-    void  getAlltreeplus(const QVariantHash& request,QVariantHash& response, qint32 iduser); //root admin Protected
+    void  unknownRequest(const QVariantHash& request,PluginPacket& response, qint32 iduser);
+    void  gettree(const QVariantHash& request,PluginPacket& response, qint32 iduser); // user or admin protected
+     void  gettreeplus(const QVariantHash& request,PluginPacket& response, qint32 iduser); // user or admin protected
+    void  setnode(const QVariantHash& request,PluginPacket& response, qint32 iduser); // Admin protected
+    void  getnodeinfo(const QVariantHash& request,PluginPacket& response, qint32 iduser); // user or admin protected
+    void  getAlltree(const QVariantHash& request,PluginPacket& response, qint32 iduser); //root admin Protected
+    void  getAlltreeplus(const QVariantHash& request,PluginPacket& response, qint32 iduser); //root admin Protected
 
 
     int   getidofusernode(const QVariantHash& request, qint32 iduser);

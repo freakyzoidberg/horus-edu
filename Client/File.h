@@ -18,7 +18,7 @@ public:
     //! return the progress value (for a down/up-load)
     int   getProgress() const;
     //! return the informations of the file (size,owner,...)
-    const CommFileInfo& getInfo() const;
+    const FileInfo& getInfo() const;
     //! return true if the localfile is the same as the server
     bool isSynchronized() const;
     //! open the transfert connexion if needed and the local file
@@ -37,17 +37,17 @@ protected:
 
 private:
     //! private constructor, to keep clear of multiple instance of the same file, only File can new
-    File(const CommFileInfo& info);
+    File(const FileInfo& info);
     //! private destructor, to block delete from outside, only File can delete
     ~File();
 
     //! called by FileManager, update the File in the list
-    void updateFileInfo(const CommFileInfo& info);
+    void updateFileInfo(const FileInfo& info);
     //! called by FileManager, open the connexion
     void connexionAuthorized(const QByteArray& key);
 
     //! information of the current file
-    CommFileInfo info;
+    FileInfo info;
     //! lock the access of this file if it's in write mode
     //QMutex       lock;
 

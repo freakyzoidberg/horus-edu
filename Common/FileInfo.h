@@ -1,5 +1,5 @@
-#ifndef COMMFILEINFO_H
-#define COMMFILEINFO_H
+#ifndef FILEINFO_H
+#define FILEINFO_H
 
 #include <QDataStream>
 #include <QDebug>
@@ -8,10 +8,10 @@
 #include <QDateTime>
 
 //! Communication packet for CommFile::LIST. Contain a description of one file
-class CommFileInfo
+class FileInfo
 {
 public:
-    inline CommFileInfo() { id = 0; fileName = ""; size = 0; ownerId = 0; nodeId = 0; }
+    inline FileInfo() { id = 0; fileName = ""; size = 0; ownerId = 0; nodeId = 0; }
 
     //! id of the file
     quint32     id;
@@ -33,7 +33,7 @@ public:
     quint32     nodeId;
 };
 
-inline bool   operator==(const CommFileInfo& a, const CommFileInfo& b) { return (
+inline bool   operator==(const FileInfo& a, const FileInfo& b) { return (
     a.id       == b.id &&
     a.fileName == b.fileName &&
     a.mimeType == b.mimeType &&
@@ -43,9 +43,9 @@ inline bool   operator==(const CommFileInfo& a, const CommFileInfo& b) { return 
     a.nodeId   == b.nodeId
 ); }
 
-inline bool   operator!=(const CommFileInfo& a, const CommFileInfo& b) { return ( ! (a == b)); }
+inline bool   operator!=(const FileInfo& a, const FileInfo& b) { return ( ! (a == b)); }
 
-inline QDebug operator<<(QDebug d, const CommFileInfo& i) { return d
+inline QDebug operator<<(QDebug d, const FileInfo& i) { return d
     << i.id
     << i.fileName
     << i.mimeType
@@ -57,7 +57,7 @@ inline QDebug operator<<(QDebug d, const CommFileInfo& i) { return d
     << i.nodeId
 ; }
 
-inline QDataStream& operator>>(QDataStream& s, CommFileInfo& i) { return s
+inline QDataStream& operator>>(QDataStream& s, FileInfo& i) { return s
     >> i.id
     >> i.fileName
     >> i.mimeType
@@ -69,7 +69,7 @@ inline QDataStream& operator>>(QDataStream& s, CommFileInfo& i) { return s
     >> i.nodeId
 ; }
 
-inline QDataStream& operator<<(QDataStream& s, const CommFileInfo& i) { return s
+inline QDataStream& operator<<(QDataStream& s, const FileInfo& i) { return s
     << i.id
     << i.fileName
     << i.mimeType

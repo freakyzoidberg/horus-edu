@@ -33,7 +33,7 @@ public:
                   __LAST_SCOPE__ };
 
     CommSettings();
-    CommSettings(QByteArray& packet);
+    CommSettings(const QByteArray& packet);
     const QByteArray    getPacket() const;
 
     //! method GET or SET settings
@@ -56,7 +56,7 @@ public:
 private:
     //! the settings in binary format
     QByteArray          settings;
-    void                read(QByteArray&);
+    void                read(const QByteArray&);
     void                write(QByteArray&) const;
 };
 

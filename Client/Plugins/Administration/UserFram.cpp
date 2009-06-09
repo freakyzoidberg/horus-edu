@@ -111,10 +111,7 @@ void UserFram::itemClicked(QTreeWidgetItem *item, int idx)
 
 void    UserFram::listUsers()
 {
-    QVariantHash request;
-
-    request["Request"] =  "listUsers";
-    PluginPacket pP("UserManagment", request);
+    PluginPacket pP("UserManagment", "listUsers");
     this->res->sendPacket(pP);
 }
 
@@ -130,7 +127,6 @@ void    UserFram::setUserInfo()
     QVariantHash request;
     QString      Error = "";
 
-    request["Request"] =  "setUserInfo";
     if(this->loginTxt->text() == "")
         Error.append("Login |");
     if(this->passTxt->text() == "")
@@ -176,9 +172,9 @@ void    UserFram::setUserInfo()
     request["language"] = this->languageTxt->text();
     request["id_tree"] = this->studentTree->currentItem()->data(1,0);
     request["UserId"] = id;
-    qDebug() << this->activeBox->isChecked();
     request["enabled"] = this->activeBox->isChecked();
-    PluginPacket pP("UserManagment", request);
+    qDebug() << this->activeBox->isChecked();
+    PluginPacket pP("UserManagment", "setUserInfo", request);
     emit sender("students");
 
     this->res->sendPacket(pP);
@@ -237,7 +233,7 @@ void    UserFram::createNewUser()
     request["id_tree"] = this->studentTree->currentItem()->data(1,0);
     qDebug() << this->activeBox->isChecked();
     request["enabled"] = this->activeBox->isChecked();
-    PluginPacket pP("UserManagment", request);
+    PluginPacket pP("UserManagment", "setUserInfo", request);
     emit sender("students");
     this->res->sendPacket(pP);
     this->getTree();
@@ -457,10 +453,7 @@ void    UserFram::updateTree(QVariantHash tree)
 
 void    UserFram::getTree()
 {
-    QVariantHash request;
-    request["Request"]=  "getAllTree+";
-
-    PluginPacket pP("TreeManagement", request);
+    PluginPacket pP("TreeManagement", "getAllTree+");
     this->res->sendPacket(pP);
 }
 
