@@ -7,7 +7,7 @@
 #include "../../IClientPlugin.h"
 #include "../../IDisplayablePlugin.h"
 #include "../../INetworkPlugin.h"
-#include "../../IFilePlugin.h"
+#include "../FileManagement/IFileManagement.h"
 
 #include "Course_global.h"
 
@@ -16,12 +16,11 @@ namespace Ui
     class CourseClass;
 }
 
-class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlugin, public IFilePlugin
+class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlugin
 {
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
     Q_INTERFACES(IDisplayablePlugin)
-    Q_INTERFACES(IFilePlugin)
 
 public:
     const QByteArray    getName() const;

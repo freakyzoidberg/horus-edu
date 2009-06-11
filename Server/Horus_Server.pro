@@ -15,9 +15,6 @@ SOURCES = main.cpp \
     Settings.cpp \
     ClientSocket.cpp \
     UserSettings.cpp \
-    ThreadFiles.cpp \
-    FileServer.cpp \
-    FileTransfert.cpp \
     Tree.cpp \
     ThreadPacket.cpp \
     PluginManager.cpp \
@@ -28,10 +25,8 @@ SOURCES = main.cpp \
     ../Common/CommPlugin.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
-    ../Common/CommFile.cpp \
     ../Common/CommSettings.cpp \
     ../Common/PluginPacket.cpp \
-    FileManagment.cpp \
     Logs.cpp
 HEADERS = Sql.h \
     User.h \
@@ -40,9 +35,6 @@ HEADERS = Sql.h \
     ClientSocket.h \
     ThreadPacket.h \
     UserSettings.h \
-    ThreadFiles.h \
-    FileServer.h \
-    FileTransfert.h \
     Tree.h \
     PluginManager.h \
     InterfaceServer.h \
@@ -55,9 +47,7 @@ HEADERS = Sql.h \
     ../Common/CommPlugin.h \
     ../Common/CommPacket.h \
     ../Common/CommSocket.h \
-    ../Common/PLuginPacket.h \
-    ../Common/CommFile.h \
     ../Common/CommSettings.h \
-    ../Common/FileInfo.h \
-    FileManagment.h \
-    Logs.h
+    ../Common/PLuginPacket.h \
+    Logs.h \
+    ../Common/Data.h

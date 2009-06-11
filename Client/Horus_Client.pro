@@ -9,7 +9,6 @@ SOURCES += main.cpp \
     ../Common/CommSocket.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
-    ../Common/CommFile.cpp \
     ../Common/CommError.cpp \
     ../Common/CommSettings.cpp \
     ../Common/CommPlugin.cpp \
@@ -28,8 +27,6 @@ SOURCES += main.cpp \
     InterfaceClient.cpp \
     InterfaceNetwork.cpp \
     InterfaceDisplay.cpp \
-    FileManager.cpp \
-    File.cpp \
     UserInfo.cpp \
     NotificationClient.cpp \
     DockMenu.cpp
@@ -38,8 +35,6 @@ HEADERS += NetworkManager.h \
     ../Common/CommPacket.h \
     ../Common/PluginPacket.h \
     ../Common/CommSocket.h \
-    ../Common/CommFile.h \
-    ../Common/FileInfo.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \
@@ -56,8 +51,6 @@ HEADERS += NetworkManager.h \
     IDisplayable.h \
     IDisplayablePlugin.h \
     InterfaceDisplay.h \
-    IFileManager.h \
-    IFilePlugin.h \
     ClientApplication.h \
     PluginManager.h \
     PacketManager.h \
@@ -68,11 +61,8 @@ HEADERS += NetworkManager.h \
     ConfigManager.h \
     ThreadNetwork.h \
     SettingsDialog.h \
-    FileManager.h \
-    File.h \
     UserInfo.h \
     NotificationClient.h \
-    IFile.h \
     DockMenu.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \

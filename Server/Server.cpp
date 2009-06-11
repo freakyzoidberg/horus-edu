@@ -1,6 +1,6 @@
 #include "Server.h"
 #include "Sql.h"
-#include "ThreadFiles.h"
+//#include "ThreadFiles.h"
 #include "../Common/Defines.h"
 #include "ClientSocket.h"
 #include "Settings.h"
@@ -22,7 +22,7 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     else
         qDebug() << "Server::Server() NO SQL !!!";
 
-    new ThreadFiles(this);
+    //new ThreadFiles(this);
     Tree::UpdateVector();
     //update tree
 

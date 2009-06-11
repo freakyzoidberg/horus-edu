@@ -2,15 +2,17 @@
 #define TREEMANAGEMENT_H
 
 #include "TreeManagement_global.h"
+#include "../../IClientPlugin.h"
+#include "../../INetworkPlugin.h"
+#include "../ITreePlugin.h"
 #include "TreeModel.h"
 
-class TREEMANAGEMENTSHARED_EXPORT TreeManagement : public IClientPlugin, public INetworkPlugin, public ITreePlugin, public IFilePlugin
+class TREEMANAGEMENTSHARED_EXPORT TreeManagement : public IClientPlugin, public INetworkPlugin, public ITreePlugin
 {
   Q_OBJECT
   Q_INTERFACES(IClientPlugin)
   Q_INTERFACES(INetworkPlugin)
   Q_INTERFACES(ITreePlugin)
-  Q_INTERFACES(IFilePlugin)
 
 public:
     TreeManagement();
@@ -49,9 +51,9 @@ public:
 
     void recvPacket(const PluginPacket&);
 
-    inline Tree* getNodeById(int id) { return Tree::GetNodebyId(id); }
+    inline ITree* getNodeById(int id) { return Tree::getNodeById(id); }
 
-    inline QAbstractItemModel* getTreeModel() { return new TreeModel(fileManager); }
+    inline QAbstractItemModel* getTreeModel() { return new TreeModel(); }
 
     //! Surcharge of the method event
     /*!

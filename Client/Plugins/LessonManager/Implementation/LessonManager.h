@@ -9,14 +9,14 @@
 #include <QWidget>
 
 #include "../../IClientPlugin.h"
-#include "../../IFilePlugin.h"
+#include "../FileManagement/IFileManagement.h"
 #include "ILessonManager.h"
 
 //!  LessonManager plugin
 /*!
 
 */
-class LessonManager : public IClientPlugin, public IFilePlugin, public ILessonManager
+class LessonManager : public IClientPlugin, public ILessonManager
 {
  //! The Q_OBJECT and Q_INTERFACES macros
  /*! This two macros must be called to compile the plugin properly.
@@ -26,7 +26,6 @@ class LessonManager : public IClientPlugin, public IFilePlugin, public ILessonMa
 
  Q_OBJECT
  Q_INTERFACES(IClientPlugin)
- Q_INTERFACES(IFilePlugin)
  Q_INTERFACES(ILessonManager)
 
 public:

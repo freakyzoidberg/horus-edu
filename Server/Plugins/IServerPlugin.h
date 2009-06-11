@@ -5,8 +5,8 @@
 #include <QtPlugin>
 
 #include "../../Common/PluginPacket.h"
-
-class IServer;
+#include "IServer.h"
+//class IServer;
 
 //! Interface of the Server Plugins
 class IServerPlugin : public QObject
@@ -19,8 +19,18 @@ class IServerPlugin : public QObject
     //! return the version of the plugin
     virtual const QByteArray version() const = 0;
 
-    //! method called by the server core when a packet for this plugin is received
-    virtual void recvPacket(quint32 userId, const PluginPacket&) = 0;
+    //! called when the server realy start
+    virtual inline bool start() { return true; }
+    //! called before the server realy stop
+    virtual inline bool stop() { return true; }
+
+    //! method called by the server when a packet for this plugin is received
+    virtual inline void recvPacket(quint32 userId, const PluginPacket& packet) {
+        PluginPacket response(packet.sourcePlugin, packet.request);
+        response.error = 1;
+        response.errorMessage = "This plugin don't support packet reception.";
+        server->sendPacket(userId, response);
+    }
 };
 
 Q_DECLARE_INTERFACE(IServerPlugin, "net.horus.Server.PluginInterface/1.0");

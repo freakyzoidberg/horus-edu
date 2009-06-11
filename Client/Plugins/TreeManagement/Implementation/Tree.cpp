@@ -3,7 +3,7 @@
 #include <QDebug>
 
 QHash<int, Tree*> Tree::maptree;
-Tree* Tree::GetNodebyId(int id)
+Tree* Tree::getNodeById(int id)
 {
     if ( ! maptree.contains(id))
     {
@@ -27,8 +27,8 @@ void Tree::receiveUserTree(const QVariantList& usertree)
 //            childs.append( GetNodebyId( (*it2).toInt() ) );
 
 //        qDebug() << "Tree::receiveUpdate :" << elem["id"] << elem["parentid"] << elem;
-        GetNodebyId(idNode)->receiveUpdate(idNode,
-                                           GetNodebyId(elem["parentid"].toInt()),
+        getNodeById(idNode)->receiveUpdate(idNode,
+                                           getNodeById(elem["parentid"].toInt()),
                                            elem["userref"].toInt(),
                                            elem["name"].toString(),
                                            elem["type"].toString(),
@@ -36,68 +36,76 @@ void Tree::receiveUserTree(const QVariantList& usertree)
     }
 }
 
-void Tree::receiveUpdate(const int _id, Tree* _parent, const int _user_ref, const QString _name, const QString _type, const QVector<ITree*> _sons)
+void Tree::receiveUpdate(const int _id, Tree* _parent, const int _user, const QString _name, const QString _type, const QVector<ITree*> _sons)
 {
     id = _id;
-    parent = _parent;
+    setParent(_parent);
 
-    if (parent != this && ! parent->sons.contains(this))
-        parent->sons.append(this);
+//    if (_parent != this && ! _parent->findChildren<ITree*>().contains(this))
+//        _parent->.append(this);
 
 //    for (QVector<ITree*>::const_iterator i = _sons.begin(); i != _sons.end(); ++i)
 //        if ( ! sons.contains(*i))
 //            sons.append(*i);
 
-    user_ref = _user_ref;
+    userId = _user;
     name = _name;
     type = _type;
-    filled = true;
+    loaded = true;
 
-    emit nodeUpdated();
+    emit updated();
 }
 
-void     Tree::Delnode()
+void     Tree::remove()
 {
 }
 
-void Tree::SetName(QString name)
+void Tree::setName(QString name)
 {
 }
 
-void Tree::SetType(QString type)
+void Tree::setType(QString type)
 {
 }
 
-void Tree::SetUserRef(int user_ref)
+void Tree::setUserId(int user)
 {
 }
 
-void Tree::AddSon(int user_ref, QString name, QString type)
+void Tree::createChild(int user_ref, QString name, QString type)
 {
 }
 
-void Tree::MoveNode(int idfather)
+void Tree::moveTo(int idfather)
 {
 }
 
-void Tree::MoveNode(ITree *father)
+void Tree::moveTo(ITree *father)
 {
 }
 
-bool Tree::HasFatherId(int fathernode)
+bool Tree::isDescendantOf(int parentId)
 {
-    for (Tree *tmpnode = this; tmpnode->Getid() && tmpnode->parent; tmpnode = tmpnode->parent)
-        if (tmpnode->parent->Getid() == fathernode)
+    for (Tree *tmp = this; tmp != tmp->parent(); tmp = ((Tree*)tmp->parent()))
+        if (tmp->id == parentId)
             return true;
     return false;
 }
 
-bool Tree::HasAdminRightOnNodeOrFathers(int userid)
+bool Tree::isDescendantOf(ITree* par)
 {
-    for(Tree *tmpnode = this; tmpnode->Getid() && tmpnode->parent; tmpnode = tmpnode->parent)
-        if (tmpnode->GetUserRef() == userid)
+    for (Tree *tmp = this; tmp != tmp->parent(); tmp = ((Tree*)tmp->parent()))
+        if (tmp == par)
             return true;
+    return false;
+}
 
+bool Tree::canChange()
+{
+    int userid = 0;//TODO get the current user
+    for(Tree *tmp = this; tmp != tmp->parent(); tmp = ((Tree*)tmp->parent()))
+        if (tmp->userId == userid)
+            return true;
     return false;
 }
 

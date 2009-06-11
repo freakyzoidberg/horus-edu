@@ -53,7 +53,6 @@ class   PacketManager : public QObject
         void        PacketInit();
         void        PacketAlive();
         void        PacketLogin();
-        void        PacketFile();
         void        PacketSettings();
         void        PacketPlugin();
 
@@ -69,8 +68,6 @@ class   PacketManager : public QObject
     signals:
         //! signal emmitted to send a packet
         void sendPacket(const QByteArray&);
-        //! signal emmitted when a file packet is detected
-        void recvFilePacket(QByteArray);
 };
 
 typedef void(PacketManager::*packetDirection)();

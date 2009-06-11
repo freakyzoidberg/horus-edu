@@ -1,7 +1,6 @@
-#ifndef IFILEMANAGER_H
-#define IFILEMANAGER_H
+#ifndef IFILEMANAGEMENT_H
+#define IFILEMANAGEMENT_H
 
-#include <QFile>
 #include <QHash>
 #include "IFile.h"
 
@@ -13,9 +12,8 @@
  *  - manage the queue of transfert
  */
 //! interface to manage every file transfert and informations
-class   IFileManager : public QObject
+class   IFileManagement
 {
-  Q_OBJECT
 public:
     //! Return a new instance of File. No errors.
     virtual IFile* newFile(quint32 nodeId) = 0;
@@ -30,12 +28,8 @@ public:
     virtual int countNodeFileList(quint32 nodeId) const = 0;
     //TODO: more filters
     //const QList<File*> getFileListByCTime(....); ByMtime By
-
-signals:
-    //! Signal emmited when a node is updated.(file creation / file deleted / list just loaded)
-    void nodeFileListUpdated(quint32 nodeId);
-    //! Signal emmited when the fileHash is updated.(file creation / file deleted / list just loaded)
-    void fileListUpdated();
 };
 
-#endif // IFILEMANAGER_H
+Q_DECLARE_INTERFACE(IFileManagement, "net.horus.Client.FileManagementInterface/1.0");
+
+#endif // IFILEMANAGEMENT_H

@@ -6,7 +6,8 @@
 
 #include "../../ClientEvents.h"
 #include "../../IClient.h"
-#include "../../IFile.h"
+#include "../FileManagement/IFile.h"
+#include "../FileManagement/IFileManagement.h"
 #include "../ILesson.h"
 #include "../IController.h"
 #include "LessonManager.h"
@@ -125,7 +126,7 @@ QStringList   LessonManager::getExports() const
 ILesson*      LessonManager::getLesson(quint32 fileId)
 {
     Lesson *lesson = new Lesson();
-    IFile *xmlfile = this->fileManager->getFile(fileId);
+    IFile *xmlfile = ((IFileManagement*)(client->getPlugin("FileManagement")))->getFile(fileId);
     QXmlSimpleReader xmlReader;
     QXmlInputSource *source = new QXmlInputSource(xmlfile);
     XmlHandler *handler = new XmlHandler(lesson);
@@ -175,7 +176,7 @@ void          LessonManager::writeXmlSection(const QList<ILesson::IElement *>& l
 
 void          LessonManager::saveLesson(quint32 fileId, ILesson *lesson)
 {
-    IFile *xmlfile = this->fileManager->getFile(fileId);
+    IFile *xmlfile = ((IFileManagement*)(client->getPlugin("FileManagement")))->getFile(fileId);
     xmlfile->open(QIODevice::WriteOnly | QIODevice::Truncate);
     QXmlStreamWriter xmlWriter(xmlfile);
     xmlWriter.writeStartDocument("1.0");
@@ -207,7 +208,7 @@ void        LessonManager::displayPage(ILesson::IPage *page, QWidget *widget)
         files = (*it)->getRequiredFiles();
         if (files.size() > 0)
         {
-            file = fileManager->getFile(files.at(0));
+            file = ((IFileManagement*)(client->getPlugin("FileManagement")))->getFile(files.at(0));
             file->open(QIODevice::ReadOnly);
             connect(file, SIGNAL(fileSynchronized()), this, SLOT(readyDisplayPage()));
             break;

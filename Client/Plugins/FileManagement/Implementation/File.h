@@ -7,12 +7,14 @@
 
 #include "IFile.h"
 
+class FileManagement;
+
 class File : public IFile
 {
   Q_OBJECT
   // FileManager can access private methods of FileManager
   //TODO: maybe just set methods as friend instead of the object
-  friend class FileManager;
+  friend class FileManagement;
 
 public:
     //! return the progress value (for a down/up-load)
@@ -37,7 +39,8 @@ protected:
 
 private:
     //! private constructor, to keep clear of multiple instance of the same file, only File can new
-    File(const FileInfo& info);
+    File(FileManagement* _fileManagement, const FileInfo& info);
+    FileManagement* fileManagement;
     //! private destructor, to block delete from outside, only File can delete
     ~File();
 

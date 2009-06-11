@@ -27,7 +27,7 @@ public:
     LSection(LElement *parent);
     ~LSection() {}
 
-    const Type                        getType() const;
+    Type                        getType() const;
     QList<ILesson::IElement *>&       getElementsP();
     const QList<ILesson::IElement *>& getElements() const;
 
@@ -42,7 +42,7 @@ public:
     LPage(LElement *parent);
     ~LPage() {}
 
-    const Type              getType() const;
+    Type              getType() const;
     const QList<IObject *>& getObjects() const;
     void                    addObject(IObject *object);
 

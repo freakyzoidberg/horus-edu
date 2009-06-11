@@ -22,7 +22,7 @@ void TreeManagement::recvPacket(const PluginPacket& p)
     for (QHash<int,Tree*>::const_iterator it = Tree::maptree.begin(); it != Tree::maptree.end(); ++it)
     {
         Tree* i = *it;
-        qDebug() << "TreeManagement::recvPacket id:" << i->Getid() << "parent:" << i->GetParent()->Getid() << i->GetName();
+        qDebug() << "TreeManagement::recvPacket id:" << i->getId() << "parent:" << ((ITree*)i->parent())->getId() << i->getName();
     }
 }
 
@@ -34,7 +34,7 @@ bool TreeManagement::event(QEvent* event)
 //        qDebug() << "TreeManagement::LoadPluginEvent";
         network->sendPacket(PluginPacket("TreeManagement", "getTree+"));
 
-        fileManager->getFullFileList();
+//        fileManager->getFullFileList();
     }
     return false;
 }

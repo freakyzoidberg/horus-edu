@@ -1,16 +1,15 @@
 #include "File.h"
-#include "FileManager.h"
+#include "FileManagement.h"
 
 #include <QDir>
-#include <QApplication>
 #include <QSettings>
 
-File::File(const FileInfo& _info)
+File::File(FileManagement* _fileManagement, const FileInfo& _info)
 {
+    fileManagement = _fileManagement;
     info = _info;
     synchronized = false;
     connecting = false;
-    moveToThread(QApplication::instance()->thread());
 }
 
 File::~File()
@@ -148,7 +147,7 @@ bool File::open(OpenMode mode)
     if ( ! synchronized && (mode & ReadOnly))
     {
         connecting = true;
-        FileManager::instance()->askForFileConnexion(info.id, mode);
+        fileManagement->askForFileConnexion(info.id, mode);
     }
 
     if ( ! isOopen())
@@ -214,5 +213,5 @@ void File::synchronize()
     if (connecting)
         return;
     connecting = true;
-    FileManager::instance()->askForFileConnexion(info.id, openMode());
+    fileManagement->askForFileConnexion(info.id, openMode());
 }

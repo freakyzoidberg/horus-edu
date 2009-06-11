@@ -3,7 +3,7 @@
 
 #include <QIODevice>
 
-#include "../Common/FileInfo.h"
+#include "FileInfo.h"
 
 class IFile : public QIODevice
 {

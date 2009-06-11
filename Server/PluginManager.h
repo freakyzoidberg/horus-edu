@@ -22,7 +22,7 @@ private:
     //! singleton
     static PluginManager* instance;
     //! HashTable containing every loaded Plugins
-    QHash<QByteArray,IServerPlugin*> map;
+    QHash<QByteArray,IServerPlugin*> plugins;
 };
 
 #endif // PLUGINMANAGER_H
