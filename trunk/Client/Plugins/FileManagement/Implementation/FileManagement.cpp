@@ -1,5 +1,7 @@
 #include "FileManagement.h"
 
+Q_EXPORT_PLUGIN2(FileManagement,FileManagement)
+
 FileManagement::FileManagement()
 {
     tmpNewFile = 0;
@@ -92,7 +94,7 @@ int FileManagement::countNodeFileList(quint32 nodeId) const
     return n;
 }
 
-void recvPacket(const PluginPacket&)
+void FileManagement::recvPacket(const PluginPacket&)
 {
 //    CommFile packet(p);
 //    if (packet.error)
