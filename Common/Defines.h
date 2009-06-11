@@ -69,6 +69,26 @@
 # define SQLCONNECTIONCOUNT 5
 #endif
 
+#ifndef LOGERROR
+//! Total of concurent SQL connections
+# define LOGERROR 1
+#endif
+
+#ifndef LOGWARNING
+//! Total of concurent SQL connections
+# define LOGWARNING 2
+#endif
+
+#ifndef LOGINFO
+//! Total of concurent SQL connections
+# define LOGINFO 3
+#endif
+
+#ifndef LOGDEBUG
+//! Total of concurent SQL connections
+# define LOGDEBUG 4
+#endif
+
 //! enumerate the differents Level of users
 enum UserLevel { LEVEL_ROOT, LEVEL_ADMINISTRATOR, LEVEL_TEACHER, LEVEL_STUDENT, LEVEL_FAMILY, LEVEL_GUEST, __LAST_LEVEL__ };
 
