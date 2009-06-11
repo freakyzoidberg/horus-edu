@@ -13,7 +13,8 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     config->CheckSettings();
 
     logs *mylog = new logs();
-    mylog->setFile("server.log");
+
+    mylog->setFile(config->GetSettings("SoftFullPath","SETTINGS")+"/"+"Server.log");
     mylog->start();
 
     if (Sql::sqlConnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL").toInt(), SQLCONNECTIONCOUNT))
