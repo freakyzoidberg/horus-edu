@@ -49,26 +49,26 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 
    if (role == Qt::DisplayRole)
     {
-        if (obj->objectName() == "ITree")
+        if (obj->inherits("ITree"))
             return QVariant(((ITree*)obj)->getName());
-//        if (obj->objectName() == "IFile")
+//        if (obj->inherits("IFile"))
 //            return QVariant(((IFile*)obj)->getInfo().fileName);
     }
 
 //   else if (role == Qt::UserRole &&
-//             obj->objectName() == "IFile" &&
+//             obj->inherits("IFile") &&
 //             ((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
 //       return QVariant(((IFile*)obj)->getInfo().id);
 
     else if (role == Qt::DecorationRole)
     {
-//        if (obj->objectName() == "IFile")
+//        if (obj->inherits("IFile"))
 //        {
 //            if (((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
 //                return QVariant(QVariant::Icon, &LessonIcon);
 //            return QVariant(QVariant::Icon, &FileIcon);
 //        }
-        if (obj->objectName() == "ITree")
+        if (obj->inherits("ITree"))
         {
             if (((ITree*)obj)->getType() == "ROOT")
                 return QVariant(QVariant::Icon, &RootIcon);
@@ -91,44 +91,21 @@ QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent )
         return createIndex(row, column, Tree::getNodeById(0));
 
     QObject* obj = ((QObject*)(parent.internalPointer()));
-    if (obj->objectName() == "ITree")
-    {
-        int nbChilds = obj->children().length();
-
-//        const QList<IFile*> fileList = fileManager->getNodeFileList(((ITree*)obj)->Getid());
-
-        if (row < nbChilds)
-            return createIndex(row, column, obj->children().at(row) );
-
-//        if (nbChilds + fileList.size() > 0)
-//            return createIndex(row, column, fileList.at( row - nbChilds ));
-    }
-    return QModelIndex();
+    return createIndex(row, column, obj->children().at(row) );
 }
 
 QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 {
-    if ( ! index.isValid())
+//    if ( ! index.isValid())
+//        return QModelIndex();
+
+    QObject* obj = ((QObject*)(index.internalPointer()))->parent();
+
+    if ( ! obj)
         return QModelIndex();
 
-    QObject* obj = ((QObject*)(index.internalPointer()));
+    if ( ! obj->parent())
+        return createIndex(0, 0, obj);
 
-    ITree* node = 0;
-    if (obj->objectName() == "ITree")
-    {
-        if (obj == obj->parent())
-            return QModelIndex();
-
-        node = (ITree*)((ITree*)obj)->parent();
-    }
-//    else if (obj->objectName() == "IFile")
-//        node = Tree::GetNodebyId( ((IFile*)obj)->getInfo().nodeId );
-
-    else
-        return QModelIndex();
-
-    if ( ! node->getId())
-        return createIndex(0, 0, node);
-
-    return createIndex(((ITree*)node->parent())->findChildren<ITree*>().indexOf(node), 0, node);
+    return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
 }

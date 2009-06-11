@@ -116,7 +116,7 @@ public:
     bool              canChange();
 
 private:
-    inline            Tree(int _id) { id=_id; userId=0; setParent(this); name="Loading..."; loaded=false; }
+    inline            Tree(int _id) { id=_id; userId=0; name="Loading..."; loaded=false; }
     inline            ~Tree() {}
     int               id;
     int               userId;

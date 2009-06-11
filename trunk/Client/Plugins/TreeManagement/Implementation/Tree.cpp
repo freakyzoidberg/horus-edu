@@ -9,6 +9,8 @@ Tree* Tree::getNodeById(int id)
     {
         Tree* node = new Tree(id);
         node->setObjectName("ITree");
+        if (id == 0)
+            node->setParent(0);
         maptree[id] = node;
     }
 
@@ -34,12 +36,14 @@ void Tree::receiveUserTree(const QVariantList& usertree)
                                            elem["type"].toString(),
                                            childs);
     }
+    Tree::getNodeById(0)->dumpObjectTree();
 }
 
 void Tree::receiveUpdate(const int _id, Tree* _parent, const int _user, const QString _name, const QString _type, const QVector<ITree*> _sons)
 {
     id = _id;
-    setParent(_parent);
+    if (_parent != this)
+        setParent(_parent);
 
 //    if (_parent != this && ! _parent->findChildren<ITree*>().contains(this))
 //        _parent->.append(this);
@@ -86,7 +90,7 @@ void Tree::moveTo(ITree *father)
 
 bool Tree::isDescendantOf(int parentId)
 {
-    for (Tree *tmp = this; tmp != tmp->parent(); tmp = ((Tree*)tmp->parent()))
+    for (Tree *tmp = this; tmp != tmp->parent() && tmp; tmp = ((Tree*)tmp->parent()))
         if (tmp->id == parentId)
             return true;
     return false;
@@ -94,7 +98,7 @@ bool Tree::isDescendantOf(int parentId)
 
 bool Tree::isDescendantOf(ITree* par)
 {
-    for (Tree *tmp = this; tmp != tmp->parent(); tmp = ((Tree*)tmp->parent()))
+    for (Tree *tmp = this; tmp != tmp->parent() && tmp; tmp = ((Tree*)tmp->parent()))
         if (tmp == par)
             return true;
     return false;
@@ -103,7 +107,7 @@ bool Tree::isDescendantOf(ITree* par)
 bool Tree::canChange()
 {
     int userid = 0;//TODO get the current user
-    for(Tree *tmp = this; tmp != tmp->parent(); tmp = ((Tree*)tmp->parent()))
+    for(Tree *tmp = this; tmp != tmp->parent() && tmp; tmp = ((Tree*)tmp->parent()))
         if (tmp->userId == userid)
             return true;
     return false;
