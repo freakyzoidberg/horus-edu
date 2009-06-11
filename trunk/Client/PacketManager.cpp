@@ -1,13 +1,11 @@
 #include "PacketManager.h"
 #include "INetworkPlugin.h"
 #include "IClientPlugin.h"
-#include "FileManager.h"
 
 PacketManager::PacketManager(QObject* parent) : QObject()
 {
     this->parent = static_cast<ClientApplication *>(parent);
     state = DISCONNECTED;
-    connect(this, SIGNAL(recvFilePacket(QByteArray)), FileManager::instance(), SLOT(receiveFilePacket(QByteArray)));
 }
 
 packetDirection PacketManager::packetDirections[] =
@@ -17,7 +15,6 @@ packetDirection PacketManager::packetDirections[] =
     &PacketManager::PacketInit,
     &PacketManager::PacketAlive,
     &PacketManager::PacketLogin,
-    &PacketManager::PacketFile,
     &PacketManager::PacketSettings,
     &PacketManager::PacketPlugin
 };
@@ -117,11 +114,6 @@ void PacketManager::PacketLogin()
         qDebug() << "[ in]" << l;
     }
 
-}
-
-void PacketManager::PacketFile()
-{
-    emit recvFilePacket(packet);
 }
 
 void PacketManager::PacketSettings()

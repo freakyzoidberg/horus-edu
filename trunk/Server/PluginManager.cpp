@@ -15,7 +15,9 @@ PluginManager* PluginManager::globalInstance()
 
 IServerPlugin*  PluginManager::getPlugin(const QByteArray& name) const
 {
-    return map[ name ];
+    if (plugins.contains(name))
+        return plugins.value(name);
+    return 0;
 }
 
 PluginManager::PluginManager() : QObject(QCoreApplication::instance())
@@ -31,7 +33,7 @@ PluginManager::PluginManager() : QObject(QCoreApplication::instance())
         IServerPlugin *plugin = (IServerPlugin*)loader.instance();
         if (plugin)
         {
-            map[ plugin->name() ] = plugin;
+            plugins[ plugin->name() ] = plugin;
             plugin->server = new InterfaceServer(plugin);
             //connect(plugin, SIGNAL(destroyed()), plugin->server, SLOT(deleteLater()));
             qDebug() << "PluginManager:" << loader.fileName() << "loaded";
@@ -39,5 +41,9 @@ PluginManager::PluginManager() : QObject(QCoreApplication::instance())
         else
             qDebug() << "PluginManager:" << file << loader.errorString();
     }
+
+    foreach (IServerPlugin* plugin, plugins)
+        plugin->start();
+
     s.endGroup();
 }

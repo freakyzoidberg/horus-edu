@@ -45,7 +45,7 @@ public:
         /*!
             \return The type of the element.
         */
-        virtual const Type          getType() const = 0;
+        virtual Type          getType() const = 0;
 
         //! Retrieves the title of the element.
         /*!

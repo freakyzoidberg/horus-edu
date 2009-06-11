@@ -9,7 +9,6 @@
 #include "IClientPlugin.h"
 #include "INetworkPlugin.h"
 #include "IDisplayablePlugin.h"
-#include "IFilePlugin.h"
 #include "ClientApplication.h"
 
 //! Class managing the plugins of the Client
@@ -60,7 +59,7 @@ public:
      *  \param name The name of the plugin requested
      *  \return A pointer to the plugin requested or NULL if not found
      */
-    IFilePlugin *findFilePlugin(QString &name) const;
+    //IFilePlugin *findFilePlugin(QString &name) const;
     //! Find a loaded plugin using files
     /*!
      *  This method provide an access to each loaded plugins using files
@@ -103,7 +102,7 @@ private:
     //! The list of displayable plugins
     QMap<QString, IDisplayablePlugin *>    displayablePluginsList;
     //! The list of plugins using files
-    QMap<QString, IFilePlugin *>    filePluginsList;
+    //QMap<QString, IFilePlugin *>    filePluginsList;
     //! The parent ClientApplication used to send events
     ClientApplication *parent;
 };

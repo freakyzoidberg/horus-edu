@@ -54,7 +54,7 @@ QWidget             *Course::getWidget()
     lessonManager = qobject_cast<ILessonManager *>(this->client->getPlugin("LessonManager"));
     treePlugin = qobject_cast<ITreePlugin *>(this->client->getPlugin("TreeManagement"));
     if (lessonManager && treePlugin)
-        return (new CourseWidget(lessonManager, treePlugin, this->fileManager));
+        return (new CourseWidget(lessonManager, treePlugin, ((IFileManagement*)client->getPlugin("FileManagement"))));
     error = new QWidget();
     new QLabel("This Plugin depend of 'LessonManager' and 'TreeManagement' plugins.", error);
     return (error);

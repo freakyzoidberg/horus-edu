@@ -13,12 +13,6 @@ class IClient
 {
 public:
 
-    //! A function for providing to plugins the read of packets to the network
-    /*!
-     *  need to be in a network interface
-     *  \param packet a reference to the emplacement of the readed packet
-     */
-    //virtual void            recvPacket(const PluginPacket& packet) const = 0;
     //! A function for accessing plugins from other plugins
     /*!
      *  This function return the instance of plugin from his name.
@@ -29,7 +23,5 @@ public:
      */
     virtual IClientPlugin   *getPlugin(const QByteArray name) const = 0;
 };
-
-//Q_DECLARE_INTERFACE(IClient, "net.horus.Client.PluginClientInterface/1.0");
 
 #endif // ICLIENT_H

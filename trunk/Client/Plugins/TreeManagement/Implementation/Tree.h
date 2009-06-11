@@ -13,23 +13,22 @@ class Tree : public ITree
   Q_OBJECT
 
 public:
-    static Tree* GetNodebyId(int id);
+    static Tree*      getNodeById(int id);
     static inline int countNodes() { return maptree.count(); }
-    static void updateUserTree();
-    static void receiveUserTree(const QVariantList& response);
+    static void       updateUserTree();
+    static void       receiveUserTree(const QVariantList& response);
 //private:
     static QHash<int,Tree*> maptree;
 
 
 public slots:
-    void receiveUpdate(const int _id, Tree* _parent, const int _user_ref, const QString _name, const QString _type, const QVector<ITree*> _sons);
+    void              receiveUpdate(const int _id, Tree* _parent, const int _user_ref, const QString _name, const QString _type, const QVector<ITree*> _sons);
 signals:
-    void nodeUpdated();
+    void              updated();
 
 
 public:
-    inline Tree    *GetParent() const { return parent; }
-    inline bool    isFilled() const { return filled; }
+    inline bool       isLoaded() const { return loaded; }
     //! insert node
     /*!
       add son node attached on the current node (this)
@@ -39,104 +38,91 @@ public:
       \param type type of the node
       \return the id of the inserted node
     */
-    void     AddSon(int user_ref, QString name, QString type);
+    void              createChild(int userId, QString name, QString type);
     //! delete node
     /*!
       delete current node node and attache sons to the  father's current node
     */
-    void     Delnode();
+    void              remove();
     //! move node to new father
     /*!
       \param idmove node to move
       \param idfather node id of new father
     */
-    void MoveNode(int idfather);
+    void              moveTo(int parent);
     //! move node to new father
     /*!
       \param idmove node to move
       \param idfather node id of new father
     */
-    void MoveNode(ITree* father);
-
-    //! Delete node and attach child to first father
-    /*!
-      \param idnode node to remove
-    */
-   // bool DeleteNode();
-
-    //! map of nodes
-    /*!
-      \return Map of sons node
-    */
-    inline const QVector<ITree*>& GetSonsNode() const { return sons; }
+    void              moveTo(ITree* parent);
 
     //! Get name of node
     /*!
       \return name of the node
     */
-    inline QString GetName() const { return name; }
-
-    //! Get id of node
-    /*!
-      \return id of the node
-    */
-    inline int Getid() const { return id; }
+    inline QString    getName() const { return name; }
     //! Set name of node
     /*!
       \param name new name for the corresponding node
       \return Boolean state of the name change
     */
-    void SetName(QString name);
+    void              setName(QString name);
+
+    //! Get type the node
+    /*!
+      \return user value of type
+    */
+    QString getType() const { return type; }
+
+    //! Set typee of the node
+    /*!
+      \param type to be assigned to the node
+    */
+    void    setType(QString type);
+
+    //! Get id of node
+    /*!
+      \return id of the node
+    */
+    inline int        getId() const { return id; }
 
     //! Get User in charge of the node
     /*!
       \return user id of the referree of the node
     */
-    inline int GetUserRef() const { return user_ref; }
+    inline int        getUserId() const { return userId; }
 
     //! Set User in charge of the node
     /*!
       \param userref new user in charge of the node
       \return Boolean state of the change userref
     */
-    void SetUserRef(int user_ref);
-
-    //! Get type the node
-    /*!
-      \return user value of type
-    */
-    inline QString GetType() const { return type; }
-
-    //! Set typee of the node
-    /*!
-      \param type to be assigned to the node
-    */
-    void SetType(QString type);
+    void              setUserId(int user);
 
     //! check if the node has a father
     /*!
       \param id of the father node
       \return Boolean result
     */
-    bool HasFatherId(int fathernode);
+    bool              isDescendantOf(int parent);
+    bool              isDescendantOf(ITree* parent);
 
     //! check if the user is admin on this or fathers node
     /*!
       \param id of user to test
       \return Boolean result
     */
-    bool HasAdminRightOnNodeOrFathers(int userid);
+    bool              canChange();
 
 private:
-    inline Tree(int _id) { id=_id; user_ref=0; parent=this; name="Loading..."; filled=false; }
-    inline ~Tree() {}
-    int id;
-    int user_ref;
-    Tree *parent;
-    QString type;
-    QString name;
-    QVector<ITree*> sons;
-    bool filled;
+    inline            Tree(int _id) { id=_id; userId=0; setParent(this); name="Loading..."; loaded=false; }
+    inline            ~Tree() {}
+    int               id;
+    int               userId;
+    QString           type;
+    QString           name;
+    bool              loaded;
 };
 
 #endif // TREE_H

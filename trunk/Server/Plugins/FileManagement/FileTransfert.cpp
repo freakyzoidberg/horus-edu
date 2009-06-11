@@ -2,7 +2,7 @@
 
 #include <QTime>
 
-#include "../Common/Defines.h"
+#include "../../../Common/Defines.h"
 #include "ThreadFiles.h"
 
 QHash<QByteArray,FileTransfert*> FileTransfert::transferts;

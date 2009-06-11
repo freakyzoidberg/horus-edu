@@ -4,12 +4,11 @@
 #include <QMultiHash>
 #include <QtGui/QIcon>
 #include <QAbstractItemModel>
-#include "../../IFilePlugin.h"
 
 class TreeModel : public QAbstractItemModel
 {
 public:
-    TreeModel(IFileManager* fileManager);
+    TreeModel();
 
     int         columnCount ( const QModelIndex & parent = QModelIndex() ) const;
     int         rowCount ( const QModelIndex & parent = QModelIndex() ) const;
@@ -19,8 +18,6 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
 
 private:
-    IFileManager* fileManager;
-
     static QIcon    LessonIcon;
     static QIcon    GradeIcon;
     static QIcon    SubjectIcon;

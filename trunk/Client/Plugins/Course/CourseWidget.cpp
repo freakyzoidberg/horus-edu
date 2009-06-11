@@ -5,14 +5,14 @@
 #include <QDebug>
 #include <QVBoxLayout>
 
-CourseWidget::CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFileManager *fileManager): QSplitter::QSplitter()
+CourseWidget::CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFileManagement *fileManagement): QSplitter::QSplitter()
 {
     QWidget *leftPane;
     QVBoxLayout *layout;
 
     this->lessonManager = lessonManager;
     this->treePlugin = treePlugin;
-    this->fileManager = fileManager;
+    this->fileManagement = fileManagement;
     this->buildCategoryTree();
     this->buildLessonTree();
     leftPane = new QWidget(this);
@@ -59,7 +59,7 @@ void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
     this->fileIndex = lessonIndex.data(Qt::UserRole).toUInt();
     if (this->fileIndex)
     {
-        this->lessonFile = this->fileManager->getFile(this->fileIndex);
+        this->lessonFile = this->fileManagement->getFile(this->fileIndex);
         lessonFile->open(QIODevice::ReadOnly);
         connect(this->lessonFile, SIGNAL(fileSynchronized()), this, SLOT(ready()));
     }

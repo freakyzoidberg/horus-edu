@@ -40,26 +40,26 @@ class IClientPlugin : public QObject
      *  This method provide a list of plugins which can't be loaded with this plugin
      *  \return The list of plugins
      */
-    virtual QStringList         getPluginsConflicts() const = 0;
+    virtual inline QStringList         getPluginsConflicts() const { return QStringList(); }
     //! The plugins required with this plugin
     /*!
      *  This method provide a list of plugins which must be loaded with this plugin
      *  \return The list of plugins
      */
-    virtual QStringList         getPluginsRequired() const = 0;
+    virtual inline QStringList         getPluginsRequired() const { return QStringList(); }
     //! The plugins recommended with this plugin
     /*!
      *  This method provide a list of plugins which may be loaded with this plugin
      *  \return The list of plugins
      */
-    virtual QStringList         getPluginsRecommended() const = 0;
+    virtual inline QStringList         getPluginsRecommended() { return QStringList(); }
     //! Surcharge of the method event
     /*!
      *  Each plugin must manage events that it will receive.
      *  \param event the event received
      *  \return the accept status of the event
      */
-    virtual bool                event(QEvent *event) = 0;
+    virtual inline bool                event(QEvent*) { return false; }
 };
 
 Q_DECLARE_INTERFACE(IClientPlugin, "net.horus.Client.PluginInterface/1.0");

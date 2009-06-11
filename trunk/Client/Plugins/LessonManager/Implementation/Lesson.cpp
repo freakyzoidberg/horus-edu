@@ -28,7 +28,7 @@ LSection::LSection(LElement *parent) : LElement(parent)
 
 }
 
-const ILesson::IElement::Type                      LSection::getType() const
+ILesson::IElement::Type                      LSection::getType() const
 {
     return ILesson::IElement::SECTION;
 }
@@ -52,7 +52,7 @@ LPage::LPage(LElement *parent) : LElement(parent)
 
 }
 
-const ILesson::IElement::Type              LPage::getType() const
+ILesson::IElement::Type              LPage::getType() const
 {
     return ILesson::IElement::PAGE;
 }
@@ -299,7 +299,7 @@ int         Lesson::rowCount(const QModelIndex &parent) const
     return 0;
 }
 
-int         Lesson::columnCount(const QModelIndex &parent) const
+int         Lesson::columnCount(const QModelIndex&) const
 {
     return 1;
 }

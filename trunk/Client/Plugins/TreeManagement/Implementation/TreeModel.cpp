@@ -1,6 +1,5 @@
 #include "TreeModel.h"
 #include "Tree.h"
-#include "../../IFile.h"
 
 #include <QDebug>
 
@@ -12,9 +11,8 @@ QIcon TreeModel::GroupIcon(":/Icons/GroupIcon.png");
 QIcon TreeModel::RootIcon(":/Icons/RootIcon.png");
 QIcon TreeModel::DefaultIcon(":/Icons/DefaultIcon.png");
 
-TreeModel::TreeModel(IFileManager* _fileManager)
+TreeModel::TreeModel()
 {
-    fileManager = _fileManager;
 }
 
 int TreeModel::columnCount ( const QModelIndex & ) const
@@ -31,7 +29,8 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
     if (obj->objectName() != "ITree")
         return 0;
 
-    return ((ITree*)obj)->GetSonsNode().size() + fileManager->countNodeFileList( ((ITree*)obj)->Getid() );
+//    return ((ITree*)obj)->GetSonsNode().size() + fileManager->countNodeFileList( ((ITree*)obj)->Getid() );
+    return ((ITree*)obj)->children().length();
 }
 /*
 QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -51,33 +50,33 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
    if (role == Qt::DisplayRole)
     {
         if (obj->objectName() == "ITree")
-            return QVariant(((ITree*)obj)->GetName());
-        if (obj->objectName() == "IFile")
-            return QVariant(((IFile*)obj)->getInfo().fileName);
+            return QVariant(((ITree*)obj)->getName());
+//        if (obj->objectName() == "IFile")
+//            return QVariant(((IFile*)obj)->getInfo().fileName);
     }
 
-   else if (role == Qt::UserRole &&
-             obj->objectName() == "IFile" &&
-             ((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
-       return QVariant(((IFile*)obj)->getInfo().id);
+//   else if (role == Qt::UserRole &&
+//             obj->objectName() == "IFile" &&
+//             ((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
+//       return QVariant(((IFile*)obj)->getInfo().id);
 
     else if (role == Qt::DecorationRole)
     {
-        if (obj->objectName() == "IFile")
-        {
-            if (((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
-                return QVariant(QVariant::Icon, &LessonIcon);
-            return QVariant(QVariant::Icon, &FileIcon);
-        }
+//        if (obj->objectName() == "IFile")
+//        {
+//            if (((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
+//                return QVariant(QVariant::Icon, &LessonIcon);
+//            return QVariant(QVariant::Icon, &FileIcon);
+//        }
         if (obj->objectName() == "ITree")
         {
-            if (((ITree*)obj)->GetType() == "ROOT")
+            if (((ITree*)obj)->getType() == "ROOT")
                 return QVariant(QVariant::Icon, &RootIcon);
-            if (((ITree*)obj)->GetType() == "GROUP")
+            if (((ITree*)obj)->getType() == "GROUP")
                 return QVariant(QVariant::Icon, &GroupIcon);
-            if (((ITree*)obj)->GetType() == "GRADE")
+            if (((ITree*)obj)->getType() == "GRADE")
                 return QVariant(QVariant::Icon, &GradeIcon);
-            if (((ITree*)obj)->GetType() == "SUBJECT")
+            if (((ITree*)obj)->getType() == "SUBJECT")
                 return QVariant(QVariant::Icon, &SubjectIcon);
             return QVariant(QVariant::Icon, &DefaultIcon);
         }
@@ -89,20 +88,20 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
-        return createIndex(row, column, Tree::GetNodebyId(0));
+        return createIndex(row, column, Tree::getNodeById(0));
 
     QObject* obj = ((QObject*)(parent.internalPointer()));
     if (obj->objectName() == "ITree")
     {
-        int nbChilds = ((ITree*)obj)->GetSonsNode().size();
+        int nbChilds = obj->children().length();
 
-        const QList<IFile*> fileList = fileManager->getNodeFileList(((ITree*)obj)->Getid());
+//        const QList<IFile*> fileList = fileManager->getNodeFileList(((ITree*)obj)->Getid());
 
         if (row < nbChilds)
-            return createIndex(row, column, ((ITree*)obj)->GetSonsNode().at(row) );
+            return createIndex(row, column, obj->children().at(row) );
 
-        if (nbChilds + fileList.size() > 0)
-            return createIndex(row, column, fileList.at( row - nbChilds ));
+//        if (nbChilds + fileList.size() > 0)
+//            return createIndex(row, column, fileList.at( row - nbChilds ));
     }
     return QModelIndex();
 }
@@ -117,19 +116,19 @@ QModelIndex TreeModel::parent ( const QModelIndex & index ) const
     ITree* node = 0;
     if (obj->objectName() == "ITree")
     {
-        if (((ITree*)obj) == ((ITree*)obj)->GetParent())
+        if (obj == obj->parent())
             return QModelIndex();
 
-        node = ((ITree*)obj)->GetParent();
+        node = (ITree*)((ITree*)obj)->parent();
     }
-    else if (obj->objectName() == "IFile")
-        node = Tree::GetNodebyId( ((IFile*)obj)->getInfo().nodeId );
+//    else if (obj->objectName() == "IFile")
+//        node = Tree::GetNodebyId( ((IFile*)obj)->getInfo().nodeId );
 
     else
         return QModelIndex();
 
-    if ( ! node->Getid())
+    if ( ! node->getId())
         return createIndex(0, 0, node);
 
-    return createIndex(node->GetParent()->GetSonsNode().indexOf(node), 0, node);
+    return createIndex(((ITree*)node->parent())->findChildren<ITree*>().indexOf(node), 0, node);
 }
