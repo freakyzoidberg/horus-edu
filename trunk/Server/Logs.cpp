@@ -1,8 +1,10 @@
 #include "Logs.h"
 #include "Settings.h"
 #include <QtDebug>
+#include <QDateTime>
+#include "../Common/Defines.h"
 //QFile logfile;
-
+QMutex *logs::logmutex = new QMutex(QMutex::Recursive);
 logs::logs()
 {
 
@@ -11,21 +13,37 @@ logs::logs()
 
 void logs::addlog(int type, QString msg)
 {
-    msglogs.append(msg);
+    QString msgtype;
+    if (type == LOGERROR)
+        msgtype = "ERROR";
+    else if (type == LOGWARNING)
+        msgtype = "WARNING";
+    else if (type == LOGINFO)
+        msgtype = "INFO";
+    else if (type == LOGDEBUG)
+    {
+        msgtype = "DEBUG";
+        qDebug() << msgtype+"\t"+msg;
+    }
+    logmutex->lock();
+    QDateTime now = QDateTime::currentDateTime();
+    msglogs.append(now.toString("d-MMM-yy h:mm:ss")+"\t"+msgtype+"\t"+msg);
+    logmutex->unlock();
 }
 
 void logs::setFile(QString filename)
 {
     logfile = filename;
 }
+
 void logs::run()
  {
-    Settings set;
-//logfile = new QFile(this);
-
-    QFile *file = new QFile(set.GetSettings("SETTINGS", "SoftFullPath")+"/"+logfile);
-    file->open(QFile::WriteOnly);
-    QTextStream out(file);
+    QFile *file = new QFile(logfile);
+    file->open(QFile::Append);
+    if (file->isOpen() == true)
+        qDebug() << "file ouvert";
+    else
+       qDebug() << "file derme  " + logfile;
     int i;
     while (42)
     {
@@ -33,14 +51,15 @@ void logs::run()
 
     if (msglogs.count() > 0)
     {
+        logmutex->lock();
         for (i = 0;i < msglogs.count(); i++)
         {
-            qDebug() << "adding to log : " +  msglogs.at(i);
-            out << msglogs.at(i);
+            file->write(QVariant(msglogs.at(i)+"\n").toByteArray());
         }
         msglogs.clear();
-        out.flush();
+        logmutex->unlock();
         file->flush();
+
     }
     }
 //exec();

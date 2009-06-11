@@ -2,7 +2,7 @@
 #define LOGS_H
  #include <QFile>
 #include <QThread>
-
+#include <QMutex>
 class logs : public QThread
 {
      Q_OBJECT
@@ -15,6 +15,7 @@ public:
 private:
    QString logfile;
    QList<QString> msglogs;
+   static QMutex *logmutex;
 };
 
 #endif // LOGS_H
