@@ -5,6 +5,8 @@
 #include <QtGui/QIcon>
 #include <QAbstractItemModel>
 
+#include "ITree.h"
+
 class TreeModel : public QAbstractItemModel
 {
 public:
