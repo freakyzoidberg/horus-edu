@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QVBoxLayout>
 
-CourseWidget::CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFileManagement *fileManagement): QSplitter::QSplitter()
+CourseWidget::CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFilePlugin *fileManagement): QSplitter::QSplitter()
 {
     QWidget *leftPane;
     QVBoxLayout *layout;

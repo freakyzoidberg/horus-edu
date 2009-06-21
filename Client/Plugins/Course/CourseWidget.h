@@ -6,7 +6,8 @@
 #include                <QAbstractItemModel>
 #include                <QTreeView>
 
-#include                "../FileManagement/IFileManagement.h"
+#include                "../FileManagement/IFilePlugin.h"
+#include                "../FileManagement/IFile.h"
 #include                "../LessonManager/ILessonManager.h"
 #include                "../TreeManagement/ITreePlugin.h"
 
@@ -16,7 +17,7 @@ class                   CourseWidget : public QSplitter
     Q_OBJECT
 
 public:
-                        CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFileManagement *fileManagement);
+                        CourseWidget(ILessonManager *lessonManager, ITreePlugin *treePlugin, IFilePlugin *fileManagement);
 
 private:
     void                buildCategoryTree();
@@ -30,7 +31,7 @@ private slots:
 private:
     ILessonManager      *lessonManager;
     ITreePlugin         *treePlugin;
-    IFileManagement     *fileManagement;
+    IFilePlugin         *fileManagement;
     QAbstractItemModel  *categoryModel;
     QAbstractItemModel  *lessonModel;
     QTreeView           *categoryView;

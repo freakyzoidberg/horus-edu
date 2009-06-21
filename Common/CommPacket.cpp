@@ -38,8 +38,7 @@ QDebug operator<<(QDebug d, const CommPacket& cr)
         "Init   ",
         "Alive  ",
         "Login  ",
-        "File   ",
-        "Setting",
+        "Data   ",
         "Plugin "
     };
     return d << typeNames[ cr.packetType ] << '|';

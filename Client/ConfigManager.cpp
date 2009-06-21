@@ -8,7 +8,7 @@
 
 #include "ClientEvents.h"
 #include "../Common/Defines.h"
-#include "../Common/CommSettings.h"
+//#include "../Common/CommSettings.h"
 #include "ThreadNetwork.h"
 #include "ClientEvents.h"
 
@@ -119,44 +119,44 @@ void    ConfigManager::createConfig()
 
 void    ConfigManager::sendLoadConfig()
 {
-    CommSettings    SystemPacket;
-    CommSettings    UserPacket;
-
-    SystemPacket.method = CommSettings::GET;
-    SystemPacket.scope = CommSettings::CLIENT_SYSTEM_SCOPE;
-    SystemPacket.plugin = 0;
-    UserPacket.method = CommSettings::GET;
-    UserPacket.scope = CommSettings::CLIENT_USER_SCOPE;
-    UserPacket.plugin = 0;
-    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(SystemPacket.getPacket()));
-    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket.getPacket()));
+//    CommSettings    SystemPacket;
+//    CommSettings    UserPacket;
+//
+//    SystemPacket.method = CommSettings::GET;
+//    SystemPacket.scope = CommSettings::CLIENT_SYSTEM_SCOPE;
+//    SystemPacket.plugin = 0;
+//    UserPacket.method = CommSettings::GET;
+//    UserPacket.scope = CommSettings::CLIENT_USER_SCOPE;
+//    UserPacket.plugin = 0;
+//    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(SystemPacket.getPacket()));
+//    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket.getPacket()));
 }
 
 void    ConfigManager::recvLoadConfig(QByteArray data)
 {
-    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    CommSettings    packet(data);
-    QHash<QString, QVariant> config;
-
-    if (packet.scope == CommSettings::CLIENT_USER_SCOPE)
-    {
-        config = packet.getVariantSettings().toHash();
-        if (config.contains("Plugins/Load"))
-            settings.setValue("Plugins/Load", config.value("Plugins/Load"));
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-    }
+//    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+//    CommSettings    packet(data);
+//    QHash<QString, QVariant> config;
+//
+//    if (packet.scope == CommSettings::CLIENT_USER_SCOPE)
+//    {
+//        config = packet.getVariantSettings().toHash();
+//        if (config.contains("Plugins/Load"))
+//            settings.setValue("Plugins/Load", config.value("Plugins/Load"));
+//        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+//    }
 }
 
 void    ConfigManager::saveConfig()
 {
-    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    CommSettings    UserPacket;
-    QHash<QString, QVariant> config;
-
-    UserPacket.method = CommSettings::SET;
-    UserPacket.scope = CommSettings::CLIENT_USER_SCOPE;
-    UserPacket.plugin = 0;
-    config.insert("Plugins/Load", settings.value("Load"));
-    UserPacket.setVariantSettings(config);
-    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket.getPacket()));
+//    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+//    CommSettings    UserPacket;
+//    QHash<QString, QVariant> config;
+//
+//    UserPacket.method = CommSettings::SET;
+//    UserPacket.scope = CommSettings::CLIENT_USER_SCOPE;
+//    UserPacket.plugin = 0;
+//    config.insert("Plugins/Load", settings.value("Load"));
+//    UserPacket.setVariantSettings(config);
+//    ClientApplication::postEvent(ThreadNetwork::getInstance(this->parent), new SendPacketEvent(UserPacket.getPacket()));
 }

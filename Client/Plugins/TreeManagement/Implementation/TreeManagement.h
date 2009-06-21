@@ -5,6 +5,7 @@
 #include "../../IClientPlugin.h"
 #include "../../INetworkPlugin.h"
 #include "../ITreePlugin.h"
+#include "Tree.h"
 #include "TreeModel.h"
 
 class TREEMANAGEMENTSHARED_EXPORT TreeManagement : public IClientPlugin, public INetworkPlugin, public ITreePlugin

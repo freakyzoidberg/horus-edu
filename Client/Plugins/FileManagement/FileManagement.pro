@@ -12,4 +12,4 @@ HEADERS += Implementation/File.h \
            Implementation/FileManagement.h \
            FileManagement_global.h \
            IFile.h \
-           IFileManagement.h
+           IFilePlugin.h

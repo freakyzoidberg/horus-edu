@@ -1,15 +1,11 @@
 #ifndef USER_H
 #define USER_H
 
-#include <QObject>
-#include <QHash>
-#include <QByteArray>
-#include <QDateTime>
-
+#include "../Common/UserData.h"
 #include "../Common/Defines.h"
 
 //! User object. one for each connexion. used to authenticate a user
-class User : public QObject
+class User : public UserData
 {
   Q_OBJECT
 

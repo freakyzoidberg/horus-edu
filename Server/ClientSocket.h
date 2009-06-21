@@ -2,14 +2,13 @@
 #define CLIENTSOCKET_H
 
 #include <QSemaphore>
+#include <QHash>
 
-#include "User.h"
+#include "../Common/UserData.h"
 #include "../Common/CommSocket.h"
 
-class User;
-
 //! a ClientSocket created for each connexion
-/*
+/*!
  * This Object destroy himself when the connexion is closed
  */
 class ClientSocket : public CommSocket
@@ -21,11 +20,14 @@ public:
     ClientSocket(int _socket, QObject* parent = 0);
     ~ClientSocket();
 
-    enum        tState {INIT, CONNECTED};
-    tState      vState;
+    enum        Status {INIT, CONNECTED};
+    Status      status;
 
-    //! the User object asociated with the socket
-    User        user;
+    //! Contain the list of connected users with the coresponding socket
+    static QHash<UserData*,ClientSocket*> connectedUsers; //TODO: protect against simultaneous access with a mutex
+
+    //! contain the user connected with this socket
+    UserData* user;
 
     //! wait for other threads
     /*!
@@ -50,9 +52,7 @@ private slots:
     //! called when an ThreadPacket is destroyed
     void threadFinished();
 
-//    void sslErrorsSlot(QList<QSslError> e);
     void ready();
-//    void socketError(QAbstractSocket::SocketError);
 
 private:
     //! read the next packet if there's available thread and packet

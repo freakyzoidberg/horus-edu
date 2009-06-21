@@ -23,8 +23,8 @@ public:
 
 
     // IServerPlugin
-    inline const QByteArray name()    const { return "FileManagement"; }
-    inline const QByteArray version() const { return "0.1"; }
+    inline const QString name()    const { return "FileManagement"; }
+    inline const QString version() const { return "0.1"; }
     bool start();
     void recvPacket(quint32 userId, const PluginPacket&);
 

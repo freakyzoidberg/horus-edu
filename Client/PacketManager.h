@@ -11,7 +11,6 @@
 #include "../Common/CommPlugin.h"
 #include "../Common/CommPacket.h"
 #include "../Common/CommError.h"
-#include "../Common/CommSettings.h"
 #include "ClientEvents.h"
 #include "ClientApplication.h"
 #include "ConfigManager.h"

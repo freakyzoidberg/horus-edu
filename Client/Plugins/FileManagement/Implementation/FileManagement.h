@@ -7,7 +7,7 @@
 
 #include "../../../IClientPlugin.h"
 #include "../../../INetworkPlugin.h"
-#include "../IFileManagement.h"
+#include "../IFilePlugin.h"
 #include "File.h"
 
 /*!
@@ -18,12 +18,12 @@
  *  - manage the queue of transfert
  */
 //! manage every file transfert and informations
-class FILEMANAGEMENTSHARED_EXPORT FileManagement : public IClientPlugin, public INetworkPlugin, public IFileManagement
+class FILEMANAGEMENTSHARED_EXPORT FileManagement : public IClientPlugin, public INetworkPlugin, public IFilePlugin
 {
     Q_OBJECT
     Q_INTERFACES(IClientPlugin)
     Q_INTERFACES(INetworkPlugin)
-    Q_INTERFACES(IFileManagement)
+    Q_INTERFACES(IFilePlugin)
 
   // FileManagement can access private methods of File
   // TODO: maybe just set methods as friend instead of the object
@@ -41,7 +41,7 @@ public:
     void recvPacket(const PluginPacket&);
 
 
-    //IFileManagement
+    //IFilePlugin
     //! Return a new instance of File. No errors.
     IFile* newFile(quint32 nodeId);
     //! Return an instance of File if the file is found on the server. 0 if not found or permition denied.

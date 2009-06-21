@@ -46,7 +46,7 @@ void    LoginDialog::connectMethod()
         settings.setValue("sessionEnd", "");
         CommLogin  l(CommLogin::LOGIN_PASSWORD);
         l.login = l_ui.loginE->text();
-        l.sha1Pass = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
+        l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
         QApplication::postEvent(ThreadNetwork::getInstance(), new SendLoginEvent(l.getPacket()));
         settings.endGroup();
         qDebug() << "[ out]" << l;

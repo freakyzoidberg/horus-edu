@@ -7,6 +7,8 @@
 #include "Settings.h"
 
 quint32 ClientSocket::nbCon = 0;
+QHash<UserData*,ClientSocket*> ClientSocket::connectedUsers;
+
 
 ClientSocket::ClientSocket(int _socket, QObject* parent)
     : CommSocket(parent)
@@ -18,9 +20,10 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
 
     threads.release();//1
     nbThreads = 0;
-    vState = INIT;
+    status = INIT;
 
-    connect(&user, SIGNAL(sendPacketSignal(const QByteArray&)), this, SLOT(sendPacket(const QByteArray&)));
+    user = 0;
+    //connect(&user, SIGNAL(sendPacketSignal(const QByteArray&)), this, SLOT(sendPacket(const QByteArray&)));
     connect(this,  SIGNAL(packetReceived(const QByteArray&)),   this, SLOT(packetAvailable(const QByteArray&)));
     connect(this,  SIGNAL(encrypted()),                         this, SLOT(ready()));
     connect(this,  SIGNAL(disconnected()),                      this, SLOT(tryToDelete()));

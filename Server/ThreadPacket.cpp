@@ -1,17 +1,17 @@
 #include <QDateTime>
+#include <QDebug>
+
+#include "Sql.h"
 
 #include "ThreadPacket.h"
 
-#include "PluginManager.h"
-#include "User.h"
+#include "../Common/PluginManager.h"
+#include "../Common/UserDataPlugin.h"
 #include "UserSettings.h"
-//#include "FileTransfert.h"
-//#include "FileManagment.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
-//#include "../Common/CommFile.h"
-#include "../Common/CommSettings.h"
+#include "../Common/NetworkPlugin.h"
 
 //ZoidTest
 #include "Tree.h"
@@ -36,8 +36,7 @@ ThreadPacket::packetDirection ThreadPacket::packetDirections[] =
     &ThreadPacket::PacketInit,
     &ThreadPacket::PacketAlive,
     &ThreadPacket::PacketLogin,
-//    &ThreadPacket::PacketFile,
-    &ThreadPacket::PacketSettings,
+    &ThreadPacket::PacketData,
     &ThreadPacket::PacketPlugin
 };
 
@@ -58,10 +57,10 @@ void ThreadPacket::PacketInit()
     CommInit init(packet);
     qDebug() << "[ in]" << init;
 
-    if (socket->vState != ClientSocket::INIT)
+    if (socket->status != ClientSocket::INIT)
         return sendError(CommError::ALREADY_INITIALIZED);
 
-    socket->vState = ClientSocket::CONNECTED;
+    socket->status = ClientSocket::CONNECTED;
 }
 
 void ThreadPacket::PacketAlive()
@@ -78,54 +77,83 @@ void ThreadPacket::PacketLogin()
     CommLogin login(packet);
     qDebug() << "[ in]" << login;
 
-    if (socket->vState != ClientSocket::CONNECTED)
-      return sendError(CommError::NOT_INITIALIZED);
-
-    if (login.method != CommLogin::LOGIN_PASSWORD &&
-        login.method != CommLogin::LOGIN_SESSION &&
-        login.method != CommLogin::LOGOUT)
-      return sendError(CommError::PROTOCOL_ERROR);
-
+    // wait other threads for this connexion if needed
     socket->waitOtherThreads();
 
-    User& user = socket->user;
-    user.init();
+    if (socket->status != ClientSocket::CONNECTED)
+        return sendError(CommError::NOT_INITIALIZED);
+    if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION && login.method != CommLogin::LOGOUT)
+        return sendError(CommError::PROTOCOL_ERROR);
 
-    if (login.method == CommLogin::LOGOUT)
-        user.logout();
-    else if (login.method == CommLogin::LOGIN_SESSION)
-        user.login(login.login, true, login.sessionString);
-    else
-        user.login(login.login, false, login.sha1Pass);
-
-    if ( ! user.isLoggedIn())
+    UserDataPlugin* plugin = PluginManager().findPlugin<UserDataPlugin*>("UserDataPlugin");
+    if ( ! plugin)
     {
-        CommLogin response(CommLogin::REFUSED);
-        emit sendPacket(response.getPacket());
-        qDebug() << "[out]" << response;
+        qDebug() << "ThreadPacket::PacketLogin No UserDataPlugin found. Cannot authenticate the user.";
+        return sendError(CommError::INTERNAL_ERROR);
+    }
+
+    Sql conn;
+    QSqlQuery query(QSqlDatabase::database(conn));
+
+    UserData* user = 0;
+    if (login.method == CommLogin::LOGIN_SESSION)
+        user = plugin->authenticateSession(query, login.login, login.sessionString);
+
+    else if (login.method == CommLogin::LOGIN_PASSWORD)
+        user = plugin->authenticatePassword(query, login.login, login.password);
+
+    else if (socket->user)
+    {
+        ClientSocket::connectedUsers.remove(socket->user);
+        socket->user->destroySession(query);
+        socket->user = 0;
+        CommLogin resp(CommLogin::DISCONNECTED);
+        emit sendPacket(resp.getPacket());
+        qDebug() << "[out]" << resp;
         return;
     }
 
-    user.renewSession(DEFAULT_SESSION_LIFETIME * 60);
-    CommLogin response(CommLogin::ACCEPTED);
-    response.level = user.getLevel();
-    response.sessionString = user.getSessionString();
-    response.sessionTime =   user.getSessionEnd().toTime_t() - QDateTime::currentDateTime().toTime_t();
+    if ( ! user)
+    {
+        CommLogin resp(CommLogin::REFUSED);
+        emit sendPacket(resp.getPacket());
+        qDebug() << "[out]" << resp;
+        return;
+    }
 
-    emit sendPacket(response.getPacket());
+    // if the user is already connected, disconnect him from the other socket
+    if (socket->connectedUsers.contains(user))
+    {
+        connect(this, SIGNAL(sendPacketToAnotherSocket(QByteArray)), ClientSocket::connectedUsers[user], SLOT(sendPacket(QByteArray)));
+        emit sendPacketToAnotherSocket( CommLogin(CommLogin::DISCONNECTED).getPacket() );
+        ClientSocket::connectedUsers[user]->user = 0;
+    }
+    ClientSocket::connectedUsers[user] = socket;
+    socket->user = user;
+
+    CommLogin resp(CommLogin::ACCEPTED);
+    //TODO remove level and maybe session info
+    resp.level = socket->user->level;
+    resp.sessionString = socket->user->session;
+    resp.sessionTime =   socket->user->sessionEnd.toTime_t();
+    emit sendPacket(resp.getPacket());
+    qDebug() << "[out]" << resp;
+
+    //TODO send UserData to the connected client
+
+    //allow other threads to be started
     socket->allowOtherThreads();
-    qDebug() << "[out]" << response;
 }
 
-void ThreadPacket::PacketFile()
+void ThreadPacket::PacketData()
 {
 //    CommFile f(packet);
 //    qDebug() << "[ in]" << f;
 //
-//    if (socket->vState != ClientSocket::CONNECTED)
+//    if (socket->staus != ClientSocket::CONNECTED)
 //      return sendError(CommError::NOT_INITIALIZED);
 //
-//    if ( ! socket->user.isLoggedIn())
+//    if ( ! socket->user)
 //      return sendError(CommError::NOT_AUTHENTICATED);
 //
 //    FileManagment fileMgmt;
@@ -202,37 +230,37 @@ void ThreadPacket::PacketFile()
 //    qDebug() << "[out]" << f;
 }
 
-void ThreadPacket::PacketSettings()
-{
-    int len = packet.length();
-    CommSettings s(packet);
-    qDebug() << "[ in]" << s << "length" << len ;
-
-    if (socket->vState != ClientSocket::CONNECTED)
-        return sendError(CommError::NOT_INITIALIZED);
-    if ( ! socket->user.isLoggedIn())
-        return sendError(CommError::NOT_AUTHENTICATED);
-    if (s.method != CommSettings::GET && s.method != CommSettings::SET)
-        return sendError(CommError::PROTOCOL_ERROR);
-
-    if ( s.scope == CommSettings::CLIENT_USER_SCOPE   || s.scope == CommSettings::SERVER_USER_SCOPE || //USER_SCOPE
-        (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET) || //Read Client SYSTEM_SCOPE
-        socket->user.getLevel() <= LEVEL_ADMINISTRATOR) // ADMIN
-    {
-        UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
-
-        if (s.method == CommSettings::SET)
-            userSettings.set(s.getBinarySettings());
-
-        s.method = CommSettings::VALUE;
-        s.setBinarySettings(userSettings.get());
-    }
-    else
-        s.method = CommSettings::PERMISSION_DENIED;
-
-    sendPacket(s.getPacket());
-    qDebug() << "[out]" << s;
-}
+//void ThreadPacket::PacketSettings()
+//{
+//    int len = packet.length();
+//    CommSettings s(packet);
+//    qDebug() << "[ in]" << s << "length" << len ;
+//
+//    if (socket->vState != ClientSocket::CONNECTED)
+//        return sendError(CommError::NOT_INITIALIZED);
+//    if ( ! socket->user.isLoggedIn())
+//        return sendError(CommError::NOT_AUTHENTICATED);
+//    if (s.method != CommSettings::GET && s.method != CommSettings::SET)
+//        return sendError(CommError::PROTOCOL_ERROR);
+//
+//    if ( s.scope == CommSettings::CLIENT_USER_SCOPE   || s.scope == CommSettings::SERVER_USER_SCOPE || //USER_SCOPE
+//        (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET) || //Read Client SYSTEM_SCOPE
+//        socket->user.getLevel() <= LEVEL_ADMINISTRATOR) // ADMIN
+//    {
+//        UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
+//
+//        if (s.method == CommSettings::SET)
+//            userSettings.set(s.getBinarySettings());
+//
+//        s.method = CommSettings::VALUE;
+//        s.setBinarySettings(userSettings.get());
+//    }
+//    else
+//        s.method = CommSettings::PERMISSION_DENIED;
+//
+//    sendPacket(s.getPacket());
+//    qDebug() << "[out]" << s;
+//}
 
 void ThreadPacket::PacketPlugin()
 {
@@ -240,19 +268,22 @@ void ThreadPacket::PacketPlugin()
     CommPlugin mod(packet);
     qDebug() << "[ in]" << mod << "length:" << len;
 
-    if (socket->vState != ClientSocket::CONNECTED)
+    if (socket->status != ClientSocket::CONNECTED)
         return sendError(CommError::NOT_INITIALIZED);
-    if ( ! socket->user.isLoggedIn())
+    if ( ! socket->user)
         return sendError(CommError::NOT_AUTHENTICATED);
 
-    IServerPlugin* plugin = PluginManager::globalInstance()->getPlugin(mod.packet.targetPlugin);
+    QString target = mod.packet.targetPlugin;
+    NetworkPlugin* plugin = PluginManager().findPlugin<NetworkPlugin*>(target);
+    mod.packet.user = socket->user;
     if (plugin)
-    {
-        plugin->recvPacket(socket->user.getId(), mod.packet);
-        ((InterfaceServer*)plugin->server)->cleanInterface();
-    }
-    // else TODO send an error "Plugin not found"
+        return plugin->receivePacket(socket->user, mod.packet);
 
+    mod.packet.targetPlugin = mod.packet.sourcePlugin;
+    mod.packet.sourcePlugin = target;
+    mod.packet.error = 1;
+    mod.packet.errorMessage = "Plugin " + target + " not found or doesn't receive PluginPacket.";
+    emit sendPacket(CommPlugin(mod.packet).getPacket());
 }
 
 void ThreadPacket::sendError(CommError::Error error, const char* str) const

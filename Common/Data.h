@@ -1,23 +1,32 @@
 #ifndef DATA_H
 #define DATA_H
 
-#include "DataPlugin.h"
-#include <QDataStream>
+#ifdef HORUS_SERVER
+  #include <QtSql>
+#else
+#ifdef HORUS_CLIENT
 
+#else
+  #error "You must define HORUS_CLIENT or HORUS_SERVER in your project."
+#endif
+#endif
+
+#include <QDataStream>
+#include <QString>
+#include <QDebug>
+
+class DataPlugin;
+class UserData;
 class Data : public QObject
 {
   Q_OBJECT
 
-  enum DataStatus { EMPTY, UPDATING, SAVING, CREATING, DELETING, CACHED, UPTODATE, CREATED, DELETED };
-  enum Error { NONE=0, PERMITION_DENIED=1, NOT_FOUND=2, DATABASE_ERROR=3, DATA_ALREADY_CHANGED=4 };
-  static inline const char* errorMessage() {  }
-
-protected:
-    inline Data(DataPlugin* _plugin, DataStatus _status=EMPTY) { plugin=_plugin; status=_status; error=NONE; }
-    inline ~Data() {}
-
 public:
-    inline const QString getType() const { return plugin->getDataType(); }
+    enum DataStatus { EMPTY, UPDATING, SAVING, CREATING, DELETING, CACHED, UPTODATE, CREATED, DELETED };
+    enum Error { NONE=0, PERMITION_DENIED=1, NOT_FOUND=2, DATABASE_ERROR=3, DATA_ALREADY_CHANGED=4 };
+    const char* errorMessage();
+
+    const QString getType() const;
 
     //! Have to write his key into the stream to be able to identify this data with the server and the cache.
     virtual void keyToStream(QDataStream& s) = 0;
@@ -34,10 +43,15 @@ public:
      *  - Read from a local cache file.
      */
     virtual void dataFromStream(QDataStream& s) = 0;
+
+    //! Return the current status of this data.
+    inline DataStatus  status() const { return (DataStatus)_status; }
+    //! Change the current status and tell the coresponding plugin the data just changed.
+    void               setStatus(UserData* user, DataStatus status);
+
     //! Usefull for debuging. Not mandatory but important.
-    virtual QDebug operator<<(QDebug debug) { return debug << getType(); }
+    virtual QDebug operator<<(QDebug debug) const { return debug << getType(); }
 #ifdef HORUS_CLIENT
-public:
     virtual QVariant getValue(int column, int role) = 0;
     //! Function just set the UPDATING status if not already uptodate or updating
     inline void update()
@@ -45,9 +59,8 @@ public:
 signals:
     //! Signal emmited when the data is updated.
     void updated();
-#else
+#endif
 #ifdef HORUS_SERVER
-public:
     //! Fill the current data with a defined key from teh database.
     virtual void fillFromDatabase  (QSqlQuery&) = 0;
     //! Create this data into the database, and update the key.
@@ -56,23 +69,17 @@ public:
     virtual void saveIntoDatabase  (QSqlQuery&) = 0;
     //! Delete the current data from the database.
     virtual void deleteFromDatabase(QSqlQuery&) = 0;
-#else
-#error "You must define HORUS_CLIENT or HORUS_SERVER in your project."
 #endif
 
-public:
-    //! Return the current status of this data.
-    inline DataStatus  status() const { return status; }
-    //! Change the current status and tell the coresponding plugin the data just changed.
-    inline void        setStatus(DataStatus _status)
-        { DataStatus old=status; status=_status; plugin->dataStatusChange(this, old); }
-
 protected:
-    DataPlugin*   plugin;
-    quint8        status;
-    quint8        error;
+    inline Data(DataPlugin* plugin, DataStatus status=EMPTY) { _plugin=plugin; _status=status; _error=NONE; }
+    inline ~Data() {}
+
+    DataPlugin*        _plugin;
+    quint8             _status;
+    quint8             _error;
 };
 
-inline QDebug operator<<(QDebug debug, const IData& data) { return data << debug; }
+inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }
 
 #endif // DATA_H

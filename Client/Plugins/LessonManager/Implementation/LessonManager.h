@@ -9,7 +9,7 @@
 #include <QWidget>
 
 #include "../../IClientPlugin.h"
-#include "../FileManagement/IFileManagement.h"
+#include "../FileManagement/IFilePlugin.h"
 #include "ILessonManager.h"
 
 //!  LessonManager plugin

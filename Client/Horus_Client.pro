@@ -10,7 +10,6 @@ SOURCES += main.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
-    ../Common/CommSettings.cpp \
     ../Common/CommPlugin.cpp \
     ../Common/PluginPacket.cpp \
     ClientApplication.cpp \
@@ -38,7 +37,6 @@ HEADERS += NetworkManager.h \
     ../Common/CommLogin.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \
-    ../Common/CommSettings.h \
     ../Common/CommPlugin.h \
     IMetadata.h \
     IMetaDataCreate.h \
