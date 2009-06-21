@@ -40,7 +40,7 @@ void CommLogin::read(const QByteArray& a)
     {
         stream >> login;
         if (method == LOGIN_PASSWORD)
-            stream >> sha1Pass;
+            stream >> password;
         else
             stream >> sessionString;
     }
@@ -66,7 +66,7 @@ void CommLogin::write(QByteArray& a) const
     {
         stream << login;
         if (method == LOGIN_PASSWORD)
-            stream << sha1Pass;
+            stream << password;
         else
             stream << sessionString;
     }
@@ -87,7 +87,8 @@ QDebug operator<<(QDebug d, const CommLogin& cl)
         "Login Session",
         "Logout       ",
         "Accepted     ",
-        "Refused      "
+        "Refused      ",
+        "Disconnected "
     };
 
     d << (CommPacket&)cl
@@ -100,7 +101,7 @@ QDebug operator<<(QDebug d, const CommLogin& cl)
 
     else if (cl.method == CommLogin::LOGIN_PASSWORD)
         d << cl.login
-          << cl.sha1Pass.toHex();
+          << cl.password.toHex();
 
     else if (cl.method == CommLogin::LOGIN_SESSION)
         d << cl.login

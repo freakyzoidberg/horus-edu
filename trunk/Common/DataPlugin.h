@@ -1,7 +1,15 @@
 #ifndef DATAPLUGIN_H
 #define DATAPLUGIN_H
 
+#ifdef HORUS_SERVER
+#include <QtSql>
+#endif
+
+#include "QByteArray"
 #include "Plugin.h"
+#include "Data.h"
+
+class UserData;
 
 //! this object have to references these own data in memory (if needed) and to provide an interface to the other plugins to access these
 /*!
@@ -9,6 +17,7 @@
  */
 class DataPlugin : public Plugin
 {
+  Q_OBJECT
 
 public:
     virtual const QString getDataType() const = 0;
@@ -26,7 +35,8 @@ protected:
 #else
 #error "You must define HORUS_CLIENT or HORUS_SERVER in your project."
 #endif
-
+#endif
+public:
     //! Called by the data when its status change.
     /*!
      *  Have differents implementation on the Client and the Server.
@@ -34,9 +44,12 @@ protected:
      *  - More status are supported (ex: a file can be [up/down]loading)
      *  - To check permitions (also on the client side but can be less restrictive)
      */
-    virtual void          dataStatusChange(Data* data, Data::DataStatus oldStatus);
-};
+    void                  dataStatusChange(UserData* user, Data* data, Data::DataStatus oldStatus);
 
-Q_DECLARE_INTERFACE(DataPlugin, "net.horus.DataPlugin/1.0");
+public slots:
+    void                  receiveData(UserData* user, const QByteArray& packet);
+signals:
+    void                  sendData(UserData* user, const QByteArray& packet);
+};
 
 #endif // DATAPLUGIN_H

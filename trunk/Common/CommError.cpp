@@ -10,6 +10,7 @@ CommError::CommError(Error _type, const char* _errorMessage) : CommPacket(CommPa
         "Not authenticated",
         "Unknown protocol version",
         "Protocol Error"
+        "Internal Error"
     };
 
     errorType = _type;

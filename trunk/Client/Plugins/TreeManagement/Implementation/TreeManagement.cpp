@@ -11,6 +11,7 @@ Q_EXPORT_PLUGIN2(TreeManagement,TreeManagement)
 
 TreeManagement::TreeManagement()
 {
+    qDebug() << sizeof(QObject) << sizeof(Tree) << sizeof(QByteArray) << sizeof(QString);
 }
 
 void TreeManagement::recvPacket(const PluginPacket& p)

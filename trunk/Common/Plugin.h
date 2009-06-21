@@ -1,6 +1,9 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
+#include <QObject>
+#include <QStringList>
+
 class Plugin : public QObject
 {
 public:
@@ -43,17 +46,6 @@ public:
      *  \return the accept status of the event
      */
     virtual inline bool              event(QEvent*) { return false; }
-    //! A function for accessing to another plugin
-    /*!
-     *  This function return the instance of plugin from his name.
-     *  A plugin can only be instancieted once, so each name is unique.
-     *  It is destinated for plugins willing to contacts other plugins
-     *  \param name the name of the desired plugin
-     *  \return a pointer to the instance of the desired plugin or NULL if not found
-     */
-    Plugin*                          findPlugin(const QString name) const;
 };
-
-Q_DECLARE_INTERFACE(Plugin, "net.horus.Plugin/1.0");
 
 #endif // PLUGIN_H

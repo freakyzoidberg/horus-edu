@@ -30,8 +30,7 @@ private:
     void PacketInit();
     void PacketAlive();
     void PacketLogin();
-    void PacketFile();
-    void PacketSettings();
+    void PacketData();
     void PacketPlugin();
 
     //! send an error to the client
@@ -50,6 +49,8 @@ private:
 signals:
     //! signal emmited when a packet need to be send to the client
     void sendPacket(const QByteArray) const;
+    //! signal emmited when a packet need to be send to a client on an other socket (need to be connected first)
+    void sendPacketToAnotherSocket(const QByteArray) const;
 };
 
 #endif // THREADPACKET_H

@@ -3,7 +3,7 @@
 
 #include <QAbstractItemModel>
 
-#include "Implementation/Tree.h"
+class ITree;
 
 class ITreePlugin
 {

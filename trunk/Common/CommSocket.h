@@ -26,7 +26,7 @@ private slots:
     //! slot connected with QSslSocket::sslErrors(): when an ssl error occur on the socket
     void sslErrorsSlot(QList<QSslError> e);
 
-protected slots:
+public slots:
     //! slot to send packet to a client
     void sendPacket(const QByteArray&);
 

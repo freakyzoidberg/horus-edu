@@ -7,7 +7,7 @@
 #include "../../IClientPlugin.h"
 #include "../../IDisplayablePlugin.h"
 #include "../../INetworkPlugin.h"
-#include "../FileManagement/IFileManagement.h"
+#include "../FileManagement/IFilePlugin.h"
 
 #include "Course_global.h"
 

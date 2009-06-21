@@ -5,12 +5,12 @@ QT -= gui
 QT += network \
     sql
 TARGET = Horus_Server
+DEFINES += HORUS_SERVER
 CONFIG -= app_bundle
 CONFIG += console
 TEMPLATE = app
 SOURCES = main.cpp \
     Sql.cpp \
-    User.cpp \
     Server.cpp \
     Settings.cpp \
     ClientSocket.cpp \
@@ -18,28 +18,25 @@ SOURCES = main.cpp \
     Tree.cpp \
     ThreadPacket.cpp \
     PluginManager.cpp \
-    InterfaceServer.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
     ../Common/CommLogin.cpp \
     ../Common/CommPlugin.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
-    ../Common/CommSettings.cpp \
     ../Common/PluginPacket.cpp \
-    Logs.cpp
+    Logs.cpp \
+    ../Common/CommData.cpp \
+    ../Common/Data.cpp \
+    DataPlugin.cpp
 HEADERS = Sql.h \
-    User.h \
     Server.h \
     Settings.h \
     ClientSocket.h \
     ThreadPacket.h \
     UserSettings.h \
     Tree.h \
-    PluginManager.h \
-    InterfaceServer.h \
-    Plugins/IServer.h \
-    Plugins/IServerPlugin.h \
+    ../Common/PluginManager.h \
     ../Common/Defines.h \
     ../Common/CommInit.h \
     ../Common/CommError.h \
@@ -47,7 +44,15 @@ HEADERS = Sql.h \
     ../Common/CommPlugin.h \
     ../Common/CommPacket.h \
     ../Common/CommSocket.h \
-    ../Common/CommSettings.h \
     ../Common/PLuginPacket.h \
     Logs.h \
-    ../Common/Data.h
+    ../Common/Data.h \
+    ../Common/CommData.h \
+    ../Common/MetaPlugin.h \
+    ../Common/Plugin.h \
+    ../Common/DataPlugin.h \
+    ../Common/UserData.h \
+    ../Common/UserDataPlugin.h \
+    ../Common/TreeData.h \
+    ../Common/TreeDataPlugin.h \
+    ../Common/NetworkPlugin.h

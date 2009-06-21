@@ -21,7 +21,7 @@ public:
      */
     enum                Method { UNDEFINED,
                                  LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //CLIENT  -> SERVER
-                                 ACCEPTED, REFUSED,                     // SERVER -> CLIENT
+                                 ACCEPTED, REFUSED, DISCONNECTED,      // SERVER -> CLIENT
                                  __LAST__ };
 
     CommLogin(Method);
@@ -35,7 +35,7 @@ public:
     //! user level
     UserLevel           level;
     //! binary hash of the password
-    QByteArray          sha1Pass;
+    QByteArray          password;
     //! duration of the session send (in second)
     quint32             sessionTime;
     //! binary of the session string

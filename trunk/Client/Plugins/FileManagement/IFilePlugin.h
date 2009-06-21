@@ -1,8 +1,9 @@
-#ifndef IFILEMANAGEMENT_H
-#define IFILEMANAGEMENT_H
+#ifndef IFILEPLUGIN_H
+#define IFILEPLUGIN_H
 
 #include <QHash>
-#include "IFile.h"
+
+class IFile;
 
 /*!
  *  a class used to:
@@ -12,7 +13,7 @@
  *  - manage the queue of transfert
  */
 //! interface to manage every file transfert and informations
-class   IFileManagement
+class   IFilePlugin
 {
 public:
     //! Return a new instance of File. No errors.
@@ -30,6 +31,6 @@ public:
     //const QList<File*> getFileListByCTime(....); ByMtime By
 };
 
-Q_DECLARE_INTERFACE(IFileManagement, "net.horus.Client.FileManagementInterface/1.0");
+Q_DECLARE_INTERFACE(IFilePlugin, "net.horus.Client.FilePluginInterface/1.0");
 
 #endif // IFILEMANAGEMENT_H

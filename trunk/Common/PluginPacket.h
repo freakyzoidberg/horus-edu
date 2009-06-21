@@ -5,28 +5,34 @@
 #include <QVariant>
 #include <QDataStream>
 
+class UserData;
 //! communication class between server plugin and a client plugin
 class PluginPacket
 {
 public:
     inline PluginPacket() { error=0; }
-    inline PluginPacket(const QByteArray& _target, const QByteArray& _request, const QVariant& _data=QVariant()) { targetPlugin=_target; request=_request; data=_data; error=0;}
+    inline PluginPacket(const QString& _target, const QString& _request, const QVariant& _data=QVariant()) { targetPlugin=_target; request=_request; data=_data; error=0;}
 
     //! version of the source plugin. For a plugin, it's not neccessary to fill this value
-    QByteArray packetVersion;
+    QString packetVersion;
     //! source plugin. For a plugin, it's not neccessary to fill this value
-    QByteArray sourcePlugin;
+    QString sourcePlugin;
 
     //! target plugin
-    QByteArray targetPlugin;
+    QString targetPlugin;
     //! request
-    QByteArray request;
+    QString request;
     //! error code
     quint16    error;
     //! error message
     QString    errorMessage;
     //! data of the packet
     QVariant   data;
+
+#ifdef HORUS_SERVER
+    //! Just an information given by the server when receiving a packet. This field also need to be filled before sending a packet to this User.
+    UserData* user;
+#endif
 };
 
 QDebug& operator<<(QDebug& d, const PluginPacket& p);

@@ -1,26 +1,14 @@
-#include "PluginManager.h"
+#include "../Common/PluginManager.h"
 #include <QSettings>
 #include <QPluginLoader>
-#include <QCoreApplication>
 #include <QStringList>
 #include <QDebug>
 
-PluginManager* PluginManager::instance = 0;
-PluginManager* PluginManager::globalInstance()
-{
-    if ( ! instance)
-        instance = new PluginManager;
-    return instance;
-}
+#include "../Common/MetaPlugin.h"
 
-IServerPlugin*  PluginManager::getPlugin(const QByteArray& name) const
-{
-    if (plugins.contains(name))
-        return plugins.value(name);
-    return 0;
-}
+QHash<QString,Plugin*> PluginManager::plugins;
 
-PluginManager::PluginManager() : QObject(QCoreApplication::instance())
+void PluginManager::load()
 {
     QSettings s;
     QString path = s.value("SETTINGS/PluginsBase", "./Plugins").toString();
@@ -30,20 +18,15 @@ PluginManager::PluginManager() : QObject(QCoreApplication::instance())
     {
         QString file = path + "/" + s.value(key).toString();
         QPluginLoader loader(file);
-        IServerPlugin *plugin = (IServerPlugin*)loader.instance();
-        if (plugin)
-        {
-            plugins[ plugin->name() ] = plugin;
-            plugin->server = new InterfaceServer(plugin);
-            //connect(plugin, SIGNAL(destroyed()), plugin->server, SLOT(deleteLater()));
-            qDebug() << "PluginManager:" << loader.fileName() << "loaded";
-        }
+        MetaPlugin *metaPlugin = (MetaPlugin*)loader.instance();
+        if (metaPlugin)
+            foreach (Plugin* plugin, metaPlugin->pluginList)
+            {
+                plugins[ plugin->pluginName() ] = plugin;
+                qDebug() << "PluginManager:" << plugin->pluginName() << "loaded from" << loader.fileName();
+            }
         else
-            qDebug() << "PluginManager:" << file << loader.errorString();
+            qDebug() << "PluginManager:" << loader.errorString();
     }
-
-    foreach (IServerPlugin* plugin, plugins)
-        plugin->start();
-
     s.endGroup();
 }
