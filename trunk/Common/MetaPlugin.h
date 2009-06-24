@@ -7,6 +7,7 @@
 #include <QList>
 
 #include "Plugin.h"
+#include "PluginManager.h"
 
 class MetaPlugin : public QObject
 {

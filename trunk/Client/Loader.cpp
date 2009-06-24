@@ -1,7 +1,7 @@
 #include "Loader.h"
 #include "ConfigManager.h"
 #include "ThreadNetwork.h"
-#include "PluginManager.h"
+#include "ThreadPlugin.h"
 #include "ClientEvents.h"
 #include "LoginDialog.h"
 #include "MainWindow.h"
@@ -29,20 +29,16 @@ void    Loader::loadNetwork()
 
 void    Loader::loadPlugins()
 {
-    PluginManager  *pluginManager;
-
     ++(this->processes);
-    pluginManager = parent->findChild<PluginManager *>();
-    QApplication::postEvent(pluginManager, new QEvent(ClientEvents::StartEvent));
+    ThreadPlugin* pluginThread = parent->findChild<ThreadPlugin*>();
+    QApplication::postEvent(pluginThread, new QEvent(ClientEvents::StartEvent));
 }
 
 void    Loader::loadConfig()
 {
-    ConfigManager   *configManager;
-
     ++(this->processes);
-    configManager = parent->findChild<ConfigManager *>();
-    QApplication::postEvent(configManager, new QEvent(ClientEvents::StartEvent));
+    ConfigManager* config = parent->findChild<ConfigManager*>();
+    QApplication::postEvent(config, new QEvent(ClientEvents::StartEvent));
 }
 
 bool    Loader::event(QEvent *event)

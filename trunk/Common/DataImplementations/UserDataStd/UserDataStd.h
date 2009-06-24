@@ -2,7 +2,10 @@
 #define USERDATASTD_H
 
 #ifdef HORUS_SERVER
-#include <QtSql>
+    #include <QtSql>
+#endif
+#ifdef HORUS_CLIENT
+    #include <QVariant>
 #endif
 #include <QByteArray>
 #include <QDateTime>
@@ -12,7 +15,15 @@
 
 class UserDataStd : public UserData
 {
-    friend class UserDataStdPlugin;
+  Q_OBJECT
+#ifdef HORUS_SERVER
+  Q_INTERFACES(ServerUserData ServerData)
+#endif
+#ifdef HORUS_CLIENT
+  Q_INTERFACES(ClientUserData ClientData)
+#endif
+
+  friend class UserDataStdPlugin;
 private:
     inline UserDataStd(quint32 userId, UserDataStdPlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { }
     inline ~UserDataStd() {}
@@ -47,10 +58,9 @@ public:
     void dataFromStream(QDataStream& s);
 
     //! Usefull for debuging. Not mandatory but important.
-    QDebug operator<<(QDebug debug);
+    QDebug operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
-//TODO
-//    QVariant getValue(int column, int role);
+    QVariant getValue(int column, int role) const;
 #endif
 #ifdef HORUS_SERVER
     //! Fill the current data with a defined key from teh database.

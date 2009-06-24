@@ -1,11 +1,14 @@
 #ifndef PLUGIN_H
 #define PLUGIN_H
 
+#include <QtCore/qglobal.h>
+#include <QtPlugin>
 #include <QObject>
 #include <QStringList>
 
 class Plugin : public QObject
 {
+  Q_OBJECT
 public:
     //! The name of the plugin
     /*!
@@ -47,5 +50,7 @@ public:
      */
     virtual inline bool              event(QEvent*) { return false; }
 };
+
+Q_DECLARE_INTERFACE(Plugin, "net.horus.Plugin/1.0");
 
 #endif // PLUGIN_H

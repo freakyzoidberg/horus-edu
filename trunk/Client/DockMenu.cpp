@@ -6,11 +6,12 @@
 #include <QDebug>
 
 #include "MainWindow.h"
+#include "../Common/PluginManager.h"
+#include "DisplayablePlugin.h"
 
-DockMenu::DockMenu(QWidget *parent, PluginManager *pluginManager) : QDockWidget::QDockWidget(parent)
+DockMenu::DockMenu(QWidget *parent) : QDockWidget::QDockWidget(parent)
 {
-    this->pluginManager = pluginManager;
-    IDisplayablePlugin *plugin = 0;
+    DisplayablePlugin *plugin = 0;
     QWidget *widget;
     QVBoxLayout *layout;
     QPushButton *item;
@@ -18,8 +19,7 @@ DockMenu::DockMenu(QWidget *parent, PluginManager *pluginManager) : QDockWidget:
     this->ui.setupUi(this);
     widget = new QWidget();
     layout = new QVBoxLayout(widget);
-    if (pluginManager)
-        plugin = pluginManager->findDisplayablePlugin("MainFrame");
+    plugin = PluginManager().findPlugin<DisplayablePlugin*>("MainFrame");
     if (plugin)
     {
         item = new QPushButton("Main Board");
@@ -27,7 +27,7 @@ DockMenu::DockMenu(QWidget *parent, PluginManager *pluginManager) : QDockWidget:
         layout->addWidget(item);
         connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
     }
-    plugin = pluginManager->findDisplayablePlugin("Course");
+    plugin = PluginManager().findPlugin<DisplayablePlugin*>("Course");
     if (plugin)
     {
         item = new QPushButton("Course");
@@ -35,7 +35,7 @@ DockMenu::DockMenu(QWidget *parent, PluginManager *pluginManager) : QDockWidget:
         layout->addWidget(item);
         connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
     }
-    plugin = pluginManager->findDisplayablePlugin("Administration");
+    plugin = PluginManager().findPlugin<DisplayablePlugin*>("Administration");
     if (plugin)
     {
         item = new QPushButton("Administration");
@@ -50,8 +50,8 @@ DockMenu::DockMenu(QWidget *parent, PluginManager *pluginManager) : QDockWidget:
 
 void DockMenu::itemClicked()
 {
-    IDisplayablePlugin *plugin;
+    DisplayablePlugin *plugin;
 
-    plugin = pluginManager->findDisplayablePlugin(QObject::sender()->objectName());
-    ((MainWindow *) this->parent())->setCentralWidget(plugin->getWidget());
+    plugin = PluginManager().findPlugin<DisplayablePlugin*>(((Plugin*)(sender()))->pluginName());
+    ((MainWindow *)parent())->setCentralWidget(plugin->getWidget());
 }

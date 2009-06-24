@@ -1,21 +1,21 @@
 #include "MainFrameWidget.h"
 
+#include "../../../Common/PluginManager.h"
+
 #include <QPushButton>
 #include <QDebug>
 #include <QLabel>
 #include <QDateTime>
 
-#include "../../../IClient.h"
-
-MainFrameWidget::MainFrameWidget(MainFrame *plugin) : QFrame::QFrame()
+MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame::QFrame()
 {
     this->layout = new QGridLayout;
-    IClientPlugin *course = 0;
+    Plugin *course = 0;
     QPushButton *button;
 
-    this->plugin = plugin;
+    this->plugin = _plugin;
     ui.setupUi(this);
-    course = plugin->client->getPlugin("Course");
+    course = PluginManager().findPlugin<DisplayablePlugin*>("Course");
     if (course)
     {
         button = new QPushButton("My Lessons");
@@ -38,5 +38,5 @@ void    MainFrameWidget::updateInfos(QHash<QString, QVariant> userInfo)
 
 void MainFrameWidget::buttonClicked()
 {
-    this->plugin->display->setCentralWidget((qobject_cast<IDisplayablePlugin *>(this->plugin->client->getPlugin("Course")))->getWidget());
+    this->plugin->setCentralWidget(PluginManager().findPlugin<DisplayablePlugin*>("Course")->getWidget());
 }

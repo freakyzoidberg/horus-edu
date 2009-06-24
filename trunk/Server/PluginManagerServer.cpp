@@ -1,14 +1,16 @@
-#include "../Common/PluginManager.h"
+#include "PluginManagerServer.h"
+#include "DataManagerServer.h"
+#include "../Common/DataPlugin.h"
+#include "../Common/Plugin.h"
+#include "../Common/MetaPlugin.h"
 #include <QSettings>
 #include <QPluginLoader>
 #include <QStringList>
 #include <QDebug>
 
-#include "../Common/MetaPlugin.h"
+Q_DECL_EXPORT QHash<QString,Plugin*> PluginManager::_plugins;
 
-QHash<QString,Plugin*> PluginManager::plugins;
-
-void PluginManager::load()
+void PluginManagerServer::load()
 {
     QSettings s;
     QString path = s.value("SETTINGS/PluginsBase", "./Plugins").toString();
@@ -22,11 +24,16 @@ void PluginManager::load()
         if (metaPlugin)
             foreach (Plugin* plugin, metaPlugin->pluginList)
             {
-                plugins[ plugin->pluginName() ] = plugin;
+                _plugins.insert(plugin->pluginName(), plugin);
                 qDebug() << "PluginManager:" << plugin->pluginName() << "loaded from" << loader.fileName();
             }
         else
             qDebug() << "PluginManager:" << loader.errorString();
     }
     s.endGroup();
+
+    DataPlugin* p;
+    foreach (Plugin* plugin, _plugins)
+        if ((p = qobject_cast<DataPlugin*>(plugin)))
+            p->dataManager = new DataManagerServer(p);
 }

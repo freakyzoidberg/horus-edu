@@ -4,11 +4,12 @@
 #include "Sql.h"
 
 #include "ThreadPacket.h"
-
+#include "../Common/DataManager.h"
 #include "../Common/PluginManager.h"
 #include "../Common/UserDataPlugin.h"
 #include "UserSettings.h"
 #include "../Common/CommInit.h"
+#include "../Common/CommData.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
 #include "../Common/NetworkPlugin.h"
@@ -42,20 +43,17 @@ ThreadPacket::packetDirection ThreadPacket::packetDirections[] =
 
 void ThreadPacket::PacketUndefined()
 {
-    CommPacket p(CommPacket::UNDEFINED);
-    qDebug() << "[ in]" << p;
+//    CommPacket p(CommPacket::UNDEFINED);
 }
 
 void ThreadPacket::PacketError()
 {
-    CommError err(packet);
-    qDebug() << "[ in]" << err;
+//    CommError err(packet);
 }
 
 void ThreadPacket::PacketInit()
 {
     CommInit init(packet);
-    qDebug() << "[ in]" << init;
 
     if (socket->status != ClientSocket::INIT)
         return sendError(CommError::ALREADY_INITIALIZED);
@@ -66,16 +64,12 @@ void ThreadPacket::PacketInit()
 void ThreadPacket::PacketAlive()
 {
     CommPacket a(CommPacket::ALIVE);
-    qDebug() << "[ in]" << a;
-
     emit sendPacket(a.getPacket());
-    qDebug() << "[out]" << a;
 }
 
 void ThreadPacket::PacketLogin()
 {
     CommLogin login(packet);
-    qDebug() << "[ in]" << login;
 
     // wait other threads for this connexion if needed
     socket->waitOtherThreads();
@@ -85,12 +79,10 @@ void ThreadPacket::PacketLogin()
     if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION && login.method != CommLogin::LOGOUT)
         return sendError(CommError::PROTOCOL_ERROR);
 
-    UserDataPlugin* plugin = PluginManager().findPlugin<UserDataPlugin*>("UserDataPlugin");
+    UserDataPlugin* plugin = PluginManager().findPlugin<UserDataPlugin*>();
+//    UserDataPlugin* plugin = (UserDataPlugin*)PluginManager().findPlugin("UserDataPlugin");
     if ( ! plugin)
-    {
-        qDebug() << "ThreadPacket::PacketLogin No UserDataPlugin found. Cannot authenticate the user.";
-        return sendError(CommError::INTERNAL_ERROR);
-    }
+        return sendError(CommError::INTERNAL_ERROR, "No UserDataPlugin found. Cannot authenticate the user.");
 
     Sql conn;
     QSqlQuery query(QSqlDatabase::database(conn));
@@ -131,13 +123,16 @@ void ThreadPacket::PacketLogin()
     ClientSocket::connectedUsers[user] = socket;
     socket->user = user;
 
+    qDebug() << user;
+
     CommLogin resp(CommLogin::ACCEPTED);
     //TODO remove level and maybe session info
     resp.level = socket->user->level;
     resp.sessionString = socket->user->session;
     resp.sessionTime =   socket->user->sessionEnd.toTime_t();
     emit sendPacket(resp.getPacket());
-    qDebug() << "[out]" << resp;
+
+    plugin->dataManager->sendData(user,user);
 
     //TODO send UserData to the connected client
 
@@ -147,6 +142,15 @@ void ThreadPacket::PacketLogin()
 
 void ThreadPacket::PacketData()
 {
+    CommData data(packet);
+
+    //TODO stock in QHash for quicker execution
+    foreach (DataPlugin* plugin, PluginManager().findPlugins<DataPlugin*>())
+        if (plugin->getDataType() == data.type)
+            plugin->dataManager->receiveData(socket->user, packet);
+}
+//void ThreadPacket::PacketData()
+//{
 //    CommFile f(packet);
 //    qDebug() << "[ in]" << f;
 //
@@ -228,7 +232,7 @@ void ThreadPacket::PacketData()
 //
 //    emit sendPacket(f.getPacket());
 //    qDebug() << "[out]" << f;
-}
+//}
 
 //void ThreadPacket::PacketSettings()
 //{
@@ -264,9 +268,7 @@ void ThreadPacket::PacketData()
 
 void ThreadPacket::PacketPlugin()
 {
-    int len = packet.length();
     CommPlugin mod(packet);
-    qDebug() << "[ in]" << mod << "length:" << len;
 
     if (socket->status != ClientSocket::CONNECTED)
         return sendError(CommError::NOT_INITIALIZED);
@@ -288,7 +290,5 @@ void ThreadPacket::PacketPlugin()
 
 void ThreadPacket::sendError(CommError::Error error, const char* str) const
 {
-    CommError err(error, str);
-    qDebug() << "[out]" << err;
-    emit sendPacket(err.getPacket());
+    emit sendPacket(CommError(error, str).getPacket());
 }

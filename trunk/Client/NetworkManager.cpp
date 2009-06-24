@@ -1,5 +1,5 @@
 #include "NetworkManager.h"
-#include "PluginManager.h"
+#include "ThreadPlugin.h"
 #include "NotificationClient.h"
 #include <QSettings>
 

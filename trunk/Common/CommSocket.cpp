@@ -1,4 +1,5 @@
 #include "CommSocket.h"
+#include "CommPacket.h"
 #include <QtEndian>
 #include <QSsl>
 
@@ -42,6 +43,7 @@ void CommSocket::bytesReceived()
 
     sizePacket = 0;
 
+    CommPacket::debugPacket((qDebug() << "[ in]"), pac);
     emit packetReceived(pac);
     emit readyRead();
 }
@@ -52,4 +54,6 @@ void CommSocket::sendPacket(const QByteArray& pac)
     write((char*)&size, sizeof(size));
     write(pac.data(), size);
     flush();
+
+    CommPacket::debugPacket((qDebug() << "[out]"), pac);
 }

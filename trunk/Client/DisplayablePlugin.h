@@ -1,15 +1,15 @@
-#ifndef IDISPLAYABLEPLUGIN_H
-#define IDISPLAYABLEPLUGIN_H
+#ifndef DISPLAYABLEPLUGIN_H
+#define DISPLAYABLEPLUGIN_H
 
 #include <QWidget>
 
-#include "IDisplayable.h"
+#include "../Common/Plugin.h"
 
 //! Interface optionnal for using the display
 /*!
  *  Each plugin implementing this interface will be able to use the display : show and use QWidgets
  */
-class IDisplayablePlugin
+class DisplayablePlugin : public Plugin
 {
     public:
     //! Pointer to an implementation of the interface IDisplayable
@@ -17,10 +17,10 @@ class IDisplayablePlugin
      *  This pointer is set by the Client while loading the plugin.
      *  It let plugin access display ressources
      */
-    IDisplayable    *display;
     virtual QWidget *getWidget() = 0;
+    virtual void setCentralWidget(QWidget *widget) = 0;
 };
 
-Q_DECLARE_INTERFACE(IDisplayablePlugin, "net.horus.Client.DisplayableInterface/1.0");
+Q_DECLARE_INTERFACE(DisplayablePlugin, "net.horus.Client.DisplayablePlugin/1.0");
 
-#endif // IDISPLAYABLEPLUGIN_H
+#endif // DISPLAYABLEPLUGIN_H
