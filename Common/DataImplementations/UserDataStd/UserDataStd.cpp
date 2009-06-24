@@ -44,35 +44,35 @@ void UserDataStd::dataFromStream(QDataStream& s)
       >> idTree;
 }
 
-QDebug UserDataStd::operator<<(QDebug debug)
+QDebug UserDataStd::operator<<(QDebug debug) const
 {
-    return debug << getType()
+    return debug << getDataType()
                  << level
-                 << enabled
-                 << login
-                 << session
-                 << sessionEnd
+                 //<< enabled
+                 << "login=" << login
+                 //<< session.toHex()
+                 //<< sessionEnd
                  << lastLogin
-                 << surname
-                 << name
-                 << birthDate
-                 << picture
-                 << address
-                 << phone
-                 << country
-                 << language
+                 //<< surname
+                 //<< name
+                 //<< birthDate
+                 //<< picture
+                 //<< address
+                 //<< phone
+                 //<< country
+                 //<< language
                  << idTree;
 }
 
 #ifdef HORUS_CLIENT
-QVariant UserDataStd::getValue(int column, int role)
+QVariant UserDataStd::getValue(int column, int role) const
 {
     return QVariant();
 }
 #endif
 
 #ifdef HORUS_SERVER
-void UserDataStd::fillFromDatabase  (QSqlQuery& query)
+void UserDataStd::fillFromDatabase(QSqlQuery& query)
 {
     query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users WHERE id=?;");
     query.addBindValue(id);

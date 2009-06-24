@@ -19,4 +19,6 @@ private:
     void             write(QByteArray&) const;
 };
 
+QDebug operator<<(QDebug, const CommData&);
+
 #endif // COMMDATA_H

@@ -1,6 +1,9 @@
 #include "UserDataStdPlugin.h"
 #include "UserDataStd.h"
 
+#include "../../../Common/PluginManager.h"
+#include "../../../Common/Plugin.h"
+
 UserData* UserDataStdPlugin::getUser(quint32 userId)
 {
     if ( ! users.contains(userId))
@@ -8,6 +11,7 @@ UserData* UserDataStdPlugin::getUser(quint32 userId)
         UserDataStd* user = new UserDataStd(userId, this);
         users[userId] = user;
     }
+    qDebug() << PluginManager().findPlugins<Plugin*>();
     return users[userId];
 }
 
@@ -18,6 +22,14 @@ Data* UserDataStdPlugin::getDataWithKey(QDataStream& s)
     return getUser(tmpId);
 }
 
+#ifdef HORUS_CLIENT
+void UserDataStdPlugin::dataHaveNewKey(Data*d, QDataStream& s)
+{
+    quint32 tmpId;
+    s >> tmpId;
+    ((UserDataStd*)(d))->id = tmpId;
+}
+#endif
 #ifdef HORUS_SERVER
 bool UserDataStdPlugin::verifyDataBase(QSqlQuery& TODO)
 {
@@ -47,6 +59,7 @@ UserData* UserDataStdPlugin::authenticatePassword(QSqlQuery& query, const QStrin
 
     UserData* user = getUser(query.value(0).toUInt());
     user->fillFromDatabase(query);
+    user->setStatus(user, Data::UPTODATE);
     user->newSession(query);
     return user;
 }
@@ -70,6 +83,7 @@ UserData* UserDataStdPlugin::authenticateSession (QSqlQuery& query, const QStrin
 
     UserData* user = getUser(query.value(0).toUInt());
     user->fillFromDatabase(query);
+    user->setStatus(user, Data::UPTODATE);
     user->newSession(query);
     return user;
 }

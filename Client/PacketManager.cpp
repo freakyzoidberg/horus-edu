@@ -1,10 +1,11 @@
 #include "PacketManager.h"
-#include "INetworkPlugin.h"
-#include "IClientPlugin.h"
+#include "ClientApplication.h"
+#include "../Common/PluginManager.h"
+#include "../Common/NetworkPlugin.h"
+#include "../Common/MetaPlugin.h"
 
-PacketManager::PacketManager(QObject* parent) : QObject()
+PacketManager::PacketManager(QObject* parent) : QObject(parent)
 {
-    this->parent = static_cast<ClientApplication *>(parent);
     state = DISCONNECTED;
 }
 
@@ -15,7 +16,7 @@ packetDirection PacketManager::packetDirections[] =
     &PacketManager::PacketInit,
     &PacketManager::PacketAlive,
     &PacketManager::PacketLogin,
-    &PacketManager::PacketSettings,
+    &PacketManager::PacketData,
     &PacketManager::PacketPlugin
 };
 
@@ -51,16 +52,13 @@ void    PacketManager::clearPacketStack()
 void PacketManager::PacketError()
 {
     CommError err(packet);
-    qDebug() << "[ in]" << err;
 }
 
 void PacketManager::PacketInit()
 {
     CommInit i(packet);
-    qDebug() << "[ in]" << i;
     i.fromName = CLIENT_NAME;
     emit sendPacket(i.getPacket());
-    qDebug() << "[out]" << i;
 
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     settings.beginGroup("SESSIONS");
@@ -71,12 +69,11 @@ void PacketManager::PacketInit()
         ls.login = settings.value("sessionLogin", "").toString();
         ls.sessionString = settings.value("sessionString", "").toByteArray();
         emit sendPacket(ls.getPacket());
-        qDebug() << "[out]" << ls;
     }
     else
     {
         state = INIT;
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::ShowLoginEvent));
+        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::ShowLoginEvent));
     }
     settings.endGroup();
 
@@ -84,7 +81,6 @@ void PacketManager::PacketInit()
 
 void PacketManager::PacketAlive()
 {
-    qDebug() << "[ in] Alive";
 }
 
 void PacketManager::PacketLogin()
@@ -101,43 +97,39 @@ void PacketManager::PacketLogin()
         uint sessionEnd = QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t();
         settings.setValue("sessionEnd", sessionEnd);
         //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
-        qDebug() << "[ in]" << l;
         settings.endGroup();
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::HideLoginEvent));
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::HideLoginEvent));
+        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::StartEvent));
         state = PacketManager::LOGGED_IN;
         clearPacketStack();
     }
     else if (l.method == CommLogin::REFUSED)
     {
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::ShowLoginEvent));
-        qDebug() << "[ in]" << l;
+        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::ShowLoginEvent));
     }
 
 }
 
-void PacketManager::PacketSettings()
+void PacketManager::PacketData()
 {
-//    CommSettings set(packet);
-    RecvPacketEvent *rpe = new RecvPacketEvent(packet);
-    QApplication::postEvent(parent->findChild<ConfigManager *>(), rpe);
+    CommData data(packet);
+
+    //TODO stock in QHash for quicker execution
+    foreach (DataPlugin* plugin, PluginManager().findPlugins<DataPlugin*>())
+        if (plugin->getDataType() == data.type)
+            plugin->dataManager->receiveData(0, packet);
 }
 
 void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
-    qDebug() << "[ in]" << p;
 
-    this->pM = parent->findChild<PluginManager *>();
-    QString target(p.packet.targetPlugin);
-    INetworkPlugin *networkP = this->pM->findNetworkPlugin(target);
-
-    PluginEvent *pe = new PluginEvent(p.packet, p.packet.targetPlugin);
-
-    QApplication::postEvent(this->pM, pe);
+    NetworkPlugin *plugin = PluginManager().findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
+    if (plugin)
+        plugin->receivePacket(0, p.packet);
+    //TODO else ... !!!
 }
 
 void        PacketManager::sessionEnd()
 {
-
 }

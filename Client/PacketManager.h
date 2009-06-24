@@ -10,11 +10,11 @@
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
 #include "../Common/CommPacket.h"
+#include "../Common/CommData.h"
 #include "../Common/CommError.h"
 #include "ClientEvents.h"
 #include "ClientApplication.h"
 #include "ConfigManager.h"
-#include "PluginManager.h"
 
 class NetworkManager;
 
@@ -41,8 +41,6 @@ class   PacketManager : public QObject
         enum        tState {INIT, LOGIN_SESSION, LOGGED_IN, DISCONNECTED};
         //!  client's state
         tState      state;
-        //!  PacketManager's parent to send event to the ClientApplication Class
-        ClientApplication *parent;
         //! Queue contains packets to send
         QQueue<QByteArray> packetStack;
         //! Send all the packets contained in packetStack
@@ -52,7 +50,7 @@ class   PacketManager : public QObject
         void        PacketInit();
         void        PacketAlive();
         void        PacketLogin();
-        void        PacketSettings();
+        void        PacketData();
         void        PacketPlugin();
 
         //! the received packet
@@ -60,8 +58,6 @@ class   PacketManager : public QObject
          */
         QByteArray  packet;
 
-        //! pointer to PluginManager
-        PluginManager *pM;
         //! corespondance table between CommPacket::type and the methods
         static void (PacketManager::*packetDirections[]) ();
     signals:

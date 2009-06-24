@@ -20,8 +20,9 @@ const QByteArray CommData::getPacket() const
 
 void CommData::read(const QByteArray& a)
 {
-    type = a.mid(1, a[0]);
-    data = a.mid(1 + a[0]);
+    int len = lenParent();
+    type = a.mid(len + 1,  a[ len ]);
+    data = a.mid(len + 1 + a[ len ]);
 }
 
 void CommData::write(QByteArray& a) const
@@ -31,7 +32,7 @@ void CommData::write(QByteArray& a) const
     a.append(data);
 }
 
-QDebug operator<<(QDebug d, const CommData& e)
+QDebug operator<<(QDebug d, const CommData& p)
 {
-    return d << (CommPacket&)e << e.type << e.data;
+    return d << (CommPacket&)p << p.type << "lenght:" << p.data.length();
 }

@@ -4,7 +4,7 @@
 #include <QtDebug>
 #include <QThreadPool>
 #include "Server.h"
-#include "../Common/PluginManager.h"
+#include "PluginManagerServer.h"
 #include "../Common/Defines.h"
 #include <QString>
 #include "Settings.h"
@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
            }
 
     Server theserver(&a);
-    PluginManager().load();
+    PluginManagerServer().load();
     qDebug() << "main() Server Loaded";
 
     QThreadPool::globalInstance()->setMaxThreadCount(MAX_POOL_THREADS);

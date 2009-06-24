@@ -5,28 +5,52 @@
   #include <QtSql>
 #else
 #ifdef HORUS_CLIENT
-
 #else
   #error "You must define HORUS_CLIENT or HORUS_SERVER in your project."
 #endif
 #endif
 
+#include <QMutex>
 #include <QDataStream>
 #include <QString>
 #include <QDebug>
 
-class DataPlugin;
+#include "DataPlugin.h"
+
+//class DataPlugin;
 class UserData;
 class Data : public QObject
 {
   Q_OBJECT
+#ifdef HORUS_SERVER
+  friend class DataManagerServer;
+#endif
+#ifdef HORUS_CLIENT
+  friend class DataManagerClient;
+#endif
 
 public:
-    enum DataStatus { EMPTY, UPDATING, SAVING, CREATING, DELETING, CACHED, UPTODATE, CREATED, DELETED };
+    //                          // key|value| other
+    enum DataStatus { EMPTY,    //  - |  -  |
+                      CACHED,   //  X |  X  |
+                    // CLIENT -> SERVER
+                      UPDATING, //  X |  -  |
+                      SAVING,   //  X |  X  | old data
+                      CREATING, //  X |  X  |
+                      DELETING, //  X |  -  |
+                    // SERVER -> CLIENT
+                      UPTODATE, //  X |  X  |
+                      SAVED,    //  X |  -  |
+                      CREATED,  //  X |  -  | new key
+                      DELETED}; //  X |  -  |
+    //              error!=NONE //  X |  -  |
     enum Error { NONE=0, PERMITION_DENIED=1, NOT_FOUND=2, DATABASE_ERROR=3, DATA_ALREADY_CHANGED=4 };
-    const char* errorMessage();
 
-    const QString getType() const;
+    inline quint8        error() const { return _error; }
+    inline void          setError(quint8 e) { _error=e; if (_error) emit dataError(_error); }
+
+    inline const QString getDataType() const { return _plugin->getDataType(); }
+
 
     //! Have to write his key into the stream to be able to identify this data with the server and the cache.
     virtual void keyToStream(QDataStream& s) = 0;
@@ -45,20 +69,29 @@ public:
     virtual void dataFromStream(QDataStream& s) = 0;
 
     //! Return the current status of this data.
-    inline DataStatus  status() const { return (DataStatus)_status; }
+    inline quint8      status() const { return (quint8)_status; }
     //! Change the current status and tell the coresponding plugin the data just changed.
-    void               setStatus(UserData* user, DataStatus status);
+    inline void        setStatus(UserData* user, quint8 status) {
+        _plugin->dataManager->dataStatusChange(user, this, status);
+        if (_status == UPTODATE) emit updated();
+    }
 
-    //! Usefull for debuging. Not mandatory but important.
-    virtual QDebug operator<<(QDebug debug) const { return debug << getType(); }
-#ifdef HORUS_CLIENT
-    virtual QVariant getValue(int column, int role) = 0;
-    //! Function just set the UPDATING status if not already uptodate or updating
-    inline void update()
-        { if (status == EMPTY || status == UPTODATE || status == CACHED) setStatus(UPDATING); }
+
 signals:
     //! Signal emmited when the data is updated.
     void updated();
+    //! Signal emmited when an error append on this data
+    void dataError(quint8 error);
+
+public:
+    //! Usefull for debuging. Not mandatory but important.
+    virtual inline QDebug operator<<(QDebug debug) const { return debug << getDataType(); }
+    //virtual QDebug operator<<(QDebug debug) const = 0;
+#ifdef HORUS_CLIENT
+    virtual QVariant getValue(int column, int role) const = 0;
+    //! Function just set the UPDATING status if not already uptodate or updating
+    inline void update()
+        { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(0, UPDATING); }
 #endif
 #ifdef HORUS_SERVER
     //! Fill the current data with a defined key from teh database.
@@ -72,14 +105,26 @@ signals:
 #endif
 
 protected:
-    inline Data(DataPlugin* plugin, DataStatus status=EMPTY) { _plugin=plugin; _status=status; _error=NONE; }
-    inline ~Data() {}
+    inline Data(DataPlugin* plugin) { _plugin=plugin; _status=EMPTY; _error=NONE; lock=new QMutex(QMutex::Recursive); }
+    inline ~Data() { delete lock; }
 
     DataPlugin*        _plugin;
     quint8             _status;
     quint8             _error;
+
+    QMutex             *lock;
 };
 
 inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }
+inline QDebug operator<<(QDebug debug, const Data* data) { return (*data) << debug; }
+
+#ifdef HORUS_SERVER
+typedef Data ServerData;
+Q_DECLARE_INTERFACE(ServerData, "net.horus.ServerData/1.0");
+#endif
+#ifdef HORUS_CLIENT
+typedef Data ClientData;
+Q_DECLARE_INTERFACE(ClientData, "net.horus.ClientData/1.0");
+#endif
 
 #endif // DATA_H

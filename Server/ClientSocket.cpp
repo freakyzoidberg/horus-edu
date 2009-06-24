@@ -37,6 +37,9 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
 ClientSocket::~ClientSocket()
 {
     nbCon--;
+    if (user)
+        connectedUsers.remove(user);
+
     qDebug() << "-----Client"<< id << "disconected. there's still" << nbCon << "users";
     close();
 }
@@ -50,7 +53,6 @@ void ClientSocket::ready()
     // Send the CommInit packet
     CommInit init(CURRENT_PROTO_VERSION, SERVER_NAME);
     sendPacket(init.getPacket());
-    qDebug() << "[out]" << init;
 }
 
 void ClientSocket::packetAvailable(const QByteArray& pac)

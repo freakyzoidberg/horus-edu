@@ -92,4 +92,27 @@
 //! enumerate the differents Level of users
 enum UserLevel { LEVEL_ROOT, LEVEL_ADMINISTRATOR, LEVEL_TEACHER, LEVEL_STUDENT, LEVEL_FAMILY, LEVEL_GUEST, __LAST_LEVEL__ };
 
+#ifdef HORUS_CORE
+  #define HORUS_PLUGIN_IMPORT Q_DECL_EXPORT
+//  #warning EXPORT
+#else
+  #define HORUS_PLUGIN_IMPORT Q_DECL_IMPORT
+//  #warning IMPORT
+#endif
+
+//#ifdef Q_INTERFACES
+//#define HORUS_INTERFACES(NAME)  { #NAME, NAME ## _command }
+//#endif
+//typedef NAME Server##NAME ;
+#ifdef HORUS_SERVER
+//  #define HORUS_DECLARE_INTERFACE(NAME) Q_DECLARE_INTERFACE(Server ## NAME, "net.Horus.Server" #NAME "/1.0")
+#else
+//                                        //typedef NAME Client##NAME ;
+#ifdef HORUS_CLIENT
+//  #define HORUS_DECLARE_INTERFACE(NAME) Q_DECLARE_INTERFACE(Client ## NAME, "net.Horus.Client" #NAME "/1.0");
+#else
+  #error "You must define HORUS_CLIENT or HORUS_SERVER in your .pro file (DEFINES += HORUS_...)."
+#endif
+#endif
+
 #endif // DEFINES_H

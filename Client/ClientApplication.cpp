@@ -1,7 +1,7 @@
 #include    "ClientApplication.h"
 #include    "../Common/Defines.h"
 #include    "Loader.h"
-#include    "PluginManager.h"
+#include    "ThreadPlugin.h"
 #include    "ConfigManager.h"
 #include    "ClientEvents.h"
 #include    "LoginDialog.h"
@@ -19,7 +19,7 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     //pour segfault a git
     this->setApplicationVersion(CLIENT_VERSION);
     new ConfigManager(this);
-    new PluginManager(this);
+    new ThreadPlugin(this);
     this->loader = new Loader(this);
     this->loader->show();
 }
@@ -39,33 +39,29 @@ bool    ClientApplication::event(QEvent *event)
 
 void    ClientApplication::reloadPlugins()
 {
-    PluginManager   *manager;
-
-    manager = this->findChild<PluginManager *>();
+    ThreadPlugin* manager = this->findChild<ThreadPlugin*>();
     QApplication::postEvent(this, new QEvent(ClientEvents::StopEvent));
     QApplication::postEvent(this, new QEvent(ClientEvents::StartEvent));
-    //QApplication::postEvent(manager, new StopEvent);
-    //QApplication::postEvent(manager, new StartEvent);
+    QApplication::postEvent(manager, new QEvent(ClientEvents::StopEvent));
+    QApplication::postEvent(manager, new QEvent(ClientEvents::StartEvent));
 }
 
 void    ClientApplication::restartNetwork()
 {
-    NetworkManager   *manager;
-
-    manager = this->findChild<NetworkManager *>();
+    NetworkManager* manager = this->findChild<NetworkManager *>();
     QApplication::postEvent(this, new QEvent(ClientEvents::StopEvent));
     QApplication::postEvent(this, new QEvent(ClientEvents::StartEvent));
-    //QApplication::postEvent(manager, new StopEvent);
-    //QApplication::postEvent(manager, new StartEvent);
+    QApplication::postEvent(manager, new QEvent(ClientEvents::StopEvent));
+    QApplication::postEvent(manager, new QEvent(ClientEvents::StartEvent));
 }
 
 void    ClientApplication::preExit()
 {
-    PluginManager   *pmanager;
+    ThreadPlugin    *pmanager;
     ThreadNetwork   *nmanager;
     ConfigManager   *cmanager;
 
-    pmanager = this->findChild<PluginManager *>();
+    pmanager = this->findChild<ThreadPlugin*>();
     nmanager = this->findChild<ThreadNetwork *>();
     cmanager = this->findChild<ConfigManager *>();
     QApplication::postEvent(nmanager, new QEvent(ClientEvents::StopEvent));

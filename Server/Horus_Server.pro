@@ -5,7 +5,8 @@ QT -= gui
 QT += network \
     sql
 TARGET = Horus_Server
-DEFINES += HORUS_SERVER
+DEFINES += HORUS_SERVER \
+    HORUS_CORE
 CONFIG -= app_bundle
 CONFIG += console
 TEMPLATE = app
@@ -17,7 +18,7 @@ SOURCES = main.cpp \
     UserSettings.cpp \
     Tree.cpp \
     ThreadPacket.cpp \
-    PluginManager.cpp \
+    PluginManagerServer.cpp \
     ../Common/CommInit.cpp \
     ../Common/CommError.cpp \
     ../Common/CommLogin.cpp \
@@ -25,10 +26,10 @@ SOURCES = main.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
     ../Common/PluginPacket.cpp \
-    Logs.cpp \
+    ../Common/DataManager.cpp \
     ../Common/CommData.cpp \
-    ../Common/Data.cpp \
-    DataPlugin.cpp
+    Logs.cpp \
+    DataManagerServer.cpp
 HEADERS = Sql.h \
     Server.h \
     Settings.h \
@@ -36,6 +37,7 @@ HEADERS = Sql.h \
     ThreadPacket.h \
     UserSettings.h \
     Tree.h \
+    PluginManagerServer.h \
     ../Common/PluginManager.h \
     ../Common/Defines.h \
     ../Common/CommInit.h \
@@ -55,4 +57,6 @@ HEADERS = Sql.h \
     ../Common/UserDataPlugin.h \
     ../Common/TreeData.h \
     ../Common/TreeDataPlugin.h \
-    ../Common/NetworkPlugin.h
+    ../Common/NetworkPlugin.h \
+    ../Common/DataManager.h \
+    DataManagerServer.h

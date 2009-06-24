@@ -27,6 +27,8 @@ public:
     //! create the concated packet
     const QByteArray    getPacket() const;
 
+    static void debugPacket(QDebug, const QByteArray&);
+
     //! type of the packet
     Type                packetType;
 

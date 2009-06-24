@@ -8,7 +8,6 @@ DEFINES += MAINFRAME_LIBRARY
 SOURCES += Implementation/MainFrame.cpp \
     Implementation/MainFrameWidget.cpp
 HEADERS += Implementation/MainFrame.h \
-    MainFrame_global.h \
     Implementation/MainFrameWidget.h
 FORMS += Implementation/Ui/MainFrameWidget.ui
 RESOURCES += Implementation/Ui/MainFrameWidget.qrc
