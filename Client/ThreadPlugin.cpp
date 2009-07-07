@@ -9,6 +9,8 @@
 #include "../Common/Defines.h"
 #include "../Common/Plugin.h"
 #include "../Common/MetaPlugin.h"
+#include "../Common/DataPlugin.h"
+#include "DataManagerClient.h"
 
 Q_DECL_EXPORT QHash<QString,Plugin*> PluginManager::_plugins;
 //const QHash<QString,Plugin*>& PluginManager::plugins() const
@@ -66,37 +68,42 @@ void    ThreadPlugin::loadPlugins()
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 
     settings.beginGroup("Plugins");
-    QDir pluginsUserDir = QDir(settings.value("UserDirectoryPath", "/Undefined").toString());
-    QDir pluginsSystemDir = QDir(settings.value("SystemDirectoryPath", "/Undefined").toString());
-    settings.endGroup();
+    QDir pluginsUserDir(settings.value("UserDirectoryPath", "/Undefined").toString());
+    QDir pluginsSystemDir(settings.value("SystemDirectoryPath", "/Undefined").toString());
 
-    if (pluginsUserDir.absolutePath() == "/Undefined")
+    if ( ! pluginsUserDir.exists())
         qDebug() << "ThreadPlugin: Warning User Plugin path doesn't exist.";
-    if (pluginsSystemDir.absolutePath() == "/Undefined")
+    if ( ! pluginsSystemDir.exists())
         qDebug() << "ThreadPlugin: Warning System Plugin path doesn't exist.";
-    if (pluginsUserDir.absolutePath() == "/Undefined" && pluginsSystemDir.absolutePath() == "/Undefined")
+    if ( ! pluginsUserDir.exists() && ! pluginsSystemDir.exists())
     {
         qDebug() << "ThreadPlugin: Error: No Plugin paths available.";
         return ;
     }
 
-    foreach (QString pluginName, settings.value("Load", QStringList()).toStringList())
+    foreach (QString pluginName, settings.value("Load").toStringList())
     {
-        loadPlugin(pluginName, pluginsUserDir);
-        loadPlugin(pluginName, pluginsSystemDir);
+        if (pluginsUserDir.exists())
+            loadPlugin(pluginName, pluginsUserDir);
+        if (pluginsSystemDir.exists())
+            loadPlugin(pluginName, pluginsSystemDir);
     }
+    settings.endGroup();
 
-    foreach (Plugin* plugin, PluginManager().findPlugins<Plugin*>())
+    foreach (Plugin* plugin, PluginManager().plugins())
         QApplication::postEvent(plugin, new QEvent(ClientEvents::LoadPluginEvent));
+
+    foreach (DataPlugin* plugin, PluginManager().findPlugins<DataPlugin*>())
+        plugin->dataManager = new DataManagerClient(plugin);
 }
 
 bool    ThreadPlugin::loadPlugin(QString pluginName, QDir path)
 {
-    QPluginLoader   loader( path.absoluteFilePath(pluginName) );
+    QPluginLoader loader( path.absoluteFilePath(pluginName) );
     MetaPlugin *metaPlugin = qobject_cast<MetaPlugin*>(loader.instance());
     if ( ! metaPlugin)
     {
-        qDebug() << "ThreadPlugin: error while loading" << pluginName << ":" << loader.errorString();
+        qDebug() << "ThreadPlugin: error while loading" << path.absoluteFilePath(pluginName) << ":" << loader.errorString();
         return false;
     }
 

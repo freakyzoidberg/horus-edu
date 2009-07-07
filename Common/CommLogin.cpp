@@ -4,18 +4,18 @@
 #include <QVariant>
 #include <QDataStream>
 
+#include "../Common/PluginManager.h"
+#include "../Common/UserData.h"
+#include "../Common/UserDataPlugin.h"
+
 CommLogin::CommLogin(Method t) : CommPacket(CommPacket::LOGIN)
 {
     method  = t;
-    level = LEVEL_GUEST;
-    sessionTime = 0;
 }
 
 CommLogin::CommLogin(const QByteArray& a) : CommPacket(CommPacket::LOGIN)
 {
     method  = UNDEFINED;
-    level = LEVEL_GUEST;
-    sessionTime = 0;
     read(a);
 }
 
@@ -46,12 +46,19 @@ void CommLogin::read(const QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-        stream >> (quint8&)level;
-        if (level >= __LAST_LEVEL__)
-            level = LEVEL_GUEST;
-
-        stream >> sessionTime;
+        stream >> serverDateTime;
+        stream >> sessionEnd;
         stream >> sessionString;
+
+#ifdef HORUS_CLIENT
+        UserDataPlugin* plugin = PluginManager().findPlugin<UserDataPlugin*>();
+        if ( ! plugin)
+            return;
+
+        user = (UserData*)(plugin->getDataWithKey(stream));
+        user->dataFromStream(stream);
+        plugin->currentUser = user;
+#endif
     }
 }
 
@@ -72,9 +79,11 @@ void CommLogin::write(QByteArray& a) const
     }
     else if (method == ACCEPTED)
     {
-        stream << (quint8)level;
-        stream << sessionTime;
+        stream << serverDateTime;
+        stream << sessionEnd;
         stream << sessionString;
+        user->keyToStream(stream);
+        user->dataToStream(stream);
     }
  }
 
@@ -95,9 +104,8 @@ QDebug operator<<(QDebug d, const CommLogin& cl)
       << typeMessages[ cl.method ];
 
     if (cl.method == CommLogin::ACCEPTED)
-        d << cl.level
-          << cl.sessionString.toHex()
-          << cl.sessionTime;
+        d << cl.sessionString.toHex()
+          << cl.sessionEnd;
 
     else if (cl.method == CommLogin::LOGIN_PASSWORD)
         d << cl.login

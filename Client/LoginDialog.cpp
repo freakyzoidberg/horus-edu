@@ -49,6 +49,5 @@ void    LoginDialog::connectMethod()
         l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
         QApplication::postEvent(ThreadNetwork::getInstance(), new SendLoginEvent(l.getPacket()));
         settings.endGroup();
-        qDebug() << "[ out]" << l;
     }
 }

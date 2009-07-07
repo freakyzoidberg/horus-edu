@@ -3,7 +3,7 @@
 
 #include "../../../Common/MetaPlugin.h"
 
-#include "../../../Common/DataImplementations/UserDataStd/UserDataStdPlugin.h"
+#include "../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.h"
 
 class UserStdMetaPlugin : public MetaPlugin
 {
@@ -12,7 +12,7 @@ class UserStdMetaPlugin : public MetaPlugin
 
 public:
     inline UserStdMetaPlugin() {
-      pluginList.append(new UserDataStdPlugin);
+      pluginList.append(new UserDataBasePlugin);
   }
 };
 

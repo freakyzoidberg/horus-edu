@@ -4,10 +4,19 @@
 QT += xml
 TARGET = MainFrame
 TEMPLATE = lib
-DEFINES += MAINFRAME_LIBRARY
-SOURCES += Implementation/MainFrame.cpp \
-    Implementation/MainFrameWidget.cpp
-HEADERS += Implementation/MainFrame.h \
-    Implementation/MainFrameWidget.h
-FORMS += Implementation/Ui/MainFrameWidget.ui
-RESOURCES += Implementation/Ui/MainFrameWidget.qrc
+DEFINES += HORUS_CLIENT
+SOURCES += Src/MainFrame.cpp \
+           Src/MainFrameWidget.cpp
+HEADERS += Src/MainFrame.h \
+           Src/MainFrameWidget.h \
+           MainFrameMetaPlugin.h \
+           ../../DisplayablePlugin.h \
+          ../../../Common/Plugin.h \
+         ../../../Common/PluginManager.h \
+        ../../../Common/UserData.h \
+       ../../../Common/Data.h \
+      ../../../Common/DataPlugin.h \
+     ../../../Common/UserDataPlugin.h \
+    ../../../Common/MetaPlugin.h
+FORMS += Ui/MainFrameWidget.ui
+RESOURCES += Ui/MainFrameWidget.qrc

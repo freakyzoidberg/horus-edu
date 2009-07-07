@@ -1,7 +1,10 @@
 #ifndef COMMLOGIN_H
 #define COMMLOGIN_H
 
+#include <QDateTime>
+
 #include "CommPacket.h"
+class UserData;
 
 /*!
  * Response from the client to the server
@@ -20,8 +23,8 @@ public:
      * __LAST__ is usde to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
     enum                Method { UNDEFINED,
-                                 LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //CLIENT  -> SERVER
-                                 ACCEPTED, REFUSED, DISCONNECTED,      // SERVER -> CLIENT
+                                 LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //REQUEST
+                                 ACCEPTED, REFUSED, DISCONNECTED,      // RESPONSES
                                  __LAST__ };
 
     CommLogin(Method);
@@ -30,16 +33,22 @@ public:
 
     //! type of authentification packet
     Method              method;
+
+    // REQUEST
     //! user login
     QString             login;
-    //! user level
-    UserLevel           level;
     //! binary hash of the password
     QByteArray          password;
+
+    // RESPONSE = ACCEPT
     //! duration of the session send (in second)
-    quint32             sessionTime;
+    QDateTime           serverDateTime;
+    //! duration of the session send (in second)
+    QDateTime           sessionEnd;
     //! binary of the session string
     QByteArray          sessionString;
+    //! the information of the user
+    UserData*           user;
 
 private:
     void                read(const QByteArray&);

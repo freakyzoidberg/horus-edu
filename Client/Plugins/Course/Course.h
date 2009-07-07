@@ -4,37 +4,28 @@
 #include <QtGui/QMainWindow>
 #include <QTreeWidget>
 #include <QtPlugin>
-#include "../../IClientPlugin.h"
-#include "../../IDisplayablePlugin.h"
-#include "../../INetworkPlugin.h"
-#include "../FileManagement/IFilePlugin.h"
+#include "../../../Common/Plugin.h"
+#include "../../DisplayablePlugin.h"
+#include "../../../Common/NetworkPlugin.h"
+//#include "../FileManagement/IFilePlugin.h"
 
-#include "Course_global.h"
+//class Ui::CourseClass;
 
-namespace Ui
-{
-    class CourseClass;
-}
-
-class COURSESHARED_EXPORT Course : public IClientPlugin, public IDisplayablePlugin
+class Course : public DisplayablePlugin
 {
     Q_OBJECT
-    Q_INTERFACES(IClientPlugin)
-    Q_INTERFACES(IDisplayablePlugin)
+    Q_INTERFACES(DisplayablePlugin)
 
 public:
-    const QByteArray    getName() const;
-    const QByteArray    getVersion() const;
-    QStringList         getPluginsConflicts() const;
-    QStringList         getPluginsRequired() const;
-    QStringList         getPluginsRecommended() const;
+    const QString       getName() const;
+    const QString       getVersion() const;
     bool                event(QEvent *event);
-    QWidget             *getWidget();
+    QWidget*            getWidget();
 
 private:
-    Ui::CourseClass *ui;
-    QWidget *fenetre;
-    QTreeWidget *tree;
+    //Ui::CourseClass*    ui;
+    QWidget*            fenetre;
+    QTreeWidget*        tree;
 };
 
 #endif // Course_H

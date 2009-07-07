@@ -3,6 +3,7 @@
 #include <QDebug>
 
 #include "../../ClientEvents.h"
+#include "../../../Common/PluginManager.h"
 
 #include "MainFrameWidget.h"
 
@@ -10,7 +11,7 @@ extern QEvent::Type ClientEvents::LoadPluginEvent;
 
 MainFrame::MainFrame()
 {
-    this->widget = 0;
+    widget = 0;
 }
 
 bool                MainFrame::event(QEvent *event)
@@ -23,9 +24,15 @@ bool                MainFrame::event(QEvent *event)
 
 QWidget             *MainFrame::getWidget()
 {
-    this->widget = new MainFrameWidget(this);
-    connect(this, SIGNAL(infoUpdated(QHash<QString,QVariant>)), this->widget, SLOT(updateInfos(QHash<QString,QVariant>)));
+    widget = new MainFrameWidget(this);
+    widget->updateInfos();
+//    connect(this, SIGNAL(infoUpdated(QHash<QString,QVariant>)), this->widget, SLOT(updateInfos(QHash<QString,QVariant>)));
 //    if (this->userInfo.contains("Success") && this->userInfo.value("Success").toBool() == true)
 //        this->infoUpdated(this->userInfo);
-    return (this->widget);
+    return widget;
+}
+
+void MainFrame::courseClicked()
+{
+    emit switchToWidget(PluginManager().findPlugin<DisplayablePlugin*>("Course")->getWidget());
 }

@@ -4,37 +4,22 @@
 #include "Course.h"
 #include "CourseWidget.h"
 
-#include "../LessonManager/ILessonManager.h"
-#include "../TreeManagement/ITreePlugin.h"
-#include "../../ClientEvents.h"
+#include "../../../Common/PluginManager.h"
 
-Q_EXPORT_PLUGIN2(Course, Course)
+//#include "../LessonManager/ILessonManager.h"
+//#include "../TreeManagement/ITreePlugin.h"
+#include "../../ClientEvents.h"
 
 extern QEvent::Type ClientEvents::LoadPluginEvent;
 
-const QByteArray    Course::getName() const
+const QString    Course::getName() const
 {
-    return ("Course");
+    return "Course";
 }
 
-const QByteArray    Course::getVersion() const
+const QString    Course::getVersion() const
 {
-    return ("0.1");
-}
-
-QStringList         Course::getPluginsRequired() const
-{
-    return (QStringList());
-}
-
-QStringList         Course::getPluginsConflicts() const
-{
-    return (QStringList());
-}
-
-QStringList         Course::getPluginsRecommended() const
-{
-    return (QStringList());
+    return "0.1";
 }
 
 bool                Course::event(QEvent *event)
@@ -51,11 +36,11 @@ QWidget             *Course::getWidget()
     ITreePlugin     *treePlugin;
     QWidget         *error;
 
-    lessonManager = qobject_cast<ILessonManager *>(this->client->getPlugin("LessonManager"));
-    treePlugin = qobject_cast<ITreePlugin *>(this->client->getPlugin("TreeManagement"));
-    if (lessonManager && treePlugin)
-        return (new CourseWidget(lessonManager, treePlugin, ((IFilePlugin*)client->getPlugin("FileManagement"))));
+//    lessonManager = PluginManager().findPlugin<ILessonManager*>("LessonManager");
+//    treePlugin = PluginManager().findPlugin<ITreePlugin*>("TreeManagement");
+//    if (lessonManager && treePlugin)
+//        return new CourseWidget(lessonManager, treePlugin, PluginManager().findPlugin<IFilePlugin*>("FileManagement"));
     error = new QWidget();
     new QLabel("This Plugin depend of 'LessonManager' and 'TreeManagement' plugins.", error);
-    return (error);
+    return error;
 }

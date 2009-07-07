@@ -3,6 +3,7 @@
 #include "../Common/PluginManager.h"
 #include "../Common/NetworkPlugin.h"
 #include "../Common/MetaPlugin.h"
+#include "../Common/UserDataPlugin.h"
 
 PacketManager::PacketManager(QObject* parent) : QObject(parent)
 {
@@ -93,9 +94,13 @@ void PacketManager::PacketLogin()
     {
         settings.beginGroup("SESSIONS");
         settings.setValue("sessionString", l.sessionString);
-        settings.setValue("sessionTime", l.sessionTime);
-        uint sessionEnd = QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t();
+        QDateTime sessionEnd = l.sessionEnd;
+        sessionEnd.addSecs(QDateTime::currentDateTime().secsTo(l.serverDateTime));
         settings.setValue("sessionEnd", sessionEnd);
+
+        qDebug() << "PacketManager::PacketLogin seconds between client and server:" << QDateTime::currentDateTime().secsTo(l.serverDateTime);
+        qDebug() << "PacketManager::PacketLogin end of session:" << sessionEnd;
+
         //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
         settings.endGroup();
         QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::HideLoginEvent));
@@ -114,10 +119,13 @@ void PacketManager::PacketData()
 {
     CommData data(packet);
 
-    //TODO stock in QHash for quicker execution
+    //TODO stock in QHash for quicker execution, or we dont care
     foreach (DataPlugin* plugin, PluginManager().findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
-            plugin->dataManager->receiveData(0, packet);
+        {
+            plugin->dataManager->receiveData(PluginManager().findPlugin<UserDataPlugin*>()->currentUser, data.data);
+            qDebug() << PluginManager().findPlugin<UserDataPlugin*>()->currentUser;
+        }
 }
 
 void PacketManager::PacketPlugin()

@@ -49,7 +49,7 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
         return;
 
     Data* data = plugin->getDataWithKey(stream);
-    if ( ! data->error())
+    if ( ! error)
     {
         //TODO: do not always write data
         data->dataFromStream(stream);
