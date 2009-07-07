@@ -24,15 +24,13 @@ protected:
     inline UserData(quint32 userId, UserDataPlugin* plugin) : Data(plugin) { id = userId; }
 public:
     quint32     id;
-    UserLevel   level;
+    quint8      level;
     bool        enabled;
     QString     login;
-    QByteArray  session;
-    QDateTime   sessionEnd;
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
-    virtual void newSession(QSqlQuery&) = 0;
+    virtual QByteArray newSession(QSqlQuery&, const QDateTime& end) = 0;
     //! Destroy the session generated to allow only password authentication.
     virtual void destroySession(QSqlQuery&) = 0;
 #endif

@@ -52,6 +52,6 @@ void DockMenu::itemClicked()
 {
     DisplayablePlugin *plugin;
 
-    plugin = PluginManager().findPlugin<DisplayablePlugin*>(((Plugin*)(sender()))->pluginName());
+    plugin = PluginManager().findPlugin<DisplayablePlugin*>(sender()->objectName());
     ((MainWindow *)parent())->setCentralWidget(plugin->getWidget());
 }

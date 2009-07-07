@@ -11,14 +11,19 @@
  */
 class DisplayablePlugin : public Plugin
 {
-    public:
+    Q_OBJECT
+    Q_INTERFACES(Plugin)
+
+public:
     //! Pointer to an implementation of the interface IDisplayable
     /*!
      *  This pointer is set by the Client while loading the plugin.
      *  It let plugin access display ressources
      */
     virtual QWidget *getWidget() = 0;
-    virtual void setCentralWidget(QWidget *widget) = 0;
+
+signals:
+    void switchToWidget(QWidget *widget);
 };
 
 Q_DECLARE_INTERFACE(DisplayablePlugin, "net.horus.Client.DisplayablePlugin/1.0");

@@ -1,5 +1,5 @@
-#ifndef USERDATASTD_H
-#define USERDATASTD_H
+#ifndef USERDATABASE_H
+#define USERDATABASE_H
 
 #ifdef HORUS_SERVER
     #include <QtSql>
@@ -11,9 +11,9 @@
 #include <QDateTime>
 #include "../../Defines.h"
 #include "../../UserData.h"
-#include "UserDataStdPlugin.h"
+#include "UserDataBasePlugin.h"
 
-class UserDataStd : public UserData
+class UserDataBase : public UserData
 {
   Q_OBJECT
 #ifdef HORUS_SERVER
@@ -23,10 +23,10 @@ class UserDataStd : public UserData
   Q_INTERFACES(ClientUserData ClientData)
 #endif
 
-  friend class UserDataStdPlugin;
+  friend class UserDataBasePlugin;
 private:
-    inline UserDataStd(quint32 userId, UserDataStdPlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { }
-    inline ~UserDataStd() {}
+    inline UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { }
+    inline ~UserDataBase() {}
 
 private:
     QDateTime   lastLogin;
@@ -60,7 +60,7 @@ public:
     //! Usefull for debuging. Not mandatory but important.
     QDebug operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
-    QVariant getValue(int column, int role) const;
+    QVariant data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
     //! Fill the current data with a defined key from teh database.
@@ -72,10 +72,10 @@ public:
     //! Delete the current data from the database.
     void deleteFromDatabase(QSqlQuery&);
     //! Create a random key to be able to identify a user without the password.
-    void newSession(QSqlQuery&);
+    QByteArray newSession(QSqlQuery&, const QDateTime& end);
     //! Destroy the session generated to allow only password authentication.
     void destroySession(QSqlQuery&);
 #endif
 };
 
-#endif // USERDATASTD_H
+#endif // USERDATABASE_H

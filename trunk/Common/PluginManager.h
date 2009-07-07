@@ -44,7 +44,7 @@ template <typename T>
         QList<T> list;
         T qobj;
         foreach (Plugin* plugin, plugins())
-            if ((qobj = dynamic_cast<T>(plugin)))
+            if ((qobj = qobject_cast<T>(plugin)))
                 list.append(qobj);
         return list;
     }

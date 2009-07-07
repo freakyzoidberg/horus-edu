@@ -1,18 +1,17 @@
-#include "UserDataStd.h"
-#include "UserDataStdPlugin.h"
+#include "UserDataBase.h"
+#include "UserDataBasePlugin.h"
 
-void UserDataStd::keyToStream(QDataStream& s)
+void UserDataBase::keyToStream(QDataStream& s)
 {
-    s << id;
+    s << (quint32)id;
 }
 
-void UserDataStd::dataToStream(QDataStream& s)
+void UserDataBase::dataToStream(QDataStream& s)
 {
-    s << level
-      << enabled
+    s << (quint8)level
+      << (bool)enabled
       << login
-      << session
-      << sessionEnd
+
       << lastLogin
       << surname
       << name
@@ -25,13 +24,12 @@ void UserDataStd::dataToStream(QDataStream& s)
       << idTree;
 }
 
-void UserDataStd::dataFromStream(QDataStream& s)
+void UserDataBase::dataFromStream(QDataStream& s)
 {
     s >> (quint8&)level
-      >> enabled
+      >> (bool&)enabled
       >> login
-      >> session
-      >> sessionEnd
+
       >> lastLogin
       >> surname
       >> name
@@ -44,14 +42,14 @@ void UserDataStd::dataFromStream(QDataStream& s)
       >> idTree;
 }
 
-QDebug UserDataStd::operator<<(QDebug debug) const
+QDebug UserDataBase::operator<<(QDebug debug) const
 {
     return debug << getDataType()
+                 << error()
+                 << id
                  << level
                  //<< enabled
-                 << "login=" << login
-                 //<< session.toHex()
-                 //<< sessionEnd
+                 << login
                  << lastLogin
                  //<< surname
                  //<< name
@@ -65,14 +63,27 @@ QDebug UserDataStd::operator<<(QDebug debug) const
 }
 
 #ifdef HORUS_CLIENT
-QVariant UserDataStd::getValue(int column, int role) const
+QVariant UserDataBase::data(int column, int role) const
 {
+    if (role == Qt::DisplayRole)
+    {
+        if (column == 0)
+            return id;
+        if (column == 1)
+            return login;
+        if (column == 2)
+            return name;
+        if (column == 3)
+            return surname;
+        if (column == 4)
+            return lastLogin;
+    }
     return QVariant();
 }
 #endif
 
 #ifdef HORUS_SERVER
-void UserDataStd::fillFromDatabase(QSqlQuery& query)
+void UserDataBase::fillFromDatabase(QSqlQuery& query)
 {
     query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users WHERE id=?;");
     query.addBindValue(id);
@@ -96,36 +107,37 @@ void UserDataStd::fillFromDatabase(QSqlQuery& query)
     enabled    = query.value(12).toBool();
 }
 
-void UserDataStd::createIntoDatabase(QSqlQuery& TODO)
+void UserDataBase::createIntoDatabase(QSqlQuery& TODO)
 {
 }
 
-void UserDataStd::saveIntoDatabase  (QSqlQuery& TODO)
+void UserDataBase::saveIntoDatabase  (QSqlQuery& TODO)
 {
 }
 
-void UserDataStd::deleteFromDatabase(QSqlQuery& TODO)
+void UserDataBase::deleteFromDatabase(QSqlQuery& TODO)
 {
 }
 
-void UserDataStd::newSession(QSqlQuery& query)
+QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
 {
-     sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
-
      //TODO maybe change this value
+    QByteArray session;
     qsrand(QTime::currentTime().msec() + id);
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
         session[i] = qrand();
 
     query.prepare("UPDATE users SET session_key=?, session_end=? WHERE id=?;");
     query.addBindValue(session.toHex());
-    query.addBindValue(sessionEnd);
+    query.addBindValue(end);
     query.addBindValue(id);
     if ( ! query.exec())
         _error = DATABASE_ERROR;
+
+    return session;
 }
 
-void UserDataStd::destroySession(QSqlQuery& query)
+void UserDataBase::destroySession(QSqlQuery& query)
 {
     query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
     query.addBindValue(id);

@@ -4,9 +4,13 @@
 QT += xml
 TARGET = $$qtLibraryTarget(Course)
 TEMPLATE = lib
-DEFINES += COURSE_LIBRARY
+DEFINES += HORUS_CLIENT
 SOURCES += Course.cpp \
-    CourseWidget.cpp
-HEADERS += Course_global.h \
-    Course.h \
-    CourseWidget.h
+           CourseWidget.cpp
+HEADERS += Course.h \
+           CourseWidget.h \
+           ../../DisplayablePlugin.h \
+          ../../../Common/Plugin.h \
+         ../../../Common/PluginManager.h \
+        ../../../Common/MetaPlugin.h
+

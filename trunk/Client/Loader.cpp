@@ -36,9 +36,9 @@ void    Loader::loadPlugins()
 
 void    Loader::loadConfig()
 {
-    ++(this->processes);
-    ConfigManager* config = parent->findChild<ConfigManager*>();
-    QApplication::postEvent(config, new QEvent(ClientEvents::StartEvent));
+//    ++(this->processes);
+//    ConfigManager* config = parent->findChild<ConfigManager*>();
+//    QApplication::postEvent(config, new QEvent(ClientEvents::StartEvent));
 }
 
 bool    Loader::event(QEvent *event)

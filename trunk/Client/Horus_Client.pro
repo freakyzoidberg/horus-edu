@@ -15,7 +15,6 @@ SOURCES += main.cpp \
     ../Common/CommPlugin.cpp \
     ../Common/PluginPacket.cpp \
     ../Common/DataManager.cpp \
-    DisplayablePlugin.cpp \
     DataManagerClient.cpp \
     ClientApplication.cpp \
     NetworkManager.cpp \

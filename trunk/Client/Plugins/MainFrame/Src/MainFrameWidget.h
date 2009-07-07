@@ -21,8 +21,7 @@ private:
     QGridLayout *layout;
 
 public slots:
-    void buttonClicked();
-    void updateInfos(QHash<QString, QVariant> userInfo);
+    void updateInfos();
 };
 
 #endif // MAINFRAMEWIDGET_H

@@ -35,6 +35,7 @@ void DataManagerClient::dataStatusChange(UserData* user, Data* data, quint8 newS
 
 void DataManagerClient::receiveData(UserData* user, const QByteArray& d) const
 {
+    qDebug() << d.toHex();
     QDataStream stream(d); //ReadOnly
     quint8    status,   error;
     stream >> status >> error;
@@ -43,19 +44,19 @@ void DataManagerClient::receiveData(UserData* user, const QByteArray& d) const
         return;
 
     Data* data = plugin->getDataWithKey(stream);
-    if ( ! data->error())
+    if ( ! error)
     {
-        //TODO: do not always write data
+        //TODO: do not always read data
         data->dataFromStream(stream);
     }
 
     data->setStatus(user, status);
     data->setError(error);
+    qDebug() << "DataManagerClient::receiveData" << data;
 }
 
 void DataManagerClient::sendData(UserData* user, Data* data) const
 {
-    qDebug() << "sendData" << data;
     CommData packet(data->getDataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
     stream << data->status() << data->error();
@@ -63,12 +64,10 @@ void DataManagerClient::sendData(UserData* user, Data* data) const
     if (data->status() == Data::EMPTY)
         return;
 
-    qDebug() << "writeKey";
     data->keyToStream(stream);
     if ( ! data->error())
         //TODO: do not always write data
         data->dataToStream(stream);
 
-    qDebug() << "sended";
     //QMetaObject::invokeMethod(ClientSocket::connectedUsers[ user ], SLOT(sendPacket(const QByteArray&)), Qt::QueuedConnection, Q_ARG(const QByteArray&, packet.getPacket()));
 }

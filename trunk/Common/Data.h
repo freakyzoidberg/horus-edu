@@ -88,7 +88,7 @@ public:
     virtual inline QDebug operator<<(QDebug debug) const { return debug << getDataType(); }
     //virtual QDebug operator<<(QDebug debug) const = 0;
 #ifdef HORUS_CLIENT
-    virtual QVariant getValue(int column, int role) const = 0;
+    virtual QVariant data(int column, int role = Qt::DisplayRole) const = 0;
     //! Function just set the UPDATING status if not already uptodate or updating
     inline void update()
         { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(0, UPDATING); }

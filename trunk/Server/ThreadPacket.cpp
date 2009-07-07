@@ -123,16 +123,16 @@ void ThreadPacket::PacketLogin()
     ClientSocket::connectedUsers[user] = socket;
     socket->user = user;
 
-    qDebug() << user;
+    qDebug() << "ThreadPacket::PacketLogin : ACCEPTED" << user;
 
     CommLogin resp(CommLogin::ACCEPTED);
-    //TODO remove level and maybe session info
-    resp.level = socket->user->level;
-    resp.sessionString = socket->user->session;
-    resp.sessionTime =   socket->user->sessionEnd.toTime_t();
+    resp.serverDateTime = QDateTime::currentDateTime();
+    resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
+    resp.sessionString = socket->user->newSession(query, resp.sessionEnd);
+    resp.user = user;
     emit sendPacket(resp.getPacket());
 
-    plugin->dataManager->sendData(user,user);
+//    plugin->dataManager->sendData(user,user);
 
     //TODO send UserData to the connected client
 
@@ -147,7 +147,7 @@ void ThreadPacket::PacketData()
     //TODO stock in QHash for quicker execution
     foreach (DataPlugin* plugin, PluginManager().findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
-            plugin->dataManager->receiveData(socket->user, packet);
+            plugin->dataManager->receiveData(socket->user, data.data);
 }
 //void ThreadPacket::PacketData()
 //{
