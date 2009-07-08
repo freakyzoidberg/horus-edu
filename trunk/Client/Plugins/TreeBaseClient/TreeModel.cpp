@@ -1,5 +1,6 @@
 #include "TreeModel.h"
-#include "Tree.h"
+#include "../../../Common/TreeData.h"
+#include "../../../Common/PluginManager.h"
 
 #include <QDebug>
 
@@ -26,11 +27,11 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
         return 1;
 
     QObject* obj = ((QObject*)(parent.internalPointer()));
-    if (obj->objectName() != "ITree")
+    if (obj->objectName() != "TreeData")
         return 0;
 
-//    return ((ITree*)obj)->GetSonsNode().size() + fileManager->countNodeFileList( ((ITree*)obj)->Getid() );
-    return ((ITree*)obj)->children().length();
+//    return ((TreeData*)obj)->GetSonsNode().size() + fileManager->countNodeFileList( ((TreeData*)obj)->Getid() );
+    return ((TreeData*)obj)->children().length();
 }
 /*
 QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -49,8 +50,8 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 
    if (role == Qt::DisplayRole)
     {
-        if (obj->inherits("ITree"))
-            return QVariant(((ITree*)obj)->getName());
+        if (obj->inherits("TreeData"))
+            return QVariant(((TreeData*)obj)->getName());
 //        if (obj->inherits("IFile"))
 //            return QVariant(((IFile*)obj)->getInfo().fileName);
     }
@@ -68,15 +69,15 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 //                return QVariant(QVariant::Icon, &LessonIcon);
 //            return QVariant(QVariant::Icon, &FileIcon);
 //        }
-        if (obj->inherits("ITree"))
+        if (obj->inherits("TreeData"))
         {
-            if (((ITree*)obj)->getType() == "ROOT")
+            if (((TreeData*)obj)->getType() == "ROOT")
                 return QVariant(QVariant::Icon, &RootIcon);
-            if (((ITree*)obj)->getType() == "GROUP")
+            if (((TreeData*)obj)->getType() == "GROUP")
                 return QVariant(QVariant::Icon, &GroupIcon);
-            if (((ITree*)obj)->getType() == "GRADE")
+            if (((TreeData*)obj)->getType() == "GRADE")
                 return QVariant(QVariant::Icon, &GradeIcon);
-            if (((ITree*)obj)->getType() == "SUBJECT")
+            if (((TreeData*)obj)->getType() == "SUBJECT")
                 return QVariant(QVariant::Icon, &SubjectIcon);
             return QVariant(QVariant::Icon, &DefaultIcon);
         }
@@ -88,7 +89,7 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
-        return createIndex(row, column, Tree::getNodeById(0));
+        return createIndex(row, column, PluginManager().findPlugin<TreeDataPlugin*>()->getNode(0));
 
     QObject* obj = ((QObject*)(parent.internalPointer()));
     return createIndex(row, column, obj->children().at(row) );

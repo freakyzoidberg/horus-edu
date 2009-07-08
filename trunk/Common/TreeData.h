@@ -5,10 +5,17 @@
 #include <QString>
 
 #include "Data.h"
+#include "TreeDataPlugin.h"
 
 class TreeData : public Data
 {
   Q_OBJECT
+#ifdef HORUS_SERVER
+  Q_INTERFACES(ServerData)
+#endif
+#ifdef HORUS_CLIENT
+  Q_INTERFACES(ClientData)
+#endif
 
 public:
     //! insert node
@@ -56,7 +63,7 @@ public:
     /*!
       \return id of the node
     */
-    virtual int     getId() const = 0;
+    inline int     getId() const { return nodeId; }
 
     //! Get User in charge of the node
     /*!
@@ -97,6 +104,13 @@ public:
       \return Boolean result
     */
     virtual bool    canChange() = 0;
+
+protected:
+    inline TreeData(quint32 _nodeId, TreeDataPlugin* _plugin) : Data(_plugin) { nodeId = _nodeId; }
+
+    quint32         nodeId;
 };
+
+Q_DECLARE_INTERFACE(TreeData, "net.horus.TreeData/1.0");
 
 #endif // TREEDATA_H

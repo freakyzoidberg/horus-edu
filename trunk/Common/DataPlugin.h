@@ -42,12 +42,10 @@ public:
 
 #ifdef HORUS_SERVER
 typedef DataPlugin ServerDataPlugin;
-//HORUS_DECLARE_INTERFACE(DataPlugin);
 Q_DECLARE_INTERFACE(ServerDataPlugin, "net.horus.ServerDataPlugin/1.0");
 #endif
 #ifdef HORUS_CLIENT
 typedef DataPlugin ClientDataPlugin;
-//HORUS_DECLARE_INTERFACE(DataPlugin);
 Q_DECLARE_INTERFACE(ClientDataPlugin, "net.horus.ClientDataPlugin/1.0");
 #endif
 

@@ -6,7 +6,7 @@
 
 class Data;
 class UserData;
-class HORUS_PLUGIN_IMPORT DataManager
+class DataManager
 {
 public:
     //! Called by the data when its status change.
@@ -21,7 +21,5 @@ public:
     virtual void receiveData(UserData* user, const QByteArray& data) const = 0;
     virtual void sendData(UserData* user, Data* data) const = 0;
 };
-
-//Q_DECLARE_INTERFACE(DataManager, "net.horus.DataManager/1.0");
 
 #endif // DATAMANAGER_H

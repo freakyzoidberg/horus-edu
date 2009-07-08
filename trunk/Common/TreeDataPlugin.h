@@ -1,17 +1,29 @@
 #ifndef TREEDATAPLUGIN_H
 #define TREEDATAPLUGIN_H
 
-#include <QAbstractItemModel>
+#ifdef HORUS_CLIENT
+    #include <QAbstractItemModel>
+#endif
 
-#include "TreeData.h"
+#include "DataPlugin.h"
 
+class TreeData;
 class TreeDataPlugin : public DataPlugin
 {
 public:
-    virtual TreeData* getNodeById(quint32 id) = 0;
+    virtual TreeData* getNode(quint32 id) = 0;
+#ifdef HORUS_CLIENT
     virtual QAbstractItemModel* getTreeModel() = 0;
+#endif
 };
 
-Q_DECLARE_INTERFACE(TreeDataPlugin, "net.horus.Client.TreeDataPlugin/1.0");
+#ifdef HORUS_SERVER
+typedef TreeDataPlugin ServerTreeDataPlugin;
+Q_DECLARE_INTERFACE(ServerTreeDataPlugin, "net.horus.ServerTreeDataPlugin/1.0");
+#endif
+#ifdef HORUS_CLIENT
+typedef TreeDataPlugin ClientTreeDataPlugin;
+Q_DECLARE_INTERFACE(ClientTreeDataPlugin, "net.horus.ClientTreeDataPlugin/1.0");
+#endif
 
 #endif // TREEDATAPLUGIN_H
