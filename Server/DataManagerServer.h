@@ -6,8 +6,6 @@
 class DataPlugin;
 class DataManagerServer : public DataManager
 {
-//    Q_INTERFACES(DataManager)
-
 public:
      inline DataManagerServer(DataPlugin* _plugin) { plugin=_plugin; }
 
