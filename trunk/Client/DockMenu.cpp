@@ -6,7 +6,7 @@
 #include <QDebug>
 
 #include "MainWindow.h"
-#include "../Common/PluginManager.h"
+#include "PluginManagerClient.h"
 #include "DisplayablePlugin.h"
 
 DockMenu::DockMenu(QWidget *parent) : QDockWidget::QDockWidget(parent)
@@ -19,7 +19,7 @@ DockMenu::DockMenu(QWidget *parent) : QDockWidget::QDockWidget(parent)
     this->ui.setupUi(this);
     widget = new QWidget();
     layout = new QVBoxLayout(widget);
-    plugin = PluginManager().findPlugin<DisplayablePlugin*>("MainFrame");
+    plugin = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("MainFrame");
     if (plugin)
     {
         item = new QPushButton("Main Board");
@@ -27,7 +27,7 @@ DockMenu::DockMenu(QWidget *parent) : QDockWidget::QDockWidget(parent)
         layout->addWidget(item);
         connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
     }
-    plugin = PluginManager().findPlugin<DisplayablePlugin*>("Course");
+    plugin = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("Course");
     if (plugin)
     {
         item = new QPushButton("Course");
@@ -35,7 +35,7 @@ DockMenu::DockMenu(QWidget *parent) : QDockWidget::QDockWidget(parent)
         layout->addWidget(item);
         connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
     }
-    plugin = PluginManager().findPlugin<DisplayablePlugin*>("Administration");
+    plugin = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("Administration");
     if (plugin)
     {
         item = new QPushButton("Administration");
@@ -52,6 +52,6 @@ void DockMenu::itemClicked()
 {
     DisplayablePlugin *plugin;
 
-    plugin = PluginManager().findPlugin<DisplayablePlugin*>(sender()->objectName());
+    plugin = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>(sender()->objectName());
     ((MainWindow *)parent())->setCentralWidget(plugin->getWidget());
 }

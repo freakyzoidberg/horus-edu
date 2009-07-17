@@ -34,5 +34,5 @@ QWidget             *MainFrame::getWidget()
 
 void MainFrame::courseClicked()
 {
-    emit switchToWidget(PluginManager().findPlugin<DisplayablePlugin*>("Course")->getWidget());
+    emit switchToWidget(pluginManager->findPlugin<DisplayablePlugin*>("Course")->getWidget());
 }

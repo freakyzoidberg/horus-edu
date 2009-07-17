@@ -12,7 +12,9 @@ class MainFrameMetaPlugin : public MetaPlugin
 
 public:
     inline MainFrameMetaPlugin() {
-      pluginList.append(new MainFrame());
+      Plugin* p = new MainFrame();
+      pluginList.append(p);
+      //PluginManager().addPlugin(p);
   }
 };
 
@@ -20,6 +22,7 @@ public:
 // declare instance of the plugin
 Q_EXPORT_PLUGIN2(MainFrameMetaPlugin, MainFrameMetaPlugin);
 
-Q_DECL_IMPORT QHash<QString,Plugin*> PluginManager::_plugins;
+//Q_DECL_IMPORT QHash<QString,Plugin*> PluginManager::_plugins;
+//Q_DECL_IMPORT const QHash<QString, Plugin*>& PluginManager::plugins() const;
 
 #endif // MAINFRAMEMETAPLUGIN_H

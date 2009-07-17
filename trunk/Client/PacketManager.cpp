@@ -1,6 +1,6 @@
 #include "PacketManager.h"
 #include "ClientApplication.h"
-#include "../Common/PluginManager.h"
+#include "PluginManagerClient.h"
 #include "../Common/NetworkPlugin.h"
 #include "../Common/MetaPlugin.h"
 #include "../Common/UserDataPlugin.h"
@@ -120,11 +120,11 @@ void PacketManager::PacketData()
     CommData data(packet);
 
     //TODO stock in QHash for quicker execution, or we dont care
-    foreach (DataPlugin* plugin, PluginManager().findPlugins<DataPlugin*>())
+    foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
         {
-            plugin->dataManager->receiveData(PluginManager().findPlugin<UserDataPlugin*>()->currentUser, data.data);
-            qDebug() << PluginManager().findPlugin<UserDataPlugin*>()->currentUser;
+            plugin->dataManager->receiveData(PluginManagerClient::instance()->findPlugin<UserDataPlugin*>()->currentUser, data.data);
+            qDebug() << PluginManagerClient::instance()->findPlugin<UserDataPlugin*>()->currentUser;
         }
 }
 
@@ -132,7 +132,7 @@ void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
 
-    NetworkPlugin *plugin = PluginManager().findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
+    NetworkPlugin *plugin = PluginManagerClient::instance()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
     if (plugin)
         plugin->receivePacket(0, p.packet);
     //TODO else ... !!!

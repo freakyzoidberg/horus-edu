@@ -38,7 +38,6 @@ private:
     QString     phone;
     QString     country;
     QString     language;
-    QString     idTree;
 
 public:
     //! Have to write his key into the stream to be able to identify this data with the server and the cache.

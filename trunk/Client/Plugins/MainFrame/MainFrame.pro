@@ -17,6 +17,7 @@ HEADERS += Src/MainFrame.h \
        ../../../Common/Data.h \
       ../../../Common/DataPlugin.h \
      ../../../Common/UserDataPlugin.h \
+     ../../../Common/TreeDataPlugin.h \
     ../../../Common/MetaPlugin.h
 FORMS += Ui/MainFrameWidget.ui
 RESOURCES += Ui/MainFrameWidget.qrc

@@ -27,6 +27,7 @@ public:
     quint8      level;
     bool        enabled;
     QString     login;
+    quint32     idTree;
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.

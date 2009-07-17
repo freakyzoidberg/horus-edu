@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QStringList>
 
+class PluginManager;
 class Plugin : public QObject
 {
   Q_OBJECT
@@ -49,6 +50,8 @@ public:
      *  \return the accept status of the event
      */
     virtual inline bool              event(QEvent*) { return false; }
+
+    PluginManager* pluginManager;
 };
 
 Q_DECLARE_INTERFACE(Plugin, "net.horus.Plugin/1.0");

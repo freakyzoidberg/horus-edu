@@ -3,10 +3,8 @@
 
 #include <QThread>
 #include <QEvent>
-#include <QString>
-#include <QDir>
 #include "ClientApplication.h"
-#include "../Common/PluginManager.h"
+#include "PluginManagerClient.h"
 
 //! Class managing the plugins of the Client
 /*!
@@ -16,7 +14,7 @@
  *  Manage dependencies.
  *  Keep a list of the plugins.
  */
-class ThreadPlugin : public QThread, public PluginManager
+class ThreadPlugin : public QThread
 {
     Q_OBJECT
 
@@ -42,26 +40,25 @@ protected:
      *  This method just call the event loop exec()
      */
     void    run();
-
-private:
-    //! Load every needed plugins
-    /*!
-     *  This method find the plugin directory,
-     *  and call loadPlugin for each plugin to load
-     */
-    void    loadPlugins();
-    //! Load a specific plugin
-    /*!
-     *  Load the plugin identified by its name in the given path
-     *  Manage dependencies, with recursively calls
-     *  Add successfully loaded plugins in the plugin list
-     *  Send an PluginLoadedEvent for each successfull load
-     *  \param pluginName The name of the plugin to load
-     *  \param userPath The user path where is the plugin to load
-     *  \param systemPath The system path where is the plugin to load if not found in the user path
-     *  \return A boolean indicating the success
-     */
-    bool    loadPlugin(QString pluginName, QDir path);
+//private:
+//    //! Load every needed plugins
+//    /*!
+//     *  This method find the plugin directory,
+//     *  and call loadPlugin for each plugin to load
+//     */
+//    void    loadPlugins();
+//    //! Load a specific plugin
+//    /*!
+//     *  Load the plugin identified by its name in the given path
+//     *  Manage dependencies, with recursively calls
+//     *  Add successfully loaded plugins in the plugin list
+//     *  Send an PluginLoadedEvent for each successfull load
+//     *  \param pluginName The name of the plugin to load
+//     *  \param userPath The user path where is the plugin to load
+//     *  \param systemPath The system path where is the plugin to load if not found in the user path
+//     *  \return A boolean indicating the success
+//     */
+//    bool    loadPlugin(QString pluginName, QDir path);
 };
 
 #endif // PLUGINTHREAD_H

@@ -4,7 +4,10 @@
 #include <QVariant>
 #include <QDataStream>
 
-#include "../Common/PluginManager.h"
+#ifdef HORUS_CLIENT
+#include "../Client/PluginManagerClient.h"
+#endif
+
 #include "../Common/UserData.h"
 #include "../Common/UserDataPlugin.h"
 
@@ -51,7 +54,7 @@ void CommLogin::read(const QByteArray& a)
         stream >> sessionString;
 
 #ifdef HORUS_CLIENT
-        UserDataPlugin* plugin = PluginManager().findPlugin<UserDataPlugin*>();
+        UserDataPlugin* plugin = PluginManagerClient::instance()->findPlugin<UserDataPlugin*>();
         if ( ! plugin)
             return;
 

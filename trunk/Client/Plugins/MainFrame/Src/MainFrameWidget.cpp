@@ -2,12 +2,14 @@
 
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/UserDataPlugin.h"
+#include "../../../Common/TreeDataPlugin.h"
 #include "../../../Common/UserData.h"
 
 #include <QPushButton>
 #include <QDebug>
 #include <QLabel>
 #include <QDateTime>
+#include <QTreeView>
 
 MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame::QFrame()
 {
@@ -17,7 +19,17 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame::QFrame()
 
     this->plugin = _plugin;
     ui.setupUi(this);
-    course = PluginManager().findPlugin<DisplayablePlugin*>("Course");
+
+    TreeDataPlugin* tree = plugin->pluginManager->findPlugin<TreeDataPlugin*>();
+    if (tree)
+    {
+        QTreeView *tv = new QTreeView();
+        tv->setModel(tree->getTreeModel());
+        layout->setRowStretch(2, 0);
+        layout->addWidget(tv, 2, 0);
+    }
+
+    course = plugin->pluginManager->findPlugin<DisplayablePlugin*>("Course");
     if (course)
     {
         button = new QPushButton("My Lessons");
@@ -34,7 +46,7 @@ void    MainFrameWidget::updateInfos()
 {
     qDebug() << "MainFrameWidget::updateInfos";
 
-    UserDataPlugin* p = PluginManager().findPlugin<UserDataPlugin*>();
+    UserDataPlugin* p = plugin->pluginManager->findPlugin<UserDataPlugin*>();
     if ( ! p)
         return;
 

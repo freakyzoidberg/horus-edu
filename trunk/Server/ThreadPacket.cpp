@@ -5,8 +5,10 @@
 
 #include "ThreadPacket.h"
 #include "../Common/DataManager.h"
-#include "../Common/PluginManager.h"
+#include "PluginManagerServer.h"
 #include "../Common/UserDataPlugin.h"
+#include "../Common/TreeData.h"
+#include "../Common/TreeDataPlugin.h"
 #include "UserSettings.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommData.h"
@@ -79,8 +81,8 @@ void ThreadPacket::PacketLogin()
     if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION && login.method != CommLogin::LOGOUT)
         return sendError(CommError::PROTOCOL_ERROR);
 
-    UserDataPlugin* plugin = PluginManager().findPlugin<UserDataPlugin*>();
-//    UserDataPlugin* plugin = (UserDataPlugin*)PluginManager().findPlugin("UserDataPlugin");
+    UserDataPlugin* plugin = PluginManagerServer::instance()->findPlugin<UserDataPlugin*>();
+//    UserDataPlugin* plugin = (UserDataPlugin*)PluginManagerServer::instance()->findPlugin("UserDataPlugin");
     if ( ! plugin)
         return sendError(CommError::INTERNAL_ERROR, "No UserDataPlugin found. Cannot authenticate the user.");
 
@@ -132,12 +134,38 @@ void ThreadPacket::PacketLogin()
     resp.user = user;
     emit sendPacket(resp.getPacket());
 
-//    plugin->dataManager->sendData(user,user);
+    // send user data
+    plugin->dataManager->sendData(user,user);
+
+    TreeDataPlugin* treePlugin = PluginManagerServer::instance()->findPlugin<TreeDataPlugin*>();
+    if ( ! treePlugin)
+        qDebug() << "Warning: no TreeDataPlugin found. Check your configuration.";
+    else
+    {
+        TreeData* node = treePlugin->getNode(0);
+        node->fillFromDatabase(query);
+        node->setStatus(user, Data::UPTODATE);
+        // send the node 0
+        qDebug() << node;
+        treePlugin->dataManager->sendData(user, node);
+
+        //send the node between 0 and user nodeId
+        for (node = treePlugin->getNode(user->idTree);
+             node->getId() > 0;
+             node = (TreeData*)(node->parent()))
+        {
+            node->fillFromDatabase(query);
+            node->setStatus(user, Data::UPTODATE);
+            treePlugin->dataManager->sendData(user, node );
+        }
+    }
 
     //TODO send UserData to the connected client
 
     //allow other threads to be started
     socket->allowOtherThreads();
+
+    qDebug() << PluginManagerServer::instance()->plugins();
 }
 
 void ThreadPacket::PacketData()
@@ -145,7 +173,7 @@ void ThreadPacket::PacketData()
     CommData data(packet);
 
     //TODO stock in QHash for quicker execution
-    foreach (DataPlugin* plugin, PluginManager().findPlugins<DataPlugin*>())
+    foreach (DataPlugin* plugin, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
             plugin->dataManager->receiveData(socket->user, data.data);
 }
@@ -276,7 +304,7 @@ void ThreadPacket::PacketPlugin()
         return sendError(CommError::NOT_AUTHENTICATED);
 
     QString target = mod.packet.targetPlugin;
-    NetworkPlugin* plugin = PluginManager().findPlugin<NetworkPlugin*>(target);
+    NetworkPlugin* plugin = PluginManagerServer::instance()->findPlugin<NetworkPlugin*>(target);
     mod.packet.user = socket->user;
     if (plugin)
         return plugin->receivePacket(socket->user, mod.packet);

@@ -3,34 +3,38 @@
 
 void TreeDataBase::keyToStream(QDataStream& s)
 {
-    s << (quint32)getId();
+    s << nodeId;
 }
 
 void TreeDataBase::dataToStream(QDataStream& s)
 {
-    s << (quint32)userId
+    s << userId
       << name
       << type
-      << ((TreeDataBase*)(parent()))->getId();
+      << ((TreeDataBase*)(parent()))->nodeId;
 }
 
 void TreeDataBase::dataFromStream(QDataStream& s)
 {
     quint32 parentId;
-    s >> (quint32&)userId
+    s >> userId
       >> name
       >> type
       >> parentId;
-    setParent( ((TreeDataBasePlugin*)(_plugin))->getNode(parentId) );
+    if (nodeId > 0)
+        setParent( ((TreeDataBasePlugin*)(_plugin))->getNode(parentId) );
+    else
+        setParent(0);
 }
 
 QDebug TreeDataBase::operator<<(QDebug debug) const
 {
-    return debug << getDataType()
-                 << getId()
-                 << userId
-                 << type
-                 << name;
+    debug << getDataType() << nodeId;
+    if (parent())
+        debug << ((TreeDataBase*)parent())->getId();
+    else
+        debug << 0;
+    return debug << userId << type << name;
 }
 
 #ifdef HORUS_CLIENT

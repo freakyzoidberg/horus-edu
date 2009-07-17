@@ -11,8 +11,10 @@ TreeDataBasePlugin::TreeDataBasePlugin()
 TreeData* TreeDataBasePlugin::getNode(quint32 nodeId)
 {
     if ( ! nodes.contains(nodeId))
+    {
         nodes[nodeId] = new TreeDataBase(nodeId, this);
-
+        nodes[nodeId]->setParent(0);
+    }
     return nodes[nodeId];
 }
 
@@ -35,7 +37,7 @@ void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 
 QAbstractItemModel* TreeDataBasePlugin::getTreeModel()
 {
-    return new TreeModel();
+    return new TreeModel(pluginManager);
 }
 #endif
 #ifdef HORUS_SERVER
