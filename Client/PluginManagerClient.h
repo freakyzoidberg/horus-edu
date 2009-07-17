@@ -1,9 +1,10 @@
-#ifndef PLUGINMANAGERSERVER_H
-#define PLUGINMANAGERSERVER_H
+#ifndef PLUGINMANAGERCLIENT_H
+#define PLUGINMANAGERCLIENT_H
 
 #include <QHash>
 #include <QList>
 #include <QString>
+#include <QDir>
 
 #include "../Common/PluginManager.h"
 
@@ -14,19 +15,20 @@
  *  PluginManager().findPlugin<NetworkPlugin*>("NameOfThePlgin")
  *  PluginManager().findPlugins<NetworkPlugin*>()
  */
-class PluginManagerServer : public PluginManager
+class PluginManagerClient : public PluginManager
 {
     Q_OBJECT
     Q_INTERFACES(PluginManager)
 
 public:
     void load();
+    bool loadPlugin(QString pluginName, QDir path);
     const QHash<QString, Plugin*>& plugins() const;
 
-    static PluginManagerServer* instance();
+    static PluginManagerClient* instance();
 private:
-    PluginManagerServer();
+    PluginManagerClient();
     static QHash<QString,Plugin*> _plugins;
 };
 
-#endif // PLUGINMANAGERSERVER_H
+#endif // PLUGINMANAGERCLIENT_H

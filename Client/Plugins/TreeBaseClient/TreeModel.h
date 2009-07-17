@@ -5,10 +5,11 @@
 #include <QtGui/QIcon>
 #include <QAbstractItemModel>
 
+class PluginManager;
 class TreeModel : public QAbstractItemModel
 {
 public:
-    TreeModel();
+    TreeModel(PluginManager* pluginManager);
 
     int         columnCount ( const QModelIndex & parent = QModelIndex() ) const;
     int         rowCount ( const QModelIndex & parent = QModelIndex() ) const;
@@ -25,6 +26,7 @@ private:
     static QIcon    GroupIcon;
     static QIcon    RootIcon;
     static QIcon    DefaultIcon;
+    PluginManager*  pluginManager;
 };
 
 #endif // TREEMODEL_H

@@ -1,21 +1,23 @@
 #ifndef PLUGINMANAGER_H
 #define PLUGINMANAGER_H
 
+#include <QDebug>
 #include <QHash>
 #include <QList>
 #include <QString>
 
-class Plugin;
+#include "Plugin.h"
 
 //! To find another plugin with name and/or type
 /*! Sample:
  *  PluginManager().findPlugin("NameOfThePlugin")
  *  PluginManager().findPlugin<NetworkPlugin*>()
- *  PluginManager().findPlugin<NetworkPlugin*>("NameOfThePlgin")
+ *  PluginManager().findPlugin<NetworkPlugin*>("NameOfThePlugin")
  *  PluginManager().findPlugins<NetworkPlugin*>()
  */
-class PluginManager
+class PluginManager : public QObject
 {
+  Q_OBJECT
 public:
     //! return the plugin with the name in parameter and with a type T
     inline Plugin* findPlugin(const QString& name) const
@@ -49,10 +51,9 @@ template <typename T>
         return list;
     }
 
-    inline const QHash<QString, Plugin*>& plugins() const { return _plugins; }
-
-protected:
-    static QHash<QString,Plugin*> _plugins;
+    virtual const QHash<QString, Plugin*>& plugins() const = 0;
 };
+
+Q_DECLARE_INTERFACE(PluginManager, "net.horus.PluginManager/1.0");
 
 #endif // PLUGINMANAGER_H

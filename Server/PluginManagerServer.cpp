@@ -8,7 +8,16 @@
 #include <QStringList>
 #include <QDebug>
 
-Q_DECL_EXPORT QHash<QString,Plugin*> PluginManager::_plugins;
+QHash<QString,Plugin*> PluginManagerServer::_plugins;
+const QHash<QString, Plugin*>& PluginManagerServer::plugins() const { return _plugins; }
+
+PluginManagerServer::PluginManagerServer() { }
+
+PluginManagerServer* PluginManagerServer::instance()
+{
+    static PluginManagerServer pmi;
+    return &pmi;
+}
 
 void PluginManagerServer::load()
 {
@@ -33,7 +42,10 @@ void PluginManagerServer::load()
     s.endGroup();
 
     DataPlugin* p;
-    foreach (Plugin* plugin, _plugins)
+    foreach (Plugin* plugin, plugins())
+    {
+        plugin->pluginManager = PluginManagerServer::instance();
         if ((p = qobject_cast<DataPlugin*>(plugin)))
             p->dataManager = new DataManagerServer(p);
+    }
 }

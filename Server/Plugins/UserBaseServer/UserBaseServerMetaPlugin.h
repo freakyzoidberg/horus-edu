@@ -20,6 +20,7 @@ public:
 // declare instance of the plugin
 Q_EXPORT_PLUGIN2(UserBaseServerMetaPlugin, UserBaseServerMetaPlugin);
 
-Q_DECL_IMPORT QHash<QString,Plugin*> PluginManager::_plugins;
+//Q_IMPORT_PLUGIN(PluginManager);
+//Q_DECL_IMPORT QHash<QString,Plugin*>* PluginManager::_plugins;
 
 #endif // USERBASESERVERMETAPLUGIN_H

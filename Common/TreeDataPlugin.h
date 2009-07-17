@@ -10,6 +10,14 @@
 class TreeData;
 class TreeDataPlugin : public DataPlugin
 {
+    Q_OBJECT
+#ifdef HORUS_SERVER
+    Q_INTERFACES(ServerDataPlugin)
+#endif
+#ifdef HORUS_CLIENT
+    Q_INTERFACES(ClientDataPlugin)
+#endif
+
 public:
     virtual TreeData* getNode(quint32 id) = 0;
 #ifdef HORUS_CLIENT

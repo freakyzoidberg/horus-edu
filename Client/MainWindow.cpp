@@ -2,7 +2,7 @@
 #include "SettingsDialog.h"
 #include "DisplayablePlugin.h"
 #include "ClientEvents.h"
-#include "../Common/PluginManager.h"
+#include "PluginManagerClient.h"
 #include "DockMenu.h"
 
 MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
@@ -12,7 +12,7 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
     this->createActions();
     this->createMenus();
     this->addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
-    DisplayablePlugin *mainBoard = PluginManager().findPlugin<DisplayablePlugin*>("MainFrame");
+    DisplayablePlugin *mainBoard = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("MainFrame");
     if (mainBoard)
         this->setCentralWidget(mainBoard->getWidget());
 }

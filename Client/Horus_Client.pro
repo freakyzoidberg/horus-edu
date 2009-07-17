@@ -23,6 +23,7 @@ SOURCES += main.cpp \
     ConfigManager.cpp \
     Loader.cpp \
     MainWindow.cpp \
+    PluginManagerClient.cpp \
     LoginDialog.cpp \
     ClientEvents.cpp \
     ThreadNetwork.cpp \
@@ -61,6 +62,7 @@ HEADERS += NetworkManager.h \
     SettingsDialog.h \
     UserInfo.h \
     NotificationClient.h \
+    PluginManagerClient.h \
     DockMenu.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \

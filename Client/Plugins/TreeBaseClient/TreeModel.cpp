@@ -12,26 +12,22 @@ QIcon TreeModel::GroupIcon(":/Icons/GroupIcon.png");
 QIcon TreeModel::RootIcon(":/Icons/RootIcon.png");
 QIcon TreeModel::DefaultIcon(":/Icons/DefaultIcon.png");
 
-TreeModel::TreeModel()
+TreeModel::TreeModel(PluginManager* _pluginManager)
 {
+    pluginManager = _pluginManager;
 }
 
 int TreeModel::columnCount ( const QModelIndex & ) const
 {
-    return 1;
+    return 5;
 }
 
 int TreeModel::rowCount ( const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
         return 1;
-
-    QObject* obj = ((QObject*)(parent.internalPointer()));
-    if (obj->objectName() != "TreeData")
-        return 0;
-
-//    return ((TreeData*)obj)->GetSonsNode().size() + fileManager->countNodeFileList( ((TreeData*)obj)->Getid() );
-    return ((TreeData*)obj)->children().length();
+    qDebug() << ((QObject*)(parent.internalPointer()))->children().length();
+    return ((QObject*)(parent.internalPointer()))->children().length();
 }
 /*
 QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -48,51 +44,21 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 
     QObject* obj = ((QObject*)(index.internalPointer()));
 
-   if (role == Qt::DisplayRole)
-    {
-        if (obj->inherits("TreeData"))
-            return QVariant(((TreeData*)obj)->getName());
-//        if (obj->inherits("IFile"))
-//            return QVariant(((IFile*)obj)->getInfo().fileName);
-    }
+   if ( ! obj->inherits("Data"))
+       return QVariant();
 
-//   else if (role == Qt::UserRole &&
-//             obj->inherits("IFile") &&
-//             ((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
-//       return QVariant(((IFile*)obj)->getInfo().id);
-
-    else if (role == Qt::DecorationRole)
-    {
-//        if (obj->inherits("IFile"))
-//        {
-//            if (((IFile*)obj)->getInfo().mimeType == "x-horus/x-lesson")
-//                return QVariant(QVariant::Icon, &LessonIcon);
-//            return QVariant(QVariant::Icon, &FileIcon);
-//        }
-        if (obj->inherits("TreeData"))
-        {
-            if (((TreeData*)obj)->getType() == "ROOT")
-                return QVariant(QVariant::Icon, &RootIcon);
-            if (((TreeData*)obj)->getType() == "GROUP")
-                return QVariant(QVariant::Icon, &GroupIcon);
-            if (((TreeData*)obj)->getType() == "GRADE")
-                return QVariant(QVariant::Icon, &GradeIcon);
-            if (((TreeData*)obj)->getType() == "SUBJECT")
-                return QVariant(QVariant::Icon, &SubjectIcon);
-            return QVariant(QVariant::Icon, &DefaultIcon);
-        }
-    }
-
-    return QVariant();
+//   if (role == Qt::DisplayRole)
+//        return QVariant(((Data*)obj)->data(index.column() + 1, Qt::DisplayRole));
+//    else
+        return QVariant(((Data*)obj)->data(index.column()    , role));
 }
 
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
-        return createIndex(row, column, PluginManager().findPlugin<TreeDataPlugin*>()->getNode(0));
+        return createIndex(row, column, pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
 
-    QObject* obj = ((QObject*)(parent.internalPointer()));
-    return createIndex(row, column, obj->children().at(row) );
+    return createIndex(row, column, ((QObject*)(parent.internalPointer()))->children().at(row) );
 }
 
 QModelIndex TreeModel::parent ( const QModelIndex & index ) const
@@ -108,5 +74,5 @@ QModelIndex TreeModel::parent ( const QModelIndex & index ) const
     if ( ! obj->parent())
         return createIndex(0, 0, obj);
 
-    return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
+    return createIndex(obj->children().indexOf(obj), 0, obj);
 }
