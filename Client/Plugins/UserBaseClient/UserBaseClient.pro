@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-04-09T19:51:57
 # -------------------------------------------------
-QT -= gui
+#QT -= gui
 DEFINES += HORUS_CLIENT
 TEMPLATE = lib
 TARGET = UserBaseClientMetaPlugin

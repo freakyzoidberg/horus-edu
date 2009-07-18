@@ -4,17 +4,11 @@
 
 #include <QDebug>
 
-QIcon TreeModel::LessonIcon(":/Icons/LessonIcon.png");
-QIcon TreeModel::SubjectIcon(":/Icons/MatiereIcon.png");
-QIcon TreeModel::GradeIcon(":/Icons/ClassIcon.png");
-QIcon TreeModel::FileIcon(":/Icons/FileIcon.png");
-QIcon TreeModel::GroupIcon(":/Icons/GroupIcon.png");
-QIcon TreeModel::RootIcon(":/Icons/RootIcon.png");
-QIcon TreeModel::DefaultIcon(":/Icons/DefaultIcon.png");
-
 TreeModel::TreeModel(PluginManager* _pluginManager)
 {
     pluginManager = _pluginManager;
+    pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0)->dumpObjectTree();
+    rootItem = pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0);
 }
 
 int TreeModel::columnCount ( const QModelIndex & ) const
@@ -26,8 +20,8 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
         return 1;
-    qDebug() << ((QObject*)(parent.internalPointer()))->children().length();
-    return ((QObject*)(parent.internalPointer()))->children().length();
+    //qDebug() << ((QObject*)(parent.internalPointer()))->children().length();
+    return ((Data*)(parent.internalPointer()))->children().length();
 }
 /*
 QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -40,12 +34,12 @@ QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int ro
 QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 {
     if ( ! index.isValid())
-        return QVariant();
+        return QVariant("EMPTY");
 
-    QObject* obj = ((QObject*)(index.internalPointer()));
+    Data* obj = ((Data*)(index.internalPointer()));
 
-   if ( ! obj->inherits("Data"))
-       return QVariant();
+//   if ( ! obj->inherits("Data"))
+//       return QVariant();
 
 //   if (role == Qt::DisplayRole)
 //        return QVariant(((Data*)obj)->data(index.column() + 1, Qt::DisplayRole));
@@ -56,23 +50,24 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
-        return createIndex(row, column, pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
+        return createIndex(row, column, rootItem);
 
-    return createIndex(row, column, ((QObject*)(parent.internalPointer()))->children().at(row) );
+    return createIndex(row, column, ((Data*)(parent.internalPointer()))->children().at(row) );
 }
 
 QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 {
-//    if ( ! index.isValid())
-//        return QModelIndex();
+    if ( ! index.isValid())
+        return QModelIndex();
 
-    QObject* obj = ((QObject*)(index.internalPointer()))->parent();
+    Data* obj = (Data*)(((Data*)(index.internalPointer()))->parent());
 
     if ( ! obj)
         return QModelIndex();
 
-    if ( ! obj->parent())
-        return createIndex(0, 0, obj);
+    int row = 0;
+    if (obj != rootItem)
+        row = obj->children().indexOf(obj);
 
-    return createIndex(obj->children().indexOf(obj), 0, obj);
+    return createIndex(row, 0, obj);
 }

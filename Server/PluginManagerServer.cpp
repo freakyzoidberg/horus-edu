@@ -8,10 +8,13 @@
 #include <QStringList>
 #include <QDebug>
 
-QHash<QString,Plugin*> PluginManagerServer::_plugins;
-const QHash<QString, Plugin*>& PluginManagerServer::plugins() const { return _plugins; }
+const QHash<QString, Plugin*>& PluginManagerServer::plugins() const
+{
+    return _plugins;
+}
 
-PluginManagerServer::PluginManagerServer() { }
+PluginManagerServer::PluginManagerServer()
+{ }
 
 PluginManagerServer* PluginManagerServer::instance()
 {

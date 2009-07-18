@@ -83,6 +83,7 @@ QVariant UserDataBase::data(int column, int role) const
 #endif
 
 #ifdef HORUS_SERVER
+//#include <QtSql>
 void UserDataBase::fillFromDatabase(QSqlQuery& query)
 {
     query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users WHERE id=?;");
@@ -94,29 +95,75 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
     }
     login      = query.value(0).toString();
     level      = (UserLevel)(query.value(1).toUInt());
-    lastLogin = query.value(2).toDateTime();
+    lastLogin  = query.value(2).toDateTime();
     surname    = query.value(3).toString();
     name       = query.value(4).toString();
-    birthDate = query.value(5).toDateTime();
-//    picture    = query.value(6).to;
+    birthDate  = query.value(5).toDateTime();
+    picture    = query.value(6).toByteArray();
     address    = query.value(7).toString();
     phone      = query.value(8).toString();
     country    = query.value(9).toString();
     language   = query.value(10).toString();
-    idTree    = query.value(11).toUInt();
+    idTree     = query.value(11).toUInt();
     enabled    = query.value(12).toBool();
 }
 
-void UserDataBase::createIntoDatabase(QSqlQuery& TODO)
+void UserDataBase::createIntoDatabase(QSqlQuery& query)
 {
+    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
+    query.addBindValue(login);
+    query.addBindValue(level);
+    query.addBindValue(lastLogin);
+    query.addBindValue(surname);
+    query.addBindValue(name);
+    query.addBindValue(birthDate);
+    query.addBindValue(picture);
+    query.addBindValue(address);
+    query.addBindValue(phone);
+    query.addBindValue(country);
+    query.addBindValue(language);
+    query.addBindValue(idTree);
+    query.addBindValue(enabled);
+    if ( ! query.exec() || ! query.next())
+    {
+        _error = DATABASE_ERROR;
+        return;
+    }
+    id = query.lastInsertId().toUInt();
 }
 
-void UserDataBase::saveIntoDatabase  (QSqlQuery& TODO)
+void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
 {
+    query.prepare("UPDATE users SET login=?,level=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=? WHERE id=?;");
+    query.addBindValue(login);
+    query.addBindValue(level);
+    query.addBindValue(lastLogin);
+    query.addBindValue(surname);
+    query.addBindValue(name);
+    query.addBindValue(birthDate);
+    query.addBindValue(picture);
+    query.addBindValue(address);
+    query.addBindValue(phone);
+    query.addBindValue(country);
+    query.addBindValue(language);
+    query.addBindValue(idTree);
+    query.addBindValue(enabled);
+    if ( ! query.exec() || ! query.next())
+    {
+        _error = NOT_FOUND;
+        return;
+    }
 }
 
-void UserDataBase::deleteFromDatabase(QSqlQuery& TODO)
+void UserDataBase::deleteFromDatabase(QSqlQuery& query)
 {
+    query.prepare("DELETE FROM users WHERE id=?;");
+    query.addBindValue(id);
+    if ( ! query.exec() || ! query.next())
+    {
+        _error = NOT_FOUND;
+        return;
+    }
 }
 
 QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)

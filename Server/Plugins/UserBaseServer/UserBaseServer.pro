@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-04-09T19:51:57
 # -------------------------------------------------
-QT -= gui
+#QT -= gui
 QT += sql
 DEFINES += HORUS_SERVER
 TEMPLATE = lib

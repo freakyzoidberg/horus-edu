@@ -26,7 +26,7 @@ public:
     static PluginManagerServer* instance();
 private:
     PluginManagerServer();
-    static QHash<QString,Plugin*> _plugins;
+    QHash<QString,Plugin*> _plugins;
 };
 
 #endif // PLUGINMANAGERSERVER_H
