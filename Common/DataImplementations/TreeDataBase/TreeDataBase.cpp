@@ -1,6 +1,25 @@
 #include "TreeDataBase.h"
 #include "TreeDataBasePlugin.h"
 
+#ifdef HORUS_CLIENT
+#include <QIcon>
+#endif
+
+TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData(nodeId, (TreeDataPlugin*)plugin)
+{
+#ifdef HORUS_CLIENT
+    if ( ! icons.count())
+    {
+        icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
+        icons["LESSON"] = QIcon(":/Icons/LessonIcon.png");
+        icons["SUBJECT"] = QIcon(":/Icons/MatiereIcon.png");
+        icons["GRADE"] = QIcon(":/Icons/ClassIcon.png");
+        icons["GROUP"] = QIcon(":/Icons/GroupIcon.png");
+        icons["ROOT"] = QIcon(":/Icons/RootIcon.png");
+    }
+#endif
+}
+
 void TreeDataBase::keyToStream(QDataStream& s)
 {
     s << nodeId;
@@ -39,13 +58,7 @@ QDebug TreeDataBase::operator<<(QDebug debug) const
 }
 
 #ifdef HORUS_CLIENT
-//QMap<QString,QIcon> TreeDataBase::icons;
-//TreeDataBase::icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
-//TreeDataBase::icons["LESSON"] = QIcon(":/Icons/LessonIcon.png");
-//TreeDataBase::icons["SUBJECT"] = QIcon(":/Icons/MatiereIcon.png");
-//TreeDataBase::icons["GRADE"] = QIcon(":/Icons/ClassIcon.png");
-//TreeDataBase::icons["GROUP"] = QIcon(":/Icons/GroupIcon.png");
-//TreeDataBase::icons["ROOT"] = QIcon(":/Icons/RootIcon.png");
+QMap<QString,QIcon> TreeDataBase::icons;
 
 QVariant TreeDataBase::data(int column, int role) const
 {
@@ -60,6 +73,12 @@ QVariant TreeDataBase::data(int column, int role) const
         if (column == 3)
             return userId;
     }
+    else if (role == Qt::DecorationRole)
+    {
+        if (icons.contains( type ))
+            return icons[ type ];
+        return icons["DEFAULT"];
+    }
 
     return QVariant();
 }
@@ -67,7 +86,7 @@ QVariant TreeDataBase::data(int column, int role) const
 #ifdef HORUS_SERVER
 void TreeDataBase::fillFromDatabase(QSqlQuery& query)
 {
-    query.prepare("SELECT p.typeofnode,p.name,p.user_ref,p.id_parent,c.id FROM tree p LEFT JOIN tree c ON c.id_parent=p.id WHERE p.id=?;");
+    query.prepare("SELECT typeofnode,name,user_ref,id_parent FROM tree WHERE id=?;");
     query.addBindValue(nodeId);
     if ( ! query.exec() || ! query.next())
     {
@@ -78,23 +97,55 @@ void TreeDataBase::fillFromDatabase(QSqlQuery& query)
     name   = query.value(1).toString();
     userId = query.value(2).toUInt();
     setParent( ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(3).toUInt()) );
-    ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
-    while (query.next())
-        ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
+//    ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
+//    while (query.next())
+//        ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
 }
 
-void TreeDataBase::createIntoDatabase(QSqlQuery& TODO)
+void TreeDataBase::createIntoDatabase(QSqlQuery& query)
 {
+    query.prepare("INSERT INTO tree (typeofnode,name,user_ref,id_parent) VALUES (?,?,?,?);");
+    query.addBindValue(type);
+    query.addBindValue(name);
+    query.addBindValue(userId);
+    query.addBindValue(parent()->getId());
+    if ( ! query.exec() || ! query.next())
+    {
+        _error = DATABASE_ERROR;
+        return;
+    }
 }
 
-void TreeDataBase::saveIntoDatabase  (QSqlQuery& TODO)
+void TreeDataBase::saveIntoDatabase  (QSqlQuery& query)
 {
+    query.prepare("UPDATE tree SET typeofnode=?,name=?,user_ref=?,id_parent=? WHERE id=?;");
+    query.addBindValue(type);
+    query.addBindValue(name);
+    query.addBindValue(userId);
+    query.addBindValue(nodeId);
+    if ( ! query.exec() || ! query.next())
+    {
+        _error = NOT_FOUND;
+        return;
+    }
 }
 
-void TreeDataBase::deleteFromDatabase(QSqlQuery& TODO)
+void TreeDataBase::deleteFromDatabase(QSqlQuery& query)
 {
+    query.prepare("DELETE FROM tree WHERE id=?;");
+    query.addBindValue(nodeId);
+    if ( ! query.exec() || ! query.next())
+    {
+        _error = NOT_FOUND;
+        return;
+    }
 }
 #endif
+
+TreeData* TreeDataBase::parent() const
+{
+    return (TreeData*)(QObject::parent());
+}
 
 void TreeDataBase::createChild(int userId, QString name, QString type)
 {

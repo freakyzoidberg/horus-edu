@@ -13,7 +13,7 @@ TreeModel::TreeModel(PluginManager* _pluginManager)
 
 int TreeModel::columnCount ( const QModelIndex & ) const
 {
-    return 5;
+    return 3;
 }
 
 int TreeModel::rowCount ( const QModelIndex & parent ) const
@@ -41,10 +41,12 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 //   if ( ! obj->inherits("Data"))
 //       return QVariant();
 
-//   if (role == Qt::DisplayRole)
-//        return QVariant(((Data*)obj)->data(index.column() + 1, Qt::DisplayRole));
-//    else
-        return QVariant(((Data*)obj)->data(index.column()    , role));
+   if (role == Qt::DisplayRole)
+        return QVariant(((Data*)obj)->data(index.column(), Qt::DisplayRole));
+   if (role == Qt::DecorationRole && index.column() == 0)
+        return QVariant(((Data*)obj)->data(0, Qt::DecorationRole));
+
+   return QVariant();
 }
 
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const

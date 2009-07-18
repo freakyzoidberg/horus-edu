@@ -20,7 +20,7 @@ class TreeDataBase : public TreeData
 
   friend class TreeDataBasePlugin;
 private:
-    inline TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData(nodeId, (TreeDataPlugin*)plugin) { }
+    TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin);
     inline ~TreeDataBase() {}
 
     quint32 userId;
@@ -28,8 +28,11 @@ private:
     QString type;
 
 
-    // INTERFACE TreeData
 public:
+    //! just a cast of the Qobject::parent()
+    TreeData*       parent() const;
+
+    // INTERFACE TreeData
     void            createChild(int userId, QString name, QString type);
     void            remove();
     void            moveTo(int idfather);
@@ -44,8 +47,8 @@ public:
     bool            isDescendantOf(TreeData* parent);
     bool            canChange();
 
+
     //INTERFACE Data
-public:
     void            keyToStream(QDataStream& s);
     void            dataToStream(QDataStream& s);
     void            dataFromStream(QDataStream& s);
