@@ -33,7 +33,7 @@ private:
     QString     surname;
     QString     name;
     QDateTime   birthDate;
-    QString     picture;
+    QByteArray  picture;
     QString     address;
     QString     phone;
     QString     country;

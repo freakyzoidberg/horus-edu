@@ -1,7 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-04-09T19:51:57
 # -------------------------------------------------
-QT -= gui
+#QT -= gui
 QT += sql
 DEFINES += HORUS_CLIENT
 TEMPLATE = lib
@@ -21,3 +21,4 @@ HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
   ../../../Common/TreeDataPlugin.h \
   TreeModel.h \
   TreeBaseClientMetaPlugin.h
+RESOURCES += Icons.qrc

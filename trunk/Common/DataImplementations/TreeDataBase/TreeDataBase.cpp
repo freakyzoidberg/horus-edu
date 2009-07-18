@@ -25,6 +25,7 @@ void TreeDataBase::dataFromStream(QDataStream& s)
         setParent( ((TreeDataBasePlugin*)(_plugin))->getNode(parentId) );
     else
         setParent(0);
+    setObjectName(name);
 }
 
 QDebug TreeDataBase::operator<<(QDebug debug) const
@@ -38,6 +39,14 @@ QDebug TreeDataBase::operator<<(QDebug debug) const
 }
 
 #ifdef HORUS_CLIENT
+//QMap<QString,QIcon> TreeDataBase::icons;
+//TreeDataBase::icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
+//TreeDataBase::icons["LESSON"] = QIcon(":/Icons/LessonIcon.png");
+//TreeDataBase::icons["SUBJECT"] = QIcon(":/Icons/MatiereIcon.png");
+//TreeDataBase::icons["GRADE"] = QIcon(":/Icons/ClassIcon.png");
+//TreeDataBase::icons["GROUP"] = QIcon(":/Icons/GroupIcon.png");
+//TreeDataBase::icons["ROOT"] = QIcon(":/Icons/RootIcon.png");
+
 QVariant TreeDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
@@ -51,6 +60,7 @@ QVariant TreeDataBase::data(int column, int role) const
         if (column == 3)
             return userId;
     }
+
     return QVariant();
 }
 #endif

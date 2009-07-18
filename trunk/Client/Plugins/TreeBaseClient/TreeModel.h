@@ -6,6 +6,7 @@
 #include <QAbstractItemModel>
 
 class PluginManager;
+class Data;
 class TreeModel : public QAbstractItemModel
 {
 public:
@@ -19,14 +20,8 @@ public:
     QModelIndex parent ( const QModelIndex & index ) const;
 
 private:
-    static QIcon    LessonIcon;
-    static QIcon    GradeIcon;
-    static QIcon    SubjectIcon;
-    static QIcon    FileIcon;
-    static QIcon    GroupIcon;
-    static QIcon    RootIcon;
-    static QIcon    DefaultIcon;
     PluginManager*  pluginManager;
+    Data*           rootItem;
 };
 
 #endif // TREEMODEL_H
