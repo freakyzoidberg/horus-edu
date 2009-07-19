@@ -17,6 +17,7 @@
 #include "DataPlugin.h"
 
 class UserData;
+class PluginManager;
 class Data : public QObject
 {
   Q_OBJECT
@@ -66,14 +67,22 @@ public:
      */
     virtual void            dataFromStream(QDataStream& s) = 0;
 
+    //! Function to call before editing a data.
+    /*! This function make a copy of the data.
+     *  after, when the function setStatus( SAVE ) is called
+     *  the old and the new value is send
+     *  if the data already change, server will know
+     *  if permition denied, client still have the old value
+     */
+    inline void            preSaveData() { oldValue=""; QDataStream s(&oldValue, QIODevice::WriteOnly); dataToStream(s); }
+
     //! Return the current status of this data.
     inline quint8           status() const { return (quint8)_status; }
     //! Change the current status and tell the coresponding plugin the data just changed.
-    inline void             setStatus(UserData* user, quint8 status) {
-        _plugin->dataManager->dataStatusChange(user, this, status);
+    inline void             setStatus(quint8 status) {
+        _plugin->dataManager->dataStatusChange(this, status);
         if (_status == UPTODATE) emit updated();
     }
-
 
 signals:
     //! Signal emmited when the data is updated.
@@ -88,7 +97,7 @@ public:
     virtual QVariant        data(int column, int role = Qt::DisplayRole) const = 0;
     //! Function just set the UPDATING status if not already uptodate or updating
     inline void             update()
-        { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(0, UPDATING); }
+        { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(UPDATING); }
 #endif
 #ifdef HORUS_SERVER
     //! Fill the current data with a defined key from teh database.
@@ -110,6 +119,9 @@ protected:
     quint8                  _error;
 
     QMutex                  *lock;
+
+private:
+    QByteArray              oldValue;
 };
 
 inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }

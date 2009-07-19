@@ -29,8 +29,12 @@ private:
 
 
 public:
-    //! just a cast of the Qobject::parent()
-    TreeData*       parent() const;
+    //INTERFACE Data
+    void            keyToStream(QDataStream& s);
+    void            dataToStream(QDataStream& s);
+    void            dataFromStream(QDataStream& s);
+
+    QDebug          operator<<(QDebug debug) const;
 
     // INTERFACE TreeData
     void            createChild(int userId, QString name, QString type);
@@ -47,13 +51,6 @@ public:
     bool            isDescendantOf(TreeData* parent);
     bool            canChange();
 
-
-    //INTERFACE Data
-    void            keyToStream(QDataStream& s);
-    void            dataToStream(QDataStream& s);
-    void            dataFromStream(QDataStream& s);
-
-    QDebug          operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
     QVariant        data(int column, int role = Qt::DisplayRole) const;
     static QMap<QString,QIcon> icons;

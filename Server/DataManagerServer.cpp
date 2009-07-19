@@ -5,10 +5,11 @@
 
 #include "Sql.h"
 #include "ClientSocket.h"
+#include "PluginManagerServer.h"
 
 #include <QMetaObject>
 
-void DataManagerServer::dataStatusChange(UserData* user, Data* data, quint8 newStatus) const
+void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 {
 //    QMutexLocker(data->lock);
 
@@ -23,7 +24,7 @@ void DataManagerServer::dataStatusChange(UserData* user, Data* data, quint8 newS
 
     // if a client ask for a data, send him the data
     if (newStatus == Data::UPDATING)
-        return sendData(user, data);
+        return sendData(PluginManagerServer::instance()->currentUser(), data);
 
     // if a client want to create a new data
     if (newStatus == Data::CREATING)
@@ -55,7 +56,7 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
         data->dataFromStream(stream);
     }
 
-    data->setStatus(user, status);
+    data->setStatus(status);
     data->setError(error);
 }
 

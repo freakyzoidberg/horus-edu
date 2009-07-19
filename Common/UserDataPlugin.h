@@ -21,9 +21,6 @@ public:
     inline const QString pluginName() const { return "UserDataPlugin"; }
     inline const QString getDataType() const { return "UserData"; }
     virtual UserData*    getUser(quint32 userId) = 0;
-#ifdef HORUS_CLIENT
-    UserData*            currentUser;
-#endif
 #ifdef HORUS_SERVER
     virtual void         userDisconnected(UserData* user) = 0;
     virtual UserData*    authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password) = 0;

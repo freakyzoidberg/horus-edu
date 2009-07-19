@@ -18,7 +18,7 @@ public:
      *  - More status are supported (ex: a file can be [up/down]loading)
      *  - To check permitions (also on the client side but can be less restrictive)
      */
-    void dataStatusChange(UserData* user, Data* data, quint8 newStatus) const;
+    void dataStatusChange(Data* data, quint8 newStatus) const;
     void receiveData(UserData* user, const QByteArray& packet) const;
     void sendData(UserData* user, Data* data) const;
     void sendData(UserData* user, const QByteArray& packet) const;

@@ -2,13 +2,17 @@
 #include "../../../Common/TreeData.h"
 #include "../../../Common/PluginManager.h"
 
+#include "../../../Common/UserDataPlugin.h"
+
 #include <QDebug>
+#include <QMovie>
 
 TreeModel::TreeModel(PluginManager* _pluginManager)
 {
     pluginManager = _pluginManager;
     pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0)->dumpObjectTree();
-    rootItem = pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0);
+    rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
+    rootItem->update();
 }
 
 int TreeModel::columnCount ( const QModelIndex & ) const
@@ -21,7 +25,7 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
     if ( ! parent.isValid())
         return 1;
     //qDebug() << ((QObject*)(parent.internalPointer()))->children().length();
-    return ((Data*)(parent.internalPointer()))->children().length();
+    return ((Data*)(parent.internalPointer()))->children().count();
 }
 /*
 QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -34,19 +38,9 @@ QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int ro
 QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 {
     if ( ! index.isValid())
-        return QVariant("EMPTY");
+        return QVariant();
 
-    Data* obj = ((Data*)(index.internalPointer()));
-
-//   if ( ! obj->inherits("Data"))
-//       return QVariant();
-
-   if (role == Qt::DisplayRole)
-        return QVariant(((Data*)obj)->data(index.column(), Qt::DisplayRole));
-   if (role == Qt::DecorationRole && index.column() == 0)
-        return QVariant(((Data*)obj)->data(0, Qt::DecorationRole));
-
-   return QVariant();
+   return ((Data*)(index.internalPointer()))->data(index.column(), role);
 }
 
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const
@@ -59,17 +53,14 @@ QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent )
 
 QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 {
-    if ( ! index.isValid())
-        return QModelIndex();
+    QObject* obj = (QObject*)(index.internalPointer());
 
-    Data* obj = (Data*)(((Data*)(index.internalPointer()))->parent());
-
-    if ( ! obj)
+    if (obj == rootItem)
         return QModelIndex();
 
     int row = 0;
-    if (obj != rootItem)
-        row = obj->children().indexOf(obj);
+    if (obj->parent() != rootItem)
+        row = obj->parent()->children().indexOf(obj);
 
-    return createIndex(row, 0, obj);
+    return createIndex(row, 0, obj->parent());
 }

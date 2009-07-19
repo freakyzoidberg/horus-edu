@@ -10,13 +10,13 @@
 #include <QDebug>
 #include "ClientEvents.h"
 
-const QHash<QString, Plugin*>& PluginManagerClient::plugins() const
-{
-    return _plugins;
-}
+const QHash<QString, Plugin*>& PluginManagerClient::plugins() const { return _plugins;}
 
-PluginManagerClient::PluginManagerClient()
-{ }
+PluginManagerClient::PluginManagerClient() { }
+
+UserData* PluginManagerClient::currentUser() const { return user; }
+
+void PluginManagerClient::setCurrentUser(UserData* _user) { user = _user; }
 
 PluginManagerClient* PluginManagerClient::instance()
 {
