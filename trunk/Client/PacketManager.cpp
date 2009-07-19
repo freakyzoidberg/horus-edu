@@ -123,8 +123,8 @@ void PacketManager::PacketData()
     foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
         {
-            plugin->dataManager->receiveData(PluginManagerClient::instance()->findPlugin<UserDataPlugin*>()->currentUser, data.data);
-            qDebug() << PluginManagerClient::instance()->findPlugin<UserDataPlugin*>()->currentUser;
+            plugin->dataManager->receiveData(PluginManagerClient::instance()->currentUser(), data.data);
+            qDebug() << PluginManagerClient::instance()->currentUser();
         }
 }
 

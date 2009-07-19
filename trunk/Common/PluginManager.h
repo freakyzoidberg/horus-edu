@@ -7,6 +7,7 @@
 #include <QString>
 
 #include "Plugin.h"
+#include "UserData.h"
 
 //! To find another plugin with name and/or type
 /*! Sample:
@@ -52,6 +53,7 @@ template <typename T>
     }
 
     virtual const QHash<QString, Plugin*>& plugins() const = 0;
+    virtual UserData*                      currentUser() const = 0;
 };
 
 Q_DECLARE_INTERFACE(PluginManager, "net.horus.PluginManager/1.0");

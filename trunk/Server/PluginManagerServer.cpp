@@ -7,14 +7,15 @@
 #include <QPluginLoader>
 #include <QStringList>
 #include <QDebug>
+#include <QThread>
 
-const QHash<QString, Plugin*>& PluginManagerServer::plugins() const
-{
-    return _plugins;
-}
+const QHash<QString, Plugin*>& PluginManagerServer::plugins() const { return _plugins; }
 
-PluginManagerServer::PluginManagerServer()
-{ }
+PluginManagerServer::PluginManagerServer() { }
+
+UserData* PluginManagerServer::currentUser() const { return users[ QThread::currentThreadId() ]; }
+
+void PluginManagerServer::setCurrentUser(UserData* user) { users[ QThread::currentThreadId() ] = user; }
 
 PluginManagerServer* PluginManagerServer::instance()
 {

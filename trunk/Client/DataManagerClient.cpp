@@ -1,35 +1,41 @@
 #include "DataManagerClient.h"
 
+#include <QEvent>
+
 #include "../Common/CommData.h"
 #include "../Common/UserData.h"
 #include "../Common/Data.h"
 
-void DataManagerClient::dataStatusChange(UserData* user, Data* data, quint8 newStatus) const
-{
-//    QMutexLocker(data->lock);
+#include "ThreadNetwork.h"
+#include "PluginManagerClient.h"
 
-    // if the data is not in memory on the server, loading from database
-//    if (data->status() == Data::EMPTY)
-//    {
-//        data->_status = Data::UPTODATE;
-//    }
-//
-//    // if a client ask for a data, send him the data
-//    if (newStatus == Data::UPDATING)
-//        return sendData(user, data);
-//
-//    // if a client want to create a new data
+void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
+{
+    QMutexLocker(data->lock);
+
+    // if a client ask for a data, send him the data
+    if (newStatus == Data::UPDATING)
+    {
+        data->_status = Data::UPDATING;
+        return sendData(PluginManagerClient::instance()->currentUser(), data);
+    }
+
+    // if a client want to create a new data
 //    if (newStatus == Data::CREATING)
 //    {
 //    }
-//    // if a client save a new value of the data
-//    if (newStatus == Data::SAVING)
-//    {
-//    }
-//    // if a client delete a data
+    // if a client save a new value of the data
+    if (newStatus == Data::SAVING)
+    {
+        data->_status = Data::UPDATING;
+        return sendData(PluginManagerClient::instance()->currentUser(), data);
+    }
+    // if a client delete a data
 //    if (newStatus == Data::DELETING)
 //    {
 //    }
+//    if (data->status() == Data::EMPTY && newStatus == Data::UPTODATE)
+        data->_status = newStatus;
 }
 
 
@@ -50,7 +56,7 @@ void DataManagerClient::receiveData(UserData* user, const QByteArray& d) const
         data->dataFromStream(stream);
     }
 
-    data->setStatus(user, status);
+    data->setStatus(status);
     data->setError(error);
     qDebug() << "DataManagerClient::receiveData" << data;
 }
@@ -69,5 +75,5 @@ void DataManagerClient::sendData(UserData* user, Data* data) const
         //TODO: do not always write data
         data->dataToStream(stream);
 
-    //QMetaObject::invokeMethod(ClientSocket::connectedUsers[ user ], SLOT(sendPacket(const QByteArray&)), Qt::QueuedConnection, Q_ARG(const QByteArray&, packet.getPacket()));
+    QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(packet.getPacket()));
 }

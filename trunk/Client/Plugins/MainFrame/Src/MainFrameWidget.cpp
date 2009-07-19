@@ -27,6 +27,7 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame::QFrame()
         tv->setModel(tree->getTreeModel());
         layout->setRowStretch(2, 0);
         layout->addWidget(tv, 2, 0);
+        tv->expandAll();
     }
 
     course = plugin->pluginManager->findPlugin<DisplayablePlugin*>("Course");
@@ -46,11 +47,7 @@ void    MainFrameWidget::updateInfos()
 {
     qDebug() << "MainFrameWidget::updateInfos";
 
-    UserDataPlugin* p = plugin->pluginManager->findPlugin<UserDataPlugin*>();
-    if ( ! p)
-        return;
-
-    UserData* user = p->currentUser;
+    UserData* user = plugin->pluginManager->currentUser();
     qDebug() << "MainFrameWidget::updateInfos";
 
     if ( ! user)

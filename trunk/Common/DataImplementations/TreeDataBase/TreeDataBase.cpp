@@ -12,8 +12,8 @@ TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeDat
     {
         icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
         icons["LESSON"] = QIcon(":/Icons/LessonIcon.png");
-        icons["SUBJECT"] = QIcon(":/Icons/MatiereIcon.png");
-        icons["GRADE"] = QIcon(":/Icons/ClassIcon.png");
+        icons["SUBJECT"] = QIcon(":/Icons/SubjectIcon.png");
+        icons["GRADE"] = QIcon(":/Icons/GradeIcon.png");
         icons["GROUP"] = QIcon(":/Icons/GroupIcon.png");
         icons["ROOT"] = QIcon(":/Icons/RootIcon.png");
     }
@@ -29,8 +29,9 @@ void TreeDataBase::dataToStream(QDataStream& s)
 {
     s << userId
       << name
-      << type
-      << ((TreeDataBase*)(parent()))->nodeId;
+      << type;
+    if (nodeId > 0)
+        s << ((TreeDataBase*)(parent()))->nodeId;
 }
 
 void TreeDataBase::dataFromStream(QDataStream& s)
@@ -57,32 +58,6 @@ QDebug TreeDataBase::operator<<(QDebug debug) const
     return debug << userId << type << name;
 }
 
-#ifdef HORUS_CLIENT
-QMap<QString,QIcon> TreeDataBase::icons;
-
-QVariant TreeDataBase::data(int column, int role) const
-{
-    if (role == Qt::DisplayRole)
-    {
-        if (column == 0)
-            return getId();
-        if (column == 1)
-            return name;
-        if (column == 2)
-            return type;
-        if (column == 3)
-            return userId;
-    }
-    else if (role == Qt::DecorationRole)
-    {
-        if (icons.contains( type ))
-            return icons[ type ];
-        return icons["DEFAULT"];
-    }
-
-    return QVariant();
-}
-#endif
 #ifdef HORUS_SERVER
 void TreeDataBase::fillFromDatabase(QSqlQuery& query)
 {
@@ -108,7 +83,7 @@ void TreeDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(type);
     query.addBindValue(name);
     query.addBindValue(userId);
-    query.addBindValue(parent()->getId());
+    query.addBindValue(((TreeDataBase*)parent())->getId());
     if ( ! query.exec() || ! query.next())
     {
         _error = DATABASE_ERROR;
@@ -141,11 +116,43 @@ void TreeDataBase::deleteFromDatabase(QSqlQuery& query)
     }
 }
 #endif
+#ifdef HORUS_CLIENT
+QMap<QString,QIcon> TreeDataBase::icons;
 
-TreeData* TreeDataBase::parent() const
+QVariant TreeDataBase::data(int column, int role) const
 {
-    return (TreeData*)(QObject::parent());
+    if (role == Qt::DisplayRole)
+    {
+        if (column == 0)
+            return getId();
+        if (column == 1)
+            return name;
+        if (column == 2)
+            return type;
+        if (column == 3)
+            return userId;
+    }
+    else if (role == Qt::DecorationRole && column == 0)
+    {
+        if (icons.contains( type ))
+            return icons[ type ];
+        return icons["DEFAULT"];
+    }
+   else if (role == Qt::BackgroundColorRole)
+   {
+       if (status() == UPTODATE)
+           return QColor(210, 255, 210);//green : uptodate
+       if (status() == SAVING || status() == CREATING)
+           return QColor(210, 210, 255);//blue : saving & creating
+       if (status() == DELETING)
+           return QColor(255, 210, 210);//red : deleting
+
+       return QColor(220, 220, 220);//gray : cached, updating, ...
+   }
+
+   return QVariant();
 }
+#endif
 
 void TreeDataBase::createChild(int userId, QString name, QString type)
 {
@@ -153,29 +160,40 @@ void TreeDataBase::createChild(int userId, QString name, QString type)
 
 void TreeDataBase::remove()
 {
+    setStatus(Data::DELETING);
 }
 
 void TreeDataBase::moveTo(int idfather)
 {
+    preSaveData();
 }
 
 void TreeDataBase::moveTo(TreeData* father)
 {
+    preSaveData();
+    setParent(father);
+    setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setName(QString _name)
 {
+    preSaveData();
     name = _name;
+    setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setUserId(int user)
 {
+    preSaveData();
     userId = user;
+    setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setType(QString _type)
 {
+    preSaveData();
     type = _type;
+    setStatus(Data::SAVING);
 }
 
 bool TreeDataBase::isDescendantOf(int parent)

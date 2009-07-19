@@ -27,9 +27,11 @@ ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 
 void ThreadPacket::run()
 {
+    PluginManagerServer::instance()->setCurrentUser(socket->user);
     CommPacket pac(packet);
     // redirect to the good method
-   (this->*packetDirections[ pac.packetType ])();
+    (this->*packetDirections[ pac.packetType ])();
+    PluginManagerServer::instance()->setCurrentUser(0);
 }
 
 ThreadPacket::packetDirection ThreadPacket::packetDirections[] =
@@ -144,7 +146,7 @@ void ThreadPacket::PacketLogin()
     {
         TreeData* node = treePlugin->getNode(0);
         node->fillFromDatabase(query);
-        node->setStatus(user, Data::UPTODATE);
+        node->setStatus(Data::UPTODATE);
         // send the node 0
         qDebug() << node;
         treePlugin->dataManager->sendData(user, node);
@@ -155,7 +157,7 @@ void ThreadPacket::PacketLogin()
              node = (TreeData*)(node->parent()))
         {
             node->fillFromDatabase(query);
-            node->setStatus(user, Data::UPTODATE);
+            node->setStatus(Data::UPTODATE);
             treePlugin->dataManager->sendData(user, node );
         }
     }
@@ -170,6 +172,7 @@ void ThreadPacket::PacketLogin()
 
 void ThreadPacket::PacketData()
 {
+    sleep(2);
     CommData data(packet);
 
     //TODO stock in QHash for quicker execution

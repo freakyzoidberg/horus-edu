@@ -4,13 +4,6 @@
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/Plugin.h"
 
-UserDataBasePlugin::UserDataBasePlugin()
-{
-#ifdef HORUS_CLIENT
-    currentUser = new UserDataBase(0, this);
-#endif
-}
-
 UserData* UserDataBasePlugin::getUser(quint32 userId)
 {
     if ( ! users.contains(userId))
@@ -65,7 +58,7 @@ UserData* UserDataBasePlugin::authenticatePassword(QSqlQuery& query, const QStri
 
     UserData* user = getUser(query.value(0).toUInt());
     user->fillFromDatabase(query);
-    user->setStatus(user, Data::UPTODATE);
+    user->setStatus(Data::UPTODATE);
     return user;
 }
 
@@ -88,7 +81,7 @@ UserData* UserDataBasePlugin::authenticateSession (QSqlQuery& query, const QStri
 
     UserData* user = getUser(query.value(0).toUInt());
     user->fillFromDatabase(query);
-    user->setStatus(user, Data::UPTODATE);
+    user->setStatus(Data::UPTODATE);
     return user;
 }
 #endif

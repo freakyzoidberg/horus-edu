@@ -6,5 +6,6 @@
         <file>LessonIcon.png</file>
         <file>RootIcon.png</file>
         <file>SubjectIcon.png</file>
+        <file>Loading.gif</file>
     </qresource>
 </RCC>
