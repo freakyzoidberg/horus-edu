@@ -1,5 +1,6 @@
+#include <windows.h>
 #include "Tree.h"
-#include <Sql.h>
+#include "Sql.h"
 QHash<int, Tree*> Tree::maptree;
 
 Tree::Tree()
@@ -17,7 +18,7 @@ bool     Tree::Delnode()
     Sql con;
     QSqlQuery query(QSqlDatabase::database(con));
 
-    for(QHash<int, Tree::Tree*>::iterator it = this->sons.begin(); it != this->sons.end(); ++it)
+    for(QHash<int, Tree*>::iterator it = this->sons.begin(); it != this->sons.end(); ++it)
     {
         query.prepare("UPDATE tree SET id_parent=? WHERE id=?;");
 
@@ -61,7 +62,7 @@ Tree* Tree::GetParent() const
 Tree* Tree::GetNodebyId(int id)
 {
 
-    QHash<int, Tree::Tree*>::const_iterator it = maptree.find(id);
+    QHash<int, Tree*>::const_iterator it = maptree.find(id);
     if (it != maptree.end())
     {
         return it.value();
@@ -340,9 +341,9 @@ bool Tree::UpdateVector()
        maptree.insert(tempnode->id, tempnode);
    }
 
- for(QHash<int, Tree::Tree*>::const_iterator it = maptree.begin(); it != maptree.end(); ++it)
+ for(QHash<int, Tree*>::const_iterator it = maptree.begin(); it != maptree.end(); ++it)
   {
-     QHash<int, Tree::Tree*>::iterator it2 = maptree.find((*it)->parent_id);
+     QHash<int, Tree*>::iterator it2 = maptree.find((*it)->parent_id);
      if (it2 != maptree.end())
      {
          if (it2.value()->id != it.value()->id)
@@ -362,7 +363,7 @@ void Tree::ShowSons()
 {
     QString listsons = "";
     qDebug() << "---- Show Sons ---- of " << this->id;
-    for(QHash<int, Tree::Tree*>::const_iterator it = this->sons.begin(); it != this->sons.end(); ++it)
+    for(QHash<int, Tree*>::const_iterator it = this->sons.begin(); it != this->sons.end(); ++it)
         listsons += "  --  " + QVariant(it.value()->id).toString();
     listsons += "  --  ";
     qDebug() << listsons;

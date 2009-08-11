@@ -1,5 +1,6 @@
 #ifndef SQL_H
 #define SQL_H
+
 #include <QtSql>
 #include <QByteArray>
 #include <QMutex>
