@@ -12,7 +12,7 @@
 #include "../Common/DataPlugin.h"
 #include "DataManagerClient.h"
 
-ThreadPlugin::ThreadPlugin(ClientApplication *parent) : QThread::QThread(parent)
+ThreadPlugin::ThreadPlugin(ClientApplication *parent) : QThread(parent)
 {
     this->start();
 }

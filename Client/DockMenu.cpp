@@ -9,7 +9,7 @@
 #include "PluginManagerClient.h"
 #include "DisplayablePlugin.h"
 
-DockMenu::DockMenu(QWidget *parent) : QDockWidget::QDockWidget(parent)
+DockMenu::DockMenu(QWidget *parent) : QDockWidget(parent)
 {
     DisplayablePlugin *plugin = 0;
     QWidget *widget;

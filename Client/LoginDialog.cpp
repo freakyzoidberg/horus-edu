@@ -2,7 +2,7 @@
 #include "ThreadNetwork.h"
 
 
-LoginDialog::LoginDialog(ClientApplication *parent) : QWidget::QWidget()
+LoginDialog::LoginDialog(ClientApplication *parent) : QWidget()
 {
     this->parent = parent;
     l_ui.setupUi(this);
