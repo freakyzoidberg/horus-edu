@@ -1,5 +1,5 @@
-#ifndef FORTUNESERVER_H
-#define FORTUNESERVER_H
+#ifndef SERVER_H 
+#define SERVER_H
 
 #include <QTcpServer>
 

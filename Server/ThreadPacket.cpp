@@ -172,7 +172,7 @@ void ThreadPacket::PacketLogin()
 
 void ThreadPacket::PacketData()
 {
-    sleep(2);
+//    sleep(2);
     CommData data(packet);
 
     //TODO stock in QHash for quicker execution
