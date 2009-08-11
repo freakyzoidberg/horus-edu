@@ -5,7 +5,7 @@
 
 #include "ui_Loader.h"
 
-class ClientApplication;
+#include "ClientApplication.h"
 
 //! Graphical class managing the loading processes
 /*!

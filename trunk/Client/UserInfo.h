@@ -2,6 +2,7 @@
 #define USERINFO_H
 
 #include <QObject>
+#include <QString>
 
 class UserInfo : public QObject
 {

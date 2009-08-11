@@ -6,7 +6,7 @@
 #include "LoginDialog.h"
 #include "MainWindow.h"
 
-Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
+Loader::Loader(ClientApplication *parent) : QDialog()
 {
     this->parent = parent;
     this->ui.setupUi(this);

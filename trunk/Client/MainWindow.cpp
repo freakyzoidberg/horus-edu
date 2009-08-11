@@ -5,7 +5,7 @@
 #include "PluginManagerClient.h"
 #include "DockMenu.h"
 
-MainWindow::MainWindow(ClientApplication *parent) : QMainWindow::QMainWindow()
+MainWindow::MainWindow(ClientApplication *parent) : QMainWindow()
 {
     this->parent = parent;
     this->ui.setupUi(this);
