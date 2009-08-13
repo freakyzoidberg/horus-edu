@@ -24,7 +24,7 @@ class   PacketManager : public QObject
     Q_OBJECT
 
     public:
-        PacketManager(QObject* parent = 0);
+        PacketManager();
         void        PacketToSend(QEvent *e);
     private slots:
         //! the callback for the sessionEnd timer

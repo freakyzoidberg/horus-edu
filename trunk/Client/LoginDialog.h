@@ -20,7 +20,7 @@ private:
     //! The graphical ui used
     Ui::Form l_ui;
     //! Overload of the CloseEvent method
-    void closeEvent(QCloseEvent *event);
+    void closeEvent();
     //! A pointer to its parent ClientApplication
     ClientApplication *parent;
     //! Method to send an event to networkManager

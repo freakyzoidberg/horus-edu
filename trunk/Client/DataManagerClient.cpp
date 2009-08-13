@@ -8,6 +8,7 @@
 
 #include "ThreadNetwork.h"
 #include "PluginManagerClient.h"
+#include "MetaManager.h"
 
 void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 {
@@ -17,7 +18,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
     if (newStatus == Data::UPDATING)
     {
         data->_status = Data::UPDATING;
-        return sendData(PluginManagerClient::instance()->currentUser(), data);
+        return sendData(MetaManager::getInstance()->findManager<PluginManager *>()->currentUser(), data);
     }
 
     // if a client want to create a new data
@@ -28,7 +29,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
     if (newStatus == Data::SAVING)
     {
         data->_status = Data::UPDATING;
-        return sendData(PluginManagerClient::instance()->currentUser(), data);
+        return sendData(MetaManager::getInstance()->findManager<PluginManager *>()->currentUser(), data);
     }
     // if a client delete a data
 //    if (newStatus == Data::DELETING)
