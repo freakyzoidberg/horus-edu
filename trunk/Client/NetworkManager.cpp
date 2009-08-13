@@ -10,11 +10,11 @@
 NetworkManager::NetworkManager() : CommSocket()
 {
     this->packManag = new PacketManager();
-	AbstractManager::QObject::connect((QObject *)(AbstractManager *)this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
+    AbstractManager::QObject::connect((QObject *)(AbstractManager *)this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
     AbstractManager::QObject::connect(packManag, SIGNAL(sendPacket(const QByteArray&)), (QObject *)(AbstractManager *)this, SLOT(sendPacket(const QByteArray&)));
     AbstractManager::QObject::connect((QObject *)(AbstractManager *)this, SIGNAL(error(QAbstractSocket::SocketError)), (QObject *)(AbstractManager *)this, SLOT(displayError(QAbstractSocket::SocketError)));
     AbstractManager::QObject::connect((QObject *)(AbstractManager *)this, SIGNAL(disconnected()), (QObject *)(AbstractManager *)this, SLOT(quit()));
-    AbstractManager::QObject::setObjectName("NetworkManager");
+//    AbstractManager::QObject::setObjectName("NetworkManager");
 }
 
 NetworkManager::~NetworkManager()
@@ -65,7 +65,7 @@ bool    NetworkManager::event(QEvent *e)
         this->disconnectFromHost();
         return true;
     }
-    return QObject::event(e);
+    return event(e);
 }
 
 void    NetworkManager::quit()

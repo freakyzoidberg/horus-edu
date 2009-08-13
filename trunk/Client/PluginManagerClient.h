@@ -18,21 +18,23 @@
  *  PluginManager().findPlugin<NetworkPlugin*>("NameOfThePlgin")
  *  PluginManager().findPlugins<NetworkPlugin*>()
  */
-class PluginManagerClient : public AbstractManager, public PluginManager
+class PluginManagerClient : public PluginManager, public AbstractManager
 {
     Q_OBJECT
     Q_INTERFACES(PluginManager)
 
 public:
     PluginManagerClient();
-	bool event(QEvent *event);
-    void loadPlugins();
-    bool loadPlugin(QString pluginName, QDir path);
+    bool event(QEvent *event);
     const QHash<QString, Plugin*>& plugins() const;
     UserData*                      currentUser() const;
     void                           setCurrentUser(UserData* user);
+    void                           load();
+
+    static PluginManagerClient*    instance();
 
 private:
+    bool                           loadPlugin(QString pluginName, QDir path);
     QHash<QString,Plugin*> _plugins;
     UserData* user;
 };

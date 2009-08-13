@@ -1,12 +1,14 @@
 #include "Loader.h"
-#include "ConfigManager.h"
 #include "ThreadNetwork.h"
 #include "ThreadPlugin.h"
 #include "ClientEvents.h"
 #include "LoginDialog.h"
 #include "MainWindow.h"
+#include "PluginManagerClient.h"
+#include "../Common/SettingsDataPlugin.h"
+#include "../Common/SettingsData.h"
 
-Loader::Loader(ClientApplication *parent) : QDialog()
+Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
 {
     this->parent = parent;
     this->ui.setupUi(this);
@@ -14,7 +16,7 @@ Loader::Loader(ClientApplication *parent) : QDialog()
     this->processes = 0;
     this->processesComplete = 0;
     this->loadNetwork();
-    this->loadConfig();
+    //this->loadSettings();
     this->loadPlugins();
     ld = new LoginDialog(this->parent);
 }
@@ -34,12 +36,12 @@ void    Loader::loadPlugins()
     QApplication::postEvent(pluginThread, new QEvent(ClientEvents::StartEvent));
 }
 
-void    Loader::loadConfig()
-{
+//void    Loader::loadSettings()
+//{
 //    ++(this->processes);
-//    ConfigManager* config = parent->findChild<ConfigManager*>();
+//    settings->getSettings("", SettingsData::CLIENT_USER_SCOPE, PluginManagerClient::instance()->currentUser())->update();
 //    QApplication::postEvent(config, new QEvent(ClientEvents::StartEvent));
-}
+//}
 
 bool    Loader::event(QEvent *event)
 {

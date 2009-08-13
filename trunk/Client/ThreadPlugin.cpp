@@ -12,7 +12,7 @@
 #include "../Common/DataPlugin.h"
 #include "DataManagerClient.h"
 
-ThreadPlugin::ThreadPlugin(ClientApplication *parent) : QThread(parent)
+ThreadPlugin::ThreadPlugin(ClientApplication *parent) : QThread::QThread(parent)
 {
     this->start();
 }
@@ -21,14 +21,13 @@ bool    ThreadPlugin::event(QEvent *event)
 {
     if (event->type() == ClientEvents::StartEvent)
     {
-//        PluginManagerClient::instance()->load();
-//        this->loadPlugins();
-//        QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StartEvent));
+        PluginManagerClient::instance()->load();
+        QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StartEvent));
         return (true);
     }
     else if (event->type() == ClientEvents::StopEvent)
     {
- //       QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StopEvent));
+        QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StopEvent));
         this->exit(0);
         return (true);
     }

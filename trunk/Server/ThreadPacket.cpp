@@ -162,25 +162,18 @@ void ThreadPacket::PacketLogin()
         }
     }
 
-    //TODO send UserData to the connected client
-
     //allow other threads to be started
     socket->allowOtherThreads();
-
-    qDebug() << PluginManagerServer::instance()->plugins();
 }
 
 void ThreadPacket::PacketData()
 {
-//    sleep(2);
     CommData data(packet);
-
-    //TODO stock in QHash for quicker execution
     foreach (DataPlugin* plugin, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
             plugin->dataManager->receiveData(socket->user, data.data);
 }
-//void ThreadPacket::PacketData()
+//void ThreadPacket::PacketFile()
 //{
 //    CommFile f(packet);
 //    qDebug() << "[ in]" << f;
@@ -265,38 +258,6 @@ void ThreadPacket::PacketData()
 //    qDebug() << "[out]" << f;
 //}
 
-//void ThreadPacket::PacketSettings()
-//{
-//    int len = packet.length();
-//    CommSettings s(packet);
-//    qDebug() << "[ in]" << s << "length" << len ;
-//
-//    if (socket->vState != ClientSocket::CONNECTED)
-//        return sendError(CommError::NOT_INITIALIZED);
-//    if ( ! socket->user.isLoggedIn())
-//        return sendError(CommError::NOT_AUTHENTICATED);
-//    if (s.method != CommSettings::GET && s.method != CommSettings::SET)
-//        return sendError(CommError::PROTOCOL_ERROR);
-//
-//    if ( s.scope == CommSettings::CLIENT_USER_SCOPE   || s.scope == CommSettings::SERVER_USER_SCOPE || //USER_SCOPE
-//        (s.scope == CommSettings::CLIENT_SYSTEM_SCOPE && s.method == CommSettings::GET) || //Read Client SYSTEM_SCOPE
-//        socket->user.getLevel() <= LEVEL_ADMINISTRATOR) // ADMIN
-//    {
-//        UserSettings userSettings(socket->user.getId(), s.plugin, s.scope);
-//
-//        if (s.method == CommSettings::SET)
-//            userSettings.set(s.getBinarySettings());
-//
-//        s.method = CommSettings::VALUE;
-//        s.setBinarySettings(userSettings.get());
-//    }
-//    else
-//        s.method = CommSettings::PERMISSION_DENIED;
-//
-//    sendPacket(s.getPacket());
-//    qDebug() << "[out]" << s;
-//}
-
 void ThreadPacket::PacketPlugin()
 {
     CommPlugin mod(packet);
@@ -307,6 +268,7 @@ void ThreadPacket::PacketPlugin()
         return sendError(CommError::NOT_AUTHENTICATED);
 
     QString target = mod.packet.targetPlugin;
+
     NetworkPlugin* plugin = PluginManagerServer::instance()->findPlugin<NetworkPlugin*>(target);
     mod.packet.user = socket->user;
     if (plugin)

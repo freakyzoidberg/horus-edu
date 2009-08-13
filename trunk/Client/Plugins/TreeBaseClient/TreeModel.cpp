@@ -2,17 +2,12 @@
 #include "../../../Common/TreeData.h"
 #include "../../../Common/PluginManager.h"
 
-#include "../../../Common/UserDataPlugin.h"
-
 #include <QDebug>
-#include <QMovie>
 
 TreeModel::TreeModel(PluginManager* _pluginManager)
 {
     pluginManager = _pluginManager;
-    pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0)->dumpObjectTree();
     rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
-    rootItem->update();
 }
 
 int TreeModel::columnCount ( const QModelIndex & ) const
@@ -24,17 +19,16 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
         return 1;
-    //qDebug() << ((QObject*)(parent.internalPointer()))->children().length();
     return ((Data*)(parent.internalPointer()))->children().count();
 }
-/*
-QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
-{
-   if (role == Qt::DisplayRole)
-        return QVariant("");
-   return QVariant();
-}
-*/
+
+//QVariant TreeModel::headerData (int section, Qt::Orientation orientation, int role) const
+//{
+//   if (role == Qt::DisplayRole)
+//        return QVariant("");
+//   return QVariant();
+//}
+
 QVariant TreeModel::data ( const QModelIndex & index, int role ) const
 {
     if ( ! index.isValid())

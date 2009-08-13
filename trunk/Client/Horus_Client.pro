@@ -32,6 +32,7 @@ SOURCES += main.cpp \
     UserInfo.cpp \
     NotificationClient.cpp \
     DockMenu.cpp \
+    ManagerFactory.cpp \
     MetaManager.cpp \
     ManagerThread.cpp
 HEADERS += NetworkManager.h \
@@ -70,6 +71,7 @@ HEADERS += NetworkManager.h \
     MetaManager.h \
     ManagerThread.h \
     Manager.h \
+    ManagerFactory.h \
     AbstractManager.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
