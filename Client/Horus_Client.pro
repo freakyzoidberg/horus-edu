@@ -4,7 +4,8 @@
 QT += network
 TARGET = Horus_Client
 TEMPLATE = app
-DEFINES += HORUS_CLIENT HORUS_CORE
+DEFINES += HORUS_CLIENT \
+    HORUS_CORE
 SOURCES += main.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
@@ -30,7 +31,9 @@ SOURCES += main.cpp \
     SettingsDialog.cpp \
     UserInfo.cpp \
     NotificationClient.cpp \
-    DockMenu.cpp
+    DockMenu.cpp \
+    MetaManager.cpp \
+    ManagerThread.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -63,7 +66,11 @@ HEADERS += NetworkManager.h \
     UserInfo.h \
     NotificationClient.h \
     PluginManagerClient.h \
-    DockMenu.h
+    DockMenu.h \
+    MetaManager.h \
+    ManagerThread.h \
+    Manager.h \
+    AbstractManager.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \

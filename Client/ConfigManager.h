@@ -4,7 +4,7 @@
 #include <QThread>
 #include <QByteArray>
 
-#include "ClientApplication.h"
+#include "AbstractManager.h"
 
 //! Class managing the settings of the client
 /*!
@@ -12,7 +12,7 @@
  *  Make configuration file if it don't exists.
  *  Load new configuration from the server.
  */
-class ConfigManager : public QThread
+class ConfigManager : public AbstractManager
 {
     Q_OBJECT
 
@@ -20,9 +20,8 @@ public:
     //! Constructor
     /*!
      *  Initialize and start the thread.
-     *  \param parent the parent of ConfigManager
      */
-    ConfigManager(ClientApplication *parent = 0);
+    ConfigManager();
     //! Overload of the event method
     /*!
      *  Request new config from server when received a StartEvent
@@ -33,12 +32,6 @@ public:
      */
     bool    event(QEvent *event);
 
-protected:
-    //! The entry point of the thread
-    /*!
-     *  This method just call the event loop exec()
-     */
-    void    run();
 private:
     //! Create a basic configuration
     /*!
@@ -54,8 +47,6 @@ private:
     void    recvLoadConfig(QByteArray data);
     //! Save the config to the server
     void    saveConfig();
-    //! the parent CLientApplication
-    ClientApplication *parent;
 };
 
 #endif // CONFIGMANAGER_H

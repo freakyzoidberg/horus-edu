@@ -10,21 +10,28 @@
 #include <QDebug>
 #include "ClientEvents.h"
 
-const QHash<QString, Plugin*>& PluginManagerClient::plugins() const { return _plugins;}
+PluginManagerClient::PluginManagerClient()
+{
+}
 
-PluginManagerClient::PluginManagerClient() { }
+bool PluginManagerClient::event(QEvent *event)
+{
+	if (event->type() == ClientEvents::StartEvent)
+	{
+		this->loadPlugins();
+		emit loaded(100);
+		return (true);
+	}
+	return (AbstractManager::event(event));
+}
+
+const QHash<QString, Plugin*>& PluginManagerClient::plugins() const { return _plugins;}
 
 UserData* PluginManagerClient::currentUser() const { return user; }
 
 void PluginManagerClient::setCurrentUser(UserData* _user) { user = _user; }
 
-PluginManagerClient* PluginManagerClient::instance()
-{
-    static PluginManagerClient pmi;
-    return &pmi;
-}
-
-void PluginManagerClient::load()
+void PluginManagerClient::loadPlugins()
 {
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 
@@ -52,7 +59,7 @@ void PluginManagerClient::load()
     settings.endGroup();
 
     foreach (Plugin* plugin, plugins())
-        plugin->pluginManager = PluginManagerClient::instance();
+        plugin->pluginManager = this;
 
     foreach (Plugin* plugin, plugins())
         QApplication::postEvent(plugin, new QEvent(ClientEvents::LoadPluginEvent));
@@ -76,5 +83,5 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
         _plugins.insert(plugin->pluginName(), plugin);
         qDebug() << "ThreadPlugin:" << plugin->pluginName() << "loaded from" << loader.fileName();
     }
-    return true;;
+    return true;
 }

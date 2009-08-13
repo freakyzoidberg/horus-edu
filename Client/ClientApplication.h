@@ -1,9 +1,9 @@
 #ifndef CLIENTAPPLICATION_H
 #define CLIENTAPPLICATION_H
 
-#include    <QtGui/QApplication>
+#include    <QApplication>
+#include    <QWidget>
 #include    <QMainWindow>
-#include    "NotificationClient.h"
 
 //! Main class representing the application
 /*!
@@ -42,13 +42,12 @@ public:
     QWidget *loader;
     //! A pointer te the MainWindow Widget
     QMainWindow *mainWindow;
-    //! A pointer te the MainWindow Widget
-    NotificationClient *nC;
-    public slots:
-    //! Unload then load again all the plugins
-    void    reloadPlugins();
-    //! Stop then start again the network
-    void    restartNetwork();
+
+public slots:
+    ////! Unload then load again all the plugins
+    //void    reloadPlugins();
+    ////! Stop then start again the network
+    //void    restartNetwork();
     //! Unload everything then exit
     void    preExit();
 };

@@ -16,7 +16,7 @@
  *  PluginManager().findPlugin<NetworkPlugin*>("NameOfThePlugin")
  *  PluginManager().findPlugins<NetworkPlugin*>()
  */
-class PluginManager : public QObject
+class PluginManager : virtual public QObject
 {
   Q_OBJECT
 public:

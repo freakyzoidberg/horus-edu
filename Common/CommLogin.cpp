@@ -6,6 +6,7 @@
 
 #ifdef HORUS_CLIENT
 #include "../Client/PluginManagerClient.h"
+#include "../Client/MetaManager.h"
 #endif
 
 #include "../Common/UserData.h"
@@ -54,13 +55,13 @@ void CommLogin::read(const QByteArray& a)
         stream >> sessionString;
 
 #ifdef HORUS_CLIENT
-        UserDataPlugin* plugin = PluginManagerClient::instance()->findPlugin<UserDataPlugin*>();
+        UserDataPlugin* plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<UserDataPlugin*>();
         if ( ! plugin)
             return;
 
         user = (UserData*)(plugin->getDataWithKey(stream));
         user->dataFromStream(stream);
-        PluginManagerClient::instance()->setCurrentUser(user);
+        ((PluginManagerClient *)MetaManager::getInstance()->findManager<PluginManager *>())->setCurrentUser(user);
 #endif
     }
 }

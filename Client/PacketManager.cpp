@@ -4,8 +4,9 @@
 #include "../Common/NetworkPlugin.h"
 #include "../Common/MetaPlugin.h"
 #include "../Common/UserDataPlugin.h"
+#include "MetaManager.h"
 
-PacketManager::PacketManager(QObject* parent) : QObject(parent)
+PacketManager::PacketManager() : QObject()
 {
     state = DISCONNECTED;
 }
@@ -120,11 +121,11 @@ void PacketManager::PacketData()
     CommData data(packet);
 
     //TODO stock in QHash for quicker execution, or we dont care
-    foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
+	foreach (DataPlugin* plugin, MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
         {
-            plugin->dataManager->receiveData(PluginManagerClient::instance()->currentUser(), data.data);
-            qDebug() << PluginManagerClient::instance()->currentUser();
+            plugin->dataManager->receiveData(MetaManager::getInstance()->findManager<PluginManager *>()->currentUser(), data.data);
+            qDebug() << MetaManager::getInstance()->findManager<PluginManager *>()->currentUser();
         }
 }
 
@@ -132,7 +133,7 @@ void PacketManager::PacketPlugin()
 {
     CommPlugin p(packet);
 
-    NetworkPlugin *plugin = PluginManagerClient::instance()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
+    NetworkPlugin *plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
     if (plugin)
         plugin->receivePacket(0, p.packet);
     //TODO else ... !!!

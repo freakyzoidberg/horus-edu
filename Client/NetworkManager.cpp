@@ -1,18 +1,20 @@
 #include "NetworkManager.h"
-#include "ThreadPlugin.h"
-#include "NotificationClient.h"
+
 #include <QSettings>
 
+#include "MetaManager.h"
+#include "ThreadPlugin.h"
+#include "NotificationClient.h"
 
-NetworkManager::NetworkManager(QObject *parent) : CommSocket()
+
+NetworkManager::NetworkManager() : CommSocket()
 {
-    this->packManag = new PacketManager(parent);
-    this->parent = static_cast<ClientApplication *>(parent);
-    connect(this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
-    connect(packManag, SIGNAL(sendPacket(const QByteArray&)), this, SLOT(sendPacket(const QByteArray&)));
-    connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
-    connect(this, SIGNAL(disconnected()), this, SLOT(quit()));
-    setObjectName("NetworkManager");
+    this->packManag = new PacketManager();
+	AbstractManager::QObject::connect((QObject *)(AbstractManager *)this, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
+    AbstractManager::QObject::connect(packManag, SIGNAL(sendPacket(const QByteArray&)), (QObject *)(AbstractManager *)this, SLOT(sendPacket(const QByteArray&)));
+    AbstractManager::QObject::connect((QObject *)(AbstractManager *)this, SIGNAL(error(QAbstractSocket::SocketError)), (QObject *)(AbstractManager *)this, SLOT(displayError(QAbstractSocket::SocketError)));
+    AbstractManager::QObject::connect((QObject *)(AbstractManager *)this, SIGNAL(disconnected()), (QObject *)(AbstractManager *)this, SLOT(quit()));
+    AbstractManager::QObject::setObjectName("NetworkManager");
 }
 
 NetworkManager::~NetworkManager()
@@ -26,9 +28,12 @@ bool    NetworkManager::event(QEvent *e)
         QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
         if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
         {
-            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-            QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
-            QApplication::postEvent(parent->nC, new QEvent(ClientEvents::CServerEmptyEvent));
+			emit loaded(100);
+			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
+			emit notified("Horus is unable to connect to server, please review your settings.");
+//            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+//            QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+//            QApplication::postEvent(parent->nC, new QEvent(ClientEvents::CServerEmptyEvent));
         }
         else
         {
@@ -53,8 +58,10 @@ bool    NetworkManager::event(QEvent *e)
     else if (e->type() == ClientEvents::OfflineModeEvent)
     {
         qDebug() << "NetworkManager: Recieve OfflineModeEvent";
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-        QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+			emit loaded(100);
+			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
+//        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+//        QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
         this->disconnectFromHost();
         return true;
     }
@@ -70,21 +77,30 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
  {
     switch (socketError) {
      case QAbstractSocket::RemoteHostClosedError:
-         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-         QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
-         QApplication::postEvent(parent->nC, new QEvent(ClientEvents::OfflineModeEvent));
+			emit loaded(100);
+			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
+			emit notified("Horus is unable to connect to server, please review your settings.");
+//            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+//            QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+//            QApplication::postEvent(parent->nC, new QEvent(ClientEvents::CServerEmptyEvent));
          break;
      case QAbstractSocket::HostNotFoundError:
          qDebug() << "The host was not found. Please check the host name and port settings.";
-         QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-         QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
-         QApplication::postEvent(parent->nC, new QEvent(ClientEvents::OfflineModeEvent));
+			emit loaded(100);
+			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
+			emit notified("Horus is unable to connect to server, please review your settings.");
+//            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+//            QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+//            QApplication::postEvent(parent->nC, new QEvent(ClientEvents::CServerEmptyEvent));
          break;
      case QAbstractSocket::ConnectionRefusedError:
          qDebug() << "The connection was refused by the peer. Make sure the Horus server is running, and check that the host name and port settings are correct.";
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
-        QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
-        QApplication::postEvent(parent->nC, new QEvent(ClientEvents::OfflineModeEvent));
+			emit loaded(100);
+			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
+			emit notified("Horus is unable to connect to server, please review your settings.");
+//            QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+//            QApplication::postEvent(parent->findChild<ConfigManager *>(), new QEvent(ClientEvents::OfflineModeEvent));
+//            QApplication::postEvent(parent->nC, new QEvent(ClientEvents::CServerEmptyEvent));
          break;
      default:
          qDebug() << tr("The following error occurred: %1.").arg(errorString());

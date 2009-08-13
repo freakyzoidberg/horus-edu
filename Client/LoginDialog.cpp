@@ -12,7 +12,7 @@ LoginDialog::~LoginDialog()
 {
 }
 
-void    LoginDialog::closeEvent(QCloseEvent *event)
+void    LoginDialog::closeEvent()
 {
     QApplication::postEvent(ThreadNetwork::getInstance(this->parent), new QEvent(ClientEvents::OfflineModeEvent));
 }

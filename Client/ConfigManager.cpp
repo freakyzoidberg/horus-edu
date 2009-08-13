@@ -12,11 +12,9 @@
 #include "ThreadNetwork.h"
 #include "ClientEvents.h"
 
-ConfigManager::ConfigManager(ClientApplication *parent) : QThread(parent)
+ConfigManager::ConfigManager()
 {
-    this->parent = parent;
     this->createConfig();
-    this->start();
 }
 
 bool    ConfigManager::event(QEvent *event)
@@ -29,8 +27,8 @@ bool    ConfigManager::event(QEvent *event)
     else if (event->type() == ClientEvents::StopEvent)
     {
         this->saveConfig();
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StopEvent));
-        this->exit(0);
+//        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StopEvent));
+        //this->exit(0);
         return (true);
     }
     else if (event->type() == ClientEvents::RecvPacketEvent)
@@ -43,19 +41,14 @@ bool    ConfigManager::event(QEvent *event)
     }
     else if (event->type() == ClientEvents::OfflineModeEvent)
     {
-        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
+        emit loaded(100);
         return (true);
     }
     else
     {
         qDebug() << "ConfigManager: Received Event not managed";
-        return (QThread::event(event));
+        return (AbstractManager::event(event));
     }
-}
-
-void    ConfigManager::run()
-{
-    exec();
 }
 
 void    ConfigManager::createConfig()
@@ -145,6 +138,7 @@ void    ConfigManager::recvLoadConfig(QByteArray data)
 //            settings.setValue("Plugins/Load", config.value("Plugins/Load"));
 //        QApplication::postEvent(parent->loader, new QEvent(ClientEvents::StartEvent));
 //    }
+	emit loaded(100);
 }
 
 void    ConfigManager::saveConfig()

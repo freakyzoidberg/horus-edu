@@ -21,14 +21,14 @@ bool    ThreadPlugin::event(QEvent *event)
 {
     if (event->type() == ClientEvents::StartEvent)
     {
-        PluginManagerClient::instance()->load();
+//        PluginManagerClient::instance()->load();
 //        this->loadPlugins();
-        QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StartEvent));
+//        QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StartEvent));
         return (true);
     }
     else if (event->type() == ClientEvents::StopEvent)
     {
-        QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StopEvent));
+ //       QApplication::postEvent(((ClientApplication*)parent())->loader, new QEvent(ClientEvents::StopEvent));
         this->exit(0);
         return (true);
     }

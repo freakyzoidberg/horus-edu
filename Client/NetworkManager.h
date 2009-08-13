@@ -1,24 +1,21 @@
 #ifndef NETWORKMANAGER_H
 #define NETWORKMANAGER_H
 
-#include <QtGui>
 #include <QCryptographicHash>
 #include <QHostAddress>
 
 #include "../Common/CommSocket.h"
-#include "ClientApplication.h"
 #include    "PacketManager.h"
-#include    "ClientEvents.h"
+#include "AbstractManager.h"
 
-//! This Object is a singleton class, it manages the client network.
-class NetworkManager : public CommSocket
+//! This Object manages the client network.
+class NetworkManager : public CommSocket, public AbstractManager
 {
     Q_OBJECT
 
     public:
-        NetworkManager(QObject *parent = 0);
+        NetworkManager();
         ~NetworkManager();
-        ClientApplication *parent;
     protected slots:
         //! event loop
         bool    event(QEvent *e);
