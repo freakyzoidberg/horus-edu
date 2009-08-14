@@ -72,6 +72,34 @@ void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
         QDomElement item = toc->createElement(n.nodeName());
         parentDest->appendChild(item);
 
+        //useless for now
+        if (!e.attribute("ExternalFileName").isNull())
+             item.setAttribute("ExternalFileName", e.attribute("ExternalFileName"));
+
+        if (!e.attribute("DestinationName").isNull())
+        {
+           // item.setAttribute("DestinationName", e.attribute("DestinationName"));
+            Poppler::LinkDestination destination = *(doc->linkDestination(e.attribute("DestinationName")));
+
+            item.setAttribute("Page", destination.pageNumber() - 1);
+            item.setAttribute("PosYBegin", destination.top());
+            item.setAttribute("PosTEnd", destination.bottom());
+        }
+        if (!e.attribute("Destination").isNull())
+        {
+            Poppler::LinkDestination destination(e.attribute(("Destination")));
+            item.setAttribute("Page", destination.pageNumber() - 1);
+            item.setAttribute("PosYBegin", destination.top());
+            item.setAttribute("PosTEnd", destination.bottom());
+        }
+
+        /* truc je sais pas a quoi ca sert open
+        if (!e.attribute("Open").isNull())
+            item.setAttribute("Open", e.attribute("Open"));
+        if (!e.attribute("DestinationURI").isNull())
+            item.setAttribute("URL", e.attribute("DestinationURI"));
+        */
+
         //recursivity mother fucker
         if (e.hasChildNodes())
           addSynopsisChil(&n, &item);
@@ -198,7 +226,7 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
 
     partToDisplay->adjust(-2, -2, 2, 2);
     scaled(scaleFactor);
-
+    this->currentPage->links();
     QRect part = matrix->mapRect(*partToDisplay).toRect();
     QImage  *subImg = new QImage(image.copy(part));
     return subImg;

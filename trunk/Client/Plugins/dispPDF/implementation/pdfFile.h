@@ -123,6 +123,8 @@ class   PdfFile : public IPdfFile
         void            generateToc();
         void            addSynopsisToChild(QDomNode *, QDOmNode *);
 
+        void            generateLinks(const QList<Poppler::Link*> &);
+
     private:
         //! the name of the pdf file
         QString             fileName;
