@@ -1,14 +1,15 @@
 #include "DataManagerClient.h"
 
 #include <QEvent>
+#include <QCoreApplication>
 
 #include "../Common/CommData.h"
 #include "../Common/UserData.h"
 #include "../Common/Data.h"
 
-#include "ThreadNetwork.h"
 #include "PluginManagerClient.h"
 #include "MetaManager.h"
+#include "ClientEvents.h"
 
 void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 {
@@ -75,6 +76,5 @@ void DataManagerClient::sendData(UserData* user, Data* data) const
     if ( ! data->error())
         //TODO: do not always write data
         data->dataToStream(stream);
-
-    QApplication::postEvent(ThreadNetwork::getInstance(), new SendPacketEvent(packet.getPacket()));
+	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(packet.getPacket()));
 }

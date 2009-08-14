@@ -4,7 +4,7 @@
 # include <QObject>
 # include <QString>
 
-class AbstractManager : public QObject
+class AbstractManager : virtual public QObject
 {
 	Q_OBJECT
 

@@ -19,7 +19,6 @@ SOURCES += main.cpp \
     DataManagerClient.cpp \
     ClientApplication.cpp \
     NetworkManager.cpp \
-    ThreadPlugin.cpp \
     PacketManager.cpp \
     ConfigManager.cpp \
     Loader.cpp \
@@ -27,7 +26,6 @@ SOURCES += main.cpp \
     PluginManagerClient.cpp \
     LoginDialog.cpp \
     ClientEvents.cpp \
-    ThreadNetwork.cpp \
     SettingsDialog.cpp \
     UserInfo.cpp \
     NotificationClient.cpp \
@@ -62,8 +60,6 @@ HEADERS += NetworkManager.h \
     MainWindow.h \
     LoginDialog.h \
     ConfigManager.h \
-    ThreadPlugin.h \
-    ThreadNetwork.h \
     SettingsDialog.h \
     UserInfo.h \
     NotificationClient.h \

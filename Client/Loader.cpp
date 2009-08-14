@@ -1,12 +1,15 @@
 #include "Loader.h"
-#include "ThreadNetwork.h"
-#include "ThreadPlugin.h"
+
+#include <QCoreApplication>
+
+#include "../Common/SettingsDataPlugin.h"
+#include "../Common/SettingsData.h"
+
 #include "ClientEvents.h"
 #include "LoginDialog.h"
 #include "MainWindow.h"
 #include "PluginManagerClient.h"
-#include "../Common/SettingsDataPlugin.h"
-#include "../Common/SettingsData.h"
+#include "MetaManager.h"
 
 Loader::Loader(ClientApplication *parent) : QDialog()
 {
@@ -18,22 +21,19 @@ Loader::Loader(ClientApplication *parent) : QDialog()
     this->loadNetwork();
     //this->loadSettings();
     this->loadPlugins();
-    ld = new LoginDialog(this->parent);
+    ld = new LoginDialog();
 }
 
 void    Loader::loadNetwork()
 {
-    //NetworkManager *networkManager;
     ++(this->processes);
-    //networkManager = parent->findChild<NetworkManager *>();
-    QApplication::postEvent(ThreadNetwork::getInstance(this->parent), new QEvent(ClientEvents::StartEvent));
+	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new QEvent(ClientEvents::StartEvent));
 }
 
 void    Loader::loadPlugins()
 {
     ++(this->processes);
-    ThreadPlugin* pluginThread = parent->findChild<ThreadPlugin*>();
-    QApplication::postEvent(pluginThread, new QEvent(ClientEvents::StartEvent));
+	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::StartEvent));
 }
 
 //void    Loader::loadSettings()
