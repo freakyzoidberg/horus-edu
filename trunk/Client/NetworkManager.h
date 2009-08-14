@@ -6,7 +6,7 @@
 
 #include "../Common/CommSocket.h"
 #include    "PacketManager.h"
-#include "AbstractManager.h"
+#include "../Common/AbstractManager.h"
 
 //! This Object manages the client network.
 class NetworkManager : public CommSocket, public AbstractManager

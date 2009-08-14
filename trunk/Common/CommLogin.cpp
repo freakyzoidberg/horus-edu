@@ -61,7 +61,7 @@ void CommLogin::read(const QByteArray& a)
 
         user = (UserData*)(plugin->getDataWithKey(stream));
         user->dataFromStream(stream);
-        ((PluginManagerClient *)MetaManager::getInstance()->findManager<PluginManager *>())->setCurrentUser(user);
+        MetaManager::getInstance()->findManager<PluginManagerClient *>()->setCurrentUser(user);
 #endif
     }
 }
