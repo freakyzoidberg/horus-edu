@@ -16,6 +16,7 @@ PdfFile::PdfFile(const QString & fileName)
     currentPageNb = 1;
     scaleFactor = 1;
     matrix = NULL;
+    toc = NULL;
 
     openFile();
     if (pdfDoc)
@@ -37,6 +38,45 @@ const QString & PdfFile::getFileName() const
 const Poppler::Document    *PdfFile::getPdfDoc() const
 {
     return  pdfDoc;
+}
+
+QDomDocument    *PdfFile::getToc()
+{
+    if (!toc)
+        generateToc();
+    return toc;
+}
+
+void    PdfFile::generateToc()
+{
+    if (toc)
+        return ;
+
+    QDomDocument    *popplerToc = this->pdfDoc->toc();
+    toc = new QDomDocument();
+
+    addSynopsisToChild(popplerToc, toc);
+    toc->toString();
+}
+
+void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
+{
+    // keep track of the current listViewItem
+    QDomNode n = parent->firstChild();
+    while( !n.isNull() )
+    {
+        // convert the node to an element (sure it is)
+        QDomElement e = n.toElement();
+
+        // The name is the same
+        QDomElement item = toc->createElement(n.nodeName());
+        parentDest->appendChild(item);
+
+        //recursivity mother fucker
+        if (e.hasChildNodes())
+          addSynopsisChil(&n, &item);
+        n = n.nextSibling();
+    }
 }
 
 const Poppler::Page         *PdfFile::getPage() const

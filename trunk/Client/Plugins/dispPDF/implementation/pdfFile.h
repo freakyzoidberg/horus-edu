@@ -3,6 +3,7 @@
 
 #include <IPdfFile.h>
 
+#include <QDomDocument>
 #include <QString>
 #include <QImage>
 #include <QMatrix>
@@ -106,7 +107,6 @@ class   PdfFile : public IPdfFile
         /*!
           Firts it render the entire page 'currentPage'.
           Then it extracts the rectangle 'partToDisplay' from the previous generated image.
-
           \param partToDisplay a QRectF containing the cooridinate of
           the part of the page 'page' youwant to display
           \return a pointer to the QImage extracted from the pdf or NULL if an error occurs.
@@ -118,6 +118,10 @@ class   PdfFile : public IPdfFile
           \param scaleFactor the new scaleFactor
         */
         void    scaled(float scaleFactor);
+
+        QDomDocument    *getToc();
+        void            generateToc();
+        void            addSynopsisToChild(QDomNode *, QDOmNode *);
 
     private:
         //! the name of the pdf file
@@ -137,6 +141,8 @@ class   PdfFile : public IPdfFile
 
         //! Matrix used to render
         QMatrix     *matrix;
-};
+
+        QDomDocument    *toc;
+    };
 
 #endif // PdfFile_H
