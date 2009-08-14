@@ -3,7 +3,6 @@
 #include <QSettings>
 
 #include "MetaManager.h"
-#include "ThreadPlugin.h"
 #include "NotificationClient.h"
 
 
@@ -65,7 +64,8 @@ bool    NetworkManager::event(QEvent *e)
         this->disconnectFromHost();
         return true;
     }
-    return event(e);
+	qDebug() << "NetworkManager::event: Received User Event not managed ! (Event.type=" << e->type() <<")";
+	return (CommSocket::event(e));
 }
 
 void    NetworkManager::quit()

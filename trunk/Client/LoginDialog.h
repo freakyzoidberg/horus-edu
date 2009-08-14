@@ -1,19 +1,21 @@
 #ifndef LOGINDIALOG_H
-#define LOGINDIALOG_H
+# define LOGINDIALOG_H
 
-#include <QtGui/QWidget>
-#include "ui_LoginDialog.h"
-#include "ClientEvents.h"
-#include "../Common/CommLogin.h"
-#include "ClientApplication.h"
- #include <QKeyEvent>
+# include <QWidget>
+# include <QObject>
+# include <QKeyEvent>
+
+# include "../Common/CommLogin.h"
+
+# include "ui_LoginDialog.h"
 
 //! This Object is the window to login in the server with a username and password
-class LoginDialog : public QWidget {
+class LoginDialog : public QWidget
+{
     Q_OBJECT
-public:
-    LoginDialog(ClientApplication *parent);
 
+public:
+    LoginDialog();
     ~LoginDialog();
 
 private:
@@ -21,8 +23,6 @@ private:
     Ui::Form l_ui;
     //! Overload of the CloseEvent method
     void closeEvent();
-    //! A pointer to its parent ClientApplication
-    ClientApplication *parent;
     //! Method to send an event to networkManager
     void        connectMethod();
 private slots:

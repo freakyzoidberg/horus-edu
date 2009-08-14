@@ -5,11 +5,10 @@
 #include <QString>
 #include <QDebug>
 #include <QHash>
+#include <QCoreApplication>
 
-#include "ClientEvents.h"
 #include "../Common/Defines.h"
-//#include "../Common/CommSettings.h"
-#include "ThreadNetwork.h"
+
 #include "ClientEvents.h"
 
 ConfigManager::ConfigManager()
@@ -89,7 +88,7 @@ void    ConfigManager::createConfig()
     }
     if (!settings.contains("Plugins/SystemDirectoryPath"))
     {
-        path = PREFIX + QApplication::organizationName() + "/" + QApplication::applicationName() + "/Plugins";
+        path = PREFIX + QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName() + "/Plugins";
         if (!pluginsDir.exists(path))
         {
             qDebug() << "ConfigManager: Creating Plugins System Directory." << path;

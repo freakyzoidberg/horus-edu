@@ -61,7 +61,9 @@ void CommLogin::read(const QByteArray& a)
 
         user = (UserData*)(plugin->getDataWithKey(stream));
         user->dataFromStream(stream);
-        MetaManager::getInstance()->findManager<PluginManagerClient *>()->setCurrentUser(user);
+		//MetaManager::getInstance()->findManager<PluginManagerClient *>()->setCurrentUser(user);
+		// Why the previous line of code doesn't compile but with PluginManager compile ???
+		((PluginManagerClient *)MetaManager::getInstance()->findManager<PluginManager *>())->setCurrentUser(user);
 #endif
     }
 }

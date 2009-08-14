@@ -3,11 +3,9 @@
 #include	"MetaManager.h"
 #include    "../Common/Defines.h"
 #include    "Loader.h"
-#include    "ThreadPlugin.h"
 #include    "ConfigManager.h"
 #include    "ClientEvents.h"
 #include    "LoginDialog.h"
-#include    "ThreadNetwork.h"
 #include    "NotificationClient.h"
 #include    <QtDebug>
 

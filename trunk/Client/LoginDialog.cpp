@@ -1,10 +1,16 @@
 #include "LoginDialog.h"
-#include "ThreadNetwork.h"
+
+#include <QCoreApplication>
+#include <QSettings>
+#include <QDir>
+#include <QCryptographicHash>
+
+#include "MetaManager.h"
+#include "ClientEvents.h"
 
 
-LoginDialog::LoginDialog(ClientApplication *parent) : QWidget()
+LoginDialog::LoginDialog() : QWidget()
 {
-    this->parent = parent;
     l_ui.setupUi(this);
 }
 
@@ -14,7 +20,7 @@ LoginDialog::~LoginDialog()
 
 void    LoginDialog::closeEvent()
 {
-    QApplication::postEvent(ThreadNetwork::getInstance(this->parent), new QEvent(ClientEvents::OfflineModeEvent));
+	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new QEvent(ClientEvents::OfflineModeEvent));
 }
 
 bool    LoginDialog::event(QEvent *event)
@@ -45,8 +51,8 @@ void    LoginDialog::connectMethod()
         settings.setValue("sessionEnd", "");
         CommLogin  l(CommLogin::LOGIN_PASSWORD);
         l.login = l_ui.loginE->text();
-        l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
-        QApplication::postEvent(ThreadNetwork::getInstance(), new SendLoginEvent(l.getPacket()));
+        l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1); //TODO don't encode in graphical thread
+		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendLoginEvent(l.getPacket()));
         settings.endGroup();
     }
 }
