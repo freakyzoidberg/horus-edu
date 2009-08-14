@@ -5,7 +5,7 @@
 # include <QHash>
 # include <QList>
 
-# include "AbstractManager.h"
+# include "../Common/AbstractManager.h"
 
 class MetaManager
 {

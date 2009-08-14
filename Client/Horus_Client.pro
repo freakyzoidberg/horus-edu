@@ -52,6 +52,7 @@ HEADERS += NetworkManager.h \
     ../Common/UserData.h \
     ../Common/UserDataPlugin.h \
     ../Common/NetworkPlugin.h \
+    ../Common/AbstractManager.h \
     DisplayablePlugin.h \
     DataManagerClient.h \
     ClientApplication.h \
@@ -70,9 +71,7 @@ HEADERS += NetworkManager.h \
     DockMenu.h \
     MetaManager.h \
     ManagerThread.h \
-    Manager.h \
-    ManagerFactory.h \
-    AbstractManager.h
+    ManagerFactory.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \

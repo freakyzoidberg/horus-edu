@@ -14,17 +14,11 @@ PluginManagerClient::PluginManagerClient()
 {
 }
 
-PluginManagerClient* PluginManagerClient::instance()
-{
-    static PluginManagerClient pmi;
-    return &pmi;
-}
-
 bool PluginManagerClient::event(QEvent *event)
 {
 	if (event->type() == ClientEvents::StartEvent)
 	{
-                this->load();
+                this->loadPlugins();
 		emit loaded(100);
 		return (true);
 	}
@@ -37,7 +31,7 @@ UserData* PluginManagerClient::currentUser() const { return user; }
 
 void PluginManagerClient::setCurrentUser(UserData* _user) { user = _user; }
 
-void PluginManagerClient::load()
+void PluginManagerClient::loadPlugins()
 {
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 

@@ -4,7 +4,7 @@
 #include <QThread>
 #include <QByteArray>
 
-#include "AbstractManager.h"
+#include "../Common/AbstractManager.h"
 
 //! Class managing the settings of the client
 /*!

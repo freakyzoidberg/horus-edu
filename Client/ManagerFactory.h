@@ -3,7 +3,7 @@
 
 # include <QString>
 
-# include "AbstractManager.h"
+# include "../Common/AbstractManager.h"
 
 class ManagerFactory
 {

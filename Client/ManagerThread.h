@@ -6,7 +6,7 @@
 # include <QString>
 # include <QEvent>
 
-# include "AbstractManager.h"
+# include "../Common/AbstractManager.h"
 
 class ManagerThread : public AbstractManager, public QThread
 {

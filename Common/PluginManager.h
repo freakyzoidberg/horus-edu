@@ -8,6 +8,7 @@
 
 #include "Plugin.h"
 #include "UserData.h"
+#include "AbstractManager.h"
 
 //! To find another plugin with name and/or type
 /*! Sample:
@@ -16,7 +17,7 @@
  *  PluginManager().findPlugin<NetworkPlugin*>("NameOfThePlugin")
  *  PluginManager().findPlugins<NetworkPlugin*>()
  */
-class PluginManager : virtual public QObject
+class PluginManager : public AbstractManager
 {
   Q_OBJECT
 public:

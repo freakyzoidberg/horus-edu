@@ -8,7 +8,7 @@
 #include "../Common/SettingsDataPlugin.h"
 #include "../Common/SettingsData.h"
 
-Loader::Loader(ClientApplication *parent) : QDialog::QDialog()
+Loader::Loader(ClientApplication *parent) : QDialog()
 {
     this->parent = parent;
     this->ui.setupUi(this);
