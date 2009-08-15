@@ -119,11 +119,14 @@ class   PdfFile : public IPdfFile
         */
         void    scaled(float scaleFactor);
 
+
+        //to generate a toc with position on the page
         QDomDocument    *getToc();
         void            generateToc();
         void            addSynopsisToChild(QDomNode *, QDOmNode *);
 
-        void            generateLinks(const QList<Poppler::Link*> &);
+        //links on a page
+        void            generateLinks(const QList<Poppler::Link*> &, QImage *);
 
     private:
         //! the name of the pdf file
