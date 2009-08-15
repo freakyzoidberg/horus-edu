@@ -1,10 +1,9 @@
 #ifndef PACKETMANAGER_H
 #define PACKETMANAGER_H
 
-#include <QtGui>
 #include <QObject>
-#include <QDateTime>
-#include    <QtGui/QApplication>
+#include <QQueue>
+
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommLogin.h"
@@ -12,8 +11,8 @@
 #include "../Common/CommPacket.h"
 #include "../Common/CommData.h"
 #include "../Common/CommError.h"
+
 #include "ClientEvents.h"
-#include "ClientApplication.h"
 #include "ConfigManager.h"
 
 class NetworkManager;

@@ -1,6 +1,8 @@
 #include "NetworkManager.h"
 
+#include <QCoreApplication>
 #include <QSettings>
+#include <QDir>
 
 #include "MetaManager.h"
 #include "NotificationClient.h"

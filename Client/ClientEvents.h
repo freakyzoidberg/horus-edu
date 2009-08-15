@@ -25,10 +25,6 @@ class ClientEvents
         //!  event to recv a packet from the serv
         static QEvent::Type RecvPacketEvent;
         //!  event to show the login window
-        static QEvent::Type ShowLoginEvent;
-        //!  event to hide the login window
-        static QEvent::Type HideLoginEvent;
-        //!  event to send the login to server
         static QEvent::Type SendLoginEvent;
         //!  event contain the plugin data
         static QEvent::Type PluginEvent;

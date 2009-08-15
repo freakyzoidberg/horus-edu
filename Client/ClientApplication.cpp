@@ -1,13 +1,11 @@
 #include    "ClientApplication.h"
 
-#include	"MetaManager.h"
 #include    "../Common/Defines.h"
-#include    "Loader.h"
-#include    "ConfigManager.h"
-#include    "ClientEvents.h"
-#include    "LoginDialog.h"
+
+#include	"MetaManager.h"
 #include    "NotificationClient.h"
-#include    <QtDebug>
+#include    "Loader.h"
+#include	"MainWindow.h"
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)
 {
@@ -26,22 +24,24 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
 	mManager->addManager("PluginManager", false);
     notification = new NotificationClient();
 	foreach (AbstractManager *manager, mManager->managers())
-		connect(manager, SIGNAL(notified), notification, SLOT(notify));
-    loader = new Loader(this);
+		connect(manager, SIGNAL(notified()), notification, SLOT(notify()));
+    loader = new Loader();
+	connect(loader, SIGNAL(accepted()), this, SLOT(loadingComplete()));
+	connect(loader, SIGNAL(rejected()), this, SLOT(preExit()));
     loader->show();
-    //this->loader = new Loader(this);
-    //this->loader->show();
+}
+
+void	ClientApplication::loadingComplete()
+{
+	MainWindow *window;
+
+	window = new MainWindow(this);
+	window->show();
 }
 
 ClientApplication::~ClientApplication()
 {
-}
-
-bool    ClientApplication::event(QEvent *event)
-{
-    if (event->type() >= QEvent::User && event->type() <= QEvent::MaxUser)
-        return (false);
-    return (QApplication::event(event));
+	this->preExit();
 }
 
 void    ClientApplication::preExit()

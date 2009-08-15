@@ -1,9 +1,12 @@
 #include "PacketManager.h"
-#include "ClientApplication.h"
-#include "PluginManagerClient.h"
+
+#include <QSettings>
+
 #include "../Common/NetworkPlugin.h"
 #include "../Common/MetaPlugin.h"
 #include "../Common/UserDataPlugin.h"
+
+#include "PluginManagerClient.h"
 #include "MetaManager.h"
 
 PacketManager::PacketManager() : QObject()
