@@ -16,8 +16,8 @@ NetworkManager::NetworkManager()
     connect(packManag, SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
     connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(socket, SIGNAL(disconnected()), this, SLOT(quit()));
-	connect(packManag, SIGNAL(logged), this, SLOT(log()));
-	connect(packManag, SIGNAL(waitingUserPass), this, SLOT(waitUserPass()));
+	connect(packManag, SIGNAL(logged()), this, SLOT(log()));
+	connect(packManag, SIGNAL(waitingUserPass()), this, SLOT(waitUserPass()));
 }
 
 NetworkManager::~NetworkManager()
@@ -75,6 +75,8 @@ bool    NetworkManager::event(QEvent *e)
 
 void    NetworkManager::quit()
 {
+	//emit notified(Notification::ERROR, "Disconnected from server");
+	//emit loaded(100);
     qDebug() <<  "Disconnected from server";
 }
 

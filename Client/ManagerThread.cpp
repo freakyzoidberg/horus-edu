@@ -23,8 +23,8 @@ void ManagerThread::run()
 
 	this->init.lock();
 	this->embedded = factory.getManager(this->_managerName);
-	QThread::QObject::connect(this->embedded, SIGNAL(notified), (QObject *)(QThread *)this, SLOT(notify));
-	QThread::QObject::connect(this->embedded, SIGNAL(loaded), (QObject *)(QThread *)this, SLOT(load));
+	QThread::QObject::connect(this->embedded, SIGNAL(notified(Notification::type, QString)), (QObject *)(QThread *)this, SLOT(notify(Notification::type, QString)));
+	QThread::QObject::connect(this->embedded, SIGNAL(loaded(int)), (QObject *)(QThread *)this, SLOT(load(int)));
 	this->init.unlock();
 	if (this->embedded)
 		this->exec();
