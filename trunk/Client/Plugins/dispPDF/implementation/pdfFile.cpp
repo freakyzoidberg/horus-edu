@@ -224,12 +224,57 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
 
     qDebug() << "[dispPDF] Image successfully generated";
 
+    genrateLinks(currentPage->links(), image);
+
+    if (!partToDisplay)
+        partToDisplay = new QRectF(0, 0,
+                                   currentPage->pageSize().width(),
+                                   currentPage->pageSize().height());
+
     partToDisplay->adjust(-2, -2, 2, 2);
     scaled(scaleFactor);
-    this->currentPage->links();
+
     QRect part = matrix->mapRect(*partToDisplay).toRect();
     QImage  *subImg = new QImage(image.copy(part));
+
+
+
     return subImg;
+}
+
+void    PdfFile::generateLinks(const QList<Poppler::LinkDestination *> & PopplerLinks,
+                               QImage *image)
+{
+     foreach(const Poppler::Link *popplerLink, PopplerLinks)
+        {
+            if (popplerLink->linkType() == Poppler::Link::Goto)
+            {
+                const Poppler::LinkGoto *gotoLink;
+                gotoLink = static_cast<const Poppler::LinkGoto *>(popplerLink);
+
+                QRectF link;
+
+                link.setLeft(popplerLink->linkArea().left() * currentPage->pageSize().width());
+                link.setRight(popplerLink->linkArea().right() * currentPage->pageSize().width());
+                link.setTop(popplerLink->linkArea().top() * currentPage->pageSize().height());
+                link.setBottom(popplerLink->linkArea().bottom() * currentPage->pageSize().height());
+
+                QRect linkRect = matrix->mapRect(link).toRect();
+
+                linkRect.adjust(-2, -2, 2, 2);
+
+                QImage  imgLink = image.copy(linkRect);
+
+                 painter.begin(&imgLink);
+                 painter.fillRect(imgLink.rect(),
+                     QColor(qRed(pixel), qGreen(pixel), qBlue(pixel)));
+                    painter.end();
+
+                painter.begin(&image);
+                painter.drawImage(linkRect, imgLink);
+                painter.end();
+            }
+        }
 }
 
 float PdfFile::getScaleFactor() const
