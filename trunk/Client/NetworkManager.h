@@ -16,7 +16,6 @@ class NetworkManager : public AbstractManager
 
     public:
         NetworkManager();
-        ~NetworkManager();
     protected slots:
         //! event loop
         bool    event(QEvent *e);

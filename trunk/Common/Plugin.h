@@ -49,7 +49,7 @@ public:
      *  \param event the event received
      *  \return the accept status of the event
      */
-    virtual inline bool              event(QEvent*) { return false; }
+	virtual inline bool              event(QEvent* event) { return QObject::event(event); }
 
     PluginManager* pluginManager;
 };

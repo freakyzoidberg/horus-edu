@@ -23,7 +23,7 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
 	qRegisterMetaType<Notification::type>();
 	mManager = MetaManager::getInstance();
 	mManager->addManager("NetworkManager", true);
-	mManager->addManager("ConfigManager", true);
+	//mManager->addManager("ConfigManager", true);
 	mManager->addManager("PluginManager", false);
     notification = new NotificationClient();
 	foreach (AbstractManager *manager, mManager->managers())
