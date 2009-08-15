@@ -22,7 +22,7 @@ bool PluginManagerClient::event(QEvent *event)
 		emit loaded(100);
 		return (true);
 	}
-	return (AbstractManager::event(event));
+	return (PluginManager::event(event));
 }
 
 const QHash<QString, Plugin*>& PluginManagerClient::plugins() const { return _plugins;}
