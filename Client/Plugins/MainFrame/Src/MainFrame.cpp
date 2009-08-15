@@ -7,7 +7,7 @@
 
 #include "MainFrameWidget.h"
 
-extern QEvent::Type ClientEvents::LoadPluginEvent;
+QEvent::Type ClientEvents::LoadPluginEvent;
 
 MainFrame::MainFrame()
 {

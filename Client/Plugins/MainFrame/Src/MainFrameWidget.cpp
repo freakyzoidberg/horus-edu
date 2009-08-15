@@ -11,7 +11,7 @@
 #include <QDateTime>
 #include <QTreeView>
 
-MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame::QFrame()
+MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
 {
     this->layout = new QGridLayout;
     Plugin *course = 0;
