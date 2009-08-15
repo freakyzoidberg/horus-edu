@@ -39,7 +39,7 @@ public:
      */
     bool    event(QEvent *event);
     //! A pointer to the Loader Widget
-    QWidget *loader;
+    //QWidget *loader;
     //! A pointer te the MainWindow Widget
     QMainWindow *mainWindow;
 

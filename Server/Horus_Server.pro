@@ -2,9 +2,11 @@
 # Project created by QtCreator 2009-03-28T21:10:31
 # -------------------------------------------------
 QT -= gui
-QT += network sql
+QT += network \
+    sql
 TARGET = Horus_Server
-DEFINES += HORUS_SERVER HORUS_CORE
+DEFINES += HORUS_SERVER \
+    HORUS_CORE
 CONFIG -= app_bundle
 CONFIG += console
 TEMPLATE = app
@@ -58,4 +60,5 @@ HEADERS = Sql.h \
     ../Common/NetworkPlugin.h \
     ../Common/DataManager.h \
     ../Common/AbstractManager.h \
-    DataManagerServer.h
+    DataManagerServer.h \
+    ../Common/Notification.h

@@ -6,7 +6,7 @@ NotificationClient::NotificationClient() : QWidget()
 {
 }
 
-void    NotificationClient::notify(QString message)
+void    NotificationClient::notify(Notification::type type, QString message)
 {
 	QMessageBox msgBox;
 	msgBox.setText(message);

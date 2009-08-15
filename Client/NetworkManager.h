@@ -4,12 +4,13 @@
 #include <QCryptographicHash>
 #include <QHostAddress>
 
-#include "../Common/CommSocket.h"
-#include    "PacketManager.h"
 #include "../Common/AbstractManager.h"
+#include "../Common/CommSocket.h"
+
+#include "PacketManager.h"
 
 //! This Object manages the client network.
-class NetworkManager : public CommSocket, public AbstractManager
+class NetworkManager : public AbstractManager
 {
     Q_OBJECT
 
@@ -22,11 +23,14 @@ class NetworkManager : public CommSocket, public AbstractManager
     private slots:
         //! display the socket errors
         void    displayError(QAbstractSocket::SocketError);
+		void	log();
+		void	waitUserPass();
         //! stop network
         void    quit();
     private:
         //! packetManager to read the received packet
         PacketManager   *packManag;
+		CommSocket		*socket;
 };
 
 #endif // NETWORKMANAGER_H

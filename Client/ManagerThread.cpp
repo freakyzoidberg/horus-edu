@@ -58,9 +58,9 @@ bool ManagerThread::event(QEvent *event)
 	return (QThread::event(event));
 }
 
-void ManagerThread::notify(QString message)
+void ManagerThread::notify(Notification::type type, QString message)
 {
-	emit notified(message);
+	emit notified(type, message);
 }
 
 void ManagerThread::load(int percentage)
