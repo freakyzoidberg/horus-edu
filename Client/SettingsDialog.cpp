@@ -54,18 +54,10 @@ void SettingsDialog::FillPluginTab()
     settings->beginGroup("Plugins");
     foreach (QString key, settings->childKeys())
     {
-        if (key == "Load")
-            line = new QLineEdit(settings->value(key).toStringList().join(", "));
-        else
-            line = new QLineEdit(settings->value(key).toString());
+        //line = new QLineEdit(settings->value(key).toStringList().join(", ")); for QStringList
+        line = new QLineEdit(settings->value(key).toString());
         line->setObjectName(key);
         pluginLayout->addRow(key, line);
-    }
-    if (!settings->childKeys().contains("Load", Qt::CaseInsensitive))
-    {
-        line = new QLineEdit();
-        line->setObjectName("Load");
-        pluginLayout->insertRow(0, "Load", line);
     }
     if (!settings->childKeys().contains("SystemDirectoryPath", Qt::CaseInsensitive))
     {
@@ -144,10 +136,8 @@ void SettingsDialog::Save()
         settings->setValue(line->objectName(), line->text());
     settings->beginGroup("Plugins");
     foreach (QLineEdit *line, this->ui.PluginTab->findChildren<QLineEdit *>())
-        if (line->objectName() == "Load")
-            settings->setValue(line->objectName(), QStringList(line->text().split(", ", QString::SkipEmptyParts)));
-        else
             settings->setValue(line->objectName(), line->text());
+            //settings->setValue(line->objectName(), QStringList(line->text().split(", ", QString::SkipEmptyParts))); for QStringList
     settings->endGroup();
     foreach (QLineEdit *line, this->ui.NetworkTab->findChildren<QLineEdit *>())
         if (!line->objectName().contains("session_"))

@@ -1,5 +1,6 @@
 #include <QThreadPool>
 #include <QDebug>
+#include <QDir>
 #include "ClientSocket.h"
 #include "ThreadPacket.h"
 #include "../Common/Defines.h"
@@ -28,8 +29,8 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
     connect(this,  SIGNAL(encrypted()),                         this, SLOT(ready()));
     connect(this,  SIGNAL(disconnected()),                      this, SLOT(tryToDelete()));
     Settings config;
-    setLocalCertificate(config.GetSettings("SoftFullPath","SETTINGS") + "./ssl/Horus.crt");
-    setPrivateKey(config.GetSettings("SoftFullPath","SETTINGS") + "./ssl/Horus.key");
+    setLocalCertificate(config.GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("./ssl/Horus.crt"));
+    setPrivateKey(config.GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("./ssl/Horus.key"));
     setSocketDescriptor(_socket);
     startServerEncryption();
 }
