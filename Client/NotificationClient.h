@@ -4,6 +4,7 @@
 # include <QObject>
 # include <QEvent>
 # include <QString>
+# include <QErrorMessage>
 
 # include "../Common/Notification.h"
 
@@ -35,6 +36,7 @@ private:
 
 	friend void	QtNotify(QtMsgType type, const char *message);
 
+	QErrorMessage *debugDialog;
 };
 
 class QtNotificationEvent : public QEvent

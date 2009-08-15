@@ -3,10 +3,14 @@
 #include <QMessageBox>
 #include <QCoreApplication>
 
+#include "LoginDialog.h"
+
 NotificationClient *NotificationClient::instance = 0;
 
 NotificationClient::NotificationClient() : QObject()
 {
+	this->debugDialog = new QErrorMessage();
+	this->debugDialog->setWindowTitle("Horus");
 }
 
 NotificationClient::~NotificationClient()
@@ -46,6 +50,8 @@ bool	NotificationClient::event(QEvent *event)
 		case QtFatalMsg:
 			this->fatal(qne->message);
 			break ;
+		default:
+			this->fatal(qne->message);
 		}
 		return (true);
 	}
@@ -56,6 +62,9 @@ void    NotificationClient::notify(Notification::type type, QString message)
 {
 	switch (type)
 	{
+	case DEBUG:
+		this->debug(message);
+		break ;
 	case MESSAGE:
 		this->message(message);
 		break ;
@@ -77,48 +86,102 @@ void    NotificationClient::notify(Notification::type type, QString message)
 	case LOGIN:
 		this->login(message);
 		break ;
+	default:
+		this->fatal(message);
 	}	
 }
 
 void	NotificationClient::debug(QString message)
 {
-	QMessageBox msgBox;
-	msgBox.setText(message);
-	msgBox.exec();
+	this->debugDialog->showMessage(message);
 }
+
 void	NotificationClient::message(QString message)
 {
-	this->debug(message);
+	QMessageBox msgBox;
+
+	msgBox.setWindowTitle("Horus");
+	msgBox.setText(message);
+	msgBox.setInformativeText("");
+	msgBox.setStandardButtons(QMessageBox::Ok);
+	msgBox.setDefaultButton(QMessageBox::Ok);
+	msgBox.setIcon(QMessageBox::Information);
+	msgBox.exec();
 }
 
 void	NotificationClient::warning(QString message)
 {
-	this->debug(message);
+	QMessageBox msgBox;
+
+	msgBox.setWindowTitle("Horus");
+	msgBox.setText("A non critical error occured:");
+	msgBox.setInformativeText(message);
+	msgBox.setStandardButtons(QMessageBox::Ok);
+	msgBox.setDefaultButton(QMessageBox::Ok);
+	msgBox.setIcon(QMessageBox::Warning);
+	msgBox.exec();
 }
 
 void	NotificationClient::error(QString message)
 {
-	this->debug(message);
+	QMessageBox msgBox;
+
+	msgBox.setWindowTitle("Horus");
+	msgBox.setText("A critical error occured:");
+	msgBox.setInformativeText(message);
+	msgBox.setStandardButtons(QMessageBox::Ok);
+	msgBox.setDefaultButton(QMessageBox::Ok);
+	msgBox.setIcon(QMessageBox::Critical);
+	msgBox.exec();
 }
 
 void	NotificationClient::fatal(QString message)
 {
-	this->debug(message);
+	QMessageBox msgBox;
+
+	msgBox.setWindowTitle("Horus");
+	msgBox.setText("A fatal error occured:");
+	msgBox.setInformativeText(message);
+	msgBox.setDetailedText("This critical error is fatal and unrecoverable. You can put your computer in the trash and buy a new one.");
+	msgBox.setStandardButtons(QMessageBox::Ok);
+	msgBox.setDefaultButton(QMessageBox::Ok);
+	msgBox.setIcon(QMessageBox::Critical);
+	msgBox.exec();
+	delete qApp;
 }
 
 void	NotificationClient::yesNo(QString message)
 {
-	this->debug(message);
+	QMessageBox msgBox;
+
+	msgBox.setWindowTitle("Horus");
+	msgBox.setText(message);
+	msgBox.setInformativeText("");
+	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+	msgBox.setDefaultButton(QMessageBox::Yes);
+	msgBox.setIcon(QMessageBox::Question);
+	msgBox.exec();
 }
 
 void	NotificationClient::retry(QString message)
 {
-	this->debug(message);
+	QMessageBox msgBox;
+
+	msgBox.setWindowTitle("Horus");
+	msgBox.setText(message);
+	msgBox.setInformativeText("");
+	msgBox.setStandardButtons(QMessageBox::Retry | QMessageBox::Cancel);
+	msgBox.setDefaultButton(QMessageBox::Retry);
+	msgBox.setIcon(QMessageBox::Question);
+	msgBox.exec();
 }
 
 void	NotificationClient::login(QString message)
 {
-	this->debug(message);
+	LoginDialog *loginDialog;
+
+	loginDialog = new LoginDialog();
+	loginDialog->show();
 }
 
 QEvent::Type QtNotificationEvent::Type = (QEvent::Type)QEvent::registerEventType();
