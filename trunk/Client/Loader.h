@@ -5,8 +5,6 @@
 
 #include "ui_Loader.h"
 
-#include "ClientApplication.h"
-
 //! Graphical class managing the loading processes
 /*!
  *  Class displaying a loading bar in a dialog while others processes are loaded.
@@ -22,9 +20,8 @@ public:
      *  Initialize the class.
      *  Display ui
      *  Start loading processes
-     *  \param parent the parent ClientApplication used to post events
      */
-    Loader(ClientApplication *parent);
+    Loader();
     //! Surcharge of the method event
     /*!
      *  When receiving a StartEvent, it indicate that a processe has finish his loading, so the loading bar is updated
@@ -32,8 +29,6 @@ public:
      *  \return the accept status of the event
      */
     bool event(QEvent *event);
-    //! login window
-    QWidget *ld;
 
 private:
     //! The graphical ui used
@@ -42,25 +37,21 @@ private:
     int processes;
     //! A counter of the number of finished proccess
     int processesComplete;
-    //! A pointer to its parent ClientApplication
-    ClientApplication *parent;
     //! Method for start the loading of the plugins
     /*!
      *  Send an StartEvent to the PluginManager
      */
     void    loadPlugins();
-
     //! Method for start the loading of the network
     /*!
      *  Send an StartEvent to the NetworkManager
      */
     void    loadNetwork();
     //! Method for start the loading of the configuration
-    void    loadConfig();
-    //! Method for start the loading of the config
     /*!
      *  Send an StartEvent to the ConfigManager
      */
+    void    loadSettings();
 };
 
 #endif // LOADER_H

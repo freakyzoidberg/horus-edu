@@ -2,8 +2,6 @@
 #define CLIENTAPPLICATION_H
 
 #include    <QApplication>
-#include    <QWidget>
-#include    <QMainWindow>
 
 //! Main class representing the application
 /*!
@@ -30,18 +28,6 @@ public:
      *  Because of threads we can't just call exit !
      */
     ~ClientApplication();
-    //! Surcharge of the event function
-    /*!
-     *  Useless for now.
-     *  May be deleted in the future.
-     *  \param event the event received
-     *  \return the accept status of the event
-     */
-    bool    event(QEvent *event);
-    //! A pointer to the Loader Widget
-    //QWidget *loader;
-    //! A pointer te the MainWindow Widget
-    QMainWindow *mainWindow;
 
 public slots:
     ////! Unload then load again all the plugins
@@ -50,6 +36,9 @@ public slots:
     //void    restartNetwork();
     //! Unload everything then exit
     void    preExit();
+
+private slots:
+	void	loadingComplete();
 };
 
 
