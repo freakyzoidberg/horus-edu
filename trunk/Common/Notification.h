@@ -6,7 +6,7 @@
 class Notification
 {
 public:
-	enum type { UNDEFINED, ERROR, WARNING, MESSAGE, YES_NO, LOGIN, RETRY, __LAST__ };
+	enum type { DEBUG, MESSAGE, WARNING, ERROR, FATAL, YES_NO, LOGIN, RETRY };
 
 };
 

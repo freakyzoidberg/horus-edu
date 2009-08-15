@@ -15,17 +15,18 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
 	NotificationClient *notification;
 	Loader *loader;
 
+	qRegisterMetaType<Notification::type>();
+	qInstallMsgHandler(QtNotify);
     this->setOrganizationName(ORGANIZATION_NAME);
     this->setOrganizationDomain(ORGANIZATION_DOMAIN);
     this->setApplicationName(CLIENT_NAME);
     this->setApplicationVersion(CLIENT_VERSION);
     this->setApplicationVersion(CLIENT_VERSION);//pour git
-	qRegisterMetaType<Notification::type>();
 	mManager = MetaManager::getInstance();
 	mManager->addManager("NetworkManager", true);
 	//mManager->addManager("ConfigManager", true);
 	mManager->addManager("PluginManager", false);
-    notification = new NotificationClient();
+	notification = NotificationClient::getInstance();
 	foreach (AbstractManager *manager, mManager->managers())
 		connect(manager, SIGNAL(notified(Notification::type, QString)), notification, SLOT(notify(Notification::type, QString)));
     loader = new Loader();

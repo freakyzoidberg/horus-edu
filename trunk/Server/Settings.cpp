@@ -69,10 +69,10 @@ void Settings::FirstSetSettings()
     streamo << "Fullpath to Horus Server diretory[ hint : /opt/Horus/Horus-server/] : ";
     streamo.flush();
     line = streami.readLine();
-    this->Gsettings.setValue("PluginsBase", (line == "" ? "/opt/Horus/Horus-server/Plugins/":line+"/Plugins/"));
-    this->Gsettings.setValue("SoftFullPath", (line == "" ? "/opt/Horus/Horus-server/":line +"/"));
+	this->Gsettings.setValue("PluginsBase", (line == "" ? "/opt/Horus/Horus-server/Plugins/":line+QDir::toNativeSeparators("/Plugins/")));
+	this->Gsettings.setValue("SoftFullPath", (line == "" ? "/opt/Horus/Horus-server/":line +QDir::separator()));
     this->Gsettings.endGroup();
-    QDir dir(line == "" ? "/opt/Horus/Horus-server/Plugins/":line+"/Plugins");
+    QDir dir(line == "" ? "/opt/Horus/Horus-server/Plugins/":line+QDir::toNativeSeparators("/Plugins/"));
     if (!dir.exists())
      qWarning("Cannot find the plugin directory");
         else
@@ -94,8 +94,8 @@ void Settings::FirstSetSettings()
                         {
 
                         QFileInfo filefilsInfo = listfils.at(j);
-                        #ifdef WIN32
-                        if (("lib"+fileInfo.fileName() + ".dll") == (filefilsInfo.fileName()))
+                        #ifdef Q_OS_WIN
+                        if ((fileInfo.fileName() + ".dll") == (filefilsInfo.fileName()))
                         #else
                         if (("lib"+fileInfo.fileName() + ".so") == (filefilsInfo.fileName()))
                         #endif
@@ -104,10 +104,10 @@ void Settings::FirstSetSettings()
                                 streamo.flush();
                                 line = streami.readLine();
                                 if ((line == "y") | (line == "o") | (line == "Y") | (line == "O"))
-                                #ifdef WIN32
-                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".so"));
+                                #ifdef Q_OS_WIN
+                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+fileInfo.fileName()+".dll"));
                                 #else
-                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".dll"));
+                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".so"));
                                 #endif
                              }
                              }
@@ -122,11 +122,5 @@ void Settings::FirstSetSettings()
 
 QString Settings::GetSettings(QString key, QString group)
 {
-    QString res;
-    this->Gsettings.beginGroup(group);
-    if ((res = this->Gsettings.value(key, "").toString()) == "")
-            res = "";
-    this->Gsettings.endGroup();
-
-    return (res);
+	return (this->Gsettings.value(group + "/" + key, "").toString());
 }
