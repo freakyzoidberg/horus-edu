@@ -18,4 +18,5 @@ HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
     ../../../Common/TreeData.h \
    ../../../Common/DataPlugin.h \
   ../../../Common/TreeDataPlugin.h \
-  TreeBaseServerMetaPlugin.h
+ ../../../Common/AbstractManager.h \
+ TreeBaseServerMetaPlugin.h
