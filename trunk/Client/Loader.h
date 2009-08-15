@@ -2,6 +2,7 @@
 #define LOADER_H
 
 #include <QDialog>
+#include <QHash>
 
 #include "ui_Loader.h"
 
@@ -35,23 +36,11 @@ private:
     Ui::Window ui;
     //! A counter of the number of processes
     int processes;
-    //! A counter of the number of finished proccess
-    int processesComplete;
-    //! Method for start the loading of the plugins
-    /*!
-     *  Send an StartEvent to the PluginManager
-     */
-    void    loadPlugins();
-    //! Method for start the loading of the network
-    /*!
-     *  Send an StartEvent to the NetworkManager
-     */
-    void    loadNetwork();
-    //! Method for start the loading of the configuration
-    /*!
-     *  Send an StartEvent to the ConfigManager
-     */
-    void    loadSettings();
+    //! A hash of the percentage loaded of each processes
+    QHash<QObject *, int>	percentages;
+
+private slots:
+	void load(int percentage);
 };
 
 #endif // LOADER_H

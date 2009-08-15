@@ -1,5 +1,7 @@
 #include    "ClientApplication.h"
 
+#include	<QMetaType>
+
 #include    "../Common/Defines.h"
 
 #include	"MetaManager.h"
@@ -18,13 +20,14 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     this->setApplicationName(CLIENT_NAME);
     this->setApplicationVersion(CLIENT_VERSION);
     this->setApplicationVersion(CLIENT_VERSION);//pour git
+	qRegisterMetaType<Notification::type>();
 	mManager = MetaManager::getInstance();
 	mManager->addManager("NetworkManager", true);
 	mManager->addManager("ConfigManager", true);
 	mManager->addManager("PluginManager", false);
     notification = new NotificationClient();
 	foreach (AbstractManager *manager, mManager->managers())
-		connect(manager, SIGNAL(notified()), notification, SLOT(notify()));
+		connect(manager, SIGNAL(notified(Notification::type, QString)), notification, SLOT(notify(Notification::type, QString)));
     loader = new Loader();
 	connect(loader, SIGNAL(accepted()), this, SLOT(loadingComplete()));
 	connect(loader, SIGNAL(rejected()), this, SLOT(preExit()));
