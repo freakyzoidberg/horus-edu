@@ -30,10 +30,9 @@ void PacketManager::packetReceived(QByteArray p)
         (this->*packetDirections[ pac.packetType ])();
 }
 
-void PacketManager::PacketToSend(QEvent *e)
+void PacketManager::PacketToSend(const QByteArray& pack)
 {
-    SendPacketEvent *spe = static_cast<SendPacketEvent *>(e);
-    packetStack.enqueue(spe->pack);
+    packetStack.enqueue(pack);
     clearPacketStack();
 }
 
@@ -46,9 +45,8 @@ void    PacketManager::clearPacketStack()
             emit sendPacket(packetStack.dequeue());
             clearPacketStack();
         }
-        return;
     }
-    return;
+    return ;
 }
 
 void PacketManager::PacketError()
@@ -75,7 +73,8 @@ void PacketManager::PacketInit()
     else
     {
         state = INIT;
-        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::ShowLoginEvent));
+		emit waitingUserPass();
+        //QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::ShowLoginEvent));
     }
     settings.endGroup();
 
@@ -104,14 +103,16 @@ void PacketManager::PacketLogin()
 
         //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
         settings.endGroup();
-        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::HideLoginEvent));
-        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::StartEvent));
+        //QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::HideLoginEvent));
+        //QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::StartEvent));
+		emit logged();
         state = PacketManager::LOGGED_IN;
         clearPacketStack();
     }
     else if (l.method == CommLogin::REFUSED)
     {
-        QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::ShowLoginEvent));
+		emit waitingUserPass();
+        //QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::ShowLoginEvent));
     }
 
 }

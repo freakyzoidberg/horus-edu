@@ -5,15 +5,17 @@
 # include <QWidget>
 # include <QString>
 
-class NotificationClient : public QWidget
+# include "../Common/Notification.h"
+
+class NotificationClient : public QWidget, public Notification
 {
     Q_OBJECT
 
 public:
-        NotificationClient();
+	NotificationClient();
 
 public slots:
-        void notify(QString message);
+	void notify(Notification::type type, QString message);
 };
 
 #endif // NOTIFICATIONCLIENT_H

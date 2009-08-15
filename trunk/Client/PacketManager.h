@@ -25,7 +25,7 @@ class   PacketManager : public QObject
 
     public:
         PacketManager();
-        void        PacketToSend(QEvent *e);
+        void        PacketToSend(const QByteArray&);
     private slots:
         //! the callback for the sessionEnd timer
         void        sessionEnd();
@@ -63,6 +63,8 @@ class   PacketManager : public QObject
     signals:
         //! signal emmitted to send a packet
         void sendPacket(const QByteArray&);
+		void logged();
+		void waitingUserPass();
 };
 
 typedef void(PacketManager::*packetDirection)();

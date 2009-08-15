@@ -4,6 +4,8 @@
 # include <QObject>
 # include <QString>
 
+# include "Notification.h"
+
 class AbstractManager : virtual public QObject
 {
 	Q_OBJECT
@@ -12,7 +14,7 @@ public:
 	virtual ~AbstractManager() {}
 
 signals:
-	void notified(QString message);
+	void notified(Notification::type, QString message);
 	void loaded(int percentage);
 
 };

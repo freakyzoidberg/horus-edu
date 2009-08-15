@@ -24,7 +24,7 @@ protected:
 	QMutex	init;
 
 protected slots:
-	void notify(QString message);
+	void notify(Notification::type, QString message);
 	void load(int percentage);
 };
 
