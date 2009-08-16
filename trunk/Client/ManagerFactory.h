@@ -13,7 +13,6 @@ public:
 
 private:
 	AbstractManager *buildNetworkManager();
-	AbstractManager *buildConfigManager();
 	AbstractManager *buildPluginManager();
 };
 

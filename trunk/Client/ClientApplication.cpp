@@ -6,6 +6,7 @@
 
 #include	"MetaManager.h"
 #include    "NotificationClient.h"
+#include	"LocalSettings.h"
 #include    "Loader.h"
 #include	"MainWindow.h"
 
@@ -24,9 +25,9 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     this->setApplicationName(CLIENT_NAME);
     this->setApplicationVersion(CLIENT_VERSION);
     this->setApplicationVersion(CLIENT_VERSION);//pour git
+	LocalSettings::createConfig();
 	mManager = MetaManager::getInstance();
 	mManager->addManager("NetworkManager", true);
-	//mManager->addManager("ConfigManager", true);
 	mManager->addManager("PluginManager", false);
 	notification = NotificationClient::getInstance();
 	foreach (AbstractManager *manager, mManager->managers())
@@ -52,14 +53,5 @@ ClientApplication::~ClientApplication()
 
 void    ClientApplication::preExit()
 {
-    //ThreadPlugin    *pmanager;
-    //ThreadNetwork   *nmanager;
-    //ConfigManager   *cmanager;
-
-    //pmanager = this->findChild<ThreadPlugin*>();
-    //nmanager = this->findChild<ThreadNetwork *>();
-    //cmanager = this->findChild<ConfigManager *>();
-    //QApplication::postEvent(nmanager, new QEvent(ClientEvents::StopEvent));
-    //QApplication::postEvent(pmanager, new QEvent(ClientEvents::StopEvent));
-    //QApplication::postEvent(cmanager, new QEvent(ClientEvents::StopEvent));
+	// TODO : exit all threads
 }

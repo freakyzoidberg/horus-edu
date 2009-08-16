@@ -20,7 +20,7 @@ SOURCES += main.cpp \
     ClientApplication.cpp \
     NetworkManager.cpp \
     PacketManager.cpp \
-    ConfigManager.cpp \
+    LocalSettings.cpp \
     Loader.cpp \
     MainWindow.cpp \
     PluginManagerClient.cpp \
@@ -59,7 +59,7 @@ HEADERS += NetworkManager.h \
     Loader.h \
     MainWindow.h \
     LoginDialog.h \
-    ConfigManager.h \
+    LocalSettings.h \
     SettingsDialog.h \
     UserInfo.h \
     NotificationClient.h \
