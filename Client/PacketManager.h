@@ -13,7 +13,6 @@
 #include "../Common/CommError.h"
 
 #include "ClientEvents.h"
-#include "ConfigManager.h"
 
 class NetworkManager;
 
