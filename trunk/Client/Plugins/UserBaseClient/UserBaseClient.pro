@@ -17,4 +17,5 @@ HEADERS += ../../../Common/DataImplementations/UserDataBase/UserDataBase.h \
     ../../../Common/UserData.h \
    ../../../Common/DataPlugin.h \
   ../../../Common/UserDataPlugin.h \
-  UserBaseClientMetaPlugin.h
+ ../../../Common/AbstractManager.h \
+ UserBaseClientMetaPlugin.h

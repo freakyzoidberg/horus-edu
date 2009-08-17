@@ -45,12 +45,6 @@ bool    NetworkManager::event(QEvent *e)
         packManag->PacketToSend(spe->pack);
         return (true);
     }
-    else if (e->type() == ClientEvents::SendLoginEvent)
-    {
-        SendLoginEvent *sle = static_cast<SendLoginEvent *>(e);
-        packManag->PacketToSend(sle->pack);
-        return (true);
-    }
     else if (e->type() == ClientEvents::OfflineModeEvent)
     {
 		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));

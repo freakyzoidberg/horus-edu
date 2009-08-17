@@ -53,7 +53,6 @@ public:
 
 #ifdef HORUS_CLIENT
     QVariant        data(int column, int role = Qt::DisplayRole) const;
-    static QMap<QString,QIcon> icons;
 #endif
 #ifdef HORUS_SERVER
     void            fillFromDatabase  (QSqlQuery&);

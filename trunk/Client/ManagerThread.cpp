@@ -32,30 +32,28 @@ void ManagerThread::run()
 
 bool ManagerThread::event(QEvent *event)
 {
-	if (event->type() >= QEvent::User)
-	{
-		this->init.lock();
-		if (!(this->embedded))
-		{
-			this->init.unlock();
-			return (false);
-		}
-		this->init.unlock();
+    if (event->type() >= QEvent::User)
+    {
+        this->init.lock();
+        if (!(this->embedded))
+        {
+                this->init.unlock();
+                return (false);
+        }
+        this->init.unlock();
+
         if (event->type() == ClientEvents::SendPacketEvent)
         {
             SendPacketEvent *newEvent = new SendPacketEvent(*(static_cast<SendPacketEvent *>(event)));
             QCoreApplication::postEvent(this->embedded, newEvent);
         }
-        else if (event->type() == ClientEvents::SendLoginEvent)
-        {
-            SendLoginEvent *newEvent = new SendLoginEvent(*(static_cast<SendLoginEvent *>(event)));
-			QCoreApplication::postEvent(this->embedded, newEvent);
-        }
         else
-			QCoreApplication::postEvent(this->embedded, new QEvent(event->type()));
-		return (true);
-	}
-	return (QThread::event(event));
+        {
+            QCoreApplication::postEvent(this->embedded, new QEvent(event->type()));
+            return (true);
+        }
+    }
+    return (QThread::event(event));
 }
 
 void ManagerThread::notify(Notification::type type, QString message)
