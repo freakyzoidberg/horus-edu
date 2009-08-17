@@ -1,6 +1,8 @@
 #include "editpdf.h"
 
 #include <QDomDocument>
+#include <QTreeWidgetItem>
+
 
 EditPDF::EditPDF()
 {
@@ -12,7 +14,7 @@ QWidget     *EditPDF::getTocInWidget(QDomNode * toc , QTreeWidgetItem * parent)
     //recuperer la toc d'une facon ou d'une autre, jsais pas encore trop comment
     //QDomDocument    toc = <machin_cast>dispPdf()->getToc();
 
-    QDomNode n = brToc->firstChild();
+    QDomNode n = toc->firstChild();
 
     while (!n.isNull())
     {
@@ -22,12 +24,7 @@ QWidget     *EditPDF::getTocInWidget(QDomNode * toc , QTreeWidgetItem * parent)
        child->setText(0, e.tagName());
 
        if (e.hasChildNodes())
-       {
-           nbSp++;
-           browseToc(&n, child);
-           nbSp--;
-       }
+           getTocInWidget(&n, child);
        n = n.nextSibling();
-       i++;
     }
 }
