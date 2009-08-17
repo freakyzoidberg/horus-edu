@@ -26,12 +26,6 @@ bool PluginManagerClient::event(QEvent *event)
 		emit loaded(100);
 		return (true);
 	}
-	else if (event->type() == ClientEvents::LoadPluginEvent)
-	{
-		foreach (Plugin* plugin, plugins())
-			QApplication::postEvent(plugin, new QEvent(ClientEvents::LoadPluginEvent));
-		return (true);
-	}
 	return (PluginManager::event(event));
 }
 
@@ -96,6 +90,8 @@ void PluginManagerClient::loadPlugins()
         plugin->pluginManager = this;
     foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
         plugin->dataManager = new DataManagerClient(plugin);
+	foreach (Plugin* plugin, plugins())
+		QApplication::postEvent(plugin, new QEvent(ClientEvents::LoadPluginEvent));
 }
 
 bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
