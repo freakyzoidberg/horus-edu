@@ -43,7 +43,7 @@ void	Loader::load(int percentage)
 	this->ui.LoadingBar->setValue(totalPercentage / this->processes);
 	if (totalPercentage / this->processes == 100)
 	{
-		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), ClientEvents::LoadPluginEvent);
+		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent (ClientEvents::LoadPluginEvent));
 		emit accept();
 	}
 }
