@@ -29,7 +29,6 @@ bool    NetworkManager::event(QEvent *e)
         {
 			emit notified(Notification::WARNING, "Server's hostname or port unspecified, please review your settings.");
 			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
-            QCoreApplication::postEvent(MetaManager::getInstance()->findManager("ConfigManager"), new QEvent(ClientEvents::OfflineModeEvent));
 			emit loaded(100);
         }
         else
@@ -48,7 +47,6 @@ bool    NetworkManager::event(QEvent *e)
     else if (e->type() == ClientEvents::OfflineModeEvent)
     {
 		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
-        QCoreApplication::postEvent(MetaManager::getInstance()->findManager("ConfigManager"), new QEvent(ClientEvents::OfflineModeEvent));
         socket->disconnectFromHost();
 		emit loaded(100);
         return (true);
@@ -81,7 +79,6 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
 		 emit notified(Notification::WARNING, "Horus is unable to connect to server (" + socket->errorString() + "), please review your settings.");
     }
 	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
-	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("ConfigManager"), new QEvent(ClientEvents::OfflineModeEvent));
 	emit loaded(100);
 }
 

@@ -54,5 +54,6 @@ void    LoginDialog::connectMethod()
         l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
         QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
         settings.endGroup();
+		delete this;
     }
 }

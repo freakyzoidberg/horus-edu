@@ -41,15 +41,11 @@ void PacketManager::PacketToSend(const QByteArray& pack)
 
 void    PacketManager::clearPacketStack()
 {
-    if (state == PacketManager::LOGGED_IN)
+    if (packetStack.isEmpty() == false)
     {
-        if (packetStack.isEmpty() == false)
-        {
-            emit sendPacket(packetStack.dequeue());
-            clearPacketStack();
-        }
+        emit sendPacket(packetStack.dequeue());
+        clearPacketStack();
     }
-    return ;
 }
 
 void PacketManager::PacketError()
