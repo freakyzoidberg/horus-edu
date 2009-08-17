@@ -165,6 +165,7 @@ void        PdfFile::reloadFile()
 void        PdfFile::scaled(float scaleFactor)
 {   
     //to avoid big picture
+
     if (scaleFactor > 2)
         this->scaleFactor = 2;
 
