@@ -13,8 +13,9 @@ Loader::Loader() : QDialog()
 	foreach (AbstractManager *manager, MetaManager::getInstance()->findManagers())
 	{
 		++(this->processes);
-		QCoreApplication::postEvent(manager, new QEvent(ClientEvents::StartEvent));
 		connect(manager, SIGNAL(loaded(int)), this, SLOT(load(int)));
+		if (manager != MetaManager::getInstance()->findManager("NetworkManager"))
+			QCoreApplication::postEvent(manager, new QEvent(ClientEvents::StartEvent));
 	}
 }
 
@@ -31,6 +32,11 @@ bool    Loader::event(QEvent *event)
 void	Loader::load(int percentage)
 {
 	int totalPercentage;
+	foreach (AbstractManager *manager, MetaManager::getInstance()->findManagers())
+	{
+		if (manager == this->sender())
+			percentage = percentage;
+	}
 
 	if (percentage > 100)
 		percentage = 100;
@@ -42,8 +48,8 @@ void	Loader::load(int percentage)
 		totalPercentage += percentage;
 	this->ui.LoadingBar->setValue(totalPercentage / this->processes);
 	if (totalPercentage / this->processes == 100)
-	{
-		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent (ClientEvents::LoadPluginEvent));
 		emit accept();
-	}
+	if (this->sender() == MetaManager::getInstance()->findManager("PluginManager") && percentage == 100)
+		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new QEvent(ClientEvents::StartEvent));
+
 }
