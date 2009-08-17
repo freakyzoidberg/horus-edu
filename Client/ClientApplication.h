@@ -12,6 +12,7 @@ class ClientApplication : public QApplication
 {
     Q_OBJECT
 public:
+
     //! Constructor
     /*!
      *  Initialize names and version of the application.
