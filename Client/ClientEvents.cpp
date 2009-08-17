@@ -7,7 +7,6 @@ QEvent::Type ClientEvents::UnloadPluginEvent = (QEvent::Type)QEvent::registerEve
 QEvent::Type ClientEvents::LoadPluginEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::SendPacketEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::RecvPacketEvent = (QEvent::Type)QEvent::registerEventType();
-QEvent::Type ClientEvents::SendLoginEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::OfflineModeEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::PluginEvent = (QEvent::Type)QEvent::registerEventType();
 QEvent::Type ClientEvents::CServerEmptyEvent = (QEvent::Type)QEvent::registerEventType();
@@ -26,16 +25,6 @@ SendPacketEvent::SendPacketEvent(const SendPacketEvent &s) : QEvent(ClientEvents
 RecvPacketEvent::RecvPacketEvent(const QByteArray p) : QEvent(ClientEvents::RecvPacketEvent)
 {
     pack = p;
-}
-
-SendLoginEvent::SendLoginEvent(const QByteArray p) : QEvent(ClientEvents::SendLoginEvent)
-{
-    pack = p;
-}
-
-SendLoginEvent::SendLoginEvent(const SendLoginEvent &s) : QEvent(ClientEvents::SendLoginEvent)
-{
-    pack = s.pack;
 }
 
 PluginEvent::PluginEvent(const PluginPacket p, QString pT) : QEvent(ClientEvents::PluginEvent)

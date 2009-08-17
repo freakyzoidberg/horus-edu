@@ -37,7 +37,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 //    {
 //    }
 //    if (data->status() == Data::EMPTY && newStatus == Data::UPTODATE)
-        data->_status = newStatus;
+    data->_status = newStatus;
 }
 
 

@@ -24,8 +24,6 @@ class ClientEvents
         static QEvent::Type SendPacketEvent;
         //!  event to recv a packet from the serv
         static QEvent::Type RecvPacketEvent;
-        //!  event to show the login window
-        static QEvent::Type SendLoginEvent;
         //!  event contain the plugin data
         static QEvent::Type PluginEvent;
         //!  event for the network errors
@@ -49,17 +47,6 @@ class RecvPacketEvent : public QEvent
 {
         public:
             RecvPacketEvent(const QByteArray p);
-
-            //! packet to send
-            QByteArray pack;
-};
-
-//! this object is an event containt a packet to send to the server
-class SendLoginEvent : public QEvent
-{
-        public:
-            SendLoginEvent(const QByteArray p);
-            SendLoginEvent(const SendLoginEvent &s);
 
             //! packet to send
             QByteArray pack;

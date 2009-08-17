@@ -64,6 +64,12 @@ UserData* UserDataBasePlugin::authenticatePassword(QSqlQuery& query, const QStri
 
 UserData* UserDataBasePlugin::authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& session)
 {
+////// THESE LINES DISABLE THE AUTHENTIFICATION //////////
+//    UserData* user = getUser(1);
+//    user->fillFromDatabase(query);
+//    user->setStatus(Data::UPTODATE);
+//////////////////////////////////////////////////////////
+
     if (login.length() > 32 || session.length() != SESSION_WORD_SIZE)
     {
         qDebug() << "UserDataBasePlugin::authenticateSession Session key have an invalid size.";

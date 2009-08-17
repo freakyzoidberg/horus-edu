@@ -19,6 +19,7 @@ HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
     ../../../Common/TreeData.h \
    ../../../Common/DataPlugin.h \
   ../../../Common/TreeDataPlugin.h \
-  TreeModel.h \
-  TreeBaseClientMetaPlugin.h
+ ../../../Common/AbstractManager.h \
+ TreeModel.h \
+ TreeBaseClientMetaPlugin.h
 RESOURCES += Icons.qrc

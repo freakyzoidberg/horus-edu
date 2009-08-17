@@ -7,17 +7,6 @@
 
 TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData(nodeId, (TreeDataPlugin*)plugin)
 {
-#ifdef HORUS_CLIENT
-    if ( ! icons.count())
-    {
-        icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
-        icons["LESSON"] = QIcon(":/Icons/LessonIcon.png");
-        icons["SUBJECT"] = QIcon(":/Icons/SubjectIcon.png");
-        icons["GRADE"] = QIcon(":/Icons/GradeIcon.png");
-        icons["GROUP"] = QIcon(":/Icons/GroupIcon.png");
-        icons["ROOT"] = QIcon(":/Icons/RootIcon.png");
-    }
-#endif
 }
 
 void TreeDataBase::keyToStream(QDataStream& s)
@@ -117,8 +106,6 @@ void TreeDataBase::deleteFromDatabase(QSqlQuery& query)
 }
 #endif
 #ifdef HORUS_CLIENT
-QMap<QString,QIcon> TreeDataBase::icons;
-
 QVariant TreeDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
@@ -134,6 +121,16 @@ QVariant TreeDataBase::data(int column, int role) const
     }
     else if (role == Qt::DecorationRole && column == 0)
     {
+        static QMap<QString,QIcon> icons;
+        if ( ! icons.count())
+        {
+            icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
+            icons["LESSON"] = QIcon(":/Icons/LessonIcon.png");
+            icons["SUBJECT"] = QIcon(":/Icons/SubjectIcon.png");
+            icons["GRADE"] = QIcon(":/Icons/GradeIcon.png");
+            icons["GROUP"] = QIcon(":/Icons/GroupIcon.png");
+            icons["ROOT"] = QIcon(":/Icons/RootIcon.png");
+        }
         if (icons.contains( type ))
             return icons[ type ];
         return icons["DEFAULT"];

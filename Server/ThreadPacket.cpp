@@ -9,6 +9,8 @@
 #include "../Common/UserDataPlugin.h"
 #include "../Common/TreeData.h"
 #include "../Common/TreeDataPlugin.h"
+#include "../Common/SettingsData.h"
+#include "../Common/SettingsDataPlugin.h"
 #include "UserSettings.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommData.h"
@@ -145,11 +147,11 @@ void ThreadPacket::PacketLogin()
     else
     {
         TreeData* node = treePlugin->getNode(0);
+
         node->fillFromDatabase(query);
         node->setStatus(Data::UPTODATE);
-        // send the node 0
-        qDebug() << node;
         treePlugin->dataManager->sendData(user, node);
+//        qDebug() << node;
 
         //send the node between 0 and user nodeId
         for (node = treePlugin->getNode(user->idTree);
@@ -159,8 +161,21 @@ void ThreadPacket::PacketLogin()
             node->fillFromDatabase(query);
             node->setStatus(Data::UPTODATE);
             treePlugin->dataManager->sendData(user, node );
+//            qDebug() << node;
         }
     }
+
+    SettingsDataPlugin* settingsPlugin = PluginManagerServer::instance()->findPlugin<SettingsDataPlugin*>();
+    if ( ! settingsPlugin)
+        qDebug() << "Warning: no SettingsDataPlugin found. Check your configuration.";
+    SettingsData* setting = settingsPlugin->getSettings("test", SettingsData::CLIENT_USER_SCOPE, user->id);
+
+    setting->fillFromDatabase(query);
+    setting->setStatus(Data::UPTODATE);
+    settingsPlugin->dataManager->sendData(user, setting);
+    qDebug() << setting;
+
+
 
     //allow other threads to be started
     socket->allowOtherThreads();

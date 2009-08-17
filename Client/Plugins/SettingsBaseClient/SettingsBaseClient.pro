@@ -17,4 +17,5 @@ HEADERS += ../../../Common/DataImplementations/SettingsDataBase/SettingsDataBase
     ../../../Common/SettingsData.h \
    ../../../Common/DataPlugin.h \
   ../../../Common/SettingsDataPlugin.h \
-  SettingsBaseClientMetaPlugin.h
+ ../../../Common/AbstractManager.h \
+ SettingsBaseClientMetaPlugin.h

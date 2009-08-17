@@ -43,7 +43,7 @@ void    LoginDialog::connectMethod()
 {
     if (l_ui.loginE->text() != "" || l_ui.passE->text() != "")
     {
-        QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+        QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
         settings.beginGroup("SESSIONS");
         settings.setValue("sessionString", "");
         settings.setValue("sessionLogin", l_ui.loginE->text());
@@ -51,8 +51,8 @@ void    LoginDialog::connectMethod()
         settings.setValue("sessionEnd", "");
         CommLogin  l(CommLogin::LOGIN_PASSWORD);
         l.login = l_ui.loginE->text();
-        l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1); //TODO don't encode in graphical thread
-		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendLoginEvent(l.getPacket()));
+        l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
+        QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
         settings.endGroup();
     }
 }

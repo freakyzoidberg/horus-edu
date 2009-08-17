@@ -31,7 +31,7 @@ public:
 
 #ifdef HORUS_CLIENT
     //! On the client, when creating a new data, the key can change. So this function have to update the data with the new key in the stream
-    virtual void          dataHaveNewKey(Data*, QDataStream&) = 0;
+    virtual inline void          dataHaveNewKey(Data*, QDataStream&) {}
 #endif
 #ifdef HORUS_SERVER
     //! On the server, the module may want to check if the database is ok
