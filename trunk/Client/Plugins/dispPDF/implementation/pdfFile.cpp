@@ -63,13 +63,14 @@ void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
 {
     // keep track of the current listViewItem
     QDomNode n = parent->firstChild();
+    QDomElement save;
     while( !n.isNull() )
     {
         // convert the node to an element (sure it is)
         QDomElement e = n.toElement();
 
         // The name is the same
-        QDomElement item = toc->createElement(n.nodeName());
+        QDomElement item = toc->createElement(n.nodeName()), save;
         parentDest->appendChild(item);
 
         //useless for now
@@ -81,16 +82,20 @@ void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
            // item.setAttribute("DestinationName", e.attribute("DestinationName"));
             Poppler::LinkDestination destination = *(doc->linkDestination(e.attribute("DestinationName")));
 
-            item.setAttribute("Page", destination.pageNumber() - 1);
+            item.setAttribute("PageBegin", destination.pageNumber() - 1);
             item.setAttribute("PosYBegin", destination.top());
             item.setAttribute("PosTEnd", destination.bottom());
+            save.setAttribute("PageEnd", destination.pageNumber() - 1);
+            save.setAttribute("posYEnd", destination.top());
         }
         if (!e.attribute("Destination").isNull())
         {
             Poppler::LinkDestination destination(e.attribute(("Destination")));
-            item.setAttribute("Page", destination.pageNumber() - 1);
+            item.setAttribute("PageBegin", destination.pageNumber() - 1);
             item.setAttribute("PosYBegin", destination.top());
             item.setAttribute("PosTEnd", destination.bottom());
+            save.setAttribute("PageEnd", destination.pageNumber() - 1);
+            save.setAttribute("posYEnd", destination.top());
         }
 
         /* truc je sais pas a quoi ca sert open
@@ -104,6 +109,8 @@ void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
         if (e.hasChildNodes())
           addSynopsisChil(&n, &item);
         n = n.nextSibling();
+         if (!n.isNull())
+            save = item;
     }
 }
 
@@ -237,8 +244,6 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
     QRect part = matrix->mapRect(*partToDisplay).toRect();
     QImage  *subImg = new QImage(image.copy(part));
 
-
-
     return subImg;
 }
 
@@ -265,10 +270,10 @@ void    PdfFile::generateLinks(const QList<Poppler::LinkDestination *> & Poppler
 
                 QImage  imgLink = image.copy(linkRect);
 
-                 painter.begin(&imgLink);
-                 painter.fillRect(imgLink.rect(),
-                     QColor(qRed(pixel), qGreen(pixel), qBlue(pixel)));
-                    painter.end();
+                painter.begin(&imgLink);
+                painter.fillRect(imgLink.rect(),
+                QColor(qRed(pixel), qGreen(pixel), qBlue(pixel)));
+                painter.end();
 
                 painter.begin(&image);
                 painter.drawImage(linkRect, imgLink);
