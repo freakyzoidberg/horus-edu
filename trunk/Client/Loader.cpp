@@ -2,12 +2,8 @@
 
 #include <QCoreApplication>
 
-//#include "../Common/SettingsDataPlugin.h"
-//#include "../Common/SettingsData.h"
-
 #include "ClientEvents.h"
 #include "MetaManager.h"
-//#include "PluginManagerClient.h"
 
 Loader::Loader() : QDialog()
 {
@@ -21,13 +17,6 @@ Loader::Loader() : QDialog()
 		connect(manager, SIGNAL(loaded(int)), this, SLOT(load(int)));
 	}
 }
-
-//void    Loader::loadSettings()
-//{
-//    ++(this->processes);
-//    settings->getSettings("", SettingsData::CLIENT_USER_SCOPE, PluginManagerClient::instance()->currentUser())->update();
-//    QApplication::postEvent(config, new QEvent(ClientEvents::StartEvent));
-//}
 
 bool    Loader::event(QEvent *event)
 {
@@ -53,5 +42,8 @@ void	Loader::load(int percentage)
 		totalPercentage += percentage;
 	this->ui.LoadingBar->setValue(totalPercentage / this->processes);
 	if (totalPercentage / this->processes == 100)
+	{
+		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), ClientEvents::LoadPluginEvent);
 		emit accept();
+	}
 }
