@@ -15,6 +15,13 @@ MainFrame::MainFrame()
     widget = 0;
 }
 
+bool MainFrame::canLoad() const
+{
+	if (pluginManager->findPlugin<TreeDataPlugin*>())
+		return (true);
+	return (false);
+}
+
 void MainFrame::load()
 {
     TreeDataPlugin* t = pluginManager->findPlugin<TreeDataPlugin*>();
