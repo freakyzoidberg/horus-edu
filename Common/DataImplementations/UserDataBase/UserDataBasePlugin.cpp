@@ -53,20 +53,15 @@ UserData* UserDataBasePlugin::authenticatePassword(QSqlQuery& query, const QStri
         return 0;
     }
 
-    UserData* user = getUser(query.value(0).toUInt());
+    UserDataBase* user = (UserDataBase*)(getUser(query.value(0).toUInt()));
     user->fillFromDatabase(query);
     user->setStatus(Data::UPTODATE);
+    user->updateLastLogin(query);
     return user;
 }
 
 UserData* UserDataBasePlugin::authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& session)
 {
-////// THESE LINES DISABLE THE AUTHENTIFICATION //////////
-//    UserData* user = getUser(1);
-//    user->fillFromDatabase(query);
-//    user->setStatus(Data::UPTODATE);
-//////////////////////////////////////////////////////////
-
     if (login.length() > 32 || session.length() != SESSION_WORD_SIZE)
     {
         qDebug() << "UserDataBasePlugin::authenticateSession Session key have an invalid size.";
@@ -82,9 +77,10 @@ UserData* UserDataBasePlugin::authenticateSession (QSqlQuery& query, const QStri
         return 0;
     }
 
-    UserData* user = getUser(query.value(0).toUInt());
+    UserDataBase* user = (UserDataBase*)(getUser(query.value(0).toUInt()));
     user->fillFromDatabase(query);
     user->setStatus(Data::UPTODATE);
+    user->updateLastLogin(query);
     return user;
 }
 #endif

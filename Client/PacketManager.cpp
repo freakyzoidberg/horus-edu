@@ -125,8 +125,8 @@ void PacketManager::PacketData()
         if (plugin->getDataType() == data.type)
         {
             // To register the UserData* type for Q_ARG(UserData*) just below. Don't ask me why...
+            // without this line, the invokeMethod below just do nothing
             qRegisterMetaType<UserData*>("UserData*");
-
             QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData",
                                       Q_ARG(UserData*, MetaManager::getInstance()->findManager<PluginManager*>()->currentUser()),
                                       Q_ARG(const QByteArray, data.data)
