@@ -192,4 +192,12 @@ void UserDataBase::destroySession(QSqlQuery& query)
         _error = DATABASE_ERROR;
 }
 
+void UserDataBase::updateLastLogin(QSqlQuery& query)
+{
+    query.prepare("UPDATE users SET last_login=? WHERE id=?;");
+    query.addBindValue(QDateTime::currentDateTime());
+    query.addBindValue(id);
+    if ( ! query.exec())
+        _error = DATABASE_ERROR;
+}
 #endif

@@ -48,15 +48,11 @@ void    MainFrameWidget::updateInfos()
     qDebug() << "MainFrameWidget::updateInfos";
 
     UserData* user = plugin->pluginManager->currentUser();
-    qDebug() << "MainFrameWidget::updateInfos";
 
     if ( ! user)
         return;
 
-    qDebug() << "MainFrameWidget::updateInfos";
-    this->layout->addWidget(new QLabel("Connected as " + user->login, this), 0, 0);
-
-
-    //    if (userInfo.value("last_login").toDateTime().isValid())
-//        this->layout->addWidget(new QLabel("Last login " + user->, this), 0, 1);
+    this->layout->addWidget(new QLabel("Connected as " + user->login + " (" + user->name + " " + user->surname + ")", this), 0, 0);
+    if (user->lastLogin.isValid())
+        this->layout->addWidget(new QLabel("Last login " + user->lastLogin.toString(), this), 0, 1);
 }

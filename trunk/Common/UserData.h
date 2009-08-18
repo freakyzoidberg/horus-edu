@@ -28,6 +28,10 @@ public:
     bool        enabled;
     QString     login;
     quint32     idTree;
+    QString     name;
+    QString     surname;
+    QDateTime   lastLogin;
+    QString     language;
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.

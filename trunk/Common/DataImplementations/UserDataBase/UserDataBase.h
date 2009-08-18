@@ -28,16 +28,14 @@ private:
     inline UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { }
     inline ~UserDataBase() {}
 
-private:
-    QDateTime   lastLogin;
-    QString     surname;
-    QString     name;
     QDateTime   birthDate;
     QByteArray  picture;
     QString     address;
     QString     phone;
     QString     country;
-    QString     language;
+#ifdef HORUS_SERVER
+    void updateLastLogin(QSqlQuery&);
+#endif
 
 public:
     //! Have to write his key into the stream to be able to identify this data with the server and the cache.
