@@ -4,7 +4,6 @@
 #include <QApplication>
 #include <QPluginLoader>
 #include <QStringList>
-#include <QDebug>
 
 #include "../Common/MetaPlugin.h"
 #include "../Common/Plugin.h"
@@ -18,7 +17,6 @@ bool PluginManagerClient::event(QEvent *event)
     if (event->type() == ClientEvents::StartEvent)
     {
         loadPlugins();
-        emit loaded(100);
         return true;
     }
     return PluginManager::event(event);
@@ -29,6 +27,7 @@ void PluginManagerClient::loadPlugins()
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 	QStringList	pluginsToLoad;
 	QStringList	pluginFilter;
+	int i = 0;
 
     settings.beginGroup("Plugins");
     QDir pluginsUserDir(settings.value("UserDirectoryPath", "/Undefined").toString());
@@ -65,6 +64,8 @@ void PluginManagerClient::loadPlugins()
             loadPlugin(filename, pluginsUserDir);
         else if (pluginsSystemDir.exists() && pluginsSystemDir.exists(filename))
             loadPlugin(filename, pluginsSystemDir);
+		++i;
+		emit loaded(50 * i / pluginsToLoad.count());
     }
 
     // DataPlugin
@@ -75,6 +76,7 @@ void PluginManagerClient::loadPlugins()
     }
 
     // every Plugins
+	i = 0;
     foreach (Plugin* plugin, _plugins)
     {
         plugin->pluginManager = this;
@@ -85,6 +87,8 @@ void PluginManagerClient::loadPlugins()
         }
         else
             plugin->load();
+		++i;
+		emit loaded(50 + 50 * i / pluginsToLoad.count());
     }
 }
 

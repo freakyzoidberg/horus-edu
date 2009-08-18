@@ -129,7 +129,7 @@ void PacketManager::PacketData()
 
             QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData",
                                       Q_ARG(UserData*, MetaManager::getInstance()->findManager<PluginManager*>()->currentUser()),
-                                      Q_ARG(const QByteArray&, data.data)
+                                      Q_ARG(const QByteArray, data.data)
                                       );
             return;
         }

@@ -19,6 +19,7 @@ public:
     // INTERFACE Plugin
     inline const QString    pluginName() const    { return "MainFrame"; }
     inline const QString    pluginVersion() const { return "0.1"; }
+	bool					canLoad() const;
     void                    load();
     void                    unload();
 

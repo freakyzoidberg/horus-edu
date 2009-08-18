@@ -32,12 +32,12 @@ bool    Loader::event(QEvent *event)
 void	Loader::load(int percentage)
 {
 	int totalPercentage;
+
 	foreach (AbstractManager *manager, MetaManager::getInstance()->findManagers())
 	{
 		if (manager == this->sender())
 			percentage = percentage;
 	}
-
 	if (percentage > 100)
 		percentage = 100;
 	if (percentage < 0)

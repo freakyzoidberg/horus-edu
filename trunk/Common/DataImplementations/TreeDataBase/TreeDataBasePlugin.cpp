@@ -38,7 +38,7 @@ void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
     ((TreeDataBase*)(d))->nodeId = tmpId;
 }
 
-#include "TreeModel.h"
+#include "../../../Client/Plugins/TreeBaseClient/TreeModel.h"
 
 QAbstractItemModel* TreeDataBasePlugin::getTreeModel()
 {
