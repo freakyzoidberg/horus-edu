@@ -1,15 +1,14 @@
-#ifndef DATAMANAGERSERVER_H
-#define DATAMANAGERSERVER_H
+#ifndef DATAMANAGERCLIENT_H
+#define DATAMANAGERCLIENT_H
 
 #include "../Common/DataManager.h"
 
 class DataPlugin;
 class DataManagerClient : public DataManager
 {
-//    Q_INTERFACES(DataManager)
-
+  Q_OBJECT
 public:
-     inline DataManagerClient(DataPlugin* _plugin) { plugin=_plugin; }
+    inline DataManagerClient(DataPlugin* parent) : DataManager(parent) { plugin = parent; }
 
     //! Called by the data when its status change.
     /*!
@@ -19,12 +18,14 @@ public:
      *  - To check permitions (also on the client side but can be less restrictive)
      */
     void dataStatusChange(Data* data, quint8 newStatus) const;
-    void receiveData(UserData* user, const QByteArray& packet) const;
     void sendData(UserData* user, Data* data) const;
     void sendData(UserData* user, const QByteArray& packet) const;
+
+public slots:
+    void receiveData(UserData* user, const QByteArray& packet) const;
 
 private:
     DataPlugin* plugin;
 };
 
-#endif // DATAMANAGERSERVER_H
+#endif // DATAMANAGERCLIENT_H

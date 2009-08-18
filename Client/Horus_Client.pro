@@ -43,6 +43,7 @@ HEADERS += NetworkManager.h \
     ../Common/CommError.h \
     ../Common/CommData.h \
     ../Common/CommPlugin.h \
+    ../Common/DataManager.h \
     ../Common/PluginManager.h \
     ../Common/Plugin.h \
     ../Common/Data.h \

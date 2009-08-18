@@ -7,7 +7,7 @@ class DataPlugin;
 class DataManagerServer : public DataManager
 {
 public:
-     inline DataManagerServer(DataPlugin* _plugin) { plugin=_plugin; }
+     inline DataManagerServer(DataPlugin* _plugin) : DataManager(_plugin) { plugin=_plugin; }
 
     //! Called by the data when its status change.
     /*!

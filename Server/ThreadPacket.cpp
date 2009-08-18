@@ -168,13 +168,15 @@ void ThreadPacket::PacketLogin()
     SettingsDataPlugin* settingsPlugin = PluginManagerServer::instance()->findPlugin<SettingsDataPlugin*>();
     if ( ! settingsPlugin)
         qDebug() << "Warning: no SettingsDataPlugin found. Check your configuration.";
-    SettingsData* setting = settingsPlugin->getSettings("test", SettingsData::CLIENT_USER_SCOPE, user->id);
+    else
+    {
+        SettingsData* setting = settingsPlugin->getSettings("test", SettingsData::CLIENT_USER_SCOPE, user->id);
 
-    setting->fillFromDatabase(query);
-    setting->setStatus(Data::UPTODATE);
-    settingsPlugin->dataManager->sendData(user, setting);
-    qDebug() << setting;
-
+        setting->fillFromDatabase(query);
+        setting->setStatus(Data::UPTODATE);
+        settingsPlugin->dataManager->sendData(user, setting);
+//        qDebug() << setting;
+    }
 
 
     //allow other threads to be started

@@ -9,11 +9,10 @@
 
 #include "QByteArray"
 #include "Plugin.h"
-#include "DataManager.h"
 
 class Data;
 class UserData;
-
+class DataManager;
 //! this object have to references these own data in memory (if needed) and to provide an interface to the other plugins to access these
 /*!
  * run in the data thread

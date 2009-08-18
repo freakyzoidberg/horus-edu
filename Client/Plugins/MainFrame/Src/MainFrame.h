@@ -15,16 +15,20 @@ class MainFrame : public DisplayablePlugin
 
 public:
     MainFrame();
-    inline const QString pluginName() const { return "MainFrame"; }
-    inline const QString pluginVersion() const { return "0.1"; }
-    bool                 event(QEvent *event);
-    QWidget*             getWidget();
 
+    // INTERFACE Plugin
+    inline const QString    pluginName() const    { return "MainFrame"; }
+    inline const QString    pluginVersion() const { return "0.1"; }
+    void                    load();
+    void                    unload();
+
+    // INTERFACE DisplayablePlugin
+    QWidget*                getWidget();
+
+private slots:
+    void                    courseClicked();
 private:
-    MainFrameWidget*     widget;
-
-public slots:
-    void courseClicked();
+    MainFrameWidget*        widget;
 };
 
 #endif // MAINFRAME_H

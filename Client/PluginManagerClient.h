@@ -25,19 +25,20 @@ class PluginManagerClient : public PluginManager
     Q_INTERFACES(PluginManager)
 
 public:
-    PluginManagerClient();
-	bool event(QEvent *event);
-    void loadPlugins();
-    bool loadPlugin(QString pluginName, QDir path);
+    inline PluginManagerClient() { user = 0; }
+    bool event(QEvent *event);
 
-    const QHash<QString, Plugin*>& plugins() const;
-    UserData*                      currentUser() const;
-    void                           setCurrentUser(UserData* user);
+    inline const QHash<QString, Plugin*>& plugins() const { return _plugins; }
+
+    inline UserData*                      currentUser() const { return user; }
+    inline void                           setCurrentUser(UserData* _user) { user = _user; }
 
 
 
 
 private:
+    void loadPlugins();
+    bool loadPlugin(QString pluginName, QDir path);
 
     QHash<QString,Plugin*> _plugins;
     UserData* user;

@@ -19,7 +19,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
     if (newStatus == Data::UPDATING)
     {
         data->_status = Data::UPDATING;
-        return sendData(MetaManager::getInstance()->findManager<PluginManager *>()->currentUser(), data);
+        return sendData(plugin->pluginManager->currentUser(), data);
     }
 
     // if a client want to create a new data
@@ -30,7 +30,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
     if (newStatus == Data::SAVING)
     {
         data->_status = Data::UPDATING;
-        return sendData(MetaManager::getInstance()->findManager<PluginManager *>()->currentUser(), data);
+        return sendData(plugin->pluginManager->currentUser(), data);
     }
     // if a client delete a data
 //    if (newStatus == Data::DELETING)
@@ -53,10 +53,8 @@ void DataManagerClient::receiveData(UserData* user, const QByteArray& d) const
 
     Data* data = plugin->getDataWithKey(stream);
     if ( ! error)
-    {
         //TODO: do not always read data
         data->dataFromStream(stream);
-    }
 
     data->setStatus(status);
     data->setError(error);
@@ -76,5 +74,6 @@ void DataManagerClient::sendData(UserData* user, Data* data) const
     if ( ! data->error())
         //TODO: do not always write data
         data->dataToStream(stream);
-	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(packet.getPacket()));
+
+    QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(packet.getPacket()));
 }

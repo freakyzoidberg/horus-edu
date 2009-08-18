@@ -120,13 +120,20 @@ void PacketManager::PacketData()
 {
     CommData data(packet);
 
-    //TODO stock in QHash for quicker execution, or we dont care
-	foreach (DataPlugin* plugin, MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DataPlugin*>())
+    //TODO may be stored in a QHash for quicker execution
+    foreach (DataPlugin* plugin, MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DataPlugin*>())
         if (plugin->getDataType() == data.type)
         {
-            plugin->dataManager->receiveData(MetaManager::getInstance()->findManager<PluginManager *>()->currentUser(), data.data);
-            qDebug() << MetaManager::getInstance()->findManager<PluginManager *>()->currentUser();
+            // To register the UserData* type for Q_ARG(UserData*) just below. Don't ask me why...
+            qRegisterMetaType<UserData*>("UserData*");
+
+            QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData",
+                                      Q_ARG(UserData*, MetaManager::getInstance()->findManager<PluginManager*>()->currentUser()),
+                                      Q_ARG(const QByteArray&, data.data)
+                                      );
+            return;
         }
+    qDebug() << "PacketManager::PacketData() cannot find" << data.type << "plugin.";
 }
 
 void PacketManager::PacketPlugin()
@@ -135,8 +142,11 @@ void PacketManager::PacketPlugin()
 
     NetworkPlugin *plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
     if (plugin)
+    {
         plugin->receivePacket(0, p.packet);
-    //TODO else ... !!!
+        return;
+    }
+    qDebug() << "PacketManager::PacketPlugin() cannot find" << p.packet.targetPlugin << "plugin.";
 }
 
 void        PacketManager::sessionEnd()

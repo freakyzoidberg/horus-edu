@@ -13,35 +13,15 @@
 #include "DataManagerClient.h"
 #include "ClientEvents.h"
 
-PluginManagerClient::PluginManagerClient()
-{
-	this->user = 0;
-}
-
 bool PluginManagerClient::event(QEvent *event)
 {
-	if (event->type() == ClientEvents::StartEvent)
-	{
-		this->loadPlugins();
-		emit loaded(100);
-		return (true);
-	}
-	return (PluginManager::event(event));
-}
-
-const QHash<QString, Plugin*>& PluginManagerClient::plugins() const
-{
-	return (this->_plugins);
-}
-
-UserData* PluginManagerClient::currentUser() const
-{
-	return (this->user);
-}
-
-void PluginManagerClient::setCurrentUser(UserData* _user)
-{
-	this->user = _user;
+    if (event->type() == ClientEvents::StartEvent)
+    {
+        loadPlugins();
+        emit loaded(100);
+        return true;
+    }
+    return PluginManager::event(event);
 }
 
 void PluginManagerClient::loadPlugins()
@@ -86,12 +66,26 @@ void PluginManagerClient::loadPlugins()
         else if (pluginsSystemDir.exists() && pluginsSystemDir.exists(filename))
             loadPlugin(filename, pluginsSystemDir);
     }
-    foreach (Plugin* plugin, plugins())
-        plugin->pluginManager = this;
+
+    // DataPlugin
     foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
+    {
+        plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the data thread here
         plugin->dataManager = new DataManagerClient(plugin);
-	foreach (Plugin* plugin, plugins())
-		QApplication::postEvent(plugin, new QEvent(ClientEvents::LoadPluginEvent));
+    }
+
+    // every Plugins
+    foreach (Plugin* plugin, _plugins)
+    {
+        plugin->pluginManager = this;
+        if ( ! plugin->canLoad())
+        {
+            _plugins.remove(plugin->pluginName());
+            delete plugin;
+        }
+        else
+            plugin->load();
+    }
 }
 
 bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
@@ -100,13 +94,11 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
     MetaPlugin *metaPlugin = qobject_cast<MetaPlugin*>(loader.instance());
     if (! metaPlugin)
     {
-		emit notified(Notification::WARNING, loader.errorString());
+        emit notified(Notification::WARNING, loader.errorString());
         return (false);
     }
     foreach (Plugin* plugin, metaPlugin->pluginList)
-    {
         _plugins.insert(plugin->pluginName(), plugin);
-        qDebug() << "PluginManagerClient:" << plugin->pluginName() << "loaded from" << loader.fileName();
-    }
+
     return (true);
 }
