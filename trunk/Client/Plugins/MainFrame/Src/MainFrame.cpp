@@ -4,6 +4,7 @@
 
 #include "../../ClientEvents.h"
 #include "../../../Common/PluginManager.h"
+#include "../../../Common/TreeDataPlugin.h"
 
 #include "MainFrameWidget.h"
 
@@ -14,17 +15,28 @@ MainFrame::MainFrame()
     widget = 0;
 }
 
-bool                MainFrame::event(QEvent *event)
+void MainFrame::load()
 {
-    if (event->type() == ClientEvents::LoadPluginEvent)
-        return (true);
-    qDebug() << "MainFrame: Received Event not managed" << event;
-    return (false);
+    TreeDataPlugin* t = pluginManager->findPlugin<TreeDataPlugin*>();
+    if ( ! t->isLoaded())
+        t->load();
+
+    widget = new MainFrameWidget(this);
+    Plugin::load();
 }
 
-QWidget             *MainFrame::getWidget()
+void MainFrame::unload()
 {
-    widget = new MainFrameWidget(this);
+    delete widget;
+    Plugin::unload();
+}
+
+QWidget* MainFrame::getWidget()
+{
+// normaly cannot happend
+//    if ( ! widget)
+//        return 0; // -> not loaded
+
     widget->updateInfos();
 //    connect(this, SIGNAL(infoUpdated(QHash<QString,QVariant>)), this->widget, SLOT(updateInfos(QHash<QString,QVariant>)));
 //    if (this->userInfo.contains("Success") && this->userInfo.value("Success").toBool() == true)

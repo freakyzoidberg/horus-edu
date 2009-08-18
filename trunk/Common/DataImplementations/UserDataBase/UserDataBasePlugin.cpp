@@ -8,9 +8,6 @@ UserData* UserDataBasePlugin::getUser(quint32 userId)
 {
     if ( ! users.contains(userId))
         users[userId] = new UserDataBase(userId, this);
-
-    qDebug() << pluginManager->plugins();
-
     return users[userId];
 }
 

@@ -16,6 +16,7 @@
 #include <QVariant>
 
 #include "DataPlugin.h"
+#include "DataManager.h"
 
 class UserData;
 class PluginManager;
@@ -95,7 +96,9 @@ public:
     //! Usefull for debuging. Not mandatory but important.
     virtual inline QDebug   operator<<(QDebug debug) const { return debug << getDataType(); }
 #ifdef HORUS_CLIENT
-    virtual inline QVariant data(int column, int role = Qt::DisplayRole) const { return QVariant(); }
+  //comment name of the parameters only on the comment to remove many compilation unused warnings
+  //virtual inline QVariant data(int column, int role = Qt::DisplayRole) const { return QVariant(); }
+    virtual inline QVariant data(int       , int      = Qt::DisplayRole) const { return QVariant(); }
     //! Function just set the UPDATING status if not already uptodate or updating
     inline void             update()
         { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(UPDATING); }

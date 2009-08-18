@@ -36,20 +36,26 @@ void PluginManagerServer::load()
         MetaPlugin *metaPlugin = (MetaPlugin*)loader.instance();
         if (metaPlugin)
             foreach (Plugin* plugin, metaPlugin->pluginList)
-            {
                 _plugins.insert(plugin->pluginName(), plugin);
-                qDebug() << "PluginManager:" << plugin->pluginName() << "loaded from" << loader.fileName();
-            }
         else
             qDebug() << "PluginManager:" << loader.errorString();
     }
     s.endGroup();
 
-    DataPlugin* p;
-    foreach (Plugin* plugin, plugins())
+    // every Plugins
+    foreach (Plugin* plugin, _plugins)
     {
-        plugin->pluginManager = PluginManagerServer::instance();
-        if ((p = qobject_cast<DataPlugin*>(plugin)))
-            p->dataManager = new DataManagerServer(p);
+        plugin->pluginManager = this;
+        if ( ! plugin->canLoad())
+        {
+            _plugins.remove(plugin->pluginName());
+            delete plugin;
+        }
+        else
+            plugin->load();
     }
+
+    // DataPlugin
+    foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
+        plugin->dataManager = new DataManagerServer(plugin);
 }

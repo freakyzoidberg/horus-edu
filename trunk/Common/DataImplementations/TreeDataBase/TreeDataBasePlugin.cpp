@@ -12,8 +12,13 @@ TreeData* TreeDataBasePlugin::getNode(quint32 nodeId)
 {
     if ( ! nodes.contains(nodeId))
     {
-        nodes[nodeId] = new TreeDataBase(nodeId, this);
-        nodes[nodeId]->setParent(0);
+        TreeData* node = new TreeDataBase(nodeId, this);
+#ifdef HORUS_CLIENT
+        node->moveToThread(pluginManager->thread());
+#endif
+        node->setParent(0);
+
+        nodes[nodeId] = node;
     }
     return nodes[nodeId];
 }
