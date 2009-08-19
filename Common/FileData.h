@@ -2,8 +2,9 @@
 #define FILEDATA_H
 
 #include "Data.h"
+#include "FileDataPlugin.h"
 
-class FileDataPlugin;
+
 class FileData : public Data
 {
   Q_OBJECT
@@ -15,7 +16,7 @@ class FileData : public Data
 #endif
 
 protected:
-    FileData(quint32 fileId, FileDataPlugin* plugin);
+	inline FileData(quint32 fileId, FileDataPlugin* plugin) : Data(plugin) {} //je sais git, c pour que ca compile
     inline ~FileData() {}
 public:
 };
