@@ -24,7 +24,7 @@ public:
     /*!
         \return A string matching a specific type of page object.
     */
-    virtual const QString&  getSupportedType() const = 0;
+    virtual const QString  getSupportedType() const = 0;
 
     //! Allows the PageDisplayer plugin to give an IObject pointer to the dedicated plugin.
     /*!

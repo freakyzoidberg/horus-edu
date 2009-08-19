@@ -1,55 +1,22 @@
 #include "TextController.h"
 
-#include <QDebug>
 #include <QTextBrowser>
-
-#include "../../ClientEvents.h"
 
 Q_EXPORT_PLUGIN2(TextController, TextController)
 
-extern QEvent::Type ClientEvents::LoadPluginEvent;
-
-TextController::TextController()
-{
-    this->type = "text";
-}
-
-const QByteArray    TextController::getName() const
+const QString    TextController::pluginName() const
 {
     return ("textController");
 }
 
-const QByteArray    TextController::getVersion() const
+const QString    TextController::pluginVersion() const
 {
-    return ("0.1");
+    return ("0.2");
 }
 
-QStringList         TextController::getPluginsRequired() const
+const QString      TextController::getSupportedType() const
 {
-    return (QStringList());
-}
-
-QStringList         TextController::getPluginsConflicts() const
-{
-    return (QStringList());
-}
-
-QStringList         TextController::getPluginsRecommended() const
-{
-    return (QStringList());
-}
-
-bool                TextController::event(QEvent *event)
-{
-    if (event->type() == ClientEvents::LoadPluginEvent)
-        return (true);
-    qDebug() << "TextController: Received Event not managed" << event;
-    return (false);
-}
-
-const QString&      TextController::getSupportedType() const
-{
-    return (this->type);
+    return ("text");
 }
 
 void                TextController::showObject(ILesson::IPage::IObject *object)
@@ -62,18 +29,21 @@ void                TextController::showObject(ILesson::IPage::IObject *object)
         browser->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         browser->insertPlainText(object->getContent());
     }
-    else if (object->getParameters() == "file")
-        object = object;
+    //else if (object->getParameters() == "file")
+	// DO SOMETHING !!
 }
 
 void                TextController::activateObject(ILesson::IPage::IObject *object)
 {
+	// DO SOMETHING !!
 }
 
 void                TextController::hideObject(ILesson::IPage::IObject *object)
 {
+	// DO SOMETHING !!
 }
 
 void                TextController::configureObject(ILesson::IPage::IObject *object)
 {
+	// DO SOMETHING !!
 }

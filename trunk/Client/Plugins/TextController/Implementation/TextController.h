@@ -1,38 +1,26 @@
-#ifndef TEXTCONTROLLER_H
-#define TEXTCONTROLLER_H
+#ifndef __TEXTCONTROLLER_H__
+# define __TEXTCONTROLLER_H__
 
-#include "TextController_global.h"
+# include <QtPlugin>
 
-#include <QtPlugin>
-#include <QWidget>
+# include "../../../../Common/Plugin.h"
+# include "../../LessonManager/ILesson.h"
+# include "../../LessonManager/IController.h"
 
-#include "../../IClientPlugin.h"
-#include "../LessonManager/ILesson.h"
-#include "../LessonManager/IController.h"
-
-class TEXTCONTROLLERSHARED_EXPORT TextController : public IClientPlugin, public IController
+class TextController : public Plugin, public IController
 {
     Q_OBJECT
-    Q_INTERFACES(IClientPlugin)
+    Q_INTERFACES(Plugin)
     Q_INTERFACES(IController)
 
 public:
-    TextController();
-    const QByteArray    getName() const;
-    const QByteArray    getVersion() const;
-    QStringList         getPluginsConflicts() const;
-    QStringList         getPluginsRequired() const;
-    QStringList         getPluginsRecommended() const;
-    bool                event(QEvent *event);
-    const               QString&  getSupportedType() const;
+	const QString		pluginName() const;
+	const QString		pluginVersion() const;
+    const               QString  getSupportedType() const;
     void                showObject(ILesson::IPage::IObject *object);
     void                activateObject(ILesson::IPage::IObject *object);
     void                hideObject(ILesson::IPage::IObject *object);
     void                configureObject(ILesson::IPage::IObject *object);
-
-private:
-    QString             type;
-    QWidget              *text;
 };
 
-#endif // TEXTCONTROLLER_H
+#endif // __TEXTCONTROLLER_H__
