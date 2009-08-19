@@ -1,11 +1,11 @@
-#ifndef FILEBASECLIENTRMETAPLUGIN_H
+#ifndef FILEBASECLIENTMETAPLUGIN_H
 #define FILEBASECLIENTMETAPLUGIN_H
 
 #include "../../../Common/MetaPlugin.h"
 
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 
-class FileBaseClientrMetaPlugin : public MetaPlugin
+class FileBaseClientMetaPlugin : public MetaPlugin
 {
   Q_OBJECT
   Q_INTERFACES(MetaPlugin)

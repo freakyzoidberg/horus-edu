@@ -52,7 +52,9 @@ void    MainFrameWidget::updateInfos()
     if ( ! user)
         return;
 
-    this->layout->addWidget(new QLabel("Connected as " + user->login + " (" + user->name + " " + user->surname + ")", this), 0, 0);
+    this->layout->addWidget(new QLabel("Connected as: " + user->login + " (" + user->name + " " + user->surname + ")", this), 0, 0);
     if (user->lastLogin.isValid())
-        this->layout->addWidget(new QLabel("Last login " + user->lastLogin.toString(), this), 0, 1);
+        this->layout->addWidget(new QLabel("Last login: " + user->lastLogin.toString(), this), 0, 1);
+    else
+        this->layout->addWidget(new QLabel("Last login: Never", this), 0, 1);
 }

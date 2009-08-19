@@ -18,15 +18,15 @@ class FileDataBasePlugin : public FileDataPlugin
 #endif
 
 public:
-    FileDataBasePlugin();
+    inline FileDataBasePlugin() {}
     inline const QString pluginName() const { return "File Data Base"; }
     inline const QString pluginVersion() const { return "0.1"; }
-    inline const QString getDataType() const { return "File"; }
-    FileData*            getNode(quint32 nodeId);
+
+    FileData*    getFile(quint32 fileId);
+    FileData*    getFile(quint32 nodeId, QString fileName);
 
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
-    QAbstractItemModel*  getFileModel();
 #endif
 #ifdef HORUS_SERVER
     bool                 verifyDataBase(QSqlQuery&);

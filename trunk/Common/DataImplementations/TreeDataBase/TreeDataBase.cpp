@@ -135,19 +135,7 @@ QVariant TreeDataBase::data(int column, int role) const
             return icons[ type ];
         return icons["DEFAULT"];
     }
-   else if (role == Qt::BackgroundColorRole)
-   {
-       if (status() == UPTODATE)
-           return QColor(210, 255, 210);//green : uptodate
-       if (status() == SAVING || status() == CREATING)
-           return QColor(210, 210, 255);//blue : saving & creating
-       if (status() == DELETING)
-           return QColor(255, 210, 210);//red : deleting
-
-       return QColor(220, 220, 220);//gray : cached, updating, ...
-   }
-
-   return QVariant();
+   return Data::data(column, role);
 }
 #endif
 

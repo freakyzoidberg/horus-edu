@@ -1,25 +1,23 @@
-#ifndef USERBASESERVERMETAPLUGIN_H
-#define USERBASESERVERMETAPLUGIN_H
+#ifndef FILEBASESERVERMETAPLUGIN_H
+#define FILEBASESERVERMETAPLUGIN_H
 
 #include "../../../Common/MetaPlugin.h"
 
-#include "../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.h"
+#include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 
-class TreeBaseServerMetaPlugin : public MetaPlugin
+class FileBaseServerMetaPlugin : public MetaPlugin
 {
   Q_OBJECT
   Q_INTERFACES(MetaPlugin)
 
 public:
-    inline TreeBaseServerMetaPlugin() {
-      pluginList.append(new TreeDataBasePlugin);
+    inline FileBaseServerMetaPlugin() {
+      pluginList.append(new FileDataBasePlugin);
   }
 };
 
 /* maybe put this lines in a cpp if this file is include by an other file */
 // declare instance of the plugin
-Q_EXPORT_PLUGIN2(TreeBaseServerMetaPlugin, TreeBaseServerMetaPlugin);
+Q_EXPORT_PLUGIN2(FileBaseServerMetaPlugin, FileBaseServerMetaPlugin);
 
-//Q_DECL_IMPORT QHash<QString,Plugin*> PluginManager::_plugins;
-
-#endif // USERBASESERVERMETAPLUGIN_H
+#endif // FILEBASESERVERMETAPLUGIN_H
