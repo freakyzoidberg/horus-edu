@@ -1,19 +1,17 @@
-#ifndef PDF_CONTROLLER_H
-#define PDF_CONTROLLER_H
+#ifndef __PDF_CONTROLLER_H__
+# define __PDF_CONTROLLER_H__
 
-#include <QObject>
+# include <QObject>
+# include <QLabel>
 
-#include <IClientPlugin.h>
-#include <QLabel>
+# include "../../../../Common/Plugin.h"
+# include "../../LessonManager/ILessonManager.h"
+# include "../../LessonManager/IController.h"
 
-#include "../../LessonManager/ILessonManager.h"
-#include "../../LessonManager/IController.h"
-
-class   pdfController : public IClientPlugin,
-                        public IController
+class   pdfController : public Plugin, public IController
 {
         Q_OBJECT
-        Q_INTERFACES(IClientPlugin)
+        Q_INTERFACES(Plugin)
         Q_INTERFACES(IController)
 
     public:
@@ -24,60 +22,19 @@ class   pdfController : public IClientPlugin,
         /*!
           \return the variable name
         */
-        const QByteArray        getName() const;
+        const QString        pluginName() const;
 
         //! Return the version of the plugin
         /*!
           \return the variable version
         */
-        const QByteArray        getVersion() const;
-
-        //! Return the conflicst between plugins
-        /*!
-          \return the variable pluginsConflicts
-        */
-        QStringList     getPluginsConflicts() const;
-
-        //! Return the list of plugins requiered
-        /*!
-          \return the variable pluginsRequiered
-        */
-        QStringList     getPluginsRequired() const;
-
-        //! Return the list of plugins recommended
-        /*!
-            \return the variable pluginsRecommended
-        */
-        QStringList     getPluginsRecommended() const;
-
-        //QStringList           getExports();
-
-        //! Overload of the event() method
-        /*!
-          \param event the event received by the plugin
-          \return true if the event was successfully handled, false eitherway
-        */
-        bool    event(QEvent *event);
-
-         //! Handle the event loadEvent
-        /*!
-          \param event the event received by the plugin
-          \return true if the event was successfully handled, false eitherway
-        */
-        bool    eventHandlerLoad(QEvent *event);
-
-        //! Handle the event unloadEvent
-        /*!
-          \param event the event received by the plugin
-          \return true if the event was successfully handled, false eitherway
-        */
-        bool    eventHandlerUnload(QEvent *event);
+        const QString        pluginVersion() const;
 
          //! Indicates which type is supported by the plugin.
                 /*!
                     \return A string matching a specific type of page object.
                 */
-        const QString&  getSupportedType() const;
+        const QString  getSupportedType() const;
 
          //! Allows the PageDisplayer plugin to give an ILesson::IPage::IObject pointer to the dedicated plugin.
          /*!
@@ -123,25 +80,10 @@ class   pdfController : public IClientPlugin,
           //const QList<ILesson::IPage::IObject * > & getObjects();
 
       private:
-        //! the name of the plugin
-        QByteArray  name;
-
-        //!the version of the plugin
-        QByteArray  version;
-
-        //! The list of the name of the plugins conflicting with the dispPDF plugin
-        QStringList pluginsConflicts;
-
-        //! The list of the name of plugins requiered by the dispPDF plugin
-        QStringList plugindRequired;
-
-        //! The list of the name of plugins recommended by the dispPDF plugin
-        QStringList pluginsRecommended;
-
         QLabel  *label;
 
         QString     supportedType;
         QList<ILesson::IPage::IObject *> objects;
- };
+};
 
-#endif /* PDF_CONTROLLER_H */
+#endif /* __PDF_CONTROLLER_H__ */

@@ -1,3 +1,5 @@
+#include "pdfcontroller.h"
+
 #include <QDebug>
 #include <QtCore/qplugin.h>
 #include <QStringList>
@@ -8,21 +10,14 @@
 #include <QPixmap>
 #include <QLabel>
 
-#include <ClientEvents.h>
-#include <IClient.h>
+#include "../../../../Common/PluginManager.h"
 #include "../../dispPDF/IPdfRendering.h"
-#include "pdfcontroller.h"
-
-extern QEvent::Type ClientEvents::UnloadPluginEvent;
-extern QEvent::Type ClientEvents::LoadPluginEvent;
-extern QEvent::Type ClientEvents::PluginEvent;
 
 Q_EXPORT_PLUGIN2(pdfcontroller, pdfController)
 
 pdfController::pdfController()
 {
     qDebug() << "All right, bring it on!";
-    supportedType = "Pdf";
     label = NULL;
 }
 
@@ -31,70 +26,20 @@ pdfController::~pdfController()
     qDebug() << "Oh, is that it?";
 }
 
-const QByteArray    pdfController::getName() const
+const QString    pdfController::pluginName() const
 {
     return "PdfController";
 }
 
-const QByteArray    pdfController::getVersion() const
+const QString    pdfController::pluginVersion() const
 {
-    return version;
-}
-
-QStringList     pdfController::getPluginsConflicts() const
-{
-    return pluginsConflicts;
-}
-
-
-QStringList     pdfController::getPluginsRequired() const
-{
-    return plugindRequired;
-}
-
-QStringList     pdfController::getPluginsRecommended() const
-{
-    return pluginsRecommended;
-}
-
-//QStringList           getExports();
-
-bool    pdfController::event(QEvent *event)
-{
-    if  (event->type() == ClientEvents::PluginEvent)
-    {
-        event->accept();
-        return true;
-    }
-    if (event->type() == ClientEvents::LoadPluginEvent)
-    {
-        event->accept();
-        return eventHandlerLoad(event);
-    }
-    else if (event->type() == ClientEvents::UnloadPluginEvent)
-    {
-        event->accept();
-        return eventHandlerUnload(event);
-    }
-    event->ignore();
-    return QObject::event(event);
-}
-
-bool    pdfController::eventHandlerLoad(QEvent *event)
-{
-    return true;
-}
-
-bool    pdfController::eventHandlerUnload(QEvent *event)
-{
-    return true;
+    return "0.2";
 }
 
 void    pdfController::showObject(ILesson::IPage::IObject *object)
 {
     QList<unsigned int>     requieredFiles = object->getRequiredFiles();
     QStringList             parameters = object->getParameters().split(":");
-    IClientPlugin           *clientPlugin;
     IPdfRendering           *pdf;
     int             index = 0;
     bool            ok;
@@ -111,17 +56,10 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
         qDebug() << "\tThe type of your IObject is" << object->getType();
         qDebug() << "\tThe controller pdfcontroller handle " << this->getSupportedType() << " type.";
     }
-
-    clientPlugin = this->client->getPlugin("dispPDF");
-    if (!clientPlugin)
-    {
-        qDebug() << "Nuclear launch detected.";
-        return ;
-    }
-    pdf = qobject_cast<IPdfRendering *>(clientPlugin);
+	pdf = this->pluginManager->findPlugin<IPdfRendering *>();
     if (!pdf)
     {
-        qDebug() << "ta mere";
+        qDebug() << "IPdfRendering not found";
         return ;
     }
 
@@ -213,7 +151,7 @@ void    pdfController::configureObject(ILesson::IPage::IObject *object)
  //build the configuration string:
 }
 
-const QString&  pdfController::getSupportedType() const
+const QString  pdfController::getSupportedType() const
 {
-    return supportedType;
+    return ("Pdf");
 }

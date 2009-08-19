@@ -4,7 +4,10 @@
 TEMPLATE = lib
 
 SOURCES += implementation/pdfcontroller.cpp
-HEADERS += implementation/pdfcontroller.h
+HEADERS += implementation/pdfcontroller.h \
+		   ../../../Common/Plugin.h
+
+DEFINES += HORUS_CLIENT
 
 INCLUDEPATH += . \
     ./implementation \
