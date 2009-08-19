@@ -17,3 +17,4 @@ INCLUDEPATH += .
 DESTDIR = .
 TARGET = $$qtLibraryTarget(LessonManager)
 RESOURCES += Implementation/TreeIcons.qrc
+DEFINES += HORUS_CLIENT
