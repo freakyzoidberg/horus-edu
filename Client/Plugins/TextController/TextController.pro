@@ -11,5 +11,4 @@ DEFINES += TEXTCONTROLLER_LIBRARY
 
 SOURCES += Implementation/TextController.cpp
 
-HEADERS += Implementation/TextController.h\
-        TextController_global.h
+HEADERS += Implementation/TextController.h
