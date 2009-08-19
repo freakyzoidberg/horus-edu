@@ -3,19 +3,23 @@
 
 #include <QStringList>
 #include <QWidget>
+#include <QObject>
 #include <QDomNode>
-#include <QTreeWidgetItem>
+
+#include "TreeWidgetItem.h"
+
 #include "editPDF_global.h"
 
-class EDITPDFSHARED_EXPORT EditPDF
+class EDITPDFSHARED_EXPORT EditPDF : QObject
 {
     public:
         EditPDF();
-        QWidget *getTocInWidget(QDomNode *, QTreeWidgetItem *);
+        QWidget *getTocInWidget();
+        void    buildTocWidget(QDomNode *, TreeWidgetItem *);
 
     private:
         QStringList     pluginsRequired;
-
+        QTreeWidget     *tree;
 };
 
 #endif // EDITPDF_H
