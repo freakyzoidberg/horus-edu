@@ -17,4 +17,5 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/FileData.h \
    ../../../Common/DataPlugin.h \
   ../../../Common/FileDataPlugin.h \
-  FileBaseClientMetaPlugin.h
+ ../../../Common/AbstractManager.h \
+ FileBaseClientMetaPlugin.h

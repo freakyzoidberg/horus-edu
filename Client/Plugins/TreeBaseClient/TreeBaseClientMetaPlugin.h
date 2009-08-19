@@ -1,5 +1,5 @@
-#ifndef USERBASESERVERMETAPLUGIN_H
-#define USERBASESERVERMETAPLUGIN_H
+#ifndef TREEBASECLIENTMETAPLUGIN_H
+#define TREEBASECLIENTMETAPLUGIN_H
 
 #include "../../../Common/MetaPlugin.h"
 
@@ -20,4 +20,4 @@ public:
 // declare instance of the plugin
 Q_EXPORT_PLUGIN2(TreeBaseServerMetaPlugin, TreeBaseServerMetaPlugin);
 
-#endif // USERBASESERVERMETAPLUGIN_H
+#endif // TREEBASECLIENTMETAPLUGIN_H

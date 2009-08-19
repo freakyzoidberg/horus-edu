@@ -1,46 +1,34 @@
-#ifndef FILEDATABASEPLUGIN_H
-#define FILEDATABASEPLUGIN_H
+#ifndef FILEDATAPLUGIN_H
+#define FILEDATAPLUGIN_H
 
 #include <QHash>
-#include "../../FileDataPlugin.h"
+#include "DataPlugin.h"
 
 class Data;
 class FileData;
-class FileDataBase;
-class FileDataBasePlugin : public FileDataPlugin
+class FileDataPlugin : public DataPlugin
 {
   Q_OBJECT
 #ifdef HORUS_SERVER
-  Q_INTERFACES(ServerFileDataPlugin)
+  Q_INTERFACES(ServerDataPlugin)
 #endif
 #ifdef HORUS_CLIENT
-  Q_INTERFACES(ClientFileDataPlugin)
+  Q_INTERFACES(ClientDataPlugin)
 #endif
 
 public:
-    FileDataBasePlugin();
-    inline const QString pluginName() const { return "File Data Base"; }
-    inline const QString pluginVersion() const { return "0.1"; }
     inline const QString getDataType() const { return "File"; }
-    FileData*            getNode(quint32 nodeId);
-
-#ifdef HORUS_CLIENT
-    void                 dataHaveNewKey(Data*d, QDataStream& s);
-    QAbstractItemModel*  getFileModel();
-#endif
-#ifdef HORUS_SERVER
-    bool                 verifyDataBase(QSqlQuery&);
-    void                 userDisconnected(FileData* user);
-    FileData*            authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password);
-    FileData*            authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& sesion);
-#endif
-
-protected:
-    //! Return the pointer to the Data with a his unique key read in the stream
-    Data*                getDataWithKey(QDataStream& s);
-
-private:
-    QHash<quint32,FileData*> nodes;
+    virtual FileData*    getFile(quint32 fileId) = 0;
+    virtual FileData*    getFile(quint32 nodeId, QString fileName) = 0;
 };
 
-#endif // FILEDATABASEPLUGIN_H
+#ifdef HORUS_SERVER
+typedef FileDataPlugin ServerFileDataPlugin;
+Q_DECLARE_INTERFACE(ServerFileDataPlugin, "net.horus.ServerFileDataPlugin/1.0");
+#endif
+#ifdef HORUS_CLIENT
+typedef FileDataPlugin ClientFileDataPlugin;
+Q_DECLARE_INTERFACE(ClientFileDataPlugin, "net.horus.ClientFileDataPlugin/1.0");
+#endif
+
+#endif // FILEDATAPLUGIN_H

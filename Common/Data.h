@@ -4,7 +4,9 @@
 #ifdef HORUS_SERVER
   #include <QtSql>
 #else
-#ifndef HORUS_CLIENT
+#ifdef HORUS_CLIENT
+  #include <QColor>
+#else
   #error "You must define HORUS_CLIENT or HORUS_SERVER in your project."
 #endif
 #endif
@@ -96,9 +98,22 @@ public:
     //! Usefull for debuging. Not mandatory but important.
     virtual inline QDebug   operator<<(QDebug debug) const { return debug << getDataType(); }
 #ifdef HORUS_CLIENT
-  //comment name of the parameters only on the comment to remove many compilation unused warnings
-  //virtual inline QVariant data(int column, int role = Qt::DisplayRole) const { return QVariant(); }
-    virtual inline QVariant data(int       , int      = Qt::DisplayRole) const { return QVariant(); }
+    virtual inline QVariant data(int, int role = Qt::DisplayRole) const
+    {
+        if (role == Qt::BackgroundColorRole)
+        {
+            if (status() == UPTODATE)
+                return QColor(210, 255, 210);//green : uptodate
+            if (status() == SAVING || status() == CREATING)
+                return QColor(210, 210, 255);//blue : saving & creating
+            if (status() == DELETING)
+                return QColor(255, 210, 210);//red : deleting
+
+            return QColor(220, 220, 220);//gray : cached, updating, ...
+        }
+        return QVariant();
+    }
+
     //! Function just set the UPDATING status if not already uptodate or updating
     inline void             update()
         { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(UPDATING); }

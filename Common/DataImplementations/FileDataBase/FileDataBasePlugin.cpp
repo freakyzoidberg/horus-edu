@@ -4,25 +4,21 @@
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/Plugin.h"
 
-FileDataBasePlugin::FileDataBasePlugin()
+FileData* FileDataBasePlugin::getFile(quint32 fileId)
 {
+    return 0;
 }
 
-FileData* FileDataBasePlugin::getNode(quint32 nodeId)
+FileData* FileDataBasePlugin::getFile(quint32 nodeId, QString fileName)
 {
-    if ( ! nodes.contains(nodeId))
-    {
-        nodes[nodeId] = new FileDataBase(nodeId, this);
-        nodes[nodeId]->setParent(0);
-    }
-    return nodes[nodeId];
+    return 0;
 }
 
 Data* FileDataBasePlugin::getDataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-    return getNode(tmpId);
+    return getFile(tmpId);
 }
 
 #ifdef HORUS_CLIENT
@@ -30,7 +26,7 @@ void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-    ((FileDataBase*)(d))->nodeId = tmpId;
+    ((FileDataBase*)(d))->id = tmpId;
 }
 #endif
 #ifdef HORUS_SERVER
