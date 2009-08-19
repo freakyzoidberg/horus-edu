@@ -442,18 +442,19 @@ void MainWindow::writesettings()
 
 void MainWindow::on_buttonBox_clicked(QAbstractButton* button)
 {
-
-    writesettings();
+	if (this->ui->buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)
+	    writesettings();
 }
 
 void MainWindow::on_buttonBox_2_clicked(QAbstractButton* button)
 {
-    exit(0);
+	if (this->ui->buttonBox_2->buttonRole(button) == QDialogButtonBox::RejectRole)
+	    exit(0);
 }
 
+    /*
 void MainWindow::keyPressEvent(QKeyEvent *e)
  {
-    /*
      if (completer && completer->popup()->isVisible()) {
          // The following keys are forwarded by the completer to the widget
         switch (e->key()) {
@@ -470,5 +471,5 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
             break;
         }
      }
-     */
  }
+     */

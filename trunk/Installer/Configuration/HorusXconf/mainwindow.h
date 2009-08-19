@@ -35,8 +35,8 @@ private:
     QSettings Gsettings;
     QCompleter *completer;
 
-protected:
-    void keyPressEvent(QKeyEvent *e);
+//protected:
+//    void keyPressEvent(QKeyEvent *e);
 
 
 private slots:
