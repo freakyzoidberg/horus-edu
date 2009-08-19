@@ -9,9 +9,10 @@ QT       += xml
 TARGET = Mail
 TEMPLATE = lib
 
-DEFINES += MAIL_LIBRARY
+DEFINES += HORUS_CLIENT
 
-SOURCES += mail.cpp
+SOURCES += Implementation/Mail.cpp
 
-HEADERS += mail.h\
-        Mail_global.h
+HEADERS += Implementation/Mail.h\
+           ../../DisplayablePlugin.h \
+           ../../../Common/Plugin.h

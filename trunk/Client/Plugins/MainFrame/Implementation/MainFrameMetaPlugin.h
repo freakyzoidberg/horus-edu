@@ -3,7 +3,7 @@
 
 #include "../../../Common/MetaPlugin.h"
 
-#include "Src/MainFrame.h"
+#include "MainFrame.h"
 
 class MainFrameMetaPlugin : public MetaPlugin
 {

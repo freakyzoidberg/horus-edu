@@ -6,13 +6,13 @@
 
 QT       += xml
 
-TARGET = Attendance
+TARGET = Editor
 TEMPLATE = lib
 
 DEFINES += HORUS_CLIENT
 
-SOURCES += Implementation/Attendance.cpp
+SOURCES += Implementation/Editor.cpp
 
-HEADERS += Implementation/Attendance.h\
+HEADERS += Implementation/Editor.h\
            ../../DisplayablePlugin.h \
            ../../../Common/Plugin.h
