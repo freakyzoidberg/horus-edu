@@ -7,9 +7,10 @@
 TARGET = Marks
 TEMPLATE = lib
 
-DEFINES += MARKS_LIBRARY
+DEFINES += HORUS_CLIENT
 
-SOURCES += marks.cpp
+SOURCES += Implementation/Marks.cpp
 
-HEADERS += marks.h\
-        Marks_global.h
+HEADERS += Implementation/Marks.h \
+		   ../../../Common/Plugin.h \
+		   ../../DisplayablePlugin.h

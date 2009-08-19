@@ -1,8 +1,0 @@
-<RCC>
-  <qresource prefix="Pictures" >
-    <file>HorusPanelBackground-Shadow.png</file>
-    <file>HorusPanelBackground-Bevel.png</file>
-    <file>HorusPanelBackground-NoFx.png</file>
-    <file>GrayLogoBackground.png</file>
-  </qresource>
-</RCC>
