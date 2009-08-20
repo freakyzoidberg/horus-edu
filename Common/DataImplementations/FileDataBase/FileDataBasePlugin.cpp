@@ -22,6 +22,11 @@ Data* FileDataBasePlugin::getDataWithKey(QDataStream& s)
 }
 
 #ifdef HORUS_CLIENT
+void FileDataBasePlugin::load()
+{
+    Plugin::load();
+}
+
 void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
     quint32 tmpId;

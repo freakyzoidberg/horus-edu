@@ -30,13 +30,6 @@ private:
     FileDataBase(quint32 fileId, FileDataBasePlugin* plugin);
     inline ~FileDataBase() {}
 
-    quint32   id;
-    QString   name;
-    UserData* user;
-    TreeData* node;
-    QString   mimeType;
-
-
 public:
     //INTERFACE Data
     void            keyToStream(QDataStream& s);
