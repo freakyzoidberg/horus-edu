@@ -133,12 +133,13 @@ void MainWindow::on_pushButton_4_clicked()
                             "`size` int(11) NOT NULL,"\
                             "`id_tree` int(11) NOT NULL,"\
                             "`id_owner` int(11) NOT NULL,"\
-                              "`ctime` timestamp NOT NULL default '0000-00-00 00:00:00',"\
-                            "`mtime` timestamp NOT NULL default '0000-00-00 00:00:00',"\
-                              "`hash_sha1` varchar(40) NOT NULL,"\
+                            "`ctime` timestamp NOT NULL,"\
+                            "`mtime` timestamp NOT NULL,"\
+                            "`hash_sha1` varchar(40) NOT NULL,"\
                             "PRIMARY KEY  (`id`),"\
-                              "KEY `id_ower` (`id_owner`),"\
-                              "KEY `id_tree` (`id_tree`)"\
+                            "KEY `id_ower` (`id_owner`),"\
+                            "KEY `id_tree` (`id_tree`),"\
+                            "KEY `mtime` (`mtime`)"\
                             ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=261 ;");
             query1->exec();
             if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
@@ -162,9 +163,11 @@ void MainWindow::on_pushButton_4_clicked()
                             "`plugin` varchar(255) NOT NULL," \
                             "`scope` int(1) NOT NULL," \
                             "`value` blob," \
+                            "`mtime` timestamp NOT NULL,"\
                             "KEY `user` (`user`)," \
                             "KEY `module` (`plugin`)," \
-                            "KEY `scope` (`scope`)" \
+                            "KEY `scope` (`scope`)," \
+                            "KEY `mtime` (`mtime`)"\
                             ") ENGINE=MyISAM DEFAULT CHARSET=utf8;");
             query1->exec();
             if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
@@ -180,7 +183,9 @@ void MainWindow::on_pushButton_4_clicked()
                             "`name` varchar(128) NOT NULL," \
                             "`user_ref` int(11) NOT NULL default '0'," \
                             "`id_parent` int(11) NOT NULL default '0'," \
-                            "PRIMARY KEY  (`id`)" \
+                            "`mtime` timestamp NOT NULL,"\
+                            "PRIMARY KEY  (`id`)," \
+                            "KEY `mtime` (`mtime`)"\
                             ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=237 ;");
             query1->exec();
             if (query1->lastError().isValid()) {qDebug() << query1->lastError().text();}
@@ -234,10 +239,12 @@ void MainWindow::on_pushButton_4_clicked()
   "`country` varchar(32) NOT NULL,"\
   "`language` varchar(32) NOT NULL,"\
   "`id_tree` int(11) NOT NULL default '-1',"\
+  "`mtime` timestamp NOT NULL,"\
   "PRIMARY KEY  (`id`),"\
   "KEY `level` (`level`),"\
  " KEY `login` (`login`),"\
- " KEY `enabled` (`enabled`)"\
+ " KEY `enabled` (`enabled`),"\
+ " KEY `mtime` (`mtime`)"\
 ") ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=72 ;");
 
 
