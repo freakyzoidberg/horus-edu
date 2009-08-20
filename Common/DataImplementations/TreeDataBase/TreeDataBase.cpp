@@ -150,33 +150,28 @@ void TreeDataBase::remove()
 
 void TreeDataBase::moveTo(int idfather)
 {
-    preSaveData();
 }
 
 void TreeDataBase::moveTo(TreeData* father)
 {
-    preSaveData();
     setParent(father);
     setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setName(QString _name)
 {
-    preSaveData();
     name = _name;
     setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setUserId(int user)
 {
-    preSaveData();
     userId = user;
     setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setType(QString _type)
 {
-    preSaveData();
     type = _type;
     setStatus(Data::SAVING);
 }

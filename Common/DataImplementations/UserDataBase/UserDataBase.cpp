@@ -22,6 +22,7 @@ void UserDataBase::dataToStream(QDataStream& s)
       << country
       << language
       << idTree;
+    Data::dataToStream(s);
 }
 
 void UserDataBase::dataFromStream(QDataStream& s)
@@ -40,6 +41,7 @@ void UserDataBase::dataFromStream(QDataStream& s)
       >> country
       >> language
       >> idTree;
+    Data::dataFromStream(s);
 }
 
 QDebug UserDataBase::operator<<(QDebug debug) const
@@ -86,7 +88,7 @@ QVariant UserDataBase::data(int column, int role) const
 //#include <QtSql>
 void UserDataBase::fillFromDatabase(QSqlQuery& query)
 {
-    query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled FROM users WHERE id=?;");
+    query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
     query.addBindValue(id);
     if ( ! query.exec() || ! query.next())
     {
@@ -106,11 +108,12 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
     language   = query.value(10).toString();
     idTree     = query.value(11).toUInt();
     enabled    = query.value(12).toBool();
+    _lastChange= query.value(13).toDateTime();
 }
 
 void UserDataBase::createIntoDatabase(QSqlQuery& query)
 {
-    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
     query.addBindValue(login);
     query.addBindValue(level);
     query.addBindValue(lastLogin);
@@ -124,6 +127,7 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(language);
     query.addBindValue(idTree);
     query.addBindValue(enabled);
+    query.addBindValue(QDateTime::currentDateTime());
     if ( ! query.exec() || ! query.next())
     {
         _error = DATABASE_ERROR;
@@ -134,7 +138,7 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 
 void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
 {
-    query.prepare("UPDATE users SET login=?,level=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=? WHERE id=?;");
+    query.prepare("UPDATE users SET login=?,level=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
     query.addBindValue(login);
     query.addBindValue(level);
     query.addBindValue(lastLogin);
@@ -148,8 +152,11 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
     query.addBindValue(language);
     query.addBindValue(idTree);
     query.addBindValue(enabled);
-    if ( ! query.exec() || ! query.next())
+    query.addBindValue(QDateTime::currentDateTime());
+    query.addBindValue(id);
+    if ( ! query.exec())
     {
+        qDebug() << query.lastError();
         _error = NOT_FOUND;
         return;
     }

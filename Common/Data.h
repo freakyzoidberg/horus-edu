@@ -16,6 +16,7 @@
 #include <QString>
 #include <QDebug>
 #include <QVariant>
+#include <QDateTime>
 
 #include "DataPlugin.h"
 #include "DataManager.h"
@@ -63,22 +64,13 @@ public:
      *  - Write to a local cache file.
      *  - Compare two data.
      */
-    virtual void            dataToStream(QDataStream& s) = 0;
+    virtual inline void     dataToStream(QDataStream& s) { s << _lastChange; }
     //! Have to read his data from the stream.
     /*! Called to:
      *  - Transfert this data between client and server.
      *  - Read from a local cache file.
      */
-    virtual void            dataFromStream(QDataStream& s) = 0;
-
-    //! Function to call before editing a data.
-    /*! This function make a copy of the data.
-     *  after, when the function setStatus( SAVE ) is called
-     *  the old and the new value is send
-     *  if the data already change, server will know
-     *  if permition denied, client still have the old value
-     */
-    inline void            preSaveData() { oldValue=""; QDataStream s(&oldValue, QIODevice::WriteOnly); dataToStream(s); }
+    virtual inline void     dataFromStream(QDataStream& s) { s >> _lastChange; }
 
     //! Return the current status of this data.
     inline quint8           status() const { return (quint8)_status; }
@@ -87,6 +79,8 @@ public:
         _plugin->dataManager->dataStatusChange(this, status);
         if (_status == UPTODATE) emit updated();
     }
+
+    inline const QDateTime lastChange() { return _lastChange; }
 
 signals:
     //! Signal emmited when the data is updated.
@@ -136,11 +130,9 @@ protected:
     DataPlugin*             _plugin;
     quint8                  _status;
     quint8                  _error;
+    QDateTime               _lastChange;
 
     QMutex                  *lock;
-
-private:
-    QByteArray              oldValue;
 };
 
 inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }
