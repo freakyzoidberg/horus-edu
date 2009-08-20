@@ -1,5 +1,6 @@
 #include "FileBase.h"
-#include "../../../Common/FileDataPlugin.h"
+#include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
+#include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 
 #include <QDir>
 #include <QSettings>
@@ -112,7 +113,7 @@ bool FileBase::open(OpenMode mode)
     if ( ! synchronized && (mode & ReadOnly))
     {
         connecting = true;
-        fileManagement->askForFileConnexion(info.id, mode);
+        //filePlugin->askForFileConnexion(fileData->id, mode);
     }
 
     if ( ! isOopen())
@@ -178,5 +179,5 @@ void FileBase::synchronize()
     if (connecting)
         return;
     connecting = true;
-    fileManagement->askForFileConnexion(info.id, openMode());
+    //filePlugin->askForFileConnexion(fileData->id, openMode());
 }

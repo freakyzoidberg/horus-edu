@@ -4,7 +4,8 @@
 #include "Data.h"
 #include "FileDataPlugin.h"
 
-
+class UserData;
+class TreeData;
 class FileData : public Data
 {
   Q_OBJECT
@@ -16,9 +17,15 @@ class FileData : public Data
 #endif
 
 protected:
-    inline FileData(quint32 fileId, FileDataPlugin* plugin) : Data(plugin) {} //je sais git, c pour que ca compile
+    inline FileData(quint32 fileId, FileDataPlugin* plugin) : Data(plugin) { id = fileId; }
     inline ~FileData() {}
+
 public:
+    quint32   id;
+    QString   name;
+    UserData* user;
+    TreeData* node;
+    QString   mimeType;
 };
 
 #ifdef HORUS_SERVER
