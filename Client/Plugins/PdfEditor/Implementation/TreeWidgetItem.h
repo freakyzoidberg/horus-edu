@@ -19,6 +19,13 @@ class   TreeWidgetItem : public QTreeWidgetItem
         double  getPosXBegin();
         double  getPosXEnd();
 
+        void    setPageBegin(int);
+        void    setPageEnd(int);
+        void    setPosYBegin(double);
+        void    setPosYEnd(double);
+        void    setPosXBegin(double);
+        void    setPosXEnd(double);
+
     private:
         QObject     *parent;
 
