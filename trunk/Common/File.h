@@ -1,18 +1,14 @@
-#ifndef IFILE_H
-#define IFILE_H
+#ifndef FILE_H
+#define FILE_H
 
 #include <QIODevice>
 
-#include "FileInfo.h"
-
-class IFile : public QIODevice
+class File : public QIODevice
 {
   Q_OBJECT
 public:
     //! return the progress value (for a down/up-load)
     virtual int   getProgress() const = 0;
-    //! return the informations of the file (size,owner,...)
-    virtual const FileInfo& getInfo() const = 0;
     //! return true if the localfile is the same as the server
     virtual bool isSynchronized() const = 0;
     //! open the transfert connexion if needed and the local file
@@ -38,7 +34,7 @@ signals:
     void progressChange(int percent);
 
 protected:
-    virtual ~IFile() {}
+    inline ~File() {}
 };
 
-#endif // IFILE_H
+#endif // FILE_H

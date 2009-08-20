@@ -7,7 +7,6 @@
 
 #include <QPushButton>
 #include <QDebug>
-#include <QLabel>
 #include <QDateTime>
 #include <QTreeView>
 
@@ -41,6 +40,11 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
     layout->setRowStretch(0, 0);
     layout->setRowStretch(1, 1);
     this->setLayout(layout);
+
+    connectedAs = new QLabel("Not connected", this);
+    this->layout->addWidget(connectedAs, 0, 0);
+    lastLogin = new QLabel("Last login: Never", this);
+    this->layout->addWidget(lastLogin, 0, 1);
 }
 
 void    MainFrameWidget::updateInfos()
@@ -52,9 +56,20 @@ void    MainFrameWidget::updateInfos()
     if ( ! user)
         return;
 
-    this->layout->addWidget(new QLabel("Connected as: " + user->login + " (" + user->name + " " + user->surname + ")", this), 0, 0);
+    connect(user, SIGNAL(updated()), this, SLOT(updateInfos()));
+
+    connectedAs->setText("Connected as: " + user->login + " (" + user->name + " " + user->surname + ")");
+
+//    if (user->status() == Data::UPTODATE)
+//    {
+//        QString tmp = user->name;
+//        user->name = user->surname;
+//        user->surname = tmp;
+//        user->setStatus(Data::SAVING);
+//    }
+
     if (user->lastLogin.isValid())
-        this->layout->addWidget(new QLabel("Last login: " + user->lastLogin.toString(), this), 0, 1);
+        lastLogin->setText("Last login: " + user->lastLogin.toString());
     else
-        this->layout->addWidget(new QLabel("Last login: Never", this), 0, 1);
+        lastLogin->setText("Last login: Never");
 }

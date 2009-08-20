@@ -11,13 +11,13 @@
 
 void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 {
-//    QMutexLocker(data->lock);
+    Sql conn;
+    QSqlQuery query(QSqlDatabase::database(conn));
+    QMutexLocker(data->lock);
 
     // if the data is not in memory on the server, loading from database
     if (data->status() == Data::EMPTY)
     {
-        Sql conn;
-        QSqlQuery query(QSqlDatabase::database(conn));
         data->fillFromDatabase(query);
         data->_status = Data::UPTODATE;
     }
@@ -27,17 +27,22 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
         return sendData(PluginManagerServer::instance()->currentUser(), data);
 
     // if a client want to create a new data
-    if (newStatus == Data::CREATING)
-    {
-    }
+//    if (newStatus == Data::CREATING)
+//    {
+//    }
+
     // if a client save a new value of the data
     if (newStatus == Data::SAVING)
     {
+        data->saveIntoDatabase(query);
+        data->setStatus(Data::UPTODATE);
+        return sendData(PluginManagerServer::instance()->currentUser(), data);
     }
+
     // if a client delete a data
-    if (newStatus == Data::DELETING)
-    {
-    }
+//    if (newStatus == Data::DELETING)
+//    {
+//    }
 }
 
 void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
@@ -50,6 +55,7 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
         return;
 
     Data* data = plugin->getDataWithKey(stream);
+    QMutexLocker(data->lock);
     if ( ! error)
     {
         //TODO: do not always write data
@@ -58,10 +64,12 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
 
     data->setStatus(status);
     data->setError(error);
+    qDebug() << "receiveData" << data;
 }
 
 void DataManagerServer::sendData(UserData* user, Data* data) const
 {
+    QMutexLocker(data->lock);
     CommData packet(data->getDataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
     stream << data->status() << data->error();

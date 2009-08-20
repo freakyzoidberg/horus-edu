@@ -1,76 +1,41 @@
-#include "File.h"
-#include "FileManagement.h"
+#include "FileBase.h"
+#include "../../../Common/FileDataPlugin.h"
 
 #include <QDir>
 #include <QSettings>
 
-File::File(FileManagement* _fileManagement, const FileInfo& _info)
+FileBase::FileBase(FileDataBasePlugin* _plugin, FileDataBase* _file)
 {
-    fileManagement = _fileManagement;
-    info = _info;
+    filePlugin = _plugin;
+    fileData = _file;
     synchronized = false;
     connecting = false;
 }
 
-File::~File()
+FileBase::~FileBase()
 {
     qDebug() << "--------DELETE";
     close();
 }
 
-int File::getProgress() const
+int FileBase::getProgress() const
 {
     //TODO
     return 0;
 }
 
-void File::connexionDisconnected()
+void FileBase::connexionDisconnected()
 {
     synchronized = true;
     emit fileSynchronized();
 }
 
-bool File::isSynchronized() const
+bool FileBase::isSynchronized() const
 {
     return synchronized;
 }
 
-const FileInfo& File::getInfo() const
-{
-    return info;
-}
-
-const QString File::getLocalFileName() const
-{
-    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    QString dir = settings.value("TmpDir", QDir::tempPath()).toString();
-    QDir d(dir);
-    if ( ! d.exists(dir))
-        d.mkpath(dir);
-    return  dir + '/' + QVariant(info.id).toString();
-}
-
-void File::setFileName(const QString& name)
-{
-    info.fileName = name;
-}
-void File::updateFileInfo(const FileInfo& _info)
-{
-    qDebug() << "File::updateFileInfo(" << _info << ")";
-
-    quint32 oldId = info.id;
-
-    if (info != _info)
-    {
-        info = _info;
-        emit fileInfoUpdated();
-    }
-
-    if (info.id != oldId)
-        file.rename(getLocalFileName());
-}
-
-void File::connexionAuthorized(const QByteArray& key)
+void FileBase::connexionAuthorized(const QByteArray& key)
 {
     qDebug() << "File::connexionAuthorized(" << key.toHex() << ")";
 
@@ -97,7 +62,7 @@ void File::connexionAuthorized(const QByteArray& key)
     connexion.flush();
 }
 
-void File::connexionReadyRead()
+void FileBase::connexionReadyRead()
 {
     qDebug() << "File::connexionReadyRead()";
 
@@ -116,7 +81,7 @@ void File::connexionReadyRead()
     emit readyRead();
 }
 
-void File::connexionBytesWritten(qint64 len)
+void FileBase::connexionBytesWritten(qint64 len)
 {
     qDebug() << "File::connexionByteWritten(" << len << ")";
 
@@ -135,7 +100,7 @@ void File::connexionBytesWritten(qint64 len)
 }
 
 
-bool File::open(OpenMode mode)
+bool FileBase::open(OpenMode mode)
 {
     bool ret = true;
     setOpenMode(mode);
@@ -165,12 +130,12 @@ bool File::open(OpenMode mode)
     return ret;
 }
 
-bool File::isOopen() const
+bool FileBase::isOopen() const
 {
     return file.isOpen();
 }
 
-void File::close()
+void FileBase::close()
 {
     file.close();
     connexion.close();
@@ -178,7 +143,7 @@ void File::close()
     qDebug() << "File::close()";
 }
 
-qint64 File::writeData(const char* data, qint64 maxSize)
+qint64 FileBase::writeData(const char* data, qint64 maxSize)
 {
     qDebug() << "File::writeData()";
     qint64 len = file.write(data, maxSize);
@@ -188,7 +153,7 @@ qint64 File::writeData(const char* data, qint64 maxSize)
     return len;
 }
 
-qint64 File::readData(char* data, qint64 maxSize)
+qint64 FileBase::readData(char* data, qint64 maxSize)
 {
     qDebug() << "File::readData()";
     qint64 fileRead = file.read(data, maxSize);
@@ -197,13 +162,13 @@ qint64 File::readData(char* data, qint64 maxSize)
     return fileRead;
 }
 
-void File::fileBytesWritten(qint64)
+void FileBase::fileBytesWritten(qint64)
 {
     disconnect(this, SLOT(fileBytesWritten(qint64)));
     synchronize();
 }
 
-void File::synchronize()
+void FileBase::synchronize()
 {
     qDebug() << "File::synchronize()";
 

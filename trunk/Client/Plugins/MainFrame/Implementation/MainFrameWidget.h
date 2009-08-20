@@ -4,6 +4,7 @@
 #include <QFrame>
 #include <QHash>
 #include <QGridLayout>
+#include <QLabel>
 
 #include "../ui_MainFrameWidget.h"
 
@@ -19,6 +20,8 @@ private:
     Ui::Frame   ui;
     MainFrame *plugin;
     QGridLayout *layout;
+    QLabel*     connectedAs;
+    QLabel*     lastLogin;
 
 public slots:
     void updateInfos();
