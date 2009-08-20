@@ -16,7 +16,7 @@ class FileData : public Data
 #endif
 
 protected:
-	inline FileData(quint32 fileId, FileDataPlugin* plugin) : Data(plugin) {} //je sais git, c pour que ca compile
+    inline FileData(quint32 fileId, FileDataPlugin* plugin) : Data(plugin) {} //je sais git, c pour que ca compile
     inline ~FileData() {}
 public:
 };

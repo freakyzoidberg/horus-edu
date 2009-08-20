@@ -63,7 +63,7 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
     }
 
     data->setStatus(status);
-    data->setError(error);
+//    data->setError(error);
     qDebug() << "receiveData" << data;
 }
 

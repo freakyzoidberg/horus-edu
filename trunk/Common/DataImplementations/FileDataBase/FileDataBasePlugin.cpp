@@ -30,6 +30,14 @@ void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 }
 #endif
 #ifdef HORUS_SERVER
+#include "../../../Server/Plugins/FileBaseServer/FileServer.h"
+
+void FileDataBasePlugin::load()
+{
+    server = new FileServer;
+    Plugin::load();
+}
+
 bool FileDataBasePlugin::verifyDataBase(QSqlQuery& TODO)
 {
     return true;
