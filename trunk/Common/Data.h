@@ -148,3 +148,4 @@ Q_DECLARE_INTERFACE(ClientData, "net.horus.ClientData/1.0");
 #endif
 
 #endif // DATA_H
+
