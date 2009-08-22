@@ -16,7 +16,7 @@
 #include "../Common/CommData.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
-#include "../Common/NetworkPlugin.h"
+#include "NetworkPlugin.h"
 
 //ZoidTest
 #include "Tree.h"

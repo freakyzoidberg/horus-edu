@@ -8,7 +8,7 @@
 #include <QDebug>
 
 class PluginManager;
-class Plugin : virtual public QObject
+class Plugin : public QObject
 {
   Q_OBJECT
 public:
