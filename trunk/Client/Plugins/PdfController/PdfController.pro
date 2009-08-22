@@ -4,6 +4,8 @@
 TEMPLATE = lib
 SOURCES += Implementation/PdfController.cpp
 HEADERS += Implementation/PdfController.h \
+           Implementation/PdfControllerMetaPlugin.h \
+           ../../../Common/MetaPlugin.h \
 		   ../../../Common/Plugin.h
 DEFINES += HORUS_CLIENT
 TARGET  =  PdfController

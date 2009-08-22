@@ -15,4 +15,6 @@ SOURCES += Implementation/Attendance.cpp
 
 HEADERS += Implementation/Attendance.h\
            ../../DisplayablePlugin.h \
+           ../../../Common/MetaPlugin.h \
+           Implementation/AttendanceMetaPlugin.h \
            ../../../Common/Plugin.h

@@ -1,4 +1,4 @@
-#include "pdfcontroller.h"
+#include "PdfController.h"
 
 #include <QDebug>
 #include <QtCore/qplugin.h>
@@ -13,30 +13,28 @@
 #include "../../../../Common/PluginManager.h"
 #include "../../dispPDF/IPdfRendering.h"
 
-Q_EXPORT_PLUGIN2(pdfcontroller, pdfController)
-
-pdfController::pdfController()
+PdfController::PdfController()
 {
     qDebug() << "All right, bring it on!";
     label = NULL;
 }
 
-pdfController::~pdfController()
+PdfController::~PdfController()
 {
     qDebug() << "Oh, is that it?";
 }
 
-const QString    pdfController::pluginName() const
+const QString    PdfController::pluginName() const
 {
     return "PdfController";
 }
 
-const QString    pdfController::pluginVersion() const
+const QString    PdfController::pluginVersion() const
 {
     return "0.2";
 }
 
-void    pdfController::showObject(ILesson::IPage::IObject *object)
+void    PdfController::showObject(ILesson::IPage::IObject *object)
 {
     QList<unsigned int>     requieredFiles = object->getRequiredFiles();
     QStringList             parameters = object->getParameters().split(":");
@@ -52,9 +50,9 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
 
     if (object->getType() != this->getSupportedType())
     {
-        qDebug() << "[Plugin pdfcontroller] Type error:";
+        qDebug() << "[Plugin PdfController] Type error:";
         qDebug() << "\tThe type of your IObject is" << object->getType();
-        qDebug() << "\tThe controller pdfcontroller handle " << this->getSupportedType() << " type.";
+        qDebug() << "\tThe controller PdfController handle " << this->getSupportedType() << " type.";
     }
 	pdf = this->pluginManager->findPlugin<IPdfRendering *>();
     if (!pdf)
@@ -134,24 +132,24 @@ void    pdfController::showObject(ILesson::IPage::IObject *object)
     }
 }
 
-void    pdfController::activateObject(ILesson::IPage::IObject *object)
+void    PdfController::activateObject(ILesson::IPage::IObject *object)
 {
 
 }
 
-void    pdfController::hideObject(ILesson::IPage::IObject *object)
+void    PdfController::hideObject(ILesson::IPage::IObject *object)
 {
         if (label)
             delete label;
         object->getWidget()->hide();
 }
 
-void    pdfController::configureObject(ILesson::IPage::IObject *object)
+void    PdfController::configureObject(ILesson::IPage::IObject *object)
 {
  //build the configuration string:
 }
 
-const QString  pdfController::getSupportedType() const
+const QString  PdfController::getSupportedType() const
 {
     return ("Pdf");
 }

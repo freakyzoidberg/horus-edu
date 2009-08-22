@@ -14,8 +14,6 @@
 #include "Lesson.h"
 #include "XmlHandler.h"
 
-Q_EXPORT_PLUGIN2(LessonManager, LessonManager)
-
 const QString	LessonManager::pluginName() const
 {
 	return ("LessonManager");

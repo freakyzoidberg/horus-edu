@@ -21,6 +21,8 @@ HEADERS += Implementation\Administration.h \
     Implementation\ClassFrame.h \
     Implementation\TeacherFrame.h \
     Implementation\FileFrame.h \
+    Implementation/AdministrationMetaPlugin.h \
+    ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/NetworkPlugin.h \
     ../../DisplayablePlugin.h

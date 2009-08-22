@@ -14,5 +14,7 @@ DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Mail.cpp
 
 HEADERS += Implementation/Mail.h\
+           Implementation/MailMetaPlugin.h \
+           ../../../Common/MetaPlugin.h \
            ../../DisplayablePlugin.h \
            ../../../Common/Plugin.h

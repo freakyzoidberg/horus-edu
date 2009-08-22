@@ -11,8 +11,6 @@
 
 #include "../IPdfFile.h"
 
-Q_EXPORT_PLUGIN2(PdfDisplayer, PdfDisplayer)
-
 PdfDisplayer::PdfDisplayer()
 {
     qDebug() << "[plugin PdfDisplayer] : initialisation";

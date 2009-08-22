@@ -12,5 +12,7 @@ DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Marks.cpp
 
 HEADERS += Implementation/Marks.h \
+           Implementation/MarksMetaPlugin.h \
+           ../../../Common/MetaPlugin.h \
 		   ../../../Common/Plugin.h \
 		   ../../DisplayablePlugin.h

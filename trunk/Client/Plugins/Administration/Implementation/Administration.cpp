@@ -1,7 +1,5 @@
 #include "Administration.h"
 
-Q_EXPORT_PLUGIN2(Administration, Administration)
-
 QWidget             *Administration::getWidget()
 {
     return (this->widget);
