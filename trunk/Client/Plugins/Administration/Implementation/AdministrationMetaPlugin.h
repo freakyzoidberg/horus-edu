@@ -12,7 +12,7 @@ class AdministrationMetaPlugin : public MetaPlugin
 
 public:
     inline AdministrationMetaPlugin() {
-      Plugin* p = new Administration();
+      Plugin* p = (NetworkPlugin  *) (new Administration());
       pluginList.append(p);
   }
 };

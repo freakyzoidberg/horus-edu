@@ -11,7 +11,7 @@
 #include <QLabel>
 
 #include "../../../../Common/PluginManager.h"
-#include "../../dispPDF/IPdfRendering.h"
+#include "../../PdfDisplayer/IPdfRendering.h"
 
 PdfController::PdfController()
 {
@@ -109,7 +109,7 @@ void    PdfController::showObject(ILesson::IPage::IObject *object)
         }
     qDebug() << "true file name:" << fileName;
         rect = new QRectF(topX, topY, height, width);
-        image = pdf->dispPDFDoc(fileName, page, rect, 0);
+        image = pdf->PdfDisplayerDoc(fileName, page, rect, 0);
         if (!image)
         {
             qDebug() << "Call the shot";

@@ -13,7 +13,6 @@ HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
     ../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
-    . \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Data.h \
     ../../../Common/DataManager.h \

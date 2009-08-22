@@ -12,7 +12,7 @@ HEADERS += ../../../Common/DataImplementations/MailDataBase/MailDataBase.h \
           ../../../Common/DataImplementations/MailDataBase/MailDataBasePlugin.h \
          ../../../Common/Plugin.h \
         ../../../Common/PluginManager.h \
-    .  ../../../Common/MetaPlugin.h \
+       ../../../Common/MetaPlugin.h \
       ../../../Common/Data.h \
      ../../../Common/DataManager.h \
     ../../../Common/MailData.h \
