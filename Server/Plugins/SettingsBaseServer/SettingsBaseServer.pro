@@ -12,7 +12,7 @@ HEADERS += ../../../Common/DataImplementations/SettingsDataBase/SettingsDataBase
           ../../../Common/DataImplementations/SettingsDataBase/SettingsDataBasePlugin.h \
          ../../../Common/Plugin.h \
         ../../../Common/PluginManager.h \
-    .  ../../../Common/MetaPlugin.h \
+       ../../../Common/MetaPlugin.h \
       ../../../Common/Data.h \
      ../../../Common/DataManager.h \
     ../../../Common/SettingsData.h \

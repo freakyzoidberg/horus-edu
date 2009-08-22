@@ -7,8 +7,11 @@
 TARGET = TextController
 TEMPLATE = lib
 
-DEFINES += TEXTCONTROLLER_LIBRARY
+DEFINES += HORUS_CLIENT
 
 SOURCES += Implementation/TextController.cpp
 
-HEADERS += Implementation/TextController.h
+HEADERS += Implementation/TextController.h \
+           Implementation/TextControllerMetaPlugin.h \
+           ../../../Common/MetaPlugin.h \
+           ../../../Common/Plugin.h

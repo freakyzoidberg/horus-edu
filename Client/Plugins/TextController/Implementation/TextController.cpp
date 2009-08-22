@@ -2,8 +2,6 @@
 
 #include <QTextBrowser>
 
-Q_EXPORT_PLUGIN2(TextController, TextController)
-
 const QString    TextController::pluginName() const
 {
     return ("textController");

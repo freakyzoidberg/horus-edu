@@ -14,4 +14,5 @@ HEADERS += Implementation/Course.h \
            ../../DisplayablePlugin.h \
            ../../../Common/Plugin.h \
            ../../../Common/PluginManager.h \
+           ../../../Common/AbstractManager.h \
            ../../../Common/MetaPlugin.h
