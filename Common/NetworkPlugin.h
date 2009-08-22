@@ -24,7 +24,7 @@ signals:
     /*!
      *  \param packet the packet to send
      */
-    void sendPacket(UserData* user, const PluginPacket& packet);
+    void sendPacket(UserData* user, const PluginPacket& packet); // Why use a reference and not a pointer ? Why send UserData and how retrieve it ? (Valentin)
 };
 
 Q_DECLARE_INTERFACE(NetworkPlugin, "net.horus.NetworkPlugin/1.0");
