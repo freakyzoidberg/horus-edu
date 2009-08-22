@@ -2,7 +2,7 @@
 
 #include <QSettings>
 
-#include "../Common/NetworkPlugin.h"
+#include "NetworkPlugin.h"
 #include "../Common/MetaPlugin.h"
 #include "../Common/UserDataPlugin.h"
 
@@ -143,7 +143,7 @@ void PacketManager::PacketPlugin()
     NetworkPlugin *plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
     if (plugin)
     {
-        plugin->receivePacket(0, p.packet);
+        plugin->receivePacket(p.packet);
         return;
     }
     qDebug() << "PacketManager::PacketPlugin() cannot find" << p.packet.targetPlugin << "plugin.";

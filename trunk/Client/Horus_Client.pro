@@ -50,8 +50,8 @@ HEADERS += NetworkManager.h \
     ../Common/DataPlugin.h \
     ../Common/UserData.h \
     ../Common/UserDataPlugin.h \
-    ../Common/NetworkPlugin.h \
     ../Common/AbstractManager.h \
+    NetworkPlugin.h \
     DisplayablePlugin.h \
     DataManagerClient.h \
     ClientApplication.h \
