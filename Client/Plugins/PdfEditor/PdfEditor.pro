@@ -9,4 +9,6 @@ SOURCES += Implementation/PdfEditor.cpp \
 		   Implementation/TreeWidgetItem.cpp
 HEADERS += Implementation/PdfEditor.h \
 	       Implementation/TreeWidgetItem.h \
+           Implementation/PdfEditorMetaPlugin.h \
+           ../../../Common/MetaPlugin.h \
 	       ../../../Common/Plugin.h

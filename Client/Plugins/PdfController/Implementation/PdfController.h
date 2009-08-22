@@ -1,5 +1,5 @@
-#ifndef __PDF_CONTROLLER_H__
-# define __PDF_CONTROLLER_H__
+#ifndef __PDFCONTROLLER_H__
+# define __PDFCONTROLLER_H__
 
 # include <QObject>
 # include <QLabel>
@@ -8,15 +8,15 @@
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IController.h"
 
-class   pdfController : public Plugin, public IController
+class   PdfController : public Plugin, public IController
 {
         Q_OBJECT
         Q_INTERFACES(Plugin)
         Q_INTERFACES(IController)
 
     public:
-        pdfController();
-        ~pdfController();
+        PdfController();
+        ~PdfController();
 
         //! Return the name of the plugin.
         /*!

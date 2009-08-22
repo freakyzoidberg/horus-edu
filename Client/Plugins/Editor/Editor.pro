@@ -14,5 +14,7 @@ DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Editor.cpp
 
 HEADERS += Implementation/Editor.h\
+           Implementation/EditorMetaPlugin.h \
+           ../../../Common/MetaPlugin.h \
            ../../DisplayablePlugin.h \
            ../../../Common/Plugin.h

@@ -11,6 +11,8 @@ SOURCES += Implementation/PdfDisplayer.cpp \
 HEADERS += Implementation/PdfDisplayer.h \
 		   Implementation/PdfRendering.h \
 		   Implementation/PdfFile.h \
+           Implementation/PdfDisplayerMetaPlugin.h \
+           ../../../Common/MetaPlugin.h \
 		   IPdfRendering.h \
 		   IPdfFile.h \
 		   ../../../Common/Plugin.h \

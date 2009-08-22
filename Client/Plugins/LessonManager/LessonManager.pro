@@ -9,12 +9,14 @@ SOURCES += Implementation/LessonManager.cpp \
 HEADERS += ILessonManager.h \
     ILesson.h \
     Implementation/LessonManager.h \
-    Implementation/LessonManager_global.h \
     Implementation/Lesson.h \
     Implementation/XmlHandler.h \
+    Implementation/LessonManagerMetaPlugin.h \
+    ../../../Common/MetaPlugin.h \
+    ../../../Common/Plugin.h \
     IController.h
 INCLUDEPATH += .
 DESTDIR = .
-TARGET = $$qtLibraryTarget(LessonManager)
+TARGET = LessonManager
 RESOURCES += Implementation/TreeIcons.qrc
 DEFINES += HORUS_CLIENT
