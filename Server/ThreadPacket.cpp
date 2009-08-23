@@ -128,6 +128,7 @@ void ThreadPacket::PacketLogin()
     }
     ClientSocket::connectedUsers[user] = socket;
     socket->user = user;
+    PluginManagerServer::instance()->setCurrentUser(socket->user);
 
     qDebug() << "ThreadPacket::PacketLogin : ACCEPTED" << user;
 
@@ -170,7 +171,7 @@ void ThreadPacket::PacketLogin()
         qDebug() << "Warning: no SettingsDataPlugin found. Check your configuration.";
     else
     {
-        SettingsData* setting = settingsPlugin->getSettings("test", SettingsData::CLIENT_USER_SCOPE, user->id);
+        SettingsData* setting = settingsPlugin->getSettings("test");
 
         setting->fillFromDatabase(query);
         setting->setStatus(Data::UPTODATE);

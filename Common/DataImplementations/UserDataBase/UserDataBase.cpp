@@ -127,7 +127,8 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(language);
     query.addBindValue(idTree);
     query.addBindValue(enabled);
-    query.addBindValue(QDateTime::currentDateTime());
+    _lastChange = QDateTime::currentDateTime();
+    query.addBindValue(_lastChange);
     if ( ! query.exec() || ! query.next())
     {
         _error = DATABASE_ERROR;
@@ -152,7 +153,8 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
     query.addBindValue(language);
     query.addBindValue(idTree);
     query.addBindValue(enabled);
-    query.addBindValue(QDateTime::currentDateTime());
+    _lastChange = QDateTime::currentDateTime();
+    query.addBindValue(_lastChange);
     query.addBindValue(id);
     if ( ! query.exec())
     {

@@ -22,9 +22,7 @@ public:
     inline const QString pluginName() const { return "Settings Data Base"; }
     inline const QString pluginVersion() const { return "0.1"; }
 
-    inline const QString getDataType() const { return "Settings"; }
-
-    SettingsData*        getSettings(QString part = QString(), quint8 scope = 0, quint32 userId = 0);
+    SettingsData*        getSettings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0);
 
 #ifdef HORUS_SERVER
     bool                 verifyDataBase(QSqlQuery&);

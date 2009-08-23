@@ -5,6 +5,7 @@
 #include "DataPlugin.h"
 #include "SettingsDataPlugin.h"
 
+class UserData;
 class SettingsData : public Data
 {
   Q_OBJECT
@@ -16,13 +17,12 @@ class SettingsData : public Data
 #endif
 
 public:
-    enum Scope { CLIENT_USER_SCOPE, CLIENT_SYSTEN_SCOPE, SERVER_USER_SCOPE, SERVER_SYSTEM_SCOPE };
     inline SettingsData(SettingsDataPlugin* plugin) : Data(plugin) {}
-    virtual QVariant value(const QString& key) const = 0;
-    virtual void     setValue(const QString& key, const QVariant& val) = 0;
-    virtual QString  part() const = 0;
-    virtual quint32  owner() const = 0;
-    virtual quint8   scope() const = 0;
+    virtual QVariant  value(const QString& key) const = 0;
+    virtual void      setValue(const QString& key, const QVariant& val) = 0;
+    virtual QString   part() const = 0;
+    virtual UserData* owner() const = 0;
+    virtual quint8    scope() const = 0;
 };
 
 #ifdef HORUS_SERVER
