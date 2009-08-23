@@ -18,7 +18,7 @@ class SettingsData : public Data
 
 public:
     inline SettingsData(SettingsDataPlugin* plugin) : Data(plugin) {}
-    virtual QVariant  value(const QString& key) const = 0;
+    virtual QVariant  value(const QString& key, QVariant defaultValue = QVariant()) const = 0;
     virtual void      setValue(const QString& key, const QVariant& val) = 0;
     virtual QString   part() const = 0;
     virtual UserData* owner() const = 0;
