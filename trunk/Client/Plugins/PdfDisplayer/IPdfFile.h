@@ -1,7 +1,7 @@
 #ifndef IPDFRENDERING_H
 #define IPDFRENDERING_H
 
-#include <qt4/poppler-qt4.h>
+#include "poppler/include/poppler-qt4.h"
 #include <QRectF>
 #include <QImage>
 
@@ -16,6 +16,7 @@
 class   IPdfFile
 {
  public:
+
     //! return the name of the PDF file
     virtual const QString & getFileName() const = 0;
 

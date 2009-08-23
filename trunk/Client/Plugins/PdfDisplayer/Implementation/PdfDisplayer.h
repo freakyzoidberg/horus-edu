@@ -5,10 +5,10 @@
 # include <QObject>
 # include <QMap>
 # include <QRectF>
-# include <qt4/poppler-qt4.h>
+# include "poppler/include/poppler-qt4.h"
 
-# include "../../../../Common/Plugin.h"
-# include "../../../../Common/FileDataPlugin.h"
+//# include "../../../../Common/Plugin.h"
+//# include "../../../../Common/FileDataPlugin.h"
 
 # include "../IPdfFile.h"
 # include "../IPdfRendering.h"
@@ -19,11 +19,11 @@
   To have more informations about horus plugins, see the plugin tesPlugin <-------- outdated information
 */
 
-class PdfDisplayer : public Plugin, public IPdfRendering
+class PdfDisplayer : public IPdfRendering //: public Plugin//,
 {
-    Q_OBJECT
-    Q_INTERFACES(Plugin)
-    Q_INTERFACES(IPdfRendering)
+   // Q_OBJECT
+   // Q_INTERFACES(Plugin)
+   // Q_INTERFACES(IPdfRendering)
 
 public:
     //! set some values
