@@ -15,8 +15,10 @@ class MailDataPlugin : public DataPlugin
   Q_INTERFACES(ClientDataPlugin)
 #endif
 
+  /*
 public:
     virtual MailData* getSettings(QString part = QString(), quint8 scope = 0, quint32 userId = 0) = 0;
+    */
 };
 
 #ifdef HORUS_SERVER

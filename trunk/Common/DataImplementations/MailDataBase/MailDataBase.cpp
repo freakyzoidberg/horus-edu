@@ -98,3 +98,8 @@ void MailDataBase::deleteFromDatabase(QSqlQuery& query)
     }
 }
 #endif
+
+bool MailDataBase::connectToPop(QString host, quint32 port, QString login, QString pass)
+{
+    return true;
+}

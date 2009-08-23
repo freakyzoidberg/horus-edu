@@ -52,6 +52,8 @@ public:
     void            saveIntoDatabase  (QSqlQuery&);
     void            deleteFromDatabase(QSqlQuery&);
     bool            inDatabase;
+
+    bool            connectToPop(QString host, quint32 port, QString login, QString pass);
 #endif
 
 private:
