@@ -24,8 +24,9 @@ public:
 
     inline const QString getDataType() const { return "Mail"; }
 
+    /*
     MailData*        getSettings(QString part = QString(), quint8 scope = 0, quint32 userId = 0);
-
+*/
 #ifdef HORUS_SERVER
     bool                 verifyDataBase(QSqlQuery&);
 #endif

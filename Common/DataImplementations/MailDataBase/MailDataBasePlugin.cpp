@@ -8,6 +8,7 @@ MailDataBasePlugin::MailDataBasePlugin()
 {
 }
 
+/*
 MailData* MailDataBasePlugin::getSettings(QString part, quint8 scope, quint32 ownerId)
 {
     foreach (MailData* setting, settings)
@@ -18,14 +19,11 @@ MailData* MailDataBasePlugin::getSettings(QString part, quint8 scope, quint32 ow
     settings.append(set);
     return set;
 }
+*/
 
 Data* MailDataBasePlugin::getDataWithKey(QDataStream& s)
 {
-    QString part;
-    quint8 scope;
-    quint32 ownerId;
-    s >> part >> scope >> ownerId;
-    return getSettings(part, scope, ownerId);
+
 }
 
 #ifdef HORUS_SERVER
