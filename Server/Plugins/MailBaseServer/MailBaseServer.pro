@@ -9,7 +9,8 @@ TEMPLATE = lib
 TARGET = MailBaseServerMetaPlugin
 SOURCES += ../../../Common/DataImplementations/MailDataBase/MailDataBase.cpp \
     ../../../Common/DataImplementations/MailDataBase/MailDataBasePlugin.cpp \
-    ../../../Common/DataImplementations/MailDataBase/MailSmtpDataBase.cpp
+    ../../../Common/DataImplementations/MailDataBase/MailSmtpDataBase.cpp \
+    ../../../Common/DataImplementations/MailDataBase/MailSmtp.cpp
 HEADERS += ../../../Common/DataImplementations/MailDataBase/MailDataBase.h \
     ../../../Common/DataImplementations/MailDataBase/MailDataBasePlugin.h \
     ../../../Common/Plugin.h \
@@ -22,4 +23,5 @@ HEADERS += ../../../Common/DataImplementations/MailDataBase/MailDataBase.h \
     ../../../Common/MailDataPlugin.h \
     ../../../Common/AbstractManager.h \
     MailBaseServerMetaPlugin.h \
-    ../../../Common/DataImplementations/MailDataBase/MailSmtpDataBase.h
+    ../../../Common/DataImplementations/MailDataBase/MailSmtpDataBase.h \
+    ../../../Common/DataImplementations/MailDataBase/MailSmtp.h
