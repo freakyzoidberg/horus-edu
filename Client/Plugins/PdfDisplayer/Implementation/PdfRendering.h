@@ -1,12 +1,12 @@
 #ifndef PDFRENDERING_H
 #define PDFRENDERING_H
 
-#include <IPdfRendering.h>
+#include "../IPdfRendering.h"
 
 #include <QString>
 #include <QImage>
 #include <QMatrix>
-#include <qt4/poppler-qt4.h>
+#include "poppler/include/poppler-qt4.h"
 
 //! class used to generate a displayble "image" of the PDF
 /*!

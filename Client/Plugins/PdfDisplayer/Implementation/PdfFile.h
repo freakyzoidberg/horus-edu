@@ -1,13 +1,14 @@
 #ifndef PdfFile_H
 #define PdfFile_H
 
-#include <IPdfFile.h>
-
-#include <QDomDocument>
 #include <QString>
 #include <QImage>
 #include <QMatrix>
-#include <qt4/poppler-qt4.h>
+#include <QDomDocument>
+#include <QDomNode>
+#include "poppler/include/poppler-qt4.h"
+
+#include "../IPdfFile.h"
 
 //! class used to generate a displayble "image" of the PDF
 /*!
@@ -123,10 +124,10 @@ class   PdfFile : public IPdfFile
         //to generate a toc with position on the page
         QDomDocument    *getToc();
         void            generateToc();
-        void            addSynopsisToChild(QDomNode *, QDOmNode *);
+        void            addSynopsisToChild(QDomNode *, QDomNode *);
 
         //links on a page
-        void            generateLinks(const QList<Poppler::Link*> &, QImage *);
+        void            generateLinks(const QList<Poppler::Link*>&, QImage *);
 
     private:
         //! the name of the pdf file

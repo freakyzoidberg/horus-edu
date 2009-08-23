@@ -60,7 +60,7 @@ void    PdfFile::generateToc()
     toc->toString();
 }
 
-void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
+void    PdfFile::addSynopsisToChild(QDomNode *parent, QDomNode *parentDest)
 {
     // keep track of the current listViewItem
     QDomNode n = parent->firstChild();
@@ -81,7 +81,7 @@ void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
         if (!e.attribute("DestinationName").isNull())
         {
            // item.setAttribute("DestinationName", e.attribute("DestinationName"));
-            Poppler::LinkDestination destination = *(doc->linkDestination(e.attribute("DestinationName")));
+            Poppler::LinkDestination destination = *(pdfDoc->linkDestination(e.attribute("DestinationName")));
 
             item.setAttribute("PageBegin", destination.pageNumber() - 1);
             item.setAttribute("PosYBegin", destination.top());
@@ -108,7 +108,7 @@ void    PdfFile::addSynopsisChild(QDomNode *parent, QDomNode *parentDest)
 
         //recursivity mother fucker
         if (e.hasChildNodes())
-          addSynopsisChil(&n, &item);
+          addSynopsisToChild(&n, &item);
         n = n.nextSibling();
          if (!n.isNull())
             save = item;
@@ -233,7 +233,7 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
 
     qDebug() << "[PdfDisplayer] Image successfully generated";
 
-    genrateLinks(currentPage->links(), image);
+    generateLinks(currentPage->links(), &image);
 
     if (!partToDisplay)
         partToDisplay = new QRectF(0, 0,
@@ -249,7 +249,7 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
     return subImg;
 }
 
-void    PdfFile::generateLinks(const QList<Poppler::LinkDestination *> & PopplerLinks,
+void    PdfFile::generateLinks(const QList<Poppler::Link *>& PopplerLinks,
                                QImage *image)
 {
      foreach(const Poppler::Link *popplerLink, PopplerLinks)
@@ -270,16 +270,16 @@ void    PdfFile::generateLinks(const QList<Poppler::LinkDestination *> & Poppler
 
                 linkRect.adjust(-2, -2, 2, 2);
 
-                QImage  imgLink = image.copy(linkRect);
+                QImage  imgLink = image->copy(linkRect);
 
-                painter.begin(&imgLink);
+               /* painter.begin(&imgLink);
                 painter.fillRect(imgLink.rect(),
                 QColor(qRed(pixel), qGreen(pixel), qBlue(pixel)));
                 painter.end();
 
                 painter.begin(&image);
                 painter.drawImage(linkRect, imgLink);
-                painter.end();
+                painter.end(); */
             }
         }
 }
