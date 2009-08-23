@@ -35,7 +35,7 @@ public:
     QDebug           operator<<(QDebug debug) const;
 
     // INTERFACE SettingsData
-    inline QVariant  value(const QString& key) const { return _values.value(key); }
+    inline QVariant  value(const QString& key, QVariant defaultValue = QVariant()) const { if (_values.contains(key)) return _values.value(key); else return defaultValue; }
     inline void      setValue(const QString& key, const QVariant& val) { _values[key] = val; }
     inline QString   part() const { return _part; }
     inline UserData* owner() const { return _owner; }
