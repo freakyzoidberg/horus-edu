@@ -136,7 +136,7 @@ protected:
 };
 
 inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }
-inline QDebug operator<<(QDebug debug, const Data* data) { return (*data) << debug; }
+inline QDebug operator<<(QDebug debug, const Data* data) { if (data) return (*data) << debug; else return debug << "null"; }
 
 #ifdef HORUS_SERVER
 typedef Data ServerData;

@@ -21,7 +21,7 @@ class UserData : public Data
 #endif
 
 protected:
-    inline UserData(quint32 userId, UserDataPlugin* plugin) : Data(plugin) { id = userId; }
+  inline UserData(quint32 userId, UserDataPlugin* plugin) : Data(plugin) { id = userId; if (id == 0) { login = name = surname = "nobody"; _status = UPTODATE; } }
 public:
     quint32     id;
     quint8      level;
