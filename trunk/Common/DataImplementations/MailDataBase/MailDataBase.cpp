@@ -1,6 +1,6 @@
 #include "MailDataBase.h"
 #include "MailDataBasePlugin.h"
-#include "MailSmtp.h"
+#include "MailSender.h"
 MailDataBase::MailDataBase(MailDataBasePlugin* plugin, QString part, quint8 scope, quint32 ownerId)
         : MailData((MailDataPlugin*)plugin)
 {
@@ -102,21 +102,11 @@ void MailDataBase::deleteFromDatabase(QSqlQuery& query)
 
 bool MailDataBase::sendmail(QString host, quint32 port, QString login, QString pass, QString sender, QString dest, QString subject, QString content)
 {
-    MailSmtpClient client;
-    // ignore certificate errors as suggested by ssl socket docs:
-    // start plain-text connection:
-    client.connectToHost(host);
-    // start encryption handshake:
-    client.startTls();
-    // when that's done authenticate yourself to the server:
-    client.authenticate(login, pass, MailSmtpClient::AuthAny);
-    // send an email:
-    client.sendMail(sender, dest,
-                           "From:    "+sender+"\r\n"
-                           "To:      "+dest+"\r\n"
-                           "Subject: "+subject+"\r\n"
-                           "\r\n"+content);
-    // disconnect afterwards:
-    client.disconnectFromHost();
+    QStringList mylist;
+    mylist.append(dest);
+     MailSender *test1 = new MailSender(host, sender,mylist , subject, content);
+                test1->setPriority(MailSender::high);
+                test1->send();
+                delete test1;
     return true;
 }
