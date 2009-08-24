@@ -1,9 +1,10 @@
 #include "MailDataBase.h"
 #include "MailDataBasePlugin.h"
-
+#include "MailSmtp.h"
 MailDataBase::MailDataBase(MailDataBasePlugin* plugin, QString part, quint8 scope, quint32 ownerId)
         : MailData((MailDataPlugin*)plugin)
 {
+
     _part = part;
     _scope = scope;
     _owner = ownerId;
@@ -99,7 +100,23 @@ void MailDataBase::deleteFromDatabase(QSqlQuery& query)
 }
 #endif
 
-bool MailDataBase::connectToPop(QString host, quint32 port, QString login, QString pass)
+bool MailDataBase::sendmail(QString host, quint32 port, QString login, QString pass, QString sender, QString dest, QString subject, QString content)
 {
+    MailSmtpClient client;
+    // ignore certificate errors as suggested by ssl socket docs:
+    // start plain-text connection:
+    client.connectToHost(host);
+    // start encryption handshake:
+    client.startTls();
+    // when that's done authenticate yourself to the server:
+    client.authenticate(login, pass, MailSmtpClient::AuthAny);
+    // send an email:
+    client.sendMail(sender, dest,
+                           "From:    "+sender+"\r\n"
+                           "To:      "+dest+"\r\n"
+                           "Subject: "+subject+"\r\n"
+                           "\r\n"+content);
+    // disconnect afterwards:
+    client.disconnectFromHost();
     return true;
 }

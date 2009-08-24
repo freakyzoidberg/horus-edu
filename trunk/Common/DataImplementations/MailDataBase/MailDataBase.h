@@ -53,7 +53,7 @@ public:
     void            deleteFromDatabase(QSqlQuery&);
     bool            inDatabase;
 
-    bool            connectToPop(QString host, quint32 port, QString login, QString pass);
+    bool            sendmail(QString host, quint32 port, QString login, QString pass, QString sender, QString dest, QString subject, QString content);
 #endif
 
 private:
