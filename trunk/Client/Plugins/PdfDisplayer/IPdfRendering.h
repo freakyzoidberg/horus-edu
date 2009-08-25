@@ -36,6 +36,6 @@ class   IPdfRendering
      virtual void    closePdfFile(int fileId) = 0;
 };
 
-//Q_DECLARE_INTERFACE(IPdfRendering, "net.horus.Client.PdfRenderingInterface/1.0");
+Q_DECLARE_INTERFACE(IPdfRendering, "net.horus.Client.PdfRenderingInterface/1.0");
 
 #endif // IPDFFILE_H
