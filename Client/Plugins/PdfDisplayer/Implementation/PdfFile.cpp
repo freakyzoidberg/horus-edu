@@ -64,7 +64,7 @@ void    PdfFile::addSynopsisToChild(QDomNode *parent, QDomNode *parentDest)
 {
     // keep track of the current listViewItem
     QDomNode n = parent->firstChild();
-    QDomElement save;
+    QDomElement save, tmp;
     while( !n.isNull() )
     {
         // convert the node to an element (sure it is)
@@ -110,8 +110,11 @@ void    PdfFile::addSynopsisToChild(QDomNode *parent, QDomNode *parentDest)
         if (e.hasChildNodes())
           addSynopsisToChild(&n, &item);
         n = n.nextSibling();
-         if (!n.isNull())
+
+        if (n.isNull())
             save = item;
+        else
+            tmp = item;
     }
 }
 

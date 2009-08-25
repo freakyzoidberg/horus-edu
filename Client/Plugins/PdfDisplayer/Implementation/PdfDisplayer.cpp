@@ -1,6 +1,6 @@
 #include "PdfDisplayer.h"
 
-#include <QPlugin.h>
+#include "Plugin.h"
 #include <QDebug>
 #include <QFileInfo>
 #include <QMapIterator>
