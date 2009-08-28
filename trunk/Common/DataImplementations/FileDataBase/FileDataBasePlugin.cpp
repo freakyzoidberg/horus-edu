@@ -6,11 +6,15 @@
 
 FileData* FileDataBasePlugin::getFile(quint32 fileId)
 {
-    return 0;
+    if ( ! files.contains(fileId))
+        files.insert(fileId, new FileDataBase(fileId, this));
+
+    return files.value(fileId);
 }
 
 FileData* FileDataBasePlugin::getFile(quint32 nodeId, QString fileName)
 {
+    //TODO
     return 0;
 }
 
