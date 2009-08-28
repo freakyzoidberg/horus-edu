@@ -19,11 +19,12 @@ public:
     // INTERFACE Plugin
     inline const QString    pluginName() const    { return "MainFrame"; }
     inline const QString    pluginVersion() const { return "0.1"; }
-	bool					canLoad() const;
+    bool                    canLoad() const;
     void                    load();
     void                    unload();
 
     // INTERFACE DisplayablePlugin
+    inline const QString    getDisplayableName() { return "Main Board"; }
     QWidget*                getWidget();
 
 private slots:

@@ -25,7 +25,3 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     FileBaseServerMetaPlugin.h \
     FileServer.h \
     FileTransfert.h
-
-#    ../../../Common/File.h \
-#    ../../../Common/DataImplementations/FileDataBase/FileBase.cpp \
-#    ../../../Common/DataImplementations/FileDataBase/FileBase.h \

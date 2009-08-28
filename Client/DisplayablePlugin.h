@@ -22,6 +22,13 @@ public:
      */
     virtual QWidget *getWidget() = 0;
 
+    //! Return the displayable name of the plugin.
+    /*!
+     *  This name will be displayed in the left menu.
+     *  If an empty QString is returned, this plugin will not be displayed in the menu.
+     */
+    virtual inline const QString getDisplayableName() { return QString(); }
+
 signals:
     void switchToWidget(QWidget *widget);
 };
