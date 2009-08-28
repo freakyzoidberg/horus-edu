@@ -7,6 +7,7 @@ Debugger::Debugger()
 {
     text.setReadOnly(true);
     resetButton.setText("Reset");
+    QObject::connect(&resetButton, SIGNAL(clicked()), this, SLOT(reset()));
 
     setWindowFlags(Qt::Dialog);
     setLayout(&layout);
