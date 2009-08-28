@@ -10,7 +10,7 @@ NotificationClient *NotificationClient::instance = 0;
 NotificationClient::NotificationClient() : QObject()
 {
 	this->debugDialog = new QErrorMessage();
-	this->debugDialog->setWindowTitle("Horus");
+        this->debugDialog->setWindowTitle("Horus debugger");
 }
 
 NotificationClient::~NotificationClient()
@@ -58,7 +58,7 @@ bool	NotificationClient::event(QEvent *event)
 	return (QObject::event(event));
 }
 
-void    NotificationClient::notify(Notification::type type, QString message)
+void    NotificationClient::notify(Notification::type type, const QString message)
 {
 	switch (type)
 	{
@@ -91,12 +91,14 @@ void    NotificationClient::notify(Notification::type type, QString message)
 	}	
 }
 
-void	NotificationClient::debug(QString message)
+#include "Debugger.h"
+void	NotificationClient::debug(const QString message)
 {
-	this->debugDialog->showMessage(message);
+//        this->debugDialog->showMessage(message);
+    Debugger::addDebugMessage(message);
 }
 
-void	NotificationClient::message(QString message)
+void	NotificationClient::message(const QString message)
 {
 	QMessageBox msgBox;
 
@@ -109,7 +111,7 @@ void	NotificationClient::message(QString message)
 	msgBox.exec();
 }
 
-void	NotificationClient::warning(QString message)
+void	NotificationClient::warning(const QString message)
 {
 	QMessageBox msgBox;
 
@@ -122,7 +124,7 @@ void	NotificationClient::warning(QString message)
 	msgBox.exec();
 }
 
-void	NotificationClient::error(QString message)
+void	NotificationClient::error(const QString message)
 {
 	QMessageBox msgBox;
 
@@ -135,7 +137,7 @@ void	NotificationClient::error(QString message)
 	msgBox.exec();
 }
 
-void	NotificationClient::fatal(QString message)
+void	NotificationClient::fatal(const QString message)
 {
 	QMessageBox msgBox;
 
@@ -150,7 +152,7 @@ void	NotificationClient::fatal(QString message)
 	delete qApp;
 }
 
-void	NotificationClient::yesNo(QString message)
+void	NotificationClient::yesNo(const QString message)
 {
 	QMessageBox msgBox;
 
@@ -163,7 +165,7 @@ void	NotificationClient::yesNo(QString message)
 	msgBox.exec();
 }
 
-void	NotificationClient::retry(QString message)
+void	NotificationClient::retry(const QString message)
 {
 	QMessageBox msgBox;
 
@@ -176,7 +178,7 @@ void	NotificationClient::retry(QString message)
 	msgBox.exec();
 }
 
-void	NotificationClient::login(QString message)
+void	NotificationClient::login(const QString message)
 {
 	LoginDialog *loginDialog;
 

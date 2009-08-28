@@ -17,19 +17,19 @@ public:
 	bool event(QEvent *event);
 
 public slots:
-	void notify(Notification::type type, QString message);
+        void notify(Notification::type type, const QString message);
 
 private:
 	NotificationClient();
 	~NotificationClient();
-	void debug(QString message);
-	void message(QString message);
-	void warning(QString message);
-	void error(QString message);
-	void fatal(QString message);
-	void yesNo(QString message);
-	void retry(QString message);
-	void login(QString message);
+        void debug(const QString message);
+        void message(const QString message);
+        void warning(const QString message);
+        void error(const QString message);
+        void fatal(const QString message);
+        void yesNo(const QString message);
+        void retry(const QString message);
+        void login(const QString message);
 	
 	static NotificationClient *instance;
 	static void QtNotify(QtMsgType type, const char *message);

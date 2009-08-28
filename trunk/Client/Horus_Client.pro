@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     DockMenu.cpp \
     ManagerFactory.cpp \
     MetaManager.cpp \
-    ManagerThread.cpp
+    ManagerThread.cpp \
+    Debugger.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -69,7 +70,8 @@ HEADERS += NetworkManager.h \
     MetaManager.h \
     ManagerThread.h \
     ManagerFactory.h \
-    ../Common/Notification.h
+    ../Common/Notification.h \
+    Debugger.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \
