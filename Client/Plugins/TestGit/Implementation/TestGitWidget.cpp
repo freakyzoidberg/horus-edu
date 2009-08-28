@@ -60,15 +60,18 @@ TestGitWidget::TestGitWidget(TestGit *_plugin) : QFrame()
 
 void TestGitWidget::test0()
 {
+    qDebug() << "test0.0";
     FileDataPlugin* p = plugin->pluginManager->findPlugin<FileDataPlugin*>();
     if ( ! p)
         return;
 
+    qDebug() << "test0.1";
     FileData* f = p->getFile(1);
     if ( ! f)
         return;
 
     f->update();
+    qDebug() << "test0.2";
 }
 
 void TestGitWidget::test1()
