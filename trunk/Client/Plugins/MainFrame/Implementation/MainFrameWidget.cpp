@@ -1,9 +1,12 @@
 #include "MainFrameWidget.h"
 
 #include "../../../Common/PluginManager.h"
-#include "../../../Common/UserDataPlugin.h"
 #include "../../../Common/TreeDataPlugin.h"
-#include "../../../Common/UserData.h"
+
+#include "../../../Common/FileDataPlugin.h"
+#include "../../../Common/FileData.h"
+#include "../../../Common/File.h"
+
 
 #include <QPushButton>
 #include <QDebug>
