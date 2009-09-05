@@ -4,6 +4,7 @@
 #include "../../../Common/MetaPlugin.h"
 
 #include "TestGit.h"
+#include "TestNetworkPlugin.h"
 
 class TestGitMetaPlugin : public MetaPlugin
 {
@@ -12,8 +13,9 @@ class TestGitMetaPlugin : public MetaPlugin
 
 public:
     inline TestGitMetaPlugin() {
-      Plugin* p = new TestGit;
-      pluginList.append(p);
+      TestNetworkPlugin* networkPlugin = new TestNetworkPlugin;
+      pluginList.append(new TestGit(networkPlugin));
+      pluginList.append(networkPlugin);
   }
 };
 

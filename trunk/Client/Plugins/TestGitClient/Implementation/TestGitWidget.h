@@ -7,11 +7,12 @@
 #include <QLabel>
 
 class TestGit;
+class TestNetworkPlugin;
 class TestGitWidget : public QFrame
 {
     Q_OBJECT
 public:
-    TestGitWidget(TestGit *plugin);
+    TestGitWidget(TestGit *plugin, TestNetworkPlugin* testNetworkPlugin);
 
 private:
     TestGit     *plugin;

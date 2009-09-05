@@ -7,17 +7,19 @@
 #include "MetaManager.h"
 #include "NotificationClient.h"
 
+#include "PluginManagerClient.h"
 
 NetworkManager::NetworkManager()
 {
     this->packManag = new PacketManager();
-	this->socket = new CommSocket();
+    this->socket = new CommSocket();
     connect(socket, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
     connect(packManag, SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
+    connect(PluginManagerClient::instance(), SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
     connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(socket, SIGNAL(disconnected()), this, SLOT(quit()));
-	connect(packManag, SIGNAL(logged()), this, SLOT(log()));
-	connect(packManag, SIGNAL(waitingUserPass()), this, SLOT(waitUserPass()));
+    connect(packManag, SIGNAL(logged()), this, SLOT(log()));
+    connect(packManag, SIGNAL(waitingUserPass()), this, SLOT(waitUserPass()));
 }
 
 bool    NetworkManager::event(QEvent *e)

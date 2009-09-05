@@ -16,12 +16,14 @@
 #include "../../../Common/FileData.h"
 #include "../../../Common/File.h"
 
+#include "TestNetworkPlugin.h"
+
 #include <QPushButton>
 #include <QDebug>
 #include <QDateTime>
 #include <QTreeView>
 
-TestGitWidget::TestGitWidget(TestGit *_plugin) : QFrame()
+TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlugin)
 {
     plugin = _plugin;
 
@@ -30,8 +32,8 @@ TestGitWidget::TestGitWidget(TestGit *_plugin) : QFrame()
     layout.addWidget(bt0, 0, 0);
     layout.setRowStretch(0, 0);
 
-    QPushButton* bt1 = new QPushButton("test 1 ...");
-    connect(bt1, SIGNAL(clicked()), this, SLOT(test1()));
+    QPushButton* bt1 = new QPushButton("test 1 send Network plugin");
+    connect(bt1, SIGNAL(clicked()), testNetworkPlugin, SLOT(sendTest()));
     layout.addWidget(bt1, 1, 0);
     layout.setRowStretch(1, 1);
 

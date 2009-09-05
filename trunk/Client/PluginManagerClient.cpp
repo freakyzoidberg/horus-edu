@@ -8,9 +8,17 @@
 #include "../Common/MetaPlugin.h"
 #include "../Common/Plugin.h"
 #include "../Common/DataPlugin.h"
+#include "../Common/CommPlugin.h"
+#include "NetworkPlugin.h"
 
 #include "DataManagerClient.h"
 #include "ClientEvents.h"
+
+PluginManagerClient* PluginManagerClient::instance()
+{
+    static PluginManagerClient _instance;
+    return &_instance;
+}
 
 bool PluginManagerClient::event(QEvent *event)
 {
@@ -75,6 +83,13 @@ void PluginManagerClient::loadPlugins()
         plugin->dataManager = new DataManagerClient(plugin);
     }
 
+    // NetworkPlugin
+    foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
+    {
+        plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the network thread here
+        connect(plugin, SIGNAL(sendPacket(PluginPacket)), this, SLOT(sendPluginPacket(PluginPacket)));
+    }
+
     // every Plugins
 	i = 0;
     foreach (Plugin* plugin, _plugins)
@@ -105,4 +120,14 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
         _plugins.insert(plugin->pluginName(), plugin);
 
     return (true);
+}
+
+void PluginManagerClient::sendPluginPacket(PluginPacket packet)
+{
+    NetworkPlugin* plugin = (NetworkPlugin*)(sender());
+
+    packet.sourcePlugin = plugin->pluginName();
+    packet.packetVersion = plugin->pluginVersion();
+
+    emit sendPacket(CommPlugin(packet).getPacket());
 }

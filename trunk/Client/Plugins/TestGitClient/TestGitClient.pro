@@ -5,7 +5,8 @@ QT += xml
 TARGET = TestGit
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
-SOURCES += Implementation/TestGitWidget.cpp
+SOURCES += Implementation/TestGitWidget.cpp \
+    Implementation/TestNetworkPlugin.cpp
 HEADERS += Implementation/TestGit.h \
     Implementation/TestGitWidget.h \
     Implementation/TestGitMetaPlugin.h \
@@ -24,4 +25,6 @@ HEADERS += Implementation/TestGit.h \
     ../../../Common/SettingsDataPlugin.h \
     ../../../Common/SettingsData.h \
     ../../../Common/MetaPlugin.h \
-    ../../../Common/AbstractManager.h
+    ../../NetworkPlugin.h \
+    ../../../Common/AbstractManager.h \
+    Implementation/TestNetworkPlugin.h
