@@ -9,7 +9,7 @@
 #include "PluginManagerClient.h"
 #include "MetaManager.h"
 
-PacketManager::PacketManager() : QObject()
+PacketManager::PacketManager()
 {
     state = DISCONNECTED;
 }

@@ -3,6 +3,9 @@
 #include "../Common/DataPlugin.h"
 #include "../Common/Plugin.h"
 #include "../Common/MetaPlugin.h"
+#include "ClientSocket.h"
+#include "../Common/CommPlugin.h"
+#include "NetworkPlugin.h"
 #include <QSettings>
 #include <QPluginLoader>
 #include <QStringList>
@@ -58,4 +61,18 @@ void PluginManagerServer::load()
     // DataPlugin
     foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
         plugin->dataManager = new DataManagerServer(plugin);
+
+    // NetworkPlugin
+    foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
+        connect(plugin, SIGNAL(sendPacket(UserData*,PluginPacket)), this, SLOT(sendPluginPacket(UserData*,PluginPacket)));
+    qRegisterMetaType<PluginPacket>("PluginPacket");
+}
+
+void PluginManagerServer::sendPluginPacket(UserData* user, const PluginPacket packet)
+{
+    ClientSocket* socket = ClientSocket::connectedUsers.value( user );
+    if (socket)
+       QMetaObject::invokeMethod(socket, "sendPacket", Qt::QueuedConnection, Q_ARG(QByteArray, CommPlugin(packet).getPacket()));
+    else
+        qDebug() << "PluginManagerServer::sendPluginPacket error user not connected";
 }

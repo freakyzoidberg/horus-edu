@@ -7,6 +7,8 @@
 
 #include "../Common/PluginManager.h"
 #include "../Common/UserData.h"
+#include "../Common/PluginPacket.h"
+
 
 //! To find another plugin with name and/or type
 /*! Sample:
@@ -27,6 +29,10 @@ public:
     void                           setCurrentUser(UserData* user);
 
     static PluginManagerServer* instance();
+
+private slots:
+    void sendPluginPacket(UserData* user, const PluginPacket packet);
+
 private:
     PluginManagerServer();
     QHash<QString,Plugin*> _plugins;

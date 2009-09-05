@@ -18,8 +18,8 @@ class UserDataPlugin : public DataPlugin
 #endif
 
 public:
-    inline const QString pluginName() const { return "UserDataPlugin"; }
-    inline const QString getDataType() const { return "UserData"; }
+    inline const QString pluginName() const { return "User Data Plugin"; }
+    inline const QString getDataType() const { return "User"; }
     virtual UserData*    getUser(quint32 userId) = 0;
 #ifdef HORUS_SERVER
     virtual void         userDisconnected(UserData* user) = 0;

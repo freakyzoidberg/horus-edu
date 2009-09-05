@@ -2,6 +2,8 @@
 
 #include <QLabel>
 #include <QVariant>
+#include <QScrollBar>
+
 
 Debugger::Debugger()
 {
@@ -36,6 +38,8 @@ void Debugger::reset()
 void Debugger::refresh()
 {
     text.setText(list.join("\n"));
+    QScrollBar* bar = text.verticalScrollBar();
+    bar->setValue(bar->maximum());
 }
 
 void Debugger::addDebugMessage(const QString msg)
