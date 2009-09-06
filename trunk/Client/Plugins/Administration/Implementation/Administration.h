@@ -8,7 +8,7 @@
 # include "../../../NetworkPlugin.h"
 # include "../../../DisplayablePlugin.h"
 
-# include "AdministrationFrame.h"
+# include "AdminMainFrame.h"
 
 class Administration : public NetworkPlugin, public DisplayablePlugin
 {
@@ -34,7 +34,7 @@ public:
         QWidget                 *getWidget();
 
 private:
-        AdministrationFrame           *widget;
+        AdminMainFrame           *widget;
 
 private slots:
 	 void send(PluginPacket *packet);

@@ -7,7 +7,7 @@ QWidget             *Administration::getWidget()
 
 void Administration::receivePacket(UserData* user, const PluginPacket& packet)
 {
-    this->widget->packetManager(packet.data.toHash());
+    //this->widget->packetManager(packet.data.toHash());
 }
 
 const QString   Administration::pluginName() const
@@ -22,8 +22,8 @@ const QString   Administration::pluginVersion() const
 
 void Administration::load()
 {
-	this->widget = new AdministrationFrame();
-        //this->connect(this->widget, SIGNAL(send(PluginPacket *packet)), this, SLOT(send(PluginPacket *packet)));
+        this->widget = new AdminMainFrame();
+        //connect(this->widget, SIGNAL(send(PluginPacket *packet)), this, SLOT(send(PluginPacket *packet)));
         load();
 }
 
