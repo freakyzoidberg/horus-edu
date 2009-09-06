@@ -343,7 +343,6 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
         Pal.setColor(QPalette::Foreground, Qt::red);
                 ui->label_9->setPalette(Pal);
         }
-    qDebug() << "dir exist";
             dir.setFilter(QDir::Dirs| QDir::NoDotAndDotDot);
             QFileInfoList list = dir.entryInfoList();
             for (int i = 0; i < list.size(); ++i)
@@ -354,7 +353,6 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
                 found = 0;
                 if (dirfils.exists())
                     {
-qDebug() << "dirfils exist";
                     dirfils.setFilter(QDir::Files| QDir::NoDotAndDotDot);
                     QFileInfoList listfils = dirfils.entryInfoList();
 

@@ -18,6 +18,7 @@ void Settings::CheckSettings()
 
 void Settings::FirstSetSettings()
 {
+    int found;
     if (this->Gsettings.status() == 0)
     {
 
@@ -85,6 +86,7 @@ void Settings::FirstSetSettings()
                QFileInfo fileInfo = list.at(i);
 
                 QDir dirfils(fileInfo.absoluteFilePath());
+                found = 0;
                 if (dirfils.exists())
                     {
 
@@ -94,20 +96,16 @@ void Settings::FirstSetSettings()
                         {
 
                         QFileInfo filefilsInfo = listfils.at(j);
-                        #ifdef Q_OS_WIN
-                        if ((fileInfo.fileName() + ".dll") == (filefilsInfo.fileName()))
-                        #else
-                        if (("lib"+fileInfo.fileName() + ".so") == (filefilsInfo.fileName()))
-                        #endif
+                        if ((filefilsInfo.fileName().endsWith(".so") && filefilsInfo.fileName().count(".so") == 1) || (filefilsInfo.fileName().endsWith(".dll") && filefilsInfo.fileName().count(".dll") == 1))
                             {
                                 streamo << "Enable plugin "+ fileInfo.fileName() +" [y/N] : ";
                                 streamo.flush();
                                 line = streami.readLine();
                                 if ((line == "y") | (line == "o") | (line == "Y") | (line == "O"))
                                 #ifdef Q_OS_WIN
-                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+fileInfo.fileName()+".dll"));
+                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+filefilsInfo.fileName()));
                                 #else
-                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/lib"+fileInfo.fileName()+".so"));
+                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+filefilsInfo.fileName()));
                                 #endif
                              }
                              }
