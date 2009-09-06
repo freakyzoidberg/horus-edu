@@ -2,9 +2,9 @@
 # Project created by QtCreator 2009-04-04T00:47:29
 # -------------------------------------------------
 QT += xml
-TARGET = TestGit
+TARGET = TestGitServer
 TEMPLATE = lib
-DEFINES += HORUS_CLIENT
+DEFINES += HORUS_SERVER
 SOURCES += Implementation/TestNetworkPlugin.cpp
 HEADERS += Implementation/TestGitMetaPlugin.h \
     ../../../Common/Plugin.h \

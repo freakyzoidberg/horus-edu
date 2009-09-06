@@ -2,7 +2,7 @@
 # Project created by QtCreator 2009-04-04T00:47:29
 # -------------------------------------------------
 QT += xml
-TARGET = TestGit
+TARGET = TestGitClient
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/TestGitWidget.cpp \
