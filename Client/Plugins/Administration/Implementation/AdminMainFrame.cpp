@@ -5,10 +5,10 @@ AdminMainFrame::AdminMainFrame(Administration *parent)
 {
     contentsWidget = new QListWidget;
     contentsWidget->setViewMode(QListView::IconMode);
-    contentsWidget->setIconSize(QSize(50, 50));
+    contentsWidget->setIconSize(QSize(20, 20));
     contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setMaximumWidth(90);
-    contentsWidget->setSpacing(10);
+    contentsWidget->setMaximumWidth(82);
+    contentsWidget->setSpacing(6);
 
 
     framesWidget = new QStackedWidget;

@@ -7,10 +7,11 @@ StudentsPage::StudentsPage()
 
 void    StudentsPage::setupUi()
 {
+    this->setMinimumWidth(700);
     stuLayout = new QHBoxLayout(this);
     studentTree = new QTreeView();
     menuLayout = new QVBoxLayout();
-    menuLayout->setAlignment(Qt::AlignHCenter);
+    //menuLayout->setAlignment(Qt::AlignHCenter);
     formLayout = new QHBoxLayout();
     leftLayout = new QFormLayout();
     leftLayout->setHorizontalSpacing(4);
@@ -65,10 +66,9 @@ void    StudentsPage::setupUi()
     activeBox = new QCheckBox("Active");
     activeBox->setObjectName(QString::fromUtf8("activeBox"));
     leftLayout->setWidget(0, QFormLayout::FieldRole, activeBox);
-    formLayout->addLayout(leftLayout);
     rightLayout = new QFormLayout();
     rightLayout->setFieldGrowthPolicy(QFormLayout::ExpandingFieldsGrow);
-    rightLayout->setHorizontalSpacing(3);
+    rightLayout->setHorizontalSpacing(4);
     rightLayout->setVerticalSpacing(10);
     graphicsView = new QGraphicsView(this);
     rightLayout->setWidget(2, QFormLayout::FieldRole, graphicsView);
@@ -81,6 +81,7 @@ void    StudentsPage::setupUi()
     lineEdit_7 = new QLineEdit(this);
     lineEdit_7->setObjectName(QString::fromUtf8("lineEdit_7"));
     rightLayout->setWidget(3, QFormLayout::FieldRole, lineEdit_7);
+    formLayout->addLayout(leftLayout);
     formLayout->addLayout(rightLayout);
     menuLayout->addLayout(formLayout);
     buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
@@ -92,7 +93,9 @@ void    StudentsPage::setupUi()
     menuLayout->addWidget(buttonBox);
     stuLayout->addWidget(studentTree);
     stuLayout->addLayout(menuLayout);
+    formLayout->setStretch(0, 1);
+    formLayout->setStretch(1, 1);
     this->stuLayout->setStretch(0, 1);
-    this->stuLayout->setStretch(1, 3);
+    this->stuLayout->setStretch(1, 4);
 }
 

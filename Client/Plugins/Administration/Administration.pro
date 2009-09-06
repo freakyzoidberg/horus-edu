@@ -27,3 +27,4 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h
+RESOURCES += Implementation/AdminMainFrame.qrc

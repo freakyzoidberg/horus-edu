@@ -68,7 +68,7 @@ void    TeacherPage::setupUi()
     formLayout->addLayout(leftLayout);
     rightLayout = new QFormLayout();
     rightLayout->setFieldGrowthPolicy(QFormLayout::ExpandingFieldsGrow);
-    rightLayout->setHorizontalSpacing(3);
+    rightLayout->setHorizontalSpacing(4);
     rightLayout->setVerticalSpacing(10);
     graphicsView = new QGraphicsView(this);
     rightLayout->setWidget(2, QFormLayout::FieldRole, graphicsView);
@@ -93,5 +93,5 @@ void    TeacherPage::setupUi()
     teaLayout->addWidget(teacherTree);
     teaLayout->addLayout(menuLayout);
     this->teaLayout->setStretch(0, 1);
-    this->teaLayout->setStretch(1, 3);
+    this->teaLayout->setStretch(1, 4);
 }
