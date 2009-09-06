@@ -1,7 +1,7 @@
 #include "Administration.h"
-#include "../../ClientEvents.h"
-#include "../../../Common/PluginManager.h"
-#include "../../../Common/TreeDataPlugin.h"
+#include "../../../ClientEvents.h"
+#include "../../../../Common/PluginManager.h"
+#include "../../../../Common/TreeDataPlugin.h"
 
 QEvent::Type ClientEvents::LoadPluginEvent;
 

@@ -2,12 +2,14 @@
 
 #include "Plugin.h"
 #include <QDebug>
+#include <QEvent>
 #include <QFileInfo>
 #include <QMapIterator>
 #include <QVariant>
 #include <QList>
 
 #include "../../../../Common/FileData.h"
+#include "../../../ClientEvents.h"
 
 #include "../IPdfFile.h"
 
@@ -80,10 +82,10 @@ QImage    *PdfDisplayer::PdfDisplayerDoc(quint32 fileId, int page,
     QString fileName;
     FileData   *file;
 
-    file = fileManager->getFile(fileId);
+    file = 0;//fileManager->getFile(fileId); TODO: use filemanager
     if (!file)
        return 0;
-    fileName = file->getLocalFileName();
+    fileName = "";//file->getLocalFileName();
     return PdfDisplayerDoc(fileName, page, partToDisplay, fileId);
 }
 

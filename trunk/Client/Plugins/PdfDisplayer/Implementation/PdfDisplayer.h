@@ -19,7 +19,7 @@
   To have more informations about horus plugins, see the plugin tesPlugin <-------- outdated information
 */
 
-class PdfDisplayer : public IPdfRendering, public Plugin
+class PdfDisplayer : public Plugin, public IPdfRendering
 {
     Q_OBJECT
     Q_INTERFACES(Plugin)

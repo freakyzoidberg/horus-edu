@@ -26,7 +26,7 @@ MailData* MailDataBasePlugin::getSettings(QString part, quint8 scope, quint32 ow
 
 Data* MailDataBasePlugin::getDataWithKey(QDataStream& s)
 {
-
+	return (0); // TODO: return good value
 }
 
 #ifdef HORUS_SERVER
