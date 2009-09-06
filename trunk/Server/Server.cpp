@@ -13,25 +13,29 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     config->CheckSettings();
 
     logs *mylog = new logs();
-
-    mylog->setFile(config->GetSettings("SoftFullPath","SETTINGS")+"/"+"Server.log");
+    QDateTime now = QDateTime::currentDateTime();
+    mylog->setFile(config->GetSettings("SoftFullPath","SETTINGS")+"/"+"Logs-Server-"+now.toString("d-MMM-yy_h-mm-ss")+".log");
     mylog->start();
 
     if (Sql::sqlConnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL").toInt(), SQLCONNECTIONCOUNT))
-        qDebug() << "Server::Server() SQL connected";
+    {
+        mylog->addlog(LOGINFO,"Connected to SQL Server");
+        //qDebug() << "Server::Server() SQL connected";
+    }
     else
-        qDebug() << "Server::Server() NO SQL !!!";
+        mylog->addlog(LOGERROR,"Problem while connecting to SQL Server");
+        //qDebug() << "Server::Server() NO SQL !!!";
 
     //new ThreadFiles(this);
     Tree::UpdateVector();
     //update tree
 
-    mylog->addlog(1,"test");
+
     //QSettings settings;
     if (listen(QHostAddress::Any, config->GetSettings("SRV_PORT","SERVER").toInt()))
-        qDebug() << "Server Listening on port:" << serverPort();
+        mylog->addlog(LOGINFO,"Server Listening on port:" + QString(serverPort()));
     else
-        qDebug() << "Server Not listening" << errorString();
+        mylog->addlog(LOGERROR,"Server Not listening : " + errorString());
 
 }
 

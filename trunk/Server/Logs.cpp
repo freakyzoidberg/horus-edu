@@ -40,15 +40,12 @@ void logs::run()
  {
     QFile *file = new QFile(logfile);
     file->open(QFile::Append);
-    if (file->isOpen() == true)
-        qDebug() << "file ouvert";
-    else
-       qDebug() << "file derme  " + logfile;
+    if (file->isOpen() == false)
+       qCritical() << "LOGS Thread : Cannot open -> " + logfile ;
     int i;
     while (42)
     {
     sleep(1);
-
     if (msglogs.count() > 0)
     {
         logmutex->lock();
