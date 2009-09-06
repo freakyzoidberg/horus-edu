@@ -321,7 +321,7 @@ void MainWindow::on_pushButton_4_clicked()
 
 void MainWindow::on_lineEdit_16_textChanged(QString )
 {
-
+int found;
 
 QLayoutItem *child;
 while ((child = ui->scrollArea->layout()->takeAt(0)) != 0) {
@@ -343,6 +343,7 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
         Pal.setColor(QPalette::Foreground, Qt::red);
                 ui->label_9->setPalette(Pal);
         }
+    qDebug() << "dir exist";
             dir.setFilter(QDir::Dirs| QDir::NoDotAndDotDot);
             QFileInfoList list = dir.entryInfoList();
             for (int i = 0; i < list.size(); ++i)
@@ -350,26 +351,23 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
                QFileInfo fileInfo = list.at(i);
 
                 QDir dirfils(fileInfo.absoluteFilePath());
+                found = 0;
                 if (dirfils.exists())
                     {
-
+qDebug() << "dirfils exist";
                     dirfils.setFilter(QDir::Files| QDir::NoDotAndDotDot);
                     QFileInfoList listfils = dirfils.entryInfoList();
-                    for (int j = 0; j < listfils.size(); ++j)
-                        {
 
+                    for (int j = 0; ((j < listfils.size()) && (found == 0)); ++j)
+                        {
                         QFileInfo filefilsInfo = listfils.at(j);
-                        #ifdef WIN32
-                        if (("lib"+fileInfo.fileName() + ".dll") == (filefilsInfo.fileName()))
-                        #else
-                        if (("lib"+fileInfo.fileName() + ".so") == (filefilsInfo.fileName()))
-                        #endif
+                            if ((filefilsInfo.fileName().endsWith(".so") && filefilsInfo.fileName().count(".so") == 1) || (filefilsInfo.fileName().endsWith(".dll") && filefilsInfo.fileName().count(".dll") == 1))
                             {
                                 QCheckBox * pCheckBox = new QCheckBox
-                                    ((fileInfo.fileName()));
-
+                                    (fileInfo.fileName()+"/"+filefilsInfo.fileName());
                                  ui->scrollArea->layout()->addWidget(pCheckBox);
                                  //ui->scrollAreaWidgetContents->repaint();
+                                 found = 1;
                              }
                         }
                     }
@@ -428,12 +426,12 @@ void MainWindow::writesettings()
         if (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->isChecked())
         {
 
-        this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text(),
-                                (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+"/lib"
+        this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text().split("/").first(),
+
                                  #ifdef WIN32
-                                +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".dll")));
+                                (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()));
                                  #else
-                                +(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()+".so")));
+                                (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()));
                                 #endif
         }
 
