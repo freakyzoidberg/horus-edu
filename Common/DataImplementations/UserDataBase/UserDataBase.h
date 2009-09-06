@@ -24,37 +24,12 @@ class UserDataBase : public UserData
 #endif
 
   friend class UserDataBasePlugin;
-private:
-    inline UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { }
-    inline ~UserDataBase() {}
-
-    QDateTime   birthDate;
-    QByteArray  picture;
-    QString     address;
-    QString     phone;
-    QString     country;
-#ifdef HORUS_SERVER
-    void updateLastLogin(QSqlQuery&);
-#endif
 
 public:
-    //! Have to write his key into the stream to be able to identify this data with the server and the cache.
+    // Data Interface
     void keyToStream(QDataStream& s);
-    //! Have to write his data into the stream.
-    /*! Called to:
-     *  - Transfert this data between client and server.
-     *  - Write to a local cache file.
-     *  - Compare two data.
-     */
     void dataToStream(QDataStream& s);
-    //! Have to read his data from the stream.
-    /*! Called to:
-     *  - Transfert this data between client and server.
-     *  - Read from a local cache file.
-     */
     void dataFromStream(QDataStream& s);
-
-    //! Usefull for debuging. Not mandatory but important.
     QDebug operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
     QVariant data(int column, int role = Qt::DisplayRole) const;
@@ -68,10 +43,59 @@ public:
     void saveIntoDatabase  (QSqlQuery&);
     //! Delete the current data from the database.
     void deleteFromDatabase(QSqlQuery&);
+#endif
+
+    //UserData Interface
+    inline const QString    login() const { return _login; }
+    inline const QDateTime  lastLogin() const { return _lastLogin; }
+    inline bool             loggedIn() const { return _loggedIn; }
+
+    inline const QString    name() const { return _name; }
+    void                    setName(const QString name);
+
+    inline const QString    surname() const { return _surname; }
+    void                    setSurname(const QString name);
+
+    inline quint8           level() const { return _level; }
+    void                    setLevel(quint8 level);
+
+    inline bool             enabled() const { return _enabled; }
+    void                    enable(bool enabled);
+
+    inline TreeData*        node() const { return _node; }
+    void                    setNode(TreeData* node);
+
+    inline const QString    language() const { return _language; }
+    void                    setLanguage(const QString language);
+
+#ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
     QByteArray newSession(QSqlQuery&, const QDateTime& end);
     //! Destroy the session generated to allow only password authentication.
     void destroySession(QSqlQuery&);
+#endif
+
+private:
+    inline UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { }
+    inline ~UserDataBase() {}
+
+    quint8      _level;
+    bool        _enabled;
+    bool        _loggedIn;
+    QString     _login;
+    TreeData*   _node;
+    QString     _name;
+    QString     _surname;
+    QDateTime   _lastLogin;
+    QString     _language;
+
+    QDateTime   _birthDate;
+    QByteArray  _picture;
+    QString     _address;
+    QString     _phone;
+    QString     _country;
+#ifdef HORUS_SERVER
+    void updateLastLogin(QSqlQuery&);
 #endif
 };
 

@@ -155,8 +155,8 @@ void ThreadPacket::PacketLogin()
 //        qDebug() << node;
 
         //send the node between 0 and user nodeId
-        for (node = treePlugin->getNode(user->idTree);
-             node->getId() > 0;
+        for (node = user->node();
+             node->id() > 0;
              node = (TreeData*)(node->parent()))
         {
             node->fillFromDatabase(query);

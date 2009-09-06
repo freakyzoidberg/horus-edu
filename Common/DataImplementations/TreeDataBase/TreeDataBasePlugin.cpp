@@ -35,7 +35,7 @@ void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-    ((TreeDataBase*)(d))->nodeId = tmpId;
+    ((TreeDataBase*)(d))->_id = tmpId;
 }
 
 #include "../../../Client/Plugins/TreeBaseClient/TreeModel.h"

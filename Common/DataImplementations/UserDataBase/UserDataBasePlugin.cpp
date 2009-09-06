@@ -23,7 +23,7 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-    ((UserDataBase*)(d))->id = tmpId;
+    ((UserDataBase*)(d))->_id = tmpId;
 }
 #endif
 #ifdef HORUS_SERVER

@@ -63,10 +63,10 @@ void    MainFrameWidget::updateInfos()
 
     connect(user, SIGNAL(updated()), this, SLOT(updateInfos()));
 
-    connectedAs->setText("Connected as: " + user->login + " (" + user->name + " " + user->surname + ")");
+    connectedAs->setText("Connected as: " + user->login() + " (" + user->name() + " " + user->surname() + ")");
 
-    if (user->lastLogin.isValid())
-        lastLogin->setText("Last login: " + user->lastLogin.toString());
+    if (user->lastLogin().isValid())
+        lastLogin->setText("Last login: " + user->lastLogin().toString());
     else
         lastLogin->setText("Last login: Never");
 }

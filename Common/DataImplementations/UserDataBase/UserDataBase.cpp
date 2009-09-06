@@ -1,46 +1,51 @@
 #include "UserDataBase.h"
 #include "UserDataBasePlugin.h"
+#include "../../PluginManager.h"
+#include "../../TreeData.h"
+#include "../../TreeDataPlugin.h"
 
 void UserDataBase::keyToStream(QDataStream& s)
 {
-    s << (quint32)id;
+    s << _id;
 }
 
 void UserDataBase::dataToStream(QDataStream& s)
 {
-    s << (quint8)level
-      << (bool)enabled
-      << login
+    s << _level
+      << _enabled
+      << _login
 
-      << lastLogin
-      << surname
-      << name
-      << birthDate
-      << picture
-      << address
-      << phone
-      << country
-      << language
-      << idTree;
+      << _lastLogin
+      << _surname
+      << _name
+      << _birthDate
+      << _picture
+      << _address
+      << _phone
+      << _country
+      << _language
+      << _node->id();
     Data::dataToStream(s);
 }
 
 void UserDataBase::dataFromStream(QDataStream& s)
 {
-    s >> (quint8&)level
-      >> (bool&)enabled
-      >> login
+    quint32 nodeId;
+    s >> _level
+      >> _enabled
+      >> _login
 
-      >> lastLogin
-      >> surname
-      >> name
-      >> birthDate
-      >> picture
-      >> address
-      >> phone
-      >> country
-      >> language
-      >> idTree;
+      >> _lastLogin
+      >> _surname
+      >> _name
+      >> _birthDate
+      >> _picture
+      >> _address
+      >> _phone
+      >> _country
+      >> _language
+      >> nodeId;
+    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
     Data::dataFromStream(s);
 }
 
@@ -48,11 +53,11 @@ QDebug UserDataBase::operator<<(QDebug debug) const
 {
     return debug << getDataType()
                  << error()
-                 << id
-                 << level
-                 //<< enabled
-                 << login
-                 << lastLogin
+                 << _id
+                 << _level
+                 //<< _enabled
+                 << _login
+                 << _lastLogin
                  //<< surname
                  //<< name
                  //<< birthDate
@@ -61,7 +66,31 @@ QDebug UserDataBase::operator<<(QDebug debug) const
                  //<< phone
                  //<< country
                  //<< language
-                 << idTree;
+                 << _node->id();
+}
+
+void UserDataBase::setName(const QString name)
+{
+}
+
+void UserDataBase::setSurname(const QString name)
+{
+}
+
+void UserDataBase::setLevel(quint8 level)
+{
+}
+
+void UserDataBase::enable(bool enabled)
+{
+}
+
+void UserDataBase::setNode(TreeData* node)
+{
+}
+
+void UserDataBase::setLanguage(const QString language)
+{
 }
 
 #ifdef HORUS_CLIENT
@@ -70,15 +99,15 @@ QVariant UserDataBase::data(int column, int role) const
     if (role == Qt::DisplayRole)
     {
         if (column == 0)
-            return id;
+            return _id;
         if (column == 1)
-            return login;
+            return _login;
         if (column == 2)
-            return name;
+            return _name;
         if (column == 3)
-            return surname;
+            return _surname;
         if (column == 4)
-            return lastLogin;
+            return _lastLogin;
     }
     return QVariant();
 }
@@ -89,44 +118,44 @@ QVariant UserDataBase::data(int column, int role) const
 void UserDataBase::fillFromDatabase(QSqlQuery& query)
 {
     query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
-    query.addBindValue(id);
+    query.addBindValue(_id);
     if ( ! query.exec() || ! query.next())
     {
         _error = NOT_FOUND;
         return;
     }
-    login      = query.value(0).toString();
-    level      = (UserLevel)(query.value(1).toUInt());
-    lastLogin  = query.value(2).toDateTime();
-    surname    = query.value(3).toString();
-    name       = query.value(4).toString();
-    birthDate  = query.value(5).toDateTime();
-    picture    = query.value(6).toByteArray();
-    address    = query.value(7).toString();
-    phone      = query.value(8).toString();
-    country    = query.value(9).toString();
-    language   = query.value(10).toString();
-    idTree     = query.value(11).toUInt();
-    enabled    = query.value(12).toBool();
+    _login      = query.value(0).toString();
+    _level      = (UserLevel)(query.value(1).toUInt());
+    _lastLogin  = query.value(2).toDateTime();
+    _surname    = query.value(3).toString();
+    _name       = query.value(4).toString();
+    _birthDate  = query.value(5).toDateTime();
+    _picture    = query.value(6).toByteArray();
+    _address    = query.value(7).toString();
+    _phone      = query.value(8).toString();
+    _country    = query.value(9).toString();
+    _language   = query.value(10).toString();
+    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(11).toUInt() );
+    _enabled    = query.value(12).toBool();
     _lastChange= query.value(13).toDateTime();
 }
 
 void UserDataBase::createIntoDatabase(QSqlQuery& query)
 {
     query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
-    query.addBindValue(login);
-    query.addBindValue(level);
-    query.addBindValue(lastLogin);
-    query.addBindValue(surname);
-    query.addBindValue(name);
-    query.addBindValue(birthDate);
-    query.addBindValue(picture);
-    query.addBindValue(address);
-    query.addBindValue(phone);
-    query.addBindValue(country);
-    query.addBindValue(language);
-    query.addBindValue(idTree);
-    query.addBindValue(enabled);
+    query.addBindValue(_login);
+    query.addBindValue(_level);
+    query.addBindValue(_lastLogin);
+    query.addBindValue(_surname);
+    query.addBindValue(_name);
+    query.addBindValue(_birthDate);
+    query.addBindValue(_picture);
+    query.addBindValue(_address);
+    query.addBindValue(_phone);
+    query.addBindValue(_country);
+    query.addBindValue(_language);
+    query.addBindValue(_node->id());
+    query.addBindValue(_enabled);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
     if ( ! query.exec() || ! query.next())
@@ -134,28 +163,28 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
         _error = DATABASE_ERROR;
         return;
     }
-    id = query.lastInsertId().toUInt();
+    _id = query.lastInsertId().toUInt();
 }
 
 void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
 {
     query.prepare("UPDATE users SET login=?,level=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
-    query.addBindValue(login);
-    query.addBindValue(level);
-    query.addBindValue(lastLogin);
-    query.addBindValue(surname);
-    query.addBindValue(name);
-    query.addBindValue(birthDate);
-    query.addBindValue(picture);
-    query.addBindValue(address);
-    query.addBindValue(phone);
-    query.addBindValue(country);
-    query.addBindValue(language);
-    query.addBindValue(idTree);
-    query.addBindValue(enabled);
+    query.addBindValue(_login);
+    query.addBindValue(_level);
+    query.addBindValue(_lastLogin);
+    query.addBindValue(_surname);
+    query.addBindValue(_name);
+    query.addBindValue(_birthDate);
+    query.addBindValue(_picture);
+    query.addBindValue(_address);
+    query.addBindValue(_phone);
+    query.addBindValue(_country);
+    query.addBindValue(_language);
+    query.addBindValue(_node->id());
+    query.addBindValue(_enabled);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
-    query.addBindValue(id);
+    query.addBindValue(_id);
     if ( ! query.exec())
     {
         qDebug() << query.lastError();
@@ -167,7 +196,7 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
 void UserDataBase::deleteFromDatabase(QSqlQuery& query)
 {
     query.prepare("DELETE FROM users WHERE id=?;");
-    query.addBindValue(id);
+    query.addBindValue(_id);
     if ( ! query.exec() || ! query.next())
     {
         _error = NOT_FOUND;
@@ -179,14 +208,14 @@ QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
 {
      //TODO maybe change this value
     QByteArray session;
-    qsrand(QTime::currentTime().msec() + id);
+    qsrand(QTime::currentTime().msec() + _id);
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
         session[i] = qrand();
 
     query.prepare("UPDATE users SET session_key=?, session_end=? WHERE id=?;");
     query.addBindValue(session.toHex());
     query.addBindValue(end);
-    query.addBindValue(id);
+    query.addBindValue(_id);
     if ( ! query.exec())
         _error = DATABASE_ERROR;
 
@@ -196,7 +225,7 @@ QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
 void UserDataBase::destroySession(QSqlQuery& query)
 {
     query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
-    query.addBindValue(id);
+    query.addBindValue(_id);
     if ( ! query.exec())
         _error = DATABASE_ERROR;
 }
@@ -205,7 +234,7 @@ void UserDataBase::updateLastLogin(QSqlQuery& query)
 {
     query.prepare("UPDATE users SET last_login=? WHERE id=?;");
     query.addBindValue(QDateTime::currentDateTime());
-    query.addBindValue(id);
+    query.addBindValue(_id);
     if ( ! query.exec())
         _error = DATABASE_ERROR;
 }

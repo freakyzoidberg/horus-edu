@@ -17,6 +17,7 @@ HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
     ../../../Common/Data.h \
     ../../../Common/DataManager.h \
     ../../../Common/TreeData.h \
+    ../../../Common/UserData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/TreeDataPlugin.h \
     ../../../Common/AbstractManager.h \

@@ -27,7 +27,7 @@ void SettingsDataBase::keyToStream(QDataStream& s)
 {
     s << _part
       << _scope
-      << _owner->id;
+      << _owner->id();
 }
 
 void SettingsDataBase::dataToStream(QDataStream& s)
@@ -46,7 +46,7 @@ QDebug SettingsDataBase::operator<<(QDebug debug) const
 {
     return debug << _part
                  << _scope
-                 << _owner->login
+                 << _owner->login()
                  << _values;
 }
 
@@ -54,7 +54,7 @@ QDebug SettingsDataBase::operator<<(QDebug debug) const
 void SettingsDataBase::fillFromDatabase(QSqlQuery& query)
 {
     query.prepare("SELECT value,mtime FROM settings WHERE user=? AND plugin=? AND scope=?;");
-    query.addBindValue(_owner->id);
+    query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
     if ( ! query.exec() || ! query.next())
@@ -70,7 +70,7 @@ void SettingsDataBase::fillFromDatabase(QSqlQuery& query)
 void SettingsDataBase::createIntoDatabase(QSqlQuery& query)
 {
     query.prepare("INSERT INTO settings (user,plugin,scope,value,mtime) VALUES (?,?,?,?,?);");
-    query.addBindValue(_owner->id);
+    query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
     query.addBindValue(_values);
@@ -90,7 +90,7 @@ void SettingsDataBase::saveIntoDatabase  (QSqlQuery& query)
 
     query.prepare("UPDATE settings SET value=?,mtime=? WHERE user=? AND plugin=? AND scope=?;");
     query.addBindValue(_values);
-    query.addBindValue(_owner->id);
+    query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
     _lastChange = QDateTime::currentDateTime();
@@ -105,7 +105,7 @@ void SettingsDataBase::saveIntoDatabase  (QSqlQuery& query)
 void SettingsDataBase::deleteFromDatabase(QSqlQuery& query)
 {
     query.prepare("DELETE FROM settings WHERE user=? AND plugin=? AND scope=?;");
-    query.addBindValue(_owner->id);
+    query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
     if ( ! query.exec() || ! query.next())

@@ -18,8 +18,8 @@ void FileDataBase::dataToStream(QDataStream& s)
 {
     s << id
       << name
-      << user->id
-      << node->getId()
+      << user->id()
+      << node->id()
       << mimeType;
 }
 
@@ -45,8 +45,8 @@ QDebug FileDataBase::operator<<(QDebug debug) const
     return debug
       << id
       << name
-      << user->id
-      << node->getId()
+      << user->id()
+      << node->id()
       << mimeType;
 }
 
@@ -120,9 +120,9 @@ QVariant FileDataBase::data(int column, int role) const
         if (column == 2)
             return mimeType;
         if (column == 3)
-            return user->id;
+            return user->id();
         if (column == 4)
-            return node->getId();
+            return node->id();
     }
     else if (role == Qt::DecorationRole && column == 0)
     {
