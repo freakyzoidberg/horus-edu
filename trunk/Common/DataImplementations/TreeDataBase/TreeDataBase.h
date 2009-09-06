@@ -23,9 +23,9 @@ private:
     TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin);
     inline ~TreeDataBase() {}
 
-    quint32 userId;
-    QString name;
-    QString type;
+    UserData*   _user;
+    QString     _name;
+    QString     _type;
 
 
 public:
@@ -37,19 +37,20 @@ public:
     QDebug          operator<<(QDebug debug) const;
 
     // INTERFACE TreeData
-    void            createChild(int userId, QString name, QString type);
-    void            remove();
-    void            moveTo(int idfather);
-    void            moveTo(TreeData* father);
-    inline QString  getName() const { return objectName(); }
-    void            setName(QString name);
-    inline int      getUserId() const { return userId; }
-    void            setUserId(int user);
-    inline QString  getType() const { return type; }
-    void            setType(QString type);
-    bool            isDescendantOf(int parent);
-    bool            isDescendantOf(TreeData* parent);
-    bool            canChange();
+    TreeData*           createChild(const QString name, const QString type, UserData* user);
+    void                remove();
+    void                moveTo(TreeData* father);
+
+    inline const QString name() const { return objectName(); }
+    void                setName(const QString name);
+
+    inline UserData*    user() const { return _user; }
+    void                setUser(UserData* user);
+
+    inline const QString type() const { return _type; }
+    void                setType(const QString type);
+
+    bool                isDescendantOf(TreeData* parent);
 
 #ifdef HORUS_CLIENT
     QVariant        data(int column, int role = Qt::DisplayRole) const;
