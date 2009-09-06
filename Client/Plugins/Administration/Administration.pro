@@ -6,29 +6,17 @@ TARGET = Administration
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
-    Implementation/AdministrationFrame.cpp \
-    Implementation/TreeFrame.cpp \
-    Implementation/UserFrame.cpp \
-    Implementation/ClassRoomFrame.cpp \
-    Implementation/ClassFrame.cpp \
-    Implementation/TeacherFrame.cpp \
-    Implementation/FileFrame.cpp
+    Implementation/AdminMainFrame.cpp \
+    Implementation/TeacherPage.cpp \
+    Implementation/StudentsPage.cpp \
+    Implementation/RoomPage.cpp
 HEADERS += Implementation/Administration.h \
-    Implementation/AdministrationFrame.h \
-    Implementation/TreeFrame.h \
-    Implementation/UserFrame.h \
-    Implementation/ClassRoomFrame.h \
-    Implementation/ClassFrame.h \
-    Implementation/TeacherFrame.h \
-    Implementation/FileFrame.h \
+    Implementation/AdminMainFrame.h \
+    Implementation/TeacherPage.h \
+    Implementation/StudentsPage.h \
+    Implementation/RoomPage.h \
     Implementation/AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
-    ../../../Common/NetworkPlugin.h \
+    ../../../NetworkPlugin.h \
     ../../DisplayablePlugin.h
-FORMS += Implementation/Ui/AdministrationFrame.ui \
-    Implementation/Ui/UserFrame.ui \
-    Implementation/Ui/ClassRoomFrame.ui \
-    Implementation/Ui/ClassFrame.ui \
-    Implementation/Ui/TeacherFrame.ui \
-    Implementation/Ui/FileFrame.ui
