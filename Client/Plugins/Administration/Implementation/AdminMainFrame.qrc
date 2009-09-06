@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>images/Administrator.png</file>
+        <file>images/Clipboard.png</file>
+        <file>images/User Group.png</file>
+    </qresource>
+</RCC>
