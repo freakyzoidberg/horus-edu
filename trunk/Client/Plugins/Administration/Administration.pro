@@ -19,4 +19,12 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../NetworkPlugin.h \
-    ../../DisplayablePlugin.h
+    ../../DisplayablePlugin.h \
+    ../../../Common/UserDataPlugin.h \
+    ../../../Common/UserData.h \
+    ../../../Common/TreeDataPlugin.h \
+    ../../../Common/TreeData.h \
+    ../../../Common/PluginManager.h \
+    ../../../Common/DataPlugin.h \
+    ../../../Common/Data.h \
+    Implementation/AdministrationMetaPlugin.h

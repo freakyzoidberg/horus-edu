@@ -1,7 +1,7 @@
 #include "AdminMainFrame.h"
 
-AdminMainFrame::AdminMainFrame(QWidget *parent)
-    : QWidget(parent)
+AdminMainFrame::AdminMainFrame(Administration *parent)
+    : QWidget()
 {
     contentsWidget = new QListWidget;
     contentsWidget->setViewMode(QListView::IconMode);
