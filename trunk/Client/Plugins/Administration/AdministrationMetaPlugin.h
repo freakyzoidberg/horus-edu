@@ -3,7 +3,7 @@
 
 #include "../../../Common/MetaPlugin.h"
 
-#include "Administration.h"
+#include "Implementation/Administration.h"
 
 class AdministrationMetaPlugin : public MetaPlugin
 {
@@ -12,15 +12,12 @@ class AdministrationMetaPlugin : public MetaPlugin
 
 public:
     inline AdministrationMetaPlugin() {
-      Plugin* p = new Administration();
-      pluginList.append(p);
-      //PluginManager().addPlugin(p);
+      pluginList.append(new Administration());
   }
 };
 
 /* maybe put this lines in a cpp if this file is include by an other file */
 // declare instance of the plugin
 Q_EXPORT_PLUGIN2(AdministrationMetaPlugin, AdministrationMetaPlugin);
-
 
 #endif // ADMINISTRATIONMETAPLUGIN_H
