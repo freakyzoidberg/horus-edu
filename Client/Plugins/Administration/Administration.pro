@@ -15,10 +15,10 @@ HEADERS += Implementation/Administration.h \
     Implementation/TeacherPage.h \
     Implementation/StudentsPage.h \
     Implementation/RoomPage.h \
-    Implementation/AdministrationMetaPlugin.h \
+    AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
-    ../../../NetworkPlugin.h \
+    ../../../Common/AbstractManager.h \
     ../../DisplayablePlugin.h \
     ../../../Common/UserDataPlugin.h \
     ../../../Common/UserData.h \
@@ -26,5 +26,4 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/TreeData.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
-    ../../../Common/Data.h \
-    Implementation/AdministrationMetaPlugin.h
+    ../../../Common/Data.h
