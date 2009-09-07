@@ -17,9 +17,14 @@ const QString    Course::pluginVersion() const
     return "0.2";
 }
 
+const QString	Course::getDisplayableName()
+{
+	return ("Course");
+}
+
 bool	Course::canLoad() const
 {
-	if (pluginManager->findPlugin("LessonManager") && pluginManager->findPlugin<TreeDataPlugin *>("TreeDataPlugin") && pluginManager->findPlugin<FileDataPlugin *>("FileDataPlugin"))
+	if (pluginManager->findPlugin("LessonManager") && pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base") && pluginManager->findPlugin<FileDataPlugin *>("File Data Base"))
 		return (true);
 	return (false);
 }
@@ -31,8 +36,8 @@ void	Course::load()
 	FileDataPlugin	*filePlugin;
 
     lessonPlugin = this->pluginManager->findPlugin<ILessonManager *>("LessonManager");
-    treePlugin = this->pluginManager->findPlugin<TreeDataPlugin *>("TreeDataPlugin");
-	filePlugin = this->pluginManager->findPlugin<FileDataPlugin *>("FileDataPlugin");
+    treePlugin = this->pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base");
+	filePlugin = this->pluginManager->findPlugin<FileDataPlugin *>("File Data Base");
 	this->widget = new CourseWidget(lessonPlugin, treePlugin, filePlugin);
 	Plugin::load();
 }
