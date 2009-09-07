@@ -38,8 +38,14 @@ Data* SettingsDataBasePlugin::getDataWithKey(QDataStream& s)
 }
 
 #ifdef HORUS_SERVER
-bool SettingsDataBasePlugin::verifyDataBase(QSqlQuery& TODO)
+void SettingsDataBasePlugin::loadDataBase(QSqlQuery& query)
 {
-    return true;
+}
+
+void SettingsDataBasePlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+{
+//    foreach (UserData* data, users)
+//        if (data->lastChange() >= date)
+//            dataManager->sendData(user, data);
 }
 #endif

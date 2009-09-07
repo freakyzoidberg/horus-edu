@@ -16,7 +16,6 @@ SOURCES = main.cpp \
     Settings.cpp \
     ClientSocket.cpp \
     UserSettings.cpp \
-    Tree.cpp \
     ThreadPacket.cpp \
     PluginManagerServer.cpp \
     ../Common/CommInit.cpp \
@@ -36,7 +35,6 @@ HEADERS = Sql.h \
     ClientSocket.h \
     ThreadPacket.h \
     UserSettings.h \
-    Tree.h \
     PluginManagerServer.h \
     ../Common/PluginManager.h \
     ../Common/Defines.h \

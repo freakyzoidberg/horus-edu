@@ -34,7 +34,8 @@ public:
 #endif
 #ifdef HORUS_SERVER
     //! On the server, the module may want to check if the database is ok
-    virtual bool          verifyDataBase(QSqlQuery&) = 0;
+    virtual inline void   loadDataBase(QSqlQuery&) { }
+    virtual inline void   sendUpdates(QSqlQuery&, UserData*, QDateTime) { }
 #endif
     DataManager*          dataManager;
 };

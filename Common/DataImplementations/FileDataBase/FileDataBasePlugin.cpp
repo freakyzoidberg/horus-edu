@@ -47,8 +47,7 @@ void FileDataBasePlugin::load()
     Plugin::load();
 }
 
-bool FileDataBasePlugin::verifyDataBase(QSqlQuery& TODO)
+void FileDataBasePlugin::loadDataBase(QSqlQuery& TODO)
 {
-    return true;
 }
 #endif

@@ -1,11 +1,10 @@
 #include "Server.h"
 #include "Sql.h"
-//#include "ThreadFiles.h"
 #include "../Common/Defines.h"
 #include "ClientSocket.h"
 #include "Settings.h"
-#include "Tree.h"
 #include "Logs.h"
+
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
     // Server mysql a configurer
@@ -25,10 +24,6 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     else
         mylog->addlog(LOGERROR,"Problem while connecting to SQL Server");
         //qDebug() << "Server::Server() NO SQL !!!";
-
-    //new ThreadFiles(this);
-    Tree::UpdateVector();
-    //update tree
 
 
     //QSettings settings;

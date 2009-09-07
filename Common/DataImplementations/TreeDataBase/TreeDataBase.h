@@ -23,6 +23,7 @@ private:
     TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin);
     inline ~TreeDataBase() {}
 
+    quint32     _id;
     UserData*   _user;
     QString     _name;
     QString     _type;
@@ -37,6 +38,8 @@ public:
     QDebug          operator<<(QDebug debug) const;
 
     // INTERFACE TreeData
+    inline int     id() const { return _id; }
+
     TreeData*           createChild(const QString name, const QString type, UserData* user);
     void                remove();
     void                moveTo(TreeData* father);

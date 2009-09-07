@@ -25,7 +25,8 @@ public:
     SettingsData*        getSettings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0);
 
 #ifdef HORUS_SERVER
-    bool                 verifyDataBase(QSqlQuery&);
+    void                 loadDataBase(QSqlQuery&);
+    void                 sendUpdates(QSqlQuery&, UserData* user, QDateTime date);
 #endif
 
 protected:

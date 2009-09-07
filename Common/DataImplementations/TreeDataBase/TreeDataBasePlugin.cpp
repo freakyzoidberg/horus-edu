@@ -16,6 +16,7 @@ TreeData* TreeDataBasePlugin::getNode(quint32 nodeId)
 #ifdef HORUS_CLIENT
         node->moveToThread(pluginManager->thread());
 #endif
+
         node->setParent(0);
 
         nodes[nodeId] = node;
@@ -46,8 +47,26 @@ QAbstractItemModel* TreeDataBasePlugin::getTreeModel()
 }
 #endif
 #ifdef HORUS_SERVER
-bool TreeDataBasePlugin::verifyDataBase(QSqlQuery& TODO)
+void TreeDataBasePlugin::loadDataBase(QSqlQuery& query)
 {
-    return true;
+    query.prepare("SELECT id,typeofnode,name,user_ref,id_parent FROM tree;");
+    query.exec();
+    while (query.next())
+    {
+        TreeDataBase* node = (TreeDataBase*)(getNode(query.value(0).toUInt()));
+        node->_type   = query.value(1).toString();
+        node->_name   = query.value(2).toString();
+        //node->_user   = query.value(3).toUInt();
+        node->_status = Data::UPTODATE;
+        if (node->_id)
+            node->setParent( getNode(query.value(4).toUInt()) );
+    }
+}
+
+void TreeDataBasePlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+{
+    foreach (TreeData* data, nodes)
+        if (data->lastChange() >= date)
+            dataManager->sendData(user, data);
 }
 #endif
