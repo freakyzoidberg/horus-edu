@@ -11,6 +11,8 @@
 #include <QStringList>
 #include <QDebug>
 #include <QThread>
+#include <QtSql>
+#include "Sql.h"
 
 const QHash<QString, Plugin*>& PluginManagerServer::plugins() const { return _plugins; }
 
@@ -59,8 +61,13 @@ void PluginManagerServer::load()
     }
 
     // DataPlugin
+    Sql db;
+    QSqlQuery query(QSqlDatabase::database(db));
     foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
+    {
         plugin->dataManager = new DataManagerServer(plugin);
+        plugin->loadDataBase(query);
+    }
 
     // NetworkPlugin
     foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())

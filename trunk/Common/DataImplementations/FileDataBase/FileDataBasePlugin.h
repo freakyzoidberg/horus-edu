@@ -33,7 +33,7 @@ public:
     void            dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
-    bool            verifyDataBase(QSqlQuery&);
+    void            loadDataBase(QSqlQuery&);
 #endif
 
 protected:

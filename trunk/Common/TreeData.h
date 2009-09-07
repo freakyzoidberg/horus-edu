@@ -59,7 +59,7 @@ public:
     /*!
       \return id of the node
     */
-    inline int     id() const { return _id; }
+    virtual int     id() const = 0;
 
 
     //! Get User in charge of the node
@@ -96,9 +96,7 @@ public:
 
     
 protected:
-    inline TreeData(quint32 id, TreeDataPlugin* plugin) : Data(plugin) { _id = id; }
-
-    quint32         _id;
+    inline TreeData(TreeDataPlugin* plugin) : Data(plugin) { }
 };
 
 Q_DECLARE_INTERFACE(TreeData, "net.horus.TreeData/1.0");

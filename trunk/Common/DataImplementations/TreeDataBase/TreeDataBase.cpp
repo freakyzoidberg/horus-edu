@@ -5,8 +5,9 @@
 #include <QIcon>
 #endif
 
-TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData(nodeId, (TreeDataPlugin*)plugin)
+TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData((TreeDataPlugin*)plugin)
 {
+    _id = nodeId;
 }
 
 void TreeDataBase::keyToStream(QDataStream& s)

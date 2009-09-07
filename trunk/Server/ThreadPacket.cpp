@@ -18,9 +18,6 @@
 #include "../Common/CommPlugin.h"
 #include "NetworkPlugin.h"
 
-//ZoidTest
-#include "Tree.h"
-
 ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 {
     socket = cs;
@@ -86,7 +83,6 @@ void ThreadPacket::PacketLogin()
         return sendError(CommError::PROTOCOL_ERROR);
 
     UserDataPlugin* plugin = PluginManagerServer::instance()->findPlugin<UserDataPlugin*>();
-//    UserDataPlugin* plugin = (UserDataPlugin*)PluginManagerServer::instance()->findPlugin("UserDataPlugin");
     if ( ! plugin)
         return sendError(CommError::INTERNAL_ERROR, "No UserDataPlugin found. Cannot authenticate the user.");
 
@@ -140,45 +136,11 @@ void ThreadPacket::PacketLogin()
     emit sendPacket(resp.getPacket());
 
     // send user data
-    plugin->dataManager->sendData(user,user);
+    //plugin->dataManager->sendData(user,user);
 
-    TreeDataPlugin* treePlugin = PluginManagerServer::instance()->findPlugin<TreeDataPlugin*>();
-    if ( ! treePlugin)
-        qDebug() << "Warning: no TreeDataPlugin found. Check your configuration.";
-    else
-    {
-        TreeData* node = treePlugin->getNode(0);
-
-        node->fillFromDatabase(query);
-        node->setStatus(Data::UPTODATE);
-        treePlugin->dataManager->sendData(user, node);
-//        qDebug() << node;
-
-        //send the node between 0 and user nodeId
-        for (node = user->node();
-             node->id() > 0;
-             node = (TreeData*)(node->parent()))
-        {
-            node->fillFromDatabase(query);
-            node->setStatus(Data::UPTODATE);
-            treePlugin->dataManager->sendData(user, node );
-//            qDebug() << node;
-        }
-    }
-
-    SettingsDataPlugin* settingsPlugin = PluginManagerServer::instance()->findPlugin<SettingsDataPlugin*>();
-    if ( ! settingsPlugin)
-        qDebug() << "Warning: no SettingsDataPlugin found. Check your configuration.";
-    else
-    {
-        SettingsData* setting = settingsPlugin->getSettings("test");
-
-        setting->fillFromDatabase(query);
-        setting->setStatus(Data::UPTODATE);
-        settingsPlugin->dataManager->sendData(user, setting);
-//        qDebug() << setting;
-    }
-
+    // send every data the user need
+    foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
+        p->sendUpdates(query, user, QDateTime());
 
     //allow other threads to be started
     socket->allowOtherThreads();

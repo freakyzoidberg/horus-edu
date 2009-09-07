@@ -29,10 +29,11 @@ public:
     QAbstractItemModel*  getTreeModel();
 #endif
 #ifdef HORUS_SERVER
-    bool                 verifyDataBase(QSqlQuery&);
+    void                 loadDataBase(QSqlQuery&);
     void                 userDisconnected(TreeData* user);
     TreeData*            authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password);
     TreeData*            authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& sesion);
+    void                 sendUpdates(QSqlQuery&, UserData* user, QDateTime date);
 #endif
 
 protected:
