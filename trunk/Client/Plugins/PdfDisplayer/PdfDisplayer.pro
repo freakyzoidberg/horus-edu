@@ -6,8 +6,10 @@ QT += xml \
     xmlpatterns
 CONFIG       += plugin
 win32 {
-LIBS += -L./../../../../Misc/DLLs Poppler/ -lpoppler-qt4 \
-    -L./../../../../Misc/DLLs Poppler/ -lpoppler
+LIBS += \
+    -L./Poppler/lib -lpoppler \
+-L./Poppler/lib -lpoppler-glib \
+    -L./Poppler/lib -lpoppler-qt4
 } unix {
 LIBS += -lpoppler-qt4 \
      -lpoppler
