@@ -45,12 +45,12 @@ const QString    PdfDisplayer::pluginVersion() const
 bool    PdfDisplayer::event(QEvent *event)
 {
     qDebug() << "Incoming transmission.";
-    if  (event->type() == ClientEvents::PluginEvent)
+    /*if  (event->type() == ClientEvents::PluginEvent)
     {
         qDebug() << "I read ya... Sir!";
         event->accept();
         return PluginEventHandler(event);
-    }
+    } */
     return QObject::event(event);
 }
 
