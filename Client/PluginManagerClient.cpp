@@ -110,6 +110,8 @@ void PluginManagerClient::loadPlugins()
 		++i;
 		emit loaded(50 + 50 * i / pluginsToLoad.count());
     }
+	if (!i)
+		emit loaded(100);
 }
 
 bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
