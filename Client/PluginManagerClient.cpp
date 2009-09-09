@@ -68,11 +68,16 @@ void PluginManagerClient::loadPlugins()
 				pluginsToLoad << filename;
 	foreach (QString filename, pluginsToLoad)
     {
+		bool isLoaded = false;
+
         if (pluginsUserDir.exists() && pluginsUserDir.exists(filename))
-            loadPlugin(filename, pluginsUserDir);
+            isLoaded = loadPlugin(filename, pluginsUserDir);
         else if (pluginsSystemDir.exists() && pluginsSystemDir.exists(filename))
-            loadPlugin(filename, pluginsSystemDir);
-		++i;
+            isLoaded = loadPlugin(filename, pluginsSystemDir);
+		if (!isLoaded)
+			pluginsToLoad.removeAll(filename);
+		else
+			++i;
 		emit loaded(50 * i / pluginsToLoad.count());
     }
 
