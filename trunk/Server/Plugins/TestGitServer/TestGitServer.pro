@@ -1,7 +1,8 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-04-04T00:47:29
 # -------------------------------------------------
-QT += xml
+QT += xml \
+	sql
 TARGET = TestGitServer
 TEMPLATE = lib
 DEFINES += HORUS_SERVER

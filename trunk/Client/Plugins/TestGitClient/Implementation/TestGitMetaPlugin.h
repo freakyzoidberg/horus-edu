@@ -1,7 +1,7 @@
 #ifndef TESTGITMETAPLUGIN_H
 #define TESTGITMETAPLUGIN_H
 
-#include "../../../Common/MetaPlugin.h"
+#include "../../../../Common/MetaPlugin.h"
 
 #include "TestGit.h"
 #include "TestNetworkPlugin.h"
