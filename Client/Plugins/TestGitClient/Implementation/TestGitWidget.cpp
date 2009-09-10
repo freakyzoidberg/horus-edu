@@ -1,20 +1,20 @@
 #include "TestGitWidget.h"
 #include "TestGit.h"
 
-#include "../../../Common/PluginManager.h"
+#include "../../../../Common/PluginManager.h"
 
-#include "../../../Common/UserDataPlugin.h"
-#include "../../../Common/UserData.h"
+#include "../../../../Common/UserDataPlugin.h"
+#include "../../../../Common/UserData.h"
 
-#include "../../../Common/SettingsDataPlugin.h"
-#include "../../../Common/SettingsData.h"
+#include "../../../../Common/SettingsDataPlugin.h"
+#include "../../../../Common/SettingsData.h"
 
-#include "../../../Common/TreeDataPlugin.h"
-#include "../../../Common/TreeData.h"
+#include "../../../../Common/TreeDataPlugin.h"
+#include "../../../../Common/TreeData.h"
 
-#include "../../../Common/FileDataPlugin.h"
-#include "../../../Common/FileData.h"
-#include "../../../Common/File.h"
+#include "../../../../Common/FileDataPlugin.h"
+#include "../../../../Common/FileData.h"
+#include "../../../../Common/File.h"
 
 #include "TestNetworkPlugin.h"
 

@@ -1,7 +1,7 @@
 #ifndef TESTNETWORKPLUGIN_H
 #define TESTNETWORKPLUGIN_H
 
-#include "../../NetworkPlugin.h"
+#include "../../../NetworkPlugin.h"
 
 class UserData;
 class TestNetworkPlugin : public NetworkPlugin
