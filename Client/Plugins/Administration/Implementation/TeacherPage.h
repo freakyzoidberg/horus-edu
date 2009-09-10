@@ -20,9 +20,12 @@
 #include <QWidget>
 #include <QTreeView>
 
+#include "../../../../Common/TreeDataPlugin.h"
+
 class TeacherPage : public QWidget
 {
     public:
+        TeacherPage(TreeDataPlugin* tree);
         TeacherPage();
     private:
         void    setupUi();

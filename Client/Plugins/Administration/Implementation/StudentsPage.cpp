@@ -5,6 +5,11 @@ StudentsPage::StudentsPage()
         setupUi();
 }
 
+StudentsPage::StudentsPage(TreeDataPlugin* tree)
+{
+        setupUi();
+}
+
 void    StudentsPage::setupUi()
 {
     this->setMinimumWidth(700);

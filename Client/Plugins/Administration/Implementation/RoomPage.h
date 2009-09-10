@@ -2,10 +2,11 @@
 #define ROOMPAGE_H
 
 #include <QWidget>
-
+#include "TeacherPage.h"
 class RoomPage : public QWidget
 {
 public:
+    RoomPage(TreeDataPlugin* tree);
     RoomPage();
 };
 

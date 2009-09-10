@@ -22,7 +22,7 @@ public slots:
 
 private:
     void createIcons();
-
+    Administration     *plugin;
     QListWidget *contentsWidget;
     QStackedWidget *framesWidget;
 };
