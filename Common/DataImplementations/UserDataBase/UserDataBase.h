@@ -76,7 +76,7 @@ public:
 #endif
 
 private:
-    inline UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { }
+    inline UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { _node = 0; }
     inline ~UserDataBase() {}
 
     quint8      _level;
