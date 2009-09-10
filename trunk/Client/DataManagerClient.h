@@ -18,11 +18,11 @@ public:
      *  - To check permitions (also on the client side but can be less restrictive)
      */
     void dataStatusChange(Data* data, quint8 newStatus) const;
-    void sendData(UserData* user, Data* data) const;
-    void sendData(UserData* user, const QByteArray& packet) const;
+    void sendData(UserData*, Data* data) const;
+    void sendData(UserData*, const QByteArray& packet) const;
 
 public slots:
-    void receiveData(UserData* user, const QByteArray& packet) const;
+    void receiveData(UserData*, const QByteArray& packet) const;
 
 private:
     DataPlugin* plugin;
