@@ -23,8 +23,11 @@ void UserDataBase::dataToStream(QDataStream& s)
       << _address
       << _phone
       << _country
-      << _language
-      << _node->id();
+      << _language;
+    if (_node)
+      s << _node->id();
+    else
+      s << 0;
     Data::dataToStream(s);
 }
 
@@ -45,7 +48,13 @@ void UserDataBase::dataFromStream(QDataStream& s)
       >> _country
       >> _language
       >> nodeId;
-    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
+
+    TreeDataPlugin* treePlugin = _plugin->pluginManager->findPlugin<TreeDataPlugin*>();
+    if (treePlugin)
+        _node = treePlugin->getNode(nodeId);
+    else
+        _node = 0;
+
     Data::dataFromStream(s);
 }
 
@@ -66,7 +75,9 @@ QDebug UserDataBase::operator<<(QDebug debug) const
                  //<< phone
                  //<< country
                  //<< language
-                 << _node->id();
+                 ;
+    if (_node)
+        debug << _node->id();
 }
 
 void UserDataBase::setName(const QString name)
@@ -135,7 +146,11 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
     _phone      = query.value(8).toString();
     _country    = query.value(9).toString();
     _language   = query.value(10).toString();
-    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(11).toUInt() );
+    TreeDataPlugin* treePlugin = _plugin->pluginManager->findPlugin<TreeDataPlugin*>();
+    if (treePlugin)
+        _node = treePlugin->getNode( query.value(11).toUInt() );
+    else
+        _node = 0;
     _enabled    = query.value(12).toBool();
     _lastChange= query.value(13).toDateTime();
 }
@@ -154,7 +169,10 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(_phone);
     query.addBindValue(_country);
     query.addBindValue(_language);
-    query.addBindValue(_node->id());
+    if (_node)
+        query.addBindValue(_node->id());
+    else
+        query.addBindValue(0);
     query.addBindValue(_enabled);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
@@ -180,7 +198,10 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
     query.addBindValue(_phone);
     query.addBindValue(_country);
     query.addBindValue(_language);
-    query.addBindValue(_node->id());
+    if (_node)
+        query.addBindValue(_node->id());
+    else
+        query.addBindValue(0);
     query.addBindValue(_enabled);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
