@@ -19,7 +19,7 @@ CYAN="\\033[1;36m"
 REDIR="/dev/null"
 me=`whoami`
 case $me in 
-    'romain')
+    'dtc')
 	echo -e "$ROSE" "SVN UP"
 	sudo shutdown 0 -r
 	;;
