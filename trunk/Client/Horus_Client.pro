@@ -83,3 +83,9 @@ RESOURCES += Ui/Loader.qrc \
     Ui/MainWindow.qrc \
     Ui/DockMenu.qrc
 RC_FILE = Client.rc
+QMAKE_EXTRA_TARGETS += plugintarget
+POST_TARGETDEPS += .plugins
+plugintarget.target = .plugins
+win32 {
+    plugintarget.commands = CopyPlugins.bat
+}
