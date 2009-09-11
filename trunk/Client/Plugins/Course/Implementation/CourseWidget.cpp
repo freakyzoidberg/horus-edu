@@ -37,7 +37,9 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setHeaderHidden(true);
     this->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
-    this->categoryView->expandAll();
+    // SEGFAULT
+    //this->categoryView->expandAll();
+    // SEGFAULT
     this->categoryView->indexAbove(this->categoryView->rootIndex());
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
 }
