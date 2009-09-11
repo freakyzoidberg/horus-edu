@@ -29,7 +29,7 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
         tv->setModel(tree->getTreeModel());
         layout->setRowStretch(2, 0);
         layout->addWidget(tv, 2, 0);
-        tv->expandAll();
+        //tv->expandAll();
     }
 
     course = plugin->pluginManager->findPlugin<DisplayablePlugin*>("Course");
@@ -48,6 +48,7 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
     this->layout->addWidget(connectedAs, 0, 0);
     lastLogin = new QLabel("Last login: Never", this);
     this->layout->addWidget(lastLogin, 0, 1);
+    updateInfos();
 }
 
 #include "../../../Common/SettingsData.h"

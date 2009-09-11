@@ -14,14 +14,11 @@ class MainFrame : public DisplayablePlugin
     Q_INTERFACES(DisplayablePlugin)
 
 public:
-    MainFrame();
-
     // INTERFACE Plugin
     inline const QString    pluginName() const    { return "MainFrame"; }
     inline const QString    pluginVersion() const { return "0.1"; }
     bool                    canLoad() const;
     void                    load();
-    void                    unload();
 
     // INTERFACE DisplayablePlugin
     inline const QString    getDisplayableName() { return "Main Board"; }
@@ -29,8 +26,6 @@ public:
 
 private slots:
     void                    courseClicked();
-private:
-    MainFrameWidget*        widget;
 };
 
 #endif // MAINFRAME_H

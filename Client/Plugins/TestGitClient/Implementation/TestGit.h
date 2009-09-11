@@ -14,7 +14,7 @@ class TestGit : public DisplayablePlugin
     Q_INTERFACES(DisplayablePlugin)
 
 public:
-    inline TestGit(TestNetworkPlugin* _testNetworkPlugin) { widget = 0; testNetworkPlugin = _testNetworkPlugin; }
+    inline TestGit(TestNetworkPlugin* _testNetworkPlugin) { testNetworkPlugin = _testNetworkPlugin; }
 
     // INTERFACE Plugin
     inline const QString    pluginName() const    { return "Test Git"; }
@@ -22,10 +22,9 @@ public:
 
     // INTERFACE DisplayablePlugin
     inline const QString    getDisplayableName() { return "Test a GiT"; }
-    inline QWidget*         getWidget() { if (widget == 0) widget = new TestGitWidget(this, testNetworkPlugin); return widget; }
+    inline QWidget*         getWidget() { return new TestGitWidget(this, testNetworkPlugin); }
 
-    TestGitWidget*          widget;
-    TestNetworkPlugin* testNetworkPlugin;
+    TestNetworkPlugin*      testNetworkPlugin;
 };
 
 #endif // TESTGIT_H
