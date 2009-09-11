@@ -71,7 +71,8 @@ HEADERS += NetworkManager.h \
     ManagerThread.h \
     ManagerFactory.h \
     ../Common/Notification.h \
-    Debugger.h
+    Debugger.h \
+    DockMenuItem.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/LoginDialog.ui \

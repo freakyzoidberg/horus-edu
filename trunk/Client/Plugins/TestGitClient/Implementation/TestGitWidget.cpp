@@ -54,7 +54,7 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
         tv->setModel(tree->getTreeModel());
         layout.setRowStretch(4, 0);
         layout.addWidget(tv, 4, 0);
-        tv->expandAll();
+        //tv->expandAll();
     }
 
     setLayout(&layout);

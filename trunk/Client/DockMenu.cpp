@@ -1,4 +1,5 @@
 #include "DockMenu.h"
+#include "DockMenuItem.h"
 
 #include <QWidget>
 #include <QVBoxLayout>
@@ -10,34 +11,30 @@
 #include "PluginManagerClient.h"
 #include "DisplayablePlugin.h"
 
-DockMenu::DockMenu(QWidget *parent) : QDockWidget(parent)
+DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
 {
-    QWidget *widget;
-    QVBoxLayout *layout;
+    QWidget* widget = new QWidget();
+    QVBoxLayout* layout = new QVBoxLayout(widget);
 
-    this->ui.setupUi(this);
-    widget = new QWidget();
-    layout = new QVBoxLayout(widget);
+    ui.setupUi(this);
+
     foreach (DisplayablePlugin* plugin ,MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DisplayablePlugin*>())
     {
         QString title = plugin->getDisplayableName();
         if ( ! title.isEmpty())
         {
-            QPushButton *item = new QPushButton(title);
-            item->setObjectName(plugin->pluginName());
+            DockMenuItem* item = new DockMenuItem(plugin, title);
             layout->addWidget(item);
             connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
         }
     }
     layout->addWidget(new QWidget, 1);
     widget->setLayout(layout);
-    this->setWidget(widget);
+    setWidget(widget);
 }
 
 void DockMenu::itemClicked()
 {
-    DisplayablePlugin *plugin;
-
-    plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<DisplayablePlugin*>(sender()->objectName());
-    ((MainWindow *)parent())->setCentralWidget(plugin->getWidget());
+    QWidget* widget = ((DockMenuItem*)sender())->getPluginWidget();
+    ((MainWindow*)parent())->setCentralWidget(widget);
 }

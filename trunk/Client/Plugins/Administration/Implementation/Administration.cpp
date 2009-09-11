@@ -7,7 +7,7 @@ QEvent::Type ClientEvents::LoadPluginEvent;
 
 QWidget             *Administration::getWidget()
 {
-    return (this->widget);
+    return new AdminMainFrame(this);
 }
 
 const QString   Administration::pluginName() const
@@ -37,13 +37,5 @@ void Administration::load()
     TreeDataPlugin* t = pluginManager->findPlugin<TreeDataPlugin*>();
     if ( ! t->isLoaded())
         t->load();
-
-    widget = new AdminMainFrame(this);
     Plugin::load();
-}
-
-void Administration::unload()
-{
-    delete widget;
-    Plugin::unload();
 }

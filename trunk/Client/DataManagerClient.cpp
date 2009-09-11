@@ -36,7 +36,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 	}
 	else
 	{
-		qWarning() << "Plugin" << plugin->pluginName() << "attempt an unauthorized change of data" << data->_plugin->pluginName() << "from status" << data->_status << "to status" << newStatus;
+                //qWarning() << "Plugin" << plugin->pluginName() << "attempt an unauthorized change of data" << data->_plugin->pluginName() << "from status" << data->_status << "to status" << newStatus;
 		data->_status = newStatus;
 	}
 }

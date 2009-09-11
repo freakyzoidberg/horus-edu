@@ -5,12 +5,13 @@
 
 #include "ui_DockMenu.h"
 
+class MainWindow;
 class DockMenu : public QDockWidget
 {
     Q_OBJECT
 
 public:
-    DockMenu(QWidget *parent);
+    DockMenu(MainWindow* parent);
 
 public slots:
     void itemClicked();
