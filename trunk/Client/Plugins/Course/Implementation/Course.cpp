@@ -1,10 +1,4 @@
 #include "Course.h"
-
-#include "../../../../Common/PluginManager.h"
-#include "../../../../Common/TreeDataPlugin.h"
-#include "../../../../Common/FileDataPlugin.h"
-#include "../../LessonManager/ILessonManager.h"
-
 #include "CourseWidget.h"
 
 const QString    Course::pluginName() const
@@ -19,36 +13,33 @@ const QString    Course::pluginVersion() const
 
 const QString	Course::getDisplayableName()
 {
-	return ("Course");
+    return ("Course");
 }
 
 bool	Course::canLoad() const
 {
-	if (pluginManager->findPlugin("LessonManager") && pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base") && pluginManager->findPlugin<FileDataPlugin *>("File Data Base"))
-		return (true);
-	return (false);
+    if (pluginManager->findPlugin("LessonManager") && pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base") && pluginManager->findPlugin<FileDataPlugin *>("File Data Base"))
+        return (true);
+    return (false);
 }
 
 void	Course::load()
 {
-    ILessonManager  *lessonPlugin;
-    TreeDataPlugin  *treePlugin;
-	FileDataPlugin	*filePlugin;
-
-    lessonPlugin = this->pluginManager->findPlugin<ILessonManager *>("LessonManager");
-    treePlugin = this->pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base");
-	filePlugin = this->pluginManager->findPlugin<FileDataPlugin *>("File Data Base");
-	this->widget = new CourseWidget(lessonPlugin, treePlugin, filePlugin);
-	Plugin::load();
+    lessonPlugin = pluginManager->findPlugin<ILessonManager *>("LessonManager");
+    treePlugin = pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base");
+    filePlugin = pluginManager->findPlugin<FileDataPlugin *>("File Data Base");
+    Plugin::load();
 }
 
 void	Course::unload()
 {
-	delete this->widget;
-	Plugin::unload();
+    delete lessonPlugin;
+    delete treePlugin;
+    delete filePlugin;
+    Plugin::unload();
 }
 
 QWidget             *Course::getWidget()
 {
-	return (this->widget);
+    return new CourseWidget(lessonPlugin, treePlugin, filePlugin);
 }
