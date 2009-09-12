@@ -82,10 +82,6 @@ void DataManagerServer::receiveData(UserData *, const QByteArray& d) const
 	    QMutexLocker(data->lock);
 		break ;
 	case Data::CREATING:
-		data = plugin->getNewData();
-	    QMutexLocker(data->lock);
-        data->dataFromStream(stream);
-		break ;
 	case Data::SAVING:
 		data = plugin->getDataWithKey(stream);
 	    QMutexLocker(data->lock);
