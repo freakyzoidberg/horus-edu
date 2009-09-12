@@ -14,12 +14,10 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
     this->treePlugin = _treePlugin;
     this->filePlugin = _filePlugin;
     this->buildCategoryTree();
-    this->buildLessonTree();
     leftPane = new QWidget(this);
     this->addWidget(leftPane);
     layout = new QVBoxLayout(leftPane);
     layout->addWidget(this->categoryView);
-    layout->addWidget(this->lessonView);
     leftPane->setLayout(layout);
     this->pageWidget = new QWidget;
     this->addWidget(this->pageWidget);
@@ -28,7 +26,7 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
 
 void CourseWidget::buildCategoryTree()
 {
-    this->categoryModel = this->treePlugin->getTreeModel();
+    this->categoryModel = this->lessonPlugin->getLessonModel();
     this->categoryView = new QTreeView(this);
     this->categoryView->setModel(this->categoryModel);
     this->categoryView->setAnimated(true);
@@ -42,16 +40,6 @@ void CourseWidget::buildCategoryTree()
     // SEGFAULT
     this->categoryView->indexAbove(this->categoryView->rootIndex());
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
-}
-
-void CourseWidget::buildLessonTree()
-{
-    this->lessonView = new QTreeView(this);
-    this->lessonView->setAnimated(true);
-    this->lessonView->setAutoExpandDelay(500);
-    this->lessonView->setRootIsDecorated(false);
-    this->lessonView->setSelectionMode(QAbstractItemView::SingleSelection);
-    this->lessonView->setSelectionBehavior(QAbstractItemView::SelectItems);
 }
 
 void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
@@ -87,7 +75,4 @@ void CourseWidget::ready()
     //disconnect(this->lessonFile, SIGNAL(fileSynchronized()), this, SLOT(ready()));
     //this->lessonFile->close();
     //this->lessonFile->open(QIODevice::ReadOnly);
-    this->lessonView->setModel(this->lessonPlugin->getLesson(this->fileIndex));
-    this->lessonView->expandAll();
-    connect(this->lessonView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(pageSelected(QModelIndex)));
 }
