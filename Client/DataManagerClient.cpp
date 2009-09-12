@@ -36,7 +36,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 	}
 	else
 	{
-        qWarning() << "Plugin" << plugin->pluginName() << "attempt an unauthorized change of data" << data->_plugin->pluginName() << "from status" << data->_status << "to status" << newStatus;
+        qWarning() << "Plugin" << plugin->pluginName() << "attempt an unauthorized change of data" << data->getDataType() << "from status" << data->_status << "to status" << newStatus;
 		data->_status = newStatus;
 	}
 }
@@ -94,7 +94,7 @@ void DataManagerClient::sendData(UserData*, Data* data) const
 		data->dataToStream(stream);
 		break ;
 	default:
-		qWarning() << "Plugin" << plugin->pluginName() << "attempt to send data" << data->_plugin->pluginName() << "with status" << data->status() << "from the client, which is unauthorized";
+		qWarning() << "Plugin" << plugin->pluginName() << "attempt to send data" << data->getDataType() << "with status" << data->status() << "from the client, which is unauthorized";
 		return ;
 	}
     QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(packet.getPacket()));
