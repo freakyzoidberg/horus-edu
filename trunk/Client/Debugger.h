@@ -13,6 +13,7 @@ class Debugger : public QWidget
 public:
     static Debugger* instance();
     void addDebugMessage(const QString msg);
+    ~Debugger();
 
 private:
     Debugger();
@@ -20,6 +21,7 @@ private:
     QTextEdit   text;
     QPushButton resetButton;
     QStringList list;
+    static Debugger* _instance;
 
 private slots:
     void reset();

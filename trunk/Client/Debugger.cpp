@@ -22,10 +22,17 @@ Debugger::Debugger()
     show();
 }
 
+Debugger::~Debugger()
+{
+    _instance = 0;
+}
+
+Debugger* Debugger::_instance = 0;
 Debugger* Debugger::instance()
 {
-    static Debugger debugger;
-    return &debugger;
+    if ( ! _instance)
+        _instance = new Debugger;
+    return _instance;
 }
 
 void Debugger::reset()
