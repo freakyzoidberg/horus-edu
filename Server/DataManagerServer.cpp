@@ -82,7 +82,7 @@ void DataManagerServer::receiveData(UserData *, const QByteArray& d) const
 	    QMutexLocker(data->lock);
 		break ;
 	case Data::CREATING:
-		//data = new chepakoi() <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<--------------------------------------------------------------
+		data = plugin->getNewData();
 	    QMutexLocker(data->lock);
         data->dataFromStream(stream);
 		break ;

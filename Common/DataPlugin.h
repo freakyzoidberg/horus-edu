@@ -28,6 +28,9 @@ public:
     //! Return the pointer to the Data with a his unique key read in the stream
     virtual Data*         getDataWithKey(QDataStream&) = 0;
 
+    //! Return a pointer to a new Data with a unique key
+    virtual Data*         getNewData() = 0;
+
 #ifdef HORUS_CLIENT
     //! On the client, when creating a new data, the key can change. So this function have to update the data with the new key in the stream
     virtual inline void          dataHaveNewKey(Data*, QDataStream&) {}
