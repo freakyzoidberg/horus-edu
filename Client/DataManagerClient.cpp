@@ -36,28 +36,42 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 	}
 	else
 	{
-                //qWarning() << "Plugin" << plugin->pluginName() << "attempt an unauthorized change of data" << data->_plugin->pluginName() << "from status" << data->_status << "to status" << newStatus;
+        qWarning() << "Plugin" << plugin->pluginName() << "attempt an unauthorized change of data" << data->_plugin->pluginName() << "from status" << data->_status << "to status" << newStatus;
 		data->_status = newStatus;
 	}
 }
 
-
 void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 {
-    QDataStream stream(d); //ReadOnly
+	QDataStream stream(d); // ReadOnly
     quint8    status,   error;
-    stream >> status >> error;
+	Data *data;
 
-    if (status == Data::EMPTY)
-        return;
-
-    Data* data = plugin->getDataWithKey(stream);
-    QMutexLocker(data->lock);
-    if ( ! error)
-        //TODO: do not always read data
-        data->dataFromStream(stream);
-
-    data->setStatus(status);
+	stream >> status >> error;
+	switch (status)
+	{
+	case Data::SAVED:
+	case Data::DELETED:
+	    data = plugin->getDataWithKey(stream);
+		QMutexLocker(data->lock);
+		break ;
+	case Data::UPTODATE:
+	    data = plugin->getDataWithKey(stream);
+		QMutexLocker(data->lock);
+	    if (!error)
+			data->dataFromStream(stream);
+		break ;
+	case Data::CREATED:
+	    data = plugin->getDataWithKey(stream);
+		QMutexLocker(data->lock);
+	    if (!error)
+			data->_plugin->dataHaveNewKey(data, stream);
+		break ;
+	default:
+		qWarning() << "Plugin" << plugin->pluginName() << "receive data with status" << status << " from the server, which is unauthorized";
+		return ;
+	}
+	data->_status = status;
     data->setError(error);
 }
 
@@ -65,15 +79,23 @@ void DataManagerClient::sendData(UserData*, Data* data) const
 {
     CommData packet(data->getDataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
-    stream << data->status() << data->error();
 
-    if (data->status() == Data::EMPTY)
-        return;
-
-    data->keyToStream(stream);
-    if ( ! data->error())
-        //TODO: do not always write data
-        data->dataToStream(stream);
-
+	switch (data->status())
+	{
+	case Data::UPDATING:
+	case Data::DELETING:
+		stream << data->status() << data->error();
+		data->keyToStream(stream);
+		break ;
+	case Data::CREATING:
+	case Data::SAVING:
+		stream << data->status() << data->error();
+		data->keyToStream(stream);
+		data->dataToStream(stream);
+		break ;
+	default:
+		qWarning() << "Plugin" << plugin->pluginName() << "attempt to send data" << data->_plugin->pluginName() << "with status" << data->status() << "from the client, which is unauthorized";
+		return ;
+	}
     QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(packet.getPacket()));
 }
