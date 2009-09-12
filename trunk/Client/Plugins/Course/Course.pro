@@ -7,8 +7,8 @@ TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Course.cpp \
     Implementation/CourseWidget.cpp \
-    whiteboard.cpp \
-    items.cpp
+    Implementation/WhiteBoard.cpp \
+    Implementation/Items.cpp
 HEADERS += Implementation/Course.h \
     Implementation/CourseWidget.h \
     Implementation/CourseMetaPlugin.h \
@@ -18,5 +18,5 @@ HEADERS += Implementation/Course.h \
     ../../../Common/PluginManager.h \
     ../../../Common/AbstractManager.h \
     ../../../Common/MetaPlugin.h \
-    whiteboard.h \
-    items.h
+    Implementation/WhiteBoard.h \
+    Implementation/Items.h
