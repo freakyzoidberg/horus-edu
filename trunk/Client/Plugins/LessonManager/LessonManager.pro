@@ -5,7 +5,8 @@ QT += xml
 TEMPLATE = lib
 SOURCES += Implementation/LessonManager.cpp \
     Implementation/Lesson.cpp \
-    Implementation/XmlHandler.cpp
+    Implementation/XmlHandler.cpp \
+    LessonModel.cpp
 HEADERS += ILessonManager.h \
     ILesson.h \
     Implementation/LessonManager.h \
@@ -14,7 +15,10 @@ HEADERS += ILessonManager.h \
     Implementation/LessonManagerMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
-    IController.h
+    ../../../Common/Data.h \
+    ../../../Common/TreeData.h \
+    IController.h \
+    LessonModel.h
 INCLUDEPATH += .
 DESTDIR = .
 TARGET = LessonManager

@@ -2,6 +2,7 @@
 #define ILESSONMANAGER_H
 
 #include "ILesson.h"
+#include "LessonModel.h"
 
 //! Interface of the plugin ILessonManager
 /*!
@@ -11,6 +12,9 @@
 class ILessonManager
 {
     public:
+
+    virtual LessonModel* getLessonModel() = 0;
+
     //! Retrieves a specific lesson.
     /*!
         \param fileId The metadata file representing the lesson.

@@ -20,7 +20,6 @@ public:
 
 private:
     void                buildCategoryTree();
-    void                buildLessonTree();
 
 private slots:
     void lessonSelected(const QModelIndex &item);
@@ -32,9 +31,7 @@ private:
     TreeDataPlugin      *treePlugin;
     FileDataPlugin      *filePlugin;
     QAbstractItemModel  *categoryModel;
-    QAbstractItemModel  *lessonModel;
     QTreeView           *categoryView;
-    QTreeView           *lessonView;
     QWidget             *pageWidget;
     quint32             fileIndex;
     FileData            *lessonFile;

@@ -11,6 +11,7 @@
 # include		"../../../../Common/FileData.h"
 
 # include		"ILessonManager.h"
+# include               "LessonModel.h"
 
 //! LessonManager plugin
 /*!
@@ -28,10 +29,16 @@ Q_INTERFACES(Plugin)
 Q_INTERFACES(ILessonManager)
 
 public:
+        bool canLoad() const;
+        void load();
+        void unload();
+
+public:
 	const QString	pluginName() const ;
 	const QString	pluginVersion() const ;
 
 public:
+        LessonModel     *getLessonModel();
 	ILesson*	getLesson(quint32 fileId);
 	void		saveLesson(quint32 fileId, ILesson *lesson);
 	ILesson*	createNewLesson(quint32 fileId);
@@ -48,6 +55,7 @@ private:
 	FileData *file;
 	ILesson::IPage *page;
 	QWidget *widget;
+        LessonModel *lessonModel;
 
 private slots:
 	void readyDisplayPage();
