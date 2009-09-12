@@ -10,6 +10,8 @@
 # include				"../../../../Common/TreeDataPlugin.h"
 # include				"../../../../Common/FileDataPlugin.h"
 # include				"../../../../Common/FileData.h"
+#include  "whiteboard.h"
+#include  "items.h"
 
 class                   CourseWidget : public QSplitter
 {
@@ -20,6 +22,7 @@ public:
 
 private:
     void                buildCategoryTree();
+
 
 private slots:
     void lessonSelected(const QModelIndex &item);
@@ -32,7 +35,7 @@ private:
     FileDataPlugin      *filePlugin;
     QAbstractItemModel  *categoryModel;
     QTreeView           *categoryView;
-    QWidget             *pageWidget;
+    WhiteBoard             *pageWidget;
     quint32             fileIndex;
     FileData            *lessonFile;
     ILesson::IPage *oldpage;

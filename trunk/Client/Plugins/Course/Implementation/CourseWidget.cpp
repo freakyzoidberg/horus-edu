@@ -5,6 +5,9 @@
 #include <QDebug>
 #include <QVBoxLayout>
 
+
+
+
 CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treePlugin, FileDataPlugin *_filePlugin) : QSplitter()
 {
     QWidget *leftPane;
@@ -19,10 +22,14 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
     layout = new QVBoxLayout(leftPane);
     layout->addWidget(this->categoryView);
     leftPane->setLayout(layout);
-    this->pageWidget = new QWidget;
+    this->pageWidget = new WhiteBoard;
     this->addWidget(this->pageWidget);
+
+    Items *test = new Items(this->pageWidget);
+
     oldpage = 0;
 }
+
 
 void CourseWidget::buildCategoryTree()
 {
@@ -76,3 +83,13 @@ void CourseWidget::ready()
     //this->lessonFile->close();
     //this->lessonFile->open(QIODevice::ReadOnly);
 }
+
+
+
+
+
+
+
+
+
+
