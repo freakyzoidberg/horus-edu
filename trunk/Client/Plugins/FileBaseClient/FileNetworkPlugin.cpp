@@ -5,19 +5,24 @@
 
 void FileNetworkPlugin::receivePacket(const PluginPacket packet)
 {
-    if (packet.request != "connexionAuthorized")
+    if (packet.request != "downloadAuthorized" && packet.request != "uploadAuthorized")
         return;
 
     QVariantHash data = packet.data.toHash();
     FileDataBase* file = ((FileDataBase*)(_dataPlugin->getFile( data["file"].toUInt() )));
-    ((FileBase*)(file->device()))->connexionAuthorized( data["key"].toByteArray());
+
+    if (packet.request == "downloadAuthorized")
+        ((FileBase*)(file->device()))->download( data["key"].toByteArray());
+    else
+        ((FileBase*)(file->device()))->upload( data["key"].toByteArray());
 }
 
-void FileNetworkPlugin::askForConnexion(FileData* file, QIODevice::OpenMode mode)
+void FileNetworkPlugin::askForDownload(FileData* file)
 {
-    QVariantHash data;
-    data["mode"] = (quint32)mode;
-    data["file"] = file->id();
-    data["from"] = 0;
-    emit sendPacket(PluginPacket("File Network Plugin", "askForConnexion", data));
+    emit sendPacket(PluginPacket("File Network Plugin", "askForDownload", file->id()));
+}
+
+void FileNetworkPlugin::askForUpload(FileData* file)
+{
+    emit sendPacket(PluginPacket("File Network Plugin", "askForUpload", file->id()));
 }

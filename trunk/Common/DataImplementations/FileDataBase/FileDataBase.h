@@ -65,10 +65,10 @@ public:
     inline QByteArray  hash() const { return _hash; }
 
 #ifdef HORUS_CLIENT
-    File*              device() const { return _device; }
+    inline File*       device() const { return _device; }
 #endif
 #ifdef HORUS_SERVER
-    QFile*             device() const { return _device; }
+    QFile*             device() const;
 #endif
 
 private:
@@ -82,9 +82,6 @@ private:
     QByteArray _hash;
 #ifdef HORUS_CLIENT
     FileBase*  _device;
-#endif
-#ifdef HORUS_SERVER
-    QFile*     _device;
 #endif
 };
 

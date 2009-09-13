@@ -10,16 +10,18 @@ class File : public QIODevice
 public:
     //! return the progress value (for a down/up-load)
     virtual int     progress() const = 0;
-    //! return true if the localfile is the same as the server
-    virtual bool    isSynchronized() const = 0;
-    //! download the file from the server or upload it.
-    virtual void    synchronize() = 0;
+    //! download the file from the server.
+    virtual void  download() = 0;
+    //! upload the file to the server.
+    virtual void  upload() = 0;
     //! return the associated FileData
     inline FileData* data() { return _fileData; }
 
 signals:
-    //! emitted when the localfile is the same as the server
-    void synchronized();
+    //! emitted when the localfile just finish downloading
+    void downloaded();
+    //! emitted when the localfile just finish uploading
+    void uploaded();
     //! emitted when the progress value change (for a down/upload)
     void progressChange(int percent);
 

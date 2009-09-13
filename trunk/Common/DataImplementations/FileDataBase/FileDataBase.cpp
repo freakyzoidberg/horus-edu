@@ -1,6 +1,5 @@
 #include "FileDataBase.h"
 #include "FileDataBasePlugin.h"
-#include "../../../../Server/Plugins/FileBaseServer/FileNetworkPlugin.h"
 
 #include "../../UserData.h"
 #include "../../TreeData.h"
@@ -8,17 +7,18 @@
 
 #ifdef HORUS_CLIENT
 #include <QSslSocket>
+#include "../../../Client/Plugins/FileBaseClient/FileNetworkPlugin.h"
 #include "FileBase.h"
+#endif
+#ifdef HORUS_SERVER
+#include "../../../Server/Plugins/FileBaseServer/FileNetworkPlugin.h"
 #endif
 
 FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileData(plugin)
 {
     _id = fileId;
 #ifdef HORUS_CLIENT
-    _device = new FileBase(this, plugin);
-#endif
-#ifdef HORUS_SERVER
-    _device = new QFile("./Files/"+QVariant(_id).toString());
+    _device = new FileBase(this, plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin"));
 #endif
 }
 void FileDataBase::keyToStream(QDataStream& s)
@@ -116,6 +116,11 @@ void FileDataBase::deleteFromDatabase(QSqlQuery& query)
 //        _error = NOT_FOUND;
 //        return;
 //    }
+}
+
+QFile* FileDataBase::device() const
+{
+    return new QFile("./Files/"+QVariant(_id).toString());
 }
 #endif
 #ifdef HORUS_CLIENT

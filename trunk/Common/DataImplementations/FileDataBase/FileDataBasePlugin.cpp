@@ -77,10 +77,15 @@ void FileDataBasePlugin::loadDataBase(QSqlQuery& query)
 
         file->_hash        = query.value(6).toByteArray();
         file->_lastChange  = query.value(7).toDateTime();
+
+        file->_status = Data::UPTODATE;
     }
 }
 
 void FileDataBasePlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
 {
+    foreach (FileData* file, files)
+        if (file->lastChange() >= date)
+            dataManager->sendData(user, file);
 }
 #endif

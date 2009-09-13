@@ -13,7 +13,8 @@ class FileTransfert : public QObject
 {
   Q_OBJECT
 public:
-    FileTransfert(FileData* file);
+    enum TransfertType { DOWNLOAD, UPLOAD };
+    FileTransfert(FileData* file, TransfertType type);
     ~FileTransfert();
     const QByteArray& key() const;
     void clientConnected(QSslSocket* socket);
@@ -25,13 +26,13 @@ private:
     //! opened local file
     QFile*      _file;
 
-    QTimer*     _timer;
+    FileData*   _fileData;
 
-signals:
-    void start();
+    QTimer*     _timer;
+    TransfertType _type;
 
 private slots:
-    void startSlot();
+    void init();
     void socketToFile();
     void fileToSocket(qint64);
 

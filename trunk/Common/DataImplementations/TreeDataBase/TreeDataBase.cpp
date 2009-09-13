@@ -122,8 +122,8 @@ QVariant TreeDataBase::data(int column, int role) const
             return _name;
         if (column == 2)
             return _type;
-        if (column == 3)
-            return 0;//user->id()
+//        if (column == 3)
+//            return 0;//user->id()
     }
     else if (role == Qt::DecorationRole && column == 0)
     {
