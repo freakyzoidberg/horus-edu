@@ -36,9 +36,9 @@ void Items::mousePressEvent(QMouseEvent *event)
 
     qDebug() << "addr : "<< this->parentWidget();
      QDrag *drag = new QDrag(this);
- //    drag->setMimeData(mimeData);
+ //
      QMimeData *mimeData = new QMimeData;
-     mimeData->setData("*/*", itemData);
+     mimeData->setProperty("hotspot",event->pos() - rect().topLeft());
 
         int x,y,w,h;
 
@@ -53,7 +53,7 @@ void Items::mousePressEvent(QMouseEvent *event)
 
 
      drag->setMimeData(mimeData);
-
+qDebug() << "Et sa position : " << this->x() << " et " << this->y();
      drag->setHotSpot(event->pos() - rect().topLeft());
      drag->setPixmap(mini);
 
@@ -62,7 +62,8 @@ void Items::mousePressEvent(QMouseEvent *event)
 
      if (drag->exec(Qt::MoveAction | Qt::CopyAction, Qt::CopyAction) == Qt::MoveAction)
      {
-         close();
+         //close();
+         hide();
      }
      else
          show();

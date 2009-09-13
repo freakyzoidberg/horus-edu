@@ -4,6 +4,8 @@
 WhiteBoard::WhiteBoard()
 {
     setAcceptDrops(true);
+    setAutoFillBackground(false);
+
 
 }
 
@@ -20,84 +22,43 @@ Items  *WhiteBoard::getTmp()
 
 void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
  {
-     if (event->mimeData()->hasFormat("*/*")) {
-         if (children().contains(event->source())) {
-             event->setDropAction(Qt::MoveAction);
-             event->accept();
-         } else {
              event->acceptProposedAction();
-         }
-     } else if (event->mimeData()->hasText()) {
-         event->acceptProposedAction();
-     } else {
-         event->ignore();
-     }
+
  }
 
  void WhiteBoard::dragMoveEvent(QDragMoveEvent *event)
  {
-     if (event->mimeData()->hasFormat("*/*")) {
-         if (children().contains(event->source())) {
-             event->setDropAction(Qt::MoveAction);
+
              event->accept();
-         } else {
-             event->acceptProposedAction();
-         }
-     } else if (event->mimeData()->hasText()) {
-         event->acceptProposedAction();
-     } else {
-         event->ignore();
-     }
+
  }
 
  void WhiteBoard::dropEvent(QDropEvent *event)
  {
-     if (event->mimeData()->hasFormat("*/*")) {
-         const QMimeData *mime = event->mimeData();
-         QByteArray itemData = mime->data("application/x-fridgemagnet");
-         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+//         const QMimeData *mime = event->mimeData();
+  //       QByteArray itemData = mime->data("application/x-fridgemagnet");
+    //QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 
+     qDebug() << event->mimeData()->property("hotspot");
          QString text;
-         QPoint offset;
+         QPoint offset(event->mimeData()->property("hotspot").toPoint());
+
          //dataStream >> text >> offset;
-        dataStream >> offset;
+        //dataStream >> offset;
 
          //Items *newLabel = new Items(this);
          //newLabel->move(event->pos() - offset);
          //newLabel->show();
 
-           //tmp->move(event->pos() - offset);
-         tmp->move(0,0);
+           tmp->move(event->pos() - offset);
+            tmp->raise();
            tmp->show();
-
-
-qDebug() << "finalement : " << tmp->parentWidget();
-         if (children().contains(event->source())) {
-             event->setDropAction(Qt::MoveAction);
-             event->accept();
-         } else {
+           tmp->setVisible(true);
+           tmp->parentWidget()->repaint();
+qDebug() << "finalement : " << event->mimeData()->isWidgetType() << " " << event->mimeData();
+qDebug() << "Et sa position : " << event->pos().x() << " et " << event->pos().y();
+qDebug() << "Et sa taille : " << tmp->size().width() << " et " << tmp->size().height();
              event->acceptProposedAction();
-         }
-     } else if (event->mimeData()->hasText()) {
 
-         QStringList pieces = event->mimeData()->text().split(QRegExp("\\s+"),
-                              QString::SkipEmptyParts);
-         QPoint position = event->pos();
 
-         foreach (QString piece, pieces) {
-               tmp->move(position);
-           tmp->show();
-
-         //    Items *newLabel = new Items(this);
-           //  newLabel->move(position);
-             //newLabel->show();
-
-             position += QPoint(tmp->width(), 0);
-         }
-
-         event->acceptProposedAction();
-
-     } else {
-         event->ignore();
-     }
  }
