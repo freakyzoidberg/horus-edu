@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/Icons" >
+        <file>LessonIcon.png</file>
+        <file>SectionIcon.png</file>
+        <file>PageIcon.png</file>
+    </qresource>
+</RCC>
