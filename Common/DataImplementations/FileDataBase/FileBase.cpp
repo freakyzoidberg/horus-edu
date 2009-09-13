@@ -2,7 +2,7 @@
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 #include "../../PluginManager.h"
-#include "FileNetworkPlugin.h"
+#include "../../../Server/Plugins/FileBaseServer/FileNetworkPlugin.h"
 
 #include <QDir>
 #include <QSettings>
