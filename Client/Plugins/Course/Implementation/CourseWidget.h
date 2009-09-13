@@ -6,7 +6,7 @@
 # include               <QAbstractItemModel>
 # include               <QTreeView>
 
-# include               "../../LessonManager/ILessonManager.h"
+# include               "../../LessonManager/LessonManager.h"
 # include				"../../../../Common/TreeDataPlugin.h"
 # include				"../../../../Common/FileDataPlugin.h"
 # include				"../../../../Common/FileData.h"
@@ -26,8 +26,6 @@ private:
 
 private slots:
     void lessonSelected(const QModelIndex &item);
-    void pageSelected(const QModelIndex &item);
-    void ready();
 
 private:
     ILessonManager      *lessonPlugin;
@@ -38,7 +36,6 @@ private:
     WhiteBoard             *pageWidget;
     quint32             fileIndex;
     FileData            *lessonFile;
-    ILesson::IPage *oldpage;
 };
 
 #endif // __COURSEWIDGET_H__

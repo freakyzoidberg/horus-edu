@@ -3,16 +3,15 @@
 # -------------------------------------------------
 QT += xml
 TEMPLATE = lib
-SOURCES += Implementation/LessonManager.cpp \
-    Implementation/Lesson.cpp \
-    Implementation/XmlHandler.cpp \
+SOURCES += LessonManager.cpp \
+    Lesson.cpp \
+    XmlHandler.cpp \
     LessonModel.cpp
 HEADERS += ILessonManager.h \
-    ILesson.h \
-    Implementation/LessonManager.h \
-    Implementation/Lesson.h \
-    Implementation/XmlHandler.h \
-    Implementation/LessonManagerMetaPlugin.h \
+    LessonManager.h \
+    Lesson.h \
+    XmlHandler.h \
+    LessonManagerMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/Data.h \
@@ -21,6 +20,5 @@ HEADERS += ILessonManager.h \
     LessonModel.h
 INCLUDEPATH += .
 DESTDIR = .
-TARGET = LessonManager
-RESOURCES += Implementation/TreeIcons.qrc
+TARGET = TreeIcons.qrc
 DEFINES += HORUS_CLIENT
