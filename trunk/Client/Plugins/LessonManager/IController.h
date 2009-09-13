@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-#include "ILesson.h"
+#include "Lesson.h"
 
 //! Interface of an object controller.
 /*!
@@ -35,7 +35,7 @@ public:
         it will call the method hideObject().
         \param object A pointer to the IObject to show.
     */
-    virtual void    showObject(ILesson::IPage::IObject *object) = 0;
+    virtual void    showObject(LObject *object) = 0;
 
     //! Allows the PageDisplayer plugin to require an IObject to be activated by the dedicated plugin.
     /*!
@@ -46,14 +46,14 @@ public:
         \param object A pointer to the IObject to activate.
 
     */
-    virtual void    activateObject(ILesson::IPage::IObject *object) = 0;
+    virtual void    activateObject(LObject *object) = 0;
 
     //! Requires the dedicated plugin to hide an IObject that has been previously displayed.
     /*!
         This method is typically called by the PageDisplayer plugin before switching to another page.
         \param object A pointer to the IObject to hide.
     */
-    virtual void    hideObject(ILesson::IPage::IObject *object) = 0;
+    virtual void    hideObject(LObject *object) = 0;
 
     //! Requires the dedicated plugin to configure the content of an IObject.
     /*!
@@ -65,7 +65,7 @@ public:
         created object.
         \param object A pointer to the IObject to configure.
     */
-    virtual void    configureObject(ILesson::IPage::IObject *object) = 0;
+    virtual void    configureObject(LObject *object) = 0;
 };
 
 Q_DECLARE_INTERFACE(IController, "net.horus.Client.Plugin.LessonManager.ControllerInterface/1.0");
