@@ -10,7 +10,8 @@ TARGET = FileBaseServerMetaPlugin
 SOURCES += ../../../Common/DataImplementations/FileDataBase/FileDataBase.cpp \
     ../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.cpp \
     FileServer.cpp \
-    FileTransfert.cpp
+    FileTransfert.cpp \
+    FileNetworkPlugin.cpp
 HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h \
     ../../../Common/Plugin.h \
@@ -22,6 +23,8 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/FileDataPlugin.h \
     ../../../Common/AbstractManager.h \
+    ../../NetworkPlugin.h \
     FileBaseServerMetaPlugin.h \
     FileServer.h \
-    FileTransfert.h
+    FileTransfert.h \
+    FileNetworkPlugin.h

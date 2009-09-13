@@ -4,6 +4,7 @@
 #include "../../../Common/MetaPlugin.h"
 
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
+#include "FileNetworkPlugin.h"
 
 class FileBaseClientMetaPlugin : public MetaPlugin
 {
@@ -12,7 +13,9 @@ class FileBaseClientMetaPlugin : public MetaPlugin
 
 public:
     inline FileBaseClientMetaPlugin() {
-      pluginList.append(new FileDataBasePlugin);
+      FileDataBasePlugin* dataPlugin = new FileDataBasePlugin;
+      pluginList.append(dataPlugin);
+      pluginList.append(new FileNetworkPlugin(dataPlugin));
   }
 };
 

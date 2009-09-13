@@ -19,26 +19,32 @@ class FileDataBasePlugin : public FileDataPlugin
   Q_INTERFACES(ClientFileDataPlugin)
 #endif
 
+// Plugin Interface
 public:
-    inline FileDataBasePlugin() {}
     inline const QString pluginName() const { return "File Data Base"; }
     inline const QString pluginVersion() const { return "0.1"; }
+    void                 load();
 
-    FileData*       getFile(quint32 fileId);
-    FileData*       getFile(quint32 nodeId, QString fileName);
 
-    void            load();
-
+// DataPlugin Interface
+public:
+    Data*           getNewData();
 #ifdef HORUS_CLIENT
     void            dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
     void            loadDataBase(QSqlQuery&);
+    void            sendUpdates(QSqlQuery&, UserData* user, QDateTime date);
 #endif
-
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
     Data*                getDataWithKey(QDataStream& s);
+
+
+// FileDataPlugin Interface
+public:
+    FileData*            getFile(quint32 fileId);
+
 
 private:
     QHash<quint32,FileData*> files;

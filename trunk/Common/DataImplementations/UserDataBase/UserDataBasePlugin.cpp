@@ -20,6 +20,12 @@ Data* UserDataBasePlugin::getDataWithKey(QDataStream& s)
     return getUser(tmpId);
 }
 
+Data* UserDataBasePlugin::getNewData()
+{
+    static quint32 uniqueId = 0;
+    return getUser(--uniqueId);
+}
+
 #ifdef HORUS_CLIENT
 void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
@@ -29,7 +35,6 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 }
 #endif
 #ifdef HORUS_SERVER
-#include <QtSql>
 void UserDataBasePlugin::loadDataBase(QSqlQuery& query)
 {
     query.prepare("SELECT id,login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users;");

@@ -19,7 +19,6 @@ class FileDataPlugin : public DataPlugin
 public:
     inline const QString getDataType() const { return "File"; }
     virtual FileData*    getFile(quint32 fileId) = 0;
-    virtual FileData*    getFile(quint32 nodeId, QString fileName) = 0;
 };
 
 #ifdef HORUS_SERVER

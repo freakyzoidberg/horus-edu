@@ -62,18 +62,15 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
 
 void TestGitWidget::test0()
 {
-    qDebug() << "test0.0";
     FileDataPlugin* p = plugin->pluginManager->findPlugin<FileDataPlugin*>();
     if ( ! p)
         return;
 
-    qDebug() << "test0.1";
     FileData* f = p->getFile(1);
     if ( ! f)
         return;
 
-    f->update();
-    qDebug() << "test0.2";
+    f->synchronize();
 }
 
 void TestGitWidget::test1()
@@ -82,6 +79,7 @@ void TestGitWidget::test1()
 
 void TestGitWidget::test2()
 {
+
 }
 
 void TestGitWidget::test3()

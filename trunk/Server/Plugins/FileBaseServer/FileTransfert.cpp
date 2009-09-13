@@ -3,21 +3,22 @@
 #include <QTime>
 
 #include "../../../Common/Defines.h"
+#include "../../../Common/FileData.h"
 
-QHash<QByteArray,FileTransfert*> FileTransfert::transferts;
+QHash<QByteArray,FileTransfert*> FileTransfert::_transferts;
 
-FileTransfert::FileTransfert(QFile* _file)
+FileTransfert::FileTransfert(FileData* file)
 {
     qDebug() << "FileTransfert(...)";
-    file = _file;
-    file->setParent(this);
-    timer = new QTimer(this);
-    socket = 0;
+    _file = file->localFile();
+    _file->setParent(this);
+    _timer = new QTimer(this);
+    _socket = 0;
 
     //TODO maybe change this value
     qsrand(QTime::currentTime().msec());
     for (int i = 0; i < FILE_TRANSFERT_KEY_SIZE; i++)
-        key[i] = qrand();
+        _key[i] = qrand();
 
 //    moveToThread(ThreadFiles::instance());
 
@@ -28,60 +29,60 @@ FileTransfert::FileTransfert(QFile* _file)
 void FileTransfert::startSlot()
 {
     disconnect(this, SLOT(startSlot()));
-    connect(timer, SIGNAL(timeout()), this, SLOT(deleteLater()));
-    transferts.insert(key, this);
+    connect(_timer, SIGNAL(timeout()), this, SLOT(deleteLater()));
+    _transferts.insert(_key, this);
     // 1second for tests
-    timer->start(FILE_TRANSFERT_WAIT_TIME * 1000);
+    _timer->start(FILE_TRANSFERT_WAIT_TIME * 1000);
 }
 
 void FileTransfert::socketToFile()
 {
     qDebug() << "FileTransfert::socketToFile";
-    file->write(socket->readAll());
+    _file->write(_socket->readAll());
 }
 
 void FileTransfert::fileToSocket(qint64 len)
 {
     qDebug() << "FileTransfert::fileToSocket";
-    socket->write(file->read(len));
-    if (file->atEnd())
+    _socket->write(_file->read(len));
+    if (_file->atEnd())
     {
-        socket->flush();
-        socket->close();
+        _socket->flush();
+        _socket->close();
     }
 }
 
-const QByteArray& FileTransfert::getKey() const
+const QByteArray& FileTransfert::key() const
 {
-    return key;
+    return _key;
 }
 
-void FileTransfert::clientConnected(QSslSocket* _socket)
+void FileTransfert::clientConnected(QSslSocket* socket)
 {
-    socket = _socket;
+    _socket = socket;
     qDebug() << "FileTransfert::clientConnected";
-    disconnect(timer, SIGNAL(timeout()), 0, 0);
-    connect(socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
-    if (file->openMode() & QFile::WriteOnly)
-        connect(socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
-    if (file->openMode() & QFile::ReadOnly)
+    disconnect(_timer, SIGNAL(timeout()), 0, 0);
+    connect(_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
+    if (_file->openMode() & QFile::WriteOnly)
+        connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
+    if (_file->openMode() & QFile::ReadOnly)
     {
-        connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)));
+        connect(_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)));
         fileToSocket(8192);
     }
 }
 
 FileTransfert::~FileTransfert()
 {
-    delete timer;
-    delete file;
-    transferts.remove(key);
+    delete _timer;
+    delete _file;
+    _transferts.remove(_key);
     qDebug() << "~FileTransfert()";
 }
 
 void FileTransfert::registerSocket(const QByteArray& key, QSslSocket* socket)
 {
-    FileTransfert* trans = transferts.value(key);
+    FileTransfert* trans = _transferts.value(key);
     if ( ! trans)
     {
         delete socket;

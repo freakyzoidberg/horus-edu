@@ -6,25 +6,26 @@
 #include <QSslSocket>
 #include <QTimer>
 #include <QFile>
+class FileData;
 
 //! the object for each file transfert
 class FileTransfert : public QObject
 {
   Q_OBJECT
 public:
-    FileTransfert(QFile* file);
+    FileTransfert(FileData* file);
     ~FileTransfert();
-    const QByteArray& getKey() const;
+    const QByteArray& key() const;
     void clientConnected(QSslSocket* socket);
 
 private:
-    QByteArray  key;
+    QByteArray  _key;
     //! socket to the client
-    QSslSocket* socket;
+    QSslSocket* _socket;
     //! opened local file
-    QFile*      file;
+    QFile*      _file;
 
-    QTimer*     timer;
+    QTimer*     _timer;
 
 signals:
     void start();
@@ -37,7 +38,7 @@ private slots:
 public:
     static void registerSocket(const QByteArray& key, QSslSocket* socket);
 private:
-    static QHash<QByteArray,FileTransfert*> transferts;
+    static QHash<QByteArray,FileTransfert*> _transferts;
 };
 
 #endif // FILETRANSFERT_H
