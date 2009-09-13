@@ -1,18 +1,14 @@
 #include "StudentsPage.h"
 
-StudentsPage::StudentsPage()
+StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
         setupUi();
-}
-
-StudentsPage::StudentsPage(TreeDataPlugin* tree)
-{
-        setupUi();
+        studentTree->setModel(tree->getTreeModel());
 }
 
 void    StudentsPage::setupUi()
 {
-    this->setMinimumWidth(700);
+        this->setMinimumWidth(700);
     stuLayout = new QHBoxLayout(this);
     studentTree = new QTreeView();
     menuLayout = new QVBoxLayout();

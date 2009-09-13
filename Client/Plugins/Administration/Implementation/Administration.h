@@ -21,6 +21,8 @@ public:
         const QString       pluginVersion() const;
         const QString       getDisplayableName();
         QWidget             *getWidget();
+        TreeDataPlugin      *treePlugin;
+        UserDataPlugin      *userPlugin;
 };
 
 #endif // ADMINISTRATION_H

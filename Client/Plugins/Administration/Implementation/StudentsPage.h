@@ -21,12 +21,12 @@
 #include <QTreeView>
 
 #include "../../../../Common/TreeDataPlugin.h"
+#include "../../../../Common/UserDataPlugin.h"
 
 class StudentsPage : public QWidget
 {
     public:
-        StudentsPage(TreeDataPlugin* tree);
-        StudentsPage();
+        StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users);
     private:
         void    setupUi();
         QHBoxLayout *stuLayout;

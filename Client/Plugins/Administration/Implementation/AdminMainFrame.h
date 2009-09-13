@@ -9,22 +9,23 @@
 #include "TeacherPage.h"
 #include "RoomPage.h"
 
-class Administration;
+//class Administration;
 class AdminMainFrame : public QWidget
 {
     Q_OBJECT
 
 public:
-    AdminMainFrame(Administration *parent);
+    AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_userPlugin);
     ~AdminMainFrame();
 public slots:
     void changeFrame(QListWidgetItem *current, QListWidgetItem *previous);
 
 private:
     void createIcons();
-    Administration     *plugin;
     QListWidget *contentsWidget;
     QStackedWidget *framesWidget;
+    TreeDataPlugin      *tree;
+    UserDataPlugin      *users;
 };
 
 #endif // ADMINMAINFRAME_H
