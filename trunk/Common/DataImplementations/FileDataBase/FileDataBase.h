@@ -12,6 +12,7 @@
 #include "../../Defines.h"
 #include "../../FileData.h"
 #include "FileDataBasePlugin.h"
+#include "FileBase.h"
 
 class UserData;
 class TreeData;
@@ -63,25 +64,28 @@ public:
 
     inline QByteArray  hash() const { return _hash; }
 
-    QFile*             localFile() const;
-
 #ifdef HORUS_CLIENT
-    void               synchronize();
-    //! Called after receiving the authorisation key from the server
-    void               synchronize(const QByteArray& key, QIODevice::OpenMode);
-private:
-    QSslSocket*        _socket;
+    File*              device() const { return _device; }
+#endif
+#ifdef HORUS_SERVER
+    QFile*             device() const { return _device; }
 #endif
 
 private:
-    FileDataBase(quint32 fileId, FileDataPlugin* plugin);
-    quint32   _id;
-    QString   _name;
-    QString   _mimeType;
-    quint64   _size;
-    TreeData* _node;
-    UserData* _owner;
-    QByteArray _hash;    
+    FileDataBase(quint32 fileId, FileDataBasePlugin* plugin);
+    quint32    _id;
+    QString    _name;
+    QString    _mimeType;
+    quint64    _size;
+    TreeData*  _node;
+    UserData*  _owner;
+    QByteArray _hash;
+#ifdef HORUS_CLIENT
+    FileBase*  _device;
+#endif
+#ifdef HORUS_SERVER
+    QFile*     _device;
+#endif
 };
 
 #endif // FILEDATABASE_H

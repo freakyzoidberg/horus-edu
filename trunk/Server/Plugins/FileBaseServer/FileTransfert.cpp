@@ -4,14 +4,15 @@
 
 #include "../../../Common/Defines.h"
 #include "../../../Common/FileData.h"
+#include "FileServer.h"
 
 QHash<QByteArray,FileTransfert*> FileTransfert::_transferts;
 
 FileTransfert::FileTransfert(FileData* file)
 {
     qDebug() << "FileTransfert(...)";
-    _file = file->localFile();
-    _file->setParent(this);
+    _file = file->device();
+//    _file->setParent(this);
     _timer = new QTimer(this);
     _socket = 0;
 
@@ -20,10 +21,11 @@ FileTransfert::FileTransfert(FileData* file)
     for (int i = 0; i < FILE_TRANSFERT_KEY_SIZE; i++)
         _key[i] = qrand();
 
-//    moveToThread(ThreadFiles::instance());
+    moveToThread(&FileServer::instance()->thread);
 
     connect(this, SIGNAL(start()), this, SLOT(startSlot()), Qt::QueuedConnection);
-    emit start();
+//    emit start();
+    startSlot();
 }
 
 void FileTransfert::startSlot()
@@ -63,6 +65,7 @@ void FileTransfert::clientConnected(QSslSocket* socket)
     qDebug() << "FileTransfert::clientConnected";
     disconnect(_timer, SIGNAL(timeout()), 0, 0);
     connect(_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
+    _file->open(QIODevice::ReadWrite);
     if (_file->openMode() & QFile::WriteOnly)
         connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
     if (_file->openMode() & QFile::ReadOnly)
@@ -75,7 +78,6 @@ void FileTransfert::clientConnected(QSslSocket* socket)
 FileTransfert::~FileTransfert()
 {
     delete _timer;
-    delete _file;
     _transferts.remove(_key);
     qDebug() << "~FileTransfert()";
 }
@@ -85,7 +87,9 @@ void FileTransfert::registerSocket(const QByteArray& key, QSslSocket* socket)
     FileTransfert* trans = _transferts.value(key);
     if ( ! trans)
     {
+        qDebug() << "FileTransfert::registerSocket Key not found. Connexion dropped.";
         delete socket;
+        //deleteLater();
         return;
     }
 

@@ -6,6 +6,7 @@
 #include <QFile>
 class UserData;
 class TreeData;
+class File;
 
 class FileData : public Data
 {
@@ -34,14 +35,12 @@ public:
 
     virtual QString     mimeType() const = 0;
 
-    virtual QFile*      localFile() const = 0;
-
 #ifdef HORUS_CLIENT
-    virtual void        synchronize() = 0;
+    virtual File*       device() const = 0;
 #endif
-
-signals:
-    void                synchronized();
+#ifdef HORUS_SERVER
+    virtual QFile*      device() const = 0;
+#endif
 };
 
 #ifdef HORUS_SERVER

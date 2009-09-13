@@ -8,13 +8,17 @@
 
 #ifdef HORUS_CLIENT
 #include <QSslSocket>
+#include "FileBase.h"
 #endif
 
-FileDataBase::FileDataBase(quint32 fileId, FileDataPlugin* plugin) : FileData(plugin)
+FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileData(plugin)
 {
     _id = fileId;
 #ifdef HORUS_CLIENT
-    _socket = 0;
+    _device = new FileBase(this, plugin);
+#endif
+#ifdef HORUS_SERVER
+    _device = new QFile("./Files/"+QVariant(_id).toString());
 #endif
 }
 void FileDataBase::keyToStream(QDataStream& s)
@@ -148,26 +152,21 @@ void FileDataBase::moveTo(TreeData* node)
 {
 }
 
-QFile* FileDataBase::localFile() const
-{
-    return new QFile("/tmp/" + QVariant(_id).toString());
-}
-
-#ifdef HORUS_CLIENT
-void FileDataBase::synchronize()
-{
-    _plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin")->askForConnexion(this, QIODevice::ReadWrite);
-}
-
-void FileDataBase::synchronize(const QByteArray& key, QIODevice::OpenMode)
-{
-    _socket = new QSslSocket();
-    _socket->setProtocol(QSsl::SslV3);
-    _socket->setPeerVerifyMode(QSslSocket::VerifyNone);
-
-    _socket->connectToHostEncrypted("localhost", 42042);
-    _socket->waitForEncrypted();
-    _socket->write(key);
-    _socket->flush();
-}
-#endif
+//#ifdef HORUS_CLIENT
+//void FileDataBase::synchronize()
+//{
+//    _plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin")->askForConnexion(this, QIODevice::ReadWrite);
+//}
+//
+//void FileDataBase::synchronize(const QByteArray& key, QIODevice::OpenMode)
+//{
+//    _socket = new QSslSocket();
+//    _socket->setProtocol(QSsl::SslV3);
+//    _socket->setPeerVerifyMode(QSslSocket::VerifyNone);
+//
+//    _socket->connectToHostEncrypted("localhost", 42042);
+//    _socket->waitForEncrypted();
+//    _socket->write(key);
+//    _socket->flush();
+//}
+//#endif
