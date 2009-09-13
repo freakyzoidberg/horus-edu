@@ -7,7 +7,7 @@ QEvent::Type ClientEvents::LoadPluginEvent;
 
 QWidget             *Administration::getWidget()
 {
-    return new AdminMainFrame(this);
+    return new AdminMainFrame(treePlugin, userPlugin);
 }
 
 const QString   Administration::pluginName() const
@@ -27,15 +27,15 @@ const QString   Administration::getDisplayableName()
 
 bool Administration::canLoad() const
 {
-        if (pluginManager->findPlugin<TreeDataPlugin*>())
+        if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<UserDataPlugin *>())
                 return (true);
         return (false);
 }
 
 void Administration::load()
 {
-    TreeDataPlugin* t = pluginManager->findPlugin<TreeDataPlugin*>();
-    if ( ! t->isLoaded())
-        t->load();
+    treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
+    userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
+
     Plugin::load();
 }

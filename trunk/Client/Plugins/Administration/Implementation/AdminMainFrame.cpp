@@ -2,10 +2,11 @@
 #include "Administration.h"
 #include "../../../../Common/PluginManager.h"
 
-AdminMainFrame::AdminMainFrame(Administration *parent)
+AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_userPlugin)
     : QWidget()
 {
-        plugin = parent;
+    tree = _treePlugin;
+    users = _userPlugin;
     contentsWidget = new QListWidget;
     contentsWidget->setViewMode(QListView::IconMode);
     contentsWidget->setIconSize(QSize(20, 20));
@@ -15,19 +16,9 @@ AdminMainFrame::AdminMainFrame(Administration *parent)
 
 
     framesWidget = new QStackedWidget;
-    TreeDataPlugin* tree = plugin->pluginManager->findPlugin<TreeDataPlugin*>();
-    if (tree)
-    {
-        framesWidget->addWidget(new StudentsPage(tree));
-        framesWidget->addWidget(new TeacherPage(tree));
-        framesWidget->addWidget(new RoomPage(tree));
-    }
-    else
-    {
-        framesWidget->addWidget(new StudentsPage);
-        framesWidget->addWidget(new TeacherPage);
-        framesWidget->addWidget(new RoomPage);
-    }
+    framesWidget->addWidget(new StudentsPage(tree, users));
+    framesWidget->addWidget(new TeacherPage(tree, users));
+    framesWidget->addWidget(new RoomPage(tree));
 
     createIcons();
     contentsWidget->setCurrentRow(0);

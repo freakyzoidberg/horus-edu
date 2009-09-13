@@ -1,11 +1,6 @@
 #include "TeacherPage.h"
 
-TeacherPage::TeacherPage(TreeDataPlugin* tree)
-{
-    setupUi();
-}
-
-TeacherPage::TeacherPage()
+TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
     setupUi();
 }
