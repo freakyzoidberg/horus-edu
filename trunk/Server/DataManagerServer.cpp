@@ -34,7 +34,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 	if (data->status() == Data::EMPTY && newStatus != Data::CREATING)
     {
         data->fillFromDatabase(query);
-        data->setStatus(Data::UPTODATE);
+		data->_status = Data::UPTODATE;
     }
 	if (table[oldStatus][newStatus])
 	{
