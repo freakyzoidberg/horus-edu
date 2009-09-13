@@ -97,6 +97,7 @@ public:
     
 protected:
     inline TreeData(TreeDataPlugin* plugin) : Data(plugin) { }
+    inline ~TreeData() {}
 };
 
 Q_DECLARE_INTERFACE(TreeData, "net.horus.TreeData/1.0");

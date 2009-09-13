@@ -1,7 +1,6 @@
 #ifndef FILENETWORKPLUGIN_H
 #define FILENETWORKPLUGIN_H
 
-#include <QIODevice>
 #include "../../NetworkPlugin.h"
 
 class FileData;
@@ -25,7 +24,8 @@ public slots:
 
 public:
     inline FileNetworkPlugin(FileDataBasePlugin* dataPlugin) { _dataPlugin = dataPlugin; }
-    void                    askForConnexion(FileData* file, QIODevice::OpenMode mode);
+    void                    askForDownload(FileData* file);
+    void                    askForUpload(FileData* file);
 private:
     FileDataBasePlugin* _dataPlugin;
 };

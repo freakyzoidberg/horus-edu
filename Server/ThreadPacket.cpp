@@ -126,17 +126,12 @@ void ThreadPacket::PacketLogin()
     socket->user = user;
     PluginManagerServer::instance()->setCurrentUser(socket->user);
 
-    qDebug() << "ThreadPacket::PacketLogin : ACCEPTED" << user;
-
     CommLogin resp(CommLogin::ACCEPTED);
     resp.serverDateTime = QDateTime::currentDateTime();
     resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
     resp.sessionString = socket->user->newSession(query, resp.sessionEnd);
     resp.user = user;
     emit sendPacket(resp.getPacket());
-
-    // send user data
-    //plugin->dataManager->sendData(user,user);
 
     // send every data the user need
     foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
@@ -153,90 +148,6 @@ void ThreadPacket::PacketData()
         if (plugin->getDataType() == data.type)
             plugin->dataManager->receiveData(socket->user, data.data);
 }
-//void ThreadPacket::PacketFile()
-//{
-//    CommFile f(packet);
-//    qDebug() << "[ in]" << f;
-//
-//    if (socket->staus != ClientSocket::CONNECTED)
-//      return sendError(CommError::NOT_INITIALIZED);
-//
-//    if ( ! socket->user)
-//      return sendError(CommError::NOT_AUTHENTICATED);
-//
-//    FileManagment fileMgmt;
-//    QSettings settings;
-//    f.error = CommFile::NO_ERROR;
-//
-//    if (f.method == CommFile::NODE_LIST) //TODO: more permitions checks: ACCESS_DIR and exists
-//        f.fileList = fileMgmt.getNodeList(f.fileInfo.id);
-//
-//    else if (f.method == CommFile::USER_LIST) //TODO: more permitions checks: ACCESS_DIR and exists
-//        f.fileList = fileMgmt.getUserList(socket->user.getId());
-//
-//    else if (f.method == CommFile::DELETE_FILE
-//          || f.method == CommFile::ACCESS_FILE
-//          || f.method == CommFile::NEW_FILE
-//          || f.method == CommFile::STAT_FILE)
-//    {
-//        QFile* qfile = 0;
-//        if (f.method != CommFile::NEW_FILE)
-//        {
-//            qfile = new QFile(settings.value("SETTINGS/SoftFullPath", "/opt/Horus").toString() + '/' + settings.value("SETTINGS/FilesDirectory", "Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
-//
-//            if ( ! fileMgmt.fileExist(f.fileInfo.id) || ! qfile->exists())
-//                f.error = CommFile::NOT_FOUND;
-//
-//            else
-//                f.fileInfo = fileMgmt.getFileInfo(f.fileInfo.id);
-//        }
-//
-//        if (f.error == CommFile::NO_ERROR)
-//        {
-//            //check user can create or remove a file in the node
-//            if ((f.method == CommFile::DELETE_FILE
-//              || f.method == CommFile::NEW_FILE)
-//            && ! fileMgmt.userCanChangeNode(socket->user.getId(), f.fileInfo.nodeId))
-//                f.error = CommFile::PERMITION_DENIED;
-//
-//            //check if the file can be removed from the filesystem
-//            else if (f.method == CommFile::DELETE_FILE
-//                     &&  ! qfile->remove())
-//                f.error = CommFile::PERMITION_DENIED;
-//
-//            if (f.method == CommFile::ACCESS_FILE
-//             || f.method == CommFile::NEW_FILE)
-//            {
-//                if (f.method == CommFile::NEW_FILE)
-//                {
-//                    //TODO check fileInfo
-//                    f.fileInfo.ownerId = socket->user.getId();
-//                    fileMgmt.insertNewFile(f.fileInfo);
-//                    qfile = new QFile(settings.value("SETTINGS/FilesDirectory", "/opt/Horus/Files").toString() + '/' + QVariant(f.fileInfo.id).toString());
-//                }
-//
-//                //check if the file can be created/read/write from the filesystem
-//                if (qfile->open(f.mode))
-//                {
-//                    //refresh FileInfo to be sure
-//                    f.fileInfo = fileMgmt.getFileInfo(f.fileInfo.id);
-//                    f.key = (new FileTransfert(qfile))->getKey();// activate the FileTransfert
-//                }
-//
-//                else
-//                    f.error = CommFile::PERMITION_DENIED;
-//            }
-//        }
-//
-//        if ( ! f.key.length() && qfile)
-//            delete qfile;
-//    }
-//    else
-//        return sendError(CommError::PROTOCOL_ERROR);
-//
-//    emit sendPacket(f.getPacket());
-//    qDebug() << "[out]" << f;
-//}
 
 void ThreadPacket::PacketPlugin()
 {

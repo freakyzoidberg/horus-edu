@@ -25,6 +25,8 @@ class DataPlugin : public Plugin
 public:
     virtual const QString getDataType() const = 0;
 
+//    virtual inline const QList<Data*> getAllDatas() const { return QList<Data*>(); }
+
     //! Return the pointer to the Data with a his unique key read in the stream
     virtual Data*         getDataWithKey(QDataStream&) = 0;
 

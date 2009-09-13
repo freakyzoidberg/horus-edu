@@ -45,9 +45,12 @@ QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent )
 
 QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 {
+    if ( ! index.isValid())
+        return QModelIndex();
+
     QObject* obj = (QObject*)(index.internalPointer());
 
-    if ( ! index.isValid() || obj == rootItem)
+    if (obj == rootItem)
         return QModelIndex();
 
     int row = 0;

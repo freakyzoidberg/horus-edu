@@ -1,15 +1,32 @@
 #include "FileNetworkPlugin.h"
-#include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
+#include "../../../Common/FileData.h"
 #include "FileTransfert.h"
 #include "../../../Common/PluginManager.h"
+#include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 
 void FileNetworkPlugin::receivePacket(UserData* user, const PluginPacket packet)
 {
-    if (packet.request != "askForConnexion")
+    if (packet.request != "askForDownload" && packet.request != "askForUpload")
         return;
-    QVariantHash data = packet.data.toHash();
-    FileTransfert* transfert = new FileTransfert(_dataPlugin->pluginManager->findPlugin<FileDataBasePlugin*>()->getFile(data["file"].toUInt()));
 
-    data["key"] = transfert->key();
-    emit sendPacket(user, PluginPacket(packet.sourcePlugin, "connexionAuthorized", data));
+    FileData* file = _dataPlugin->pluginManager->findPlugin<FileDataBasePlugin*>()->getFile( packet.data.toUInt() );
+    QVariantHash data;
+    data["file"] = file->id();
+
+    FileTransfert::TransfertType type;
+    QString response;
+    if (packet.request == "askForDownload")
+    {
+        type = FileTransfert::DOWNLOAD;
+        response = "downloadAuthorized";
+    }
+    else
+    {
+        type = FileTransfert::UPLOAD;
+        response = "uploadAuthorized";
+    }
+
+    data["key"] = (new FileTransfert(file, type))->key();
+
+    emit sendPacket(user, PluginPacket(packet.sourcePlugin, response, data));
 }

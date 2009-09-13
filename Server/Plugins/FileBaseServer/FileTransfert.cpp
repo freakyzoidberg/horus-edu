@@ -8,12 +8,14 @@
 
 QHash<QByteArray,FileTransfert*> FileTransfert::_transferts;
 
-FileTransfert::FileTransfert(FileData* file)
+FileTransfert::FileTransfert(FileData* file, TransfertType type)
 {
-    qDebug() << "FileTransfert(...)";
-    _file = file->device();
-//    _file->setParent(this);
-    _timer = new QTimer(this);
+    qDebug() << "FileTransfert()";
+
+    moveToThread(&FileServer::instance()->thread);
+    _type = type;
+    _fileData = file;
+    _file= 0;
     _socket = 0;
 
     //TODO maybe change this value
@@ -21,18 +23,18 @@ FileTransfert::FileTransfert(FileData* file)
     for (int i = 0; i < FILE_TRANSFERT_KEY_SIZE; i++)
         _key[i] = qrand();
 
-    moveToThread(&FileServer::instance()->thread);
-
-    connect(this, SIGNAL(start()), this, SLOT(startSlot()), Qt::QueuedConnection);
-//    emit start();
-    startSlot();
+    QMetaObject::invokeMethod(this, "init", Qt::QueuedConnection);
 }
 
-void FileTransfert::startSlot()
+void FileTransfert::init()
 {
-    disconnect(this, SLOT(startSlot()));
-    connect(_timer, SIGNAL(timeout()), this, SLOT(deleteLater()));
+    qDebug() << "FileTransfert::init()";
+
     _transferts.insert(_key, this);
+    _timer = new QTimer(this);
+    connect(_timer, SIGNAL(timeout()), this, SLOT(deleteLater()));
+
+//    _file->setParent(this);
     // 1second for tests
     _timer->start(FILE_TRANSFERT_WAIT_TIME * 1000);
 }
@@ -43,10 +45,10 @@ void FileTransfert::socketToFile()
     _file->write(_socket->readAll());
 }
 
-void FileTransfert::fileToSocket(qint64 len)
+void FileTransfert::fileToSocket(qint64)
 {
     qDebug() << "FileTransfert::fileToSocket";
-    _socket->write(_file->read(len));
+    _socket->write(_file->read(8192));
     if (_file->atEnd())
     {
         _socket->flush();
@@ -65,19 +67,30 @@ void FileTransfert::clientConnected(QSslSocket* socket)
     qDebug() << "FileTransfert::clientConnected";
     disconnect(_timer, SIGNAL(timeout()), 0, 0);
     connect(_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
-    _file->open(QIODevice::ReadWrite);
-    if (_file->openMode() & QFile::WriteOnly)
-        connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
-    if (_file->openMode() & QFile::ReadOnly)
+    if (_type == DOWNLOAD)
     {
+        _file = _fileData->device();
+        _file->open(QIODevice::ReadOnly);
         connect(_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)));
         fileToSocket(8192);
     }
+    else if (_type == UPLOAD)
+    {
+        _file = _fileData->device();
+        _file->open(QIODevice::WriteOnly | QIODevice::Truncate);
+        connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
+    }
+    else
+        _socket->disconnectFromHost();
 }
 
 FileTransfert::~FileTransfert()
 {
     delete _timer;
+//    if (_socket)
+//        delete _socket;
+    if (_file)
+        delete _file;
     _transferts.remove(_key);
     qDebug() << "~FileTransfert()";
 }
