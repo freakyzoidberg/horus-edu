@@ -1,7 +1,7 @@
 #ifndef ITEMS_H
 #define ITEMS_H
 #include <QWidget>
-#include "whiteboard.h"
+#include "WhiteBoard.h"
 class Items : public QWidget
 {
 public:

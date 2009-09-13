@@ -10,8 +10,8 @@
 # include				"../../../../Common/TreeDataPlugin.h"
 # include				"../../../../Common/FileDataPlugin.h"
 # include				"../../../../Common/FileData.h"
-#include  "whiteboard.h"
-#include  "items.h"
+#include  "WhiteBoard.h"
+#include  "Items.h"
 
 class                   CourseWidget : public QSplitter
 {
