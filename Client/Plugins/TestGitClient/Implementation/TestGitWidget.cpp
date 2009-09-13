@@ -70,7 +70,7 @@ void TestGitWidget::test0()
     if ( ! f)
         return;
 
-    f->synchronize();
+    f->device()->synchronize();
 }
 
 void TestGitWidget::test1()

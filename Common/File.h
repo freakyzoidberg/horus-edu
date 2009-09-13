@@ -2,39 +2,33 @@
 #define FILE_H
 
 #include <QIODevice>
+class FileData;
 
 class File : public QIODevice
 {
   Q_OBJECT
 public:
     //! return the progress value (for a down/up-load)
-    virtual int   getProgress() const = 0;
+    virtual int     progress() const = 0;
     //! return true if the localfile is the same as the server
-    virtual bool isSynchronized() const = 0;
-    //! open the transfert connexion if needed and the local file
-    virtual bool open(OpenMode mode) = 0;
-    virtual bool isOopen() const = 0;
-    //! close after finishing the curent synchronization
-    virtual void close() = 0;
-    //! return the localFileName
-    virtual const QString getLocalFileName() const = 0;
-    //! set the filename
-    virtual void setFileName(const QString&) = 0;
+    virtual bool    isSynchronized() const = 0;
+    //! download the file from the server or upload it.
+    virtual void    synchronize() = 0;
+    //! return the associated FileData
+    inline FileData* data() { return _fileData; }
 
 signals:
-    //! emitted an error append
-    //void error(int code, QString message);
-    //! emitted when the fileInformation change
-    void fileInfoUpdated();
     //! emitted when the localfile is the same as the server
-    void fileSynchronized();
-    ////! emitted when a connexion to the server is opened (maybe useless)
-    //void connexionOpened();
+    void synchronized();
     //! emitted when the progress value change (for a down/upload)
     void progressChange(int percent);
 
 protected:
+    inline File(FileData* fileData) { _fileData = fileData; }
     inline ~File() {}
+
+private:
+    FileData*   _fileData;
 };
 
 #endif // FILE_H

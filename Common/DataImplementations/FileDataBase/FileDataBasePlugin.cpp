@@ -48,7 +48,7 @@ void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 
 void FileDataBasePlugin::load()
 {
-    server = new FileServer;
+    server = FileServer::instance();
     Plugin::load();
 }
 

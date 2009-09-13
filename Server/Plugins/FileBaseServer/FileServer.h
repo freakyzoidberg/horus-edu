@@ -10,7 +10,8 @@ class FileServer : public QTcpServer
 {
   Q_OBJECT
 public:
-    FileServer();
+    static FileServer* instance();
+    QThread thread;
 
 private slots:
     void readKey();
@@ -23,7 +24,7 @@ private:
     //! when a new connexion is openned
     void incomingConnection (int socket);
 
-    QThread thread;
+    FileServer();
 };
 
 #endif // FILESERVER_H

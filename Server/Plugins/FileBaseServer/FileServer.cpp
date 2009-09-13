@@ -6,6 +6,12 @@
 
 #include <QSettings>
 
+FileServer* FileServer::instance()
+{
+    static FileServer _instance;
+    return &_instance;
+}
+
 FileServer::FileServer()
 {
     if (listen(QHostAddress::Any, QSettings().value("SERVER/FILE_TRANSFERT_PORT", 42042).toInt()))

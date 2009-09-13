@@ -13,17 +13,23 @@ class FileBase : public File
   Q_OBJECT
 
   friend class FileBasePlugin;
+  friend class FileDataBase;
 
 public:
     //! return the progress value (for a down/up-load)
-    int   getProgress() const;
+    int   progress() const;
     //! return true if the localfile is the same as the server
-    bool isSynchronized() const;
+    inline bool  isSynchronized() const { return _synchronized; }
     //! open the transfert connexion if needed and the local file
-    bool open(OpenMode mode);
-    bool isOopen() const;
+    bool  open(OpenMode mode);
+    //! true if the device is open
+    bool  isOopen() const;
     //! close after finishing the curent synchronization
-    void close();
+    void  close();
+    //! download the file from the server or upload it.
+    void  synchronize();
+    //! called by FileManager, open the connexion
+    void        connexionAuthorized(const QByteArray& key);
 
 protected:
     qint64 writeData(const char* data, qint64 maxSize);
@@ -31,34 +37,28 @@ protected:
 
 private:
     //! private constructor, to keep clear of multiple instance of the same file, only File can new
-    FileBase(FileDataBasePlugin* plugin, FileDataBase* fileData);
+    FileBase(FileDataBase* fileData, FileDataBasePlugin* plugin);
     //! private destructor, to block delete from outside, only File can delete
     ~FileBase();
 
-    //! called by FileManager, open the connexion
-    void connexionAuthorized(const QByteArray& key);
-
     //! true if the localfile is the same as the server file
-    bool synchronized;
+    bool        _synchronized;
 
-    bool connecting;
+    bool        _connecting;
 
     //! the socket to the server if needed
-    QSslSocket  connexion;
+    QSslSocket  _socket;
+    //! keep the socket position
+    qint64      _socketPos;
     //! the localfile
-    QFile  file;
-    //! keep the connexion position
-    qint64       connexionPos;
+    QFile       _file;
 
-    FileDataBase* fileData;
-
-    FileDataBasePlugin* filePlugin;
+    FileDataBasePlugin* _plugin;
 
 private slots:
     void fileBytesWritten(qint64);
     void connexionReadyRead();
     void connexionBytesWritten(qint64);
-    void synchronize();
     void connexionDisconnected();
 };
 
