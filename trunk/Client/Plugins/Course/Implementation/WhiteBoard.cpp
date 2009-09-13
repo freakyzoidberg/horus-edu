@@ -1,5 +1,5 @@
-#include "whiteboard.h"
-#include "items.h"
+#include "WhiteBoard.h"
+#include "Items.h"
 #include <QDebug>
 WhiteBoard::WhiteBoard()
 {

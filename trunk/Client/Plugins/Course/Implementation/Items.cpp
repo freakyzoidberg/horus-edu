@@ -1,4 +1,4 @@
-#include "items.h"
+#include "Items.h"
 #include <QPalette>
 #include <QDrag>
 #include <QPixmap>
