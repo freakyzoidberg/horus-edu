@@ -29,7 +29,9 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
         tv->setModel(tree->getTreeModel());
         layout->setRowStretch(2, 0);
         layout->addWidget(tv, 2, 0);
-        tv->expandAll();
+
+        // SEGFAULT ticket #130
+        //tv->expandAll();
     }
 
     course = plugin->pluginManager->findPlugin<DisplayablePlugin*>("Course");
