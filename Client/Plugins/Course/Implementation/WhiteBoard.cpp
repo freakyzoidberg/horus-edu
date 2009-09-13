@@ -39,7 +39,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
   //       QByteArray itemData = mime->data("application/x-fridgemagnet");
     //QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 
-     qDebug() << event->mimeData()->property("hotspot");
+
          QString text;
          QPoint offset(event->mimeData()->property("hotspot").toPoint());
 
@@ -51,14 +51,15 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
          //newLabel->show();
 
            tmp->move(event->pos() - offset);
-            tmp->raise();
+           tmp->raise();
            tmp->show();
            tmp->setVisible(true);
            tmp->parentWidget()->repaint();
-qDebug() << "finalement : " << event->mimeData()->isWidgetType() << " " << event->mimeData();
-qDebug() << "Et sa position : " << event->pos().x() << " et " << event->pos().y();
-qDebug() << "Et sa taille : " << tmp->size().width() << " et " << tmp->size().height();
-             event->acceptProposedAction();
+           event->acceptProposedAction();
 
+
+           //Position pour le generateur du fichier de position
+
+           qDebug() << "items in WhiteBoard : "<< this->children().count();
 
  }
