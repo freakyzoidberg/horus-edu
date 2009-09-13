@@ -1,53 +1,59 @@
 #include "FileDataBase.h"
 #include "FileDataBasePlugin.h"
+#include "FileNetworkPlugin.h"
 
 #include "../../UserData.h"
 #include "../../TreeData.h"
 #include "../../PluginManager.h"
 
-FileDataBase::FileDataBase(quint32 nodeId, FileDataBasePlugin* plugin) : FileData(nodeId, (FileDataPlugin*)plugin)
-{
-}
+#ifdef HORUS_CLIENT
+#include <QSslSocket>
+#endif
 
+FileDataBase::FileDataBase(quint32 fileId, FileDataPlugin* plugin) : FileData(plugin)
+{
+    _id = fileId;
+#ifdef HORUS_CLIENT
+    _socket = 0;
+#endif
+}
 void FileDataBase::keyToStream(QDataStream& s)
 {
-    s << id;
+    s << _id;
 }
 
 void FileDataBase::dataToStream(QDataStream& s)
 {
-    s << id
-      << name
-      << user->id()
-      << node->id()
-      << mimeType;
+    s << _id
+      << _name
+      << _owner->id()
+      << _node->id()
+      << _mimeType;
 }
 
 void FileDataBase::dataFromStream(QDataStream& s)
 {
-    quint32 userId;
+    quint32 ownerId;
     quint32 nodeId;
 
-    s >> id
-      >> name
-      >> userId
+    s >> _id
+      >> _name
+      >> ownerId
       >> nodeId
-      >> mimeType;
+      >> _mimeType;
 
-    user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(userId);
-    node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
-
-    setObjectName(name);
+    _owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId);
+    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
 }
 
 QDebug FileDataBase::operator<<(QDebug debug) const
 {
     return debug
-      << id
-      << name
-      << user->id()
-      << node->id()
-      << mimeType;
+      << _id
+      << _name
+      << _owner->id()
+      << _node->id()
+      << _mimeType;
 }
 
 #ifdef HORUS_SERVER
@@ -114,15 +120,15 @@ QVariant FileDataBase::data(int column, int role) const
     if (role == Qt::DisplayRole)
     {
         if (column == 0)
-            return id;
+            return _id;
         if (column == 1)
-            return name;
+            return _name;
         if (column == 2)
-            return mimeType;
+            return _mimeType;
         if (column == 3)
-            return user->id();
+            return _owner->id();
         if (column == 4)
-            return node->id();
+            return _node->id();
     }
     else if (role == Qt::DecorationRole && column == 0)
     {
@@ -131,5 +137,37 @@ QVariant FileDataBase::data(int column, int role) const
 //        return icons["DEFAULT"];
     }
    return Data::data(column, role);
+}
+#endif
+
+void FileDataBase::setName(const QString name)
+{
+}
+
+void FileDataBase::moveTo(TreeData* node)
+{
+}
+
+QFile* FileDataBase::localFile() const
+{
+    return new QFile("/tmp/" + QVariant(_id).toString());
+}
+
+#ifdef HORUS_CLIENT
+void FileDataBase::synchronize()
+{
+    _plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin")->askForConnexion(this, QIODevice::ReadWrite);
+}
+
+void FileDataBase::synchronize(const QByteArray& key, QIODevice::OpenMode)
+{
+    _socket = new QSslSocket();
+    _socket->setProtocol(QSsl::SslV3);
+    _socket->setPeerVerifyMode(QSslSocket::VerifyNone);
+
+    _socket->connectToHostEncrypted("localhost", 42042);
+    _socket->waitForEncrypted();
+    _socket->write(key);
+    _socket->flush();
 }
 #endif

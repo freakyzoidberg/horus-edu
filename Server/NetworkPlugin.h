@@ -3,7 +3,7 @@
 
 #include "../Common/Plugin.h"
 #include "../Common/PluginPacket.h"
-#include "../Common/UserData.h"
+class UserData;
 
 /*!
  * run in the network thread

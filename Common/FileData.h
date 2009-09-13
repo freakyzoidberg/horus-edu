@@ -3,9 +3,10 @@
 
 #include "Data.h"
 #include "FileDataPlugin.h"
-
+#include <QFile>
 class UserData;
 class TreeData;
+
 class FileData : public Data
 {
   Q_OBJECT
@@ -17,15 +18,30 @@ class FileData : public Data
 #endif
 
 protected:
-    inline FileData(quint32 fileId, FileDataPlugin* plugin) : Data(plugin) { id = fileId; }
+    inline FileData(FileDataPlugin* plugin) : Data(plugin) { }
     inline ~FileData() {}
 
 public:
-    quint32   id;
-    QString   name;
-    UserData* user;
-    TreeData* node;
-    QString   mimeType;
+    virtual quint32     id() const = 0;
+
+    virtual QString     name() const = 0;
+    virtual void        setName(const QString name) = 0;
+
+    virtual UserData*   owner() const = 0;
+
+    virtual TreeData*   node() const = 0;
+    virtual void        moveTo(TreeData* node) = 0;
+
+    virtual QString     mimeType() const = 0;
+
+    virtual QFile*      localFile() const = 0;
+
+#ifdef HORUS_CLIENT
+    virtual void        synchronize() = 0;
+#endif
+
+signals:
+    void                synchronized();
 };
 
 #ifdef HORUS_SERVER

@@ -2,8 +2,6 @@
 #include "../../../Common/TreeData.h"
 #include "../../../Common/PluginManager.h"
 
-#include <QDebug>
-
 TreeModel::TreeModel(PluginManager* _pluginManager)
 {
     pluginManager = _pluginManager;
@@ -49,7 +47,7 @@ QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 {
     QObject* obj = (QObject*)(index.internalPointer());
 
-    if (obj == rootItem)
+    if ( ! index.isValid() || obj == rootItem)
         return QModelIndex();
 
     int row = 0;

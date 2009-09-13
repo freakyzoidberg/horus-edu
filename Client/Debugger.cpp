@@ -4,7 +4,6 @@
 #include <QVariant>
 #include <QScrollBar>
 
-
 Debugger::Debugger()
 {
     text.setReadOnly(true);
@@ -14,6 +13,7 @@ Debugger::Debugger()
     setWindowFlags(Qt::Dialog);
     setLayout(&layout);
     setWindowTitle(tr("Horus debugger"));
+    setGeometry(0,0,640,480);
 
     layout.addWidget(&text);
     layout.addWidget(&resetButton);
@@ -39,14 +39,13 @@ void Debugger::reset()
 {
     list.clear();
     refresh();
-//    layout.addWidget(new QLabel("Celui qui se sent d'ameliorer ca, mais je pouvais plus supporter les 500 mesages pour en voire un a la fin."));
 }
 
 void Debugger::refresh()
 {
     text.setText(list.join("\n"));
     QScrollBar* bar = text.verticalScrollBar();
-    bar->setValue(bar->maximum());
+    bar->setValue( bar->maximum() );
 }
 
 void Debugger::addDebugMessage(const QString msg)

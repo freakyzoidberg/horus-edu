@@ -39,9 +39,10 @@ void FileServer::incomingConnection(int socket)
     s->startServerEncryption();
 }
 
-void FileServer::readKey(QSslSocket* s)
+void FileServer::readKey()
 {
     qDebug() << "FileServer::readKey";
+    QSslSocket* s = (QSslSocket*)(sender());
 //    QSslSocket* s = (QSslSocket*)(sender());
     if (s->bytesAvailable() < FILE_TRANSFERT_KEY_SIZE)
         return;

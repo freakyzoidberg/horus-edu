@@ -13,7 +13,7 @@ public:
     FileServer();
 
 private slots:
-    void readKey(QSslSocket* s);
+    void readKey();
     //! slot connected with QTcpSocket::error(): when an error occur on the socket
     void errorSlot(QAbstractSocket::SocketError e);
     //! slot connected with QSslSocket::sslErrors(): when an ssl error occur on the socket
