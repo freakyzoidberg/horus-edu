@@ -17,6 +17,7 @@ int TreeModel::rowCount ( const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
         return 1;
+
     return ((Data*)(parent.internalPointer()))->children().count();
 }
 
@@ -32,7 +33,7 @@ QVariant TreeModel::data ( const QModelIndex & index, int role ) const
     if ( ! index.isValid())
         return QVariant();
 
-   return ((Data*)(index.internalPointer()))->data(index.column(), role);
+    return ((Data*)(index.internalPointer()))->data(index.column(), role);
 }
 
 QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent ) const
@@ -45,17 +46,14 @@ QModelIndex TreeModel::index ( int row, int column, const QModelIndex & parent )
 
 QModelIndex TreeModel::parent ( const QModelIndex & index ) const
 {
-    if ( ! index.isValid())
-        return QModelIndex();
-
     QObject* obj = (QObject*)(index.internalPointer());
 
     if (obj == rootItem)
         return QModelIndex();
 
-    int row = 0;
-    if (obj->parent() != rootItem)
-        row = obj->parent()->children().indexOf(obj);
+    if (obj->parent() == rootItem)
+        return createIndex(0, 0, rootItem);
 
-    return createIndex(row, 0, obj->parent());
+    obj = obj->parent();
+    return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
 }
