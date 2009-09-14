@@ -6,7 +6,6 @@
 #include <QFile>
 class UserData;
 class TreeData;
-class File;
 
 class FileData : public Data
 {
@@ -35,11 +34,23 @@ public:
 
     virtual QString     mimeType() const = 0;
 
+    virtual QFile*      file() const = 0;
+
 #ifdef HORUS_CLIENT
-    virtual File*       device() const = 0;
-#endif
-#ifdef HORUS_SERVER
-    virtual QFile*      device() const = 0;
+    //! return the progress value (for a down/up-load)
+    virtual int     progress() const = 0;
+    //! download the file from the server.
+    virtual void  download() = 0;
+    //! upload the file to the server.
+    virtual void  upload() = 0;
+
+signals:
+    //! emitted when the localfile just finish downloading
+    void downloaded();
+    //! emitted when the localfile just finish uploading
+    void uploaded();
+    //! emitted when the progress value change (for a down/upload)
+    void progressChange(int percent);
 #endif
 };
 

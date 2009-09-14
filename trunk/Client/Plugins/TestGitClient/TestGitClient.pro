@@ -21,7 +21,6 @@ HEADERS += Implementation/TestGit.h \
     ../../../Common/TreeData.h \
     ../../../Common/FileDataPlugin.h \
     ../../../Common/FileData.h \
-    ../../../Common/File.h \
     ../../../Common/SettingsDataPlugin.h \
     ../../../Common/SettingsData.h \
     ../../../Common/MetaPlugin.h \

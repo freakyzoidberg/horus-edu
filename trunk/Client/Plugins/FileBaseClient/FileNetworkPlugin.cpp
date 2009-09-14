@@ -1,5 +1,4 @@
 #include "FileNetworkPlugin.h"
-#include "../../../Common/DataImplementations/FileDataBase/FileBase.h"
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 
@@ -12,9 +11,9 @@ void FileNetworkPlugin::receivePacket(const PluginPacket packet)
     FileDataBase* file = ((FileDataBase*)(_dataPlugin->getFile( data["file"].toUInt() )));
 
     if (packet.request == "downloadAuthorized")
-        ((FileBase*)(file->device()))->download( data["key"].toByteArray());
+        ((FileDataBase*)(file))->downloadAuthorized( data["key"].toByteArray());
     else
-        ((FileBase*)(file->device()))->upload( data["key"].toByteArray());
+        ((FileDataBase*)(file))->uploadAuthorized( data["key"].toByteArray());
 }
 
 void FileNetworkPlugin::askForDownload(FileData* file)

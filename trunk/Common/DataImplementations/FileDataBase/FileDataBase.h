@@ -9,14 +9,14 @@
 #endif
 #include <QByteArray>
 #include <QDateTime>
+#include <QSslSocket>
 #include "../../Defines.h"
 #include "../../FileData.h"
 #include "FileDataBasePlugin.h"
-#include "FileBase.h"
 
 class UserData;
 class TreeData;
-class QSslSocket;
+class FileNetworkPlugin;
 class FileDataBase : public FileData
 {
   Q_OBJECT
@@ -64,12 +64,7 @@ public:
 
     inline QByteArray  hash() const { return _hash; }
 
-#ifdef HORUS_CLIENT
-    inline File*       device() const { return _device; }
-#endif
-#ifdef HORUS_SERVER
-    QFile*             device() const;
-#endif
+    QFile*             file() const;
 
 private:
     FileDataBase(quint32 fileId, FileDataBasePlugin* plugin);
@@ -80,8 +75,35 @@ private:
     TreeData*  _node;
     UserData*  _owner;
     QByteArray _hash;
+
 #ifdef HORUS_CLIENT
-    FileBase*  _device;
+ public:
+    //! return the progress value (for a down/up-load)
+    int                 progress() const;
+    //! download the file from the server.
+    void                download();
+    //! upload the file to the server.
+    void                upload();
+    //! called by FileNetworkPlugin after receiving the download authorisation
+    void                downloadAuthorized(const QByteArray& key);
+    //! called by FileNetworkPlugin after receiving the upload authorisation
+    void                uploadAuthorized(const QByteArray& key);
+
+private:
+    //! the socket to the server
+    QSslSocket  _socket;
+    //! the localfile
+    QFile       _file;
+
+    FileNetworkPlugin* _netPlugin;
+
+    void connectToServer(const QByteArray& key);
+
+private slots:
+    void connexionReadyRead();
+    void connexionBytesWritten(qint64);
+    void downloadFinished();
+    void uploadFinished();
 #endif
 };
 

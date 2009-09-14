@@ -14,7 +14,6 @@
 
 #include "../../../../Common/FileDataPlugin.h"
 #include "../../../../Common/FileData.h"
-#include "../../../../Common/File.h"
 
 #include "TestNetworkPlugin.h"
 
@@ -70,7 +69,7 @@ void TestGitWidget::test0()
     if ( ! f)
         return;
 
-    f->device()->download();
+    f->download();
 }
 
 void TestGitWidget::test1()
