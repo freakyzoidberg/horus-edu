@@ -70,9 +70,10 @@ void PluginManagerServer::load()
     }
 
     // NetworkPlugin
+    qRegisterMetaType<PluginPacket>("PluginPacket");
+    qRegisterMetaType<UserData*>("UserData*");
     foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
         connect(plugin, SIGNAL(sendPacket(UserData*,PluginPacket)), this, SLOT(sendPluginPacket(UserData*,PluginPacket)));
-    qRegisterMetaType<PluginPacket>("PluginPacket");
 }
 
 void PluginManagerServer::sendPluginPacket(UserData* user, const PluginPacket packet)

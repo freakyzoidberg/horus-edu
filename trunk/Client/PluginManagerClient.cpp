@@ -89,6 +89,7 @@ void PluginManagerClient::loadPlugins()
     }
 
     // NetworkPlugin
+    qRegisterMetaType<PluginPacket>("PluginPacket");
     foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
     {
         plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the network thread here
