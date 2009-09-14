@@ -19,7 +19,7 @@ FileTransfert::FileTransfert(FileData* file, TransfertType type)
     _socket = 0;
 
     //TODO maybe change this value
-    qsrand(QTime::currentTime().msec());
+    qsrand(QTime::currentTime().msec() * _fileData->id());
     for (int i = 0; i < FILE_TRANSFERT_KEY_SIZE; i++)
         _key[i] = qrand();
 
@@ -69,14 +69,14 @@ void FileTransfert::clientConnected(QSslSocket* socket)
     connect(_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()));
     if (_type == DOWNLOAD)
     {
-        _file = _fileData->device();
+        _file = _fileData->file();
         _file->open(QIODevice::ReadOnly);
         connect(_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)));
         fileToSocket(8192);
     }
     else if (_type == UPLOAD)
     {
-        _file = _fileData->device();
+        _file = _fileData->file();
         _file->open(QIODevice::WriteOnly | QIODevice::Truncate);
         connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
     }
