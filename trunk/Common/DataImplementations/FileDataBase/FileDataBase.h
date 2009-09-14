@@ -95,15 +95,18 @@ private:
     //! the localfile
     QFile       _file;
 
+    QByteArray  _transfertKey;
+
     FileNetworkPlugin* _netPlugin;
 
-    void connectToServer(const QByteArray& key);
+    void connectToServer();
 
 private slots:
     void connexionReadyRead();
     void connexionBytesWritten(qint64);
     void downloadFinished();
     void uploadFinished();
+    void connexionEncrypted();
 #endif
 };
 

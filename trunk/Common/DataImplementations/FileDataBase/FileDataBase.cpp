@@ -180,10 +180,11 @@ void FileDataBase::download()
 
 void FileDataBase::downloadAuthorized(const QByteArray& key)
 {
+    _transfertKey = key;
     _file.open(QIODevice::ReadWrite | QIODevice::Truncate);
     connect(&_socket, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
     connect(&_socket, SIGNAL(disconnected()), this, SLOT(downloadFinished()));
-    connectToServer(key);
+    connectToServer();
 }
 
 void FileDataBase::connexionReadyRead()
@@ -213,10 +214,11 @@ void FileDataBase::upload()
 
 void FileDataBase::uploadAuthorized(const QByteArray& key)
 {
+    _transfertKey = key;
     _file.open(QIODevice::ReadOnly);
     connect(&_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(connexionBytesWritten(qint64)));
     connect(&_socket, SIGNAL(disconnected()), this, SLOT(uploadFinished()));
-    connectToServer(key);
+    connectToServer();
 }
 
 void FileDataBase::connexionBytesWritten(qint64 len)
@@ -243,18 +245,25 @@ int FileDataBase::progress() const
     return 0;
 }
 
-void FileDataBase::connectToServer(const QByteArray& key)
+void FileDataBase::connectToServer()
 {
-    qDebug() << "File::connectToServer(" << key.toHex() << ")";
+    qDebug() << "File::connectToServer()";
 
     _socket.setProtocol(QSsl::SslV3);
     _socket.setPeerVerifyMode(QSslSocket::VerifyNone);
 
+    connect(&_socket, SIGNAL(encrypted()), this, SLOT(connexionEncrypted()));
+
     QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     _socket.connectToHostEncrypted(settings.value("Network/Server", "localhost").toString(),
                                      settings.value("Network/PortTransfert", 42042).toInt());
-    _socket.waitForEncrypted();
-    _socket.write(key);
+//    _socket.waitForEncrypted();
+}
+
+void FileDataBase::connexionEncrypted()
+{
+    disconnect(&_socket, SIGNAL(encrypted()), this, SLOT(connexionEncrypted()));
+    _socket.write(_transfertKey);
     _socket.flush();
 }
 #endif
