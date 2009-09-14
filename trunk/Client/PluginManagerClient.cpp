@@ -109,7 +109,7 @@ void PluginManagerClient::loadPlugins()
         else
             plugin->load();
 		++i;
-		emit loaded(50 + 50 * i / pluginsToLoad.count());
+		emit loaded(50 + 50 * i / _plugins.count());
     }
 	if (!i)
 		emit loaded(100);

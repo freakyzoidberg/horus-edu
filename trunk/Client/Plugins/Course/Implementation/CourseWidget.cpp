@@ -42,7 +42,7 @@ void CourseWidget::buildCategoryTree()
     // SEGFAULT
     //this->categoryView->expandAll();
     // SEGFAULT
-    this->categoryView->indexAbove(this->categoryView->rootIndex());
+    //this->categoryView->indexAbove(this->categoryView->rootIndex()); // useless
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
 }
 
