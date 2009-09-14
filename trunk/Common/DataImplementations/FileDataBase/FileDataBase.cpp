@@ -48,6 +48,9 @@ void FileDataBase::dataFromStream(QDataStream& s)
 
     _owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId);
     _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
+#ifdef HORUS_CLIENT
+    device()->download();
+#endif
 }
 
 QDebug FileDataBase::operator<<(QDebug debug) const
@@ -156,22 +159,3 @@ void FileDataBase::setName(const QString name)
 void FileDataBase::moveTo(TreeData* node)
 {
 }
-
-//#ifdef HORUS_CLIENT
-//void FileDataBase::synchronize()
-//{
-//    _plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin")->askForConnexion(this, QIODevice::ReadWrite);
-//}
-//
-//void FileDataBase::synchronize(const QByteArray& key, QIODevice::OpenMode)
-//{
-//    _socket = new QSslSocket();
-//    _socket->setProtocol(QSsl::SslV3);
-//    _socket->setPeerVerifyMode(QSslSocket::VerifyNone);
-//
-//    _socket->connectToHostEncrypted("localhost", 42042);
-//    _socket->waitForEncrypted();
-//    _socket->write(key);
-//    _socket->flush();
-//}
-//#endif

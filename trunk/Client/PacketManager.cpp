@@ -141,12 +141,13 @@ void PacketManager::PacketPlugin()
     CommPlugin p(packet);
 
     NetworkPlugin *plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
-    if (plugin)
+    if ( ! plugin)
     {
-        plugin->receivePacket(p.packet);
+        qDebug() << "PacketManager::PacketPlugin() cannot find" << p.packet.targetPlugin << "plugin.";
         return;
     }
-    qDebug() << "PacketManager::PacketPlugin() cannot find" << p.packet.targetPlugin << "plugin.";
+    qRegisterMetaType<PluginPacket>("PluginPacket");
+    QMetaObject::invokeMethod(plugin, "receivePacket", Qt::QueuedConnection, Q_ARG(PluginPacket, p.packet));
 }
 
 void        PacketManager::sessionEnd()
