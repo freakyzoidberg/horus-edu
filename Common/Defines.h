@@ -52,7 +52,7 @@
 #endif
 #ifndef FILE_TRANSFERT_WAIT_TIME
 //! duration of the authorization key stay available if not used (in second)
-# define FILE_TRANSFERT_WAIT_TIME 10 // 2s for test. after:// 300 // 5min
+# define FILE_TRANSFERT_WAIT_TIME 300 // 2s for test. after:// 300 // 5min
 #endif
 
 #define SHA1_WORD_SIZE 20 //bytes -> 40char hexa

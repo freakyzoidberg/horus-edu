@@ -44,9 +44,9 @@ QModelIndex LessonModel::parent ( const QModelIndex & index ) const
     if (obj == rootItem)
         return QModelIndex();
 
-    int row = 0;
-    if (obj->parent() != rootItem)
-        row = obj->parent()->children().indexOf(obj);
+    if (obj->parent() == rootItem)
+        return createIndex(0, 0, rootItem);
 
-    return createIndex(row, 0, obj->parent());
+    obj = obj->parent();
+    return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
 }

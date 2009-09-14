@@ -20,5 +20,5 @@ HEADERS += ILessonManager.h \
     LessonModel.h
 INCLUDEPATH += .
 DESTDIR = .
-TARGET = TreeIcons.qrc
+TARGET = LessonManager
 DEFINES += HORUS_CLIENT
