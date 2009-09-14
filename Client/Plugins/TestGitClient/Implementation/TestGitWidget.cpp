@@ -26,7 +26,7 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
 {
     plugin = _plugin;
 
-    QPushButton* bt0 = new QPushButton("test 0 File");
+    QPushButton* bt0 = new QPushButton("test 0 download file");
     connect(bt0, SIGNAL(clicked()), this, SLOT(test0()));
     layout.addWidget(bt0, 0, 0);
     layout.setRowStretch(0, 0);
@@ -36,7 +36,7 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
     layout.addWidget(bt1, 1, 0);
     layout.setRowStretch(1, 1);
 
-    QPushButton* bt2 = new QPushButton("test 2 ...");
+    QPushButton* bt2 = new QPushButton("test 2 upload file");
     connect(bt2, SIGNAL(clicked()), this, SLOT(test2()));
     layout.addWidget(bt2, 2, 0);
     layout.setRowStretch(2, 2);
@@ -78,7 +78,21 @@ void TestGitWidget::test1()
 
 void TestGitWidget::test2()
 {
+    FileDataPlugin* p = plugin->pluginManager->findPlugin<FileDataPlugin*>();
+    if ( ! p)
+        return;
 
+    FileData* f = p->getFile(1);
+    if ( ! f)
+        return;
+
+    QFile* file = f->file();
+    file->open(QIODevice::WriteOnly | QIODevice::Truncate);
+    file->write("alors esque ca va mercher???");
+    file->close();
+    delete file;
+
+    f->upload();
 }
 
 void TestGitWidget::test3()

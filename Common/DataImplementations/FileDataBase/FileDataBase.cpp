@@ -172,22 +172,75 @@ void FileDataBase::moveTo(TreeData* node)
 }
 
 #ifdef HORUS_CLIENT
-int FileDataBase::progress() const
+void FileDataBase::download()
 {
-    //TODO
-    return 0;
+    qDebug() << "File::download()";
+    _netPlugin->askForDownload(this);
+}
+
+void FileDataBase::downloadAuthorized(const QByteArray& key)
+{
+    _file.open(QIODevice::ReadWrite | QIODevice::Truncate);
+    connect(&_socket, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
+    connect(&_socket, SIGNAL(disconnected()), this, SLOT(downloadFinished()));
+    connectToServer(key);
+}
+
+void FileDataBase::connexionReadyRead()
+{
+    qDebug() << "File::connexionReadyRead()";
+
+    QByteArray buff = _socket.readAll();
+    if ( ! buff.length())
+        return;
+
+    _file.write(buff);
 }
 
 void FileDataBase::downloadFinished()
 {
     _file.close();
+    disconnect(this, SLOT(connexionReadyRead()));
+    disconnect(this, SLOT(downloadFinished()));
     emit downloaded();
+}
+
+void FileDataBase::upload()
+{
+    qDebug() << "File::upload()";
+    _netPlugin->askForUpload(this);
+}
+
+void FileDataBase::uploadAuthorized(const QByteArray& key)
+{
+    _file.open(QIODevice::ReadOnly);
+    connect(&_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(connexionBytesWritten(qint64)));
+    connect(&_socket, SIGNAL(disconnected()), this, SLOT(uploadFinished()));
+    connectToServer(key);
+}
+
+void FileDataBase::connexionBytesWritten(qint64 len)
+{
+    qDebug() << "File::connexionByteWritten(" << len << ")";
+    QByteArray buff = _file.read(8192);
+    if (buff.length())
+        _socket.write(buff);
+    else
+        _socket.close();
 }
 
 void FileDataBase::uploadFinished()
 {
     _file.close();
+    disconnect(this, SLOT(connexionBytesWritten(qint64)));
+    disconnect(this, SLOT(uploadFinished()));
     emit uploaded();
+}
+
+int FileDataBase::progress() const
+{
+    //TODO
+    return 0;
 }
 
 void FileDataBase::connectToServer(const QByteArray& key)
@@ -203,54 +256,5 @@ void FileDataBase::connectToServer(const QByteArray& key)
     _socket.waitForEncrypted();
     _socket.write(key);
     _socket.flush();
-}
-
-void FileDataBase::downloadAuthorized(const QByteArray& key)
-{
-    _file.open(QIODevice::ReadWrite | QIODevice::Truncate);
-    connect(&_socket, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
-    connect(&_socket, SIGNAL(disconnected()), this, SLOT(downloadFinished()));
-    connectToServer(key);
-}
-
-void FileDataBase::uploadAuthorized(const QByteArray& key)
-{
-    _file.open(QIODevice::ReadOnly);
-    connect(&_socket, SIGNAL(bytesWritten(quint64)), this, SLOT(connexionByteWritten(quint64)));
-    connect(&_socket, SIGNAL(disconnected()), this, SLOT(uploadFinished()));
-    connectToServer(key);
-}
-
-void FileDataBase::connexionReadyRead()
-{
-    qDebug() << "File::connexionReadyRead()";
-
-    QByteArray buff = _socket.readAll();
-    if ( ! buff.length())
-        return;
-
-    _file.write(buff);
-}
-
-void FileDataBase::connexionBytesWritten(qint64 len)
-{
-    qDebug() << "File::connexionByteWritten(" << len << ")";
-    QByteArray buff = _file.read(8192);
-    if (buff.length())
-        _socket.write(buff);
-    else
-        _socket.close();
-}
-
-void FileDataBase::download()
-{
-    qDebug() << "File::download()";
-    _netPlugin->askForDownload(this);
-}
-
-void FileDataBase::upload()
-{
-    qDebug() << "File::upload()";
-    _netPlugin->askForUpload(this);
 }
 #endif
