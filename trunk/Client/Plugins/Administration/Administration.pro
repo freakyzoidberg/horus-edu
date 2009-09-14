@@ -9,7 +9,9 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/AdminMainFrame.cpp \
     Implementation/TeacherPage.cpp \
     Implementation/StudentsPage.cpp \
-    Implementation/RoomPage.cpp
+    Implementation/RoomPage.cpp \
+    Implementation/StudentModel.cpp \
+    Implementation/TeacherModel.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/TeacherPage.h \
@@ -26,5 +28,7 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/TreeData.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
-    ../../../Common/Data.h
+    ../../../Common/Data.h \
+    Implementation/StudentModel.h \
+    Implementation/TeacherModel.h
 RESOURCES += Implementation/AdminMainFrame.qrc
