@@ -34,8 +34,7 @@ void FileTransfert::init()
     _timer = new QTimer(this);
     connect(_timer, SIGNAL(timeout()), this, SLOT(deleteLater()));
 
-//    _file->setParent(this);
-    // 1second for tests
+    // autodelete 1second for tests
     _timer->start(FILE_TRANSFERT_WAIT_TIME * 1000);
 }
 
