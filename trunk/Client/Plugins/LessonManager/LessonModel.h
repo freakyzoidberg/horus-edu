@@ -5,6 +5,10 @@
 #include "../../../Common/TreeData.h"
 #include "../../../Common/PluginManager.h"
 
+#ifndef TEST_METADATA
+# define TEST_METADATA
+#endif
+
 class LessonModel : public QAbstractItemModel
 {
 public:
@@ -17,7 +21,11 @@ public:
 
 private:
     PluginManager*  pluginManager;
+#ifdef TEST_METADATA
+    QObject*        rootItem;
+#else
     Data*           rootItem;
+#endif
 };
 
 #endif // LESSONMODEL_H

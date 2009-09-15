@@ -8,10 +8,7 @@
 #include "../../../../Common/FileDataPlugin.h"
 #include "../../../../Common/FileData.h"
 
-#include "IController.h"
 #include "LessonManager.h"
-#include "Lesson.h"
-#include "XmlHandler.h"
 
 bool	LessonManager::canLoad() const
 {

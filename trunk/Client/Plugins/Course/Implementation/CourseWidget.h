@@ -6,7 +6,7 @@
 # include               <QAbstractItemModel>
 # include               <QTreeView>
 
-# include               "../../LessonManager/LessonManager.h"
+# include               "../../LessonManager/ILessonManager.h"
 # include				"../../../../Common/TreeDataPlugin.h"
 # include				"../../../../Common/FileDataPlugin.h"
 # include				"../../../../Common/FileData.h"
