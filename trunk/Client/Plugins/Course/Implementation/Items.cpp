@@ -55,12 +55,12 @@ void Items::mousePressEvent(QMouseEvent *event)
      QMimeData *mimeData = new QMimeData;
      mimeData->setProperty("hotspot", event->pos() - rect().topLeft());
 
-        int x,y,w,h;
+     int x,y,w,h;
 
-        w = this->width();
-        h = this->height();
-        x=this->x();
-        y=this->y();
+     w = this->width();
+     h = this->height();
+     x=this->x();
+     y=this->y();
 
         //QPixmap mini = QPixmap::grabWindow( QApplication::desktop()->winId(),  x,y, w, h );
 
@@ -68,7 +68,7 @@ void Items::mousePressEvent(QMouseEvent *event)
 
 
      drag->setMimeData(mimeData);
-qDebug() << "Et sa position : " << this->x() << " et " << this->y();
+    qDebug() << "Et sa position : " << this->x() << " et " << this->y();
      drag->setHotSpot(event->pos() - rect().topLeft());
      drag->setPixmap(mini);
 
@@ -92,9 +92,7 @@ void    Items::restore()
 
 void    Items::moveToDock()
 {
-    qDebug() << "jvais te reduire";
     this->hide();
-
     small = new QPushButton(this->board->dock);
     small->setText("Re");
     small->setGeometry(25, 20, 15, 15);
