@@ -5,8 +5,8 @@ WhiteBoard::WhiteBoard()
 {
     setAcceptDrops(true);
     setAutoFillBackground(false);
-
-
+    this->dock = new QDockWidget("Magic doc", this);
+    this->dock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
 }
 
 void   WhiteBoard::setTmp(Items *item)

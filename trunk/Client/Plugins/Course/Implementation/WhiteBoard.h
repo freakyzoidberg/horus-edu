@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QDragEnterEvent>
+#include <QDockWidget>
 
 class Items;
 
@@ -12,6 +13,7 @@ public:
     WhiteBoard();
      void   setTmp(Items *);
      Items  *getTmp();
+             QDockWidget *dock;
 
 protected:
      void dragEnterEvent(QDragEnterEvent *event);
@@ -21,6 +23,7 @@ protected:
 
  private:
         Items   *tmp;
+
 
 };
 

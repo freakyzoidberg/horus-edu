@@ -2,17 +2,20 @@
 #define ITEMS_H
 #include <QWidget>
 #include <QPushButton>
+#include <QDockWidget>
 
 #include "WhiteBoard.h"
 class Items : public QWidget
 {
+    Q_OBJECT
 public:
     Items();
     Items(WhiteBoard *);
          QPushButton *openItem, *closeItem;
 
     public slots:
-     void closing();
+     void moveToDock();
+     void   restore();
 
     protected:
      void mousePressEvent(QMouseEvent *event);
