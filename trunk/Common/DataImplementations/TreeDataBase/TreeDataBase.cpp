@@ -67,9 +67,6 @@ void TreeDataBase::fillFromDatabase(QSqlQuery& query)
     _name   = query.value(1).toString();
     //_userId = query.value(2).toUInt();
     setParent( ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(3).toUInt()) );
-//    ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
-//    while (query.next())
-//        ((TreeDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
 }
 
 void TreeDataBase::createIntoDatabase(QSqlQuery& query)
@@ -150,36 +147,51 @@ TreeData* TreeDataBase::createChild(const QString name, const QString type, User
     return 0;
 }
 
-void TreeDataBase::remove()
+void TreeDataBase::remove(bool recursive)
 {
     setStatus(Data::DELETING);
 }
 
-void TreeDataBase::moveTo(TreeData* parent)
+void TreeDataBase::moveTo(TreeData* par)
 {
-    setParent(parent);
+    if ( ! par || parent() == par)
+        return;
+
+    setParent(par);
     setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setName(QString name)
 {
+    if (_name == name)
+        return;
+
     _name = name;
     setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setUser(UserData* user)
 {
+    if ( ! user || _user == user)
+        return;
+
     _user = user;
     setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setType(const QString type)
 {
+    if (_type == type)
+        return;
+
     _type = type;
     setStatus(Data::SAVING);
 }
 
 bool TreeDataBase::isDescendantOf(TreeData* parent)
 {
+    for (TreeDataBase* node = this; node->_id != 0; node = ((TreeDataBase*)(node->parent())))
+        if (node == parent)
+            return true;
     return false;
 }

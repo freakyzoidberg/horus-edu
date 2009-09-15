@@ -33,7 +33,7 @@ public:
     /*!
       delete current node node and attache sons to the  father's current node
     */
-    virtual void    remove() = 0;
+    virtual void    remove(bool recursive = false) = 0;
     //! move node to new father
     /*!
       \param idmove node to move

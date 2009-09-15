@@ -82,26 +82,56 @@ QDebug UserDataBase::operator<<(QDebug debug) const
 
 void UserDataBase::setName(const QString name)
 {
+    if (_name == name)
+        return;
+
+    _name = name;
+    setStatus(SAVING);
 }
 
-void UserDataBase::setSurname(const QString name)
+void UserDataBase::setSurname(const QString surname)
 {
+    if (_surname == surname)
+        return;
+
+    _surname = surname;
+    setStatus(SAVING);
 }
 
 void UserDataBase::setLevel(quint8 level)
 {
+    if (_level == level)
+        return;
+
+    _level = level;
+    setStatus(SAVING);
 }
 
 void UserDataBase::enable(bool enabled)
 {
+    if (_enabled == enabled)
+        return;
+
+    _enabled = enabled;
+    setStatus(SAVING);
 }
 
 void UserDataBase::setNode(TreeData* node)
 {
+    if ( ! node || _node == node)
+        return;
+
+    _node = node;
+    setStatus(SAVING);
 }
 
 void UserDataBase::setLanguage(const QString language)
 {
+    if (_language == language)
+        return;
+
+    _language = language;
+    setStatus(SAVING);
 }
 
 #ifdef HORUS_CLIENT
@@ -125,7 +155,6 @@ QVariant UserDataBase::data(int column, int role) const
 #endif
 
 #ifdef HORUS_SERVER
-//#include <QtSql>
 void UserDataBase::fillFromDatabase(QSqlQuery& query)
 {
     query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
@@ -227,7 +256,6 @@ void UserDataBase::deleteFromDatabase(QSqlQuery& query)
 
 QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
 {
-     //TODO maybe change this value
     QByteArray session;
     qsrand(QTime::currentTime().msec() + _id);
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
