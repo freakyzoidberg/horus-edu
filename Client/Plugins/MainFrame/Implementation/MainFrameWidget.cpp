@@ -20,27 +20,36 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
     this->plugin = _plugin;
     ui.setupUi(this);
 
-    TreeDataPlugin* tree = plugin->pluginManager->findPlugin<TreeDataPlugin*>();
-    if (tree)
-    {
-        QTreeView *tv = new QTreeView();
-        tv->setModel(tree->getTreeModel());
-        layout->setRowStretch(2, 0);
-        layout->addWidget(tv, 2, 0);
+    //TreeDataPlugin* tree = plugin->pluginManager->findPlugin<TreeDataPlugin*>();
+    //if (tree)
+    //{
+    //    QTreeView *tv = new QTreeView();
+    //    tv->setModel(tree->getTreeModel());
+    //    layout->setRowStretch(2, 0);
+    //    layout->addWidget(tv, 2, 0);
 
-        tv->expandAll();
-    }
+    //    tv->expandAll();
+    //}
 
     course = plugin->pluginManager->findPlugin<DisplayablePlugin*>("Course");
     if (course)
     {
-        button = new QPushButton("My Lessons");
+        button = new QPushButton(QIcon(":/Pictures/edit.png"), "My Lessons");
         layout->addWidget(button, 2, 0);
         layout->setRowStretch(2, 0);
         connect(button, SIGNAL(clicked()), plugin, SLOT(courseClicked()));
     }
     layout->setRowStretch(0, 0);
     layout->setRowStretch(1, 1);
+	//FAKE
+        button = new QPushButton(QIcon(":/Pictures/calendarwidget.png"), "My Calendar");
+        layout->addWidget(button, 2, 1);
+        button = new QPushButton(QIcon(":/Pictures/book.png"), "My Marks");
+        layout->addWidget(button, 3, 0);
+        button = new QPushButton(QIcon(":/Pictures/history.png"), "My Projects");
+        layout->addWidget(button, 3, 1);
+        layout->setRowStretch(3, 0);
+	//FIN FAKE
     this->setLayout(layout);
 
     connectedAs = new QLabel("Not connected", this);

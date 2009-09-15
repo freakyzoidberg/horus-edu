@@ -8,7 +8,7 @@
 class DockMenuItem : public QPushButton
 {
 public:
-    inline DockMenuItem(DisplayablePlugin* plugin, const QString title) : QPushButton(title) { _plugin = plugin; }
+    inline DockMenuItem(DisplayablePlugin* plugin, const QString title, QIcon &icon) : QPushButton(icon, title) { _plugin = plugin; }
     inline QWidget* getPluginWidget() const { return _plugin->getWidget(); }
 
 private:

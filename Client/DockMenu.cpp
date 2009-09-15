@@ -23,7 +23,16 @@ DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
         QString title = plugin->getDisplayableName();
         if ( ! title.isEmpty())
         {
-            DockMenuItem* item = new DockMenuItem(plugin, title);
+			QIcon icon;
+			if (title == "Course")
+				icon = QIcon(":/Pictures/edit.png");
+			if (title == "Administration")
+				icon = QIcon(":/Pictures/configure.png");
+			if (title == "Main Board")
+				icon = QIcon(":/Pictures/home.png");
+			if (title == "Test a GiT")
+				icon = QIcon(":/Pictures/synctoc.png");
+            DockMenuItem* item = new DockMenuItem(plugin, title, icon);
             layout->addWidget(item);
             connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
         }
