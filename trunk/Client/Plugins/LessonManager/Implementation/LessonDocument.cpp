@@ -16,3 +16,28 @@ QVariant LessonDocument::data(int column, int role) const
         return QVariant(icon);
     return QVariant();
 }
+
+QString LessonDocument::getContent() const
+{
+        return (this->content);
+}
+
+void	LessonDocument::setContent(QString _content)
+{
+        this->content = _content;
+}
+
+QHash<QString, QVariant>	&LessonDocument::getParameters()
+{
+        return (this->parameters);
+}
+
+QString LessonDocument::getType() const
+{
+    return type;
+}
+
+void LessonDocument::setType(QString type)
+{
+    this->type = type;
+}

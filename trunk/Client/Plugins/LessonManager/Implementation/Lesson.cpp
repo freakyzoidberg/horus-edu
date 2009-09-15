@@ -55,6 +55,15 @@ bool    Lesson::startElement(const QString &namespaceURI, const QString &localNa
             _currentData = new LessonDocument(section);
         else
             return false;
+        LessonDocument *document = qobject_cast<LessonDocument *>(_currentData);
+        if ((idx = atts.index("type")) != -1)
+            document->setType(atts.value(idx));
+        for (int i = 0; i < atts.count(); ++i)
+        {
+            if (atts.value(i) != "title" && atts.value(i) != "type")
+                document->getParameters().insert(atts.qName(i), QVariant(atts.value(i)));
+        }
+        startCDATA();
     }
     else
     {
@@ -69,6 +78,8 @@ bool    Lesson::endElement(const QString &namespaceURI, const QString &localName
 {
     if (_currentData)
     {
+        if (qobject_cast<LessonDocument *>(_currentData))
+            endCDATA();
         _currentData = qobject_cast<ILessonData *>(_currentData->parent());
     }
     return true;
@@ -76,5 +87,8 @@ bool    Lesson::endElement(const QString &namespaceURI, const QString &localName
 
 bool    Lesson::characters(const QString& ch)
 {
+    LessonDocument* document = qobject_cast<LessonDocument*>(_currentData);
+    if (document)
+        document->setContent(ch);
     return true;
 }

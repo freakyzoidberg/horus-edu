@@ -19,13 +19,11 @@ class ILessonDocument : public ILessonData
 public:
     ILessonDocument(ILesson *parent);
     ILessonDocument(ILessonSection *parent);
-	QHash<QVariant, QVariant> &getParameters();
-	void setContent(QString content);
-	QString getContent() const;
-
-protected:
-	QHash<QVariant, QVariant> parameters;
-	QString	content;
+    virtual QHash<QString, QVariant> &getParameters() = 0;
+    virtual void setContent(QString content) = 0;
+    virtual QString getContent() const = 0;
+    virtual QString getType() const = 0;
+    virtual void setType(QString type) = 0;
 };
 
 #endif // ILESSONDOCUMENT_H
