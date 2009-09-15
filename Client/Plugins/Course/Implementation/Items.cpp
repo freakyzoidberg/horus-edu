@@ -7,6 +7,7 @@
 #include <QPushButton>
 
 #include <QDebug>
+
 Items::Items()
 {
     this->setAutoFillBackground(true);
@@ -25,10 +26,17 @@ Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
     this->setAcceptDrops(true);
     this->move(100,100);
     this->board = papyrus;
+
     closeItem = new QPushButton(this);
-    closeItem->setText("Close");
+    closeItem->setText("C");
+    closeItem->setGeometry(0, 0, 15, 15);
+
+    openItem = new QPushButton(this);
+    openItem->setText("R");
+    openItem->setGeometry(0, 15, 15, 15);
+
     this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
-   // QPushButton *reduiceItem = new QPushButton(this);
+    this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
 }
 
 void Items::mousePressEvent(QMouseEvent *event)
@@ -74,3 +82,21 @@ qDebug() << "Et sa position : " << this->x() << " et " << this->y();
          show();
      //show();
  }
+
+void    Items::restore()
+{
+    show();
+}
+
+void    Items::moveToDock()
+{
+    qDebug() << "jvais te reduire";
+    this->hide();
+
+    QPushButton *test = new QPushButton(this->board->dock);
+    test->setText("Re");
+    test->setGeometry(20, 20, 15, 15);
+    test->show();
+    connect(test, SIGNAL(clicked()), this, SLOT(restore()));
+}
+
