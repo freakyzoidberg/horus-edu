@@ -14,6 +14,17 @@ public:
     LessonDocument(ILesson *parent);
 
     QVariant data(int column, int role) const;
+
+    QHash<QString, QVariant> &getParameters();
+    void setContent(QString content);
+    QString getContent() const;
+    QString getType() const;
+    void setType(QString type);
+
+private:
+    QHash<QString, QVariant> parameters;
+    QString	content;
+    QString type;
     QIcon icon;
 };
 
