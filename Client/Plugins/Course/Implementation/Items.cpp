@@ -19,6 +19,7 @@ Items::Items()
 
 Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
 {
+    this->setGeometry(0, 0, 100, 100);
     this->setAutoFillBackground(true);
     QPalette p(this->palette());
     p.setColor(QPalette::Background, Qt::blue);
@@ -27,13 +28,14 @@ Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
     this->move(100,100);
     this->board = papyrus;
 
+
     closeItem = new QPushButton(this);
     closeItem->setText("C");
     closeItem->setGeometry(0, 0, 15, 15);
 
     openItem = new QPushButton(this);
     openItem->setText("R");
-    openItem->setGeometry(0, 15, 15, 15);
+    openItem->setGeometry(16, 0, 15, 15);
 
     this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
@@ -70,7 +72,6 @@ qDebug() << "Et sa position : " << this->x() << " et " << this->y();
      drag->setHotSpot(event->pos() - rect().topLeft());
      drag->setPixmap(mini);
 
-    closeItem->hide();
      hide();
 
      if (drag->exec(Qt::MoveAction | Qt::CopyAction, Qt::CopyAction) == Qt::MoveAction)
@@ -96,7 +97,8 @@ void    Items::moveToDock()
 
     small = new QPushButton(this->board->dock);
     small->setText("Re");
-    small->setGeometry(20, 20, 15, 15);
+    small->setGeometry(25, 20, 15, 15);
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }
+
