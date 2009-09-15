@@ -1,6 +1,6 @@
 #include "LessonSection.h"
 
-LessonSection::LessonSection(ILessonSection *parent) : ILessonSection(parent), icon(":/SectionIcon.png")
+LessonSection::LessonSection(ILessonSection *parent) : ILessonSection(parent), icon(":/Icons/SectionIcon.png")
 {
 }
 
