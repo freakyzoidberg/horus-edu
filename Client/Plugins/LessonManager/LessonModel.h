@@ -18,7 +18,7 @@ public:
     QVariant data ( const QModelIndex & index, int role = Qt::DisplayRole ) const;
     QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
     QModelIndex parent ( const QModelIndex & index ) const;
-
+	Qt::ItemFlags LessonModel::flags( const QModelIndex & index) const;
 private:
     PluginManager*  pluginManager;
 #ifdef TEST_METADATA
