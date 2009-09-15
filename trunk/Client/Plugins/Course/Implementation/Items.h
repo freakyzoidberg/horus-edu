@@ -23,6 +23,7 @@ public:
 
    private:
         WhiteBoard  *board;
+        QPushButton     *small;
 
 
 };
