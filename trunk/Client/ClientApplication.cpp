@@ -10,6 +10,7 @@
 #include    "Loader.h"
 #include	"MainWindow.h"
 
+
 void QtNotify(QtMsgType type, const char *message);
 
 ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc, argv)

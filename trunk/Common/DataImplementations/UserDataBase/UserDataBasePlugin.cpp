@@ -13,6 +13,11 @@ UserData* UserDataBasePlugin::getUser(quint32 userId)
     return users[userId];
 }
 
+QList<UserData*>     UserDataBasePlugin::getAllUser()
+{
+    return users.values();
+}
+
 Data* UserDataBasePlugin::getDataWithKey(QDataStream& s)
 {
     quint32 tmpId;

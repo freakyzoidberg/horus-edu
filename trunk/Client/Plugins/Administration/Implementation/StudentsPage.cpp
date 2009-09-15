@@ -1,9 +1,14 @@
 #include "StudentsPage.h"
 
+#include <QDebug>
+
 StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
         setupUi();
         studentTree->setModel(tree->getTreeModel());
+        QList<UserData*> _users = users->getAllUser();
+        for (int i = 0; i < _users.size(); i++)
+            qDebug() << _users[i]->login();
 }
 
 void    StudentsPage::setupUi()
