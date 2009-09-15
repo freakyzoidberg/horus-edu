@@ -6,12 +6,12 @@
 # include		<QList>
 # include		<QWidget>
 
-# include		"../../../Common/Plugin.h"
-# include		"../../../Common/FileDataPlugin.h"
-# include		"../../../Common/FileData.h"
+# include		"../../../../Common/Plugin.h"
+# include		"../../../../Common/FileDataPlugin.h"
+# include		"../../../../Common/FileData.h"
 
-# include               "ILessonManager.h"
-# include               "LessonModel.h"
+# include               "../ILessonManager.h"
+# include               "../LessonModel.h"
 
 //! LessonManager plugin
 /*!

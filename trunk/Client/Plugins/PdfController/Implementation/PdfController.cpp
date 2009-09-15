@@ -157,4 +157,5 @@ const QString  PdfController::getSupportedType() const
 QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
 {
     // Fill that shit
+	return (0);
 }

@@ -4,13 +4,13 @@
 # include <QtPlugin>
 
 # include "../../../../Common/Plugin.h"
-# include "../../LessonManager/IController.h"
+# include "../../../LessonManager/IDocumentController.h"
 
-class TextController : public Plugin, public IController
+class TextController : public Plugin, public IDocumentController
 {
     Q_OBJECT
     Q_INTERFACES(Plugin)
-    Q_INTERFACES(IController)
+    Q_INTERFACES(IDocumentController)
 
 public:
 	const QString		pluginName() const;

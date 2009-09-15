@@ -5,7 +5,7 @@
  //#include "treeitem.h"
 
 
- TeacherModel::TeacherModel(const QString &data, QObject *parent)
+ /*TeacherModel::TeacherModel(const QString &data, QObject *parent)
      : QAbstractItemModel(parent)
  {
  }
@@ -47,4 +47,4 @@
 
  void TeacherModel::setupModelData(const QStringList &lines)
  {
- }
+ }*/
