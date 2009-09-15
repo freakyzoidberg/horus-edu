@@ -22,6 +22,7 @@ class FileDataBase : public FileData
   Q_OBJECT
 #ifdef HORUS_SERVER
   Q_INTERFACES(ServerFileData)
+  friend class FileTransfert;
 #endif
 #ifdef HORUS_CLIENT
   Q_INTERFACES(ClientFileData)

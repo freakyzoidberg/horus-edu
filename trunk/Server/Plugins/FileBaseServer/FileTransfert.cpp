@@ -3,7 +3,8 @@
 #include <QTime>
 
 #include "../../../Common/Defines.h"
-#include "../../../Common/FileData.h"
+//#include "../../../Common/FileData.h"
+#include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
 #include "FileServer.h"
 
 QHash<QByteArray,FileTransfert*> FileTransfert::_transferts;
@@ -14,9 +15,10 @@ FileTransfert::FileTransfert(FileData* file, TransfertType type)
 
     moveToThread(&FileServer::instance()->thread);
     _type = type;
-    _fileData = file;
+    _fileData = (FileDataBase*)(file);
     _file= 0;
     _socket = 0;
+    _hash = 0;
 
     //TODO maybe change this value
     qsrand(QTime::currentTime().msec() * _fileData->id());
@@ -41,7 +43,9 @@ void FileTransfert::init()
 void FileTransfert::socketToFile()
 {
     qDebug() << "FileTransfert::socketToFile";
-    _file->write(_socket->readAll());
+    QByteArray buf = _socket->readAll();
+    _hash->addData(buf);
+    _file->write(buf);
 }
 
 void FileTransfert::fileToSocket(qint64)
@@ -76,6 +80,7 @@ void FileTransfert::clientConnected(QSslSocket* socket)
     else if (_type == UPLOAD)
     {
         _file = _fileData->file();
+        _hash = new QCryptographicHash(QCryptographicHash::Sha1);
         _file->open(QIODevice::WriteOnly | QIODevice::Truncate);
         connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()));
     }
@@ -90,6 +95,13 @@ FileTransfert::~FileTransfert()
 //        delete _socket;
     if (_file)
         delete _file;
+    if (_type == UPLOAD)
+    {
+        _fileData->_hash = _hash->result();
+        qDebug() << "~FileTransfert() saving hash" << _fileData->_hash.toHex();
+        _fileData->setStatus(Data::SAVING);
+        delete _hash;
+    }
     _transferts.remove(_key);
     qDebug() << "~FileTransfert()";
 }
