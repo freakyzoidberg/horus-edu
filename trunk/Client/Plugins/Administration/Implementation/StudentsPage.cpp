@@ -5,11 +5,19 @@
 StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
         setupUi();
-        studentTree->setModel(tree->getTreeModel());
+        //studentTree->setModel(tree->getTreeModel());
+        studentTree->setModel(new StudentModel(users->getAllUser()));
+        qDebug() << tree->getNode(0);
         QList<UserData*> _users = users->getAllUser();
         for (int i = 0; i < _users.size(); i++)
+        {
             qDebug() << _users[i]->login();
+            qDebug() << _users[i]->level();
+            qDebug() << (_users[i]->node())->name();
+            qDebug() << (_users[i]->node())->type();
+        }
 }
+
 
 void    StudentsPage::setupUi()
 {
