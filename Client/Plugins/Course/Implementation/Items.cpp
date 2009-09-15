@@ -4,6 +4,7 @@
 #include <QPixmap>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QPushButton>
 
 #include <QDebug>
 Items::Items()
@@ -24,6 +25,10 @@ Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
     this->setAcceptDrops(true);
     this->move(100,100);
     this->board = papyrus;
+    closeItem = new QPushButton(this);
+    closeItem->setText("Close");
+    this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
+   // QPushButton *reduiceItem = new QPushButton(this);
 }
 
 void Items::mousePressEvent(QMouseEvent *event)
@@ -34,11 +39,11 @@ void Items::mousePressEvent(QMouseEvent *event)
 
     this->board->setTmp(this);
 
-    qDebug() << "addr : "<< this->parentWidget();
+    //qDebug() << "addr : "<< this->parentWidget();
      QDrag *drag = new QDrag(this);
  //
      QMimeData *mimeData = new QMimeData;
-     mimeData->setProperty("hotspot",event->pos() - rect().topLeft());
+     mimeData->setProperty("hotspot", event->pos() - rect().topLeft());
 
         int x,y,w,h;
 
@@ -57,7 +62,7 @@ qDebug() << "Et sa position : " << this->x() << " et " << this->y();
      drag->setHotSpot(event->pos() - rect().topLeft());
      drag->setPixmap(mini);
 
-
+    closeItem->hide();
      hide();
 
      if (drag->exec(Qt::MoveAction | Qt::CopyAction, Qt::CopyAction) == Qt::MoveAction)
@@ -67,5 +72,5 @@ qDebug() << "Et sa position : " << this->x() << " et " << this->y();
      }
      else
          show();
-
+     //show();
  }
