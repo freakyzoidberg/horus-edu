@@ -1,6 +1,6 @@
 #include "LessonDocument.h"
 
-LessonDocument::LessonDocument(ILessonSection *parent) : ILessonDocument(parent), icon(":/DocumentIcon.png")
+LessonDocument::LessonDocument(ILessonSection *parent) : ILessonDocument(parent), icon(":/Icons/DocumentIcon.png")
 {
 }
 
