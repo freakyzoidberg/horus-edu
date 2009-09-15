@@ -1,5 +1,6 @@
 #include "LessonModel.h"
 #include "Implementation/Lesson.h"
+#include "ILessonDocument.h"
 
 LessonModel::LessonModel(PluginManager* pluginManager)
 {
@@ -43,6 +44,19 @@ QVariant LessonModel::data ( const QModelIndex & index, int role) const
            return ldata->data(index.column(), role);
     }
     return QVariant();
+}
+
+Qt::ItemFlags LessonModel::flags( const QModelIndex & index) const
+{
+	Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
+    if (!index.isValid())
+        return (defaultFlags);
+    QObject* obj = (QObject*)(index.internalPointer());
+    ILessonDocument *doc = qobject_cast<ILessonDocument *>(obj);
+    if (doc)
+        return (defaultFlags | Qt::ItemIsDragEnabled);
+    else
+        return (defaultFlags);
 }
 
 QModelIndex LessonModel::index ( int row, int column, const QModelIndex & parent ) const
