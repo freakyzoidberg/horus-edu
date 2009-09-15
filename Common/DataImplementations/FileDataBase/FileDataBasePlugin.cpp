@@ -75,7 +75,7 @@ void FileDataBasePlugin::loadDataBase(QSqlQuery& query)
         else
             file->_owner   = 0;
 
-        file->_hash        = query.value(6).toByteArray();
+        file->_hash        = QByteArray::fromHex(query.value(6).toByteArray());
         file->_lastChange  = query.value(7).toDateTime();
 
         file->_status = Data::UPTODATE;

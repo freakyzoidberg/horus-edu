@@ -100,18 +100,23 @@ void FileDataBase::createIntoDatabase(QSqlQuery& query)
 //    }
 }
 
-void FileDataBase::saveIntoDatabase  (QSqlQuery& query)
+void FileDataBase::saveIntoDatabase(QSqlQuery& query)
 {
-//    query.prepare("UPDATE File SET typeofnode=?,name=?,user_ref=?,id_parent=? WHERE id=?;");
-//    query.addBindValue(type);
-//    query.addBindValue(name);
-//    query.addBindValue(userId);
-//    query.addBindValue(nodeId);
-//    if ( ! query.exec() || ! query.next())
-//    {
-//        _error = NOT_FOUND;
-//        return;
-//    }
+    query.prepare("UPDATE files SET name=?,mime=?,size=?,id_tree=?,id_owner=?,mtime=?,hash_sha1=? WHERE id=?;");
+    query.addBindValue(_name);
+    query.addBindValue(_mimeType);
+    query.addBindValue(_size);
+    query.addBindValue(node()->id());
+    query.addBindValue(owner()->id());
+    _lastChange = QDateTime::currentDateTime();
+    query.addBindValue(_lastChange);
+    query.addBindValue(_hash.toHex());
+    query.addBindValue(_id);
+    if ( ! query.exec())
+    {
+        _error = NOT_FOUND;
+        return;
+    }
 }
 
 void FileDataBase::deleteFromDatabase(QSqlQuery& query)
@@ -165,10 +170,14 @@ QVariant FileDataBase::data(int column, int role) const
 
 void FileDataBase::setName(const QString name)
 {
+    _name = name;
+    setStatus(SAVING);
 }
 
 void FileDataBase::moveTo(TreeData* node)
 {
+    _node = node;
+    setStatus(SAVING);
 }
 
 #ifdef HORUS_CLIENT
