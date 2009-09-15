@@ -53,11 +53,11 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
            tmp->move(event->pos() - offset);
            tmp->raise();
            tmp->show();
-           tmp->closeItem->raise();
-           tmp->closeItem->show();
+ //          tmp->closeItem->raise();
+   //        tmp->closeItem->show();
            tmp->setVisible(true);
            tmp->parentWidget()->repaint();
-           tmp->closeItem->parentWidget()->repaint();
+     //      tmp->closeItem->parentWidget()->repaint();
            event->acceptProposedAction();
 
 
