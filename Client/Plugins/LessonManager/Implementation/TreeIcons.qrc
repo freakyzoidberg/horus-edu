@@ -2,6 +2,6 @@
     <qresource prefix="/Icons" >
         <file>LessonIcon.png</file>
         <file>SectionIcon.png</file>
-        <file>PageIcon.png</file>
+        <file>DocumentIcon.png</file>
     </qresource>
 </RCC>

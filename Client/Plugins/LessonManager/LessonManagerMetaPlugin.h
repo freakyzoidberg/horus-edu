@@ -3,7 +3,7 @@
 
 #include "../../../../Common/MetaPlugin.h"
 
-#include "LessonManager.h"
+#include "Implementation/LessonManager.h"
 
 class LessonManagerMetaPlugin : public MetaPlugin
 {

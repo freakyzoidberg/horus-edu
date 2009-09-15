@@ -4,7 +4,6 @@
 # include <QtPlugin>
 
 # include "../../../../Common/Plugin.h"
-# include "../../LessonManager/ILesson.h"
 # include "../../LessonManager/IController.h"
 
 class TextController : public Plugin, public IController
@@ -17,10 +16,10 @@ public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
     const               QString  getSupportedType() const;
-    void                showObject(ILesson::IPage::IObject *object);
-    void                activateObject(ILesson::IPage::IObject *object);
-    void                hideObject(ILesson::IPage::IObject *object);
-    void                configureObject(ILesson::IPage::IObject *object);
+    void                activateObject(LObject *object);
+    void                showObject(LObject *object);
+    void                hideObject(LObject *object);
+    void                configureObject(LObject *object);
 };
 
 #endif // __TEXTCONTROLLER_H__
