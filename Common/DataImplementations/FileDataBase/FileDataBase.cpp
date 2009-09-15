@@ -35,26 +35,30 @@ void FileDataBase::dataToStream(QDataStream& s)
       << _name
       << _owner->id()
       << _node->id()
-      << _mimeType;
+      << _mimeType
+      << _hash;
 }
 
 void FileDataBase::dataFromStream(QDataStream& s)
 {
     quint32 ownerId;
     quint32 nodeId;
+    QByteArray hash;
 
     s >> _id
       >> _name
       >> ownerId
       >> nodeId
-      >> _mimeType;
+      >> _mimeType
+      >> hash;
 
     _owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId);
     _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
 #ifdef HORUS_CLIENT
-    // now automaticaly download after each update
-    download();
+    if (hash != _hash)
+        download();
 #endif
+    _hash = hash;
 }
 
 QDebug FileDataBase::operator<<(QDebug debug) const
@@ -170,12 +174,18 @@ QVariant FileDataBase::data(int column, int role) const
 
 void FileDataBase::setName(const QString name)
 {
+    if (_name == name)
+        return;
+
     _name = name;
     setStatus(SAVING);
 }
 
 void FileDataBase::moveTo(TreeData* node)
 {
+    if ( ! node || _node == node)
+        return;
+
     _node = node;
     setStatus(SAVING);
 }

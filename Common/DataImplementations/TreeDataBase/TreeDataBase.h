@@ -41,7 +41,7 @@ public:
     inline int     id() const { return _id; }
 
     TreeData*           createChild(const QString name, const QString type, UserData* user);
-    void                remove();
+    void                remove(bool recursive = 0);
     void                moveTo(TreeData* father);
 
     inline const QString name() const { return objectName(); }

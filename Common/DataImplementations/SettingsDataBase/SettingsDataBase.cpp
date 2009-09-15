@@ -50,6 +50,15 @@ QDebug SettingsDataBase::operator<<(QDebug debug) const
                  << _values;
 }
 
+void SettingsDataBase::setValue(const QString& key, const QVariant& val)
+{
+    if (_values[key] == val)
+        return;
+
+    _values[key] = val;
+    setStatus(SAVING);
+}
+
 #ifdef HORUS_SERVER
 void SettingsDataBase::fillFromDatabase(QSqlQuery& query)
 {

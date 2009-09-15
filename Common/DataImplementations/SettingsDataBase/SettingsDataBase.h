@@ -36,7 +36,7 @@ public:
 
     // INTERFACE SettingsData
     inline QVariant  value(const QString& key, QVariant defaultValue = QVariant()) const { if (_values.contains(key)) return _values.value(key); else return defaultValue; }
-    inline void      setValue(const QString& key, const QVariant& val) { _values[key] = val; }
+    void             setValue(const QString& key, const QVariant& val);
     inline QString   part() const { return _part; }
     inline UserData* owner() const { return _owner; }
     inline quint8    scope() const { return _scope; }
