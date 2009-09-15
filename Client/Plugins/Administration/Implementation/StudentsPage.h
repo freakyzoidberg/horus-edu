@@ -65,11 +65,16 @@ class StudentsPage : public QWidget
         QLineEdit *classTxt;
         QLabel *label_5;
         QLineEdit *lineEdit_7;
-
         QDialogButtonBox *buttonBox;
         QVBoxLayout *menuLayout;
-
-
+        void    editUser();
+        void    cancelUser();
+        void    deleteUser();
+        void    createUser();
+        UserDataPlugin *_users;
+   private slots:
+    void buttonClicked(QAbstractButton * button);
+    void userSelected(const QModelIndex &userIndex);
 };
 
 #endif // STUDENTSPAGE_H
