@@ -1,5 +1,9 @@
 <RCC>
-  <qresource prefix="Pictures" >
-    <file>2010_LOGO_horus_2_trans.png</file>
-  </qresource>
+    <qresource prefix="/Pictures" >
+        <file>2010_LOGO_horus_2_trans.png</file>
+        <file>configure.png</file>
+        <file>edit.png</file>
+        <file>home.png</file>
+        <file>synctoc.png</file>
+    </qresource>
 </RCC>

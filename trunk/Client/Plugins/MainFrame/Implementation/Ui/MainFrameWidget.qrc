@@ -1,5 +1,9 @@
 <RCC>
-  <qresource prefix="Pictures" >
-    <file>HorusPanelBackground-NoFx.png</file>
-  </qresource>
+    <qresource prefix="/Pictures" >
+        <file>HorusPanelBackground-NoFx.png</file>
+        <file>book.png</file>
+        <file>calendarwidget.png</file>
+        <file>edit.png</file>
+        <file>history.png</file>
+    </qresource>
 </RCC>
