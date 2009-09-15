@@ -86,6 +86,7 @@ qDebug() << "Et sa position : " << this->x() << " et " << this->y();
 void    Items::restore()
 {
     show();
+    delete small;
 }
 
 void    Items::moveToDock()
@@ -93,10 +94,9 @@ void    Items::moveToDock()
     qDebug() << "jvais te reduire";
     this->hide();
 
-    QPushButton *test = new QPushButton(this->board->dock);
-    test->setText("Re");
-    test->setGeometry(20, 20, 15, 15);
-    test->show();
-    connect(test, SIGNAL(clicked()), this, SLOT(restore()));
+    small = new QPushButton(this->board->dock);
+    small->setText("Re");
+    small->setGeometry(20, 20, 15, 15);
+    small->show();
+    connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }
-
