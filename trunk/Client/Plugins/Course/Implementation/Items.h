@@ -11,21 +11,18 @@ class Items : public QWidget
 public:
     Items();
     Items(WhiteBoard *);
-         QPushButton *openItem, *closeItem;
+    QPushButton *openItem, *closeItem;
 
-    public slots:
-     void moveToDock();
-     void   restore();
+public slots:
+    void   moveToDock();
+    void   restore();
 
-    protected:
-     void mousePressEvent(QMouseEvent *event);
+protected:
+    void    mousePressEvent(QMouseEvent *event);
 
-
-   private:
-        WhiteBoard  *board;
-        QPushButton     *small;
-
-
+private:
+    WhiteBoard      *board;
+    QPushButton     *small;
 };
 
 #endif // ITEMS_H

@@ -10,21 +10,22 @@ class Items;
 class WhiteBoard : public QWidget
 {
 public:
-    WhiteBoard();
+     WhiteBoard();
      void   setTmp(Items *);
      Items  *getTmp();
-             QDockWidget *dock;
+     void   setPosInDoc(int posInDoc);
+     int    getPosInDoc();
+
+     QDockWidget *dock;
 
 protected:
      void dragEnterEvent(QDragEnterEvent *event);
      void dragMoveEvent(QDragMoveEvent *event);
      void dropEvent(QDropEvent *event);
 
-
  private:
-        Items   *tmp;
-
-
+     Items   *tmp;
+     int    posInDoc;
 };
 
 #endif // WHITEBOARD_H

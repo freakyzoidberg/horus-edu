@@ -8,12 +8,8 @@ WhiteBoard::WhiteBoard()
     this->dock = new QDockWidget("Magic doc", this);
     this->dock->setAllowedAreas(Qt::BottomDockWidgetArea);
     this->dock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
-
-    //Qt::BottomDockWidgetArea
-
-    this->dock->setGeometry(0, 0,
-                            this->geometry().width(), 50);
-    //this->setGeometry(
+    this->dock->setGeometry(0, 0, this->geometry().width(), 50);
+    this->posInDoc = 0;
 }
 
 void   WhiteBoard::setTmp(Items *item)
@@ -27,17 +23,24 @@ Items  *WhiteBoard::getTmp()
     return tmp;
 }
 
+void    WhiteBoard::setPosInDoc(int posInDoc)
+{
+    this->posInDoc = posInDoc;
+}
+
+int     WhiteBoard::getPosInDoc()
+{
+    return this->posInDoc;
+}
+
 void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
  {
-             event->acceptProposedAction();
-
+    event->acceptProposedAction();
  }
 
  void WhiteBoard::dragMoveEvent(QDragMoveEvent *event)
  {
-
-             event->accept();
-
+    event->accept();
  }
 
  void WhiteBoard::dropEvent(QDropEvent *event)
@@ -71,5 +74,4 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
            //Position pour le generateur du fichier de position
 
            qDebug() << "items in WhiteBoard : "<< this->children().count();
-
  }

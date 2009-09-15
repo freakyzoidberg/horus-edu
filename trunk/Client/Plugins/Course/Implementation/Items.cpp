@@ -88,14 +88,16 @@ void    Items::restore()
 {
     show();
     delete small;
+    this->board->setPosInDoc(board->getPosInDoc() - 15);
 }
 
 void    Items::moveToDock()
 {
     this->hide();
+    this->board->setPosInDoc(board->getPosInDoc() + 15);
     small = new QPushButton(this->board->dock);
     small->setText("Re");
-    small->setGeometry(25, 20, 15, 15);
+    small->setGeometry(this->board->getPosInDoc(), 25, 15, 15);
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }
