@@ -5,13 +5,16 @@
 #include <QAbstractItemModel>
  #include <QModelIndex>
  #include <QVariant>
+#include "../../../../Common/UserData.h"
+
+class UserItem;
 
 class StudentModel: public QAbstractItemModel
 {
     Q_OBJECT
 
     public:
-     StudentModel(const QString &data, QObject *parent = 0);
+     StudentModel(const QList<UserData*> users);
      ~StudentModel();
 
      QVariant data(const QModelIndex &index, int role) const;
@@ -25,8 +28,8 @@ class StudentModel: public QAbstractItemModel
      int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
  private:
-     void setupModelData(const QStringList &lines);
-
+     void setupModelData(const QList<UserData*> users, UserItem *parent);
+    UserItem *rootItem;
 };
 
 #endif // STUDENTMODEL_H

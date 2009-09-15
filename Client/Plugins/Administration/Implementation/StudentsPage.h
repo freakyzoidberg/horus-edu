@@ -20,11 +20,13 @@
 #include <QWidget>
 #include <QTreeView>
 
-#include "../../../../Common/TreeDataPlugin.h"
-#include "../../../../Common/UserData.h"
+#include "../../../../Common/TreeData.h"
+#include "StudentModel.h"
 
 class StudentsPage : public QWidget
 {
+    Q_OBJECT
+
     public:
         StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users);
     private:

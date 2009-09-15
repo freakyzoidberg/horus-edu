@@ -11,7 +11,8 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/StudentsPage.cpp \
     Implementation/RoomPage.cpp \
     Implementation/StudentModel.cpp \
-    Implementation/TeacherModel.cpp
+    Implementation/TeacherModel.cpp \
+    Implementation/UserItem.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/TeacherPage.h \
@@ -30,5 +31,6 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
     Implementation/StudentModel.h \
-    Implementation/TeacherModel.h
+    Implementation/TeacherModel.h \
+    Implementation/UserItem.h
 RESOURCES += Implementation/AdminMainFrame.qrc
