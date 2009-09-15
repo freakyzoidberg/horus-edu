@@ -1,27 +1,39 @@
 #include "StudentsPage.h"
 
 #include <QDebug>
+#include <QMessageBox>
 
 StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
+    _users = users;
         setupUi();
         //studentTree->setModel(tree->getTreeModel());
-        studentTree->setModel(new StudentModel(users->getAllUser()));
-        qDebug() << tree->getNode(0);
-        QList<UserData*> _users = users->getAllUser();
-        for (int i = 0; i < _users.size(); i++)
+        studentTree->setModel(new StudentModel(_users->getAllUser()));
+        //qDebug() << tree->getNode(0);
+       // QList<UserData*> _users = users->getAllUser();
+       /* for (int i = 0; i < _users.size(); i++)
         {
             qDebug() << _users[i]->login();
             qDebug() << _users[i]->level();
             qDebug() << (_users[i]->node())->name();
             qDebug() << (_users[i]->node())->type();
-        }
+        }*/
+        connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
+        connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
 }
+
+void StudentsPage::userSelected(const QModelIndex &userIndex)
+{
+    loginTxt->setText(_users->getUser(userIndex.data().toInt())->login());
+    nomTxt->setText(_users->getUser(userIndex.data().toInt())->name());
+    prenomTxt->setText(_users->getUser(userIndex.data().toInt())->surname());
+}
+
 
 
 void    StudentsPage::setupUi()
 {
-        this->setMinimumWidth(700);
+    this->setMinimumWidth(700);
     stuLayout = new QHBoxLayout(this);
     studentTree = new QTreeView();
     menuLayout = new QVBoxLayout();
@@ -113,3 +125,86 @@ void    StudentsPage::setupUi()
     this->stuLayout->setStretch(1, 4);
 }
 
+void StudentsPage::buttonClicked(QAbstractButton * button)
+{
+   if (button->text() == "Add")
+   {
+        createUser();
+   }
+   else if (button->text() == "Save")
+   {
+        editUser();
+   }
+   else if (button->text() == "Cancel")
+   {
+        cancelUser();
+   }
+   else if (button->text() == "Delete")
+   {
+        deleteUser();
+   }
+}
+
+void    StudentsPage::editUser()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Confirmation de la modification");
+    msgBox.setInformativeText("Confirmez vous la modification?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int ret = msgBox.exec();
+    if (ret == QMessageBox::Yes)
+    {}
+    return;
+}
+void    StudentsPage::cancelUser()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Confirmation de l'annulation");
+    msgBox.setInformativeText("Etes-vous sur de vouloir annulé?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int ret = msgBox.exec();
+    if (ret == QMessageBox::Yes)
+    {
+    }
+    return;
+}
+
+void    StudentsPage::deleteUser()
+{
+
+}
+
+void    StudentsPage::createUser()
+{
+    QString      Error = "";
+    if(this->loginTxt->text() == "")
+        Error.append("Login |");
+    if(this->passTxt->text() == "")
+        Error.append("Password |");
+    if(this->addrTxt->text() == "")
+        Error.append("Adresse |");
+    if(this->phoneTxt->text() == "")
+        Error.append("Telephone |");
+    if(this->paysTxt->text() == "")
+        Error.append("Pays |");
+    if(this->languageTxt->text() == "")
+        Error.append("Language |");
+    if(this->prenomTxt->text() == "")
+        Error.append("Prenom |");
+    if(this->nomTxt->text() == "")
+        Error.append("Nom |");
+    if (Error != "")
+    {
+        QString msg;
+        msg.append("les champs suivant doivent etre remplis: \n");
+        msg.append(Error);
+        QMessageBox msgBox;
+        msgBox.setText(msg);
+        msgBox.exec();
+        return;
+    }
+
+
+}

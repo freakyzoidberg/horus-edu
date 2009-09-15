@@ -5,7 +5,7 @@ StudentModel::StudentModel(const QList<UserData*> users)
 //     : QAbstractItemModel(parent)
  {
      QList<QVariant> rootData;
-     rootData << "Etudiants" << "Id";
+     rootData << "Id" << "Etudiants";
      rootItem = new UserItem(rootData);
      setupModelData(users, rootItem);
  }
@@ -112,36 +112,10 @@ StudentModel::StudentModel(const QList<UserData*> users)
 
      while (number < users.count())
      {
-       /*  int position = 0;
-         while (position < lines[number].length()) {
-             if (lines[number].mid(position, 1) != " ")
-                 break;
-             position++;
-         }
-
-         QString lineData = lines[number].mid(position).trimmed();
-*/
          if (users[number]->level() == 3)
          {
              QList<QVariant> columnData;
-             columnData << users[number]->login() << users[number]->id();
-/*
-             if (position > indentations.last()) {
-                 // The last child of the current parent is now the new parent
-                 // unless the current parent has no children.
-
-                 if (parents.last()->childCount() > 0) {
-                     parents << parents.last()->child(parents.last()->childCount()-1);
-                     indentations << position;
-                 }
-             } else {
-                 while (position < indentations.last() && parents.count() > 0) {
-                     parents.pop_back();
-                     indentations.pop_back();
-                 }
-             }*/
-
-             // Append a new item to the current parent's list of children.
+             columnData << users[number]->id() << users[number]->login();
              parents.last()->appendChild(new UserItem(columnData, parents.last()));
          }
 
