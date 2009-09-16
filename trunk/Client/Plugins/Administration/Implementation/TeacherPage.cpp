@@ -16,6 +16,7 @@ TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
 
 void TeacherPage::profSelected(const QModelIndex &userIndex)
 {
+    qDebug() << "here";
     user = static_cast<UserData*>(userIndex.internalPointer());
     loginTxt->setText(user->login());
     nomTxt->setText(user->name());
@@ -43,35 +44,35 @@ void    TeacherPage::setupUi()
     leftLayout->setWidget(2, QFormLayout::FieldRole, passTxt);
     date = new QCalendarWidget();
     leftLayout->setWidget(3, QFormLayout::FieldRole, date);
-    label_2 = new QLabel("Nom");
+    label_2 = new QLabel("Name");
     leftLayout->setWidget(4, QFormLayout::LabelRole, label_2);
     nomTxt = new QLineEdit(this);
     leftLayout->setWidget(4, QFormLayout::FieldRole, nomTxt);
-    label_3 = new QLabel("Prenom");
+    label_3 = new QLabel("Surname");
     leftLayout->setWidget(5, QFormLayout::LabelRole, label_3);
     prenomTxt = new QLineEdit(this);
     leftLayout->setWidget(5, QFormLayout::FieldRole, prenomTxt);
-    label_4 = new QLabel("Telephone");
+    label_4 = new QLabel("Phone");
     leftLayout->setWidget(6, QFormLayout::LabelRole, label_4);
     phoneTxt = new QLineEdit(this);
     leftLayout->setWidget(6, QFormLayout::FieldRole, phoneTxt);
-    label_6 = new QLabel("Telephone 2");
+    label_6 = new QLabel("Phone 2");
     leftLayout->setWidget(7, QFormLayout::LabelRole, label_6);
     phonebisTxt = new QLineEdit(this);
     leftLayout->setWidget(7, QFormLayout::FieldRole, phonebisTxt);
-    label_7 = new QLabel("Addresse");
+    label_7 = new QLabel("Address");
     leftLayout->setWidget(8, QFormLayout::LabelRole, label_7);
     addrTxt = new QLineEdit(this);
     leftLayout->setWidget(8, QFormLayout::FieldRole, addrTxt);
-    label_10 = new QLabel("Code");
+    label_10 = new QLabel("ZipCode");
     leftLayout->setWidget(9, QFormLayout::LabelRole, label_10);
     codeTxt = new QLineEdit(this);
     leftLayout->setWidget(9, QFormLayout::FieldRole, codeTxt);
-    label_9 = new QLabel("Ville");
+    label_9 = new QLabel("City");
     leftLayout->setWidget(10, QFormLayout::LabelRole, label_9);
     villeTxt = new QLineEdit(this);
     leftLayout->setWidget(10, QFormLayout::FieldRole, villeTxt);
-    label_8 = new QLabel("Pays");
+    label_8 = new QLabel("Country");
     leftLayout->setWidget(11, QFormLayout::LabelRole, label_8);
     paysTxt = new QLineEdit(this);
     leftLayout->setWidget(11, QFormLayout::FieldRole, paysTxt);
@@ -137,8 +138,8 @@ void TeacherPage::bClicked(QAbstractButton * button)
 void    TeacherPage::editUser()
 {
     QMessageBox msgBox;
-    msgBox.setText("Confirmation de la modification");
-    msgBox.setInformativeText("Confirmez vous la modification?");
+    msgBox.setText("Confirme modification");
+    msgBox.setInformativeText("Do you want to confirme the modification");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
     msgBox.setDefaultButton(QMessageBox::Yes);
     int ret = msgBox.exec();
@@ -149,6 +150,8 @@ void    TeacherPage::editUser()
         user->setLanguage(languageTxt->text());
         user->setLevel(3);
         user->save();
+        loginTxt->setText("");
+        passTxt->setText("");
         nomTxt->setText("");
         prenomTxt->setText("");
         languageTxt->setText("");
@@ -158,13 +161,18 @@ void    TeacherPage::editUser()
 void    TeacherPage::cancelUser()
 {
     QMessageBox msgBox;
-    msgBox.setText("Confirmation de l'annulation");
-    msgBox.setInformativeText("Etes-vous sur de vouloir annulé?");
+    msgBox.setText("Confirme cancel");
+    msgBox.setInformativeText("Do you want to cancel the modification");
     msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
     msgBox.setDefaultButton(QMessageBox::Yes);
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
     {
+        loginTxt->setText("");
+        passTxt->setText("");
+        nomTxt->setText("");
+        prenomTxt->setText("");
+        languageTxt->setText("");
     }
     return;
 }
@@ -202,14 +210,15 @@ void    TeacherPage::createUser()
     data->setName(nomTxt->text());
     data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
-    data->setLevel(3);
+    data->setLevel(2);
     data->save();
     loginTxt->setText("");
     nomTxt->setText("");
     passTxt->setText("");
     prenomTxt->setText("");
     languageTxt->setText("");
-    teacherTree->setModel(new StudentModel(_users->getAllUser(), 1));
+    teacherTree->setModel(new StudentModel(_users->getAllUser(), 2));
+    connect(teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
     msgBox.setText("The user was succefully created");
     msgBox.exec();
 }

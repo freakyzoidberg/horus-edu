@@ -67,6 +67,9 @@ StudentModel::StudentModel(const QHash<quint32, UserData*>&  _users, int role)
 
 //     UserItem *childItem = parentItem->child(row);
 //     if (childItem)
+     if (users.size() == 0)
+         return QModelIndex();
+     else
          return createIndex(row, column, users.at(row));
 //     else
 //         return QModelIndex();
