@@ -23,9 +23,9 @@ public:
 
 private:
     QHash<QString, QVariant> parameters;
-    QString	content;
-    QString type;
-    QIcon icon;
+    QString 	content;
+    QString     type;
+    QIcon       icon;
 };
 
 #endif // LESSONDOCUMENT_H

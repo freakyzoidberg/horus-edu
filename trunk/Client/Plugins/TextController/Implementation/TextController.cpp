@@ -27,5 +27,5 @@ QWidget*			TextController::createDocumentWidget(QWidget *parent, ILessonDocument
         browser->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         browser->insertPlainText(document->getContent());
     }
-	return (browser);
+    return (browser);
 }
