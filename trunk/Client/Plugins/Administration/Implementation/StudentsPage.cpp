@@ -16,11 +16,11 @@ StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 
 void StudentsPage::userSelected(const QModelIndex &userIndex)
 {
-    idUser = userIndex.data().toInt();
-    loginTxt->setText(_users->getUser(idUser)->login());
-    nomTxt->setText(_users->getUser(idUser)->name());
-    prenomTxt->setText(_users->getUser(idUser)->surname());
-    languageTxt->setText(_users->getUser(idUser)->language());
+    UserData* user = static_cast<UserData*>(userIndex.internalPointer());
+    loginTxt->setText(user->login());
+    nomTxt->setText(user->name());
+    prenomTxt->setText(user->surname());
+    languageTxt->setText(user->language());
 }
 
 void    StudentsPage::setupUi()

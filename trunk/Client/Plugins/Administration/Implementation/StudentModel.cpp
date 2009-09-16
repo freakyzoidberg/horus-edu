@@ -1,54 +1,57 @@
 #include "StudentModel.h"
 #include "UserItem.h"
 
-StudentModel::StudentModel(const QList<UserData*> users)
+StudentModel::StudentModel(const QList<UserData*> _users)
 //     : QAbstractItemModel(parent)
  {
-     QList<QVariant> rootData;
-     rootData << "Id" << "Etudiants";
-     rootItem = new UserItem(rootData);
-     setupModelData(users, rootItem);
+    foreach (UserData* user, _users)
+        if (user->level() == 3)
+            users.append(user);
+//     QList<QVariant> rootData;
+//     rootData << "Id" << "Etudiants";
+//     rootItem = new UserItem(rootData);
+//     setupModelData(users, rootItem);
  }
 
  StudentModel::~StudentModel()
  {
-     delete rootItem;
+//     delete rootItem;
  }
 
  int StudentModel::columnCount(const QModelIndex &parent) const
  {
-     if (parent.isValid())
-         return static_cast<UserItem*>(parent.internalPointer())->columnCount();
-     else
-         return rootItem->columnCount();
+//     if (parent.isValid())
+         return 1;//users.size();
+//     else
+//         return rootItem->columnCount();
  }
 
  QVariant StudentModel::data(const QModelIndex &index, int role) const
  {
-     if (!index.isValid())
-         return QVariant();
+//     if (!index.isValid())
+//         return QVariant();
 
-     if (role != Qt::DisplayRole)
-         return QVariant();
+     UserData *item = static_cast<UserData*>(index.internalPointer());
 
-     UserItem *item = static_cast<UserItem*>(index.internalPointer());
-
-     return item->data(index.column());
+     if (role == Qt::DisplayRole)
+         return item->data(index.column() + 1, role);
+     else
+         return item->data(index.column(), role);
  }
 
- Qt::ItemFlags StudentModel::flags(const QModelIndex &index) const
- {
-     if (!index.isValid())
-         return 0;
-
-     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
- }
+// Qt::ItemFlags StudentModel::flags(const QModelIndex &index) const
+// {
+//     if (!index.isValid())
+//         return 0;
+//
+//     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+// }
 
  QVariant StudentModel::headerData(int section, Qt::Orientation orientation,
                                 int role) const
  {
      if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-         return rootItem->data(section);
+         return "Students";
 
      return QVariant();
  }
@@ -56,69 +59,74 @@ StudentModel::StudentModel(const QList<UserData*> users)
  QModelIndex StudentModel::index(int row, int column, const QModelIndex &parent)
              const
  {
-     if (!hasIndex(row, column, parent))
-         return QModelIndex();
+//     if (!hasIndex(row, column, parent))
+//         return QModelIndex();
 
-     UserItem *parentItem;
+//     UserData *item = qobject_cast<UserData*>(index.internalPointer());
+//     UserItem *parentItem;
 
-     if (!parent.isValid())
-         parentItem = rootItem;
-     else
-         parentItem = static_cast<UserItem*>(parent.internalPointer());
+//     if (!parent.isValid())
+//         parentItem = rootItem;
+//     else
+//         parentItem = static_cast<UserItem*>(parent.internalPointer());
 
-     UserItem *childItem = parentItem->child(row);
-     if (childItem)
-         return createIndex(row, column, childItem);
-     else
-         return QModelIndex();
+//     UserItem *childItem = parentItem->child(row);
+//     if (childItem)
+         return createIndex(row, column, users.at(row));
+//     else
+//         return QModelIndex();
  }
 
  QModelIndex StudentModel::parent(const QModelIndex &index) const
  {
-     if (!index.isValid())
+//     if (!index.isValid())
          return QModelIndex();
-
-     UserItem *childItem = static_cast<UserItem*>(index.internalPointer());
-     UserItem *parentItem = childItem->parent();
-
-     if (parentItem == rootItem)
-         return QModelIndex();
-
-     return createIndex(parentItem->row(), 0, parentItem);
+//
+//     UserItem *childItem = static_cast<UserItem*>(index.internalPointer());
+//     UserItem *parentItem = childItem->parent();
+//
+//     if (parentItem == rootItem)
+//         return QModelIndex();
+//
+//     return createIndex(parentItem->row(), 0, parentItem);
  }
 
  int StudentModel::rowCount(const QModelIndex &parent) const
  {
-     UserItem *parentItem;
-     if (parent.column() > 0)
-         return 0;
-
-     if (!parent.isValid())
-         parentItem = rootItem;
+     if ( ! parent.isValid())
+         return users.size();
      else
-         parentItem = static_cast<UserItem*>(parent.internalPointer());
-
-     return parentItem->childCount();
+         return 0;
+//     UserItem *parentItem;
+//     if (parent.column() > 0)
+//         return 0;
+//
+//     if (!parent.isValid())
+//         parentItem = rootItem;
+//     else
+//         parentItem = static_cast<UserItem*>(parent.internalPointer());
+//
+//     return parentItem->childCount();
  }
 
- void StudentModel::setupModelData(const QList<UserData*> users, UserItem *parent)
- {
-    QList<UserItem*> parents;
-     QList<int> indentations;
-     parents << parent;
-     indentations << 0;
-
-     int number = 0;
-
-     while (number < users.count())
-     {
-         if (users[number]->level() == 3)
-         {
-             QList<QVariant> columnData;
-             columnData << users[number]->id() << users[number]->login();
-             parents.last()->appendChild(new UserItem(columnData, parents.last()));
-         }
-
-         number++;
-     }
- }
+// void StudentModel::setupModelData(const QList<UserData*> users, UserItem *parent)
+// {
+//    QList<UserItem*> parents;
+//     QList<int> indentations;
+//     parents << parent;
+//     indentations << 0;
+//
+//     int number = 0;
+//
+//     while (number < users.count())
+//     {
+//         if (users[number]->level() == 3)
+//         {
+//             QList<QVariant> columnData;
+//             columnData << users[number]->id() << users[number]->login();
+//             parents.last()->appendChild(new UserItem(columnData, parents.last()));
+//         }
+//
+//         number++;
+//     }
+// }
