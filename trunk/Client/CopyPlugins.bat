@@ -17,4 +17,5 @@ copy PdfDisplayer\%BUILDCONFIG%\PdfDisplayer.dll .\PdfDisplayer.dll
 copy PdfEditor\%BUILDCONFIG%\PdfEditor.dll .\PdfEditor.dll
 copy SettingsBaseClient\%BUILDCONFIG%\SettingsBaseClientMetaPlugin.dll .\SettingsBaseClientMetaPlugin.dll
 copy TextController\%BUILDCONFIG%\TextController.dll .\TextController.dll
+copy ImageController\%BUILDCONFIG%\ImageController.dll .\ImageController.dll
 cd ..
