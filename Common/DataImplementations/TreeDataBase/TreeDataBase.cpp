@@ -147,9 +147,9 @@ TreeData* TreeDataBase::createChild(const QString name, const QString type, User
     return 0;
 }
 
-void TreeDataBase::remove(bool recursive)
+void TreeDataBase::recursRemove()
 {
-    setStatus(Data::DELETING);
+    remove();
 }
 
 void TreeDataBase::moveTo(TreeData* par)
@@ -158,7 +158,6 @@ void TreeDataBase::moveTo(TreeData* par)
         return;
 
     setParent(par);
-    setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setName(QString name)
@@ -167,7 +166,6 @@ void TreeDataBase::setName(QString name)
         return;
 
     _name = name;
-    setStatus(Data::SAVING);
 }
 
 void TreeDataBase::setUser(UserData* user)

@@ -179,7 +179,6 @@ void FileDataBase::setName(const QString name)
         return;
 
     _name = name;
-    setStatus(SAVING);
 }
 
 void FileDataBase::moveTo(TreeData* node)
@@ -188,7 +187,6 @@ void FileDataBase::moveTo(TreeData* node)
         return;
 
     _node = node;
-    setStatus(SAVING);
 }
 
 #ifdef HORUS_CLIENT
