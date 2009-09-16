@@ -55,7 +55,7 @@ void FileDataBase::dataFromStream(QDataStream& s)
     _owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId);
     _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
 #ifdef HORUS_CLIENT
-    if (hash != _hash)
+    if (hash.isEmpty() || hash.isEmpty() || hash != _hash)
         download();
 #endif
     _hash = hash;
