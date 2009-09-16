@@ -5,31 +5,23 @@
 
 StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
+    idUser = 0;
     _users = users;
-        setupUi();
+    setupUi();
         //studentTree->setModel(tree->getTreeModel());
-        studentTree->setModel(new StudentModel(_users->getAllUser()));
-        //qDebug() << tree->getNode(0);
-       // QList<UserData*> _users = users->getAllUser();
-       /* for (int i = 0; i < _users.size(); i++)
-        {
-            qDebug() << _users[i]->login();
-            qDebug() << _users[i]->level();
-            qDebug() << (_users[i]->node())->name();
-            qDebug() << (_users[i]->node())->type();
-        }*/
-        connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
-        connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
+    studentTree->setModel(new StudentModel(_users->getAllUser()));
+    connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
+    connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
 }
 
 void StudentsPage::userSelected(const QModelIndex &userIndex)
 {
-    loginTxt->setText(_users->getUser(userIndex.data().toInt())->login());
-    nomTxt->setText(_users->getUser(userIndex.data().toInt())->name());
-    prenomTxt->setText(_users->getUser(userIndex.data().toInt())->surname());
+    idUser = userIndex.data().toInt();
+    loginTxt->setText(_users->getUser(idUser)->login());
+    nomTxt->setText(_users->getUser(idUser)->name());
+    prenomTxt->setText(_users->getUser(idUser)->surname());
+    languageTxt->setText(_users->getUser(idUser)->language());
 }
-
-
 
 void    StudentsPage::setupUi()
 {
@@ -154,7 +146,12 @@ void    StudentsPage::editUser()
     msgBox.setDefaultButton(QMessageBox::Yes);
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
-    {}
+    {
+        _users->getUser(idUser)->setName(nomTxt->text());
+        _users->getUser(idUser)->setSurname(prenomTxt->text());
+        _users->getUser(idUser)->setLanguage(languageTxt->text());
+        _users->getUser(idUser)->setLevel(3);
+    }
     return;
 }
 void    StudentsPage::cancelUser()
