@@ -83,6 +83,8 @@ private:
     int                 progress() const;
     //! download the file from the server.
     void                download();
+    //! return true if the file is downloaded in local
+    bool                isDownloaded() const;
     //! upload the file to the server.
     void                upload();
     //! called by FileNetworkPlugin after receiving the download authorisation
@@ -95,6 +97,8 @@ private:
     QSslSocket  _socket;
     //! the localfile
     QFile       _file;
+
+    bool        _isDownloaded;
 
     QByteArray  _transfertKey;
 

@@ -19,6 +19,7 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 {
     _id = fileId;
 #ifdef HORUS_CLIENT
+    _isDownloaded = false;
     _netPlugin = plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin");
     QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     _file.setFileName(settings.value("General/TmpDir", QDir::tempPath()).toString()+'/'+QVariant(_id).toString());
@@ -194,6 +195,12 @@ void FileDataBase::download()
 {
     qDebug() << "File::download()";
     _netPlugin->askForDownload(this);
+    _isDownloaded = false;
+}
+
+bool FileDataBase::isDownloaded() const
+{
+    return _isDownloaded;
 }
 
 void FileDataBase::downloadAuthorized(const QByteArray& key)
@@ -221,6 +228,7 @@ void FileDataBase::downloadFinished()
     _file.close();
     disconnect(&_socket, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
     disconnect(&_socket, SIGNAL(disconnected()), this, SLOT(downloadFinished()));
+    _isDownloaded = true;
     emit downloaded();
 }
 

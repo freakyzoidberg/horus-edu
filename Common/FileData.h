@@ -41,6 +41,8 @@ public:
     virtual int     progress() const = 0;
     //! download the file from the server.
     virtual void  download() = 0;
+    //! return true if the file is downloaded in local
+    virtual bool    isDownloaded() const = 0;
     //! upload the file to the server.
     virtual void  upload() = 0;
 
