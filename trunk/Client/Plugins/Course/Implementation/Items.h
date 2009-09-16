@@ -12,7 +12,8 @@ public:
     Items();
     Items(WhiteBoard *);
     QPushButton *openItem, *closeItem;
-
+	void enterEvent(QEvent *event);
+	void leaveEvent(QEvent *event);
 public slots:
     void   moveToDock();
     void   restore();

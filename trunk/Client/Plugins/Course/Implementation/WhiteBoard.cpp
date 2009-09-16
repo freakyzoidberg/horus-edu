@@ -73,10 +73,13 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			ILessonDocument *doc = new LessonDocument(this, title, type, content, parameters);
 			if (this->_controllers.contains(type))
 			{
-				Items *inserted = new Items(this);
-				this->_controllers[type]->createDocumentWidget(inserted, doc);
-				inserted->move(event->pos());
-				inserted->show();
+				Items *item = new Items(this);
+				QWidget *docWidget;
+				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
+				item->move(event->pos());
+				if (docWidget)
+					docWidget->lower();
+				item->show();
 			}
 			else
 				qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << type << "type.";
