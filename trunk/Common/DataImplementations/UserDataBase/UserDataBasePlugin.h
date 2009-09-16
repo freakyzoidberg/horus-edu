@@ -21,8 +21,7 @@ public:
     inline const QString pluginVersion() const { return "0.1"; }
     UserData*            getUser(quint32 userId);
     const QHash<quint32, UserData*>&    getAllUser();
-    const QList<Data*>   getAllDatas() const;
-    Data*                getNewData();
+    Data*                createUser();
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif
