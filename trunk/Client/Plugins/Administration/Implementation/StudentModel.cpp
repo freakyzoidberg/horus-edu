@@ -1,12 +1,18 @@
 #include "StudentModel.h"
 
-StudentModel::StudentModel(const QHash<quint32, UserData*>&  _users)
+StudentModel::StudentModel(const QHash<quint32, UserData*>&  _users, int role)
 //     : QAbstractItemModel(parent)
  {
 
     foreach (UserData* user, _users)
-        if (user->level() == 3)
-            users.append(user);
+    {
+        if (role == 1)
+            if (user->level() == 3)
+                users.append(user);
+        if (role == 2)
+            if (user->level() == 2)
+                users.append(user);
+    }
 //     QList<QVariant> rootData;
 //     rootData << "Id" << "Etudiants";
 //     rootItem = new UserItem(rootData);
