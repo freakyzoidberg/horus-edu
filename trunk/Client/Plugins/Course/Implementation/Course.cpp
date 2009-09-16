@@ -28,6 +28,9 @@ void	Course::load()
     lessonPlugin = pluginManager->findPlugin<ILessonManager *>("LessonManager");
     treePlugin = pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base");
     filePlugin = pluginManager->findPlugin<FileDataPlugin *>("File Data Base");
+	QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
+	foreach (IDocumentController *controller, controllersList)
+		this->_controllers[controller->getSupportedType()] = controller;
     Plugin::load();
 }
 
@@ -41,5 +44,5 @@ void	Course::unload()
 
 QWidget             *Course::getWidget()
 {
-    return new CourseWidget(lessonPlugin, treePlugin, filePlugin);
+    return new CourseWidget(lessonPlugin, treePlugin, filePlugin, _controllers);
 }

@@ -18,7 +18,7 @@ class                   CourseWidget : public QSplitter
     Q_OBJECT
 
 public:
-                        CourseWidget(ILessonManager *lessonPlugin, TreeDataPlugin *treePlugin, FileDataPlugin *filePlugin);
+                        CourseWidget(ILessonManager *lessonPlugin, TreeDataPlugin *treePlugin, FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers);
 
 private:
     void                buildCategoryTree();

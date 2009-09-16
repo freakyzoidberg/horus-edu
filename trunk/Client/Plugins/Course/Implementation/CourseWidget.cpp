@@ -5,7 +5,7 @@
 #include <QDebug>
 #include <QVBoxLayout>
 
-CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treePlugin, FileDataPlugin *_filePlugin) : QSplitter()
+CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treePlugin, FileDataPlugin *_filePlugin, QHash<QString, IDocumentController *> controllers) : QSplitter()
 {
     QWidget *leftPane;
     QVBoxLayout *layout;
@@ -19,7 +19,7 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
     layout = new QVBoxLayout(leftPane);
     layout->addWidget(this->categoryView);
     leftPane->setLayout(layout);
-    this->pageWidget = new WhiteBoard;
+    this->pageWidget = new WhiteBoard(controllers);
     this->addWidget(this->pageWidget);
 
     Items *test = new Items(this->pageWidget);

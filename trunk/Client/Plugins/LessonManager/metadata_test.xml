@@ -14,7 +14,7 @@
 	<Section>
 	</Section>
 	<Section>
-		<Document />
+		<Document type="Pdf" />
 	</Section>
 	<Document />
 </Lesson>
