@@ -48,15 +48,12 @@ void FileTransfert::socketToFile()
     _file->write(buf);
 }
 
-void FileTransfert::fileToSocket(qint64)
+void FileTransfert::fileToSocket(qint64 len)
 {
     qDebug() << "FileTransfert::fileToSocket";
-    _socket->write(_file->read(8192));
-    _socket->flush();
+    _socket->write(_file->read(len));
     if (_file->atEnd())
-    {
         _socket->close();
-    }
 }
 
 const QByteArray& FileTransfert::key() const
