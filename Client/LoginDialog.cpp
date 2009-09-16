@@ -12,6 +12,7 @@
 LoginDialog::LoginDialog() : QWidget()
 {
     l_ui.setupUi(this);
+    l_ui.passE->setEchoMode(QLineEdit::Password);
 }
 
 LoginDialog::~LoginDialog()
