@@ -141,8 +141,9 @@ QFile* FileDataBase::file() const
     return new QFile("./Files/"+QVariant(_id).toString());
 #endif
 #ifdef HORUS_CLIENT
-    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    return new QFile(settings.value("General/TmpDir", QDir::tempPath()).toString()+'/'+QVariant(_id).toString());
+    QFile* f = new QFile(_file.fileName());
+    connect(f, SIGNAL(aboutToClose()),this, SLOT(calculateHash()));
+    return f;
 #endif
 }
 
@@ -220,8 +221,8 @@ void FileDataBase::connexionReadyRead()
 void FileDataBase::downloadFinished()
 {
     _file.close();
-    disconnect(this, SLOT(connexionReadyRead()));
-    disconnect(this, SLOT(downloadFinished()));
+    disconnect(&_socket, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
+    disconnect(&_socket, SIGNAL(disconnected()), this, SLOT(downloadFinished()));
     emit downloaded();
 }
 
@@ -253,8 +254,8 @@ void FileDataBase::connexionBytesWritten(qint64 len)
 void FileDataBase::uploadFinished()
 {
     _file.close();
-    disconnect(this, SLOT(connexionBytesWritten(qint64)));
-    disconnect(this, SLOT(uploadFinished()));
+    disconnect(&_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(connexionBytesWritten(qint64)));
+    disconnect(&_socket, SIGNAL(disconnected()), this, SLOT(uploadFinished()));
     emit uploaded();
 }
 
@@ -276,7 +277,6 @@ void FileDataBase::connectToServer()
     QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     _socket.connectToHostEncrypted(settings.value("Network/Server", "localhost").toString(),
                                      settings.value("Network/PortTransfert", 42042).toInt());
-//    _socket.waitForEncrypted();
 }
 
 void FileDataBase::connexionEncrypted()
@@ -284,5 +284,17 @@ void FileDataBase::connexionEncrypted()
     disconnect(&_socket, SIGNAL(encrypted()), this, SLOT(connexionEncrypted()));
     _socket.write(_transfertKey);
     _socket.flush();
+}
+
+void FileDataBase::calculateHash()
+{
+    QCryptographicHash h(QCryptographicHash::Sha1);
+
+    _file.open(QIODevice::ReadOnly);
+    while ( ! _file.atEnd())
+        h.addData( _file.read(8192) );
+    _file.close();
+
+    _hash = h.result();
 }
 #endif

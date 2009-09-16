@@ -108,6 +108,7 @@ private slots:
     void downloadFinished();
     void uploadFinished();
     void connexionEncrypted();
+    void calculateHash();
 #endif
 };
 
