@@ -19,6 +19,7 @@ SOURCES += main.cpp \
     DataManagerClient.cpp \
     ClientApplication.cpp \
     NetworkManager.cpp \
+    HorusStyle.cpp \
     PacketManager.cpp \
     LocalSettings.cpp \
     Loader.cpp \
@@ -55,6 +56,7 @@ HEADERS += NetworkManager.h \
     NetworkPlugin.h \
     DisplayablePlugin.h \
     DataManagerClient.h \
+    HorusStyle.h \
     ClientApplication.h \
     PacketManager.h \
     ClientEvents.h \

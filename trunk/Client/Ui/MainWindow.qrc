@@ -18,4 +18,14 @@
         <file>fileopen-16.png</file>
         <file>prefix-add.png</file>
     </qresource>
+    <qresource prefix="/" >
+        <file>branch-closed.png</file>
+        <file>branch-end.png</file>
+        <file>branch-more.png</file>
+        <file>branch-open.png</file>
+        <file>close.png</file>
+        <file>handle.png</file>
+        <file>handle2.png</file>
+        <file>help.png</file>
+    </qresource>
 </RCC>
