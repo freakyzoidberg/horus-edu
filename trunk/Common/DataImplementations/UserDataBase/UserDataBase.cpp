@@ -86,7 +86,6 @@ void UserDataBase::setName(const QString name)
         return;
 
     _name = name;
-    setStatus(SAVING);
 }
 
 void UserDataBase::setSurname(const QString surname)
@@ -95,7 +94,6 @@ void UserDataBase::setSurname(const QString surname)
         return;
 
     _surname = surname;
-    setStatus(SAVING);
 }
 
 void UserDataBase::setLevel(quint8 level)
@@ -104,7 +102,6 @@ void UserDataBase::setLevel(quint8 level)
         return;
 
     _level = level;
-    setStatus(SAVING);
 }
 
 void UserDataBase::enable(bool enabled)
@@ -113,7 +110,6 @@ void UserDataBase::enable(bool enabled)
         return;
 
     _enabled = enabled;
-    setStatus(SAVING);
 }
 
 void UserDataBase::setNode(TreeData* node)
@@ -122,7 +118,6 @@ void UserDataBase::setNode(TreeData* node)
         return;
 
     _node = node;
-    setStatus(SAVING);
 }
 
 void UserDataBase::setLanguage(const QString language)
@@ -131,7 +126,6 @@ void UserDataBase::setLanguage(const QString language)
         return;
 
     _language = language;
-    setStatus(SAVING);
 }
 
 #ifdef HORUS_CLIENT

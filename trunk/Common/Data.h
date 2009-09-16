@@ -72,6 +72,12 @@ public:
      */
     virtual inline void     dataFromStream(QDataStream& s) { s >> _lastChange; }
 
+    //! Function to save the value of the data
+    inline void             save() { setStatus(SAVING); }
+
+    //! Function to delete the value of the data
+    inline void             remove() { setStatus(DELETING); }
+
     //! Return the current status of this data.
     inline quint8           status() const { return (quint8)_status; }
     //! Change the current status and tell the coresponding plugin the data just changed.

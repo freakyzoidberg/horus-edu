@@ -56,7 +56,6 @@ void SettingsDataBase::setValue(const QString& key, const QVariant& val)
         return;
 
     _values[key] = val;
-    setStatus(SAVING);
 }
 
 #ifdef HORUS_SERVER
