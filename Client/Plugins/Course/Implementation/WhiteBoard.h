@@ -7,13 +7,15 @@
 #include <QHash>
 
 #include "../../LessonManager/IDocumentController.h"
+#include "../../../../Common/FileDataPlugin.h"
+#include "WhiteBoardData.h"
 
 class Items;
 
 class WhiteBoard : public QWidget
 {
 public:
-     WhiteBoard(QHash<QString, IDocumentController *> controllers);
+     WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers);
      void   setTmp(Items *);
      Items  *getTmp();
      void   setPosInDoc(int posInDoc);
@@ -30,6 +32,7 @@ protected:
  private:
      Items   *tmp;
      int    posInDoc;
+     WhiteBoardData wbdata;
 };
 
 #endif // WHITEBOARD_H

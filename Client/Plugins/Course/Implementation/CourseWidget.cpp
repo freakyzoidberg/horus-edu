@@ -19,7 +19,7 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
     layout = new QVBoxLayout(leftPane);
     layout->addWidget(this->categoryView);
     leftPane->setLayout(layout);
-    this->pageWidget = new WhiteBoard(controllers);
+    this->pageWidget = new WhiteBoard(_filePlugin, controllers);
     this->addWidget(this->pageWidget);
 }
 
@@ -35,7 +35,7 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setHeaderHidden(true);
     this->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
-	this->categoryView->setDragEnabled(true);
+    this->categoryView->setDragEnabled(true);
     this->categoryView->expandAll();
     //this->categoryView->indexAbove(this->categoryView->rootIndex()); // useless
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
