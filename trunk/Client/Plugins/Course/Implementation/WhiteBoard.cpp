@@ -5,7 +5,8 @@
 #include "LessonDocument.h"
 #include "Items.h"
 
-WhiteBoard::WhiteBoard(QHash<QString, IDocumentController *> controllers) : _controllers(controllers)
+WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers)
+    : _controllers(controllers), wbdata(filePlugin, 40)
 {
     setAcceptDrops(true);
     setAutoFillBackground(false);
