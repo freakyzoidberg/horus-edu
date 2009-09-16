@@ -21,7 +21,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 	{ false, false, false,   false, false,   false,   false,   false, false, false},              // EMPTY      v
 	{ false, false, false,   false, false,   false,   false,   false, false, false},              // CACHED
 	{  true,  true, false,   false, false,   false,   false,   false, false, false},              // UPDATING
-        { true,  true, false,   false, false,   false,    true,   false, false, false},              // SAVING
+        {  true,  true, false,   false, false,   false,    true,   false, false, false},              // SAVING
 	{  true, false, false,   false, false,   false,   false,   false, false, false},              // CREATING
 	{ false,  true, false,   false, false,   false,    true,   false, false, false},              // DELETING
 	{ false, false, false,   false, false,   false,   false,   false, false, false},              // UPTODATE
@@ -89,7 +89,7 @@ void DataManagerClient::sendData(UserData*, Data* data) const
 		break ;
 	case Data::CREATING:
 	case Data::SAVING:
-		stream << data->status() << data->error();
+                stream << data->status() << data->error();
 		data->keyToStream(stream);
 		data->dataToStream(stream);
 		break ;
