@@ -3,7 +3,12 @@
 
 # include <QtPlugin>
 
+# include <QLabel>
+# include <QImage>
+
 # include "../../../../Common/Plugin.h"
+# include "../../LessonManager/IDocumentController.h"
+# include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
 
 class ImageController : public Plugin, public IDocumentController
@@ -15,8 +20,16 @@ class ImageController : public Plugin, public IDocumentController
 public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
-    const QString		getSupportedType() const;
-	QWidget*			createDocumentWidget(QWidget *parent, ILessonDocument *document);
+        const QString		getSupportedType() const;
+        QWidget*		createDocumentWidget(QWidget *parent, ILessonDocument *document);
+
+ private slots:
+        void    dl();
+
+  private:
+        QLabel      *label;
+        FileData    *data;
+        QString     supportedType;
 };
 
 #endif // __IMAGECONTROLLER_H__

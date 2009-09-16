@@ -44,11 +44,11 @@ class   PdfController : public Plugin, public IDocumentController
      private slots:
         void    dl();
 
-      private:
-        QLabel  *label;
+     private:
+        QLabel      *label;
         FileData    *data;
         QString     supportedType;
-        QRectF          *rect;
+        QRectF      *rect;
         int         page;
 };
 
