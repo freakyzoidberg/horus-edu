@@ -22,6 +22,9 @@ void TeacherPage::profSelected(const QModelIndex &userIndex)
     nomTxt->setText(user->name());
     prenomTxt->setText(user->surname());
     languageTxt->setText(user->language());
+    addrTxt->setText(user->address());
+    phoneTxt->setText(user->phone());
+    paysTxt->setText(user->country());
 }
 void    TeacherPage::setupUi()
 {
@@ -148,13 +151,21 @@ void    TeacherPage::editUser()
         user->setName(nomTxt->text());
         user->setSurname(prenomTxt->text());
         user->setLanguage(languageTxt->text());
-        user->setLevel(3);
+        user->setAddress(addrTxt->text());
+        user->setPhone(phoneTxt->text());
+        user->setBirthDate(this->date->selectedDate());
+        user->setCountry(this->paysTxt->text());
+        user->setPicture("vide");
+        user->setLevel(2);
         user->save();
         loginTxt->setText("");
-        passTxt->setText("");
         nomTxt->setText("");
+        passTxt->setText("");
         prenomTxt->setText("");
         languageTxt->setText("");
+        addrTxt->setText("");
+        phoneTxt->setText("");
+        paysTxt->setText("");
     }
     return;
 }
@@ -169,10 +180,13 @@ void    TeacherPage::cancelUser()
     if (ret == QMessageBox::Yes)
     {
         loginTxt->setText("");
-        passTxt->setText("");
         nomTxt->setText("");
+        passTxt->setText("");
         prenomTxt->setText("");
         languageTxt->setText("");
+        addrTxt->setText("");
+        phoneTxt->setText("");
+        paysTxt->setText("");
     }
     return;
 }
@@ -188,6 +202,12 @@ void    TeacherPage::createUser()
     QString      Error = "";
     if(this->loginTxt->text() == "")
         Error.append("Login |");
+    if(this->addrTxt->text() == "")
+        Error.append("Address |");
+    if(this->paysTxt->text() == "")
+        Error.append("Country |");
+    if(this->phoneTxt->text() == "")
+        Error.append("Phone |");
     if(this->passTxt->text() == "")
         Error.append("Password |");
     if(this->languageTxt->text() == "")
@@ -210,6 +230,11 @@ void    TeacherPage::createUser()
     data->setName(nomTxt->text());
     data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
+    data->setAddress(addrTxt->text());
+    data->setPhone(phoneTxt->text());
+    data->setBirthDate(this->date->selectedDate());
+    data->setCountry(this->paysTxt->text());
+    data->setPicture("vide");
     data->setLevel(2);
     data->save();
     loginTxt->setText("");
@@ -217,8 +242,12 @@ void    TeacherPage::createUser()
     passTxt->setText("");
     prenomTxt->setText("");
     languageTxt->setText("");
-    teacherTree->setModel(new StudentModel(_users->getAllUser(), 2));
-    connect(teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
+    addrTxt->setText("");
+    phoneTxt->setText("");
+    paysTxt->setText("");
+    teacherTree->reset();
+    //teacherTree->setModel(new StudentModel(_users->getAllUser(), 2));
+    //connect(teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
     msgBox.setText("The user was succefully created");
     msgBox.exec();
 }

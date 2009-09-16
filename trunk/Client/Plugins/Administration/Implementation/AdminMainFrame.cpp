@@ -13,7 +13,7 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     contentsWidget->setMovement(QListView::Static);
     contentsWidget->setMaximumWidth(82);
     contentsWidget->setSpacing(6);
-
+    contentsWidget->setUniformItemSizes(true);
 
     framesWidget = new QStackedWidget;
     framesWidget->addWidget(new StudentsPage(tree, users));

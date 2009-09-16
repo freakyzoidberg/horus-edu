@@ -130,6 +130,46 @@ void UserDataBase::setLanguage(const QString language)
     _language = language;
 }
 
+void UserDataBase::setCountry(const QString country)
+{
+    if (_country == country)
+        return;
+
+    _country = country;
+}
+
+void UserDataBase::setPhone(const QString phone)
+{
+    if (_phone == phone)
+        return;
+
+    _phone = phone;
+}
+
+void UserDataBase::setAddress(const QString address)
+{
+    if (_address == address)
+        return;
+
+    _address = address;
+}
+
+void UserDataBase::setBirthDate(const QDate birthDate)
+{
+    if (_birthDate == birthDate)
+        return;
+
+    _birthDate = birthDate;
+}
+
+void UserDataBase::setPicture(const QByteArray picture)
+{
+    if (_picture == picture)
+        return;
+
+    _picture = picture;
+}
+
 #ifdef HORUS_CLIENT
 QVariant UserDataBase::data(int column, int role) const
 {

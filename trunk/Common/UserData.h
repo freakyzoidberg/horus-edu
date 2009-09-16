@@ -46,6 +46,21 @@ public:
     virtual const QString   language() const = 0;
     virtual void            setLanguage(const QString language) = 0;
 
+    virtual const QDate    birthDate() const = 0;
+    virtual void                    setBirthDate(const QDate birthDate) = 0;
+
+    virtual const QByteArray    picture() const = 0;
+    virtual void                    setPicture(const QByteArray picture) = 0;
+
+    virtual const QString    address() const = 0;
+    virtual void                    setAddress(const QString address) = 0;
+
+    virtual const QString    phone() const = 0;
+    virtual void                    setPhone(const QString phone) = 0;
+
+    virtual const QString    country() const = 0;
+    virtual void                    setCountry(const QString country) = 0;
+
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
     virtual QByteArray newSession(QSqlQuery&, const QDateTime& end) = 0;
