@@ -113,7 +113,7 @@ QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *d
         label = new QLabel(parent);
         label->setPixmap(pix);
         //object->getWidget()->show();
-label->show();
+//label->show();
 
         delete rect;
         delete image;
