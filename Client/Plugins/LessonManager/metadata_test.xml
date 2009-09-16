@@ -6,18 +6,22 @@
 		<Section title="MySection 2">
 		</Section>
 	</Section>
-		<Section title="MySection 3">
-			<Section title="MySection 1">
-				<Document title="Plop" type="text" input="content">Plop plofgfdgjghb dfkgbshbsbsb
-				</Document>
-			</Section>
-		</Section>
+	<Section title="MySection 3">
+	  <Section title="MySection 1">
+		<Document title="Plop" type="text" input="content">Plop plofgfdgjghb dfkgbshbsbsb
+		</Document>
+	  </Section>
+	</Section>
+	
 	<Section title="MySection 4">
 	</Section>
+	
 	<Section title="MySection 5">
-	<Document title="2" type="image" fileId="2" />
+	  <Document title="2" type="image" fileId="2" >
 		Romain tu pues.
-	</Document>
-
-</Section>
+	  </Document>
+	  <Document title="testpdf" type="Pdf" name="3" page="9"  x="100" y="400" w="215" h="400">
+		Romain tu pues.
+	  </Document>
+	</Section>
 </Lesson>

@@ -11,7 +11,6 @@
 #include <QLabel>
 
 #include "../../../../Common/PluginManager.h"
-#include "../../PdfDisplayer/IPdfRendering.h"
 
 PdfController::PdfController()
 {
@@ -63,7 +62,7 @@ const QString  PdfController::getSupportedType() const
 
 QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
 {
-    int             x, y, w, h;
+    int         x, y, w, h;
     int         fileId;
 
     if (document->getType() != this->getSupportedType())
@@ -90,11 +89,38 @@ QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *d
 
 void    PdfController::dl()
 {
-    IPdfRendering   *pdf;
-
     qDebug() << "file downloaded";
     QString         fileName;
     QImage          *image;
+
+    pdf = this->pluginManager->findPlugin<IPdfRendering *>();
+    if (!pdf)
+    {
+        qDebug() << "IPdfRendering not found";
+        return ;
+    }
+
+    fileName = data->file()->fileName();
+    image = pdf->PdfDisplayerDoc(fileName, page, rect, 0);
+    if (!image)
+    {
+       qDebug() << "Call the shot";
+       delete rect;
+       return ;
+    }
+
+    //QImage disp = image->scaled(w, h);
+    QPixmap pix = QPixmap::fromImage(*image);
+
+    label->setPixmap(pix);
+    delete rect;
+    delete image;
+}
+
+void    PdfController::reload()
+{
+    QString     fileName;
+    QImage      *image;
 
     pdf = this->pluginManager->findPlugin<IPdfRendering *>();
     if (!pdf)

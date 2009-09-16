@@ -25,6 +25,7 @@ public:
 
  private slots:
         void    dl();
+        void    reload();
 
   private:
         QLabel      *label;

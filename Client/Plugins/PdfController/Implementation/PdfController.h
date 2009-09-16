@@ -10,6 +10,7 @@
 # include "../../../../Common/FileDataPlugin.h"
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
+# include "../../PdfDisplayer/IPdfRendering.h"
 
 class   PdfController : public Plugin, public IDocumentController
 {
@@ -43,12 +44,14 @@ class   PdfController : public Plugin, public IDocumentController
 
      private slots:
         void    dl();
+        void    reload();
 
      private:
-        QLabel      *label;
-        FileData    *data;
-        QString     supportedType;
-        QRectF      *rect;
+        QLabel          *label;
+        FileData        *data;
+        QString         supportedType;
+         IPdfRendering  *pdf;
+        QRectF           *rect;
         int         page;
 };
 

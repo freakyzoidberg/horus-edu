@@ -9,7 +9,7 @@
 
 #include <QDebug>
 
-Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
+Items::Items(WhiteBoard *papyrus) : QSizeGrip(papyrus)
 {
     this->setAcceptDrops(true);
     this->board = papyrus;
