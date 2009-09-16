@@ -21,7 +21,7 @@ Lesson::Lesson(FileData *parent) : ILesson(parent), _currentData(NULL), icon(":/
 QVariant Lesson::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
-        return QVariant("Lesson");
+        return QVariant(getTitle());
     else if (role == Qt::DecorationRole)
         return QVariant(icon);
     return QVariant();

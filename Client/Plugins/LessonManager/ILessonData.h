@@ -13,7 +13,7 @@ public:
 
     virtual QVariant data(int column, int role = Qt::DisplayRole) const = 0;
 
-    const QString& getTitle() { return _title; }
+    const QString& getTitle() const { return _title; }
     void setTitle(const QString& title) { _title = title; }
 
  protected:
