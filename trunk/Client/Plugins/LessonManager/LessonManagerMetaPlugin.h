@@ -1,7 +1,7 @@
 #ifndef LESSONMANAGERMETAPLUGIN_H
 #define LESSONMANAGERMETAPLUGIN_H
 
-#include "../../../../Common/MetaPlugin.h"
+#include "../../../Common/MetaPlugin.h"
 
 #include "Implementation/LessonManager.h"
 
