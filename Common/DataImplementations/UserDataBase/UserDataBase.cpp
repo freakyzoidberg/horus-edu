@@ -204,7 +204,7 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
     query.addBindValue(_id);
     if ( ! query.exec() || ! query.next())
     {
-//        _error = NOT_FOUND;
+        _error = NOT_FOUND;
         return;
     }
     _login      = query.value(0).toString();

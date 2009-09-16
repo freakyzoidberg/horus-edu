@@ -52,9 +52,9 @@ void FileTransfert::fileToSocket(qint64)
 {
     qDebug() << "FileTransfert::fileToSocket";
     _socket->write(_file->read(8192));
+    _socket->flush();
     if (_file->atEnd())
     {
-        _socket->flush();
         _socket->close();
     }
 }
