@@ -9,7 +9,7 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
     : _controllers(controllers), wbdata(filePlugin, 40)
 {
     setAcceptDrops(true);
-    setAutoFillBackground(false);
+    setAutoFillBackground(true);
     this->dock = new QToolBar(this);
   //  this->dock->setAllowedAreas(Qt::BottomDockWidgetArea);
   //  this->dock->setFeatures(QDockWidget::DockWidgetMovable);
@@ -19,6 +19,11 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
     this->dock->setGeometry(0, 0, this->geometry().width(), 20);
     //this->setGeometry(
     this->posInDoc = 0;
+	QPalette p(this->palette());
+	p.setColor(QPalette::Background, Qt::white);
+	this->setPalette(p);
+	Items *toto = new Items(this);
+	toto->setGeometry(100, 100, 100, 100);
 }
 
 void   WhiteBoard::setTmp(Items *item)
