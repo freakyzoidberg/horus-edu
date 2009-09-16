@@ -17,8 +17,9 @@ class ILessonDocument : public ILessonData
     Q_OBJECT
 
 public:
-    ILessonDocument(ILesson *parent);
-    ILessonDocument(ILessonSection *parent);
+	inline ILessonDocument(QObject *parent) : ILessonData(parent) {};
+	inline ILessonDocument(ILesson *parent) : ILessonData(parent) {};
+	inline ILessonDocument(ILessonSection *parent) : ILessonData(parent) {};
     virtual QHash<QString, QVariant> &getParameters() = 0;
     virtual void setContent(QString content) = 0;
     virtual QString getContent() const = 0;

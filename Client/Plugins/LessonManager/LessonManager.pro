@@ -8,7 +8,6 @@ SOURCES += Implementation/LessonManager.cpp \
     LessonModel.cpp \
     ILesson.cpp \
     ILessonSection.cpp \
-    ILessonDocument.cpp \
     Implementation/LessonSection.cpp \
     Implementation/LessonDocument.cpp
 HEADERS += ILessonManager.h \

@@ -1,4 +1,7 @@
 #include "LessonModel.h"
+
+#include <QMimeData>
+
 #include "Implementation/Lesson.h"
 #include "ILessonDocument.h"
 
@@ -57,6 +60,45 @@ Qt::ItemFlags LessonModel::flags( const QModelIndex & index) const
         return (defaultFlags | Qt::ItemIsDragEnabled);
     else
         return (defaultFlags);
+}
+
+QStringList LessonModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/vnd.horus.lessondocument.list";
+    return (types);
+}
+
+QMimeData *LessonModel::mimeData(const QModelIndexList &indexes) const
+{
+	QMimeData *mimeData = new QMimeData();
+	QByteArray encodedData;
+	QDataStream stream(&encodedData, QIODevice::WriteOnly);
+
+	foreach (QModelIndex index, indexes)
+	{
+		if (index.isValid())
+		{
+			QObject* obj = (QObject*)(index.internalPointer());
+			ILessonDocument *doc = qobject_cast<ILessonDocument *>(obj);
+			if (doc)
+			{
+				stream << doc->getTitle();
+				stream << doc->getType();
+				stream << doc->getContent();
+				QHash<QString, QVariant> map = doc->getParameters();
+				stream << map.size();
+				QHash<QString, QVariant>::const_iterator i = map.constBegin();
+				while (i != map.constEnd())
+				{
+					stream << i.key() << i.value();
+					++i;
+				}
+			}
+		}
+	}
+	mimeData->setData("application/vnd.horus.lessondocument.list", encodedData);
+	return (mimeData);
 }
 
 QModelIndex LessonModel::index ( int row, int column, const QModelIndex & parent ) const

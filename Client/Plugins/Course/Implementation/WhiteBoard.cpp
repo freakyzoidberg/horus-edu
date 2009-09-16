@@ -1,6 +1,10 @@
 #include "WhiteBoard.h"
-#include "Items.h"
+
 #include <QDebug>
+
+#include "LessonDocument.h"
+#include "Items.h"
+
 WhiteBoard::WhiteBoard()
 {
     setAcceptDrops(true);
@@ -45,7 +49,37 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
  void WhiteBoard::dropEvent(QDropEvent *event)
  {
-//         const QMimeData *mime = event->mimeData();
+	const QMimeData *mime = event->mimeData();
+	if (mime->hasFormat("application/vnd.horus.lessondocument.list"))
+	{
+		QByteArray encodedData = mime->data("application/vnd.horus.lessondocument.list");
+		QDataStream stream(&encodedData, QIODevice::ReadOnly);
+		QStringList newItems;
+		int rows = 0;
+		while (!stream.atEnd())
+		{
+			QString title;
+			QString type;
+			QString content;
+			int count;
+			QString key;
+			QVariant value;
+			QHash<QString, QVariant> parameters;
+			stream >> title >> type >> content >> count;
+			for (int i = 0; i < count; i++)
+			{
+				stream >> key >> value;
+				parameters[key] = value;
+			}
+			ILessonDocument *doc = new LessonDocument(this, title, type, content, parameters);
+			Items *fake = new Items(this);
+			fake->move(event->pos());
+			fake->show();
+			++rows;
+		}
+	}
+	else
+	{
   //       QByteArray itemData = mime->data("application/x-fridgemagnet");
     //QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 
@@ -74,4 +108,5 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
            //Position pour le generateur du fichier de position
 
            qDebug() << "items in WhiteBoard : "<< this->children().count();
+	}
  }
