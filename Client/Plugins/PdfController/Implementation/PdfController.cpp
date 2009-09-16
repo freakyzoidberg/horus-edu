@@ -63,14 +63,8 @@ const QString  PdfController::getSupportedType() const
 
 QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
 {
-    IPdfRendering   *pdf;
     int             x, y, w, h;
-    int             page;
-    QString         fileName;
-    QRectF          *rect;
-    QImage          *image;
-
-    qDebug() << "Nuclear launch detected.";
+    int         fileId;
 
     if (document->getType() != this->getSupportedType())
     {
@@ -79,34 +73,48 @@ QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *d
         qDebug() << "\tThe controller PdfController handle " << this->getSupportedType() << " type.";
     }
 
-    pdf = this->pluginManager->findPlugin<IPdfRendering *>();
-    if (!pdf)
-    {
-        qDebug() << "IPdfRendering not found";
-        return NULL;
-    }
-    fileName = document->getParameters().value("name").toString();
+    fileId = document->getParameters().value("name").toInt();
     x = document->getParameters()["x"].toInt();
     y = document->getParameters()["y"].toInt();
     w = document->getParameters()["w"].toInt();
     h = document->getParameters()["h"].toInt();
     page = document->getParameters()["page"].toInt();
     rect = new QRectF(x, y, h, w);
+    data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
+    this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
+    label = new QLabel("Loading...", parent);
+    dl();
+    return label;
+}
 
+void    PdfController::dl()
+{
+    IPdfRendering   *pdf;
+
+    qDebug() << "file downloaded";
+    QString         fileName;
+    QImage          *image;
+
+    pdf = this->pluginManager->findPlugin<IPdfRendering *>();
+    if (!pdf)
+    {
+        qDebug() << "IPdfRendering not found";
+        return ;
+    }
+
+    fileName = data->file()->fileName();
     image = pdf->PdfDisplayerDoc(fileName, page, rect, 0);
     if (!image)
     {
        qDebug() << "Call the shot";
        delete rect;
-       return NULL;
+       return ;
     }
 
-    QImage disp = image->scaled(w, h);
+    //QImage disp = image->scaled(w, h);
     QPixmap pix = QPixmap::fromImage(*image);
 
-    label = new QLabel(parent);
     label->setPixmap(pix);
     delete rect;
     delete image;
-    return label;
 }

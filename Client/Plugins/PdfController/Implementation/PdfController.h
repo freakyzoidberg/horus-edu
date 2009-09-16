@@ -3,8 +3,11 @@
 
 # include <QObject>
 # include <QLabel>
+# include <QRectF>
 
 # include "../../../../Common/Plugin.h"
+# include "../../../../Common/FileData.h"
+# include "../../../../Common/FileDataPlugin.h"
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
 
@@ -38,10 +41,15 @@ class   PdfController : public Plugin, public IDocumentController
 
         QWidget* createDocumentWidget(QWidget *parent, ILessonDocument *document);
 
+     private slots:
+        void    dl();
+
       private:
         QLabel  *label;
-
+        FileData    *data;
         QString     supportedType;
+        QRectF          *rect;
+        int         page;
 };
 
 #endif /* __PDF_CONTROLLER_H__ */

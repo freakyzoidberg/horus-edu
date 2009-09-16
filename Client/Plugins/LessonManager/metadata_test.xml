@@ -15,7 +15,7 @@
 	<Section>
 	</Section>
 	<Section>
-		<Document type="Pdf" name="/tmp/42" y="50" x="50" h="50" w="150" page="10" />
+		<Document type="Pdf" name="42" y="50" x="50" h="50" w="150" page="10" />
 	</Section>
 	<Document type="text" input="text">
 		Romain tu pues.
