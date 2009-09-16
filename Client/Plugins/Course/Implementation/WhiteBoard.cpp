@@ -16,7 +16,7 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
 
     //Qt::BottomDockWidgetArea
 
-    this->dock->setGeometry(0, 0, this->geometry().width(), 50);
+    this->dock->setGeometry(0, 0, this->geometry().width(), 20);
     //this->setGeometry(
     this->posInDoc = 0;
 }

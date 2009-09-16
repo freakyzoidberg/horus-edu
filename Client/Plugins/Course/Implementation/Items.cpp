@@ -96,7 +96,7 @@ void    Items::moveToDock()
     this->board->setPosInDoc(board->getPosInDoc() + 21);
     small = new QPushButton(this->board->dock);
     small->setIcon(QIcon(":/fleche_bas_vert.png"));
-    small->setGeometry(this->board->getPosInDoc(), 25, 20, 20);
+    small->setGeometry(this->board->getPosInDoc(), 3, 20, 20);
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }
