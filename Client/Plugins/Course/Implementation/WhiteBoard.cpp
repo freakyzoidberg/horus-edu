@@ -12,7 +12,11 @@ WhiteBoard::WhiteBoard(QHash<QString, IDocumentController *> controllers) : _con
     this->dock = new QDockWidget("Magic doc", this);
     this->dock->setAllowedAreas(Qt::BottomDockWidgetArea);
     this->dock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+
+    //Qt::BottomDockWidgetArea
+
     this->dock->setGeometry(0, 0, this->geometry().width(), 50);
+    //this->setGeometry(
     this->posInDoc = 0;
 }
 
@@ -102,7 +106,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
          //newLabel->show();
 
            tmp->move(event->pos() - offset);
-           tmp->raise();
+           //tmp->raise();
            tmp->show();
  //          tmp->closeItem->raise();
    //        tmp->closeItem->show();

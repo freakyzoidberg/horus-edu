@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QPushButton>
+#include <QIcon>
 
 #include <QDebug>
 
@@ -28,14 +29,15 @@ Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
     this->move(100,100);
     this->board = papyrus;
 
-
     closeItem = new QPushButton(this);
-    closeItem->setText("C");
-    closeItem->setGeometry(0, 0, 15, 15);
+    closeItem->setIcon(QIcon(":/croix_rouge.jpg"));
+    //closeItem->setText("C");
+    closeItem->setGeometry(0, 0, 18, 18);
 
     openItem = new QPushButton(this);
-    openItem->setText("R");
-    openItem->setGeometry(16, 0, 15, 15);
+    openItem->setIcon(QIcon(":/fleche_bas_vert.png"));
+    //openItem->setText("R");
+    openItem->setGeometry(20, 0, 18, 18);
 
     this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
@@ -108,8 +110,8 @@ void    Items::moveToDock()
     this->hide();
     this->board->setPosInDoc(board->getPosInDoc() + 15);
     small = new QPushButton(this->board->dock);
-    small->setText("L");
-    small->setGeometry(this->board->getPosInDoc(), 25, 15, 15);
+    small->setIcon(QIcon(":/fleche_haut_vert.png"));
+    small->setGeometry(this->board->getPosInDoc(), 25, 18, 18);
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }

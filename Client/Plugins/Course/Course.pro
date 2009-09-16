@@ -23,3 +23,4 @@ HEADERS += Implementation/Course.h \
     ../../../Common/AbstractManager.h \
     Implementation/WhiteBoard.h \
     Implementation/Items.h
+RESOURCES += Implementation/Course.qrc
