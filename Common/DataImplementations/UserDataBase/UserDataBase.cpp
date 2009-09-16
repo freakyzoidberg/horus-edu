@@ -236,10 +236,10 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(_surname);
     query.addBindValue(_name);
     query.addBindValue(_birthDate);
-    query.addBindValue("vide");
-    query.addBindValue("vide");
-    query.addBindValue("vide");
-    query.addBindValue("vide");
+    query.addBindValue(_picture);
+    query.addBindValue(_address);
+    query.addBindValue(_phone);
+    query.addBindValue(_country);
     query.addBindValue(_language);
     if (_node)
         query.addBindValue(_node->id());
@@ -278,10 +278,10 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
     query.addBindValue(_surname);
     query.addBindValue(_name);
     query.addBindValue(_birthDate);
-    query.addBindValue("vide");
-    query.addBindValue("vide");
-    query.addBindValue("vide");
-    query.addBindValue("vide");
+    query.addBindValue(_picture);
+    query.addBindValue(_address);
+    query.addBindValue(_phone);
+    query.addBindValue(_country);
     query.addBindValue(_language);
     if (_node)
         query.addBindValue(_node->id());
