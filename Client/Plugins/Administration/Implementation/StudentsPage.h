@@ -17,6 +17,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
+#include <QtGui/QCalendarWidget>
 #include <QWidget>
 #include <QTreeView>
 

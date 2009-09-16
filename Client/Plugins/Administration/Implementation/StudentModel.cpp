@@ -5,7 +5,6 @@ StudentModel::StudentModel(const QHash<quint32, UserData*>&  _users, int _level)
 {
     level = _level;
 }
-
 int StudentModel::columnCount(const QModelIndex &parent) const
 {
     return 1;

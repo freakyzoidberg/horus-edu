@@ -68,6 +68,20 @@ public:
     inline const QString    language() const { return _language; }
     void                    setLanguage(const QString language);
 
+    inline const QDate    birthDate() const { return _birthDate; }
+    void                    setBirthDate(const QDate birthDate);
+
+    inline const QByteArray    picture() const { return _picture; }
+    void                    setPicture(const QByteArray picture);
+
+    inline const QString    address() const { return _address; }
+    void                    setAddress(const QString address);
+
+    inline const QString    phone() const { return _phone; }
+    void                    setPhone(const QString phone);
+
+    inline const QString    country() const { return _country; }
+    void                    setCountry(const QString country);
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
     QByteArray newSession(QSqlQuery&, const QDateTime& end);
@@ -88,8 +102,7 @@ private:
     QString     _surname;
     QDateTime   _lastLogin;
     QString     _language;
-
-    QDateTime   _birthDate;
+    QDate   _birthDate;
     QByteArray  _picture;
     QString     _address;
     QString     _phone;

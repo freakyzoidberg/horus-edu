@@ -20,6 +20,9 @@ void StudentsPage::userSelected(const QModelIndex &userIndex)
     nomTxt->setText(user->name());
     prenomTxt->setText(user->surname());
     languageTxt->setText(user->language());
+    addrTxt->setText(user->address());
+    phoneTxt->setText(user->phone());
+    paysTxt->setText(user->country());
 }
 
 void    StudentsPage::setupUi()
@@ -43,6 +46,7 @@ void    StudentsPage::setupUi()
     passTxt->setEchoMode(QLineEdit::Password);
     leftLayout->setWidget(2, QFormLayout::FieldRole, passTxt);
     date = new QCalendarWidget();
+    date->setHorizontalHeaderFormat(QCalendarWidget::SingleLetterDayNames);
     leftLayout->setWidget(3, QFormLayout::FieldRole, date);
     label_2 = new QLabel("Name");
     leftLayout->setWidget(4, QFormLayout::LabelRole, label_2);
@@ -149,15 +153,27 @@ void    StudentsPage::editUser()
     {
         if (user == 0)
         {
+            return;
+        }
         user->setName(nomTxt->text());
         user->setSurname(prenomTxt->text());
         user->setLanguage(languageTxt->text());
+        user->setAddress(addrTxt->text());
+        user->setPhone(phoneTxt->text());
+        user->setBirthDate(this->date->selectedDate());
+        user->setCountry(this->paysTxt->text());
+        user->setPicture("vide");
+        qDebug() << user->country() << user->address() << user->phone();
         user->setLevel(3);
         user->save();
+        loginTxt->setText("");
         nomTxt->setText("");
+        passTxt->setText("");
         prenomTxt->setText("");
         languageTxt->setText("");
-    }
+        addrTxt->setText("");
+        phoneTxt->setText("");
+        paysTxt->setText("");
     }
     return;
 }
@@ -172,10 +188,13 @@ void    StudentsPage::cancelUser()
     if (ret == QMessageBox::Yes)
     {
         loginTxt->setText("");
-        passTxt->setText("");
         nomTxt->setText("");
+        passTxt->setText("");
         prenomTxt->setText("");
         languageTxt->setText("");
+        addrTxt->setText("");
+        phoneTxt->setText("");
+        paysTxt->setText("");
     }
     return;
 }
@@ -191,6 +210,12 @@ void    StudentsPage::createUser()
     QString      Error = "";
     if(this->loginTxt->text() == "")
         Error.append("Login |");
+    if(this->addrTxt->text() == "")
+        Error.append("Address |");
+    if(this->paysTxt->text() == "")
+        Error.append("Country |");
+    if(this->phoneTxt->text() == "")
+        Error.append("Phone |");
     if(this->passTxt->text() == "")
         Error.append("Password |");
     if(this->languageTxt->text() == "")
@@ -213,15 +238,24 @@ void    StudentsPage::createUser()
     data->setName(nomTxt->text());
     data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
+    data->setAddress(addrTxt->text());
+    data->setPhone(phoneTxt->text());
+    data->setBirthDate(this->date->selectedDate());
+    data->setCountry(this->paysTxt->text());
+    data->setPicture("vide");
     data->setLevel(3);
-        data->save();
+    data->save();
     loginTxt->setText("");
     nomTxt->setText("");
     passTxt->setText("");
     prenomTxt->setText("");
     languageTxt->setText("");
-    studentTree->setModel(new StudentModel(_users->getAllUser(), 1));
-    connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
+    addrTxt->setText("");
+    phoneTxt->setText("");
+    paysTxt->setText("");
+    studentTree->reset();
+    //studentTree->setModel(new StudentModel(_users->getAllUser(), 1));
+    //connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
     msgBox.setText("The user was succefully created");
     msgBox.exec();
 
