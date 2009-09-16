@@ -12,7 +12,7 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     contentsWidget->setIconSize(QSize(20, 20));
     contentsWidget->setMovement(QListView::Static);
     contentsWidget->setMaximumWidth(82);
-    contentsWidget->setSpacing(6);
+    contentsWidget->setSpacing(2);
     contentsWidget->setUniformItemSizes(true);
 
     framesWidget = new QStackedWidget;
@@ -44,19 +44,19 @@ void AdminMainFrame::createIcons()
 {
     QListWidgetItem *configButton = new QListWidgetItem(contentsWidget);
     configButton->setIcon(QIcon(":/images/User Group.png"));
-    configButton->setText(tr("Etudiants"));
+    configButton->setText(tr("Students"));
     configButton->setTextAlignment(Qt::AlignHCenter);
     configButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QListWidgetItem *updateButton = new QListWidgetItem(contentsWidget);
     updateButton->setIcon(QIcon(":/images/Administrator.png"));
-    updateButton->setText(tr("Professeur"));
+    updateButton->setText(tr("Teachers"));
     updateButton->setTextAlignment(Qt::AlignHCenter);
     updateButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QListWidgetItem *queryButton = new QListWidgetItem(contentsWidget);
     queryButton->setIcon(QIcon(":/images/Clipboard.png"));
-    queryButton->setText(tr("Classes"));
+    queryButton->setText(tr("Classroom"));
     queryButton->setTextAlignment(Qt::AlignHCenter);
     queryButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 

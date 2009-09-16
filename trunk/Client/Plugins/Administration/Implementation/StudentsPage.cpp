@@ -9,6 +9,7 @@ StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
     setupUi();
     _users = users;
     studentTree->setModel(new StudentModel(_users->getAllUser(), 3));
+    studentTree->setColumnWidth(0, 35);
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
     connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
 }
@@ -30,6 +31,7 @@ void    StudentsPage::setupUi()
     this->setMinimumWidth(700);
     stuLayout = new QHBoxLayout(this);
     studentTree = new QTreeView();
+    studentTree->setAnimated(true);
     menuLayout = new QVBoxLayout();
     //menuLayout->setAlignment(Qt::AlignHCenter);
     formLayout = new QHBoxLayout();
@@ -163,7 +165,7 @@ void    StudentsPage::editUser()
         user->setBirthDate(this->date->selectedDate());
         user->setCountry(this->paysTxt->text());
         user->setPicture("vide");
-        qDebug() << user->country() << user->address() << user->phone();
+
         user->setLevel(3);
         user->save();
         loginTxt->setText("");
