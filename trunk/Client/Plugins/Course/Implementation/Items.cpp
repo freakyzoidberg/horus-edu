@@ -24,9 +24,11 @@ Items::Items(WhiteBoard *papyrus) : QSizeGrip(papyrus)
     //openItem->setText("R");
     openItem->setGeometry(21, 0, 20, 20);
 
-	this->setStyleSheet("Items{border: 10px solid red; background-color: blue;}");
+	this->setStyleSheet("Items{border: 1px dotted #888888;}");
 	this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
+	this->setMinimumHeight(25);
+	this->setMinimumWidth(45);
 }
 
 void Items::leaveEvent(QEvent *event)

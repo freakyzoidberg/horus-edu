@@ -22,8 +22,6 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
 	QPalette p(this->palette());
 	p.setColor(QPalette::Background, Qt::white);
 	this->setPalette(p);
-	Items *toto = new Items(this);
-	toto->setGeometry(100, 100, 100, 100);
 }
 
 void   WhiteBoard::setTmp(Items *item)
