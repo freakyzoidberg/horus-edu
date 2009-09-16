@@ -20,7 +20,7 @@ class UserDataBasePlugin : public UserDataPlugin
 public:
     inline const QString pluginVersion() const { return "0.1"; }
     UserData*            getUser(quint32 userId);
-    QList<UserData*>     getAllUser();
+    const QHash<quint32, UserData*>&    getAllUser();
     const QList<Data*>   getAllDatas() const;
     Data*                getNewData();
 #ifdef HORUS_CLIENT

@@ -6,7 +6,7 @@
 TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
 
-    teacherTree->setModel(new TeacherModel(_users->getAllUser()));
+    teacherTree->setModel(new StudentModel(_users->getAllUser()));
     connect(this->buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(bClicked(QAbstractButton *)));
     connect(this->teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(profSelected(QModelIndex)));
 
@@ -15,10 +15,10 @@ TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
 void TeacherPage::profSelected(const QModelIndex &userIndex)
 {
     user = static_cast<UserData*>(userIndex.internalPointer());
-    loginTxt->setText(_users->getUser(idUser)->login());
-    nomTxt->setText(_users->getUser(idUser)->name());
-    prenomTxt->setText(_users->getUser(idUser)->surname());
-    languageTxt->setText(_users->getUser(idUser)->language());
+    loginTxt->setText(user->login());
+    nomTxt->setText(user->name());
+    prenomTxt->setText(user->surname());
+    languageTxt->setText(user->language());
 }
 void    TeacherPage::setupUi()
 {
