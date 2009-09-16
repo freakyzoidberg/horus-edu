@@ -1,6 +1,6 @@
 #include "TextController.h"
 
-#include <QTextBrowser>
+#include <QLabel>
 
 const QString    TextController::pluginName() const
 {
@@ -19,13 +19,12 @@ const QString      TextController::getSupportedType() const
 
 QWidget*			TextController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
 {
-    QTextBrowser *browser = 0;
+    QLabel *label = 0;
 
 	if (document->getParameters()["input"] == "content")
     {
-        browser = new QTextBrowser(parent);
-        browser->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-        browser->insertPlainText(document->getContent());
+        label = new QLabel(parent);
+        label->setText(document->getContent());
     }
-    return (browser);
+	return (label);
 }
