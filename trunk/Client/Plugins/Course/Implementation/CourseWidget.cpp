@@ -21,11 +21,6 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
     leftPane->setLayout(layout);
     this->pageWidget = new WhiteBoard(controllers);
     this->addWidget(this->pageWidget);
-
-    Items *test = new Items(this->pageWidget);
-    Items *test2 = new Items(this->pageWidget);
-
-    test2->move(0,0);
 }
 
 
