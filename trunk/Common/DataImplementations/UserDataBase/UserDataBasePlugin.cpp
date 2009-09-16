@@ -25,7 +25,7 @@ Data* UserDataBasePlugin::getDataWithKey(QDataStream& s)
     return getUser(tmpId);
 }
 
-Data* UserDataBasePlugin::createUser()
+Data* UserDataBasePlugin::createUser(const QString &login)
 {
     quint32 maxId = 0;
     foreach (UserData* u, users)

@@ -5,9 +5,9 @@
 
 StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
-
+    user = 0;
     setupUi();
-
+    _users = users;
     studentTree->setModel(new StudentModel(users->getAllUser(), 1));
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
     connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
@@ -146,6 +146,8 @@ void    StudentsPage::editUser()
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
     {
+        if (user == 0)
+        {
         user->setName(nomTxt->text());
         user->setSurname(prenomTxt->text());
         user->setLanguage(languageTxt->text());
@@ -154,6 +156,7 @@ void    StudentsPage::editUser()
         nomTxt->setText("");
         prenomTxt->setText("");
         languageTxt->setText("");
+    }
     }
     return;
 }
@@ -167,6 +170,9 @@ void    StudentsPage::cancelUser()
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
     {
+        nomTxt->setText("");
+        prenomTxt->setText("");
+        languageTxt->setText("");
     }
     return;
 }
@@ -205,6 +211,9 @@ void    StudentsPage::createUser()
         msgBox.exec();
         return;
     }
-
-
+    UserData *data = _users->createUser(loginTxt->text());
+    data->setName(nomTxt->text());
+    data->surname(prenomTxt->text());
+    data->setLanguage(languageTxt->text());
+    data->setLevel(3);
 }
