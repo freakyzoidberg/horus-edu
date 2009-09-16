@@ -13,7 +13,6 @@ Debugger::Debugger()
     setWindowFlags(Qt::Dialog);
     setLayout(&layout);
     setWindowTitle(tr("Horus debugger"));
-    setGeometry(0,0,640,480);
 
     layout.addWidget(&text);
     layout.addWidget(&resetButton);
