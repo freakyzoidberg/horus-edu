@@ -13,9 +13,9 @@ UserData* UserDataBasePlugin::getUser(quint32 userId)
     return users[userId];
 }
 
-QList<UserData*>     UserDataBasePlugin::getAllUser()
+const QHash<quint32, UserData*>&     UserDataBasePlugin::getAllUser()
 {
-    return users.values();
+    return users;
 }
 
 Data* UserDataBasePlugin::getDataWithKey(QDataStream& s)

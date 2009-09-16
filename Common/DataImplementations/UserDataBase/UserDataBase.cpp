@@ -3,6 +3,7 @@
 #include "../../PluginManager.h"
 #include "../../TreeData.h"
 #include "../../TreeDataPlugin.h"
+#include <QIcon>
 
 void UserDataBase::keyToStream(QDataStream& s)
 {
@@ -143,6 +144,10 @@ QVariant UserDataBase::data(int column, int role) const
             return _surname;
         if (column == 4)
             return _lastLogin;
+    }
+    else if (role == Qt::DecorationRole && column == 0)
+    {
+        return QIcon(":/user.ico");
     }
     return QVariant();
 }
