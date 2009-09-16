@@ -4,10 +4,10 @@
 #include "../../UserData.h"
 #include "../../TreeData.h"
 #include "../../PluginManager.h"
+#include <QSettings>
 
 #ifdef HORUS_CLIENT
 #include <QDir>
-#include <QSettings>
 #include <QSslSocket>
 #include "../../../Client/Plugins/FileBaseClient/FileNetworkPlugin.h"
 #endif
@@ -139,7 +139,7 @@ void FileDataBase::deleteFromDatabase(QSqlQuery& query)
 QFile* FileDataBase::file() const
 {
 #ifdef HORUS_SERVER
-    return new QFile("./Files/"+QVariant(_id).toString());
+    return new QFile(QSettings().value("SETTINGS/FilesDirectory").toString()+'/'+QVariant(_id).toString());
 #endif
 #ifdef HORUS_CLIENT
     QFile* f = new QFile(_file.fileName());

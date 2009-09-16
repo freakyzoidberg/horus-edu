@@ -212,7 +212,7 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
     _lastLogin  = query.value(2).toDateTime();
     _surname    = query.value(3).toString();
     _name       = query.value(4).toString();
-    _birthDate  = query.value(5).toDateTime();
+    _birthDate  = query.value(5).toDate();
     _picture    = query.value(6).toByteArray();
     _address    = query.value(7).toString();
     _phone      = query.value(8).toString();

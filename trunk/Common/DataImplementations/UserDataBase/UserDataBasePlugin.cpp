@@ -58,7 +58,7 @@ void UserDataBasePlugin::loadDataBase(QSqlQuery& query)
         user->_lastLogin   = query.value(3).toDateTime();
         user->_surname     = query.value(4).toString();
         user->_name        = query.value(5).toString();
-        user->_birthDate   = query.value(6).toDateTime();
+        user->_birthDate   = query.value(6).toDate();
         user->_picture     = query.value(7).toByteArray();
         user->_address     = query.value(8).toString();
         user->_phone       = query.value(9).toString();
