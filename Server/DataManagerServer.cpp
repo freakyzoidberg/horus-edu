@@ -40,21 +40,24 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
     if (table[newStatus][oldStatus])
     {
         // if a client want to create a new data
-        if (newStatus == Data::CREATING)
-        {
-            QByteArray oldKey;
-            QDataStream stream(&oldKey, QIODevice::ReadWrite);
-            data->keyToStream(stream);
-            data->createIntoDatabase(query);
-            data->setStatus(Data::CREATED);
-            sendCreatedData(PluginManagerServer::instance()->currentUser(), data, stream);
-            return ;
-        }
+//        if (newStatus == Data::CREATING)
+//        {
+//            QByteArray oldKey;
+//            QDataStream stream(&oldKey, QIODevice::ReadWrite);
+//            data->keyToStream(stream);
+//            data->createIntoDatabase(query);
+//            data->setStatus(Data::CREATED);
+//            sendCreatedData(PluginManagerServer::instance()->currentUser(), data, stream);
+//            return ;
+//        }
         // if a client save a new value of the data
-        if (newStatus == Data::SAVING)
+        if (newStatus == Data::SAVING || newStatus == Data::CREATING)
         {
             qDebug() << "DataManagerServer::saving data";
-            data->saveIntoDatabase(query);
+            if (oldStatus == Data::EMPTY)
+                data->createIntoDatabase(query);
+            else
+                data->saveIntoDatabase(query);
 
             //send the the user who save the data SAVED
             data->_status = Data::SAVED;

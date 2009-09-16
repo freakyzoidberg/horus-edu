@@ -213,7 +213,7 @@ void    StudentsPage::createUser()
     }
     UserData *data = _users->createUser(loginTxt->text());
     data->setName(nomTxt->text());
-    data->surname(prenomTxt->text());
+    data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
     data->setLevel(3);
 }

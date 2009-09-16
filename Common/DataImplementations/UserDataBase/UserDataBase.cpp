@@ -185,7 +185,7 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
 
 void UserDataBase::createIntoDatabase(QSqlQuery& query)
 {
-    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime,id,password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
     query.addBindValue(_login);
     query.addBindValue(_level);
     query.addBindValue(_lastLogin);
@@ -197,6 +197,8 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(_phone);
     query.addBindValue(_country);
     query.addBindValue(_language);
+    query.addBindValue(_id);
+    query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b");
     if (_node)
         query.addBindValue(_node->id());
     else

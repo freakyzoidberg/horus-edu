@@ -25,14 +25,16 @@ Data* UserDataBasePlugin::getDataWithKey(QDataStream& s)
     return getUser(tmpId);
 }
 
-Data* UserDataBasePlugin::createUser(const QString &login)
+UserData* UserDataBasePlugin::createUser(const QString &login)
 {
     quint32 maxId = 0;
     foreach (UserData* u, users)
         if (u->id() > maxId)
             maxId = u->id();
 
-    return getUser(++maxId);
+    UserDataBase* u = ((UserDataBase*)(getUser(++maxId)));
+    u->_login = login;
+    return u;
 }
 
 #ifdef HORUS_CLIENT
