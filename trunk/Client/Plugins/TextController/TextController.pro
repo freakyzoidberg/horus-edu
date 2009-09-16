@@ -13,5 +13,10 @@ SOURCES += Implementation/TextController.cpp
 
 HEADERS += Implementation/TextController.h \
            Implementation/TextControllerMetaPlugin.h \
+           ../LessonManager/IDocumentControler.h \
+           ../LessonManager/ILessonDocument.h \
+           ../LessonManager/ILessonData.h \
+           ../LessonManager/ILesson.h \
+           ../LessonManager/ILessonSection.h \
            ../../../Common/MetaPlugin.h \
            ../../../Common/Plugin.h

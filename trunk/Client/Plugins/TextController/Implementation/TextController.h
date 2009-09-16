@@ -4,7 +4,7 @@
 # include <QtPlugin>
 
 # include "../../../../Common/Plugin.h"
-# include "../../../LessonManager/IDocumentController.h"
+# include "../../LessonManager/IDocumentController.h"
 
 class TextController : public Plugin, public IDocumentController
 {
@@ -15,11 +15,8 @@ class TextController : public Plugin, public IDocumentController
 public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
-    const               QString  getSupportedType() const;
-    void                activateObject(LObject *object);
-    void                showObject(LObject *object);
-    void                hideObject(LObject *object);
-    void                configureObject(LObject *object);
+    const QString		getSupportedType() const;
+	QWidget*			createDocumentWidget(QWidget *parent, ILessonDocument *document);
 };
 
 #endif // __TEXTCONTROLLER_H__

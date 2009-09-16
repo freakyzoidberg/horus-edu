@@ -8,7 +8,10 @@
 	</Section>
 		<Section>
 			<Section>
-				<Document />
+				<Document type="text" input="content">
+					Plop plop
+	fgfdgjghb dfkgbshbsbsb
+				</Document>
 			</Section>
 		</Section>
 	<Section>
@@ -16,5 +19,7 @@
 	<Section>
 		<Document type="Pdf" />
 	</Section>
-	<Document />
+	<Document type="text" input="text">
+		Romain tu pues.
+	</Document>
 </Lesson>

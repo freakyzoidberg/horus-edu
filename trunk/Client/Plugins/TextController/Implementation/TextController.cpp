@@ -17,31 +17,15 @@ const QString      TextController::getSupportedType() const
     return ("text");
 }
 
-void                TextController::showObject(LObject *object)
+QWidget*			TextController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
 {
-    QTextBrowser *browser;
+    QTextBrowser *browser = 0;
 
-//    if (object->getParameters() == "text")
-//    {
-//        browser = new QTextBrowser(object->getWidget());
-//        browser->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-//        browser->insertPlainText(object->getContent());
-//    }
-    //else if (object->getParameters() == "file")
-	// DO SOMETHING !!
-}
-
-void                TextController::activateObject(LObject *object)
-{
-	// DO SOMETHING !!
-}
-
-void                TextController::hideObject(LObject *object)
-{
-	// DO SOMETHING !!
-}
-
-void                TextController::configureObject(LObject *object)
-{
-	// DO SOMETHING !!
+	if (document->getParameters()["input"] == "content")
+    {
+        browser = new QTextBrowser(parent);
+        browser->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        browser->insertPlainText(document->getContent());
+    }
+	return (browser);
 }
