@@ -41,6 +41,18 @@ Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
 }
 
+void Items::leaveEvent(QEvent *event)
+{
+	this->closeItem->hide();
+	this->openItem->hide();
+}
+
+void Items::enterEvent(QEvent *event)
+{
+	this->closeItem->show();
+	this->openItem->show();
+}
+
 void Items::mousePressEvent(QMouseEvent *event)
  {
     QByteArray itemData;
@@ -96,7 +108,7 @@ void    Items::moveToDock()
     this->hide();
     this->board->setPosInDoc(board->getPosInDoc() + 15);
     small = new QPushButton(this->board->dock);
-    small->setText("Re");
+    small->setText("L");
     small->setGeometry(this->board->getPosInDoc(), 25, 15, 15);
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
