@@ -9,9 +9,9 @@ WhiteBoard::WhiteBoard(QHash<QString, IDocumentController *> controllers) : _con
 {
     setAcceptDrops(true);
     setAutoFillBackground(false);
-    this->dock = new QDockWidget("Magic doc", this);
+    this->dock = new QDockWidget(this);
     this->dock->setAllowedAreas(Qt::BottomDockWidgetArea);
-    this->dock->setFeatures(QDockWidget::DockWidgetMovable | QDockWidget::DockWidgetFloatable);
+    this->dock->setFeatures(QDockWidget::DockWidgetMovable);
 
     //Qt::BottomDockWidgetArea
 
