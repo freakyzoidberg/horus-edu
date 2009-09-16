@@ -5,7 +5,7 @@
 #include "LessonDocument.h"
 #include "Items.h"
 
-WhiteBoard::WhiteBoard()
+WhiteBoard::WhiteBoard(QHash<QString, IDocumentController *> controllers) : _controllers(controllers)
 {
     setAcceptDrops(true);
     setAutoFillBackground(false);
@@ -55,7 +55,6 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		QByteArray encodedData = mime->data("application/vnd.horus.lessondocument.list");
 		QDataStream stream(&encodedData, QIODevice::ReadOnly);
 		QStringList newItems;
-		int rows = 0;
 		while (!stream.atEnd())
 		{
 			QString title;
@@ -72,10 +71,15 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				parameters[key] = value;
 			}
 			ILessonDocument *doc = new LessonDocument(this, title, type, content, parameters);
-			Items *fake = new Items(this);
-			fake->move(event->pos());
-			fake->show();
-			++rows;
+			if (this->_controllers.contains(type))
+			{
+				Items *inserted = new Items(this);
+				this->_controllers[type]->createDocumentWidget(inserted, doc);
+				inserted->move(event->pos());
+				inserted->show();
+			}
+			else
+				qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << type << "type.";
 		}
 	}
 	else

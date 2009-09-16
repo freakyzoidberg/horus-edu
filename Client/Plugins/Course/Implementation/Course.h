@@ -3,12 +3,15 @@
 
 # include <QtPlugin>
 # include <QWidget>
+# include <QHash>
+# include <QString>
 
 # include "../../../DisplayablePlugin.h"
 # include "../../../../Common/PluginManager.h"
 # include "../../../../Common/TreeDataPlugin.h"
 # include "../../../../Common/FileDataPlugin.h"
 # include "../../LessonManager/ILessonManager.h"
+# include "../../LessonManager/IDocumentController.h"
 
 class Course : public DisplayablePlugin
 {
@@ -28,6 +31,7 @@ private:
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
     FileDataPlugin	*filePlugin;
+	QHash<QString, IDocumentController *> _controllers;
 };
 
 #endif // Course_H

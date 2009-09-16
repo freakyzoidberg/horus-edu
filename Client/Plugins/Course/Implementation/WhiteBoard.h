@@ -4,13 +4,16 @@
 #include <QWidget>
 #include <QDragEnterEvent>
 #include <QDockWidget>
+#include <QHash>
+
+#include "../../LessonManager/IDocumentController.h"
 
 class Items;
 
 class WhiteBoard : public QWidget
 {
 public:
-     WhiteBoard();
+     WhiteBoard(QHash<QString, IDocumentController *> controllers);
      void   setTmp(Items *);
      Items  *getTmp();
      void   setPosInDoc(int posInDoc);
@@ -22,6 +25,7 @@ protected:
      void dragEnterEvent(QDragEnterEvent *event);
      void dragMoveEvent(QDragMoveEvent *event);
      void dropEvent(QDropEvent *event);
+	QHash<QString, IDocumentController *> _controllers;
 
  private:
      Items   *tmp;
