@@ -147,7 +147,10 @@ QVariant UserDataBase::data(int column, int role) const
     }
     else if (role == Qt::DecorationRole && column == 0)
     {
-        return QIcon(":/user.ico");
+       if (level() == 2)
+            return QIcon(":/boss.ico");
+        else
+            return QIcon(":/user.ico");
     }
     return QVariant();
 }
