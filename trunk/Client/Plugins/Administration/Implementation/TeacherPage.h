@@ -20,8 +20,9 @@
 #include <QWidget>
 #include <QTreeView>
 
-#include "../../../../Common/TreeDataPlugin.h"
-#include "../../../../Common/UserDataPlugin.h"
+#include "../../../../Common/TreeData.h"
+#include "TeacherModel.h"
+
 class TeacherPage : public QWidget
 {
     public:
@@ -62,9 +63,17 @@ class TeacherPage : public QWidget
         QLineEdit *classTxt;
         QLabel *label_5;
         QLineEdit *lineEdit_7;
-
         QDialogButtonBox *buttonBox;
         QVBoxLayout *menuLayout;
+        void    editUser();
+        void    cancelUser();
+        void    deleteUser();
+        void    createUser();
+        UserDataPlugin *_users;
+        int     idUser;
+   private slots:
+        void bClicked(QAbstractButton * button);
+        void profSelected(const QModelIndex &userIndex);
 };
 
 #endif // TEACHERPAGE_H

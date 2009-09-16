@@ -1,10 +1,27 @@
 #include "TeacherPage.h"
 
+#include <QDebug>
+#include <QMessageBox>
+
 TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
+    idUser = 0;
+    _users = users;
     setupUi();
+    teacherTree->setModel(new TeacherModel(_users->getAllUser()));
+    //connect(this->buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(bClicked(QAbstractButton *)));
+    //connect(this->teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(profSelected(QModelIndex)));
+
 }
 
+void TeacherPage::profSelected(const QModelIndex &userIndex)
+{
+    idUser = userIndex.data().toInt();
+    loginTxt->setText(_users->getUser(idUser)->login());
+    nomTxt->setText(_users->getUser(idUser)->name());
+    prenomTxt->setText(_users->getUser(idUser)->surname());
+    languageTxt->setText(_users->getUser(idUser)->language());
+}
 void    TeacherPage::setupUi()
 {
     teaLayout = new QHBoxLayout(this);
@@ -94,4 +111,93 @@ void    TeacherPage::setupUi()
     teaLayout->addLayout(menuLayout);
     this->teaLayout->setStretch(0, 1);
     this->teaLayout->setStretch(1, 4);
+}
+
+void TeacherPage::bClicked(QAbstractButton * button)
+{
+   if (button->text() == "Add")
+   {
+        createUser();
+   }
+   else if (button->text() == "Save")
+   {
+        editUser();
+   }
+   else if (button->text() == "Cancel")
+   {
+        cancelUser();
+   }
+   else if (button->text() == "Delete")
+   {
+        deleteUser();
+   }
+}
+
+void    TeacherPage::editUser()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Confirmation de la modification");
+    msgBox.setInformativeText("Confirmez vous la modification?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int ret = msgBox.exec();
+    if (ret == QMessageBox::Yes)
+    {
+        _users->getUser(idUser)->setName(nomTxt->text());
+        _users->getUser(idUser)->setSurname(prenomTxt->text());
+        _users->getUser(idUser)->setLanguage(languageTxt->text());
+        _users->getUser(idUser)->setLevel(3);
+    }
+    return;
+}
+void    TeacherPage::cancelUser()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Confirmation de l'annulation");
+    msgBox.setInformativeText("Etes-vous sur de vouloir annulé?");
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setDefaultButton(QMessageBox::Yes);
+    int ret = msgBox.exec();
+    if (ret == QMessageBox::Yes)
+    {
+    }
+    return;
+}
+
+void    TeacherPage::deleteUser()
+{
+
+}
+
+void    TeacherPage::createUser()
+{
+    QString      Error = "";
+    if(this->loginTxt->text() == "")
+        Error.append("Login |");
+    if(this->passTxt->text() == "")
+        Error.append("Password |");
+    if(this->addrTxt->text() == "")
+        Error.append("Adresse |");
+    if(this->phoneTxt->text() == "")
+        Error.append("Telephone |");
+    if(this->paysTxt->text() == "")
+        Error.append("Pays |");
+    if(this->languageTxt->text() == "")
+        Error.append("Language |");
+    if(this->prenomTxt->text() == "")
+        Error.append("Prenom |");
+    if(this->nomTxt->text() == "")
+        Error.append("Nom |");
+    if (Error != "")
+    {
+        QString msg;
+        msg.append("les champs suivant doivent etre remplis: \n");
+        msg.append(Error);
+        QMessageBox msgBox;
+        msgBox.setText(msg);
+        msgBox.exec();
+        return;
+    }
+
+
 }
