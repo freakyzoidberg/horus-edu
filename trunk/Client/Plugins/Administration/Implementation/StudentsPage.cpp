@@ -40,6 +40,7 @@ void    StudentsPage::setupUi()
     label_12 = new QLabel("Password");
     leftLayout->setWidget(2, QFormLayout::LabelRole, label_12);
     passTxt = new QLineEdit(this);
+    passTxt->setEchoMode(QLineEdit::Password);
     leftLayout->setWidget(2, QFormLayout::FieldRole, passTxt);
     date = new QCalendarWidget();
     leftLayout->setWidget(3, QFormLayout::FieldRole, date);
@@ -184,17 +185,12 @@ void    StudentsPage::deleteUser()
 
 void    StudentsPage::createUser()
 {
+    QMessageBox msgBox;
     QString      Error = "";
     if(this->loginTxt->text() == "")
         Error.append("Login |");
     if(this->passTxt->text() == "")
         Error.append("Password |");
-    if(this->addrTxt->text() == "")
-        Error.append("Adresse |");
-    if(this->phoneTxt->text() == "")
-        Error.append("Telephone |");
-    if(this->paysTxt->text() == "")
-        Error.append("Pays |");
     if(this->languageTxt->text() == "")
         Error.append("Language |");
     if(this->prenomTxt->text() == "")
@@ -206,7 +202,7 @@ void    StudentsPage::createUser()
         QString msg;
         msg.append("les champs suivant doivent etre remplis: \n");
         msg.append(Error);
-        QMessageBox msgBox;
+
         msgBox.setText(msg);
         msgBox.exec();
         return;
@@ -216,4 +212,13 @@ void    StudentsPage::createUser()
     data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
     data->setLevel(3);
+        data->save();
+    loginTxt->setText("");
+    nomTxt->setText("");
+    passTxt->setText("");
+    prenomTxt->setText("");
+    languageTxt->setText("");
+    studentTree->setModel(new StudentModel(_users->getAllUser(), 1));
+    msgBox.setText("The user was succefully created");
+    msgBox.exec();
 }
