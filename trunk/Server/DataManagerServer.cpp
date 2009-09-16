@@ -54,10 +54,8 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
         if (newStatus == Data::SAVING)
         {
             qDebug() << "DataManagerServer::saving data";
-//            if (oldStatus == Data::EMPTY)
-//                data->createIntoDatabase(query);
-//            else
-                data->saveIntoDatabase(query);
+
+            data->saveIntoDatabase(query);
 
             //send the the user who save the data SAVED
             data->_status = Data::SAVED;
