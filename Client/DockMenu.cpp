@@ -33,6 +33,7 @@ DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
 			if (title == "Test a GiT")
 				icon = QIcon(":/Pictures/synctoc.png");
             DockMenuItem* item = new DockMenuItem(plugin, title, icon);
+			item->setStyleSheet("QPushButton{text-align: left;}");
             layout->addWidget(item);
             connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
         }
