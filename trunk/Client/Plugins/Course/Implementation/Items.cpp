@@ -20,14 +20,14 @@ Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
     this->board = papyrus;
 
     closeItem = new QPushButton(this);
-    closeItem->setIcon(QIcon(":/croix_rouge.jpg"));
+    closeItem->setIcon(QIcon(":/close.png"));
     //closeItem->setText("C");
-    closeItem->setGeometry(0, 0, 18, 18);
+    closeItem->setGeometry(0, 0, 20, 20);
 
     openItem = new QPushButton(this);
-    openItem->setIcon(QIcon(":/fleche_bas_vert.png"));
+    openItem->setIcon(QIcon(":/fleche_haut_vert.png"));
     //openItem->setText("R");
-    openItem->setGeometry(20, 0, 18, 18);
+    openItem->setGeometry(21, 0, 20, 20);
 
     this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
@@ -92,16 +92,16 @@ void    Items::restore()
 {
     show();
     delete small;
-    this->board->setPosInDoc(board->getPosInDoc() - 15);
+    this->board->setPosInDoc(board->getPosInDoc() - 21);
 }
 
 void    Items::moveToDock()
 {
     this->hide();
-    this->board->setPosInDoc(board->getPosInDoc() + 15);
+    this->board->setPosInDoc(board->getPosInDoc() + 21);
     small = new QPushButton(this->board->dock);
-    small->setIcon(QIcon(":/fleche_haut_vert.png"));
-    small->setGeometry(this->board->getPosInDoc(), 25, 18, 18);
+    small->setIcon(QIcon(":/fleche_bas_vert.png"));
+    small->setGeometry(this->board->getPosInDoc(), 25, 20, 20);
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }

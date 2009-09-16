@@ -64,8 +64,6 @@ const QString  PdfController::getSupportedType() const
 QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
 {
     IPdfRendering   *pdf;
-    int             index = 0;
-    bool            ok;
     int             x, y, w, h;
     int             page;
     QString         fileName;
@@ -103,74 +101,12 @@ QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *d
        return NULL;
     }
 
-   // QImage disp = image->scaled(object->getSize().width(),
-     //                           object->getSize().height());
-        QPixmap pix = QPixmap::fromImage(*image);
+    QImage disp = image->scaled(w, h);
+    QPixmap pix = QPixmap::fromImage(*image);
 
-        if (label)
-            delete label;
-
-        label = new QLabel(parent);
-        label->setPixmap(pix);
-        //object->getWidget()->show();
-//label->show();
-
-        delete rect;
-        delete image;
-
-    /*
-  for (index = 0; index < requieredFiles.count(); ++index)
-    {
-        qDebug() << "I dont have time to *BLEEP* around";
-        QVariant        var(requieredFiles.at(index));
-        QString         fileName = conf.toString() + "/" + var.toString();
-        QStringList     splitParams = parameters.at(index).split(";");
-        int             page;
-        float           topX, topY, height, width;
-        QRectF  *rect;
-        QImage  *image;
-
-        page = splitParams.at(0).toInt(&ok);
-        if (!ok)
-        {
-            qDebug() << "Invalid conversion";
-            delete rect;
-            return ;
-        }
-        topX = splitParams.at(1).toFloat(&ok);
-        if (!ok)
-        {
-            qDebug() << "Invalid conversion";
-            delete rect;
-            return ;
-        }
-        topY = splitParams.at(2).toFloat(&ok);
-        if (!ok)
-        {
-            qDebug() << "Invalid conversion";
-            delete rect;
-            return ;
-        }
-        height = splitParams.at(3).toFloat(&ok);
-        if (!ok)
-        {
-            qDebug() << "Invalid conversion";
-            delete rect;
-            return ;
-        }
-        width = splitParams.at(4).toFloat(&ok);
-        if (!ok)
-        {
-            qDebug() << "Invalid conversion";
-            delete rect;
-            return ;
-        }
-        qDebug() << "true file name:" << fileName;
-        rect = new QRectF(topX, topY, height, width);
-
-
-
-    } */
-
+    label = new QLabel(parent);
+    label->setPixmap(pix);
+    delete rect;
+    delete image;
     return label;
 }

@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/" >
-        <file>./croix_rouge.jpg</file>
+        <file>./close.png</file>
         <file>./fleche_bas_vert.png</file>
         <file>./fleche_haut_vert.png</file>
     </qresource>
