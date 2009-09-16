@@ -3,9 +3,10 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QDockWidget>
+#include <QSizeGrip>
 
 #include "WhiteBoard.h"
-class Items : public QWidget
+class Items : public QSizeGrip
 {
     Q_OBJECT
 public:

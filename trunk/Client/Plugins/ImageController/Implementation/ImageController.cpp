@@ -55,3 +55,20 @@ void        ImageController::dl()
     label->setPixmap(pix);
     delete image;
 }
+
+void    ImageController::reload()
+{
+    QString fileName;
+    fileName = data->file()->fileName();
+
+    qDebug() << "Image name: " << fileName;
+    QImage  *image = new QImage(fileName);
+    if (image->isNull())
+    {
+        qDebug() << "An error occured during image generation";
+        return ;
+    }
+    QPixmap pix = QPixmap::fromImage(*image);
+    label->setPixmap(pix);
+    delete image;
+}
