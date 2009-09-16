@@ -32,31 +32,31 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 
     oldStatus = data->status();
     // if the data is not in memory on the server, loading from database
-    if (data->status() == Data::EMPTY && newStatus != Data::CREATING)
-    {
-        data->fillFromDatabase(query);
-        data->_status = Data::UPTODATE;
-    }
+//    if (data->status() == Data::EMPTY && newStatus != Data::CREATING)
+//    {
+//        data->fillFromDatabase(query);
+//        data->_status = Data::UPTODATE;
+//    }
     if (table[newStatus][oldStatus])
     {
         // if a client want to create a new data
-//        if (newStatus == Data::CREATING)
-//        {
-//            QByteArray oldKey;
-//            QDataStream stream(&oldKey, QIODevice::ReadWrite);
-//            data->keyToStream(stream);
-//            data->createIntoDatabase(query);
-//            data->setStatus(Data::CREATED);
-//            sendCreatedData(PluginManagerServer::instance()->currentUser(), data, stream);
-//            return ;
-//        }
+        if (newStatus == Data::CREATING)
+        {
+            QByteArray oldKey;
+            QDataStream stream(&oldKey, QIODevice::ReadWrite);
+            data->keyToStream(stream);
+            data->createIntoDatabase(query);
+            data->setStatus(Data::CREATED);
+            sendCreatedData(PluginManagerServer::instance()->currentUser(), data, stream);
+            return ;
+        }
         // if a client save a new value of the data
-        if (newStatus == Data::SAVING || newStatus == Data::CREATING)
+        if (newStatus == Data::SAVING)
         {
             qDebug() << "DataManagerServer::saving data";
-            if (oldStatus == Data::EMPTY)
-                data->createIntoDatabase(query);
-            else
+//            if (oldStatus == Data::EMPTY)
+//                data->createIntoDatabase(query);
+//            else
                 data->saveIntoDatabase(query);
 
             //send the the user who save the data SAVED
@@ -141,6 +141,8 @@ void DataManagerServer::sendData(UserData* user, Data* data) const
        QMetaObject::invokeMethod(socket, "sendPacket", Qt::QueuedConnection, Q_ARG(QByteArray, packet.getPacket()));
     else
         qWarning() << "DataManagerServer::sendData: user not connected";
+    qDebug() << data;
+
 }
 
 void DataManagerServer::sendCreatedData(UserData *user, Data *data, QDataStream& oldKey) const

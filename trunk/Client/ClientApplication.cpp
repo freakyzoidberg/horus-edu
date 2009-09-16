@@ -25,7 +25,7 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
     this->setOrganizationDomain(ORGANIZATION_DOMAIN);
     this->setApplicationName(CLIENT_NAME);
     this->setApplicationVersion(CLIENT_VERSION);
-        this->setApplicationVersion(CLIENT_VERSION);
+        //this->setApplicationVersion(CLIENT_VERSION);
         LocalSettings::createConfig();
 	mManager = MetaManager::getInstance();
 	mManager->addManager("NetworkManager", true);

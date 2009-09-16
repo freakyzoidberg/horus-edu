@@ -14,11 +14,9 @@ class StudentModel: public QAbstractItemModel
     Q_OBJECT
 
     public:
-     StudentModel(const QHash<quint32, UserData*>& users, int role);
-     ~StudentModel();
+     StudentModel(const QHash<quint32, UserData*>& users, int level);
 
      QVariant data(const QModelIndex &index, int role) const;
-//     Qt::ItemFlags flags(const QModelIndex &index) const;
      QVariant headerData(int section, Qt::Orientation orientation,
                          int role = Qt::DisplayRole) const;
      QModelIndex index(int row, int column,
@@ -28,10 +26,8 @@ class StudentModel: public QAbstractItemModel
      int columnCount(const QModelIndex &parent = QModelIndex()) const;
 
 private:
-     QList<UserData*> users;
-
-//     void setupModelData(const QList<UserData*> users, UserItem *parent);
-//    UserItem *rootItem;
+     const QHash<quint32,UserData*>& users;
+     quint32                         level;
 };
 
 #endif // STUDENTMODEL_H

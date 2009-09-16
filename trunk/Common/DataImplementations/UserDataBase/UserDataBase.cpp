@@ -63,6 +63,7 @@ QDebug UserDataBase::operator<<(QDebug debug) const
 {
     return debug << getDataType()
                  << error()
+                 << status()
                  << _id
                  << _level
                  //<< _enabled
@@ -163,7 +164,7 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
     query.addBindValue(_id);
     if ( ! query.exec() || ! query.next())
     {
-        _error = NOT_FOUND;
+//        _error = NOT_FOUND;
         return;
     }
     _login      = query.value(0).toString();
@@ -188,20 +189,18 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
 
 void UserDataBase::createIntoDatabase(QSqlQuery& query)
 {
-    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime,id,password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime,password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
     query.addBindValue(_login);
     query.addBindValue(_level);
     query.addBindValue(_lastLogin);
     query.addBindValue(_surname);
     query.addBindValue(_name);
     query.addBindValue(_birthDate);
-    query.addBindValue(_picture);
-    query.addBindValue(_address);
-    query.addBindValue(_phone);
-    query.addBindValue(_country);
+    query.addBindValue("vide");
+    query.addBindValue("vide");
+    query.addBindValue("vide");
+    query.addBindValue("vide");
     query.addBindValue(_language);
-    query.addBindValue(_id);
-    query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b");
     if (_node)
         query.addBindValue(_node->id());
     else
@@ -209,12 +208,25 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(_enabled);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
-    if ( ! query.exec() || ! query.next())
-    {
-        _error = DATABASE_ERROR;
-        return;
-    }
-    _id = query.lastInsertId().toUInt();
+
+    query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b");
+
+    query.exec();
+//    if ( ! query.exec() || ! query.next())
+//    {
+//        qDebug() << "createIntoDatabase error";
+//        _error = DATABASE_ERROR;
+//        return;
+//    }
+//    _id = query.lastInsertId().toUInt();
+
+    quint32 newId = query.lastInsertId().toUInt();
+
+    query.prepare("UPDATE users SET id=? WHERE id=?;");
+    query.addBindValue(_id);
+    query.addBindValue(newId);
+    query.exec();
+
 }
 
 void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
@@ -226,10 +238,10 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
     query.addBindValue(_surname);
     query.addBindValue(_name);
     query.addBindValue(_birthDate);
-    query.addBindValue(_picture);
-    query.addBindValue(_address);
-    query.addBindValue(_phone);
-    query.addBindValue(_country);
+    query.addBindValue("vide");
+    query.addBindValue("vide");
+    query.addBindValue("vide");
+    query.addBindValue("vide");
     query.addBindValue(_language);
     if (_node)
         query.addBindValue(_node->id());
@@ -239,12 +251,16 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
     query.addBindValue(_id);
-    if ( ! query.exec())
-    {
-        qDebug() << query.lastError();
-        _error = NOT_FOUND;
-        return;
-    }
+    query.exec();
+
+    if (query.numRowsAffected() <= 0)
+        createIntoDatabase(query);
+//    else if ( ! query.exec())
+//    {
+//        qDebug() << query.lastError();
+//        _error = NOT_FOUND;
+//        return;
+//    }
 }
 
 void UserDataBase::deleteFromDatabase(QSqlQuery& query)
