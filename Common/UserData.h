@@ -22,7 +22,7 @@ class UserData : public Data
 #endif
 
 public:
-    inline int              id() const { return _id; }
+    inline quint32          id() const { return _id; }
 
     virtual const QString   login() const = 0;
     virtual const QDateTime lastLogin() const = 0;
