@@ -6,9 +6,11 @@
 TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
 
-    teacherTree->setModel(new StudentModel(_users->getAllUser()));
+    setupUi();
+
+    teacherTree->setModel(new StudentModel(users->getAllUser(), 2));
     connect(this->buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(bClicked(QAbstractButton *)));
-    connect(this->teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(profSelected(QModelIndex)));
+    connect(this->teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(profSelected(const QModelIndex&)));
 
 }
 

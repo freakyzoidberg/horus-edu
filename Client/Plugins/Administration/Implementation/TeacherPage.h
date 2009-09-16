@@ -25,6 +25,8 @@
 
 class TeacherPage : public QWidget
 {
+        Q_OBJECT
+
     public:
         TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users);
     private:

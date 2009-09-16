@@ -8,7 +8,7 @@ StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 
     setupUi();
 
-    studentTree->setModel(new StudentModel(users->getAllUser()));
+    studentTree->setModel(new StudentModel(users->getAllUser(), 1));
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
     connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
 }
