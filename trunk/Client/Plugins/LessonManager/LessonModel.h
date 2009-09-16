@@ -19,6 +19,8 @@ public:
     QModelIndex index ( int row, int column, const QModelIndex & parent = QModelIndex() ) const;
     QModelIndex parent ( const QModelIndex & index ) const;
 	Qt::ItemFlags LessonModel::flags( const QModelIndex & index) const;
+	QStringList mimeTypes() const;
+	QMimeData *mimeData(const QModelIndexList &indexes) const;
 private:
     PluginManager*  pluginManager;
 #ifdef TEST_METADATA

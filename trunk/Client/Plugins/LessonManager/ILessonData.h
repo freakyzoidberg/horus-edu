@@ -16,7 +16,7 @@ public:
     const QString& getTitle() { return _title; }
     void setTitle(const QString& title) { _title = title; }
 
- private:
+ protected:
     QString _title;
 };
 
