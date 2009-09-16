@@ -21,6 +21,5 @@ HEADERS += Implementation/Course.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
     ../../../Common/AbstractManager.h \
-    ../../../Common/MetaPlugin.h \
     Implementation/WhiteBoard.h \
     Implementation/Items.h

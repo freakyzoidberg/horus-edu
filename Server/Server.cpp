@@ -25,10 +25,9 @@ Server::Server(QObject *parent) : QTcpServer(parent)
         mylog->addlog(LOGERROR,"Problem while connecting to SQL Server");
         //qDebug() << "Server::Server() NO SQL !!!";
 
-
     //QSettings settings;
     if (listen(QHostAddress::Any, config->GetSettings("SRV_PORT","SERVER").toInt()))
-        mylog->addlog(LOGINFO,"Server Listening on port:" + QString(serverPort()));
+        mylog->addlog(LOGINFO,"Server Listening on port:" + QVariant(serverPort()).toString());
     else
         mylog->addlog(LOGERROR,"Server Not listening : " + errorString());
 
