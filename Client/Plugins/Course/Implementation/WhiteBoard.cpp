@@ -83,6 +83,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				item->move(event->pos());
 				if (docWidget)
 					docWidget->lower();
+				item->resize(docWidget->size());
 				item->show();
 			}
 			else
