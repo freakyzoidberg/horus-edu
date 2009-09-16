@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QDragEnterEvent>
-#include <QDockWidget>
+#include <QToolBar>
 #include <QHash>
 
 #include "../../LessonManager/IDocumentController.h"
@@ -19,13 +19,13 @@ public:
      void   setPosInDoc(int posInDoc);
      int    getPosInDoc();
 
-     QDockWidget *dock;
+     QToolBar *dock;
 
 protected:
      void dragEnterEvent(QDragEnterEvent *event);
      void dragMoveEvent(QDragMoveEvent *event);
      void dropEvent(QDropEvent *event);
-	QHash<QString, IDocumentController *> _controllers;
+     QHash<QString, IDocumentController *> _controllers;
 
  private:
      Items   *tmp;
