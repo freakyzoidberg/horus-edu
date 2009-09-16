@@ -14,7 +14,7 @@ class StudentModel: public QAbstractItemModel
     Q_OBJECT
 
     public:
-     StudentModel(const QList<UserData*> users);
+     StudentModel(const QHash<quint32, UserData*>& users);
      ~StudentModel();
 
      QVariant data(const QModelIndex &index, int role) const;
@@ -29,6 +29,7 @@ class StudentModel: public QAbstractItemModel
 
 private:
      QList<UserData*> users;
+     int i;
 //     void setupModelData(const QList<UserData*> users, UserItem *parent);
 //    UserItem *rootItem;
 };

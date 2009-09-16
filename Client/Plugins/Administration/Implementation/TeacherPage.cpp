@@ -5,18 +5,16 @@
 
 TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
-    idUser = 0;
-    _users = users;
-    setupUi();
+
     teacherTree->setModel(new TeacherModel(_users->getAllUser()));
-    //connect(this->buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(bClicked(QAbstractButton *)));
-    //connect(this->teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(profSelected(QModelIndex)));
+    connect(this->buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(bClicked(QAbstractButton *)));
+    connect(this->teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(profSelected(QModelIndex)));
 
 }
 
 void TeacherPage::profSelected(const QModelIndex &userIndex)
 {
-    idUser = userIndex.data().toInt();
+    user = static_cast<UserData*>(userIndex.internalPointer());
     loginTxt->setText(_users->getUser(idUser)->login());
     nomTxt->setText(_users->getUser(idUser)->name());
     prenomTxt->setText(_users->getUser(idUser)->surname());
@@ -143,10 +141,14 @@ void    TeacherPage::editUser()
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
     {
-        _users->getUser(idUser)->setName(nomTxt->text());
-        _users->getUser(idUser)->setSurname(prenomTxt->text());
-        _users->getUser(idUser)->setLanguage(languageTxt->text());
-        _users->getUser(idUser)->setLevel(3);
+        user->setName(nomTxt->text());
+        user->setSurname(prenomTxt->text());
+        user->setLanguage(languageTxt->text());
+        user->setLevel(3);
+        user->save();
+        nomTxt->setText("");
+        prenomTxt->setText("");
+        languageTxt->setText("");
     }
     return;
 }

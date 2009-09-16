@@ -21,7 +21,7 @@
 #include <QTreeView>
 
 #include "../../../../Common/TreeData.h"
-#include "TeacherModel.h"
+#include "StudentModel.h"
 
 class TeacherPage : public QWidget
 {
@@ -70,7 +70,7 @@ class TeacherPage : public QWidget
         void    deleteUser();
         void    createUser();
         UserDataPlugin *_users;
-        int     idUser;
+                UserData* user;
    private slots:
         void bClicked(QAbstractButton * button);
         void profSelected(const QModelIndex &userIndex);

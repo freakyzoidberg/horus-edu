@@ -1,9 +1,9 @@
 #include "StudentModel.h"
-#include "UserItem.h"
 
-StudentModel::StudentModel(const QList<UserData*> _users)
+StudentModel::StudentModel(const QHash<quint32, UserData*>&  _users)
 //     : QAbstractItemModel(parent)
  {
+
     foreach (UserData* user, _users)
         if (user->level() == 3)
             users.append(user);
@@ -28,9 +28,6 @@ StudentModel::StudentModel(const QList<UserData*> _users)
 
  QVariant StudentModel::data(const QModelIndex &index, int role) const
  {
-//     if (!index.isValid())
-//         return QVariant();
-
      UserData *item = static_cast<UserData*>(index.internalPointer());
 
      if (role == Qt::DisplayRole)
@@ -38,14 +35,6 @@ StudentModel::StudentModel(const QList<UserData*> _users)
      else
          return item->data(index.column(), role);
  }
-
-// Qt::ItemFlags StudentModel::flags(const QModelIndex &index) const
-// {
-//     if (!index.isValid())
-//         return 0;
-//
-//     return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-// }
 
  QVariant StudentModel::headerData(int section, Qt::Orientation orientation,
                                 int role) const
@@ -94,6 +83,7 @@ StudentModel::StudentModel(const QList<UserData*> _users)
  int StudentModel::rowCount(const QModelIndex &parent) const
  {
      if ( ! parent.isValid())
+
          return users.size();
      else
          return 0;

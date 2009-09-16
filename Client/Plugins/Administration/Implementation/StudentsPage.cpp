@@ -5,18 +5,17 @@
 
 StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
-    idUser = 0;
-    _users = users;
+
     setupUi();
-        //studentTree->setModel(tree->getTreeModel());
-    studentTree->setModel(new StudentModel(_users->getAllUser()));
+
+    studentTree->setModel(new StudentModel(users->getAllUser()));
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
     connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
 }
 
 void StudentsPage::userSelected(const QModelIndex &userIndex)
 {
-    UserData* user = static_cast<UserData*>(userIndex.internalPointer());
+    user = static_cast<UserData*>(userIndex.internalPointer());
     loginTxt->setText(user->login());
     nomTxt->setText(user->name());
     prenomTxt->setText(user->surname());
@@ -147,10 +146,14 @@ void    StudentsPage::editUser()
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
     {
-        _users->getUser(idUser)->setName(nomTxt->text());
-        _users->getUser(idUser)->setSurname(prenomTxt->text());
-        _users->getUser(idUser)->setLanguage(languageTxt->text());
-        _users->getUser(idUser)->setLevel(3);
+        user->setName(nomTxt->text());
+        user->setSurname(prenomTxt->text());
+        user->setLanguage(languageTxt->text());
+        user->setLevel(3);
+        user->save();
+        nomTxt->setText("");
+        prenomTxt->setText("");
+        languageTxt->setText("");
     }
     return;
 }

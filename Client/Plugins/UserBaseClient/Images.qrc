@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>user.ico</file>
+    </qresource>
+</RCC>
