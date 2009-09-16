@@ -35,7 +35,10 @@ QWidget*            ImageController::createDocumentWidget(QWidget *parent, ILess
     }
 
     label = new QLabel("Loading image...", parent);
-    dl();
+
+    if (data->isDownloaded())
+        dl();
+
     return (label);
 }
 

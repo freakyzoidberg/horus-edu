@@ -81,9 +81,11 @@ QWidget* PdfController::createDocumentWidget(QWidget *parent, ILessonDocument *d
     rect = new QRectF(x, y, h, w);
     data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-    label = new QLabel("Loading...", parent);
-    //if (data->)
-    dl();
+    label = new QLabel("Loading pdf...", parent);
+
+    if (data->isDownloaded())
+        dl();
+
     return label;
 }
 
