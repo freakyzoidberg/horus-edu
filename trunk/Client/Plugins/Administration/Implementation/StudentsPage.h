@@ -72,7 +72,7 @@ class StudentsPage : public QWidget
         void    deleteUser();
         void    createUser();
         UserDataPlugin *_users;
-        int     idUser;
+        UserData* user;
    private slots:
     void buttonClicked(QAbstractButton * button);
     void userSelected(const QModelIndex &userIndex);
