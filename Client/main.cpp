@@ -1,7 +1,10 @@
 #include "ClientApplication.h"
 
+#include "HorusStyle.h"
+
 int main(int argc, char *argv[])
 {
-    ClientApplication a(argc, argv);
-    return (a.exec());
+    ClientApplication app(argc, argv);
+	app.setStyle(new HorusStyle());
+    return (app.exec());
 }

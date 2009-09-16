@@ -44,6 +44,7 @@ void	ClientApplication::loadingComplete()
 	MainWindow *window;
 
 	window = new MainWindow(this);
+	this->setStyleSheet(window->styleSheet());
 	window->show();
 }
 

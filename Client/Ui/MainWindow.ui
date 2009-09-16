@@ -14,8 +14,176 @@
    <string>Horus</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="MainWindow.qrc">
+   <iconset resource="DockMenu.qrc">
     <normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLabel 
+{ 
+background: transparent; 
+} 
+QMainWindow::separator { 
+background: black; 
+} 
+QDockWidget { 
+titlebar-close-icon: url(:/close.png); 
+} 
+QDockWidget::title { 
+text-align: left; 
+background: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255)); 
+margin: 0px; 
+padding: 2px 6px 2px 6px; 
+border: 0px; 
+} 
+QDockWidget::close-button { 
+border: 1px solid transparent; 
+padding: 0px; 
+margin: 0px; 
+} 
+QDockWidget::close-button:hover { 
+background-color: rgba(0, 0, 0, 32); 
+} 
+QDockWidget::close-button:pressed { 
+padding: 1px -1px -1px 1px; 
+} 
+QMenuBar { 
+background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255)); 
+border: 0px; 
+padding: 3px; 
+} 
+QMenuBar::item { 
+padding: 3px 6px 3px 6px; 
+background: transparent; 
+} 
+QMenuBar::item:pressed { 
+background: white; 
+border: 1px solid black; 
+border-top-left-radius: 4px; 
+border-top-right-radius: 4px; 
+border-bottom: 0px; 
+} 
+QMenu { 
+background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255)); 
+border: 1px solid black; 
+padding: 0px; 
+margin: 0px; 
+} 
+QMenu::separator { 
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.221591 rgba(85, 157, 192, 0), stop:0.551136 rgba(73, 150, 186, 255)); 
+margin-top: 2px; 
+margin-bottom: 2px; 
+height: 2px; 
+} 
+QMenu::item { 
+background-color: transparent; 
+color: black; 
+padding: 4px 12px 4px 28px; 
+margin: -1px 0px -1px 0px; 
+border: 0px; 
+} 
+QMenu::item:selected { 
+background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(218, 233, 255, 255), stop:0.625 rgba(73, 150, 186, 255)); 
+padding: 4px 12px 4px 28px; 
+margin: -1px 0px -1px 0px; 
+border: 0px; 
+} 
+QToolBar { 
+min-height: 31px; 
+min-width: 31px; 
+} 
+QToolBar:horizontal { 
+background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.318182 rgba(127, 127, 127, 255), stop:0.380682 rgba(100, 100, 100, 255)); 
+spacing: 3px; 
+border: 2px solid black; 
+border-left: 0px; 
+border-right: 0px; 
+max-height: 31px; 
+} 
+QToolBar:vertical { 
+background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.210227 rgba(100, 100, 100, 255), stop:0.784091 rgba(127, 127, 127, 255)); 
+spacing: 3px; 
+border: 2px solid black; 
+border-top: 0px; 
+border-bottom: 0px; 
+max-width: 31px; 
+} 
+QToolBar::separator { 
+margin: 6px; 
+border: 1px solid rgb(0, 0, 0); 
+border-top-color: rgba(0, 0, 0, 127); 
+border-left-color: rgba(0, 0, 0, 127); 
+background-color: rgb(73, 150, 186); 
+} 
+QToolBar::separator:vertical { 
+height: 2px; 
+} 
+QToolBar::separator:horizontal { 
+width: 2px; 
+} 
+QToolBar::handle:vertical { 
+image: url(:/handle.png); 
+} 
+QToolBar::handle:vertical { 
+image: url(:/handle2.png); 
+} 
+QToolButton 
+{ 
+margin: 0px; 
+background-color: transparent; 
+border: 1px solid transparent; 
+padding: 0px; 
+} 
+QToolButton:hover 
+{ 
+background-color: rgb(73, 150, 186); 
+border: 1px solid black; 
+} 
+QToolButton:pressed 
+{ 
+background-color: rgb(73, 150, 186); 
+border: 1px solid black; 
+padding: 1px -1px -1px 1px; 
+} 
+QToolButton:checked 
+{ 
+background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255)); 
+border: 1px solid black; 
+} 
+QListView 
+{ 
+background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
+border: 0px; 
+selection-background-color: rgb(73, 150, 186); 
+} 
+QTreeView 
+{ 
+background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
+border: 0px; 
+selection-background-color: rgb(73, 150, 186); 
+} 
+QTreeView::branch:has-siblings:!adjoins-item { 
+border-image: url(:/vline.png) 0; 
+} 
+QTreeView::branch:has-siblings:adjoins-item { 
+border-image: url(:/branch-more.png) 0; 
+} 
+QTreeView::branch:!has-children:!has-siblings:adjoins-item { 
+border-image: url(:/branch-end.png) 0; 
+} 
+QTreeView::branch:has-children:!has-siblings:closed, 
+QTreeView::branch:closed:has-children:has-siblings { 
+border-image: none; 
+image: url(:/branch-closed.png); 
+} 
+QTreeView::branch:open:has-children:!has-siblings, 
+QTreeView::branch:open:has-children:has-siblings { 
+border-image: none; 
+image: url(:/branch-open.png); 
+} 
+QTextBrowser { 
+background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
+border: 0px; 
+} </string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
@@ -24,14 +192,14 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>28</height>
+     <height>29</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources>
-  <include location="MainWindow.qrc"/>
+  <include location="DockMenu.qrc"/>
  </resources>
  <connections/>
 </ui>
