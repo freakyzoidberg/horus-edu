@@ -82,15 +82,12 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
 				item->move(event->pos());
 				if (docWidget)
+				{
 					docWidget->lower();
-
-
-                                //item->resize(docWidget->size());
-				item->show();
-
-                                item->setGeometry(event->pos().x(), event->pos().y(),
-                                                  docWidget->width(), docWidget->height());
-                                item->repaint();
+					item->show();
+					item->resize(docWidget->size());
+					item->repaint();
+				}
 			}
 			else
 				qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << type << "type.";

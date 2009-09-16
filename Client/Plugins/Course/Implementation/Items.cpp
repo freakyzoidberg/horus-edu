@@ -11,11 +11,6 @@
 
 Items::Items(WhiteBoard *papyrus) : QWidget(papyrus)
 {
-//    this->setGeometry(0, 0, 100, 100);
-    this->setAutoFillBackground(true);
-    QPalette p(this->palette());
-    p.setColor(QPalette::Background, Qt::blue);
-    this->setPalette(p);
     this->setAcceptDrops(true);
     this->board = papyrus;
 
