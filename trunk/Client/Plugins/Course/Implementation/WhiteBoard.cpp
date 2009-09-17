@@ -6,7 +6,7 @@
 #include "Items.h"
 
 WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers, ILesson *lesson)
-	: _controllers(controllers), wbdata(filePlugin, 51), lesson(lesson)
+	: _controllers(controllers), wbdata(filePlugin, 42), lesson(lesson)
 {
     setAcceptDrops(true);
     setAutoFillBackground(true);
@@ -127,6 +127,10 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
            //Position pour le generateur du fichier de position
 
            qDebug() << "items in WhiteBoard : "<< this->children().count();
+
+		   WhiteBoardItemList list;
+			fillList(this, list);
+			wbdata.localUpdate(list);
 	}
  }
 
