@@ -69,7 +69,7 @@ void    WhiteBoardData::localUpdate(const WhiteBoardItemList& list)
     this->list.append(list);
     WhiteBoardItemList::const_iterator it;
 	QFile *file = fileData->file();
-	file->open(QIODevice::ReadWrite);
+	file->open(QIODevice::ReadWrite | QIODevice::Truncate);
 	QXmlStreamWriter writer(file);
     writer.writeStartDocument();
     writer.writeStartElement("WhiteBoard");
