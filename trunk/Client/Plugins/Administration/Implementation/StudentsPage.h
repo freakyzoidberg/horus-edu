@@ -48,21 +48,16 @@ class StudentsPage : public QWidget
         QLineEdit *prenomTxt;
         QLabel *label_4;
         QLineEdit *phoneTxt;
-        QLabel *label_6;
-        QLineEdit *phonebisTxt;
         QLabel *label_7;
         QLineEdit *addrTxt;
-        QLabel *label_10;
-        QLineEdit *codeTxt;
-        QLabel *label_9;
-        QLineEdit *villeTxt;
         QLabel *label_8;
         QLineEdit *paysTxt;
         QLabel *label_11;
         QLineEdit *languageTxt;
         QCheckBox *activeBox;
         QFormLayout *rightLayout;
-        QGraphicsView *graphicsView;
+        QLabel *imageLabel;
+        QPushButton *imageButton;
         QLineEdit *classTxt;
         QLabel *label_5;
         QLineEdit *lineEdit_7;
@@ -74,9 +69,11 @@ class StudentsPage : public QWidget
         void    createUser();
         UserDataPlugin *_users;
         UserData* user;
+        QImage image;
    private slots:
     void buttonClicked(QAbstractButton * button);
     void userSelected(const QModelIndex &userIndex);
+    void ImageButtonClick();
 };
 
 #endif // STUDENTSPAGE_H

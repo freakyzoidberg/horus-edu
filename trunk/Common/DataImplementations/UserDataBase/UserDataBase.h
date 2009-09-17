@@ -71,8 +71,8 @@ public:
     inline const QDate    birthDate() const { return _birthDate; }
     void                    setBirthDate(const QDate birthDate);
 
-    inline const QByteArray    picture() const { return _picture; }
-    void                    setPicture(const QByteArray picture);
+    inline const QVariant    picture() const { return _picture; }
+    void                    setPicture(const QVariant picture);
 
     inline const QString    address() const { return _address; }
     void                    setAddress(const QString address);
@@ -103,7 +103,7 @@ private:
     QDateTime   _lastLogin;
     QString     _language;
     QDate   _birthDate;
-    QByteArray  _picture;
+    QVariant  _picture;
     QString     _address;
     QString     _phone;
     QString     _country;

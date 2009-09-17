@@ -49,8 +49,8 @@ public:
     virtual const QDate    birthDate() const = 0;
     virtual void                    setBirthDate(const QDate birthDate) = 0;
 
-    virtual const QByteArray    picture() const = 0;
-    virtual void                    setPicture(const QByteArray picture) = 0;
+    virtual const QVariant    picture() const = 0;
+    virtual void                    setPicture(const QVariant picture) = 0;
 
     virtual const QString    address() const = 0;
     virtual void                    setAddress(const QString address) = 0;

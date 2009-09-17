@@ -2,6 +2,9 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QFileDialog>
+#include <QBuffer>
+#include <qvariant.h>
 
 StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
 {
@@ -12,6 +15,27 @@ StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
     studentTree->setColumnWidth(0, 35);
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
     connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
+    connect(imageButton, SIGNAL(clicked()), this, SLOT(ImageButtonClick()));
+}
+
+void    StudentsPage::ImageButtonClick()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::currentPath());
+     if (!fileName.isEmpty())
+    {
+
+         image.load(fileName);
+         if (image.isNull())
+         {
+             qDebug() << fileName;
+             QMessageBox::information(this, tr("Image Viewer"),
+                                      tr("Cannot load %1.").arg(fileName));
+             return;
+         }
+            imageLabel->setPixmap(QPixmap::fromImage(image));
+            imageLabel->show();
+        }
+
 }
 
 void StudentsPage::userSelected(const QModelIndex &userIndex)
@@ -24,6 +48,10 @@ void StudentsPage::userSelected(const QModelIndex &userIndex)
     addrTxt->setText(user->address());
     phoneTxt->setText(user->phone());
     paysTxt->setText(user->country());
+    if (user->picture().Size > 10)
+       imageLabel->setPixmap(user->picture().value<QPixmap>());
+    else
+       imageLabel->clear();
 }
 
 void    StudentsPage::setupUi()
@@ -62,31 +90,19 @@ void    StudentsPage::setupUi()
     leftLayout->setWidget(6, QFormLayout::LabelRole, label_4);
     phoneTxt = new QLineEdit(this);
     leftLayout->setWidget(6, QFormLayout::FieldRole, phoneTxt);
-    label_6 = new QLabel("Phone 2");
-    leftLayout->setWidget(7, QFormLayout::LabelRole, label_6);
-    phonebisTxt = new QLineEdit(this);
-    leftLayout->setWidget(7, QFormLayout::FieldRole, phonebisTxt);
     label_7 = new QLabel("Address");
-    leftLayout->setWidget(8, QFormLayout::LabelRole, label_7);
+    leftLayout->setWidget(7, QFormLayout::LabelRole, label_7);
     addrTxt = new QLineEdit(this);
-    leftLayout->setWidget(8, QFormLayout::FieldRole, addrTxt);
-    label_10 = new QLabel("ZipCode");
-    leftLayout->setWidget(9, QFormLayout::LabelRole, label_10);
-    codeTxt = new QLineEdit(this);
-    leftLayout->setWidget(9, QFormLayout::FieldRole, codeTxt);
-    label_9 = new QLabel("City");
-    leftLayout->setWidget(10, QFormLayout::LabelRole, label_9);
-    villeTxt = new QLineEdit(this);
-    leftLayout->setWidget(10, QFormLayout::FieldRole, villeTxt);
+    leftLayout->setWidget(7, QFormLayout::FieldRole, addrTxt);
     label_8 = new QLabel("Country");
-    leftLayout->setWidget(11, QFormLayout::LabelRole, label_8);
+    leftLayout->setWidget(8, QFormLayout::LabelRole, label_8);
     paysTxt = new QLineEdit(this);
-    leftLayout->setWidget(11, QFormLayout::FieldRole, paysTxt);
+    leftLayout->setWidget(8, QFormLayout::FieldRole, paysTxt);
     label_11 = new QLabel("Language");
-    leftLayout->setWidget(12, QFormLayout::LabelRole, label_11);
+    leftLayout->setWidget(9, QFormLayout::LabelRole, label_11);
     languageTxt = new QLineEdit(this);
     languageTxt->setObjectName(QString::fromUtf8("languageTxt"));
-    leftLayout->setWidget(12, QFormLayout::FieldRole, languageTxt);
+    leftLayout->setWidget(9, QFormLayout::FieldRole, languageTxt);
     activeBox = new QCheckBox("Active");
     activeBox->setObjectName(QString::fromUtf8("activeBox"));
     leftLayout->setWidget(0, QFormLayout::FieldRole, activeBox);
@@ -95,17 +111,17 @@ void    StudentsPage::setupUi()
     rightLayout->setFieldGrowthPolicy(QFormLayout::ExpandingFieldsGrow);
     rightLayout->setHorizontalSpacing(4);
     rightLayout->setVerticalSpacing(10);
-    graphicsView = new QGraphicsView(this);
-    rightLayout->setWidget(2, QFormLayout::FieldRole, graphicsView);
+    imageButton = new QPushButton("Image");
+    rightLayout->setWidget(3, QFormLayout::FieldRole, imageButton);
+    imageLabel = new QLabel("");
+    imageLabel->setMargin(2);
+    rightLayout->setWidget(2, QFormLayout::FieldRole, imageLabel);
     classTxt = new QLineEdit(this);
     classTxt->setObjectName(QString::fromUtf8("classTxt"));
     rightLayout->setWidget(0, QFormLayout::FieldRole, classTxt);
     label_5 = new QLabel("Classe");
     label_5->setObjectName(QString::fromUtf8("label_5"));
     rightLayout->setWidget(0, QFormLayout::LabelRole, label_5);
-    lineEdit_7 = new QLineEdit(this);
-    lineEdit_7->setObjectName(QString::fromUtf8("lineEdit_7"));
-    rightLayout->setWidget(3, QFormLayout::FieldRole, lineEdit_7);
     formLayout->addLayout(rightLayout);
     menuLayout->addLayout(formLayout);
     buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
@@ -164,8 +180,7 @@ void    StudentsPage::editUser()
         user->setPhone(phoneTxt->text());
         user->setBirthDate(this->date->selectedDate());
         user->setCountry(this->paysTxt->text());
-        user->setPicture("vide");
-
+        user->setPicture(imageLabel->pixmap());
         user->setLevel(3);
         user->save();
         loginTxt->setText("");
@@ -176,6 +191,7 @@ void    StudentsPage::editUser()
         addrTxt->setText("");
         phoneTxt->setText("");
         paysTxt->setText("");
+        imageLabel->clear();
     }
     return;
 }
@@ -197,6 +213,7 @@ void    StudentsPage::cancelUser()
         addrTxt->setText("");
         phoneTxt->setText("");
         paysTxt->setText("");
+        imageLabel->clear();
     }
     return;
 }
@@ -244,8 +261,13 @@ void    StudentsPage::createUser()
     data->setPhone(phoneTxt->text());
     data->setBirthDate(this->date->selectedDate());
     data->setCountry(this->paysTxt->text());
-    data->setPicture("vide");
+
+    if(imageLabel->pixmap()->height() == 0)
+        data->setPicture("vide");
+    else
+        data->setPicture(imageLabel->pixmap());
     data->setLevel(3);
+
     data->save();
     loginTxt->setText("");
     nomTxt->setText("");
@@ -255,6 +277,7 @@ void    StudentsPage::createUser()
     addrTxt->setText("");
     phoneTxt->setText("");
     paysTxt->setText("");
+    imageLabel->clear();
     studentTree->reset();
     //studentTree->setModel(new StudentModel(_users->getAllUser(), 1));
     //connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
