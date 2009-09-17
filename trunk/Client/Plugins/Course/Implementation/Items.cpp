@@ -30,6 +30,13 @@ Items::Items(WhiteBoard *papyrus, int id) : QSizeGrip(papyrus), id(id)
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
 	this->setMinimumHeight(25);
 	this->setMinimumWidth(45);
+
+        this->isDocked = false;
+}
+
+bool    Items::getIsDocked()
+{
+    return this->isDocked;
 }
 
 void Items::leaveEvent(QEvent *event)
