@@ -42,7 +42,7 @@ void FileTransfert::init()
 
 void FileTransfert::socketToFile()
 {
-    qDebug() << "FileTransfert::socketToFile";
+//    qDebug() << "FileTransfert::socketToFile";
     QByteArray buf = _socket->readAll();
     _hash->addData(buf);
     _file->write(buf);
@@ -50,7 +50,7 @@ void FileTransfert::socketToFile()
 
 void FileTransfert::fileToSocket(qint64 len)
 {
-    qDebug() << "FileTransfert::fileToSocket";
+//    qDebug() << "FileTransfert::fileToSocket";
     _socket->write(_file->read(len));
     if (_file->atEnd())
         _socket->close();
