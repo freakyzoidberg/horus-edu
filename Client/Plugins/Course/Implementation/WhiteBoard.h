@@ -39,6 +39,10 @@ protected:
 protected slots:
 	 void	update(const WhiteBoardItemList&);
 
+private:
+	 ILessonDocument	*findDocument(ILessonData* data);
+	 void	fillList(QObject* data, WhiteBoardItemList&);
+
  private:
      Items   *tmp;
      int    posInDoc;

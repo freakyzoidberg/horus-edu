@@ -69,22 +69,26 @@ void    WhiteBoardData::localUpdate(const WhiteBoardItemList& list)
     this->list.clear();
     this->list.append(list);
     WhiteBoardItemList::const_iterator it;
-    QXmlStreamWriter writer(fileData->file());
+	QFile *file = fileData->file();
+	file->open(QIODevice::ReadWrite);
+	QXmlStreamWriter writer(file);
     writer.writeStartDocument();
     writer.writeStartElement("WhiteBoard");
     for (it = list.begin(); it != list.end(); it++)
     {
         writer.writeStartElement("Item");
-        writer.writeAttribute("id", QString(it->getId()));
-        writer.writeAttribute("x", QString(it->getX()));
-        writer.writeAttribute("y", QString(it->getY()));
-        writer.writeAttribute("width", QString(it->getWidth()));
-        writer.writeAttribute("height", QString(it->getHeight()));
-        writer.writeAttribute("is-docked", QString((int)it->docked()));
+		writer.writeAttribute("id", QVariant(it->getId()).toString());
+		writer.writeAttribute("x", QVariant(it->getX()).toString());
+		writer.writeAttribute("y", QVariant(it->getY()).toString());
+		writer.writeAttribute("width", QVariant(it->getWidth()).toString());
+		writer.writeAttribute("height", QVariant(it->getHeight()).toString());
+		writer.writeAttribute("is-docked", QVariant((int)it->docked()).toString());
         writer.writeEndElement();
     }
     writer.writeEndElement();
     writer.writeEndDocument();
+	writer.device()->close();
+	fileData->upload();
 }
 
 void    WhiteBoardData::update()
