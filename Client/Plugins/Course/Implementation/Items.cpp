@@ -10,7 +10,7 @@
 
 #include <QDebug>
 
-Items::Items(WhiteBoard *papyrus, int id) : QSizeGrip(papyrus), id(id)
+Items::Items(WhiteBoard *papyrus, int id) : QWidget(papyrus), id(id)
 {
     this->setAcceptDrops(true);
     this->board = papyrus;
@@ -49,6 +49,11 @@ void Items::enterEvent(QEvent *event)
 {
 	this->closeItem->show();
 	this->openItem->show();
+}
+
+void Items::mouseMoveEvent(QMouseEvent *event)
+{
+	qDebug() << event->pos() << this->width() << this->height();
 }
 
 void Items::mousePressEvent(QMouseEvent *event)

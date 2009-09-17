@@ -2,6 +2,7 @@
 #define WHITEBOARDDATA_H
 
 #include <QXmlDefaultHandler>
+#include <QObject>
 
 #include "../../../../Common/FileDataPlugin.h"
 #include "../../../../Common/FileData.h"
