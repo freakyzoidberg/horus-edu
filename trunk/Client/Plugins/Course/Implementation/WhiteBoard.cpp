@@ -89,6 +89,9 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 					item->resize(docWidget->size());
 					item->repaint();
 				}
+				WhiteBoardItemList list;
+				fillList(this, list);
+				wbdata.localUpdate(list);
 			}
 			else
 				qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << type << "type.";
@@ -141,22 +144,35 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			if (item && item->getId() == it->getId())
 			{
 				item->setGeometry(it->getX(), it->getY(), it->getWidth(), it->getHeight());
-				if (it->docked())
-					item->moveToDock();
-				else
-					item->restore();
+//				if (it->docked())
+//					item->moveToDock();
+//				else
+//					item->restore();
 				found = true;
 				break;
 			}
 		}
 		if (!found)
 		{
-//			bool lfound = false;
-//			while (!lfound)
-//			{
-//				ILessonData *data = lesson;
-//				lesson->children()
-//			}
+			ILessonDocument* document = findDocument(lesson);
+			if (document)
+			{
+				if (this->_controllers.contains(document->getType()))
+				{
+					Items *item = new Items(this, document->getId());
+					QWidget *docWidget;
+					docWidget = this->_controllers[document->getType()]->createDocumentWidget(item, document);
+					item->setGeometry(it->getX(), it->getY(), it->getWidth(), it->getHeight());
+					if (docWidget)
+					{
+						docWidget->lower();
+						item->show();
+						item->repaint();
+					}
+				}
+				else
+					qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << document->getType() << "type.";
+			}
 		}
 	}
 	for (it2 = itemList.begin(); it2 != itemList.end(); it2++)
@@ -178,3 +194,36 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		}
 	}
  }
+
+ ILessonDocument*	WhiteBoard::findDocument(ILessonData* data)
+ {
+	 if (data)
+	 {
+		QObjectList::const_iterator it;
+		for (it = data->children().begin(); it != data->children().end(); it++)
+		{
+			if (qobject_cast<ILessonDocument *>(*it))
+				return qobject_cast<ILessonDocument *>(*it);
+			ILessonDocument *document = findDocument(qobject_cast<ILessonData *>(*it));
+			if (document)
+				return document;
+		}
+	}
+	return NULL;
+ }
+
+void	WhiteBoard::fillList(QObject* data, WhiteBoardItemList& list)
+{
+	if (data)
+	 {
+		QObjectList::const_iterator it;
+		for (it = data->children().begin(); it != data->children().end(); it++)
+		{
+			if (qobject_cast<Items *>(*it))
+			{
+				Items* item = qobject_cast<Items *>(*it);
+				list.append(WhiteBoardItem(item->getId(), item->x(), item->y(), item->width(), item->height(), false));
+			}
+		}
+	}
+}
