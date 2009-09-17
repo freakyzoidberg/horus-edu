@@ -5,8 +5,8 @@
 #include "LessonDocument.h"
 #include "Items.h"
 
-WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers)
-    : _controllers(controllers), wbdata(filePlugin, 40)
+WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers, ILesson *lesson)
+	: _controllers(controllers), wbdata(filePlugin, 51), lesson(lesson)
 {
     setAcceptDrops(true);
     setAutoFillBackground(true);
@@ -17,6 +17,7 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
 	QPalette p(this->palette());
 	p.setColor(QPalette::Background, Qt::white);
 	this->setPalette(p);
+	QObject::connect(&wbdata, SIGNAL(remoteUpdate(WhiteBoardItemList)), SLOT(update(WhiteBoardItemList)));
 }
 
 void   WhiteBoard::setTmp(Items *item)
@@ -77,7 +78,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			ILessonDocument *doc = new LessonDocument(this, id, title, type, content, parameters);
 			if (this->_controllers.contains(type))
 			{
-				Items *item = new Items(this);
+				Items *item = new Items(this, id);
 				QWidget *docWidget;
 				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
 				item->move(event->pos());
@@ -123,5 +124,57 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
            //Position pour le generateur du fichier de position
 
            qDebug() << "items in WhiteBoard : "<< this->children().count();
+	}
+ }
+
+ void	WhiteBoard::update(const WhiteBoardItemList& list)
+ {
+	const QObjectList& itemList = children();
+	WhiteBoardItemList::const_iterator it;
+	QObjectList::const_iterator it2;
+	for (it = list.begin(); it != list.end(); it++)
+	{
+		bool found = false;
+		for (it2 = itemList.begin(); it2 != itemList.end(); it2++)
+		{
+			Items* item = qobject_cast<Items *>(*it2);
+			if (item && item->getId() == it->getId())
+			{
+				item->setGeometry(it->getX(), it->getY(), it->getWidth(), it->getHeight());
+				if (it->docked())
+					item->moveToDock();
+				else
+					item->restore();
+				found = true;
+				break;
+			}
+		}
+		if (!found)
+		{
+//			bool lfound = false;
+//			while (!lfound)
+//			{
+//				ILessonData *data = lesson;
+//				lesson->children()
+//			}
+		}
+	}
+	for (it2 = itemList.begin(); it2 != itemList.end(); it2++)
+	{
+		Items* item = qobject_cast<Items *>(*it2);
+		if (item)
+		{
+			bool found = false;
+			for (it = list.begin(); it != list.end(); it++)
+			{
+				if (item->getId() == it->getId())
+				{
+					found = true;
+					break;
+				}
+			}
+			if (!found)
+				item->close();
+		}
 	}
  }
