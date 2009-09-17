@@ -83,6 +83,7 @@ QMimeData *LessonModel::mimeData(const QModelIndexList &indexes) const
 			ILessonDocument *doc = qobject_cast<ILessonDocument *>(obj);
 			if (doc)
 			{
+				stream << doc->getId();
 				stream << doc->getTitle();
 				stream << doc->getType();
 				stream << doc->getContent();
