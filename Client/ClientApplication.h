@@ -3,6 +3,8 @@
 
 #include    <QApplication>
 
+class MainWindow;
+
 //! Main class representing the application
 /*!
  *  This class initalize the software, create the Loader and the MainWindow.
@@ -29,6 +31,7 @@ public:
      *  Because of threads we can't just call exit !
      */
     ~ClientApplication();
+	MainWindow *window;
 
 public slots:
     ////! Unload then load again all the plugins
