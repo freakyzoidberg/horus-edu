@@ -10,6 +10,8 @@
 #include "../Common/DataPlugin.h"
 #include "../Common/CommPlugin.h"
 #include "NetworkPlugin.h"
+#include "MetaManager.h"
+#include "ManagerThread.h"
 
 #include "DataManagerClient.h"
 #include "ClientEvents.h"
@@ -75,29 +77,33 @@ void PluginManagerClient::loadPlugins()
         else if (pluginsSystemDir.exists() && pluginsSystemDir.exists(filename))
             isLoaded = loadPlugin(filename, pluginsSystemDir);
 		if (!isLoaded)
-			pluginsToLoad.removeAll(filename);
+				pluginsToLoad.removeAll(filename);
 		else
-			++i;
+				++i;
 		emit loaded(50 * i / pluginsToLoad.count());
     }
 
-    // DataPlugin
-    foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
-    {
-        plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the data thread here
-        plugin->dataManager = new DataManagerClient(plugin);
-    }
+	QThread* netThread = MetaManager::getInstance()->findManager<ManagerThread::QThread*>();
 
-    // NetworkPlugin
-    qRegisterMetaType<PluginPacket>("PluginPacket");
-    foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
-    {
-        plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the network thread here
-        connect(plugin, SIGNAL(sendPacket(PluginPacket)), this, SLOT(sendPluginPacket(PluginPacket)));
-    }
+	// DataPlugin
+	foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
+	{
+		plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the data thread here
+		//plugin->moveToThread(netThread);
+		plugin->dataManager = new DataManagerClient(plugin);
+	}
 
-    // every Plugins
-	i = 0;
+	// NetworkPlugin
+	qRegisterMetaType<PluginPacket>("PluginPacket");
+	foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
+	{
+		plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the network thread here
+		//plugin->moveToThread(netThread);
+		connect(plugin, SIGNAL(sendPacket(PluginPacket)), this, SLOT(sendPluginPacket(PluginPacket)));
+	}
+
+	// every Plugins
+    i = 0;
     foreach (Plugin* plugin, _plugins)
     {
         plugin->pluginManager = this;
@@ -111,8 +117,8 @@ void PluginManagerClient::loadPlugins()
 		++i;
 		emit loaded(50 + 50 * i / _plugins.count());
     }
-	if (!i)
-		emit loaded(100);
+    if (!i)
+            emit loaded(100);
 }
 
 bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
