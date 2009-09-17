@@ -205,7 +205,8 @@ bool        PdfFile::loadPage(unsigned int pageNb)
     }
     else if (pageNb != currentPageNb)
     {
-        delete currentPage;
+        if (currentPage)
+            delete currentPage;
         currentPage = pdfDoc->page(pageNb);
         currentPageNb = pageNb;
     }
