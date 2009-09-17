@@ -11,56 +11,50 @@ WhiteBoardData::WhiteBoardData(FileDataPlugin *plugin, int fileId) : validXml(fa
 
 bool    WhiteBoardData::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts)
 {
-    if (qName == "Whiteboard")
+	if (qName == "WhiteBoard")
     {
         validXml = true;
         return true;
     }
-    else if (qName == "Item" && validXml)
+	else if (qName == "Item" && validXml)
     {
         int idx, id, x, y, w, h;
         bool isDocked;
-        if ((idx = atts.index("id")) != -1)
+
+		if ((idx = atts.index("id")) != -1)
             id = atts.value(idx).toInt();
         else
             return false;
-        if ((idx = atts.index("x")) != -1)
+
+		if ((idx = atts.index("x")) != -1)
             x = atts.value(idx).toInt();
         else
             return false;
-        if ((idx = atts.index("y")) != -1)
+
+		if ((idx = atts.index("y")) != -1)
             y = atts.value(idx).toInt();
         else
             return false;
-        if ((idx = atts.index("width")) != -1)
+
+		if ((idx = atts.index("width")) != -1)
             w = atts.value(idx).toInt();
         else
             return false;
-        if ((idx = atts.index("height")) != -1)
+
+		if ((idx = atts.index("height")) != -1)
             h = atts.value(idx).toInt();
         else
             return false;
-        if ((idx = atts.index("is-docked")) != -1)
+
+		if ((idx = atts.index("is-docked")) != -1)
             isDocked = (bool)atts.value(idx).toInt();
         else
             return false;
-        list.append(WhiteBoardItem(id, x, y, w, h, isDocked));
+
+		list.append(WhiteBoardItem(id, x, y, w, h, isDocked));
         return true;
     }
     return false;
-}
-
-bool    WhiteBoardData::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
-{
-    if (qName == "Whiteboard")
-    {
-        validXml = false;
-    }
-    else if (qName != "Item")
-    {
-        return false;
-    }
-    return true;
 }
 
 void    WhiteBoardData::localUpdate(const WhiteBoardItemList& list)
@@ -69,7 +63,7 @@ void    WhiteBoardData::localUpdate(const WhiteBoardItemList& list)
     this->list.append(list);
     WhiteBoardItemList::const_iterator it;
 	QFile *file = fileData->file();
-	file->open(QIODevice::ReadWrite | QIODevice::Truncate);
+	file->open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QXmlStreamWriter writer(file);
     writer.writeStartDocument();
     writer.writeStartElement("WhiteBoard");
@@ -95,12 +89,13 @@ void    WhiteBoardData::update()
 {
     QXmlSimpleReader xmlReader;
 	QFile *file = fileData->file();
-	file->open(QIODevice::ReadOnly);
 	QXmlInputSource *source = new QXmlInputSource(file);
     xmlReader.setContentHandler(this);
     xmlReader.setErrorHandler(this);
     validXml = false;
-    xmlReader.parse(source);
+	list.clear();
+	if (!xmlReader.parse(source))
+		qWarning() << "Parse error";
 	file->close();
 	delete file;
     emit remoteUpdate(list);
