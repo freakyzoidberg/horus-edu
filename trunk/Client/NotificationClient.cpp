@@ -9,8 +9,8 @@ NotificationClient *NotificationClient::instance = 0;
 
 NotificationClient::NotificationClient() : QObject()
 {
-	this->debugDialog = new QErrorMessage();
-        this->debugDialog->setWindowTitle("Horus debugger");
+	//this->debugDialog = new QErrorMessage();
+ //       this->debugDialog->setWindowTitle("Horus debugger");
 }
 
 NotificationClient::~NotificationClient()
@@ -95,7 +95,7 @@ void    NotificationClient::notify(Notification::type type, const QString messag
 void	NotificationClient::debug(const QString message)
 {
 //        this->debugDialog->showMessage(message);
-    Debugger::instance()->addDebugMessage(message);
+    //Debugger::instance()->addDebugMessage(message);
 }
 
 void	NotificationClient::message(const QString message)
