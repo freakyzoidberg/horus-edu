@@ -1,6 +1,7 @@
 #ifndef WHITEBOARD_H
 #define WHITEBOARD_H
 
+#include <QObject>
 #include <QWidget>
 #include <QDragEnterEvent>
 #include <QPushButton>

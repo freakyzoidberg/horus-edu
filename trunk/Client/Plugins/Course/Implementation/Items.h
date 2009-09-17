@@ -1,13 +1,12 @@
 #ifndef ITEMS_H
 #define ITEMS_H
+
 #include <QWidget>
 #include <QPushButton>
 #include <QDockWidget>
-#include <QSizeGrip>
 
 #include "WhiteBoard.h"
-
-class Items : public QSizeGrip
+class Items : public QWidget
 {
     Q_OBJECT
 public:
@@ -24,6 +23,7 @@ public slots:
 
 protected:
     void    mousePressEvent(QMouseEvent *event);
+    void    mouseMoveEvent(QMouseEvent *event);
 
 private:
     WhiteBoard      *board;
