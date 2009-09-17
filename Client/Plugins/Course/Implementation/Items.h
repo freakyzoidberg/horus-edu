@@ -15,6 +15,7 @@ public:
     Items(WhiteBoard *, int id);
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
+    bool getIsDocked();
 
 public slots:
     void   moveToDock();
@@ -29,6 +30,7 @@ private:
     QPushButton     *small;
     int id;
     QPushButton     *openItem, *closeItem;
+    bool            isDocked;
 };
 
 #endif // ITEMS_H
