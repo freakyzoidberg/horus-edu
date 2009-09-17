@@ -214,7 +214,7 @@ void FileDataBase::downloadAuthorized(const QByteArray& key)
 
 void FileDataBase::connexionReadyRead()
 {
-    qDebug() << "File::connexionReadyRead()";
+//    qDebug() << "File::connexionReadyRead()";
 
     QByteArray buff = _socket.readAll();
     if ( ! buff.length())
@@ -249,7 +249,7 @@ void FileDataBase::uploadAuthorized(const QByteArray& key)
 
 void FileDataBase::connexionBytesWritten(qint64 len)
 {
-    qDebug() << "File::connexionByteWritten(" << len << ")";
+//    qDebug() << "File::connexionByteWritten(" << len << ")";
     QByteArray buff = _file.read(len);
     if (buff.length())
         _socket.write(buff);
