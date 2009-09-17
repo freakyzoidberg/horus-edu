@@ -17,7 +17,7 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
 	QPalette p(this->palette());
 	p.setColor(QPalette::Background, Qt::white);
 	this->setPalette(p);
-	QObject::connect(&wbdata, SIGNAL(remoteUpdate(WhiteBoardItemList)), SLOT(update(WhiteBoardItemList)));
+	QObject::connect(&wbdata, SIGNAL(remoteUpdate(WhiteBoardItemList)), this, SLOT(update(WhiteBoardItemList)));
 }
 
 void   WhiteBoard::setTmp(Items *item)
@@ -136,6 +136,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
  void	WhiteBoard::update(const WhiteBoardItemList& list)
  {
+	 qWarning() << "update";
 	const QObjectList& itemList = children();
 	WhiteBoardItemList::const_iterator it;
 	QObjectList::const_iterator it2;
