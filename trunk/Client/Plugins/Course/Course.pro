@@ -21,9 +21,11 @@ HEADERS += Implementation/Course.h \
     ../../DisplayablePlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
-    ../../../Common/AbstractManager.h \
-    ../../../../Common/FileDataPlugin.h \
-    ../../../../Common/FileData.h \
+	../../../Common/DataPlugin.h \
+	../../../Common/Data.h \
+	../../../Common/AbstractManager.h \
+	../../../Common/FileDataPlugin.h \
+	../../../Common/FileData.h \
     Implementation/WhiteBoard.h \
     Implementation/Items.h \
     Implementation/WhiteBoardData.h \

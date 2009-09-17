@@ -13,13 +13,11 @@ SOURCES += Implementation/ImageController.cpp
 
 HEADERS += Implementation/ImageController.h \
            Implementation/ImageControllerMetaPlugin.h \
-           ../LessonManager/IDocumentControler.h \
            ../LessonManager/ILessonDocument.h \
            ../LessonManager/ILessonData.h \
            ../LessonManager/ILesson.h \
            ../LessonManager/ILessonSection.h \
            ../../../Common/MetaPlugin.h \
-           ../../../Common/Plugin.h \
            ../../../Common/Plugin.h \
            ../../../Common/FileData.h \
            ../../../Common/FileDataPlugin.h \
