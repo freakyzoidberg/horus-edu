@@ -71,7 +71,7 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 		qWarning() << "Plugin" << plugin->pluginName() << "receive data with status" << status << " from the server, which is unauthorized";
 		return ;
 	}
-	data->_status = status;
+	data->_status = Data::UPTODATE;
     data->setError(error);
 }
 
