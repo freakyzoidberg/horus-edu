@@ -3,8 +3,11 @@
 
 #include <QWidget>
 #include <QDragEnterEvent>
+#include <QPushButton>
 #include <QToolBar>
 #include <QHash>
+#include <QVector>
+#include <QToolBox>
 
 #include "../../LessonManager/IDocumentController.h"
 #include "../../../../Common/FileDataPlugin.h"
@@ -20,8 +23,8 @@ public:
      Items  *getTmp();
      void   setPosInDoc(int posInDoc);
      int    getPosInDoc();
-
      QToolBar *dock;
+     QVector<QPushButton *>   button;
 
 protected:
      void dragEnterEvent(QDragEnterEvent *event);

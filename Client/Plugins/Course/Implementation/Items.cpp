@@ -6,6 +6,7 @@
 #include <QDesktopWidget>
 #include <QPushButton>
 #include <QIcon>
+#include <QVector>
 
 #include <QDebug>
 
@@ -88,19 +89,36 @@ void Items::mousePressEvent(QMouseEvent *event)
 
 void    Items::restore()
 {
+    int pos = 0;
     show();
-    delete small;
-    this->board->setPosInDoc(board->getPosInDoc() - 21);
+    small->hide();
+    for (int i = 0; i < board->button.count(); ++i)
+    {
+        if (board->button[i] != small)
+        {
+            board->button[i]->hide();
+            board->button[i]->show();
+            board->button[i]->setGeometry(pos, 5, 20, 20);
+            board->button[i]->repaint();
+            pos += 21;
+        }
+        else
+        {
+            board->button.remove(i);
+            delete small;
+        }
+    }
+    this->board->setPosInDoc(pos);
 }
 
 void    Items::moveToDock()
 {
     this->hide();
-    this->board->setPosInDoc(board->getPosInDoc() + 21);
     small = new QPushButton(this->board->dock);
     small->setIcon(QIcon(":/fleche_bas_vert.png"));
-    small->setGeometry(this->board->getPosInDoc(), 3, 20, 20);
+    small->setGeometry(board->getPosInDoc(), 5, 20, 20);
+    this->board->setPosInDoc(board->getPosInDoc() + 21);
+    board->button.append(small);
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }
-
