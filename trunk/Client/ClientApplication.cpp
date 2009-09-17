@@ -4,12 +4,11 @@
 
 #include    "../Common/Defines.h"
 
+#include	"MainWindow.h"
 #include	"MetaManager.h"
 #include    "NotificationClient.h"
 #include	"LocalSettings.h"
 #include    "Loader.h"
-#include	"MainWindow.h"
-
 
 void QtNotify(QtMsgType type, const char *message);
 
@@ -37,15 +36,17 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
 	connect(loader, SIGNAL(accepted()), this, SLOT(loadingComplete()));
 	connect(loader, SIGNAL(rejected()), this, SLOT(preExit()));
     loader->show();
+	this->window = 0;
 }
 
 void	ClientApplication::loadingComplete()
 {
-	MainWindow *window;
-
-	window = new MainWindow(this);
-	this->setStyleSheet(window->styleSheet());
-	window->show();
+	if (!this->window)
+	{
+		this->window = new MainWindow(this);
+		this->setStyleSheet(this->window->styleSheet());
+		this->window->show();
+	}
 }
 
 ClientApplication::~ClientApplication()
