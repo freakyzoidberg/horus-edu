@@ -26,5 +26,6 @@ HEADERS += Implementation/Course.h \
     ../../../../Common/FileData.h \
     Implementation/WhiteBoard.h \
     Implementation/Items.h \
-    Implementation/WhiteBoardData.h
+    Implementation/WhiteBoardData.h \
+    Implementation/WhiteBoardItem.h
 RESOURCES += Implementation/Course.qrc

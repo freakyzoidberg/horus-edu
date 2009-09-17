@@ -12,13 +12,14 @@ class Items : public QSizeGrip
     Q_OBJECT
 public:
     Items();
-    Items(WhiteBoard *);
+    Items(WhiteBoard *, int id);
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
 
 public slots:
     void   moveToDock();
     void   restore();
+    int    getId();
 
 protected:
     void    mousePressEvent(QMouseEvent *event);
@@ -26,6 +27,7 @@ protected:
 private:
     WhiteBoard      *board;
     QPushButton     *small;
+    int id;
     QPushButton     *openItem, *closeItem;
 };
 

@@ -19,7 +19,7 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
     layout = new QVBoxLayout(leftPane);
     layout->addWidget(this->categoryView);
     leftPane->setLayout(layout);
-    this->pageWidget = new WhiteBoard(_filePlugin, controllers);
+	this->pageWidget = new WhiteBoard(_filePlugin, controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
     this->addWidget(this->pageWidget);
 }
 

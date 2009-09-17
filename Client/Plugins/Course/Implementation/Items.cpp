@@ -10,7 +10,7 @@
 
 #include <QDebug>
 
-Items::Items(WhiteBoard *papyrus) : QSizeGrip(papyrus)
+Items::Items(WhiteBoard *papyrus, int id) : QSizeGrip(papyrus), id(id)
 {
     this->setAcceptDrops(true);
     this->board = papyrus;
@@ -122,3 +122,9 @@ void    Items::moveToDock()
     small->show();
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }
+
+int		Items::getId()
+{
+	return id;
+}
+

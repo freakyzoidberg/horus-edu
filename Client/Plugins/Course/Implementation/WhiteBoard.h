@@ -10,6 +10,7 @@
 #include <QToolBox>
 
 #include "../../LessonManager/IDocumentController.h"
+#include "../../LessonManager/ILesson.h"
 #include "../../../../Common/FileDataPlugin.h"
 #include "WhiteBoardData.h"
 
@@ -17,8 +18,10 @@ class Items;
 
 class WhiteBoard : public QWidget
 {
+	Q_OBJECT
+
 public:
-     WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers);
+	 WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers, ILesson *lesson);
      void   setTmp(Items *);
      Items  *getTmp();
      void   setPosInDoc(int posInDoc);
@@ -32,10 +35,14 @@ protected:
      void dropEvent(QDropEvent *event);
      QHash<QString, IDocumentController *> _controllers;
 
+protected slots:
+	 void	update(const WhiteBoardItemList&);
+
  private:
      Items   *tmp;
      int    posInDoc;
      WhiteBoardData wbdata;
+	 ILesson *lesson;
 };
 
 #endif // WHITEBOARD_H
