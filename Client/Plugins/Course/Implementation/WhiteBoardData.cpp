@@ -4,7 +4,6 @@
 WhiteBoardData::WhiteBoardData(FileDataPlugin *plugin, int fileId) : validXml(false)
 {
     fileData = plugin->getFile(fileId);
-    qDebug() << "Whiteboard: " << fileData->file()->readAll();
     QObject::connect(fileData, SIGNAL(downloaded()), SLOT(update()));
     if (fileData->isDownloaded())
         update();
@@ -89,16 +88,21 @@ void    WhiteBoardData::localUpdate(const WhiteBoardItemList& list)
     writer.writeEndDocument();
 	writer.device()->close();
 	fileData->upload();
+	delete file;
 }
 
 void    WhiteBoardData::update()
 {
     QXmlSimpleReader xmlReader;
-    QXmlInputSource *source = new QXmlInputSource(fileData->file());
+	QFile *file = fileData->file();
+	file->open(QIODevice::ReadOnly);
+	QXmlInputSource *source = new QXmlInputSource(file);
     xmlReader.setContentHandler(this);
     xmlReader.setErrorHandler(this);
     validXml = false;
     xmlReader.parse(source);
+	file->close();
+	delete file;
     emit remoteUpdate(list);
 }
 
