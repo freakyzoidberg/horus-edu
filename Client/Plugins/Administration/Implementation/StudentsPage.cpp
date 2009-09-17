@@ -48,10 +48,8 @@ void StudentsPage::userSelected(const QModelIndex &userIndex)
     addrTxt->setText(user->address());
     phoneTxt->setText(user->phone());
     paysTxt->setText(user->country());
-    if (user->picture().Size > 10)
-       imageLabel->setPixmap(user->picture().value<QPixmap>());
-    else
-       imageLabel->clear();
+    //imageLabel->setPixmap(QPixmap::fromImage(user->picture().value<QImage>()));
+    //qDebug() << user->picture();
 }
 
 void    StudentsPage::setupUi()
@@ -181,6 +179,8 @@ void    StudentsPage::editUser()
         user->setBirthDate(this->date->selectedDate());
         user->setCountry(this->paysTxt->text());
         user->setPicture(imageLabel->pixmap());
+        user->setPicture("vide");
+        user->enable(true);
         user->setLevel(3);
         user->save();
         loginTxt->setText("");
@@ -191,7 +191,7 @@ void    StudentsPage::editUser()
         addrTxt->setText("");
         phoneTxt->setText("");
         paysTxt->setText("");
-        imageLabel->clear();
+//        imageLabel->clear();
     }
     return;
 }
@@ -213,7 +213,7 @@ void    StudentsPage::cancelUser()
         addrTxt->setText("");
         phoneTxt->setText("");
         paysTxt->setText("");
-        imageLabel->clear();
+  //      imageLabel->clear();
     }
     return;
 }
@@ -261,9 +261,12 @@ void    StudentsPage::createUser()
     data->setPhone(phoneTxt->text());
     data->setBirthDate(this->date->selectedDate());
     data->setCountry(this->paysTxt->text());
-
-
-        data->setPicture(imageLabel->pixmap());
+    data->enable(true);
+    data->setPicture("vide");
+    /*if(imageLabel->pixmap()->height() == 0)
+        data->setPicture("vide");
+    else
+        data->setPicture(imageLabel->pixmap());*/
     data->setLevel(3);
 
     data->save();
@@ -275,7 +278,7 @@ void    StudentsPage::createUser()
     addrTxt->setText("");
     phoneTxt->setText("");
     paysTxt->setText("");
-    imageLabel->clear();
+    //imageLabel->clear();
     studentTree->reset();
     //studentTree->setModel(new StudentModel(_users->getAllUser(), 1));
     //connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
