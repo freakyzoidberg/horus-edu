@@ -237,7 +237,7 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
 
     qDebug() << "[PdfDisplayer] Image successfully generated";
 
-    generateLinks(currentPage->links(), &image);
+  //  generateLinks(currentPage->links(), &image);
 
     if (!partToDisplay)
         partToDisplay = new QRectF(0, 0,
