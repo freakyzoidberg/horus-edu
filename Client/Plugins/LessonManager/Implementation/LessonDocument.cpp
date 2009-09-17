@@ -17,6 +17,16 @@ QVariant LessonDocument::data(int column, int role) const
     return QVariant();
 }
 
+void	LessonDocument::setId(int id)
+{
+	this->_id = id;
+}
+
+int		LessonDocument::getId()
+{
+	return (this->_id);
+}
+
 QString LessonDocument::getContent() const
 {
         return (this->content);

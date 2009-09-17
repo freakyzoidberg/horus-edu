@@ -58,6 +58,8 @@ bool    Lesson::startElement(const QString &namespaceURI, const QString &localNa
         LessonDocument *document = qobject_cast<LessonDocument *>(_currentData);
         if ((idx = atts.index("type")) != -1)
             document->setType(atts.value(idx));
+        if ((idx = atts.index("id")) != -1)
+            document->setId(atts.value(idx).toInt());
         for (int i = 0; i < atts.count(); ++i)
         {
             if (atts.value(i) != "title" && atts.value(i) != "type")

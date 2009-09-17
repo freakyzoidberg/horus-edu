@@ -21,6 +21,8 @@ public:
 	inline ILessonDocument(ILesson *parent) : ILessonData(parent) {};
 	inline ILessonDocument(ILessonSection *parent) : ILessonData(parent) {};
     virtual QHash<QString, QVariant> &getParameters() = 0;
+	virtual void setId(int id) = 0;
+	virtual int getId() = 0;
     virtual void setContent(QString content) = 0;
     virtual QString getContent() const = 0;
     virtual QString getType() const = 0;

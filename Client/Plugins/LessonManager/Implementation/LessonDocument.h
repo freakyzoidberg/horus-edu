@@ -16,6 +16,8 @@ public:
     QVariant data(int column, int role) const;
 
     QHash<QString, QVariant> &getParameters();
+	void setId(int id);
+	int getId();
     void setContent(QString content);
     QString getContent() const;
     QString getType() const;
@@ -25,6 +27,7 @@ private:
     QHash<QString, QVariant> parameters;
     QString 	content;
     QString     type;
+	int			_id;
     QIcon       icon;
 };
 

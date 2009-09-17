@@ -11,11 +11,6 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
     setAcceptDrops(true);
     setAutoFillBackground(true);
     this->dock = new QToolBar(this);
-  //  this->dock->setAllowedAreas(Qt::BottomDockWidgetArea);
-  //  this->dock->setFeatures(QDockWidget::DockWidgetMovable);
-
-    //Qt::BottomDockWidgetArea
-
     this->dock->setGeometry(0, 0, this->geometry().width(), 20);
     //this->setGeometry(
     this->posInDoc = 0;
@@ -65,6 +60,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		QStringList newItems;
 		while (!stream.atEnd())
 		{
+			int id;
 			QString title;
 			QString type;
 			QString content;
@@ -72,13 +68,13 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			QString key;
 			QVariant value;
 			QHash<QString, QVariant> parameters;
-			stream >> title >> type >> content >> count;
+			stream >> id >> title >> type >> content >> count;
 			for (int i = 0; i < count; i++)
 			{
 				stream >> key >> value;
 				parameters[key] = value;
 			}
-			ILessonDocument *doc = new LessonDocument(this, title, type, content, parameters);
+			ILessonDocument *doc = new LessonDocument(this, id, title, type, content, parameters);
 			if (this->_controllers.contains(type))
 			{
 				Items *item = new Items(this);
