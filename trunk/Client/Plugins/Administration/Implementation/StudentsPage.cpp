@@ -262,9 +262,7 @@ void    StudentsPage::createUser()
     data->setBirthDate(this->date->selectedDate());
     data->setCountry(this->paysTxt->text());
 
-    if(imageLabel->pixmap()->height() == 0)
-        data->setPicture("vide");
-    else
+
         data->setPicture(imageLabel->pixmap());
     data->setLevel(3);
 
