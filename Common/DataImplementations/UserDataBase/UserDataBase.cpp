@@ -162,7 +162,7 @@ void UserDataBase::setBirthDate(const QDate birthDate)
     _birthDate = birthDate;
 }
 
-void UserDataBase::setPicture(const QByteArray picture)
+void UserDataBase::setPicture(const QVariant picture)
 {
     if (_picture == picture)
         return;
