@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QDockWidget>
+#include <QSizeGrip>
+#include <QMouseEvent>
 
 #include "WhiteBoard.h"
-class Items : public QWidget
+class Items : public QSizeGrip
 {
     Q_OBJECT
 public:
@@ -16,6 +18,7 @@ public:
     void leaveEvent(QEvent *event);
     bool getIsDocked();
 
+
 public slots:
     void   moveToDock();
     void   restore();
@@ -24,13 +27,18 @@ public slots:
 protected:
     void    mousePressEvent(QMouseEvent *event);
     void    mouseMoveEvent(QMouseEvent *event);
+    void    mouseReleaseEvent(QMouseEvent *event);
+
 
 private:
     WhiteBoard      *board;
     QPushButton     *small;
-    int id;
+    int             id;
     QPushButton     *openItem, *closeItem;
     bool            isDocked;
+    bool            isMoving;
+    bool            isResizing;
+    int             X, Y, saveX, saveY;
 };
 
 #endif // ITEMS_H

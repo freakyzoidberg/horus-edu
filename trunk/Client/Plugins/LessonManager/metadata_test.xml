@@ -2,34 +2,34 @@
 <Lesson title="Mes lecons d'Histoire">
 	<Section title="Les grandes decouvertes">
 		<Section title="Les precurseurs">
-	<Document id="0" title="Bio Pytheas" type="Pdf" name="1" page="3"  x="30" y="600" w="280" h="780" />
-	<Document id="1" title="Bio Marco Polo" type="Pdf" name="1" page="4"  x="30" y="40" w="420" h="800" />
+		  <Document id="0" title="Bio Pytheas" type="Pdf" name="1" page="3"  x="30" y="600" w="280" h="780" />
+		  <Document id="1" title="Bio Marco Polo" type="Pdf" name="1" page="4"  x="30" y="40" w="420" h="800" />
 		</Section>
 		<Section title="Du geocentrisme a l heliocentrisme">
-	<Document id="2" title="Le Monde des Grecs" type="Pdf" name="1" page="5"  x="30" y="40" w="480" h="620" />
-	<Document id="3" title="Le Monde durant le Moyen-Age" type="Pdf" name="1" page="6"  x="30" y="40" w="530" h="600" />
-	<Document id="4" title="La route des Indes" type="Pdf" name="1" page="8"  x="30" y="40" w="520" h="420" />
+		  <Document id="2" title="Le Monde des Grecs" type="Pdf" name="1" page="5"  x="30" y="40" w="480" h="620" />
+		  <Document id="3" title="Le Monde durant le Moyen-Age" type="Pdf" name="1" page="6"  x="30" y="40" w="530" h="600" />
+		  <Document id="4" title="La route des Indes" type="Pdf" name="1" page="8"  x="30" y="40" w="520" h="420" />
 		</Section>
 	</Section>
 	
 	<Section title="La revolution industrielle">
 	  <Section title="Les debuts anglais">
-	<Document id="6" title="La mecanisation de l'industrie" type="Pdf" name="2" page="2"  x="30" y="40" w="510" h="500" />
-	<Document id="7" title="Evolution du taux d'urbanisation" type="Pdf" name="2" page="8"  x="30" y="40" w="290" h="400" />
+	    <Document id="6" title="La mecanisation de l'industrie" type="Pdf" name="2" page="2"  x="30" y="40" w="510" h="500" />
+	    <Document id="7" title="Evolution du taux d'urbanisation" type="Pdf" name="2" page="8"  x="30" y="40" w="290" h="400" />
 	  </Section>
 	  <Section title="La revolution aux Etats-Unis">
-	<Document id="8" title="Pour finir" type="text" input="content">Rappelons pour finir l'importance du chemin de fer qui a 
-		permis de mettre en valeur les immenses surface du continent.</Document>
-	<Document id="9" title="La crise de 1857" type="Pdf" name="4" page="2"  x="30" y="100" w="400" h="420" />
+	    <Document id="8" title="Pour finir" type="text" input="content">Rappelons pour finir l'importance du chemin de fer qui a 
+	      permis de mettre en valeur les immenses surface du continent.</Document>
+	    <Document id="9" title="La crise de 1857" type="Pdf" name="4" page="2"  x="30" y="100" w="400" h="420" />
 	  </Section>
 	</Section>
 	
 	<Section title="La crise de 1929">
-	<Document id="10" title="Le jeudi noir" type="Pdf" name="260" page="13"  x="30" y="100" w="790" h="420" />
-	<Document id="11" title="Down JONES durant le mois" type="Pdf" name="260" page="15"  x="30" y="50" w="600" h="400" />
-	<Document id="12" title="Analyse du Down JONES" type="text" input="content">Le 8 juillet 1932, le DOWN Jones atteint 41,22, c'est a dire son plus bas 
-niveau depuis sa creation en 1896. Il retrouvera son plus haut niveau 
-que le 23 novembre 1954, apres une parenthese de 25 ans.</Document>
-	<Document id="13" title="Production industrielle de 1927 a 1940" type="Pdf" name="260" page="16"  x="30" y="100" w="620" h="520" />
+	  <Document id="10" title="Le jeudi noir" type="Pdf" name="260" page="13"  x="30" y="100" w="790" h="420" />
+	  <Document id="11" title="Down JONES durant le mois" type="Pdf" name="260" page="15"  x="30" y="50" w="600" h="400" />
+	  <Document id="12" title="Analyse du Down JONES" type="text" input="content">Le 8 juillet 1932, le DOWN Jones atteint 41,22, c'est a dire son plus bas 
+	    niveau depuis sa creation en 1896. Il retrouvera son plus haut niveau 
+	    que le 23 novembre 1954, apres une parenthese de 25 ans.</Document>
+	  <Document id="13" title="Production industrielle de 1927 a 1940" type="Pdf" name="260" page="16"  x="30" y="100" w="620" h="520" />
 	</Section>
 </Lesson>

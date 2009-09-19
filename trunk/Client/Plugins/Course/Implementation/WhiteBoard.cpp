@@ -11,6 +11,7 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
     setAcceptDrops(true);
     setAutoFillBackground(true);
     this->dock = new QToolBar(this);
+
     this->dock->setGeometry(0, 0, this->geometry().width(), 20);
     //this->setGeometry(
     this->posInDoc = 0;
@@ -18,7 +19,7 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
 	p.setColor(QPalette::Background, Qt::white);
 	this->setPalette(p);
 	QObject::connect(&wbdata, SIGNAL(remoteUpdate(WhiteBoardItemList)), this, SLOT(update(WhiteBoardItemList)));
-}
+   }
 
 void   WhiteBoard::setTmp(Items *item)
 {
@@ -77,11 +78,13 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			}
 			ILessonDocument *doc = new LessonDocument(this, id, title, type, content, parameters);
 			if (this->_controllers.contains(type))
-			{
-				Items *item = new Items(this, id);
+                        {
+                                Items *item = new Items(this, id);
+
 				QWidget *docWidget;
 				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
 				item->move(event->pos());
+                                item->setWindowFlags(Qt::SubWindow);
 				if (docWidget)
 				{
 					docWidget->lower();

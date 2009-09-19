@@ -10,28 +10,30 @@
 
 #include <QDebug>
 
-Items::Items(WhiteBoard *papyrus, int id) : QWidget(papyrus), id(id)
+Items::Items(WhiteBoard *papyrus, int id) : QSizeGrip(papyrus), id(id)
 {
     this->setAcceptDrops(true);
     this->board = papyrus;
 
     closeItem = new QPushButton(this);
     closeItem->setIcon(QIcon(":/close.png"));
-    //closeItem->setText("C");
     closeItem->setGeometry(0, 0, 20, 20);
 
     openItem = new QPushButton(this);
     openItem->setIcon(QIcon(":/fleche_haut_vert.png"));
-    //openItem->setText("R");
     openItem->setGeometry(21, 0, 20, 20);
 
-	this->setStyleSheet("Items{border: 1px dotted #888888;}");
-	this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
+    this->setStyleSheet("Items{border: 1px dotted #888888;}");
+    this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
-	this->setMinimumHeight(25);
-	this->setMinimumWidth(45);
+    this->setMinimumHeight(25);
+    this->setMinimumWidth(45);
 
-        this->isDocked = false;
+    this->isDocked = false;
+    this->isMoving = false;
+    this->isResizing = false;
+
+    this->setWindowFlags(Qt::SubWindow);
 }
 
 bool    Items::getIsDocked()
@@ -39,16 +41,34 @@ bool    Items::getIsDocked()
     return this->isDocked;
 }
 
-void Items::leaveEvent(QEvent *event)
+void    Items::leaveEvent(QEvent *event)
 {
 	this->closeItem->hide();
 	this->openItem->hide();
 }
 
-void Items::enterEvent(QEvent *event)
+void    Items::enterEvent(QEvent *event)
 {
 	this->closeItem->show();
 	this->openItem->show();
+}
+
+void    Items::mouseReleaseEvent(QMouseEvent *event)
+{
+    if (!this->isResizing)
+        return ;
+
+    X = event->pos().y();
+    Y = event->pos().x();
+
+    this->hide();
+
+    setGeometry(this->pos().x(), this->pos().y(),
+                this->size().height() + (Y - saveY),
+                this->size().width() + (X - saveX));
+    repaint();
+    this->isResizing = false;
+    this->show();
 }
 
 void Items::mouseMoveEvent(QMouseEvent *event)
@@ -57,8 +77,19 @@ void Items::mouseMoveEvent(QMouseEvent *event)
 }
 
 void Items::mousePressEvent(QMouseEvent *event)
- {
-    QByteArray itemData;
+{
+    if ((event->pos().x() >= this->size().width() - 15)
+        && (event->pos().x() <= this->size().width() + 15)
+        && (event->pos().y() >= this->size().height() - 15)
+        && (event->pos().y() <= this->size().height() + 15))
+        {
+            saveX = event->pos().x();
+            saveY = event->pos().y();
+            this->isResizing = true;
+            return ;
+        }
+
+     QByteArray itemData;
      QDataStream dataStream(&itemData, QIODevice::WriteOnly);
      dataStream << QPoint(event->pos() - rect().topLeft());
 
@@ -95,8 +126,7 @@ void Items::mousePressEvent(QMouseEvent *event)
          hide();
      }
      else
-         show();
-     //show();
+         show();     //show();
  }
 
 void    Items::restore()
