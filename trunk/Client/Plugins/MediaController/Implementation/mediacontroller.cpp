@@ -46,25 +46,17 @@ QWidget*        MediaController::createDocumentWidget(QWidget *parent, ILessonDo
     fileId = document->getParameters().value("name").toInt();
     data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-    this->vid = new Phonon::VideoWidget(parent);
+    player = new Phonon::VideoPlayer(Phonon::VideoCategory, parent);
 
     //if (data->isDownloaded())
     dl();
-    return vid;
+    return player;
 }
 
 void    MediaController::dl()
 {
-    this->media = new Phonon::MediaObject(parent);
-    Phonon::createPath(this->media, this->vid);
-
-    Phonon::AudioOutput *audioOutput =
-                new Phonon::AudioOutput(Phonon::VideoCategory, this);
-    Phonon::createPath(media, audioOutput);
     Phonon::MediaSource source(data->file()->fileName());
-
-    this->media->setCurrentSource(source);
-    this->media->play();
+    player->play(source);
 }
 
 void    MediaController::reload()
