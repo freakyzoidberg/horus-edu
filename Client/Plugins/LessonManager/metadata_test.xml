@@ -31,6 +31,8 @@
 	    niveau depuis sa creation en 1896. Il retrouvera son plus haut niveau 
 	    que le 23 novembre 1954, apres une parenthese de 25 ans.</Document>
 	  <Document id="13" title="Production industrielle de 1927 a 1940" type="Pdf" name="260" page="16"  x="30" y="100" w="620" h="520" />
-	  <Document id="14" title="testvideo" type="Media" name="14" page="16" />
+	  <Document id="14" title="testvideo" type="Media" name="14"/>
+	  <Document id="15" title="testaudio" type="Audio" name="15"/>
+
 	</Section>
 </Lesson>
