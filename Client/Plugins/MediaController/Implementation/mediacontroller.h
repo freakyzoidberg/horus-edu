@@ -4,6 +4,7 @@
 #include <phonon/videowidget.h>
 #include <phonon/mediaobject.h>
 #include <phonon/audiooutput.h>
+#include <phonon/videoplayer.h>
 
 # include "../../../../Common/Plugin.h"
 # include "../../../../Common/FileData.h"
@@ -43,6 +44,7 @@ class MediaController : public Plugin, public IDocumentController
         FileData                *data;
         QString                 supportedType;
         Phonon::VideoWidget     *vid;
+        Phonon::VideoPlayer     *player;
         Phonon::MediaObject     *media;
         QWidget                 *parent;
 };
