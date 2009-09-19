@@ -21,7 +21,6 @@ HEADERS += Implementation/Course.h \
     ../../DisplayablePlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
-<<<<<<< .mine
     ../../../Common/AbstractManager.h \
     ../../../Common/FileDataPlugin.h \
     ../../../Common/FileData.h \
@@ -29,13 +28,6 @@ HEADERS += Implementation/Course.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
-=======
-	../../../Common/DataPlugin.h \
-	../../../Common/Data.h \
-	../../../Common/AbstractManager.h \
-	../../../Common/FileDataPlugin.h \
-	../../../Common/FileData.h \
->>>>>>> .r1063
     Implementation/WhiteBoard.h \
     Implementation/Items.h \
     Implementation/WhiteBoardData.h \
