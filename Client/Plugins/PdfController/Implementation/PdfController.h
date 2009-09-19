@@ -50,7 +50,7 @@ class   PdfController : public Plugin, public IDocumentController
         QLabel          *label;
         FileData        *data;
         QString         supportedType;
-         IPdfRendering  *pdf;
+        IPdfRendering  *pdf;
         QRectF           *rect;
         int         page;
 };
