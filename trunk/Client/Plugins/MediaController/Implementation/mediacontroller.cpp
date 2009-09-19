@@ -7,7 +7,6 @@
 MediaController::MediaController()
 {
     qWarning() << "Media Controller loaded";
-
 }
 
 MediaController::~MediaController()
@@ -15,12 +14,12 @@ MediaController::~MediaController()
 
 }
 
-const QString    MediaController::pluginName() const
+const QString   MediaController::pluginName() const
 {
     return "MediaController";
 }
 
-const QString    MediaController::pluginVersion() const
+const QString   MediaController::pluginVersion() const
 {
     return "0.2";
 }
