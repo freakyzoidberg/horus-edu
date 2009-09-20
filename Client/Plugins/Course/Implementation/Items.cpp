@@ -7,8 +7,8 @@
 #include <QPushButton>
 #include <QIcon>
 #include <QVector>
-
 #include <QDebug>
+#include <QBoxLayout>
 
 Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
     : IItems(papyrus), id(id)
@@ -18,11 +18,10 @@ Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
 
     closeItem = new QPushButton(this);
     closeItem->setIcon(QIcon(":/close.png"));
-    closeItem->setGeometry(0, 0, 20, 20);
-
     openItem = new QPushButton(this);
     openItem->setIcon(QIcon(":/fleche_haut_vert.png"));
     openItem->setGeometry(21, 0, 20, 20);
+    closeItem->setGeometry(0, 0, 20, 20);
 
     this->setStyleSheet("Items{border: 1px dotted #888888;}");
     this->connect(closeItem, SIGNAL(clicked()), this, SLOT(deleteWidgets()));
@@ -38,6 +37,8 @@ Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
     this->id = id;
 
     this->setWindowFlags(Qt::SubWindow);
+
+
 }
 
 Items::~Items()
@@ -46,6 +47,7 @@ Items::~Items()
 
 bool    Items::deleteWidgets()
 {
+    qWarning() << "trying to delete";
     /*
         for (int i = 0; i < this->children().size(); ++i)
         children().removeAt(i);
@@ -192,7 +194,6 @@ QWidget         *Items::getMainWidget()
 {
     return this->mainWidget;
 }
-
 
 
 

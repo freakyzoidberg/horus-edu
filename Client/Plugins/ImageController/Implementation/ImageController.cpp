@@ -35,7 +35,6 @@ QWidget*            ImageController::createDocumentWidget(IItems *parent, ILesso
     }
 
     label = new QLabel("Loading image...", parent);
-
     //if (data->isDownloaded())
         dl();
 
@@ -74,7 +73,6 @@ void    ImageController::reload()
     label->setPixmap(pix);
     delete image;
 }
-
 
 void    ImageController::clean(IItems *widget)
 {
