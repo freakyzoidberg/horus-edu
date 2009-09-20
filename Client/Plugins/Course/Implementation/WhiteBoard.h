@@ -19,7 +19,7 @@ class Items;
 
 class WhiteBoard : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
      WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers, ILesson *lesson);
@@ -29,6 +29,7 @@ public:
      int    getPosInDoc();
      QToolBar *dock;
      QVector<QPushButton *>   button;
+     QHash<QString, IDocumentController *>  getControllers();
 
 protected:
      void dragEnterEvent(QDragEnterEvent *event);
@@ -37,17 +38,17 @@ protected:
      QHash<QString, IDocumentController *> _controllers;
 
 protected slots:
-	 void	update(const WhiteBoardItemList&);
+    void	update(const WhiteBoardItemList&);
 
 private:
-	 ILessonDocument	*findDocument(ILessonData* data);
-	 void	fillList(QObject* data, WhiteBoardItemList&);
+    ILessonDocument	*findDocument(ILessonData* data);
+    void                fillList(QObject* data, WhiteBoardItemList&);
 
  private:
-     Items   *tmp;
-     int    posInDoc;
-     WhiteBoardData wbdata;
-	 ILesson *lesson;
+    Items           *tmp;
+    int             posInDoc;
+    WhiteBoardData  wbdata;
+    ILesson         *lesson;
 };
 
 #endif // WHITEBOARD_H

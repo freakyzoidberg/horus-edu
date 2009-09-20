@@ -10,6 +10,7 @@
 # include "../../LessonManager/IDocumentController.h"
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
+# include "../../Course/IItems.h"
 
 class ImageController : public Plugin, public IDocumentController
 {
@@ -21,7 +22,9 @@ public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
         const QString		getSupportedType() const;
-        QWidget*		createDocumentWidget(QWidget *parent, ILessonDocument *document);
+        QWidget*		createDocumentWidget(IItems *parent, ILessonDocument *document);
+        void                    resizeWidget(IItems *);
+        void                    clean(IItems *);
 
  private slots:
         void    dl();

@@ -31,5 +31,7 @@ HEADERS += Implementation/Course.h \
     Implementation/WhiteBoard.h \
     Implementation/Items.h \
     Implementation/WhiteBoardData.h \
-    Implementation/WhiteBoardItem.h
+    Implementation/WhiteBoardItem.h \
+    Implementation/WhiteBoard.h \
+    IItems.h
 RESOURCES += Implementation/Course.qrc

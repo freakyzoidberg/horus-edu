@@ -29,7 +29,7 @@ const QString   MediaController::getSupportedType() const
     return ("Media");
 }
 
-QWidget*        MediaController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
+QWidget*        MediaController::createDocumentWidget(IItems *parent, ILessonDocument *document)
 {
     int         fileId;
 
@@ -47,9 +47,10 @@ QWidget*        MediaController::createDocumentWidget(QWidget *parent, ILessonDo
     data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
     player = new Phonon::VideoPlayer(Phonon::VideoCategory, parent);
+    parent->setMainWidget(player);
 
     //if (data->isDownloaded())
-    dl();
+        dl();
     return player;
 }
 
@@ -64,3 +65,21 @@ void    MediaController::reload()
 
 }
 
+void    MediaController::clean(IItems *widget)
+{
+    qWarning() << "stop";
+
+    Phonon::VideoPlayer     *tmp;
+
+    tmp = qobject_cast<Phonon::VideoPlayer *>(widget->getMainWidget());
+    tmp->stop();
+    delete tmp;
+}
+
+void    MediaController::resizeWidget(IItems *widget)
+{
+    Phonon::VideoPlayer     *tmp;
+
+    tmp = qobject_cast<Phonon::VideoPlayer *>(widget);
+
+}

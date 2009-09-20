@@ -5,6 +5,7 @@
 
 # include "../../../../Common/Plugin.h"
 # include "../../LessonManager/IDocumentController.h"
+# include "../../Course/IItems.h"
 
 class TextController : public Plugin, public IDocumentController
 {
@@ -16,7 +17,9 @@ public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
     const QString		getSupportedType() const;
-	QWidget*			createDocumentWidget(QWidget *parent, ILessonDocument *document);
+         QWidget*        createDocumentWidget(IItems *parent, ILessonDocument *document);
+        void            resizeWidget(IItems *);
+        void            clean(IItems *);
 };
 
 #endif // __TEXTCONTROLLER_H__

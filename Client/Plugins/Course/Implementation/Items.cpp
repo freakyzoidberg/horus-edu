@@ -10,7 +10,8 @@
 
 #include <QDebug>
 
-Items::Items(WhiteBoard *papyrus, int id) : QSizeGrip(papyrus), id(id)
+Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
+    : IItems(papyrus), id(id)
 {
     this->setAcceptDrops(true);
     this->board = papyrus;
@@ -24,7 +25,7 @@ Items::Items(WhiteBoard *papyrus, int id) : QSizeGrip(papyrus), id(id)
     openItem->setGeometry(21, 0, 20, 20);
 
     this->setStyleSheet("Items{border: 1px dotted #888888;}");
-    this->connect(closeItem, SIGNAL(clicked()), this, SLOT(close()));
+    this->connect(closeItem, SIGNAL(clicked()), this, SLOT(deleteWidgets()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
     this->setMinimumHeight(25);
     this->setMinimumWidth(45);
@@ -32,8 +33,26 @@ Items::Items(WhiteBoard *papyrus, int id) : QSizeGrip(papyrus), id(id)
     this->isDocked = false;
     this->isMoving = false;
     this->isResizing = false;
+    this->title = title;
+    this->type = type;
+    this->id = id;
 
     this->setWindowFlags(Qt::SubWindow);
+}
+
+Items::~Items()
+{
+}
+
+bool    Items::deleteWidgets()
+{
+    /*
+        for (int i = 0; i < this->children().size(); ++i)
+        children().removeAt(i);
+    */
+    this->board->getControllers().value(this->type)->clean(this);
+    close();
+    return true;
 }
 
 bool    Items::getIsDocked()
@@ -66,6 +85,7 @@ void    Items::mouseReleaseEvent(QMouseEvent *event)
     setGeometry(this->pos().x(), this->pos().y(),
                 this->size().height() + (Y - saveY),
                 this->size().width() + (X - saveX));
+    //board->getControllers().value("type")->resizeWidget(this);
     repaint();
     this->isResizing = false;
     this->show();
@@ -95,9 +115,7 @@ void Items::mousePressEvent(QMouseEvent *event)
 
     this->board->setTmp(this);
 
-    //qDebug() << "addr : "<< this->parentWidget();
      QDrag *drag = new QDrag(this);
- //
      QMimeData *mimeData = new QMimeData;
      mimeData->setProperty("hotspot", event->pos() - rect().topLeft());
 
@@ -108,10 +126,7 @@ void Items::mousePressEvent(QMouseEvent *event)
      x=this->x();
      y=this->y();
 
-        //QPixmap mini = QPixmap::grabWindow( QApplication::desktop()->winId(),  x,y, w, h );
-
     QPixmap mini = QPixmap::grabWidget(this);
-
 
      drag->setMimeData(mimeData);
     qDebug() << "Et sa position : " << this->x() << " et " << this->y();
@@ -121,13 +136,10 @@ void Items::mousePressEvent(QMouseEvent *event)
      hide();
 
      if (drag->exec(Qt::MoveAction | Qt::CopyAction, Qt::CopyAction) == Qt::MoveAction)
-     {
-         //close();
          hide();
-     }
      else
-         show();     //show();
- }
+         show();
+}
 
 void    Items::restore()
 {
@@ -157,6 +169,7 @@ void    Items::moveToDock()
 {
     this->hide();
     small = new QPushButton(this->board->dock);
+    small->setToolTip(this->title);
     small->setIcon(QIcon(":/fleche_bas_vert.png"));
     small->setGeometry(board->getPosInDoc(), 5, 20, 20);
     this->board->setPosInDoc(board->getPosInDoc() + 21);
@@ -165,8 +178,21 @@ void    Items::moveToDock()
     connect(small, SIGNAL(clicked()), this, SLOT(restore()));
 }
 
-int		Items::getId()
+int	Items::getId()
 {
-	return id;
+  return id;
 }
+
+void            Items::setMainWidget(QWidget *widget)
+{
+    this->mainWidget = widget;
+}
+
+QWidget         *Items::getMainWidget()
+{
+    return this->mainWidget;
+}
+
+
+
 

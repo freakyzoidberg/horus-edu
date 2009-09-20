@@ -19,11 +19,11 @@ const QString      ImageController::getSupportedType() const
     return ("image");
 }
 
-QWidget*            ImageController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
+QWidget*            ImageController::createDocumentWidget(IItems *parent, ILessonDocument *document)
 {
     int fileId;
 
-    fileId = document->getParameters().value("fileId").toInt();
+    fileId = document->getParameters().value("id").toInt();
     data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
 
@@ -36,7 +36,7 @@ QWidget*            ImageController::createDocumentWidget(QWidget *parent, ILess
 
     label = new QLabel("Loading image...", parent);
 
-    if (data->isDownloaded())
+    //if (data->isDownloaded())
         dl();
 
     return (label);
@@ -47,7 +47,6 @@ void        ImageController::dl()
     QString fileName;
     fileName = data->file()->fileName();
 
-    qDebug() << "Image name: " << fileName;
     QImage  *image = new QImage(fileName);
     if (image->isNull())
     {
@@ -75,3 +74,15 @@ void    ImageController::reload()
     label->setPixmap(pix);
     delete image;
 }
+
+
+void    ImageController::clean(IItems *widget)
+{
+
+}
+
+void    ImageController::resizeWidget(IItems *widget)
+{
+
+}
+
