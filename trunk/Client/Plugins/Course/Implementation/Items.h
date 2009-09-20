@@ -6,6 +6,7 @@
 #include <QDockWidget>
 #include <QSizeGrip>
 #include <QMouseEvent>
+#include <QGridLayout>
 
 #include "IItems.h"
 #include "WhiteBoard.h"
@@ -46,6 +47,7 @@ private:
     bool            isMoving;
     bool            isResizing;
     int             X, Y, saveX, saveY;
+    QGridLayout     *layout;
 };
 
 #endif // ITEMS_H

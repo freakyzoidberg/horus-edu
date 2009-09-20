@@ -88,7 +88,9 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				if (docWidget)
 				{
 					docWidget->lower();
-					item->show();
+
+                                        item->show();
+
 					item->resize(docWidget->size());
 					item->repaint();
 				}
@@ -118,7 +120,9 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
            tmp->move(event->pos() - offset);
            //tmp->raise();
+
            tmp->show();
+
  //          tmp->closeItem->raise();
    //        tmp->closeItem->show();
            tmp->setVisible(true);
@@ -176,7 +180,9 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 					if (docWidget)
 					{
 						docWidget->lower();
-						item->show();
+
+                                                item->show();
+
 						item->repaint();
 					}
 				}
