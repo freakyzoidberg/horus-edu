@@ -10,22 +10,22 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
 {
     setAcceptDrops(true);
     setAutoFillBackground(true);
-    this->dock = new QToolBar(this);
 
+    this->dock = new QToolBar(this);
     this->dock->setGeometry(0, 0, this->geometry().width(), 20);
-    //this->setGeometry(
     this->posInDoc = 0;
-	QPalette p(this->palette());
-	p.setColor(QPalette::Background, Qt::white);
-	this->setPalette(p);
-	QObject::connect(&wbdata, SIGNAL(remoteUpdate(WhiteBoardItemList)), this, SLOT(update(WhiteBoardItemList)));
-   }
+
+    QPalette p(this->palette());
+    p.setColor(QPalette::Background, Qt::white);
+    this->setPalette(p);
+
+    QObject::connect(&wbdata, SIGNAL(remoteUpdate(WhiteBoardItemList)), this, SLOT(update(WhiteBoardItemList)));
+}
 
 void   WhiteBoard::setTmp(Items *item)
 {
     tmp = item;
 }
-
 
 Items  *WhiteBoard::getTmp()
 {
@@ -79,7 +79,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			ILessonDocument *doc = new LessonDocument(this, id, title, type, content, parameters);
 			if (this->_controllers.contains(type))
                         {
-                                Items *item = new Items(this, id);
+                                Items *item = new Items(this, id, type, title);
 
 				QWidget *docWidget;
 				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
@@ -167,7 +167,9 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			{
 				if (this->_controllers.contains(document->getType()))
 				{
-					Items *item = new Items(this, document->getId());
+                                        Items *item = new Items(this, document->getId(),
+                                                                document->getParameters().value("type").toString(),
+                                                                document->getParameters().value("title").toString());
 					QWidget *docWidget;
 					docWidget = this->_controllers[document->getType()]->createDocumentWidget(item, document);
 					item->setGeometry(it->getX(), it->getY(), it->getWidth(), it->getHeight());
@@ -234,4 +236,9 @@ void	WhiteBoard::fillList(QObject* data, WhiteBoardItemList& list)
 			}
 		}
 	}
+}
+
+QHash<QString, IDocumentController *>  WhiteBoard::getControllers()
+{
+    return this->_controllers;
 }

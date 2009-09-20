@@ -33,6 +33,13 @@
 	  <Document id="13" title="Production industrielle de 1927 a 1940" type="Pdf" name="260" page="16"  x="30" y="100" w="620" h="520" />
 	  <Document id="14" title="testvideo" type="Media" name="14"/>
 	  <Document id="15" title="testaudio" type="Audio" name="15"/>
+	  <Document id="16" title="testimage" type="image" name="16"/>
+	  <Document id="17" title="testpdf" type="Pdf" name="16" page="10" x="100" y="100" w="100" h="100"/>
+
+
+	    <Document id="18" title="testtext" type="text" input="content">Rappelons pour finir l'importance du chemin de fer qui a permis de mettre en valeur les immenses surface du continent.</Document>
+
+
 
 	</Section>
 </Lesson>

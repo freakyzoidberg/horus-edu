@@ -17,7 +17,7 @@ const QString      TextController::getSupportedType() const
     return ("text");
 }
 
-QWidget*			TextController::createDocumentWidget(QWidget *parent, ILessonDocument *document)
+QWidget*			TextController::createDocumentWidget(IItems *parent, ILessonDocument *document)
 {
     QLabel *label = 0;
 
@@ -27,4 +27,14 @@ QWidget*			TextController::createDocumentWidget(QWidget *parent, ILessonDocument
         label->setText(document->getContent());
     }
 	return (label);
+}
+
+void    TextController::clean(IItems *widget)
+{
+
+}
+
+void    TextController::resizeWidget(IItems *widget)
+{
+
 }

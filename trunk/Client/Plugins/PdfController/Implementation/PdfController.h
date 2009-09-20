@@ -11,6 +11,7 @@
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
 # include "../../PdfDisplayer/IPdfRendering.h"
+# include "../../Course/IItems.h"
 
 class   PdfController : public Plugin, public IDocumentController
 {
@@ -40,7 +41,9 @@ class   PdfController : public Plugin, public IDocumentController
                 */
         const QString  getSupportedType() const;
 
-        QWidget* createDocumentWidget(QWidget *parent, ILessonDocument *document);
+        QWidget*        createDocumentWidget(IItems *parent, ILessonDocument *document);
+        void            resizeWidget(IItems *);
+        void            clean(IItems *);
 
      private slots:
         void    dl();
