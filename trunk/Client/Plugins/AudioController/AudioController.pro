@@ -20,3 +20,4 @@ HEADERS += Implementation/AudioController.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
     Implementation/audioplayer.h
+RESOURCES += Implementation/AudioController.qrc
