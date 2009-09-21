@@ -3,10 +3,13 @@
 #include <QIcon>
 #include <QTime>
 #include <QVBoxLayout>
+#include <QHBoxLayout>
 
 Player::Player(QWidget *parent) : QWidget(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
+    QHBoxLayout *hLayout = new QHBoxLayout();
+    QHBoxLayout *hLayout2 = new QHBoxLayout();
 
     vidPlayer = new Phonon::VideoPlayer(Phonon::VideoCategory, this);
     this->media = vidPlayer->mediaObject();
@@ -15,22 +18,22 @@ Player::Player(QWidget *parent) : QWidget(parent)
 
     seekSlider = new Phonon::SeekSlider(this);
     volumeSlider = new Phonon::VolumeSlider(this);
-    volumeSlider->setGeometry(0, 21, 100, 20);
-    seekSlider->setGeometry(46, 0, 165, 20);
+    //volumeSlider->setGeometry(0, 21, 100, 20);
+    //seekSlider->setGeometry(46, 0, 165, 20);
 
     stopV = new QPushButton(this);
     stopV->setIcon(QIcon(":/stop.png"));
-    stopV->setGeometry(101, 21, 20, 20);
+    //stopV->setGeometry(101, 21, 20, 20);
 
     pauseV = new QPushButton(this);
     pauseV->setIcon(QIcon(":/pause.png"));
-    pauseV->setGeometry(122, 21, 20, 20);
+    //pauseV->setGeometry(122, 21, 20, 20);
 
     playV = new QPushButton(this);
     playV->setIcon(QIcon(":/play.png"));
-    playV->setGeometry(143, 21, 20, 20);
+    //playV->setGeometry(143, 21, 20, 20);
 
-    this->setMinimumWidth(200);
+    //this->setMinimumWidth(200);
     connect(playV, SIGNAL(clicked()), media, SLOT(play()));
     connect(pauseV, SIGNAL(clicked()), media, SLOT(pause()));
     connect(stopV, SIGNAL(clicked()), media, SLOT(stop()));
@@ -39,8 +42,22 @@ Player::Player(QWidget *parent) : QWidget(parent)
     QPalette palette;
     palette.setBrush(QPalette::Dark, Qt::darkBlue);
     timeLCD->setPalette(palette);
-    timeLCD->setGeometry(164, 21, 50, 20);
+    //timeLCD->setGeometry(164, 21, 20, 20);
     connect(media, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
+
+    hLayout->addWidget(playV);
+    hLayout->addWidget(stopV);
+    hLayout->addWidget(pauseV);
+    hLayout->addWidget(volumeSlider);
+    hLayout2->addWidget(seekSlider);
+    hLayout2->addWidget(timeLCD);
+
+    layout->addLayout(hLayout2);
+    layout->addLayout(hLayout);
+    hLayout->maximumSize().setHeight(10);
+    hLayout2->maximumSize().setHeight(10);
+    hLayout->setSizeConstraint(QLayout::SetMaximumSize);
+    hLayout2->setSizeConstraint(QLayout::SetMaximumSize);
 }
 
 Player::~Player()
