@@ -6,7 +6,8 @@ TARGET = MediaController
 DEFINES += HORUS_CLIENT
 TEMPLATE = lib
 DEFINES += MEDIACONTROLLER_LIBRARY
-SOURCES += Implementation/mediacontroller.cpp
+SOURCES += Implementation/mediacontroller.cpp \
+    Implementation/player.cpp
 HEADERS += Implementation/mediacontroller.h \
     Implementation/MediaControllerMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -16,4 +17,5 @@ HEADERS += Implementation/mediacontroller.h \
     ../../../Common/Data.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserData.h \
-    ../../../Common/UserDataPlugin.h
+    ../../../Common/UserDataPlugin.h \
+    Implementation/player.h

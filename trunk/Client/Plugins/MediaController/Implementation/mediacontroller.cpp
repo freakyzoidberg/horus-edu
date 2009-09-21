@@ -1,12 +1,11 @@
 #include <phonon/mediasource.h>
 
 #include "mediacontroller.h"
-
+#include "player.h"
 #include "../../../../Common/PluginManager.h"
 
 MediaController::MediaController()
 {
-    qWarning() << "Media Controller loaded";
 }
 
 MediaController::~MediaController()
@@ -42,22 +41,30 @@ QWidget*        MediaController::createDocumentWidget(IItems *parent, ILessonDoc
         return NULL;
     }
 
-    this->parent = parent;
+    //this->parent = parent;
     fileId = document->getParameters().value("name").toInt();
     data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
-    this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-    player = new Phonon::VideoPlayer(Phonon::VideoCategory, parent);
+    Player *player = new Player(parent);
+    this->parent = parent;
     parent->setMainWidget(player);
+    this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
 
     //if (data->isDownloaded())
-        dl();
+    dl();
     return player;
 }
 
 void    MediaController::dl()
 {
+    Player     *tmp;
+
+    tmp = dynamic_cast<Player *>(parent->getMainWidget());
+
     Phonon::MediaSource source(data->file()->fileName());
-    player->play(source);
+
+    tmp->getVolumeSlider()->setAudioOutput(tmp->getVidPlayer()->audioOutput());
+    tmp->getSeekSlider()->setMediaObject(tmp->getMedia());
+    tmp->getVidPlayer()->play(source);
 }
 
 void    MediaController::reload()
@@ -67,19 +74,17 @@ void    MediaController::reload()
 
 void    MediaController::clean(IItems *widget)
 {
-    qWarning() << "stop";
+    Player     *tmp;
 
-    Phonon::VideoPlayer     *tmp;
-
-    tmp = qobject_cast<Phonon::VideoPlayer *>(widget->getMainWidget());
-    tmp->stop();
+    tmp = dynamic_cast<Player *>(widget->getMainWidget());
+    tmp->getMedia()->stop();
     delete tmp;
 }
 
 void    MediaController::resizeWidget(IItems *widget)
 {
-    Phonon::VideoPlayer     *tmp;
+    Player  *tmp;
 
-    tmp = qobject_cast<Phonon::VideoPlayer *>(widget);
+    tmp = dynamic_cast<Player *>(widget);
 
 }

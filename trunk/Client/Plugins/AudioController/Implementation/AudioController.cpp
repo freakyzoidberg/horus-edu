@@ -47,7 +47,7 @@ QWidget*        AudioController::createDocumentWidget(IItems *parent, ILessonDoc
     fileId = document->getParameters().value("name").toInt();
     data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-
+    this->parent = parent;
     parent->setMainWidget(reader);
 
     //if (data->isDownloaded())
