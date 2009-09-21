@@ -184,7 +184,7 @@ int	Items::getId()
   return id;
 }
 
-void    tems::setMainWidget(QWidget *widget)
+void    Items::setMainWidget(QWidget *widget)
 {
     this->mainWidget = widget;
 }
