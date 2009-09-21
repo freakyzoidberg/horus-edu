@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPushButton>
+#include <QLCDNumber>
 #include <phonon/volumeslider.h>
 #include <phonon/seekslider.h>
 #include <phonon/mediaobject.h>
@@ -20,11 +21,15 @@ public:
     QPushButton             *getPause();
     QPushButton             *getPlay();
 
+public slots:
+    void                    tick(qint64);
+
 private:
     Phonon::SeekSlider      *seekSlider;
     Phonon::VolumeSlider    *volumeSlider;
     Phonon::MediaObject     *media;
     QPushButton             *stop, *pause, *play;
+    QLCDNumber              *timeLCD;
 };
 
 #endif // AUDIOPLAYER_H

@@ -9,6 +9,7 @@
 #include <QVector>
 #include <QDebug>
 #include <QBoxLayout>
+#include <QCursor>
 
 Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
     : IItems(papyrus), id(id)
@@ -37,8 +38,6 @@ Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
     this->id = id;
 
     this->setWindowFlags(Qt::SubWindow);
-
-
 }
 
 Items::~Items()
@@ -185,7 +184,7 @@ int	Items::getId()
   return id;
 }
 
-void            Items::setMainWidget(QWidget *widget)
+void    tems::setMainWidget(QWidget *widget)
 {
     this->mainWidget = widget;
 }

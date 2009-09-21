@@ -1,13 +1,14 @@
 #include "audioplayer.h"
 
 #include <QIcon>
+#include <QTime>
 
 AudioPlayer::AudioPlayer(QWidget *parent, Phonon::MediaObject *media) : QWidget(parent)
 {
     seekSlider = new Phonon::SeekSlider(this);
     volumeSlider = new Phonon::VolumeSlider(this);
     volumeSlider->setGeometry(0, 21, 100, 20);
-    seekSlider->setGeometry(46, 0, 100, 20);
+    seekSlider->setGeometry(46, 0, 165, 20);
     stop = new QPushButton(this);
     stop->setIcon(QIcon(":/stop.png"));
     stop->setGeometry(101, 21, 20, 20);
@@ -22,12 +23,26 @@ AudioPlayer::AudioPlayer(QWidget *parent, Phonon::MediaObject *media) : QWidget(
     connect(pause, SIGNAL(clicked()), media, SLOT(pause()));
     connect(stop, SIGNAL(clicked()), media, SLOT(stop()));
     this->media = media;
+    media->setTickInterval(1000);
+    timeLCD = new QLCDNumber(this);
+    QPalette palette;
+    palette.setBrush(QPalette::Dark, Qt::darkBlue);
+    timeLCD->setPalette(palette);
+    timeLCD->setGeometry(164, 21, 50, 20);
+    connect(media, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
 }
 
 AudioPlayer::~AudioPlayer()
 {
     delete seekSlider;
     delete volumeSlider;
+}
+
+void    AudioPlayer::tick(qint64 time)
+{
+     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
+
+     timeLCD->display(displayTime.toString("mm:ss"));
 }
 
 Phonon::VolumeSlider    *AudioPlayer::getVolumeSlider()
