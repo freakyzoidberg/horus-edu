@@ -46,11 +46,6 @@ Items::~Items()
 
 bool    Items::deleteWidgets()
 {
-    qWarning() << "trying to delete";
-    /*
-        for (int i = 0; i < this->children().size(); ++i)
-        children().removeAt(i);
-    */
     this->board->getControllers().value(this->type)->clean(this);
     close();
     return true;
