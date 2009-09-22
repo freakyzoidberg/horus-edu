@@ -74,6 +74,7 @@ class StudentsPage : public QWidget
     void buttonClicked(QAbstractButton * button);
     void userSelected(const QModelIndex &userIndex);
     void ImageButtonClick();
+    void ShowTreeContextMenu(const QPoint& pnt);
 };
 
 #endif // STUDENTSPAGE_H
