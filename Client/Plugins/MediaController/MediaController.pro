@@ -19,3 +19,4 @@ HEADERS += Implementation/mediacontroller.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
     Implementation/player.h
+RESOURCES += MediaController.qrc

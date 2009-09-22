@@ -7,7 +7,7 @@
 #include <phonon/volumeslider.h>
 #include <phonon/seekslider.h>
 #include <phonon/mediaobject.h>
-#include "phonon/videoplayer.h"
+#include <phonon/videoplayer.h>
 
 class Player : public QWidget
 {
@@ -25,13 +25,15 @@ public:
 
 public slots:
     void                    tick(qint64);
+    void                    fullScreen();
+    void                    leaveFullScreen();
 
 private:
     Phonon::SeekSlider      *seekSlider;
     Phonon::VolumeSlider    *volumeSlider;
     Phonon::MediaObject     *media;
     Phonon::VideoPlayer     *vidPlayer;
-    QPushButton             *stopV, *pauseV, *playV;
+    QPushButton             *stopV, *pauseV, *playV, *toFullScreen, *noFullScreen;
     QLCDNumber              *timeLCD;
 };
 
