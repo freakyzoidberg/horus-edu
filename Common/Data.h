@@ -88,6 +88,15 @@ public:
 
     inline const QDateTime lastChange() { return _lastChange; }
 
+#ifdef HORUS_CLIENT
+	virtual inline bool canChange() { return true; }
+	virtual inline bool canAccess() { return true; }
+#endif
+#ifdef HORUS_SERVER
+	virtual inline bool canChange(UserData*) { return true; }
+	virtual inline bool canAccess(UserData*) { return true; }
+#endif
+
 signals:
     //! Signal emmited when the data is updated.
     void                    updated();
