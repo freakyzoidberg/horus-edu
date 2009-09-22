@@ -1,5 +1,6 @@
 #include "player.h"
 
+#include <phonon/videowidget.h>
 #include <QIcon>
 #include <QTime>
 #include <QVBoxLayout>
@@ -33,10 +34,18 @@ Player::Player(QWidget *parent) : QWidget(parent)
     playV->setIcon(QIcon(":/play.png"));
     //playV->setGeometry(143, 21, 20, 20);
 
+    toFullScreen = new QPushButton(this);
+    toFullScreen->setIcon(QIcon(":/fullscreen.png"));
+
+    noFullScreen = new QPushButton(vidPlayer->videoWidget());
+    noFullScreen->setIcon(QIcon(":/fullscreen.png"));
+
     //this->setMinimumWidth(200);
     connect(playV, SIGNAL(clicked()), media, SLOT(play()));
     connect(pauseV, SIGNAL(clicked()), media, SLOT(pause()));
     connect(stopV, SIGNAL(clicked()), media, SLOT(stop()));
+    connect(toFullScreen, SIGNAL(clicked()), this, SLOT(fullScreen()));
+    connect(noFullScreen, SIGNAL(clicked()), this, SLOT(leaveFullScreen()));
 
     timeLCD = new QLCDNumber(this);
     QPalette palette;
@@ -48,12 +57,14 @@ Player::Player(QWidget *parent) : QWidget(parent)
     hLayout->addWidget(playV);
     hLayout->addWidget(stopV);
     hLayout->addWidget(pauseV);
+    hLayout->addWidget(toFullScreen);
     hLayout->addWidget(volumeSlider);
     hLayout2->addWidget(seekSlider);
     hLayout2->addWidget(timeLCD);
 
     layout->addLayout(hLayout2);
     layout->addLayout(hLayout);
+
     hLayout->maximumSize().setHeight(10);
     hLayout2->maximumSize().setHeight(10);
     hLayout->setSizeConstraint(QLayout::SetMaximumSize);
@@ -106,4 +117,16 @@ QPushButton             *Player::getPlay()
 QPushButton             *Player::getStop()
 {
     return this->stopV;
+}
+
+void                    Player::fullScreen()
+{
+    this->vidPlayer->videoWidget()->setFullScreen(true);
+    this->noFullScreen->show();
+}
+
+void                    Player::leaveFullScreen()
+{
+   this->vidPlayer->videoWidget()->setFullScreen(false);
+    this->noFullScreen->hide();
 }
