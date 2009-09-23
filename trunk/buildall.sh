@@ -17,6 +17,7 @@ JAUNE="\\033[1;33m"
 CYAN="\\033[1;36m" 
 
 REDIR="/dev/null"
+
 me=`whoami`
 case $me in 
     'dtc')

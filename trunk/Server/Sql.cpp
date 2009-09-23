@@ -1,5 +1,6 @@
 #include "Sql.h"
-
+#include "Logs.h"
+#include "../Common/Defines.h"
 QMutex Sql::mymute(QMutex::Recursive);
 QSemaphore Sql::mtsema;
 QHash <QByteArray, bool> Sql::map;
@@ -14,7 +15,7 @@ Sql::Sql()
         {
             if (QSqlDatabase().database(it.key()).isOpen() == false)
             {
-                qDebug() << "SQL connection have been closed, this should not happen";
+                logs::addlog(LOGERROR, "SQL connection have been closed, this should not happen");
             }
             this->append(it.key());
             break;
@@ -22,7 +23,6 @@ Sql::Sql()
     }
     map[*this] = false;
     mymute.unlock();
-    qDebug() << "Using Sql connexion" << *this;
 }
 
 Sql::~Sql()
@@ -46,18 +46,20 @@ bool Sql::sqlConnect(QString dbName, QString hostname, QString username, QString
         db.setPassword(password);
         db.setPort(port);
 
-        qDebug() << "sql::sqlconnect() connect to" << db.databaseName() << " on " << db.userName() << "@" << db.hostName() << ":" << db.port() << "driver = " << db.driver() << "No:" << connm;
+
+        //qDebug() << "sql::sqlconnect() connect to" << db.databaseName() << " on " << db.userName() << "@" << db.hostName() << ":" << db.port() << "driver = " << db.driver() << "No:" << connm;
+        logs::addlog(LOGINFO,  "Sql connecting to" + db.databaseName() + " infos: " + db.userName() + "@" + db.hostName() + ":" + QVariant(db.port()).toString() + " -- No:" + QString(connm));
         if ( ! db.open())
         {
-            qDebug() << "sql::sqlconnect() //hostname : " << hostname << " //dbName : " << dbName << " //username : " << username;
-            qDebug() << "sql::sqlconnect() DriverName = " << db.driver();
-            qDebug() << db.lastError();
+            logs::addlog(LOGERROR, db.lastError().text());
+            //qDebug() << "sql::sqlconnect() //hostname : " << hostname << " //dbName : " << dbName << " //username : " << username;
+            //qDebug() << "sql::sqlconnect() DriverName = " << db.driver();
+            //qDebug() << db.lastError();
             return false;
         }
-
         map[ connm ] = true;
      }
     mtsema.release(nbConn);
-    qDebug() << map;
+    //qDebug() << map;
     return true;
 }

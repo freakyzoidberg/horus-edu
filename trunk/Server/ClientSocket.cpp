@@ -6,6 +6,7 @@
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "Settings.h"
+#include "Logs.h"
 
 quint32 ClientSocket::nbCon = 0;
 QHash<UserData*,ClientSocket*> ClientSocket::connectedUsers;
@@ -17,7 +18,8 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
     static quint32 newId = 0;
     nbCon++;
     id = newId++;
-    qDebug() << "-----Client" << id << "connected";
+    logs::addlog(LOGINFO, "New client connected " + QVariant(id).toString());
+    //qDebug() << "-----Client" << id << "connected";
 
     threads.release();//1
     nbThreads = 0;
@@ -40,8 +42,8 @@ ClientSocket::~ClientSocket()
     nbCon--;
     if (user)
         connectedUsers.remove(user);
-
-    qDebug() << "-----Client"<< id << "disconected. there's still" << nbCon << "users";
+    logs::addlog(LOGINFO, "Client disconnected " + QVariant(id).toString() + ", There is " + QVariant(nbCon).toString() + " users left");
+    //qDebug() << "-----Client"<< id << "disconected. there's still" << nbCon << "users";
     close();
 }
 

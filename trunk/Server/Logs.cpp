@@ -3,8 +3,10 @@
 #include <QtDebug>
 #include <QDateTime>
 #include "../Common/Defines.h"
+#include <QDir>
 //QFile logfile;
 QMutex *logs::logmutex = new QMutex(QMutex::Recursive);
+QList<QString> logs::msglogs;
 logs::logs()
 {
 
@@ -27,22 +29,27 @@ void logs::addlog(int type, QString msg)
     }
     logmutex->lock();
     QDateTime now = QDateTime::currentDateTime();
-    msglogs.append(now.toString("d-MMM-yy h:mm:ss")+"\t"+msgtype+"\t"+msg);
+    logs::msglogs.append(now.toString("d-MMM-yy h:mm:ss")+"\t"+msgtype+"\t"+msg);
     logmutex->unlock();
 }
 
-void logs::setFile(QString filename)
+void logs::setFile(QString dir, QString filename)
 {
     logfile = filename;
+    logdir = dir;
 }
 
 void logs::run()
  {
-    QFile *file = new QFile(logfile);
+QDir dir(logdir+"/Logs");
+ if (!dir.exists())
+    dir.mkdir(logdir+"/Logs");
+    QFile *file = new QFile(logdir+"/Logs/"+logfile);
     file->open(QFile::Append);
     if (file->isOpen() == false)
-       qCritical() << "LOGS Thread : Cannot open -> " + logfile ;
+       qCritical() << "LOGS Thread : Cannot open -> " + logdir+"/Logs/"+logfile ;
     int i;
+    qDebug() << "Saving logs in " + logdir+"/Logs/"+logfile;
     while (42)
     {
     sleep(1);
