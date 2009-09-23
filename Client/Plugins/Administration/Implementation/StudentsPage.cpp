@@ -14,33 +14,12 @@ StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
     _users = users;
     studentTree->setModel(new StudentModel(_users->getAllUser(), 3));
     studentTree->setColumnWidth(0, 35);
-    studentTree->setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(studentTree, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(ShowTreeContextMenu(const QPoint&)));
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
     connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
     connect(imageButton, SIGNAL(clicked()), this, SLOT(ImageButtonClick()));
 }
 
-
-void    StudentsPage::ShowTreeContextMenu(const QPoint& pnt)
-{
-  QList<QAction *> actions;
-  if (studentTree->indexAt(pnt).isValid())
-  {
-        QAction *actAdd = new QAction(tr("Ajouter"), this);
-        QAction *actEdit = new QAction(tr("Edit"), this);
-        QAction *actRen = new QAction(tr("Rename"), this);
-        QAction *actDel = new QAction(tr("Delete"), this);
-        actions.append(actAdd);
-        actions.append(actEdit);
-        actions.append(actRen);
-        actions.append(actDel);
-
-  }
-  if (actions.count() > 0)
-    QMenu::exec(actions, studentTree->mapToGlobal(pnt));
-}
 
 void    StudentsPage::ImageButtonClick()
 {

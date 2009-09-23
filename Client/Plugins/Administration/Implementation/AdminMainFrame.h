@@ -8,6 +8,7 @@
 #include "StudentsPage.h"
 #include "TeacherPage.h"
 #include "RoomPage.h"
+#include "AdminTree.h"
 
 //class Administration;
 class AdminMainFrame : public QWidget

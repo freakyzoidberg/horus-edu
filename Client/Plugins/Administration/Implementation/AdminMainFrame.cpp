@@ -19,6 +19,7 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     framesWidget->addWidget(new StudentsPage(tree, users));
     framesWidget->addWidget(new TeacherPage(tree, users));
     framesWidget->addWidget(new RoomPage(tree));
+    framesWidget->addWidget(new AdminTree(tree, users));
 
     createIcons();
     contentsWidget->setCurrentRow(0);
@@ -56,10 +57,16 @@ void AdminMainFrame::createIcons()
 
     QListWidgetItem *queryButton = new QListWidgetItem(contentsWidget);
     queryButton->setIcon(QIcon(":/images/Clipboard.png"));
-    queryButton->setText(tr("Classroom"));
+    queryButton->setText(tr("Classes"));
     queryButton->setTextAlignment(Qt::AlignHCenter);
     queryButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
+    QListWidgetItem *treeButton = new QListWidgetItem(contentsWidget);
+    treeButton->setIcon(QIcon(":/images/Tree.png"));
+    treeButton->setText(tr("Tree View"));
+    treeButton->setTextAlignment(Qt::AlignHCenter);
+
+    treeButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
     connect(contentsWidget,
             SIGNAL(currentItemChanged(QListWidgetItem *, QListWidgetItem *)),
             this, SLOT(changeFrame(QListWidgetItem *, QListWidgetItem*)));

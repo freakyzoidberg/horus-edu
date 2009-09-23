@@ -3,5 +3,6 @@
         <file>images/Administrator.png</file>
         <file>images/Clipboard.png</file>
         <file>images/User Group.png</file>
+        <file>images/Tree.png</file>
     </qresource>
 </RCC>
