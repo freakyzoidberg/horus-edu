@@ -1,5 +1,5 @@
 #include "Sql.h"
-#include "Logs.h"
+#include "../Common/Logs.h"
 #include "../Common/Defines.h"
 QMutex Sql::mymute(QMutex::Recursive);
 QSemaphore Sql::mtsema;
