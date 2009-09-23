@@ -1,4 +1,4 @@
-#include "Logs.h"
+#include "../Common/Logs.h"
 #include "Settings.h"
 #include <QtDebug>
 #include <QDateTime>
