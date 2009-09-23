@@ -6,6 +6,8 @@
 #include "../../../Common/FileDataPlugin.h"
 #include "../../../Common/FileData.h"
 
+#include "../../../Common/UserData.h"
+
 #include <QPushButton>
 #include <QDebug>
 #include <QDateTime>

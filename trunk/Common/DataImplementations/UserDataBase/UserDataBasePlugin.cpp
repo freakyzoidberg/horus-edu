@@ -27,13 +27,13 @@ Data* UserDataBasePlugin::getDataWithKey(QDataStream& s)
 
 UserData* UserDataBasePlugin::createUser(const QString &login)
 {
-    quint32 maxId = 0;
-    foreach (UserData* u, users)
-        if (u->id() > maxId)
-            maxId = u->id();
+	static quint32 tmpId = 0;
+	tmpId--;
 
-    UserDataBase* u = ((UserDataBase*)(getUser(++maxId)));
-    u->_login = login;
+	UserDataBase* u = ((UserDataBase*)( getUser(tmpId)) );
+	u->_login = login;
+	u->setName("New user");
+	u->setSurname("New user");
     return u;
 }
 
