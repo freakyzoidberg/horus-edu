@@ -75,15 +75,16 @@ QDebug FileDataBase::operator<<(QDebug debug) const
 #ifdef HORUS_SERVER
 void FileDataBase::fillFromDatabase(QSqlQuery& query)
 {
-//    query.prepare("SELECT typeofnode,name,user_ref,id_parent FROM File WHERE id=?;");
+//    query.prepare("SELECT name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files WHERE id=?;");
 //    query.addBindValue(nodeId);
 //    if ( ! query.exec() || ! query.next())
 //    {
 //        _error = NOT_FOUND;
 //        return;
 //    }
-//    type   = query.value(0).toString();
-//    name   = query.value(1).toString();
+//    _name   = query.value(0).toString();
+//    _mimeType   = query.value(1).toString();
+//    _size   = query.value(2).toUInt();
 //    userId = query.value(2).toUInt();
 //    setParent( ((FileDataBasePlugin*)(_plugin))->getNode(query.value(3).toUInt()) );
 //    ((FileDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
@@ -107,16 +108,18 @@ void FileDataBase::createIntoDatabase(QSqlQuery& query)
 
 void FileDataBase::saveIntoDatabase(QSqlQuery& query)
 {
-    query.prepare("UPDATE files SET name=?,mime=?,size=?,id_tree=?,id_owner=?,mtime=?,hash_sha1=? WHERE id=?;");
+	query.prepare("UPDATE files SET name=?,mime=?,size=?,id_tree=?,id_owner=?,hash_sha1=?,mtime=? WHERE id=?;");
     query.addBindValue(_name);
     query.addBindValue(_mimeType);
     query.addBindValue(_size);
 	query.addBindValue(0);//node()->id());
 	query.addBindValue(0);//owner()->id());
-    _lastChange = QDateTime::currentDateTime();
-    query.addBindValue(_lastChange);
     query.addBindValue(_hash.toHex());
-    query.addBindValue(_id);
+
+	_lastChange = QDateTime::currentDateTime();
+	query.addBindValue(_lastChange);
+
+	query.addBindValue(_id);
     if ( ! query.exec())
     {
         _error = NOT_FOUND;
