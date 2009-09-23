@@ -8,13 +8,14 @@ class logs : public QThread
      Q_OBJECT
 public:
     logs();
-    void addlog(int type, QString msg);
-    void setFile(QString filename);
+    static void addlog(int type, QString msg);
+    void setFile(QString dir, QString filename);
     void run();
 
 private:
    QString logfile;
-   QList<QString> msglogs;
+   QString logdir;
+   static QList<QString> msglogs;
    static QMutex *logmutex;
 };
 

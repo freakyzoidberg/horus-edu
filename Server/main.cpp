@@ -8,7 +8,7 @@
 #include "../Common/Defines.h"
 #include <QString>
 #include "Settings.h"
-
+#include "Logs.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
@@ -27,7 +27,8 @@ int main(int argc, char *argv[])
 
     Server theserver(&a);
     PluginManagerServer::instance()->load();
-    qDebug() << "main() Server Loaded";
+    logs::addlog(LOGINFO,"Server fully Loaded");
+
 
     QThreadPool::globalInstance()->setMaxThreadCount(MAX_POOL_THREADS);
 

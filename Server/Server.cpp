@@ -13,12 +13,13 @@ Server::Server(QObject *parent) : QTcpServer(parent)
 
     logs *mylog = new logs();
     QDateTime now = QDateTime::currentDateTime();
-    mylog->setFile(config->GetSettings("SoftFullPath","SETTINGS")+"/"+"Logs-Server-"+now.toString("d-MMM-yy_h-mm-ss")+".log");
+    mylog->setFile(config->GetSettings("SoftFullPath","SETTINGS"), "Logs-Server-"+now.toString("d-MMM-yy_h-mm-ss")+".log");
     mylog->start();
 
     if (Sql::sqlConnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL").toInt(), SQLCONNECTIONCOUNT))
     {
-        mylog->addlog(LOGINFO,"Connected to SQL Server");
+        //mylog->addlog(LOGINFO,"Connected to SQL Server");
+        logs::addlog(LOGINFO,"Connected to SQL Server");
         //qDebug() << "Server::Server() SQL connected";
     }
     else
