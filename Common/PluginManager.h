@@ -7,8 +7,8 @@
 #include <QString>
 
 #include "Plugin.h"
-#include "UserData.h"
 #include "AbstractManager.h"
+class UserData;
 
 //! To find another plugin with name and/or type
 /*! Sample:

@@ -251,22 +251,13 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 
 	query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b"); // 123456
 
-    query.exec();
-//    if ( ! query.exec() || ! query.next())
-//    {
-//        qDebug() << "createIntoDatabase error";
-//        _error = DATABASE_ERROR;
-//        return;
-//    }
-//    _id = query.lastInsertId().toUInt();
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+	}
 
-    quint32 newId = query.lastInsertId().toUInt();
-
-    query.prepare("UPDATE users SET id=? WHERE id=?;");
-    query.addBindValue(_id);
-    query.addBindValue(newId);
-    query.exec();
-
+	_id = query.lastInsertId().toUInt();
 }
 
 void UserDataBase::saveIntoDatabase(QSqlQuery& query)
@@ -291,17 +282,12 @@ void UserDataBase::saveIntoDatabase(QSqlQuery& query)
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
     query.addBindValue(_id);
-    query.exec();
 
-	qDebug() << query.numRowsAffected() << query.lastError() << this;
-//	if (query.numRowsAffected() <= 0)
-//        createIntoDatabase(query);
-//    else if ( ! query.exec())
-//    {
-//        _error = NOT_FOUND;
-//		qDebug() << query.lastError();
-//        return;
-//    }
+    if ( ! query.exec())
+    {
+        _error = NOT_FOUND;
+		qDebug() << query.lastError();
+    }
 }
 
 void UserDataBase::deleteFromDatabase(QSqlQuery& query)

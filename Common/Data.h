@@ -20,9 +20,9 @@
 
 #include "DataPlugin.h"
 #include "DataManager.h"
+#include "PluginManager.h"
 
 class UserData;
-class PluginManager;
 class Data : public QObject
 {
   Q_OBJECT
@@ -72,7 +72,10 @@ public:
      */
     virtual inline void     dataFromStream(QDataStream& s) { s >> _lastChange; }
 
-    //! Function to save the value of the data
+	//! Function to create the value of the data
+	inline void             create() { setStatus(CREATING); }
+
+	//! Function to save the value of the data
     inline void             save() { setStatus(SAVING); }
 
     //! Function to delete the value of the data
@@ -86,13 +89,11 @@ public:
     inline const QDateTime lastChange() { return _lastChange; }
 
 #ifdef HORUS_CLIENT
-	virtual inline bool canChange() { return true; }
-	virtual inline bool canAccess() { return true; }
+	inline bool canAccess() { return canAccess(_plugin->pluginManager->currentUser()); }
+	inline bool canChange() { return canChange(_plugin->pluginManager->currentUser()); }
 #endif
-#ifdef HORUS_SERVER
 	virtual inline bool canChange(UserData*) { return true; }
 	virtual inline bool canAccess(UserData*) { return true; }
-#endif
 
 signals:
     //! Signal emmited when the data is updated.

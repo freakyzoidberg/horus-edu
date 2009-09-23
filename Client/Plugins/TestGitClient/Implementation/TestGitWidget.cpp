@@ -26,7 +26,7 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
 {
     plugin = _plugin;
 
-    QPushButton* bt0 = new QPushButton("test 0 download file");
+	QPushButton* bt0 = new QPushButton("test 0 reverse name and surname");
     connect(bt0, SIGNAL(clicked()), this, SLOT(test0()));
     layout.addWidget(bt0, 0, 0);
     layout.setRowStretch(0, 0);
@@ -36,12 +36,12 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
     layout.addWidget(bt1, 1, 0);
     layout.setRowStretch(1, 1);
 
-    QPushButton* bt2 = new QPushButton("test 2 upload \"abcd\"");
+	QPushButton* bt2 = new QPushButton("test 2 create a new user");
     connect(bt2, SIGNAL(clicked()), this, SLOT(test2()));
     layout.addWidget(bt2, 2, 0);
     layout.setRowStretch(2, 2);
 
-    QPushButton* bt3 = new QPushButton("test 3 upload \"youhouuuuu!!!\"");
+	QPushButton* bt3 = new QPushButton("test 3 delete last user");
     connect(bt3, SIGNAL(clicked()), this, SLOT(test3()));
     layout.addWidget(bt3, 3, 0);
     layout.setRowStretch(3, 3);
@@ -53,7 +53,7 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
         tv->setModel(tree->getTreeModel());
         layout.setRowStretch(4, 0);
         layout.addWidget(tv, 4, 0);
-        //tv->expandAll();
+		tv->expandAll();
     }
 
     setLayout(&layout);
@@ -61,15 +61,12 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
 
 void TestGitWidget::test0()
 {
-    FileDataPlugin* p = plugin->pluginManager->findPlugin<FileDataPlugin*>();
-    if ( ! p)
-        return;
+	UserData* u = plugin->pluginManager->currentUser();
 
-    FileData* f = p->getFile(1);
-    if ( ! f)
-        return;
-
-    f->download();
+	const QString name = u->name();
+	u->setName( u->surname() );
+	u->setSurname( name );
+	u->save();
 }
 
 void TestGitWidget::test1()
@@ -78,21 +75,15 @@ void TestGitWidget::test1()
 
 void TestGitWidget::test2()
 {
-    FileDataPlugin* p = plugin->pluginManager->findPlugin<FileDataPlugin*>();
+	UserDataPlugin* p = plugin->pluginManager->findPlugin<UserDataPlugin*>();
     if ( ! p)
         return;
 
-    FileData* f = p->getFile(1);
-    if ( ! f)
-        return;
+	UserData* u = p->createUser("New User");
 
-    QFile* file = f->file();
-    file->open(QIODevice::WriteOnly | QIODevice::Truncate);
-    file->write("abcd");
-    file->close();
-    delete file;
-
-    f->upload();
+	u->enable(true);
+	u->setLevel(3);
+	u->create();
 }
 
 void TestGitWidget::test3()
