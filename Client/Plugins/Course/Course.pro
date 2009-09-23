@@ -28,7 +28,6 @@ HEADERS += Implementation/Course.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
-    Implementation/WhiteBoard.h \
     Implementation/Items.h \
     Implementation/WhiteBoardData.h \
     Implementation/WhiteBoardItem.h \

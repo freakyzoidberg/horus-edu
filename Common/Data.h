@@ -81,10 +81,7 @@ public:
     //! Return the current status of this data.
     inline quint8           status() const { return (quint8)_status; }
     //! Change the current status and tell the coresponding plugin the data just changed.
-    inline void             setStatus(quint8 status) {
-        _plugin->dataManager->dataStatusChange(this, status);
-        if (_status == UPTODATE) emit updated();
-    }
+	inline void             setStatus(quint8 status) { _plugin->dataManager->dataStatusChange(this, status); }
 
     inline const QDateTime lastChange() { return _lastChange; }
 

@@ -23,7 +23,7 @@ public:
      */
     virtual void dataStatusChange(Data* data, quint8 newStatus) const = 0;
 
-    virtual void sendData(UserData* user, Data* data) const = 0;
+	virtual void sendData(UserData* user, Data* data) const = 0;
 
 public slots:
     virtual void receiveData(UserData* user, const QByteArray& data) const = 0;

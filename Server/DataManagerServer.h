@@ -6,9 +6,11 @@
 class DataPlugin;
 class DataManagerServer : public DataManager
 {
+	Q_OBJECT
 public:
      inline DataManagerServer(DataPlugin* _plugin) : DataManager(_plugin) { plugin=_plugin; }
 
+	 // DataManager Interface
     //! Called by the data when its status change.
     /*!
      *  Have differents implementation on the Client and the Server.
@@ -16,16 +18,21 @@ public:
      *  - More status are supported (ex: a file can be [up/down]loading)
      *  - To check permitions (also on the client side but can be less restrictive)
      */
-    void dataStatusChange(Data* data, quint8 newStatus) const;
-    void receiveData(UserData *, const QByteArray& packet) const;
-    void sendData(UserData* user, Data* data) const;
-    void sendData(UserData* user, const QByteArray& packet) const;
+	void			dataStatusChange(Data* data, quint8 newStatus) const;
+	inline void		sendData(UserData* user, Data* data) const { sendData(user, data, QByteArray()); }
 
-protected:
-    void sendCreatedData(UserData* user, Data* data, QDataStream& oldKey) const;
+public slots:
+	void			receiveData(UserData *, const QByteArray& packet) const;
+
 
 private:
-    DataPlugin* plugin;
+	//! Send a "data" to a "user"
+	/*!
+	 * \param oldkey: contain the temporary key when the client is creating a data (internal use only)
+	 */
+	void			sendData(UserData* user, Data* data, const QByteArray oldKey) const;
+
+	DataPlugin*		plugin;
 };
 
 #endif // DATAMANAGERSERVER_H

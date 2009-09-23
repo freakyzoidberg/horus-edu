@@ -249,7 +249,7 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
 
-    query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b");
+	query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b"); // 123456
 
     query.exec();
 //    if ( ! query.exec() || ! query.next())
@@ -269,7 +269,7 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 
 }
 
-void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
+void UserDataBase::saveIntoDatabase(QSqlQuery& query)
 {
     query.prepare("UPDATE users SET login=?,level=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
     query.addBindValue(_login);
@@ -293,12 +293,13 @@ void UserDataBase::saveIntoDatabase  (QSqlQuery& query)
     query.addBindValue(_id);
     query.exec();
 
-    if (query.numRowsAffected() <= 0)
-        createIntoDatabase(query);
+	qDebug() << query.numRowsAffected() << query.lastError() << this;
+//	if (query.numRowsAffected() <= 0)
+//        createIntoDatabase(query);
 //    else if ( ! query.exec())
 //    {
-//        qDebug() << query.lastError();
 //        _error = NOT_FOUND;
+//		qDebug() << query.lastError();
 //        return;
 //    }
 }
