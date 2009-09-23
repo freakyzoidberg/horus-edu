@@ -71,10 +71,9 @@ class StudentsPage : public QWidget
         UserData* user;
         QImage image;
    private slots:
-    void buttonClicked(QAbstractButton * button);
-    void userSelected(const QModelIndex &userIndex);
-    void ImageButtonClick();
-    void ShowTreeContextMenu(const QPoint& pnt);
+        void buttonClicked(QAbstractButton * button);
+        void userSelected(const QModelIndex &userIndex);
+        void ImageButtonClick();
 };
 
 #endif // STUDENTSPAGE_H
