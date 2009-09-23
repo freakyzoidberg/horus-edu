@@ -8,7 +8,7 @@
 #include "../Common/Defines.h"
 #include <QString>
 #include "Settings.h"
-#include "Logs.h"
+#include "../Common/Logs.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
