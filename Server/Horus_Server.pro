@@ -45,7 +45,7 @@ HEADERS = Sql.h \
     ../Common/CommPacket.h \
     ../Common/CommSocket.h \
     ../Common/PLuginPacket.h \
-    Logs.h \
+    ../Common/Logs.h \
     ../Common/Data.h \
     ../Common/CommData.h \
     ../Common/MetaPlugin.h \

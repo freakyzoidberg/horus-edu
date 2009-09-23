@@ -6,7 +6,7 @@
 #include "../Common/Defines.h"
 #include "../Common/CommInit.h"
 #include "Settings.h"
-#include "Logs.h"
+#include "../Common/Logs.h"
 
 quint32 ClientSocket::nbCon = 0;
 QHash<UserData*,ClientSocket*> ClientSocket::connectedUsers;

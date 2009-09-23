@@ -3,7 +3,7 @@
 #include "../Common/Defines.h"
 #include "ClientSocket.h"
 #include "Settings.h"
-#include "Logs.h"
+#include "../Common/Logs.h"
 
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
