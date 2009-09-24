@@ -9,6 +9,7 @@
 #endif
 #include <QByteArray>
 #include <QDateTime>
+#include "../../Data.h"
 #include "WhiteBoardDataPlugin.h"
 
 class WhiteBoardData : public Data
@@ -42,8 +43,10 @@ public:
 	inline TreeData*        node() const { return (TreeData*)(parent()); }
 
 private:
-	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { setParent(node); }
+	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { setParent((QObject*)node); }
 	inline ~WhiteBoardData() {}
+
+	QVariant data;
 };
 
 #endif // WHITEBOARDDATA_H

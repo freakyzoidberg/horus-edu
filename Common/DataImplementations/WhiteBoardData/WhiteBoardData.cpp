@@ -6,24 +6,24 @@
 
 void WhiteBoardData::keyToStream(QDataStream& s)
 {
-	s << (TreeData*)(parent())->id();
+	s << ((TreeData*)parent())->id();
 }
 
 void WhiteBoardData::dataToStream(QDataStream& s)
 {
-	s << ...;
+	s << data;
     Data::dataToStream(s);
 }
 
 void WhiteBoardData::dataFromStream(QDataStream& s)
 {
-	s >> ...;
+	s >> data;
     Data::dataFromStream(s);
 }
 
 QDebug WhiteBoardData::operator<<(QDebug debug) const
 {
-	return debug << ...;
+	return debug << ((TreeData*)parent())->id() << data;
 }
 
 #ifdef HORUS_CLIENT
