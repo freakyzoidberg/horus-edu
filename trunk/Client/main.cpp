@@ -14,6 +14,6 @@ int						main(int argc, char *argv[])
     QSettings			settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 
 	app.setStyle(new HorusStyle());
-	translator.load("Horus." + QLocale::system().name(), settings.value("TranslationsDirectoryPath").toString());
+	translator.load("Horus_" + QLocale::system().name(), settings.value("TranslationsDirectoryPath").toString());
     return (app.exec());
 }

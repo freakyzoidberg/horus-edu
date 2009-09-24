@@ -85,6 +85,8 @@ RESOURCES += Ui/Loader.qrc \
     Ui/MainWindow.qrc \
     Ui/DockMenu.qrc
 RC_FILE = Client.rc
+TRANSLATIONS = Horus_en.ts \
+			   Horus_fr.ts
 QMAKE_EXTRA_TARGETS += plugintarget
 POST_TARGETDEPS += .plugins
 plugintarget.target = .plugins
