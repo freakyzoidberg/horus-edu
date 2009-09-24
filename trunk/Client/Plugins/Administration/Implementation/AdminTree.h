@@ -24,6 +24,7 @@
 #include "../../../../Common/UserData.h"
 #include <QStackedWidget>
 
+
 class AdminTree : public QWidget
 {
     Q_OBJECT
