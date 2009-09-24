@@ -12,6 +12,7 @@ public:
 	const QString	pluginName() const;
 	const QString	pluginVersion() const;
 	QWidget			*getWidget();
+
 };
 
 #endif

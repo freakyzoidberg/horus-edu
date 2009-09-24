@@ -1,5 +1,5 @@
 #include		"Mail.h"
-
+#include            "MailPanel.h"
 const QString	Mail::pluginName() const
 {
 	return ("Mail");
@@ -12,5 +12,5 @@ const QString	Mail::pluginVersion() const
 
 QWidget			*Mail::getWidget()
 {
-	return (0);
+        return new MailPanel();
 }
