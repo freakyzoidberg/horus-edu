@@ -4,6 +4,7 @@
 #include <QDockWidget>
 
 #include "ui_DockMenu.h"
+#include "DisplayablePlugin.h"
 
 class MainWindow;
 class DockMenu : public QDockWidget
@@ -18,6 +19,7 @@ public slots:
 
 private:
     Ui::dock    ui;
+	static bool	lessThan(DisplayablePlugin *a, DisplayablePlugin *b);
 };
 
 #endif // DOCKMENU_H

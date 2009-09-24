@@ -10,7 +10,6 @@
 #include "MainWindow.h"
 #include "MetaManager.h"
 #include "PluginManagerClient.h"
-#include "DisplayablePlugin.h"
 
 DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
 {
@@ -22,7 +21,7 @@ DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
 	QList<DisplayablePlugin *> plugins;
 
 	plugins = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DisplayablePlugin*>();
-	qSort(plugins);
+	qSort(plugins.begin(), plugins.end(), DockMenu::lessThan);
     foreach (DisplayablePlugin* plugin, plugins)
     {
         QString title = plugin->getDisplayableName();
@@ -43,4 +42,9 @@ void DockMenu::itemClicked()
 {
     QWidget* widget = ((DockMenuItem*)sender())->getPluginWidget();
     ((MainWindow*)parent())->setCentralWidget(widget);
+}
+
+bool	DockMenu::lessThan(DisplayablePlugin *a, DisplayablePlugin *b)
+{
+	return (a->getOrder() < b->getOrder());
 }
