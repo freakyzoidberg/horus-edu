@@ -98,5 +98,15 @@ void    AudioController::editWidget(ILessonDocument *document, IItems *parent)
 
 }
 
+ILessonDocument *AudioController::addDocument(QFile *metadata, QWidget *parent)
+{
+
+}
+
+void            AudioController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
+{
+
+}
+
 
 

@@ -92,3 +92,15 @@ void    MediaController::editWidget(ILessonDocument *document, IItems *parent)
 {
 
 }
+
+    ILessonDocument *MediaController::addDocument(QFile *metadata, QWidget *parent)
+    {
+
+    }
+
+    void      MediaController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
+    {
+
+    }
+
+

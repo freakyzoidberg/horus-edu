@@ -163,3 +163,13 @@ void    PdfController::editWidget(ILessonDocument *document, IItems *page)
 {
 
 }
+
+ILessonDocument *PdfController::addDocument(QFile *metadata, QWidget *parent)
+{
+
+}
+
+void      PdfController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
+{
+
+}

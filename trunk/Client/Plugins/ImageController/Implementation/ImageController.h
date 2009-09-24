@@ -26,15 +26,17 @@ public:
         void                    editWidget(ILessonDocument *document, IItems *parent);
         void                    resizeWidget(IItems *);
         void                    clean(IItems *);
+        ILessonDocument         *addDocument(QFile *metadata, QWidget *parent);
+        void                    editDocument(QFile *metadata, QWidget *parent, ILessonDocument *);
 
  private slots:
-        void    dl();
-        void    reload();
+        void                    dl();
+        void                    reload();
 
   private:
-        QLabel      *label;
-        FileData    *data;
-        QString     supportedType;
+        QLabel                  *label;
+        FileData                *data;
+        QString                 supportedType;
 };
 
 #endif // __IMAGECONTROLLER_H__
