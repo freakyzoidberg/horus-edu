@@ -4,7 +4,7 @@ MailPanel::MailPanel(): QWidget()
 {
     QPushButton *writemail = new QPushButton(tr("Write Mail"));
     layout.addWidget(writemail);
-    setLayout(layout);
+    setLayout(layout.layout());
 }
 
 MailPanel::~MailPanel()
