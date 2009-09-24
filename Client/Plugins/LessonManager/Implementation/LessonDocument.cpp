@@ -22,7 +22,7 @@ void	LessonDocument::setId(int id)
 	this->_id = id;
 }
 
-int		LessonDocument::getId()
+int	LessonDocument::getId()
 {
 	return (this->_id);
 }

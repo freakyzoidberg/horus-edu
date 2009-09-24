@@ -93,17 +93,7 @@ void    AudioController::resizeWidget(IItems *widget)
 
 }
 
-void    AudioController::editWidget(ILessonDocument *document, IItems *parent)
-{
-
-}
-
-ILessonDocument *AudioController::addDocument(QFile *metadata, QWidget *parent)
-{
-
-}
-
-void            AudioController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
+QWidget *AudioController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
 {
 
 }

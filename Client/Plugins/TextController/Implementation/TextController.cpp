@@ -1,6 +1,8 @@
 #include "TextController.h"
 
 #include <QLabel>
+#include <QTextEdit>
+#include <QPushButton>
 
 const QString    TextController::pluginName() const
 {
@@ -39,17 +41,9 @@ void    TextController::resizeWidget(IItems *widget)
 
 }
 
-void    TextController::editWidget(ILessonDocument *document, IItems *parent)
+QWidget      *TextController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *document)
 {
-
-}
-
-ILessonDocument *TextController::addDocument(QFile *metadata, QWidget *parent)
-{
-	return (0);
-}
-
-void      TextController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
-{
-
+    QTextEdit           *textEditor = new QTextEdit(parent);
+    QPushButton         *save = new QPushButton("Save", parent);
+    return 0;
 }

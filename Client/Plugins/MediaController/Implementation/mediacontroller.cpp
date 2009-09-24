@@ -88,19 +88,9 @@ void    MediaController::resizeWidget(IItems *widget)
     tmp = dynamic_cast<Player *>(widget);
 }
 
-void    MediaController::editWidget(ILessonDocument *document, IItems *parent)
+QWidget    *MediaController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
 {
 
 }
-
-    ILessonDocument *MediaController::addDocument(QFile *metadata, QWidget *parent)
-    {
-
-    }
-
-    void      MediaController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
-    {
-
-    }
 
 
