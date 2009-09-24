@@ -23,6 +23,7 @@ public:
         QWidget             *getWidget();
         TreeDataPlugin      *treePlugin;
         UserDataPlugin      *userPlugin;
+        const int           getOrder() const;
 };
 
 #endif // ADMINISTRATION_H
