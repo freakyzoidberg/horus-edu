@@ -2,19 +2,19 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
- #include <QAbstractButton>
+#include <QAbstractButton>
 #include <QSettings>
 #ifndef ORGANIZATION_NAME
 # define ORGANIZATION_NAME "Horus"
 #endif
 #ifndef ORGANIZATION_DOMAIN
-# define ORGANIZATION_DOMAIN "horus-edu.net"
+#define ORGANIZATION_DOMAIN "horus-edu.net"
 #endif
 
 #ifndef SERVER_NAME
-# define SERVER_NAME "Horus Server"
+#define SERVER_NAME "Horus Server"
 #endif
- #include <QCompleter>
+#include <QCompleter>
 #include <QKeyEvent>
 namespace Ui
 {
