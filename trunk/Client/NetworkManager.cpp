@@ -37,6 +37,8 @@ bool    NetworkManager::event(QEvent *e)
         {
             socket->connectToHostEncrypted(settings.value("Network/Server").toString(), settings.value("Network/Port").toUInt());
 			emit loaded(15);
+			if (!socket->waitForConnected(5000))
+				this->displayError(socket->error());
         }
         return (true);
     }
