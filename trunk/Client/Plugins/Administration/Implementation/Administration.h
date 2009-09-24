@@ -14,16 +14,17 @@ class Administration : public DisplayablePlugin
     Q_OBJECT
     Q_INTERFACES(DisplayablePlugin)
 
-public:
+   public:
         const QString       pluginName() const;
         bool                canLoad() const;
         void                load();
         const QString       pluginVersion() const;
         const QString       getDisplayableName();
         QWidget             *getWidget();
-        TreeDataPlugin      *treePlugin;
-        UserDataPlugin      *userPlugin;
         const int           getOrder() const;
+    private:
+            TreeDataPlugin      *treePlugin;
+            UserDataPlugin      *userPlugin;
 };
 
 #endif // ADMINISTRATION_H
