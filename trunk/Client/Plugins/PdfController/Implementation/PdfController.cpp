@@ -161,5 +161,5 @@ void    PdfController::resizeWidget(IItems *widget)
 
 QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
 {
-
+	return (0);
 }
