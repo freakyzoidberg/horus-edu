@@ -276,11 +276,20 @@ void MainWindow::writesettings()
     QString servport = ui->lineEdit_13->text();
     QString path = ui->lineEdit_16->text();
 
+
+    QString driver;
+    if (ui->sqldriver->currentText() == "MySQL")
+    driver = "QMYSQL";
+else if (ui->sqldriver->currentText() == "PostgreSQL")
+    driver = "QPSQL";
+else
+    driver = "QMYSQL";
+
     if (this->Gsettings.status() == 0)
     {
     this->Gsettings.clear();
     this->Gsettings.beginGroup("SQL");
-    this->Gsettings.setValue("SQL_DRIVER", ("QMYSQL"));
+    this->Gsettings.setValue("SQL_DRIVER", (driver));
     this->Gsettings.setValue("SQL_HOSTNAME", (host));
     this->Gsettings.setValue("SQL_DBNAME", (dbname));
     this->Gsettings.setValue("SQL_USERNAME", (login));
@@ -296,6 +305,7 @@ void MainWindow::writesettings()
     this->Gsettings.setValue("SoftFullPath", (path+"/"));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("PLUGINS");;
+    qDebug() << this->Gsettings.fileName();
     for (int i = 0; (i < ui->scrollArea->layout()->count()); i++)
     {
 
@@ -313,6 +323,8 @@ void MainWindow::writesettings()
 
     }
     this->Gsettings.endGroup();
+    this->Gsettings.sync();
+
                     QPalette Pal(ui->label_6->palette());
                     Pal.setColor(QPalette::Foreground, Qt::green);
                    ui->label_6->setPalette(Pal);
@@ -323,7 +335,7 @@ void MainWindow::writesettings()
 
 void MainWindow::on_buttonBox_clicked(QAbstractButton* button)
 {
-	if (this->ui->buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)
+        if (this->ui->buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)
 	    writesettings();
 }
 
