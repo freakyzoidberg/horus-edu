@@ -2,6 +2,8 @@
 #define DISPLAYABLEPLUGIN_H
 
 #include <QWidget>
+#include <QString>
+#include <QIcon>
 
 #include "../Common/Plugin.h"
 
@@ -27,7 +29,10 @@ public:
      *  This name will be displayed in the left menu.
      *  If an empty QString is returned, this plugin will not be displayed in the menu.
      */
-    virtual inline const QString getDisplayableName() { return QString(); }
+    virtual inline const QString getDisplayableName() const { return (QString()); }
+	virtual inline QIcon getIcon() const { return (QIcon()); }
+	virtual inline const int getOrder() const { return (0); }
+	virtual inline bool operator<(DisplayablePlugin &right) const { return (this->getOrder() < right.getOrder()); }
 
 signals:
     void switchToWidget(QWidget *widget);

@@ -34,3 +34,13 @@ void MainFrame::courseClicked()
 {
     emit switchToWidget(pluginManager->findPlugin<DisplayablePlugin*>("Course")->getWidget());
 }
+
+const int	MainFrame::getOrder() const
+{
+	return (-1);
+}
+
+QIcon		MainFrame::getIcon() const
+{
+	return (QIcon(":/Pictures/icon"));
+}

@@ -1,7 +1,8 @@
 <RCC>
     <qresource prefix="/" >
-        <file>./close.png</file>
-        <file>./fleche_haut_vert.png</file>
-        <file>./fleche_bas_vert.png</file>
+        <file>close.png</file>
+        <file>fleche_haut_vert.png</file>
+        <file>fleche_bas_vert.png</file>
+        <file alias="icon" >Ui/edit.png</file>
     </qresource>
 </RCC>

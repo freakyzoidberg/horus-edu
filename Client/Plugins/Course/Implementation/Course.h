@@ -21,7 +21,9 @@ class Course : public DisplayablePlugin
 public:
     const QString       pluginName() const;
     const QString       pluginVersion() const;
-    const QString	getDisplayableName();
+    const QString		getDisplayableName() const;
+	const int			getOrder() const;
+	QIcon				getIcon() const;
     bool		canLoad() const;
     void		load();
     void		unload();

@@ -11,9 +11,19 @@ const QString    Course::pluginVersion() const
     return "0.2";
 }
 
-const QString	Course::getDisplayableName()
+const QString	Course::getDisplayableName() const
 {
     return ("Course");
+}
+
+const int		Course::getOrder() const
+{
+	return (1);
+}
+
+QIcon			Course::getIcon() const
+{
+	return (QIcon(":/icon"));
 }
 
 bool	Course::canLoad() const
