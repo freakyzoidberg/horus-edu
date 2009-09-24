@@ -30,6 +30,20 @@ void    LocalSettings::createConfig()
         else
             settings.setValue("LessonsDirectoryPath", path);
     }
+    if (!settings.contains("TranslationsDirectoryPath"))
+    {
+        path = QDir::homePath() + "/.Horus/Translations";
+        if (!pluginsDir.exists(path))
+        {
+            qDebug() << "ConfigManager: Creating Translations User Directory." << path;
+            if (!pluginsDir.mkpath(path))
+                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
+            else
+                settings.setValue("TranslationsDirectoryPath", path);
+        }
+        else
+            settings.setValue("LessonsDirectoryPath", path);
+    }
     if (!settings.contains("Plugins/UserDirectoryPath"))
     {
         path = QDir::homePath() + "/.Horus/Plugins";

@@ -1,10 +1,19 @@
-#include "ClientApplication.h"
+#include				"ClientApplication.h"
 
-#include "HorusStyle.h"
+#include				<QTranslator>
+#include				<QSettings>
+#include				<QDir>
+#include				<QLocale>
 
-int main(int argc, char *argv[])
+#include				"HorusStyle.h"
+
+int						main(int argc, char *argv[])
 {
-    ClientApplication app(argc, argv);
+	QTranslator			translator;
+    ClientApplication	app(argc, argv);
+    QSettings			settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+
 	app.setStyle(new HorusStyle());
+	translator.load("Horus." + QLocale::system().name(), settings.value("TranslationsDirectoryPath").toString());
     return (app.exec());
 }
