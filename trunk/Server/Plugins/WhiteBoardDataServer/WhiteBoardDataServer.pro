@@ -19,4 +19,4 @@ HEADERS += ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h \
    ../../../Common/DataPlugin.h \
   ../../../Common/UserDataPlugin.h \
  ../../../Common/AbstractManager.h \
- UserBaseServerMetaPlugin.h
+ WhiteBoardDataServerMetaPlugin.h

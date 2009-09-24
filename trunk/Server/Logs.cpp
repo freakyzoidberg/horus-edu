@@ -4,7 +4,7 @@
 #include <QDateTime>
 #include "../Common/Defines.h"
 #include <QDir>
-//QFile logfile;
+
 QMutex *logs::logmutex = new QMutex(QMutex::Recursive);
 QList<QString> logs::msglogs;
 logs::logs()

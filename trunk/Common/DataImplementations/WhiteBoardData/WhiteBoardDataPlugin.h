@@ -2,10 +2,10 @@
 #define WHITEBOARDDATAPLUGIN_H
 
 #include <QHash>
-#include "../../UserDataPlugin.h"
+#include "../../DataPlugin.h"
 
 class Data;
-class UserData;
+class TreeData;
 class WhiteBoardData;
 class WhiteBoardDataPlugin : public DataPlugin
 {
@@ -18,8 +18,12 @@ class WhiteBoardDataPlugin : public DataPlugin
 #endif
 
 public:
-    inline const QString pluginVersion() const { return "0.1"; }
-	WhiteBoardData*            getWhiteBoard(TreeData* node);
+	inline const QString pluginName()    const { return "WhiteBoard Data Plugin"; }
+	inline const QString pluginVersion() const { return "0.1"; }
+	inline const QString getDataType()   const { return "WhiteBoardData"; }
+
+	WhiteBoardData*      getWhiteBoard(TreeData* node);
+	WhiteBoardData*      getWhiteBoard(quint32 nodeId);
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif

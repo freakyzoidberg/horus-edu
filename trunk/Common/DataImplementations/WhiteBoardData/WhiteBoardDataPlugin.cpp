@@ -8,16 +8,25 @@
 
 WhiteBoardData* WhiteBoardDataPlugin::getWhiteBoard(TreeData* node)
 {
-//    if ( ! users.contains(userId))
-//		users[userId] = new WhiteBoardData(userId, this);
-//    return users[userId];
+	foreach (WhiteBoardData* wb, whiteBoards)
+		if (wb->parent() == (QObject*)node)
+			return wb;
+
+	WhiteBoardData* wb = new WhiteBoardData(node, this);
+	whiteBoards.append(wb);
+	return wb;
+}
+
+WhiteBoardData* WhiteBoardDataPlugin::getWhiteBoard(quint32 nodeId)
+{
+	return getWhiteBoard( pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId) );
 }
 
 Data* WhiteBoardDataPlugin::getDataWithKey(QDataStream& s)
 {
-//    quint32 tmpId;
-//    s >> tmpId;
-//    return getUser(tmpId);
+	quint32 nodeId;
+	s >> nodeId;
+	return getWhiteBoard(nodeId);
 }
 
 #ifdef HORUS_CLIENT
