@@ -5,14 +5,14 @@
 #include <QBuffer>
 #include <QMenu>
 #include <QRadioButton>
-
+#include "AdminModel.h"
 
 AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *users)
 {
     mainLayout = new QVBoxLayout(this);
     mainTree = new QTreeView();
     mainLayout->addWidget(mainTree);
-    mainTree->setModel(tree->getTreeModel());
+    mainTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
 
     mainTree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(mainTree, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(ShowTreeContextMenu(const QPoint&)));
