@@ -6,10 +6,13 @@
 #include <QObject>
 #include <QStringList>
 #include <QDebug>
+/*
 #ifdef HORUS_SERVER
 #include "Logs.h"
 #include "../Common/Defines.h"
+
 #endif
+  */
 class PluginManager;
 class Plugin : public QObject
 {
@@ -35,11 +38,13 @@ public:
     //! Return true if the module is loaded.
     virtual inline bool     isLoaded()      const { return loaded; }
     //! Called to start the plugin, after canLoad and if isLoaded() == false.
+    /*
     #ifdef HORUS_SERVER
     virtual inline void     load()                { loaded = true;     logs::addlog(LOGINFO, "Plugin loaded : "+ pluginName());}
     #else
+    */
     virtual inline void     load()                { loaded = true;     qDebug() <<  "Plugin loaded : "+ pluginName();}
-    #endif
+    //#endif
     //! Called to stop the plugin and free memory.
     virtual inline void     unload()              { loaded = false; }
 
