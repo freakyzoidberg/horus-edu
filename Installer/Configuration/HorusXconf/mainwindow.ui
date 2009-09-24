@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>610</width>
-    <height>489</height>
+    <height>555</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -115,11 +115,10 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>575</width>
-           <height>76</height>
+           <width>570</width>
+           <height>90</height>
           </rect>
          </property>
-         <zorder></zorder>
         </widget>
        </widget>
       </item>
@@ -267,6 +266,20 @@
         </property>
        </widget>
       </item>
+      <item row="0" column="4">
+       <widget class="QComboBox" name="sqldriver">
+        <item>
+         <property name="text">
+          <string>MySQL</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>PostgreSQL</string>
+         </property>
+        </item>
+       </widget>
+      </item>
      </layout>
     </item>
    </layout>
@@ -277,7 +290,7 @@
      <x>0</x>
      <y>0</y>
      <width>610</width>
-     <height>25</height>
+     <height>28</height>
     </rect>
    </property>
   </widget>
