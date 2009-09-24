@@ -85,7 +85,7 @@ void    ImageController::resizeWidget(IItems *widget)
 }
 
  QWidget      *ImageController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
- {
-
- }
+{
+	 return (0);
+}
 
