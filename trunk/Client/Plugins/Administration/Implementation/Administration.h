@@ -19,7 +19,7 @@ class Administration : public DisplayablePlugin
         bool                canLoad() const;
         void                load();
         const QString       pluginVersion() const;
-        const QString       getDisplayableName();
+        const QString       getDisplayableName() const;
         QWidget             *getWidget();
         const int           getOrder() const;
     private:
