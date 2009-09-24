@@ -20,7 +20,7 @@ const QString   Administration::pluginVersion() const
     return ("1.1");
 }
 
-const QString   Administration::getDisplayableName()
+const QString   Administration::getDisplayableName() const
 {
     return "Administration";
 }
