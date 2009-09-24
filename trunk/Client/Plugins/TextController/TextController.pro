@@ -1,21 +1,17 @@
-#-------------------------------------------------
-#
+# -------------------------------------------------
 # Project created by QtCreator 2009-06-06T07:17:56
-#
-#-------------------------------------------------
-
+# -------------------------------------------------
 TARGET = TextController
 TEMPLATE = lib
-
 DEFINES += HORUS_CLIENT
-
-SOURCES += Implementation/TextController.cpp
-
+SOURCES += Implementation/TextController.cpp \
+    Implementation/LessonDocument.cpp
 HEADERS += Implementation/TextController.h \
-           Implementation/TextControllerMetaPlugin.h \
-           ../LessonManager/ILessonDocument.h \
-           ../LessonManager/ILessonData.h \
-           ../LessonManager/ILesson.h \
-           ../LessonManager/ILessonSection.h \
-           ../../../Common/MetaPlugin.h \
-           ../../../Common/Plugin.h
+    Implementation/TextControllerMetaPlugin.h \
+    ../LessonManager/ILessonDocument.h \
+    ../LessonManager/ILessonData.h \
+    ../LessonManager/ILesson.h \
+    ../LessonManager/ILessonSection.h \
+    ../../../Common/MetaPlugin.h \
+    ../../../Common/Plugin.h \
+    Implementation/LessonDocument.h
