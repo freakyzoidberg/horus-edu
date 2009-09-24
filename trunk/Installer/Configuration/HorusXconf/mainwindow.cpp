@@ -52,7 +52,16 @@ void MainWindow::on_pushButton_clicked()
     QString login = ui->lineEdit_4->text();
     QString pass = ui->lineEdit_9->text();
     bool ok;
-     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+    QString driver;
+if (ui->sqldriver->currentText() == "MySQL")
+    driver = "QMYSQL";
+else if (ui->sqldriver->currentText() == "PostgreSQL")
+    driver = "QPSQL";
+else
+    driver = "QMYSQL";
+        QSqlDatabase db = QSqlDatabase::addDatabase(driver);
+
+
 
         db.setHostName(host);
         db.setDatabaseName(dbname);
@@ -65,7 +74,8 @@ void MainWindow::on_pushButton_clicked()
             Pal.setColor(QPalette::Foreground, Qt::red);
                 ui->label_2->setPalette(Pal);
 
-            ui->label_2->setText("Error at DB connection");
+            //ui->label_2->setText("Error at DB connection");
+                ui->label_2->setText(db.lastError().text());
             ui->pushButton_4->setEnabled(false);
         }
         else
@@ -110,7 +120,15 @@ void MainWindow::on_pushButton_4_clicked()
     QString login = ui->lineEdit_4->text();
     QString pass = ui->lineEdit_9->text();
     bool ok;
-	QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+
+    QString driver;
+if (ui->sqldriver->currentText() == "MySQL")
+    driver = "QMYSQL";
+else if (ui->sqldriver->currentText() == "PostgreSQL")
+    driver = "QPSQL";
+else
+    driver = "QMYSQL";
+        QSqlDatabase db = QSqlDatabase::addDatabase(driver);
 
 	db.setHostName(host);
 	db.setDatabaseName(dbname);
@@ -119,7 +137,16 @@ void MainWindow::on_pushButton_4_clicked()
 	db.setPort(port.toInt(&ok));
 	if (db.open())
 	{
-		QFile dump(":/dump.sql");
+            QFile dump;
+
+if (ui->sqldriver->currentText() == "MySQL")
+    dump.setFileName(":/dump-mysql.sql");
+else if (ui->sqldriver->currentText() == "PostgreSQL")
+    dump.setFileName(":/dump-pgsql.sql");
+else
+    dump.setFileName(":/dump-pgsql.sql");
+
+
 		dump.open(QIODevice::ReadOnly);
 		const QByteArray content = dump.readAll();
 		bool ok = true;
@@ -137,8 +164,15 @@ void MainWindow::on_pushButton_4_clicked()
 			}
 		}
 
-		query.prepare("INSERT INTO `users` (`enabled`, `login`, `level`, `password`, `surname`, `name`, `id_tree`) VALUES "\
-										  "(        1,       ?,       0,          ?,  'Father',  'God',  0)");
+ if (ui->sqldriver->currentText() == "MySQL")
+                     query.prepare("INSERT INTO `users` (`enabled`, `login`, `level`, `password`, `surname`, `name`, `id_tree`) VALUES "\
+                                                                                  "(        1,       ?,       0,          ?,  'Father',  'God',  0)");
+ else if (ui->sqldriver->currentText() == "PostgreSQL")
+    query.prepare("INSERT INTO users (id, enabled, login, level, password, surname, name, id_tree) VALUES (       1, 1,       ?,       0,          ?,  'Father',  'God',  0)");
+else
+query.prepare("INSERT INTO 'users' ('enabled', 'login', 'level', 'password', 'surname', 'name', 'id_tree') VALUES (        1,       ?,       0,          ?,  'Father',  'God',  0)");
+
+
 		query.addBindValue(ui->lineEdit_14->text());
 		query.addBindValue(QCryptographicHash::hash(QVariant(ui->lineEdit_15->text()).toByteArray(), QCryptographicHash::Sha1).toHex());
 		if ( ! query.exec())
