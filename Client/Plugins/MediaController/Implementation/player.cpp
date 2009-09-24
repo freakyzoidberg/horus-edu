@@ -128,5 +128,5 @@ void                    Player::fullScreen()
 void                    Player::leaveFullScreen()
 {
    this->vidPlayer->videoWidget()->setFullScreen(false);
-    this->noFullScreen->hide();
+   this->noFullScreen->hide();
 }

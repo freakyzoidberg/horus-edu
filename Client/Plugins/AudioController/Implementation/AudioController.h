@@ -35,6 +35,7 @@ class AudioController : public Plugin, public IDocumentController
         const QString   getSupportedType() const;
         const QString   pluginName() const;
         QWidget*        createDocumentWidget(IItems *parent, ILessonDocument *document);
+        void            editWidget(ILessonDocument *document, IItems *parent);
         void            resizeWidget(IItems *);
         void            clean(IItems *);
 

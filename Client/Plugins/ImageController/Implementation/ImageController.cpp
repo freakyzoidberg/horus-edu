@@ -84,3 +84,8 @@ void    ImageController::resizeWidget(IItems *widget)
 
 }
 
+void    ImageController::editWidget(ILessonDocument *document, IItems *parent)
+{
+
+}
+

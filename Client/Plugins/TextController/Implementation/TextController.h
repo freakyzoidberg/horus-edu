@@ -16,10 +16,11 @@ class TextController : public Plugin, public IDocumentController
 public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
-    const QString		getSupportedType() const;
-         QWidget*        createDocumentWidget(IItems *parent, ILessonDocument *document);
-        void            resizeWidget(IItems *);
-        void            clean(IItems *);
+        const QString		getSupportedType() const;
+        QWidget                 *createDocumentWidget(IItems *parent, ILessonDocument *document);
+        void                    editWidget(ILessonDocument *document, IItems *parent);
+        void                    resizeWidget(IItems *);
+        void                    clean(IItems *);
 };
 
 #endif // __TEXTCONTROLLER_H__

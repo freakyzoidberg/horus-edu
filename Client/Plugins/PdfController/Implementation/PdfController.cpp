@@ -159,3 +159,7 @@ void    PdfController::resizeWidget(IItems *widget)
 
 }
 
+void    PdfController::editWidget(ILessonDocument *document, IItems *page)
+{
+
+}
