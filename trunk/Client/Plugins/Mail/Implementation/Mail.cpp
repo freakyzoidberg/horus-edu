@@ -14,3 +14,23 @@ QWidget			*Mail::getWidget()
 {
         return new MailPanel();
 }
+
+const QString       Mail::getDisplayableName() const
+{
+    return("Mailbox");
+}
+
+const int           Mail::getOrder() const
+{
+    return (100);
+}
+
+bool                Mail::canLoad() const
+{
+    return true;
+}
+
+void                Mail::load()
+{
+    Plugin::load();
+}

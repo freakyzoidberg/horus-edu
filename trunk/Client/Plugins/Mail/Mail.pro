@@ -13,5 +13,3 @@ HEADERS += Implementation/Mail.h \
     ../../DisplayablePlugin.h \
     ../../../Common/Plugin.h \
     Implementation/MailPanel.h \
-    ../../../Common/UserDataPlugin.h \
-    ../../../Common/UserData.h

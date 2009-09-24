@@ -9,9 +9,19 @@ class				Mail : public DisplayablePlugin
     Q_INTERFACES(DisplayablePlugin)
 
 public:
-	const QString	pluginName() const;
-	const QString	pluginVersion() const;
-	QWidget			*getWidget();
+        const QString       pluginVersion() const;
+        const QString       pluginName() const;
+        QWidget             *getWidget();
+        const QString       getDisplayableName() const;
+        const int           getOrder() const;
+
+
+        bool                canLoad() const;
+        void                load();
+
+
+
+
 
 };
 
