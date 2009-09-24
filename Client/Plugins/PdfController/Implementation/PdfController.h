@@ -45,6 +45,8 @@ class   PdfController : public Plugin, public IDocumentController
         void            editWidget(ILessonDocument *document, IItems *parent);
         void            resizeWidget(IItems *);
         void            clean(IItems *);
+        ILessonDocument *addDocument(QFile *metadata, QWidget *parent);
+        void      editDocument(QFile *metadata, QWidget *parent, ILessonDocument *);
 
      private slots:
         void    dl();
