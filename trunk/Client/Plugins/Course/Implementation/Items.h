@@ -8,7 +8,7 @@
 #include <QMouseEvent>
 #include <QGridLayout>
 
-#include "IItems.h"
+#include "../IItems.h"
 #include "WhiteBoard.h"
 
 class Items : public IItems

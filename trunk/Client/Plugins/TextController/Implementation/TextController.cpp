@@ -46,7 +46,7 @@ void    TextController::editWidget(ILessonDocument *document, IItems *parent)
 
 ILessonDocument *TextController::addDocument(QFile *metadata, QWidget *parent)
 {
-
+	return (0);
 }
 
 void      TextController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)

@@ -91,7 +91,7 @@ void    ImageController::editWidget(ILessonDocument *document, IItems *parent)
 
   ILessonDocument *ImageController::addDocument(QFile *metadata, QWidget *parent)
  {
-
+	return (0);
  }
 
  void      ImageController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)

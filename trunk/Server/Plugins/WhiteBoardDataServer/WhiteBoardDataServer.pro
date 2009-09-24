@@ -5,7 +5,7 @@
 QT += sql
 DEFINES += HORUS_SERVER
 TEMPLATE = lib
-TARGET = UserBaseServerMetaPlugin
+TARGET = WhiteBoardServerMetaPlugin
 SOURCES +=   ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp \
 			../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.cpp
 HEADERS += ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h \
