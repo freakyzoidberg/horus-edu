@@ -5,6 +5,7 @@
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QtGui>
+#include <QGridLayout>
 
 //class MailPanel;
 class MailPanel : public QWidget
@@ -14,6 +15,9 @@ class MailPanel : public QWidget
 public:
     MailPanel();
     ~MailPanel();
+
+private:
+    QGridLayout layout;
 
 };
 
