@@ -38,3 +38,8 @@ void    TextController::resizeWidget(IItems *widget)
 {
 
 }
+
+void    TextController::editWidget(ILessonDocument *document, IItems *parent)
+{
+
+}

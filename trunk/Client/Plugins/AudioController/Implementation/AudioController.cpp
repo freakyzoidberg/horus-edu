@@ -93,5 +93,10 @@ void    AudioController::resizeWidget(IItems *widget)
 
 }
 
+void    AudioController::editWidget(ILessonDocument *document, IItems *parent)
+{
+
+}
+
 
 

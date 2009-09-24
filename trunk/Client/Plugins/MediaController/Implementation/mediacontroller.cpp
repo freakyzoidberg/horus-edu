@@ -86,5 +86,9 @@ void    MediaController::resizeWidget(IItems *widget)
     Player  *tmp;
 
     tmp = dynamic_cast<Player *>(widget);
+}
+
+void    MediaController::editWidget(ILessonDocument *document, IItems *parent)
+{
 
 }
