@@ -5,5 +5,6 @@
         <file>calendarwidget.png</file>
         <file>edit.png</file>
         <file>history.png</file>
+        <file alias="icon" >home.png</file>
     </qresource>
 </RCC>

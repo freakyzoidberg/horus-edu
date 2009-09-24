@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QDebug>
+#include <QtAlgorithms>
 
 #include "MainWindow.h"
 #include "MetaManager.h"
@@ -18,21 +19,16 @@ DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
 
     ui.setupUi(this);
 
-    foreach (DisplayablePlugin* plugin ,MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DisplayablePlugin*>())
+	QList<DisplayablePlugin *> plugins;
+
+	plugins = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DisplayablePlugin*>();
+	qSort(plugins);
+    foreach (DisplayablePlugin* plugin, plugins)
     {
         QString title = plugin->getDisplayableName();
         if ( ! title.isEmpty())
         {
-			QIcon icon;
-			if (title == "Course")
-				icon = QIcon(":/Pictures/edit.png");
-			if (title == "Administration")
-				icon = QIcon(":/Pictures/configure.png");
-			if (title == "Main Board")
-				icon = QIcon(":/Pictures/home.png");
-			if (title == "Test a GiT")
-				icon = QIcon(":/Pictures/synctoc.png");
-            DockMenuItem* item = new DockMenuItem(plugin, title, icon);
+            DockMenuItem* item = new DockMenuItem(plugin, plugin->getDisplayableName(), plugin->getIcon());
 			item->setStyleSheet("QPushButton{text-align: left;}");
             layout->addWidget(item);
             connect(item, SIGNAL(clicked()), this, SLOT(itemClicked()));
