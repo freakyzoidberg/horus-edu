@@ -13,5 +13,5 @@ HEADERS += Implementation/TextController.h \
     ../LessonManager/ILesson.h \
     ../LessonManager/ILessonSection.h \
     ../../../Common/MetaPlugin.h \
-    ../../../Common/Plugin.h \
-    Implementation/LessonDocument.h
+    ../../../Common/Plugin.h
+
