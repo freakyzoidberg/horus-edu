@@ -38,13 +38,12 @@ QVariant AdminModel::data ( const QModelIndex & index, int role ) const
         return ((Data*)(index.internalPointer()))->data(index.column() + 1, role);
     else
         return ((Data*)(index.internalPointer()))->data(index.column(), role);
-
 }
 
 QModelIndex AdminModel::index ( int row, int column, const QModelIndex & parent ) const
 {
     if ( ! parent.isValid())
-        return createIndex(row, column, rootItem);
+        return createIndex(row, column + 1, rootItem);
 //    int i = ((Data*)(parent.internalPointer()))->children().count();
 //    foreach (UserData* user, users)
 //    {
