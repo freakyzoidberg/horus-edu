@@ -1,5 +1,6 @@
 #include		"Mail.h"
 #include            "MailPanel.h"
+#include <QIcon>
 const QString	Mail::pluginName() const
 {
 	return ("Mail");
@@ -33,4 +34,9 @@ bool                Mail::canLoad() const
 void                Mail::load()
 {
     Plugin::load();
+}
+
+QIcon Mail::getIcon() const
+{
+    return (QIcon(":/mail.png"));
 }
