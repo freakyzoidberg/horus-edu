@@ -56,6 +56,5 @@ int StudentModel::rowCount(const QModelIndex &parent) const
     foreach (UserData* user, users)
         if (user->level() == level)
             i++;
-
     return i;
 }

@@ -44,3 +44,7 @@ const int Administration::getOrder() const
 {
     return 42;
 }
+QIcon   Administration::getIcon() const
+{
+    return (QIcon(":/images/admin.png"));
+}
