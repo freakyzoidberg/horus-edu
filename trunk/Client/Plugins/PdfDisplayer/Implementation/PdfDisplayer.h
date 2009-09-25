@@ -68,7 +68,7 @@ public:
     */
     QImage    *PdfDisplayerDoc(const QString & fileName, int page, QRectF *partToDisplay, int fileId = -1);
 
-    //! //! display a part of a pdf file (overload)
+    //! display a part of a pdf file (overload)
     /*
     \param fileId the file identifier
     \param page the page you want to display
@@ -76,6 +76,9 @@ public:
     \return a pointer to the diaplayable image
     */
      QImage    *PdfDisplayerDoc(quint32 fileId, int page, QRectF *partToDisplay);
+
+     //!for convenience
+     QImage    *PdfDisplayerDoc(const QString & fileName, int page);
 
     /*!
       Close a pdf file and remove it from the map. When the name has been

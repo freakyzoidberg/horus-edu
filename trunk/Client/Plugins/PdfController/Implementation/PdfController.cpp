@@ -150,17 +150,43 @@ void    PdfController::reload()
 }
 
 
-void    PdfController::clean(IItems *widget)
+void         PdfController::clean(IItems *widget)
 {
 
 }
 
-void        PdfController::resizeWidget(IItems *widget)
+void         PdfController::resizeWidget(IItems *widget)
 {
 
 }
 
 QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
 {
+    QString     fileName;
+    QImage      *image;
+
+    pdf = this->pluginManager->findPlugin<IPdfRendering *>();
+    if (!pdf)
+    {
+        qDebug() << "IPdfRendering not found";
         return NULL;
+    }
+
+    fileName = data->file()->fileName();
+    image = pdf->PdfDisplayerDoc(fileName, page, rect, 0);
+    if (!image)
+    {
+       qDebug() << "Call the shot";
+       delete rect;
+       return NULL;
+    }
+
+    //QImage disp = image->scaled(w, h);
+    QPixmap pix = QPixmap::fromImage(*image);
+
+    label->setPixmap(pix);
+    delete rect;
+    delete image;
+
+  return NULL;
 }

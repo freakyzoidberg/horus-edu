@@ -53,6 +53,7 @@ class   IPdfFile
     //! create the picture of the PDF, not finished. (need a solution to
     //! pass this image to the "core")
     virtual QImage    *render(int page, QRectF *partToDisplay) = 0;
+    virtual QImage    *render(int page) = 0;
 
     //! modification of the scale factor, used when user zoom
     /*!
