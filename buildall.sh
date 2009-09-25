@@ -2,7 +2,7 @@
 #
 #	Build Client and Server
 #	     with plugins
-#	   V0.1 By Zoid *berg = NULL;
+#	   V0.2 By Zoid *berg = NULL;
 #
 
 VERT="\\033[1;32m"
@@ -147,4 +147,6 @@ case $me in
 	cp ~/Epitech/eip/trunk/Client/Plugins/*/*.so ~/.Horus/Plugins/
 	echo -e "$JAUNE" " ... finished copying ..." "$NORMAL"
 	;;
+    *)
+	echo -e "$JAUNE" " ... Edit the buildall to set where to copy your files after L151..." "$NORMAL"
 esac
