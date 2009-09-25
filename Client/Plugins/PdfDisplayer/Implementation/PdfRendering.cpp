@@ -162,6 +162,7 @@ QImage  *PdfRendering::generateImg(QRectF * partToDisplay)
 
     QRect part = matrix->mapRect(*partToDisplay).toRect();
     QImage  *subImg = new QImage(image.copy(part));
+    delete partToDisplay;
     return subImg;
 }
 

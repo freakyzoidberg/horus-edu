@@ -89,6 +89,24 @@ QImage    *PdfDisplayer::PdfDisplayerDoc(quint32 fileId, int page,
     return PdfDisplayerDoc(fileName, page, partToDisplay, fileId);
 }
 
+QImage    *PdfDisplayer::PdfDisplayerDoc(const QString & fileName, int page)
+{
+     QFileInfo    filePath(fileName);
+    QMap<quint32, IPdfFile *>::iterator it;
+
+    if (!filePath.isAbsolute())
+        if (!filePath.makeAbsolute())
+        {
+            qDebug() << "Cannot use the absolute path of the pdf file";
+            return NULL;
+        }
+    quint32 fileId = fileName.toInt();
+
+    if ((it = pdfFiles->find(fileId)) == pdfFiles->end())
+        it = pdfFiles->insert(fileId, new PdfFile(filePath.filePath()));
+    return it.value()->render(page);
+}
+
 QImage    *PdfDisplayer::PdfDisplayerDoc(const QString & fileName, int page,
                                QRectF *partToDisplay, int fileId)
 {
