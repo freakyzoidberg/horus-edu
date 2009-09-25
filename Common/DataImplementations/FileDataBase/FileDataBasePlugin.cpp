@@ -5,6 +5,8 @@
 #include "../../../Common/Plugin.h"
 #include "../../../Common/TreeDataPlugin.h"
 #include "../../../Common/UserDataPlugin.h"
+#include "../../../Common/UserData.h"
+#include "../../../Common/TreeData.h"
 
 FileData* FileDataBasePlugin::getFile(quint32 fileId)
 {
@@ -12,6 +14,50 @@ FileData* FileDataBasePlugin::getFile(quint32 fileId)
         files.insert(fileId, new FileDataBase(fileId, this));
 
     return files.value(fileId);
+}
+
+QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNode(quint32 nodeId)
+{
+	QHash<quint32, FileData*> res;
+	foreach (FileData* file, files)
+	{
+		if (file->node()->id() == nodeId)
+			res.insert(file->id(), file);
+	}
+	return res;
+}
+
+QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNode(const TreeData *node)
+{
+	QHash<quint32, FileData*> res;
+	foreach (FileData* file, files)
+	{
+		if (file->node()->id() == node->id())
+			res.insert(file->id(), file);
+	}
+	return res;
+}
+
+QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNodeAndUser(quint32 nodeId, quint32 userId)
+{
+	QHash<quint32, FileData*> res;
+	foreach (FileData* file, files)
+	{
+		if (file->node()->id() == nodeId && file->owner()->id() == userId)
+			res.insert(file->id(), file);
+	}
+	return res;
+}
+
+QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNodeAndUser(const TreeData *node, const UserData* user)
+{
+	QHash<quint32, FileData*> res;
+	foreach (FileData* file, files)
+	{
+		if (file->node()->id() == node->id() && file->owner()->id() == user->id())
+			res.insert(file->id(), file);
+	}
+	return res;
 }
 
 Data* FileDataBasePlugin::getDataWithKey(QDataStream& s)

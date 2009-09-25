@@ -6,6 +6,9 @@
 
 class Data;
 class FileData;
+class UserData;
+class TreeData;
+
 class FileDataPlugin : public DataPlugin
 {
   Q_OBJECT
@@ -19,6 +22,10 @@ class FileDataPlugin : public DataPlugin
 public:
     inline const QString getDataType() const { return "File"; }
     virtual FileData*    getFile(quint32 fileId) = 0;
+	virtual QHash<quint32, FileData*> getFilesPerNode(quint32 nodeId) = 0;
+	virtual QHash<quint32, FileData*> getFilesPerNode(const TreeData *node) = 0;
+	virtual QHash<quint32, FileData*> getFilesPerNodeAndUser(quint32 nodeId, quint32 userId) = 0;
+	virtual QHash<quint32, FileData*> getFilesPerNodeAndUser(const TreeData *node, const UserData* user) = 0;
 };
 
 #ifdef HORUS_SERVER
