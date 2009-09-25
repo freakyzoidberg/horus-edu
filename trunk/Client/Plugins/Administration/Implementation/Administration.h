@@ -22,6 +22,7 @@ class Administration : public DisplayablePlugin
         const QString       getDisplayableName() const;
         QWidget             *getWidget();
         const int           getOrder() const;
+        QIcon               getIcon() const;
     private:
             TreeDataPlugin      *treePlugin;
             UserDataPlugin      *userPlugin;
