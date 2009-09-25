@@ -68,12 +68,12 @@ QModelIndex AdminModel::index ( int row, int column, const QModelIndex & parent 
 
 	int pos = 0;
 	foreach (UserData* user, users)
-		if (user->node() == node && user->level() > 1)
-        {
+            if (user->node() == node && user->level() > 1)
+            {
 			if (pos == row - node->children().count())
-                return createIndex(row, column, user);
+                            return createIndex(row, column, user);
 			pos++;
-        }
+            }
 
 	//should not happen
 	return QModelIndex();
@@ -101,7 +101,7 @@ QModelIndex AdminModel::parent ( const QModelIndex & index ) const
 
 	// if the parent is the root item
 	if (node == rootItem)
-        return createIndex(0, 0, rootItem);
+            return createIndex(0, 0, rootItem);
 
 	return createIndex(node->parent()->children().indexOf(node), 0, node);
 }

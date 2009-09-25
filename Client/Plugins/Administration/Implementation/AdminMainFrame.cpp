@@ -11,7 +11,7 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     contentsWidget->setViewMode(QListView::IconMode);
     contentsWidget->setIconSize(QSize(20, 20));
     contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setMaximumWidth(82);
+    contentsWidget->setMaximumWidth(75);
     contentsWidget->setSpacing(2);
     contentsWidget->setUniformItemSizes(true);
 
@@ -24,19 +24,10 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     createIcons();
     contentsWidget->setCurrentRow(0);
 
-    QHBoxLayout *horizontalLayout = new QHBoxLayout;
-    horizontalLayout->addWidget(contentsWidget);
-    horizontalLayout->addWidget(framesWidget, 1);
-
-    QHBoxLayout *buttonsLayout = new QHBoxLayout;
-    buttonsLayout->addStretch(1);
-
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addLayout(horizontalLayout);
-    mainLayout->addStretch(1);
-    mainLayout->addSpacing(12);
-    mainLayout->addLayout(buttonsLayout);
-    setLayout(mainLayout);
+    QGridLayout *horizontalLayout = new QGridLayout(this);
+    horizontalLayout->addWidget(contentsWidget, 0, 0);
+    horizontalLayout->addWidget(framesWidget, 0, 1);
+//    setLayout(mainLayout);
 
     setWindowTitle(tr("Administration"));
 }
