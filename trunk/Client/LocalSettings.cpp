@@ -5,6 +5,7 @@
 #include <QString>
 #include <QDebug>
 #include <QCoreApplication>
+#include <QLocale>
 
 #include "../Common/Defines.h"
 
@@ -44,6 +45,8 @@ void    LocalSettings::createConfig()
         else
             settings.setValue("LessonsDirectoryPath", path);
     }
+	if (!settings.contains("Locale"))
+		settings.setValue("Locale", QLocale::system().name());
     if (!settings.contains("Plugins/UserDirectoryPath"))
     {
         path = QDir::homePath() + "/.Horus/Plugins";

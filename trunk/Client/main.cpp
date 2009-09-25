@@ -13,7 +13,8 @@ int						main(int argc, char *argv[])
     ClientApplication	app(argc, argv);
     QSettings			settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 
+	translator.load("Horus_" + settings.value("Locale").toString(), settings.value("TranslationsDirectoryPath").toString());
+	app.installTranslator(&translator);
 	app.setStyle(new HorusStyle());
-	translator.load("Horus_" + QLocale::system().name(), settings.value("TranslationsDirectoryPath").toString());
     return (app.exec());
 }
