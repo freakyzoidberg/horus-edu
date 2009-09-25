@@ -14,7 +14,7 @@ public:
         QWidget             *getWidget();
         const QString       getDisplayableName() const;
         const int           getOrder() const;
-
+        QIcon               getIcon() const;
 
         bool                canLoad() const;
         void                load();

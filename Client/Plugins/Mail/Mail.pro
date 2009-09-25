@@ -17,6 +17,8 @@ HEADERS += Implementation/Mail.h \
     Implementation/MailPanel.h \
     \ \
     \ \
+    \ \
     \ \ # qmake configuration for linux-g++
     Implementation/MailList.h \
     Implementation/MailForm.h
+RESOURCES += Implementation/mailrc.qrc
