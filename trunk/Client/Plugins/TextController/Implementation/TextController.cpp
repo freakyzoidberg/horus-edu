@@ -41,7 +41,8 @@ void                TextController::resizeWidget(IItems *widget)
 
 }
 
-QWidget             *TextController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *document)
+QWidget             *TextController::editDocument(QFile *metadata, QWidget *parent,
+                                                  ILessonDocument *document)
 {
     QTextEdit           *textEditor = new QTextEdit(parent);
     QPushButton         *save = new QPushButton("Save", parent);

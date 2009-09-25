@@ -39,7 +39,7 @@ class   PdfController : public Plugin, public IDocumentController
                 /*!
                     \return A string matching a specific type of page object.
                 */
-        const QString  getSupportedType() const;
+        const QString   getSupportedType() const;
 
         QWidget*        createDocumentWidget(IItems *parent, ILessonDocument *document);
         void            resizeWidget(IItems *);
@@ -47,16 +47,16 @@ class   PdfController : public Plugin, public IDocumentController
         QWidget         *editDocument(QFile *metadata, QWidget *parent, ILessonDocument *);
 
      private slots:
-        void    dl();
-        void    reload();
+        void            dl();
+        void            reload();
 
      private:
         QLabel          *label;
         FileData        *data;
         QString         supportedType;
-        IPdfRendering  *pdf;
-        QRectF           *rect;
-        int         page;
+        IPdfRendering   *pdf;
+        QRectF          *rect;
+        int             page;
 };
 
 #endif /* __PDF_CONTROLLER_H__ */

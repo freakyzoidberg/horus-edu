@@ -30,11 +30,13 @@ public:
  private slots:
         void                    dl();
         void                    reload();
+        void                    saveChanges();
 
   private:
         QLabel                  *label;
         FileData                *data;
         QString                 supportedType;
+        QWidget                 *parent;
 };
 
 #endif // __IMAGECONTROLLER_H__
