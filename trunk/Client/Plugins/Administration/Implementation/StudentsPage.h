@@ -63,6 +63,7 @@ class StudentsPage : public QWidget
         QLineEdit *lineEdit_7;
         QDialogButtonBox *buttonBox;
         QVBoxLayout *menuLayout;
+        QVBoxLayout *mainLayout;
         void    editUser();
         void    cancelUser();
         void    deleteUser();

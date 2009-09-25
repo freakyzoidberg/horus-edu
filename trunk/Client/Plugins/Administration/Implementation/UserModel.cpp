@@ -50,14 +50,9 @@ QModelIndex UserModel::parent(const QModelIndex &index) const
 
 int UserModel::rowCount(const QModelIndex &parent) const
 {
-//	TreeData* node = qobject_cast<TreeData*>((Data*)(parent.internalPointer()));
-//	if ( ! node)
-//		return 0;
-//
-//
-//    quint32 i = 0;
-//    foreach (UserData* user, users)
-//        if (user->level() == level)
-//            i++;
-//    return i;
+    quint32 i = 0;
+    foreach (UserData* user, users)
+        if (user->level() == level)
+            i++;
+    return i;
 }
