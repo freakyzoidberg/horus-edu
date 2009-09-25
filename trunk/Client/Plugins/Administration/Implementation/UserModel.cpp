@@ -1,17 +1,17 @@
-#include "StudentModel.h"
+#include "UserModel.h"
 
-StudentModel::StudentModel(const QHash<quint32, UserData*>&  _users, int _level)
+UserModel::UserModel(const QHash<quint32, UserData*>&  _users, int _level)
         : users(_users)
 {
     level = _level;
 }
 
-int StudentModel::columnCount(const QModelIndex &parent) const
+int UserModel::columnCount(const QModelIndex &parent) const
 {
     return 1;
 }
 
-QVariant StudentModel::data(const QModelIndex &index, int role) const
+QVariant UserModel::data(const QModelIndex &index, int role) const
 {
     UserData *item = static_cast<UserData*>(index.internalPointer());
 
@@ -21,7 +21,7 @@ QVariant StudentModel::data(const QModelIndex &index, int role) const
         return item->data(index.column(), role);
 }
 
-QVariant StudentModel::headerData(int section, Qt::Orientation orientation, int role) const
+QVariant UserModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
         return "Students";
@@ -29,7 +29,7 @@ QVariant StudentModel::headerData(int section, Qt::Orientation orientation, int 
     return QVariant();
 }
 
-QModelIndex StudentModel::index(int row, int column, const QModelIndex &parent) const
+QModelIndex UserModel::index(int row, int column, const QModelIndex &parent) const
 {
     int i = 0;
     foreach (UserData* user, users)
@@ -42,12 +42,12 @@ QModelIndex StudentModel::index(int row, int column, const QModelIndex &parent) 
     return QModelIndex();
 }
 
-QModelIndex StudentModel::parent(const QModelIndex &index) const
+QModelIndex UserModel::parent(const QModelIndex &index) const
 {
     return QModelIndex();
 }
 
-int StudentModel::rowCount(const QModelIndex &parent) const
+int UserModel::rowCount(const QModelIndex &parent) const
 {
     if (parent.isValid())
         return 0;

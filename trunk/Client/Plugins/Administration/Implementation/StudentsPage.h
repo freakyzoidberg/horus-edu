@@ -22,7 +22,7 @@
 #include <QTreeView>
 
 #include "../../../../Common/TreeData.h"
-#include "StudentModel.h"
+#include "UserModel.h"
 
 class StudentsPage : public QWidget
 {

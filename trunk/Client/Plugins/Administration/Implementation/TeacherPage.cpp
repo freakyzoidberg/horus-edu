@@ -8,7 +8,7 @@ TeacherPage::TeacherPage(TreeDataPlugin* tree, UserDataPlugin *users)
     user = 0;
     setupUi();
     _users = users;
-    teacherTree->setModel(new StudentModel(users->getAllUser(), 2));
+    teacherTree->setModel(new UserModel(users->getAllUser(), 2));
     teacherTree->setColumnWidth(0, 35);
     connect(this->buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(bClicked(QAbstractButton *)));
     connect(this->teacherTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(profSelected(const QModelIndex&)));

@@ -12,7 +12,7 @@ StudentsPage::StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users)
     user = 0;
     setupUi();
     _users = users;
-    studentTree->setModel(new StudentModel(_users->getAllUser(), 3));
+    studentTree->setModel(new UserModel(_users->getAllUser(), 3));
     studentTree->setColumnWidth(0, 35);
 
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));

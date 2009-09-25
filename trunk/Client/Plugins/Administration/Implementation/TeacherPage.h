@@ -21,7 +21,7 @@
 #include <QTreeView>
 
 #include "../../../../Common/TreeData.h"
-#include "StudentModel.h"
+#include "UserModel.h"
 
 class TeacherPage : public QWidget
 {
