@@ -139,3 +139,12 @@ case $me in
 	tput sgr0 
 	;;
 esac
+
+
+case $me in
+    'zoidberg')
+	echo -e "$JAUNE" " ... Copying Plugins ..." "$NORMAL"
+	cp ~/Epitech/eip/trunk/Client/Plugins/*/*.so ~/.Horus/Plugins/
+	echo -e "$JAUNE" " ... finished copying ..." "$NORMAL"
+	;;
+esac
