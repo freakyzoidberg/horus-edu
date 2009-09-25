@@ -12,15 +12,18 @@ int AdminModel::columnCount ( const QModelIndex & ) const
 
 int AdminModel::rowCount ( const QModelIndex & parent ) const
 {
-    TreeData *tmp = ((TreeData*)(parent.internalPointer()));
-
     if ( ! parent.isValid())
         return 1;
-//    int i = 0;
-//    foreach (UserData* user, users)
-//        if (user->node()->id() == tmp->id() && user->level() > 1)
-//            i++;
-    return ((Data*)(parent.internalPointer()))->children().count()/* + i*/;
+//    Data *tmp = ((Data*)(parent.internalPointer()));
+//
+      TreeData* tmp = static_cast<TreeData*>(parent.internalPointer());
+//    if (tmp2 == 0)
+//        return tmp->children().count();
+    int i = 0;
+    foreach (UserData* user, users)
+        if (user->node()->id() == tmp->id() && user->level() > 1)
+            i++;
+    return ((Data*)(parent.internalPointer()))->children().count() + i;
 }
 
 QVariant AdminModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -44,17 +47,17 @@ QModelIndex AdminModel::index ( int row, int column, const QModelIndex & parent 
 {
     if ( ! parent.isValid())
         return createIndex(row, column + 1, rootItem);
-//    int i = ((Data*)(parent.internalPointer()))->children().count();
-//    foreach (UserData* user, users)
-//    {
-//        if (user->node()->id() == ((TreeData*)(parent.internalPointer()))->id() && user->level() > 1)
-//        {
-//            if (i == row)
-//                return createIndex(row, column, user);
-//            i++;
-//        }
-//    }
-    return createIndex(row, column, ((Data*)(parent.internalPointer()))->children().at(row) );
+    int i = 0;
+    foreach (UserData* user, users)
+    {
+        if (user->node()->id() == ((TreeData*)(parent.internalPointer()))->id() && user->level() > 1)
+        {
+            if (i == row)
+                return createIndex(row, column, user);
+            i++;
+        }
+    }
+    return createIndex(row, column, ((Data*)(parent.internalPointer()))->children().at(row - i) );
 }
 
 QModelIndex AdminModel::parent ( const QModelIndex & index ) const
@@ -68,6 +71,13 @@ QModelIndex AdminModel::parent ( const QModelIndex & index ) const
         return createIndex(0, 0, rootItem);
 
     obj = obj->parent();
-    return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
+    if (obj == 0)
+    {
+        UserData* tmp = (UserData*)(index.internalPointer());
+        if (tmp != 0)
+            return createIndex(0,0, tmp->node());
+    }
+    else
+        return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
 }
 

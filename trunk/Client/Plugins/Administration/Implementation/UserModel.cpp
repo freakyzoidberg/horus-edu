@@ -14,7 +14,8 @@ int UserModel::columnCount(const QModelIndex &parent) const
 QVariant UserModel::data(const QModelIndex &index, int role) const
 {
     UserData *item = static_cast<UserData*>(index.internalPointer());
-
+    if (item == NULL)
+       index.data(role);
     if (role == Qt::DisplayRole)
         return item->data(index.column() + 1, role);
     else
@@ -24,7 +25,7 @@ QVariant UserModel::data(const QModelIndex &index, int role) const
 QVariant UserModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return "Students";
+        return tr("Students");
 
     return QVariant();
 }
