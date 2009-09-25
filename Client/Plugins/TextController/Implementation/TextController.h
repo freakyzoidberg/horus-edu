@@ -13,6 +13,9 @@ class TextController : public Plugin, public IDocumentController
     Q_INTERFACES(Plugin)
     Q_INTERFACES(IDocumentController)
 
+public slots:
+        void                    saveModifs();
+
 public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
@@ -21,6 +24,9 @@ public:
         void                    resizeWidget(IItems *);
         void                    clean(IItems *);
         QWidget                 *editDocument(QFile *metadata, QWidget *parent, ILessonDocument *);
+
+private:
+        QWidget                 *parent;
 };
 
 #endif // __TEXTCONTROLLER_H__
