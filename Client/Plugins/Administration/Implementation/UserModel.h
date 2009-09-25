@@ -1,5 +1,5 @@
-#ifndef STUDENTMODEL_H
-#define STUDENTMODEL_H
+#ifndef USERMODEL_H
+#define USERMODEL_H
 
 
 #include <QAbstractItemModel>
@@ -9,12 +9,12 @@
 
 class UserItem;
 
-class StudentModel: public QAbstractItemModel
+class UserModel: public QAbstractItemModel
 {
     Q_OBJECT
 
     public:
-     StudentModel(const QHash<quint32, UserData*>& users, int level);
+     UserModel(const QHash<quint32, UserData*>& users, int level);
 
      QVariant data(const QModelIndex &index, int role) const;
      QVariant headerData(int section, Qt::Orientation orientation,
@@ -30,4 +30,4 @@ private:
      quint32                         level;
 };
 
-#endif // STUDENTMODEL_H
+#endif // UserModel_H
