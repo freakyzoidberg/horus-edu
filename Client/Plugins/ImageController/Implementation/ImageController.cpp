@@ -4,6 +4,7 @@
 #include <QImage>
 #include <QPixmap>
 #include <QFileDialog>
+#include <QPushButton>
 
 const QString    ImageController::pluginName() const
 {
@@ -85,11 +86,30 @@ void    ImageController::resizeWidget(IItems *widget)
 
 }
 
- QWidget      *ImageController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
+ QWidget        *ImageController::editDocument(QFile *file, QWidget *parent, ILessonDocument *doc)
 {
-    QFileDialog     *openImage = new QFileDialog(parent);
+    QString     fileName = file->fileName();
+    QLabel      *editLabel = new QLabel("Loading image...", parent);
+    QImage      *image = new QImage(fileName);
+    QPushButton *save = new QPushButton(tr("Save changes"));
 
+    if (image->isNull())
+    {
+        editLabel->setText(tr("An error occurs. Cannot open image."));
+        return parent;
+    }
 
-    return (0);
+    QPixmap pix = QPixmap::fromImage(*image);
+    label->setPixmap(pix);
+    delete image;
+    this->parent = parent;
+    doc->setTitle(fileName);
+    doc->setObjectName(QString(doc->getId()));
+    connect(save, SIGNAL(clicked()), this, SLOT(saveModifs()));
+    return parent;
 }
 
+ void       ImageController::saveChanges()
+ {
+    parent->close();
+ }

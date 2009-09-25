@@ -1,5 +1,6 @@
 #include "PdfController.h"
 
+#include <QFileDialog>
 #include <QDebug>
 #include <QtCore/qplugin.h>
 #include <QStringList>
@@ -154,12 +155,12 @@ void    PdfController::clean(IItems *widget)
 
 }
 
-void    PdfController::resizeWidget(IItems *widget)
+void        PdfController::resizeWidget(IItems *widget)
 {
 
 }
 
 QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
 {
-	return (0);
+        return NULL;
 }
