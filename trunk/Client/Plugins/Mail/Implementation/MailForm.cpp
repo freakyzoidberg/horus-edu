@@ -6,7 +6,7 @@ MailForm::MailForm()
     QHBoxLayout *ligne1 = new QHBoxLayout();
     QHBoxLayout *ligne2 = new QHBoxLayout();
     QHBoxLayout *ligne3 = new QHBoxLayout();
-
+    QHBoxLayout *ligne4 = new QHBoxLayout();
 
 
     QLabel *to = new QLabel(tr("To :"));
@@ -25,13 +25,20 @@ MailForm::MailForm()
     QTextEdit *content_value = new QTextEdit();
     ligne3->addWidget(content_value,1);
 
+
+    QPushButton *send = new QPushButton(tr("Send"));
+    ligne4->addWidget(send,1, Qt::AlignRight);
+
     total->addLayout(ligne1->layout(),0);
     total->addLayout(ligne2->layout(),0);
     total->addLayout(ligne3->layout(),1);
+    total->addLayout(ligne4->layout(),0);
 
     total->setAlignment(ligne1->layout(), Qt::AlignTop);
     total->setAlignment(ligne2->layout(), Qt::AlignTop);
     total->setAlignment(ligne3->layout(), Qt::AlignTop);
+    total->setAlignment(ligne4->layout(), Qt::AlignTop);
+
 
 
 
