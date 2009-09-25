@@ -30,7 +30,6 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
-    Implementation/StudentModel.h \
     Implementation/AdminTree.h \
     Implementation/AdminModel.h \
     Implementation/UserModel.h
