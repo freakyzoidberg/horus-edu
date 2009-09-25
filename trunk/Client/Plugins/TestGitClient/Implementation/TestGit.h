@@ -21,7 +21,7 @@ public:
     inline const QString    pluginVersion() const { return "0.42"; }
 
     // INTERFACE DisplayablePlugin
-    inline const QString    getDisplayableName() { return "Test a GiT"; }
+	inline const QString    getDisplayableName() const { return "Test a GiT"; }
     inline QWidget*         getWidget() { return new TestGitWidget(this, testNetworkPlugin); }
 
     TestNetworkPlugin*      testNetworkPlugin;
