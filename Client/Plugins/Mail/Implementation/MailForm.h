@@ -5,7 +5,8 @@
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QtGui>
-
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 //class MailForm;
 class MailForm : public QWidget
 {
@@ -13,7 +14,6 @@ class MailForm : public QWidget
 public:
     MailForm();
     ~MailForm();
-
 
 };
 

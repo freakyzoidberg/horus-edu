@@ -10,6 +10,8 @@ MailPanel::MailPanel(): QWidget()
     QPushButton *mailbox = new QPushButton(tr("MailBox"));
     QComboBox *mailaccnt = new QComboBox();
     QVBoxLayout *menuleft = new QVBoxLayout();
+
+    menuleft->setSizeConstraint(QLayout::SetMaximumSize);
     contentright = new QVBoxLayout();
 
     this->Mlist = new MailList();
@@ -21,7 +23,7 @@ MailPanel::MailPanel(): QWidget()
     contentright->setMargin(0);
 
 
-    layout.addLayout(menuleft->layout(),1);
+    layout.addLayout(menuleft->layout(),0);
     layout.addLayout(contentright->layout(),4);
 
 
@@ -47,7 +49,7 @@ void MailPanel::changetowrite()
  }
 
 contentright->addWidget(this->Mform);
-
+this->Mform->show();
 }
 
 void MailPanel::changetolist()
