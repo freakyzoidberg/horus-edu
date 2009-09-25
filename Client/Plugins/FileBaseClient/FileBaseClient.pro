@@ -17,6 +17,8 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/Data.h \
     ../../../Common/DataManager.h \
     ../../../Common/FileData.h \
+	../../../Common/UserData.h \
+	../../../Common/TreeData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/FileDataPlugin.h \
     ../../../Common/AbstractManager.h \
