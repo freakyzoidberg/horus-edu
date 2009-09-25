@@ -1,8 +1,8 @@
 #include "AdminModel.h"
 
-AdminModel::AdminModel(const QHash<quint32, UserData*>&  _users, TreeData *Data) : users(_users)
+AdminModel::AdminModel(const QHash<quint32, UserData*>&  _users, TreeData *root) : users(_users)
 {
-    rootItem = Data;
+	rootItem = root;
 }
 
 int AdminModel::columnCount ( const QModelIndex & ) const
@@ -12,18 +12,24 @@ int AdminModel::columnCount ( const QModelIndex & ) const
 
 int AdminModel::rowCount ( const QModelIndex & parent ) const
 {
-    if ( ! parent.isValid())
-        return 1;
-//    Data *tmp = ((Data*)(parent.internalPointer()));
-//
-      TreeData* tmp = static_cast<TreeData*>(parent.internalPointer());
-//    if (tmp2 == 0)
-//        return tmp->children().count();
-    int i = 0;
-    foreach (UserData* user, users)
-        if (user->node()->id() == tmp->id() && user->level() > 1)
-            i++;
-    return ((Data*)(parent.internalPointer()))->children().count() + i;
+	// if invalid, parent is the parent of the rootElement, so only the rootElement in child
+	if ( ! parent.isValid())
+		return 1;
+
+	// if parent is not a TreeData*, it's a UserData, so there's no child
+	TreeData* node = qobject_cast<TreeData*>((Data*)(parent.internalPointer()));
+	if ( ! node)
+		return 0;
+
+	int nbUsers = 0;
+
+	// count the number of children in this node
+	foreach (UserData* user, users)
+		if (user->level() > 1 && user->node() == node)
+			nbUsers++;
+
+	// return the number of the node's children + the number of users in this node
+	return node->children().count() + nbUsers;
 }
 
 QVariant AdminModel::headerData (int section, Qt::Orientation orientation, int role) const
@@ -37,6 +43,7 @@ QVariant AdminModel::data ( const QModelIndex & index, int role ) const
 {
     if ( ! index.isValid())
         return QVariant();
+
     if (role == Qt::DisplayRole)
         return ((Data*)(index.internalPointer()))->data(index.column() + 1, role);
     else
@@ -45,39 +52,56 @@ QVariant AdminModel::data ( const QModelIndex & index, int role ) const
 
 QModelIndex AdminModel::index ( int row, int column, const QModelIndex & parent ) const
 {
-    if ( ! parent.isValid())
-        return createIndex(row, column + 1, rootItem);
-    int i = 0;
-    foreach (UserData* user, users)
-    {
-        if (user->node()->id() == ((TreeData*)(parent.internalPointer()))->id() && user->level() > 1)
+	// if invalid, parent is the parent of the rootElement, so only the rootElement in child
+	if ( ! parent.isValid())
+		return createIndex(row, column, rootItem);
+
+	TreeData* node = qobject_cast<TreeData*>((Data*)(parent.internalPointer()));
+
+	// should not happen
+	if ( ! node)
+		return QModelIndex();
+
+	// if the row corespond to a TreeData
+	if (row < node->children().count())
+		return createIndex(row, column, node->children().at(row));
+
+	int pos = 0;
+	foreach (UserData* user, users)
+		if (user->node() == node && user->level() > 1)
         {
-            if (i == row)
+			if (pos == row - node->children().count())
                 return createIndex(row, column, user);
-            i++;
+			pos++;
         }
-    }
-    return createIndex(row, column, ((Data*)(parent.internalPointer()))->children().at(row - i) );
+
+	//should not happen
+	return QModelIndex();
 }
 
 QModelIndex AdminModel::parent ( const QModelIndex & index ) const
 {
-    QObject* obj = (QObject*)(index.internalPointer());
+	//should not happen
+	if ( ! index.isValid())
+		return QModelIndex();
 
-    if (obj == rootItem)
-        return QModelIndex();
+	TreeData* node = qobject_cast<TreeData*>((Data*)(index.internalPointer()));
+	// if index is a node
+	if (node)
+	{
+		//if index is the rootElement
+		if (node == rootItem)
+			return QModelIndex();
 
-    if (obj->parent() == rootItem)
+		// the node is the parent
+		node = (TreeData*)(node->parent());
+	}
+	else
+		node = ((UserData*)(index.internalPointer()))->node();
+
+	// if the parent is the root item
+	if (node == rootItem)
         return createIndex(0, 0, rootItem);
 
-    obj = obj->parent();
-    if (obj == 0)
-    {
-        UserData* tmp = (UserData*)(index.internalPointer());
-        if (tmp != 0)
-            return createIndex(0,0, tmp->node());
-    }
-    else
-        return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
+	return createIndex(node->parent()->children().indexOf(node), 0, node);
 }
-
