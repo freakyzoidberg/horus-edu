@@ -7,6 +7,8 @@
 #include <QtGui>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include "MailList.h"
+#include "MailForm.h"
 //class MailPanel;
 class MailPanel : public QWidget
 {
@@ -18,6 +20,14 @@ public:
 
 private:
     QHBoxLayout layout;
+    MailList *Mlist;
+    MailForm *Mform;
+QVBoxLayout *contentright;
+
+private slots:
+        void changetowrite();
+        void changetolist();
+
 
 };
 
