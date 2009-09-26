@@ -64,7 +64,7 @@ public:
      *  - Write to a local cache file.
      *  - Compare two data.
      */
-    virtual inline void     dataToStream(QDataStream& s) { s << _lastChange; }
+	virtual inline void     dataToStream(QDataStream& s) const { s << _lastChange; }
     //! Have to read his data from the stream.
     /*! Called to:
      *  - Transfert this data between client and server.

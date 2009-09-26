@@ -35,7 +35,7 @@ void MainFrame::courseClicked()
     emit switchToWidget(pluginManager->findPlugin<DisplayablePlugin*>("Course")->getWidget());
 }
 
-const int	MainFrame::getOrder() const
+int	MainFrame::getOrder() const
 {
 	return (-1);
 }

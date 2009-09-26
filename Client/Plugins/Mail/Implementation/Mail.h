@@ -13,7 +13,7 @@ public:
         const QString       pluginName() const;
         QWidget             *getWidget();
         const QString       getDisplayableName() const;
-        const int           getOrder() const;
+		int					getOrder() const;
         QIcon               getIcon() const;
 
         bool                canLoad() const;

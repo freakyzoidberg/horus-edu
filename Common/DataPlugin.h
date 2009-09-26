@@ -9,10 +9,12 @@
 
 #include "QByteArray"
 #include "Plugin.h"
+#include "MetaPlugin.h"
 
 class Data;
 class UserData;
 class DataManager;
+
 //! this object have to references these own data in memory (if needed) and to provide an interface to the other plugins to access these
 /*!
  * run in the data thread
@@ -43,6 +45,11 @@ public:
     virtual inline void   sendUpdates(QSqlQuery&, UserData*, QDateTime) { }
 #endif
     DataManager*          dataManager;
+
+	friend class MetaPlugin;
+protected:
+	inline DataPlugin() {}
+	inline ~DataPlugin() {}
 };
 
 #ifdef HORUS_SERVER

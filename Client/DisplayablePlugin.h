@@ -31,7 +31,7 @@ public:
      */
     virtual inline const QString getDisplayableName() const { return (QString()); }
 	virtual inline QIcon getIcon() const { return (QIcon()); }
-	virtual inline const int getOrder() const { return (0); }
+	virtual inline int getOrder() const { return (0); }
 	virtual inline bool operator<(DisplayablePlugin &right) const { return (this->getOrder() < right.getOrder()); }
 
 signals:

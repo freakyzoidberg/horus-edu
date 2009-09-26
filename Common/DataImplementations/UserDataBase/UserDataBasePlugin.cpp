@@ -104,8 +104,6 @@ UserData* UserDataBasePlugin::authenticatePassword(QSqlQuery& query, const QStri
     }
 
     UserDataBase* user = (UserDataBase*)(getUser(query.value(0).toUInt()));
-    user->fillFromDatabase(query);
-    user->setStatus(Data::UPTODATE);
     user->updateLastLogin(query);
     return user;
 }
@@ -128,8 +126,6 @@ UserData* UserDataBasePlugin::authenticateSession (QSqlQuery& query, const QStri
     }
 
     UserDataBase* user = (UserDataBase*)(getUser(query.value(0).toUInt()));
-    user->fillFromDatabase(query);
-    user->setStatus(Data::UPTODATE);
     user->updateLastLogin(query);
     return user;
 }

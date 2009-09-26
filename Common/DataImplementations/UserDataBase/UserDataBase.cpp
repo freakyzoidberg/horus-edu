@@ -3,14 +3,13 @@
 #include "../../PluginManager.h"
 #include "../../TreeData.h"
 #include "../../TreeDataPlugin.h"
-#include <QIcon>
 
 void UserDataBase::keyToStream(QDataStream& s)
 {
     s << _id;
 }
 
-void UserDataBase::dataToStream(QDataStream& s)
+void UserDataBase::dataToStream(QDataStream& s) const
 {
     s << _level
       << _enabled
@@ -171,6 +170,7 @@ void UserDataBase::setPicture(const QVariant picture)
 }
 
 #ifdef HORUS_CLIENT
+#include <QIcon>
 QVariant UserDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)

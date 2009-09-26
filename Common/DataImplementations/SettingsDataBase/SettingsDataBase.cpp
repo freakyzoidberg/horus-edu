@@ -30,7 +30,7 @@ void SettingsDataBase::keyToStream(QDataStream& s)
       << _owner->id();
 }
 
-void SettingsDataBase::dataToStream(QDataStream& s)
+void SettingsDataBase::dataToStream(QDataStream& s) const
 {
     s << _values;
     Data::dataToStream(s);

@@ -5,21 +5,22 @@
 #include <QDebug>
 #include <QVBoxLayout>
 
-CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treePlugin, FileDataPlugin *_filePlugin, QHash<QString, IDocumentController *> controllers) : QSplitter()
+CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treePlugin, WhiteBoardDataPlugin* _whiteboardPlugin, QHash<QString, IDocumentController *> controllers) : QSplitter()
 {
     QWidget *leftPane;
     QVBoxLayout *layout;
 
     this->lessonPlugin = _lessonPlugin;
     this->treePlugin = _treePlugin;
-    this->filePlugin = _filePlugin;
+	this->whiteboardPlugin = _whiteboardPlugin;
     this->buildCategoryTree();
     leftPane = new QWidget(this);
     this->addWidget(leftPane);
     layout = new QVBoxLayout(leftPane);
     layout->addWidget(this->categoryView);
     leftPane->setLayout(layout);
-	this->pageWidget = new WhiteBoard(_filePlugin, controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
+	//TODO, chage 0 by the selected witheboard
+	this->pageWidget = new WhiteBoard(_whiteboardPlugin->getWhiteBoard((quint32)0), controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
     this->addWidget(this->pageWidget);
 }
 

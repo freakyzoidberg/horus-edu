@@ -5,9 +5,10 @@
 #include "LessonDocument.h"
 #include "Items.h"
 
-WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers, ILesson *lesson)
-	: _controllers(controllers), wbdata(filePlugin, 42), lesson(lesson)
+WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers, ILesson *lesson)
+	: _controllers(controllers), lesson(lesson)
 {
+	wbdata = wbd;
     setAcceptDrops(true);
     setAutoFillBackground(true);
 
@@ -19,7 +20,7 @@ WhiteBoard::WhiteBoard(FileDataPlugin *filePlugin, QHash<QString, IDocumentContr
     p.setColor(QPalette::Background, Qt::white);
     this->setPalette(p);
 
-    QObject::connect(&wbdata, SIGNAL(remoteUpdate(WhiteBoardItemList)), this, SLOT(update(WhiteBoardItemList)));
+	QObject::connect(wbdata, SIGNAL(updated()), this, SLOT(update()));
 }
 
 void   WhiteBoard::setTmp(Items *item)
@@ -94,9 +95,8 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 					item->resize(docWidget->size());
 					item->repaint();
 				}
-				WhiteBoardItemList list;
-				fillList(this, list);
-				wbdata.localUpdate(list);
+				fillList(this, wbdata->items());
+				wbdata->save();
 			}
 			else
 				qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << type << "type.";
@@ -135,16 +135,16 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
            qDebug() << "items in WhiteBoard : "<< this->children().count();
 
-		   WhiteBoardItemList list;
-			fillList(this, list);
-			wbdata.localUpdate(list);
+			fillList(this, wbdata->items());
+			wbdata->save();
 	}
  }
 
- void	WhiteBoard::update(const WhiteBoardItemList& list)
+ void	WhiteBoard::update()
  {
 	 qWarning() << "update";
 	const QObjectList& itemList = children();
+	WhiteBoardItemList& list = wbdata->items();
 	WhiteBoardItemList::const_iterator it;
 	QObjectList::const_iterator it2;
 	for (it = list.begin(); it != list.end(); it++)
@@ -153,9 +153,9 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		for (it2 = itemList.begin(); it2 != itemList.end(); it2++)
 		{
 			Items* item = qobject_cast<Items *>(*it2);
-			if (item && item->getId() == it->getId())
+			if (item && item->getId() == it->id())
 			{
-				item->setGeometry(it->getX(), it->getY(), it->getWidth(), it->getHeight());
+				item->setGeometry(it->left(), it->top(), it->width(), it->height());
 //				if (it->docked())
 //					item->moveToDock();
 //				else
@@ -176,7 +176,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
                                                                 document->getParameters().value("title").toString());
 					QWidget *docWidget;
 					docWidget = this->_controllers[document->getType()]->createDocumentWidget(item, document);
-					item->setGeometry(it->getX(), it->getY(), it->getWidth(), it->getHeight());
+					item->setGeometry(it->left(), it->top(), it->width(), it->height());
 					if (docWidget)
 					{
 						docWidget->lower();
@@ -199,7 +199,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			bool found = false;
 			for (it = list.begin(); it != list.end(); it++)
 			{
-				if (item->getId() == it->getId())
+				if (item->getId() == it->id())
 				{
 					found = true;
 					break;
