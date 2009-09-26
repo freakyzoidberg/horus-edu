@@ -2,37 +2,47 @@
 #include "WhiteBoardDataPlugin.h"
 #include "../../PluginManager.h"
 #include "../../TreeData.h"
-#include <QIcon>
 
 void WhiteBoardData::keyToStream(QDataStream& s)
 {
 	s << ((TreeData*)parent())->id();
 }
 
-void WhiteBoardData::dataToStream(QDataStream& s)
+void WhiteBoardData::dataToStream(QDataStream& s) const
 {
-	s << data;
-    Data::dataToStream(s);
+	s << (quint16)(_items.count());
+	foreach (const WhiteBoardItem& item, _items)
+		item >> s;
+
+	Data::dataToStream(s);
 }
 
 void WhiteBoardData::dataFromStream(QDataStream& s)
 {
-	s >> data;
-    Data::dataFromStream(s);
+	_items.clear();
+
+	quint16 nbItems;
+	s >> nbItems;
+
+	for (quint16 pos = 0; pos < nbItems; pos++)
+		_items.append( WhiteBoardItem(s) );
+
+	Data::dataFromStream(s);
 }
 
 QDebug WhiteBoardData::operator<<(QDebug debug) const
 {
-	return debug << ((TreeData*)parent())->id() << data;
+	return debug << "WhiteBoardData::" << ((TreeData*)parent())->id();
 }
 
 #ifdef HORUS_CLIENT
+#include <QIcon>
 QVariant WhiteBoardData::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
         if (column == 0)
-			return (TreeData*)(parent())->id();
+			return ((TreeData*)parent())->id();
         if (column == 1)
 			return tr("White Board");
     }

@@ -16,47 +16,35 @@ FileData* FileDataBasePlugin::getFile(quint32 fileId)
     return files.value(fileId);
 }
 
-QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNode(quint32 nodeId)
+QList<FileData*> FileDataBasePlugin::getFilesInNode(quint32 nodeId) const
 {
-	QHash<quint32, FileData*> res;
+	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
+	return getFilesInNode(node);
+}
+
+QList<FileData*> FileDataBasePlugin::getFilesInNode(const TreeData *node) const
+{
+	QList<FileData*> res;
 	foreach (FileData* file, files)
-	{
-		if (file->node()->id() == nodeId)
-			res.insert(file->id(), file);
-	}
+		if (file->node() == node)
+			res.append(file);
 	return res;
 }
 
-QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNode(const TreeData *node)
+QList<FileData*> FileDataBasePlugin::getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const
 {
-	QHash<quint32, FileData*> res;
-	foreach (FileData* file, files)
-	{
-		if (file->node()->id() == node->id())
-			res.insert(file->id(), file);
-	}
-	return res;
+	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
+	UserData* user = pluginManager->findPlugin<UserDataPlugin*>()->getUser(userId);
+	QList<FileData*> res;
+	return getFilesInNodeAndUser(node, user);
 }
 
-QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNodeAndUser(quint32 nodeId, quint32 userId)
+QList<FileData*> FileDataBasePlugin::getFilesInNodeAndUser(const TreeData *node, const UserData* user) const
 {
-	QHash<quint32, FileData*> res;
+	QList<FileData*> res;
 	foreach (FileData* file, files)
-	{
-		if (file->node()->id() == nodeId && file->owner()->id() == userId)
-			res.insert(file->id(), file);
-	}
-	return res;
-}
-
-QHash<quint32, FileData*> FileDataBasePlugin::getFilesPerNodeAndUser(const TreeData *node, const UserData* user)
-{
-	QHash<quint32, FileData*> res;
-	foreach (FileData* file, files)
-	{
-		if (file->node()->id() == node->id() && file->owner()->id() == user->id())
-			res.insert(file->id(), file);
-	}
+		if (file->node() == node && file->owner() == user)
+			res.append(file);
 	return res;
 }
 
@@ -109,17 +97,8 @@ void FileDataBasePlugin::loadDataBase(QSqlQuery& query)
         file->_mimeType    = query.value(2).toString();
         file->_size        = query.value(3).toUInt();
 
-        TreeDataPlugin* treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
-        if (treePlugin)
-            file->_node    = treePlugin->getNode( query.value(4).toUInt() );
-        else
-            file->_node    = 0;
-
-        UserDataPlugin* userPlugin = pluginManager->findPlugin<UserDataPlugin*>();
-        if (userPlugin)
-            file->_owner   = userPlugin->getUser( query.value(5).toUInt() );
-        else
-            file->_owner   = 0;
+		file->_node  = pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(4).toUInt() );
+		file->_owner = pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(5).toUInt() );
 
         file->_hash        = QByteArray::fromHex(query.value(6).toByteArray());
         file->_lastChange  = query.value(7).toDateTime();

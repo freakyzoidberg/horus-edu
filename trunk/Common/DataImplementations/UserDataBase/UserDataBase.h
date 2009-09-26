@@ -28,7 +28,7 @@ class UserDataBase : public UserData
 public:
     // Data Interface
     void keyToStream(QDataStream& s);
-    void dataToStream(QDataStream& s);
+	void dataToStream(QDataStream& s) const;
     void dataFromStream(QDataStream& s);
     QDebug operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT

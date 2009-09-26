@@ -35,11 +35,11 @@ public:
     void                 sendUpdates(QSqlQuery&, UserData* user, QDateTime date);
 #endif
 
-protected:
+private:
     //! Return the pointer to the Data with a his unique key read in the stream
     Data*                getDataWithKey(QDataStream& s);
 
-private:
+
 	QList<WhiteBoardData*> whiteBoards;
 };
 

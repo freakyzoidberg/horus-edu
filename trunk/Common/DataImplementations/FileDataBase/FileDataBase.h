@@ -33,7 +33,7 @@ class FileDataBase : public FileData
 public:
     // INTERFACE Data
     void            keyToStream(QDataStream& s);
-    void            dataToStream(QDataStream& s);
+	void            dataToStream(QDataStream& s) const;
     void            dataFromStream(QDataStream& s);
 
     QDebug          operator<<(QDebug debug) const;

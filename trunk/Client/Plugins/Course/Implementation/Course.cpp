@@ -16,7 +16,7 @@ const QString	Course::getDisplayableName() const
     return ("Course");
 }
 
-const int		Course::getOrder() const
+int		Course::getOrder() const
 {
 	return (1);
 }
@@ -36,8 +36,8 @@ bool	Course::canLoad() const
 void	Course::load()
 {
     lessonPlugin = pluginManager->findPlugin<ILessonManager *>("LessonManager");
-    treePlugin = pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base");
-    filePlugin = pluginManager->findPlugin<FileDataPlugin *>("File Data Base");
+	treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
+	whiteboardPlugin = pluginManager->findPlugin<WhiteBoardDataPlugin*>();
 	QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
 	foreach (IDocumentController *controller, controllersList)
 		this->_controllers[controller->getSupportedType()] = controller;
@@ -46,13 +46,10 @@ void	Course::load()
 
 void	Course::unload()
 {
-    delete lessonPlugin;
-    delete treePlugin;
-    delete filePlugin;
     Plugin::unload();
 }
 
 QWidget             *Course::getWidget()
 {
-    return new CourseWidget(lessonPlugin, treePlugin, filePlugin, _controllers);
+	return new CourseWidget(lessonPlugin, treePlugin, whiteboardPlugin, _controllers);
 }

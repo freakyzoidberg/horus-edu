@@ -4,6 +4,7 @@
 #include "../../../../Common/MetaPlugin.h"
 
 #include "Course.h"
+#include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
 
 class CourseMetaPlugin : public MetaPlugin
 {
@@ -12,8 +13,8 @@ class CourseMetaPlugin : public MetaPlugin
 
 public:
     inline CourseMetaPlugin() {
-      Plugin* p = new Course();
-      pluginList.append(p);
+	  pluginList.append(new Course);
+	  pluginList.append(new WhiteBoardDataPlugin);
   }
 };
 

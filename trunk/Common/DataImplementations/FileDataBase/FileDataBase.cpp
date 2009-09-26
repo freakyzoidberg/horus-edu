@@ -30,12 +30,12 @@ void FileDataBase::keyToStream(QDataStream& s)
     s << _id;
 }
 
-void FileDataBase::dataToStream(QDataStream& s)
+void FileDataBase::dataToStream(QDataStream& s) const
 {
     s << _id
       << _name
-	  << (quint32)(0) //_owner->id()
-	  << (quint32)(0)//_node->id()
+	  << _owner->id()
+	  << _node->id()
       << _mimeType
       << _hash;
 }
@@ -112,8 +112,8 @@ void FileDataBase::saveIntoDatabase(QSqlQuery& query)
     query.addBindValue(_name);
     query.addBindValue(_mimeType);
     query.addBindValue(_size);
-	query.addBindValue(0);//node()->id());
-	query.addBindValue(0);//owner()->id());
+	query.addBindValue(_node->id());
+	query.addBindValue(_owner->id());
     query.addBindValue(_hash.toHex());
 
 	_lastChange = QDateTime::currentDateTime();

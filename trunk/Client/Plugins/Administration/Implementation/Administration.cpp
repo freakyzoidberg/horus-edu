@@ -40,7 +40,7 @@ void Administration::load()
     Plugin::load();
 }
 
-const int Administration::getOrder() const
+int Administration::getOrder() const
 {
     return 42;
 }

@@ -9,7 +9,7 @@
 # include "../../../DisplayablePlugin.h"
 # include "../../../../Common/PluginManager.h"
 # include "../../../../Common/TreeDataPlugin.h"
-# include "../../../../Common/FileDataPlugin.h"
+# include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
 
@@ -22,7 +22,7 @@ public:
     const QString       pluginName() const;
     const QString       pluginVersion() const;
     const QString		getDisplayableName() const;
-	const int			getOrder() const;
+	int					getOrder() const;
 	QIcon				getIcon() const;
     bool		canLoad() const;
     void		load();
@@ -32,7 +32,7 @@ public:
 private:
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
-    FileDataPlugin	*filePlugin;
+	WhiteBoardDataPlugin* whiteboardPlugin;
 	QHash<QString, IDocumentController *> _controllers;
 };
 

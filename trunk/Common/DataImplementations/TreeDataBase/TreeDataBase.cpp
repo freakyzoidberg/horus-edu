@@ -15,7 +15,7 @@ void TreeDataBase::keyToStream(QDataStream& s)
     s << id();
 }
 
-void TreeDataBase::dataToStream(QDataStream& s)
+void TreeDataBase::dataToStream(QDataStream& s) const
 {
     s << (quint32)0//_user->id()
       << _name

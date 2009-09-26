@@ -9,8 +9,9 @@ SOURCES += Implementation/Course.cpp \
     Implementation/LessonDocument.cpp \
     Implementation/CourseWidget.cpp \
     Implementation/WhiteBoard.cpp \
-    Implementation/Items.cpp \
-    Implementation/WhiteBoardData.cpp
+	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp \
+	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.cpp \
+	Implementation/Items.cpp
 HEADERS += Implementation/Course.h \
     Implementation/CourseWidget.h \
     Implementation/CourseMetaPlugin.h \
@@ -29,8 +30,9 @@ HEADERS += Implementation/Course.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
     Implementation/Items.h \
-    Implementation/WhiteBoardData.h \
-    Implementation/WhiteBoardItem.h \
-    Implementation/WhiteBoard.h \
+	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h \
+	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h \
+	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h \
+	Implementation/WhiteBoard.h \
     IItems.h
 RESOURCES += Implementation/Course.qrc

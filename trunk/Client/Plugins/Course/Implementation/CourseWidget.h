@@ -18,7 +18,7 @@ class                   CourseWidget : public QSplitter
     Q_OBJECT
 
 public:
-                        CourseWidget(ILessonManager *lessonPlugin, TreeDataPlugin *treePlugin, FileDataPlugin *filePlugin, QHash<QString, IDocumentController *> controllers);
+						CourseWidget(ILessonManager *lessonPlugin, TreeDataPlugin *treePlugin, WhiteBoardDataPlugin* _whiteboardPlugin, QHash<QString, IDocumentController *> controllers);
 
 private:
     void                buildCategoryTree();
@@ -30,10 +30,10 @@ private slots:
 private:
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
-    FileDataPlugin      *filePlugin;
+	WhiteBoardDataPlugin *whiteboardPlugin;
     QAbstractItemModel  *categoryModel;
     QTreeView           *categoryView;
-    WhiteBoard             *pageWidget;
+	WhiteBoard          *pageWidget;
     quint32             fileIndex;
     FileData            *lessonFile;
 };

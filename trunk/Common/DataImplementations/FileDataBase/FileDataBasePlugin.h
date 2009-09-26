@@ -43,12 +43,11 @@ protected:
 
 // FileDataPlugin Interface
 public:
-    FileData*            getFile(quint32 fileId);
-	QHash<quint32, FileData*> getFilesPerNode(quint32 nodeId);
-	QHash<quint32, FileData*> getFilesPerNode(const TreeData *node);
-	QHash<quint32, FileData*> getFilesPerNodeAndUser(quint32 nodeId, quint32 userId);
-	QHash<quint32, FileData*> getFilesPerNodeAndUser(const TreeData *node, const UserData* user);
-
+	FileData*           getFile(quint32 fileId);
+	QList<FileData*>	getFilesInNode(quint32 nodeId) const;
+	QList<FileData*>	getFilesInNode(const TreeData *node) const;
+	QList<FileData*>	getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const;
+	QList<FileData*>	getFilesInNodeAndUser(const TreeData *node, const UserData* user) const;
 
 private:
     QHash<quint32,FileData*> files;

@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include "../../Data.h"
 #include "WhiteBoardDataPlugin.h"
+#include "WhiteBoardItem.h"
 
 class WhiteBoardData : public Data
 {
@@ -27,7 +28,7 @@ class WhiteBoardData : public Data
 public:
     // Data Interface
     void keyToStream(QDataStream& s);
-    void dataToStream(QDataStream& s);
+	void dataToStream(QDataStream& s) const;
     void dataFromStream(QDataStream& s);
     QDebug operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
@@ -40,13 +41,16 @@ public:
     void deleteFromDatabase(QSqlQuery&);
 #endif
 
-	inline TreeData*        node() const { return (TreeData*)(parent()); }
+
+	inline TreeData*			node() const { return _node;  }
+	inline WhiteBoardItemList&	items() { return _items; }
 
 private:
-	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { setParent((QObject*)node); }
+	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { _node = node; }
 	inline ~WhiteBoardData() {}
 
-	QVariant data;
+	WhiteBoardItemList _items;
+	TreeData*		   _node;
 };
 
 #endif // WHITEBOARDDATA_H

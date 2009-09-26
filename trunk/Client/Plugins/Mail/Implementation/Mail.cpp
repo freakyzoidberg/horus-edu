@@ -21,7 +21,7 @@ const QString       Mail::getDisplayableName() const
     return("Mailbox");
 }
 
-const int           Mail::getOrder() const
+int           Mail::getOrder() const
 {
     return (100);
 }
