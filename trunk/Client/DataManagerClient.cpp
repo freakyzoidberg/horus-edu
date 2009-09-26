@@ -27,7 +27,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 	}
 
 	data->_status = newStatus;
-	sendData(plugin->pluginManager->currentUser(), data);
+	sendData(0, data);
 }
 
 void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
