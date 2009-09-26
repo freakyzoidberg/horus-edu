@@ -20,6 +20,11 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
     _id = fileId;
 #ifdef HORUS_CLIENT
     _isDownloaded = false;
+	_name = "Empty";
+	_hash = "";
+	_mimeType = "";
+	_owner = 0;
+	_node = 0;
     _netPlugin = plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin");
     QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     _file.setFileName(settings.value("General/TmpDir", QDir::tempPath()).toString()+'/'+QVariant(_id).toString());
