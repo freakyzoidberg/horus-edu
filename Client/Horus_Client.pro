@@ -15,7 +15,6 @@ SOURCES += main.cpp \
     ../Common/CommData.cpp \
     ../Common/CommPlugin.cpp \
     ../Common/PluginPacket.cpp \
-    ../Common/DataManager.cpp \
     DataManagerClient.cpp \
     ClientApplication.cpp \
     NetworkManager.cpp \
@@ -86,10 +85,8 @@ RESOURCES += Ui/Loader.qrc \
     Ui/DockMenu.qrc
 RC_FILE = Client.rc
 TRANSLATIONS = Horus_en.ts \
-			   Horus_fr.ts
+    Horus_fr.ts
 QMAKE_EXTRA_TARGETS += plugintarget
 POST_TARGETDEPS += .plugins
 plugintarget.target = .plugins
-win32 {
-    plugintarget.commands = CopyPlugins.bat
-}
+win32:plugintarget.commands = CopyPlugins.bat

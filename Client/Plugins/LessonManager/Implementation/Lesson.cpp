@@ -5,7 +5,7 @@
 Lesson::Lesson(FileData *parent) : ILesson(parent), _currentData(NULL), icon(":/Icons/LessonIcon.png")
 {
 #ifdef TEST_METADATA
-    xmlFile = new QFile("../Plugins/LessonManager/metadata_test.xml");
+	xmlFile = new QFile("./Plugins/LessonManager/metadata_test.xml");
 #else
     xmlFile = parent->file();
 #endif
