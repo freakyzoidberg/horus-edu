@@ -25,7 +25,6 @@ SOURCES = main.cpp \
     ../Common/CommPacket.cpp \
     ../Common/CommSocket.cpp \
     ../Common/PluginPacket.cpp \
-    ../Common/DataManager.cpp \
     ../Common/CommData.cpp \
     Logs.cpp \
     DataManagerServer.cpp
