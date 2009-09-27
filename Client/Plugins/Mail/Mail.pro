@@ -8,7 +8,9 @@ DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Mail.cpp \
     Implementation/MailPanel.cpp \
     Implementation/MailList.cpp \
-    Implementation/MailForm.cpp
+    Implementation/MailForm.cpp \
+    ../../../Common/DataImplementations/MailData/MailDataPlugin.cpp \
+    ../../../Common/DataImplementations/MailData/MailData.cpp
 HEADERS += Implementation/Mail.h \
     Implementation/MailMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -18,9 +20,14 @@ HEADERS += Implementation/Mail.h \
     \ \
     \ \
     \ \
+    \ \
+    \ \
     \ \ # qmake configuration for linux-g++
     Implementation/MailList.h \
-    Implementation/MailForm.h
+    Implementation/MailForm.h \
+    ../../../Common/DataImplementations/MailData/MailItem.h \
+    ../../../Common/DataImplementations/MailData/MailDataPlugin.h \
+    ../../../Common/DataImplementations/MailData/MailData.h
 RESOURCES += Implementation/mailrc.qrc
 TRANSLATIONS = Mail_en.ts \
-			   Mail_fr.ts
+    Mail_fr.ts
