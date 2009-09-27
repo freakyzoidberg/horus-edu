@@ -25,7 +25,7 @@ public:
 	WhiteBoardData*      getWhiteBoard(TreeData* node);
 	WhiteBoardData*      getWhiteBoard(quint32 nodeId);
 #ifdef HORUS_CLIENT
-    void                 dataHaveNewKey(Data*d, QDataStream& s);
+	inline void          dataHaveNewKey(Data*, QDataStream&) {}
 #endif
 #ifdef HORUS_SERVER
     void                 loadDataBase(QSqlQuery&);

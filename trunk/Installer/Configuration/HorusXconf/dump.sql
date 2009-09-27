@@ -76,3 +76,11 @@ CREATE TABLE `users` (
   KEY `enabled` (`enabled`),
   KEY `mtime` (`mtime`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `white_board`;
+CREATE TABLE `white_board` (
+  `id_tree` int(11) NOT NULL,
+  `mode` int(1) NOT NULL,
+  `items` blob,
+  PRIMARY KEY  (`id_tree`)
+) ENGINE=MyISAM;
