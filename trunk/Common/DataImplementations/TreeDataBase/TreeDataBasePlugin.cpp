@@ -14,7 +14,7 @@ TreeData* TreeDataBasePlugin::getNode(quint32 nodeId)
     {
         TreeData* node = new TreeDataBase(nodeId, this);
 #ifdef HORUS_CLIENT
-        node->moveToThread(pluginManager->thread());
+        node->moveToThread(this->thread());
 #endif
 
         node->setParent(0);
