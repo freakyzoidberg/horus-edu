@@ -14,7 +14,12 @@ class MailForm : public QWidget
 public:
     MailForm();
     ~MailForm();
-
+private :
+    QLineEdit *to_value;
+    QLineEdit *cc_value;
+    QLineEdit *bcc_value;
+    QLineEdit *subject_value;
+    QTextEdit *content_value;
 };
 
 #endif // MAILPANEL_H
