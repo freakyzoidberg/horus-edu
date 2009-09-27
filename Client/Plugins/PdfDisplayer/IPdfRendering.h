@@ -27,6 +27,7 @@ class   IPdfRendering
     \return a pointer to the diaplayable image
     */
      virtual QImage    *PdfDisplayerDoc(quint32 fileId, int page, QRectF *partToDisplay) = 0;
+     virtual QImage    *PdfDisplayerDoc(const QString & fileName, int page) = 0;
 
     /*!
       Close a pdf file and remove it from the map. When the name has been

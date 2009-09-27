@@ -173,7 +173,7 @@ QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILes
     }
 
     fileName = data->file()->fileName();
-    image = pdf->PdfDisplayerDoc(fileName, page, rect, 0);
+    image = pdf->PdfDisplayerDoc(fileName, page);
     if (!image)
     {
        qDebug() << "Call the shot";
@@ -188,5 +188,5 @@ QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILes
     delete rect;
     delete image;
 
-  return NULL;
+    return label;
 }
