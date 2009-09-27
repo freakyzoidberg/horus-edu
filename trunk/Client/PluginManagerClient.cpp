@@ -17,10 +17,9 @@
 #include "DataManagerClient.h"
 #include "ClientEvents.h"
 
-PluginManagerClient* PluginManagerClient::instance()
+PluginManagerClient::PluginManagerClient()
 {
-    static PluginManagerClient _instance;
-    return &_instance;
+	user = 0;
 }
 
 bool PluginManagerClient::event(QEvent *event)
@@ -83,26 +82,20 @@ void PluginManagerClient::loadPlugins()
 				++i;
 		emit loaded(50 * i / pluginsToLoad.count());
     }
-
-	QThread* netThread = MetaManager::getInstance()->findManager<ManagerThread::QThread*>();
-
-	// DataPlugin
-	foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
-	{
-		plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the data thread here
-		//plugin->moveToThread(netThread);
-		plugin->dataManager = new DataManagerClient(plugin);
-	}
-
 	// NetworkPlugin
 	qRegisterMetaType<PluginPacket>("PluginPacket");
 	foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
 	{
-		plugin->moveToThread(QApplication::instance()->thread()); //TODO, put the network thread here
-		//plugin->moveToThread(netThread);
+		plugin->moveToThread(dynamic_cast<QThread *>(MetaManager::getInstance()->findManager("NetworkManager")));
 		connect(plugin, SIGNAL(sendPacket(PluginPacket)), this, SLOT(sendPluginPacket(PluginPacket)));
 	}
-
+	// DataPlugin
+	foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
+	{
+		//DataPlugins are also moved to the network thread, is it necessary to have a dedicated thread for them ?
+		plugin->moveToThread(dynamic_cast<QThread *>(MetaManager::getInstance()->findManager("NetworkManager")));
+		plugin->dataManager = new DataManagerClient(plugin);
+	}
 	// every Plugins
     i = 0;
     foreach (Plugin* plugin, _plugins)
@@ -134,7 +127,7 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
     }
 	translator = new QTranslator();
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-	bool ret = translator->load(pluginName.left(pluginName.lastIndexOf(".")) + "_" + settings.value("Locale").toString(), settings.value("TranslationsDirectoryPath").toString());
+	translator->load(pluginName.left(pluginName.lastIndexOf(".")) + "_" + settings.value("Locale").toString(), settings.value("TranslationsDirectoryPath").toString());
 	QCoreApplication::installTranslator(translator);
     foreach (Plugin* plugin, metaPlugin->pluginList)
         _plugins.insert(plugin->pluginName(), plugin);

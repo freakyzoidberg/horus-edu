@@ -15,7 +15,7 @@ NetworkManager::NetworkManager()
     this->socket = new CommSocket();
     connect(socket, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
     connect(packManag, SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
-    connect(PluginManagerClient::instance(), SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
+	connect(MetaManager::getInstance()->findManager<PluginManager *>(), SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
     connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
     connect(socket, SIGNAL(disconnected()), this, SLOT(quit()));
     connect(packManag, SIGNAL(logged()), this, SLOT(log()));

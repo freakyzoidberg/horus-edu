@@ -25,17 +25,12 @@ class PluginManagerClient : public PluginManager
     Q_OBJECT
     Q_INTERFACES(PluginManager)
 
-private:
-    inline PluginManagerClient() { user = 0; }
 public:
-    static PluginManagerClient* instance();
+	PluginManagerClient();
     bool event(QEvent *event);
-
     inline const QHash<QString, Plugin*>& plugins() const { return _plugins; }
-
     inline UserData*                      currentUser() const { return user; }
     inline void                           setCurrentUser(UserData* _user) { user = _user; }
-
 
 private slots:
     void sendPluginPacket(const PluginPacket packet);
