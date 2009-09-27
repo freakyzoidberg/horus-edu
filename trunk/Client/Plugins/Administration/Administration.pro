@@ -7,16 +7,14 @@ TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
     Implementation/AdminMainFrame.cpp \
-    Implementation/TeacherPage.cpp \
-    Implementation/StudentsPage.cpp \
     Implementation/RoomPage.cpp \
     Implementation/AdminTree.cpp \
     Implementation/AdminModel.cpp \
-    Implementation/UserModel.cpp
+    Implementation/UserModel.cpp \
+    Implementation/UserForm.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/TeacherPage.h \
-    Implementation/StudentsPage.h \
     Implementation/RoomPage.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -32,7 +30,8 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/Data.h \
     Implementation/AdminTree.h \
     Implementation/AdminModel.h \
-    Implementation/UserModel.h
+    Implementation/UserModel.h \
+    Implementation/UserForm.h
 RESOURCES += Implementation/AdminMainFrame.qrc
 TRANSLATIONS = Administration_en.ts \
-			   Administration_fr.ts
+    Administration_fr.ts
