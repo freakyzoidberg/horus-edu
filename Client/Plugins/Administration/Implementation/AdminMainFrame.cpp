@@ -16,8 +16,7 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     contentsWidget->setUniformItemSizes(true);
 
     framesWidget = new QStackedWidget;
-    framesWidget->addWidget(new StudentsPage(tree, users));
-    framesWidget->addWidget(new TeacherPage(tree, users));
+    framesWidget->addWidget(new UserForm(tree, users));
     framesWidget->addWidget(new RoomPage(tree));
     framesWidget->addWidget(new AdminTree(tree, users));
 
@@ -39,12 +38,6 @@ void AdminMainFrame::createIcons()
     configButton->setText(tr("Students"));
     configButton->setTextAlignment(Qt::AlignHCenter);
     configButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
-
-    QListWidgetItem *updateButton = new QListWidgetItem(contentsWidget);
-    updateButton->setIcon(QIcon(":/images/Administrator.png"));
-    updateButton->setText(tr("Teachers"));
-    updateButton->setTextAlignment(Qt::AlignHCenter);
-    updateButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QListWidgetItem *queryButton = new QListWidgetItem(contentsWidget);
     queryButton->setIcon(QIcon(":/images/Clipboard.png"));

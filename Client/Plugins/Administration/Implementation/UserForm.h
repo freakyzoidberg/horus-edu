@@ -1,5 +1,5 @@
-#ifndef STUDENTSPAGE_H
-#define STUDENTSPAGE_H
+#ifndef USERFORM_H
+#define USERFORM_H
 
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
@@ -24,12 +24,12 @@
 #include "../../../../Common/TreeData.h"
 #include "UserModel.h"
 
-class StudentsPage : public QWidget
+class UserForm : public QWidget
 {
     Q_OBJECT
 
     public:
-        StudentsPage(TreeDataPlugin* tree, UserDataPlugin *users);
+        UserForm(TreeDataPlugin* tree, UserDataPlugin *users);
     private:
         void    setupUi();
         QHBoxLayout *stuLayout;
@@ -77,4 +77,4 @@ class StudentsPage : public QWidget
         void ImageButtonClick();
 };
 
-#endif // STUDENTSPAGE_H
+#endif // USERFORM_H

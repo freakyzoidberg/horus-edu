@@ -5,8 +5,7 @@
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QtGui>
-#include "StudentsPage.h"
-#include "TeacherPage.h"
+#include "UserForm.h"
 #include "RoomPage.h"
 #include "AdminTree.h"
 
