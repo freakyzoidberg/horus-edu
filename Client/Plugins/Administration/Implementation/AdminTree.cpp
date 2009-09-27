@@ -25,6 +25,17 @@ AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *users)
 
 void AdminTree::nodeSelected(const QModelIndex &nodeIndex)
 {
+    TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
+    if (!node)
+    {
+        UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
+        qDebug() << user->login();
+        return ;
+    }
+    else
+    {
+        qDebug() << node->id();
+    }
     QGroupBox *grpBox = new QGroupBox(tr("Edit :"));
     QRadioButton *radio1 = new QRadioButton(tr("&Radio button 1"));
     QRadioButton *radio2 = new QRadioButton(tr("R&adio button 2"));

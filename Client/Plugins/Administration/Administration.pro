@@ -11,7 +11,9 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/AdminTree.cpp \
     Implementation/AdminModel.cpp \
     Implementation/UserModel.cpp \
-    Implementation/UserForm.cpp
+    Implementation/UserForm.cpp \
+    Implementation/NodeInfo.cpp \
+    Implementation/FileFram.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/TeacherPage.h \
@@ -31,7 +33,9 @@ HEADERS += Implementation/Administration.h \
     Implementation/AdminTree.h \
     Implementation/AdminModel.h \
     Implementation/UserModel.h \
-    Implementation/UserForm.h
+    Implementation/UserForm.h \
+    Implementation/NodeInfo.h \
+    Implementation/FileFram.h
 RESOURCES += Implementation/AdminMainFrame.qrc
 TRANSLATIONS = Administration_en.ts \
     Administration_fr.ts
