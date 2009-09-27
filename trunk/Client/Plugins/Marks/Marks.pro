@@ -16,3 +16,5 @@ HEADERS += Implementation/Marks.h \
            ../../../Common/MetaPlugin.h \
 		   ../../../Common/Plugin.h \
 		   ../../DisplayablePlugin.h
+TRANSLATIONS = Marks_en.ts \
+			   Marks_fr.ts

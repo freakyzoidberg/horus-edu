@@ -18,3 +18,5 @@ HEADERS += Implementation/Editor.h\
            ../../../Common/MetaPlugin.h \
            ../../DisplayablePlugin.h \
            ../../../Common/Plugin.h
+TRANSLATIONS = Editor_en.ts \
+			   Editor_fr.ts

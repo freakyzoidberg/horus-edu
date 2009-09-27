@@ -12,3 +12,5 @@ HEADERS += Implementation/PdfEditor.h \
            Implementation/PdfEditorMetaPlugin.h \
            ../../../Common/MetaPlugin.h \
 	       ../../../Common/Plugin.h
+TRANSLATIONS = PdfEditor_en.ts \
+			   PdfEditor_fr.ts

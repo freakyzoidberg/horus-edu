@@ -16,3 +16,5 @@ HEADERS += Implementation/PdfController.h \
 
 DEFINES += HORUS_CLIENT
 TARGET  =  PdfController
+TRANSLATIONS = PdfController_en.ts \
+			   PdfController_fr.ts

@@ -19,3 +19,5 @@ HEADERS += ../../../Common/DataImplementations/SettingsDataBase/SettingsDataBase
   ../../../Common/SettingsDataPlugin.h \
  ../../../Common/AbstractManager.h \
  SettingsBaseClientMetaPlugin.h
+TRANSLATIONS = SettingsBaseClientMetaPlugin_en.ts \
+			   SettingsBaseClientMetaPlugin_fr.ts

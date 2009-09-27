@@ -18,3 +18,5 @@ HEADERS += Implementation/Attendance.h\
            ../../../Common/MetaPlugin.h \
            Implementation/AttendanceMetaPlugin.h \
            ../../../Common/Plugin.h
+TRANSLATIONS = Attendance_en.ts \
+			   Attendance_fr.ts

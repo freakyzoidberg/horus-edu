@@ -27,3 +27,5 @@ HEADERS += Implementation/TestGit.h \
     ../../NetworkPlugin.h \
     ../../../Common/AbstractManager.h \
     Implementation/TestNetworkPlugin.h
+TRANSLATIONS = TestGitClient_en.ts \
+			   TestGitClient_fr.ts

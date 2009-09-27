@@ -20,3 +20,6 @@ HEADERS += ../../../Common/DataImplementations/UserDataBase/UserDataBase.h \
     ../../../Common/AbstractManager.h \
     UserBaseClientMetaPlugin.h
 RESOURCES += Images.qrc
+
+TRANSLATIONS = UserBaseClientMetaPlugin_en.ts \
+			   UserBaseClientMetaPlugin_fr.ts

@@ -30,3 +30,5 @@ HEADERS += ILessonManager.h \
 DEFINES += HORUS_CLIENT
 RESOURCES += Implementation/TreeIcons.qrc
 TARGET = LessonManager
+TRANSLATIONS = LessonManager_en.ts \
+			   LessonManager_fr.ts

@@ -20,3 +20,5 @@ HEADERS += Implementation/mediacontroller.h \
     ../../../Common/UserDataPlugin.h \
     Implementation/player.h
 RESOURCES += MediaController.qrc
+TRANSLATIONS = MediaController_en.ts \
+			   MediaController_fr.ts

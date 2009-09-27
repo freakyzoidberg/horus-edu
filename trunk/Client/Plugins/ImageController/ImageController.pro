@@ -25,3 +25,5 @@ HEADERS += Implementation/ImageController.h \
            ../../../Common/DataPlugin.h \
            ../../../Common/UserData.h \
            ../../../Common/UserDataPlugin.h
+TRANSLATIONS = ImageController_en.ts \
+			   ImageController_fr.ts

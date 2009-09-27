@@ -37,3 +37,5 @@ INCLUDEPATH += . \
 DESTDIR = .
 # TARGET        = $$qtLibraryTarget(PdfDisplayer)
 TARGET = PdfDisplayer
+TRANSLATIONS = PdfDisplayer_en.ts \
+			   PdfDisplayer_fr.ts
