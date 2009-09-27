@@ -36,3 +36,5 @@ HEADERS += Implementation/Course.h \
 	Implementation/WhiteBoard.h \
     IItems.h
 RESOURCES += Implementation/Course.qrc
+TRANSLATIONS = Course_en.ts \
+			   Course_fr.ts

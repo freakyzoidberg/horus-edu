@@ -22,3 +22,5 @@ HEADERS += Implementation/MainFrame.h \
   ../../../Common/AbstractManager.h
 FORMS += Implementation/Ui/MainFrameWidget.ui
 RESOURCES += Implementation/Ui/MainFrameWidget.qrc
+TRANSLATIONS = MainFrame_en.ts \
+			   MainFrame_fr.ts

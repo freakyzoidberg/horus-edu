@@ -24,3 +24,6 @@ HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
     TreeModel.h \
     TreeBaseClientMetaPlugin.h
 RESOURCES += Icons.qrc
+
+TRANSLATIONS = TreeBaseClientMetaPlugin_en.ts \
+			   TreeBaseClientMetaPlugin_fr.ts

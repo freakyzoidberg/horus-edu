@@ -34,3 +34,5 @@ HEADERS += Implementation/Administration.h \
     Implementation/AdminModel.h \
     Implementation/UserModel.h
 RESOURCES += Implementation/AdminMainFrame.qrc
+TRANSLATIONS = Administration_en.ts \
+			   Administration_fr.ts

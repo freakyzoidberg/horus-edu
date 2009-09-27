@@ -25,3 +25,5 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../NetworkPlugin.h \
     FileNetworkPlugin.h \
     FileBaseClientMetaPlugin.h
+TRANSLATIONS = FileBaseClientMetaPlugin_en.ts \
+			   FileBaseClientMetaPlugin_fr.ts

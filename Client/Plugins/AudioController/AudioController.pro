@@ -21,3 +21,5 @@ HEADERS += Implementation/AudioController.h \
     ../../../Common/UserDataPlugin.h \
     Implementation/audioplayer.h
 RESOURCES += Implementation/AudioController.qrc
+TRANSLATIONS = AudioController_en.ts \
+			   AudioController_fr.ts

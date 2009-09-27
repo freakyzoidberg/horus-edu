@@ -22,3 +22,5 @@ HEADERS += Implementation/Mail.h \
     Implementation/MailList.h \
     Implementation/MailForm.h
 RESOURCES += Implementation/mailrc.qrc
+TRANSLATIONS = Mail_en.ts \
+			   Mail_fr.ts

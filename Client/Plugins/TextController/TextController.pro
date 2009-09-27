@@ -15,3 +15,5 @@ HEADERS += Implementation/TextController.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h
 
+TRANSLATIONS = TextController_en.ts \
+			   TextController_fr.ts
