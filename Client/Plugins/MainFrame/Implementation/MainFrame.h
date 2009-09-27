@@ -21,7 +21,7 @@ public:
     void                    load();
 
     // INTERFACE DisplayablePlugin
-    inline const QString    getDisplayableName() const { return "Main Board"; }
+    inline const QString    getDisplayableName() const { return tr("Main Board"); }
     QWidget*                getWidget();
 	int						getOrder() const;
 	QIcon					getIcon() const;

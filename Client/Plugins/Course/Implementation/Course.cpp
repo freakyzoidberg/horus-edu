@@ -13,7 +13,7 @@ const QString    Course::pluginVersion() const
 
 const QString	Course::getDisplayableName() const
 {
-    return ("Course");
+    return (tr("Course"));
 }
 
 int		Course::getOrder() const

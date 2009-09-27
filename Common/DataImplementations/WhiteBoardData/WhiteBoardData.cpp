@@ -32,7 +32,7 @@ void WhiteBoardData::dataFromStream(QDataStream& s)
 
 QDebug WhiteBoardData::operator<<(QDebug debug) const
 {
-	return debug << "WhiteBoardData::" << _node->id();
+	return debug << tr("WhiteBoardData::") << _node->id();
 }
 
 #ifdef HORUS_CLIENT

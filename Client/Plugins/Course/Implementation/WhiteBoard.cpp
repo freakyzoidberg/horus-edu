@@ -99,7 +99,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				wbdata->save();
 			}
 			else
-				qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << type << "type.";
+				qWarning()<< tr("WhiteBoard::dropEvent: unable to find a controller for") << type << tr("type.");
 		}
 	}
 	else
@@ -133,8 +133,6 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
            //Position pour le generateur du fichier de position
 
-           qDebug() << "items in WhiteBoard : "<< this->children().count();
-
 			fillList(this, wbdata->items());
 			wbdata->save();
 	}
@@ -142,7 +140,6 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
  void	WhiteBoard::update()
  {
-	 qWarning() << "update";
 	const QObjectList& itemList = children();
 	WhiteBoardItemList& list = wbdata->items();
 	WhiteBoardItemList::const_iterator it;
@@ -187,7 +184,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 					}
 				}
 				else
-					qWarning()<< "WhiteBoard::dropEvent: unable to find a controller for" << document->getType() << "type.";
+					qWarning()<< tr("WhiteBoard::dropEvent: unable to find a controller for") << document->getType() << tr("type.");
 			}
 		}
 	}

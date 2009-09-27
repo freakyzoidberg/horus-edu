@@ -125,7 +125,6 @@ void Items::mousePressEvent(QMouseEvent *event)
     QPixmap mini = QPixmap::grabWidget(this);
 
      drag->setMimeData(mimeData);
-    qDebug() << "Et sa position : " << this->x() << " et " << this->y();
      drag->setHotSpot(event->pos() - rect().topLeft());
      drag->setPixmap(mini);
 
