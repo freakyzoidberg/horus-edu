@@ -27,8 +27,8 @@ ClientApplication::ClientApplication(int argc, char *argv[]) : QApplication(argc
 //        this->setApplicationVersion(CLIENT_VERSION);
         LocalSettings::createConfig();
 	mManager = MetaManager::getInstance();
-	mManager->addManager("NetworkManager", true);
 	mManager->addManager("PluginManager", false);
+	mManager->addManager("NetworkManager", true);
 	notification = NotificationClient::getInstance();
 	foreach (AbstractManager *manager, mManager->managers())
 		connect(manager, SIGNAL(notified(Notification::type, QString)), notification, SLOT(notify(Notification::type, QString)));

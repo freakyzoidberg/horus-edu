@@ -23,5 +23,5 @@ AbstractManager *ManagerFactory::buildNetworkManager()
 
 AbstractManager *ManagerFactory::buildPluginManager()
 {
-        return (PluginManagerClient::instance());
+    return (new PluginManagerClient());
 }
