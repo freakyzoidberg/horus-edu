@@ -10,7 +10,8 @@ void WhiteBoardData::keyToStream(QDataStream& s)
 
 void WhiteBoardData::dataToStream(QDataStream& s) const
 {
-	s << (quint16)(_items.count());
+	s << ((quint16)_items.count())
+	  << ((quint8 )_syncMode);
 	foreach (const WhiteBoardItem& item, _items)
 		item >> s;
 
@@ -22,7 +23,8 @@ void WhiteBoardData::dataFromStream(QDataStream& s)
 	_items.clear();
 
 	quint16 nbItems;
-	s >> nbItems;
+	s >> nbItems
+	  >> ((quint8&)_syncMode);
 
 	for (quint16 pos = 0; pos < nbItems; pos++)
 		_items.append( WhiteBoardItem(s) );

@@ -29,14 +29,6 @@ Data* WhiteBoardDataPlugin::getDataWithKey(QDataStream& s)
 	return getWhiteBoard(nodeId);
 }
 
-#ifdef HORUS_CLIENT
-void WhiteBoardDataPlugin::dataHaveNewKey(Data*d, QDataStream& s)
-{
-//    quint32 tmpId;
-//    s >> tmpId;
-//	((WhiteBoardData*)(d))->_id = tmpId;
-}
-#endif
 #ifdef HORUS_SERVER
 void WhiteBoardDataPlugin::loadDataBase(QSqlQuery& query)
 {

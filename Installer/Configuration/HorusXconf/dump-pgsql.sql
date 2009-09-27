@@ -91,7 +91,7 @@ phone varchar(32) DEFAULT NULL,
 country varchar(32) DEFAULT NULL,
 "language" varchar(32) DEFAULT NULL,
 id_tree int DEFAULT NULL,
-mtime timestamp NOT NULL DEFAULT '1970-01-01 00:00:00+00',
+mtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (id)
 );
 CREATE INDEX users_mtime_idx ON users (mtime);
@@ -103,3 +103,12 @@ id_user int NOT NULL,
 id_group int NOT NULL
 );
 CREATE INDEX user_has_group_id_group_idx ON user_has_group (id_group);
+
+
+CREATE TABLE white_board (
+id_tree int(11) NOT NULL,
+mode int(1) NOT NULL,
+items blob,
+mtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY  (id_tree)
+);

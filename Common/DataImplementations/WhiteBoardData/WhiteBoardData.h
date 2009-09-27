@@ -26,6 +26,8 @@ class WhiteBoardData : public Data
   friend class WhiteBoardDataPlugin;
 
 public:
+	enum SyncMode { NO_SYNC, SEMI_SYNC, FULL_SYNC };
+
     // Data Interface
     void keyToStream(QDataStream& s);
 	void dataToStream(QDataStream& s) const;
@@ -44,6 +46,8 @@ public:
 
 	inline TreeData*			node() const { return _node;  }
 	inline WhiteBoardItemList&	items() { return _items; }
+	inline SyncMode				syncMode() const { return _syncMode; }
+	inline void					setSyncMode(SyncMode mode) { _syncMode = mode; }
 
 private:
 	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { _node = node; }
@@ -51,6 +55,7 @@ private:
 
 	WhiteBoardItemList _items;
 	TreeData*		   _node;
+	SyncMode		   _syncMode;
 };
 
 #endif // WHITEBOARDDATA_H
