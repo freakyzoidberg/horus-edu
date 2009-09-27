@@ -225,6 +225,19 @@ QImage        *PdfFile::render(int page, QRectF *partToDisplay)
     return generateImg(partToDisplay);
 }
 
+QImage        *PdfFile::render(int page)
+{   
+    if (!pdfDoc)
+        if (!openFile())
+            return NULL;
+
+    if (!loadPage(page))
+        return NULL;
+    QRectF  *part = new QRectF(0, 0, this->currentPage->pageSize().width(), this->currentPage->pageSize().height());
+    return generateImg(part);
+}
+
+
 QImage  *PdfFile::generateImg(QRectF * partToDisplay)
 {
      QImage      image = currentPage->renderToImage(scaleFactor * 72.0,

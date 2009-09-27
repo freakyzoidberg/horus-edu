@@ -187,6 +187,3 @@ QWidget         *Items::getMainWidget()
 {
     return this->mainWidget;
 }
-
-
-
