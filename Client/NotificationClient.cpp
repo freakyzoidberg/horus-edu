@@ -4,6 +4,7 @@
 #include <QCoreApplication>
 
 #include "LoginDialog.h"
+#include "Debugger.h"
 
 NotificationClient *NotificationClient::instance = 0;
 
@@ -91,7 +92,6 @@ void    NotificationClient::notify(Notification::type type, const QString messag
 	}	
 }
 
-#include "Debugger.h"
 void	NotificationClient::debug(const QString message)
 {
 //        this->debugDialog->showMessage(message);
@@ -115,8 +115,8 @@ void	NotificationClient::warning(const QString message)
 {
 	QMessageBox msgBox;
 
-	msgBox.setWindowTitle("Horus");
-	msgBox.setText("A non critical error occured:");
+	msgBox.setWindowTitle(tr("Horus"));
+	msgBox.setText(tr("A non critical error occured:"));
 	msgBox.setInformativeText(message);
 	msgBox.setStandardButtons(QMessageBox::Ok);
 	msgBox.setDefaultButton(QMessageBox::Ok);
@@ -128,8 +128,8 @@ void	NotificationClient::error(const QString message)
 {
 	QMessageBox msgBox;
 
-	msgBox.setWindowTitle("Horus");
-	msgBox.setText("A critical error occured:");
+	msgBox.setWindowTitle(tr("Horus"));
+	msgBox.setText(tr("A critical error occured:"));
 	msgBox.setInformativeText(message);
 	msgBox.setStandardButtons(QMessageBox::Ok);
 	msgBox.setDefaultButton(QMessageBox::Ok);
@@ -141,10 +141,10 @@ void	NotificationClient::fatal(const QString message)
 {
 	QMessageBox msgBox;
 
-	msgBox.setWindowTitle("Horus");
-	msgBox.setText("A fatal error occured:");
+	msgBox.setWindowTitle(tr("Horus"));
+	msgBox.setText(tr("A fatal error occured:"));
 	msgBox.setInformativeText(message);
-	msgBox.setDetailedText("This critical error is fatal and unrecoverable. You can put your computer in the trash and buy a new one.");
+	msgBox.setDetailedText(tr("This critical error is fatal and unrecoverable. You can put your computer in the trash and buy a new one."));
 	msgBox.setStandardButtons(QMessageBox::Ok);
 	msgBox.setDefaultButton(QMessageBox::Ok);
 	msgBox.setIcon(QMessageBox::Critical);
@@ -156,9 +156,9 @@ void	NotificationClient::yesNo(const QString message)
 {
 	QMessageBox msgBox;
 
-	msgBox.setWindowTitle("Horus");
+	msgBox.setWindowTitle(tr("Horus"));
 	msgBox.setText(message);
-	msgBox.setInformativeText("");
+	msgBox.setInformativeText(tr(""));
 	msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
 	msgBox.setDefaultButton(QMessageBox::Yes);
 	msgBox.setIcon(QMessageBox::Question);
@@ -169,9 +169,9 @@ void	NotificationClient::retry(const QString message)
 {
 	QMessageBox msgBox;
 
-	msgBox.setWindowTitle("Horus");
+	msgBox.setWindowTitle(tr("Horus"));
 	msgBox.setText(message);
-	msgBox.setInformativeText("");
+	msgBox.setInformativeText(tr(""));
 	msgBox.setStandardButtons(QMessageBox::Retry | QMessageBox::Cancel);
 	msgBox.setDefaultButton(QMessageBox::Retry);
 	msgBox.setIcon(QMessageBox::Question);

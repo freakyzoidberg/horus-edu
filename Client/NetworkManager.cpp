@@ -29,7 +29,7 @@ bool    NetworkManager::event(QEvent *e)
         QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
         if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
         {
-			emit notified(Notification::WARNING, "Server's hostname or port unspecified, please review your settings.");
+			emit notified(Notification::WARNING, tr("Server's hostname or port unspecified, please review your settings."));
 			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
 			emit loaded(100);
         }
@@ -55,7 +55,7 @@ bool    NetworkManager::event(QEvent *e)
 		emit loaded(100);
         return (true);
     }
-	qDebug() << "NetworkManager::event: Received User Event not managed ! (Event.type=" << e->type() <<")";
+	qDebug() << tr("NetworkManager::event: Received User Event not managed ! (Event.type=") << e->type() << tr(")");
 	return (QObject::event(e));
 }
 
@@ -63,7 +63,7 @@ void    NetworkManager::quit()
 {
 	//emit notified(Notification::ERROR, "Disconnected from server");
 	//emit loaded(100);
-    qDebug() <<  "Disconnected from server";
+    qDebug() <<  tr("Disconnected from server");
 }
 
 void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
@@ -71,16 +71,16 @@ void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
 	switch (socketError)
 	{
      case QAbstractSocket::RemoteHostClosedError:
-		 emit notified(Notification::WARNING, "Horus is unable to connect to server (Server closed the connexion), please review your settings and certificates.");
+		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (Server closed the connexion), please review your settings and certificates."));
          break;
      case QAbstractSocket::HostNotFoundError:
-		 emit notified(Notification::WARNING, "Horus is unable to connect to server (Server's hostname not found), please review your settings.");
+		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (Server's hostname not found), please review your settings."));
          break;
      case QAbstractSocket::ConnectionRefusedError:
-		 emit notified(Notification::WARNING, "Horus is unable to connect to server (Server refused the connexion), please review your settings and make sure that the server is running.");
+		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (Server refused the connexion), please review your settings and make sure that the server is running."));
          break;
      default:
-		 emit notified(Notification::WARNING, "Horus is unable to connect to server (" + socket->errorString() + "), please review your settings.");
+		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (") + socket->errorString() + tr("), please review your settings."));
     }
 	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
 	emit loaded(100);
@@ -93,5 +93,5 @@ void NetworkManager::log()
 
 void NetworkManager::waitUserPass()
 {
-	emit notified(Notification::LOGIN, "Please enter your username and password.");
+	emit notified(Notification::LOGIN, tr("Please enter your username and password."));
 }

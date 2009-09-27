@@ -4,6 +4,7 @@
 #include <QApplication>
 #include <QPluginLoader>
 #include <QStringList>
+#include <QTranslator>
 
 #include "../Common/MetaPlugin.h"
 #include "../Common/Plugin.h"
@@ -45,13 +46,13 @@ void PluginManagerClient::loadPlugins()
     settings.endGroup();
 	if ( ! pluginsUserDir.exists() && ! pluginsSystemDir.exists())
     {
-		emit notified(Notification::ERROR, "No Plugin paths available.");
+		emit notified(Notification::ERROR, tr("No Plugin paths available."));
         return ;
     }
     if ( ! pluginsUserDir.exists())
-		emit notified(Notification::WARNING, "User plugin path doesn't exist, please review your settings.");
+		emit notified(Notification::WARNING, tr("User plugin path doesn't exist, please review your settings."));
     if ( ! pluginsSystemDir.exists())
-		emit notified(Notification::WARNING, "System plugin path doesn't exist, please review your settings.");
+		emit notified(Notification::WARNING, tr("System plugin path doesn't exist, please review your settings."));
 #if defined(Q_OS_WIN)
 # define PLUGIN_FILTER  "*.dll"
 #elif defined(Q_OS_MAC)
@@ -123,6 +124,7 @@ void PluginManagerClient::loadPlugins()
 
 bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
 {
+	QTranslator *translator;
     QPluginLoader loader(path.absoluteFilePath(pluginName));
     MetaPlugin *metaPlugin = qobject_cast<MetaPlugin*>(loader.instance());
     if (! metaPlugin)
@@ -130,9 +132,12 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
         emit notified(Notification::WARNING, loader.errorString());
         return (false);
     }
+	translator = new QTranslator();
+    QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+	bool ret = translator->load(pluginName.left(pluginName.lastIndexOf(".")) + "_" + settings.value("Locale").toString(), settings.value("TranslationsDirectoryPath").toString());
+	QCoreApplication::installTranslator(translator);
     foreach (Plugin* plugin, metaPlugin->pluginList)
         _plugins.insert(plugin->pluginName(), plugin);
-
     return (true);
 }
 

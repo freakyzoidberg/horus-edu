@@ -1,5 +1,6 @@
 #include "ManagerFactory.h"
 
+#include <QObject>
 #include <QDebug>
 
 #include "NetworkManager.h"
@@ -11,7 +12,7 @@ AbstractManager *ManagerFactory::getManager(QString managerName)
 		return (this->buildNetworkManager());
 	if (managerName == "PluginManager")
 		return (this->buildPluginManager());
-	qDebug() << "ManagerFactory::getManager: Manager " << managerName << " not found.";
+	qDebug() << QObject::tr("ManagerFactory::getManager: Manager ") << managerName << QObject::tr(" not found.");
 	return (0);
 }
 

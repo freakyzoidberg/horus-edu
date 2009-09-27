@@ -22,9 +22,9 @@ void    LocalSettings::createConfig()
         path = QDir::homePath() + "/.Horus/Lessons";
         if (!pluginsDir.exists(path))
         {
-            qDebug() << "ConfigManager: Creating Lessons User Directory." << path;
+            qDebug() << tr("ConfigManager: Creating Lessons User Directory.") << path;
             if (!pluginsDir.mkpath(path))
-                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
+                qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
                 settings.setValue("LessonsDirectoryPath", path);
         }
@@ -36,9 +36,9 @@ void    LocalSettings::createConfig()
         path = QDir::homePath() + "/.Horus/Translations";
         if (!pluginsDir.exists(path))
         {
-            qDebug() << "ConfigManager: Creating Translations User Directory." << path;
+            qDebug() << tr("ConfigManager: Creating Translations User Directory.") << path;
             if (!pluginsDir.mkpath(path))
-                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
+                qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
                 settings.setValue("TranslationsDirectoryPath", path);
         }
@@ -52,9 +52,9 @@ void    LocalSettings::createConfig()
         path = QDir::homePath() + "/.Horus/Plugins";
         if (!pluginsDir.exists(path))
         {
-            qDebug() << "ConfigManager: Creating Plugins User Directory." << path;
+            qDebug() << tr("ConfigManager: Creating Plugins User Directory.") << path;
             if (!pluginsDir.mkpath(path))
-                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
+                qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
                 settings.setValue("Plugins/UserDirectoryPath", path);
         }
@@ -66,9 +66,9 @@ void    LocalSettings::createConfig()
         path = PREFIX + QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName() + "/Plugins";
         if (!pluginsDir.exists(path))
         {
-            qDebug() << "ConfigManager: Creating Plugins System Directory." << path;
+            qDebug() << tr("ConfigManager: Creating Plugins System Directory.") << path;
             if (!pluginsDir.mkpath(path))
-                qDebug() << "ConfigManager: Unable to create directory (not the rights ?).";
+                qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
                 settings.setValue("Plugins/SystemDirectoryPath", path);
         }

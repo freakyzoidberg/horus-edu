@@ -84,8 +84,8 @@ void SettingsDialog::FillNetworkTab()
     QLineEdit   *line;
 
     networkLayout = new QVBoxLayout(this->ui.NetworkTab);
-    generalBox = new QGroupBox("General");
-    sessionBox = new QGroupBox("Session");
+    generalBox = new QGroupBox(tr("General"));
+    sessionBox = new QGroupBox(tr("Session"));
     networkLayout->addWidget(generalBox);
     networkLayout->addWidget(sessionBox);
     generalLayout = new QFormLayout(generalBox);
@@ -101,19 +101,19 @@ void SettingsDialog::FillNetworkTab()
     {
         line = new QLineEdit();
         line->setObjectName("Server");
-        generalLayout->insertRow(0, "Server", line);
+        generalLayout->insertRow(0, tr("Server"), line);
     }
     if (!settings->childKeys().contains("Port", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("Port");
-        generalLayout->insertRow(0, "Port", line);
+        generalLayout->insertRow(0, tr("Port"), line);
     }
     if (!settings->childKeys().contains("PortTransfert", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("PortTransfert");
-        generalLayout->insertRow(0, "PortTransfert", line);
+        generalLayout->insertRow(0, tr("PortTransfert"), line);
     }
     settings->endGroup();
     settings->beginGroup("SESSIONS");

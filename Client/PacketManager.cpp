@@ -97,8 +97,8 @@ void PacketManager::PacketLogin()
         sessionEnd.addSecs(QDateTime::currentDateTime().secsTo(l.serverDateTime));
         settings.setValue("sessionEnd", sessionEnd);
 
-        qDebug() << "PacketManager::PacketLogin seconds between client and server:" << QDateTime::currentDateTime().secsTo(l.serverDateTime);
-        qDebug() << "PacketManager::PacketLogin end of session:" << sessionEnd;
+        qDebug() << tr("PacketManager::PacketLogin seconds between client and server:") << QDateTime::currentDateTime().secsTo(l.serverDateTime);
+        qDebug() << tr("PacketManager::PacketLogin end of session:") << sessionEnd;
 
         //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
         settings.endGroup();
@@ -132,7 +132,7 @@ void PacketManager::PacketData()
                                       );
             return;
         }
-    qDebug() << "PacketManager::PacketData() cannot find" << data.type << "plugin.";
+    qDebug() << tr("PacketManager::PacketData() cannot find") << data.type << tr("plugin.");
 }
 
 void PacketManager::PacketPlugin()
@@ -142,7 +142,7 @@ void PacketManager::PacketPlugin()
     NetworkPlugin *plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
     if ( ! plugin)
     {
-        qDebug() << "PacketManager::PacketPlugin() cannot find" << p.packet.targetPlugin << "plugin.";
+        qDebug() << tr("PacketManager::PacketPlugin() cannot find") << p.packet.targetPlugin << tr("plugin.");
         return;
     }
     qRegisterMetaType<PluginPacket>("PluginPacket");
