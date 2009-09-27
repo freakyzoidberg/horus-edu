@@ -36,7 +36,7 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
     course = plugin->pluginManager->findPlugin<DisplayablePlugin*>("Course");
     if (course)
     {
-        button = new QPushButton(QIcon(":/Pictures/edit.png"), "My Lessons");
+        button = new QPushButton(QIcon(":/Pictures/edit.png"), tr("My Lessons"));
         layout->addWidget(button, 2, 0);
         layout->setRowStretch(2, 0);
         connect(button, SIGNAL(clicked()), plugin, SLOT(courseClicked()));
@@ -44,19 +44,19 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
     layout->setRowStretch(0, 0);
     layout->setRowStretch(1, 1);
 	//FAKE
-        button = new QPushButton(QIcon(":/Pictures/calendarwidget.png"), "My Calendar");
+        button = new QPushButton(QIcon(":/Pictures/calendarwidget.png"), tr("My Calendar"));
         layout->addWidget(button, 2, 1);
-        button = new QPushButton(QIcon(":/Pictures/book.png"), "My Marks");
+        button = new QPushButton(QIcon(":/Pictures/book.png"), tr("My Marks"));
         layout->addWidget(button, 3, 0);
-        button = new QPushButton(QIcon(":/Pictures/history.png"), "My Projects");
+        button = new QPushButton(QIcon(":/Pictures/history.png"), tr("My Projects"));
         layout->addWidget(button, 3, 1);
         layout->setRowStretch(3, 0);
 	//FIN FAKE
     this->setLayout(layout);
 
-    connectedAs = new QLabel("Not connected", this);
+    connectedAs = new QLabel(tr("Not connected"), this);
     this->layout->addWidget(connectedAs, 0, 0);
-    lastLogin = new QLabel("Last login: Never", this);
+    lastLogin = new QLabel(tr("Last login: Never"), this);
     this->layout->addWidget(lastLogin, 0, 1);
     updateInfos();
 }
@@ -65,8 +65,6 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
 
 void    MainFrameWidget::updateInfos()
 {
-    qDebug() << "MainFrameWidget::updateInfos";
-
     UserData* user = plugin->pluginManager->currentUser();
 
     if ( ! user)
@@ -74,10 +72,10 @@ void    MainFrameWidget::updateInfos()
 
     connect(user, SIGNAL(updated()), this, SLOT(updateInfos()));
 
-    connectedAs->setText("Connected as: " + user->login() + " (" + user->name() + " " + user->surname() + ")");
+    connectedAs->setText(tr("Connected as: ") + user->login() + tr(" (") + user->name() + tr(" ") + user->surname() + tr(")"));
 
     if (user->lastLogin().isValid())
-        lastLogin->setText("Last login: " + user->lastLogin().toString());
+        lastLogin->setText(tr("Last login: ") + user->lastLogin().toString());
     else
-        lastLogin->setText("Last login: Never");
+        lastLogin->setText(tr("Last login: Never"));
 }
