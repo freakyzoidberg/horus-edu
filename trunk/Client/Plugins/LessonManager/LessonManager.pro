@@ -17,6 +17,7 @@ HEADERS += ILessonManager.h \
     ../../../Common/Data.h \
     ../../../Common/FileData.h \
     ../../../Common/TreeData.h \
+	../../../Common/UserData.h \
     ILesson.h \
     IDocumentController.h \
     LessonModel.h \

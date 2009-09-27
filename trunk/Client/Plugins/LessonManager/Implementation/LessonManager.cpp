@@ -12,7 +12,7 @@
 
 bool	LessonManager::canLoad() const
 {
-    if (pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base"))
+	if (pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base") && pluginManager->findPlugin<FileDataPlugin *>("File Data Base"))
         return (true);
     return (false);
 }
