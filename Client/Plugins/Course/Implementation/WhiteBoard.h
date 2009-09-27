@@ -37,11 +37,11 @@ protected:
      void dropEvent(QDropEvent *event);
      QHash<QString, IDocumentController *> _controllers;
 
-protected slots:
+public slots:
 	void	update();
 
 private:
-    ILessonDocument	*findDocument(ILessonData* data);
+	ILessonDocument		*findDocument(ILessonData* data);
     void                fillList(QObject* data, WhiteBoardItemList&);
 
  private:

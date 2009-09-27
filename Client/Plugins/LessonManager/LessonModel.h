@@ -4,10 +4,11 @@
 #include <QAbstractItemModel>
 #include "../../../Common/TreeData.h"
 #include "../../../Common/PluginManager.h"
+#include "../../../Common/FileDataPlugin.h"
 
-#ifndef TEST_METADATA
-# define TEST_METADATA
-#endif
+//#ifndef TEST_METADATA
+//# define TEST_METADATA
+//#endif
 
 class LessonModel : public QAbstractItemModel
 {
@@ -23,6 +24,7 @@ public:
 	QMimeData *mimeData(const QModelIndexList &indexes) const;
 private:
     PluginManager*  pluginManager;
+	FileDataPlugin*		filePlugin;
 #ifdef TEST_METADATA
     QObject*        rootItem;
 #else

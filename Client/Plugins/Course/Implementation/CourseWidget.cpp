@@ -18,6 +18,7 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
     this->addWidget(leftPane);
     layout = new QVBoxLayout(leftPane);
     layout->addWidget(this->categoryView);
+	layout->setMargin(0);
     leftPane->setLayout(layout);
 	//TODO, chage 0 by the selected witheboard
 	this->pageWidget = new WhiteBoard(_whiteboardPlugin->getWhiteBoard((quint32)0), controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
@@ -32,13 +33,13 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setModel(this->categoryModel);
     this->categoryView->setAnimated(true);
     this->categoryView->setAutoExpandDelay(500);
-    this->categoryView->setRootIsDecorated(false);
+	this->categoryView->setRootIsDecorated(false);
     this->categoryView->setHeaderHidden(true);
     this->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
+	this->categoryView->setRootIndex(this->categoryModel->index(0, 0, this->categoryView->rootIndex()));
     this->categoryView->setDragEnabled(true);
-    this->categoryView->expandAll();
-    //this->categoryView->indexAbove(this->categoryView->rootIndex()); // useless
+	this->categoryView->expandAll();
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
 }
 

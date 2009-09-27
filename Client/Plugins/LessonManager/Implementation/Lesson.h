@@ -7,9 +7,9 @@
 #include "../ILessonData.h"
 #include "../ILesson.h"
 
-#ifndef TEST_METADATA
-# define TEST_METADATA
-#endif
+//#ifndef TEST_METADATA
+//# define TEST_METADATA
+//#endif
 
 class Lesson : public ILesson, public QXmlDefaultHandler
 {
