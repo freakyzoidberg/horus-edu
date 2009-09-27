@@ -17,12 +17,12 @@ CommSocket::CommSocket(QObject* parent) : QSslSocket(parent)
 
 void CommSocket::errorSlot(QAbstractSocket::SocketError e)
 {
-    qDebug() << "error" << e;
+    qDebug() << tr("error") << e;
 }
 
 void CommSocket::sslErrorsSlot(QList<QSslError> e)
 {
-    qDebug() << "sslError" << e;
+    qDebug() << tr("sslError") << e;
 }
 
 void CommSocket::bytesReceived()

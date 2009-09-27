@@ -1,21 +1,23 @@
+#include <QObject>
+
 #include "CommError.h"
 
 CommError::CommError(Error _type, const char* _errorMessage) : CommPacket(CommPacket::ERROR)
 {
-    static const char*  typeNames[] =
+    static const QString  typeNames[] =
     {
-        "Unknow Error",
-        "Connexion not initialized",
-        "Connexion already initialized",
-        "Not authenticated",
-        "Unknown protocol version",
-        "Protocol Error"
-        "Internal Error"
+		QObject::tr("Unknow Error"),
+        QObject::tr("Connexion not initialized"),
+        QObject::tr("Connexion already initialized"),
+        QObject::tr("Not authenticated"),
+        QObject::tr("Unknown protocol version"),
+        QObject::tr("Protocol Error"),
+        QObject::tr("Internal Error")
     };
 
     errorType = _type;
     if ( ! _errorMessage || ! _errorMessage[0])
-        errorMessage = typeNames[ errorType ];
+        errorMessage = qPrintable(typeNames[ errorType ]);
     else
         errorMessage = _errorMessage;
 }

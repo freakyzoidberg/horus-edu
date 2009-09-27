@@ -1,5 +1,7 @@
 #include "CommData.h"
 
+#include <QObject>
+
 CommData::CommData(const QString& _type) : CommPacket(CommPacket::DATA)
 {
     type = _type;
@@ -34,5 +36,5 @@ void CommData::write(QByteArray& a) const
 
 QDebug operator<<(QDebug d, const CommData& p)
 {
-    return d << (CommPacket&)p << p.type << "lenght:" << p.data.length();
+	return d << (CommPacket&)p << p.type << QObject::tr("lenght:") << p.data.length();
 }

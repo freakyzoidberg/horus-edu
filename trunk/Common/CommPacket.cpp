@@ -1,4 +1,7 @@
 #include "CommPacket.h"
+
+#include <QObject>
+
 #include "CommData.h"
 #include "CommError.h"
 #include "CommInit.h"
@@ -36,15 +39,15 @@ void CommPacket::write(QByteArray& a) const
 
 QDebug operator<<(QDebug d, const CommPacket& cr)
 {
-    static const char*  typeNames[] =
+    static const QString  typeNames[] =
     {
-        "Unknow ",
-        "Error  ",
-        "Init   ",
-        "Alive  ",
-        "Login  ",
-        "Data   ",
-        "Plugin "
+		QObject::tr("Unknow "),
+        QObject::tr("Error  "),
+        QObject::tr("Init   "),
+        QObject::tr("Alive  "),
+        QObject::tr("Login  "),
+        QObject::tr("Data   "),
+        QObject::tr("Plugin ")
     };
     return d << typeNames[ cr.packetType ] << '|';
 }

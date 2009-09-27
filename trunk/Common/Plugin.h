@@ -43,7 +43,7 @@ public:
     virtual inline void     load()                { loaded = true;     logs::addlog(LOGINFO, "Plugin loaded : "+ pluginName());}
     #else
     */
-    virtual inline void     load()                { loaded = true;     qDebug() <<  "Plugin loaded : "+ pluginName();}
+    virtual inline void     load()                { loaded = true;     qDebug() <<  tr("Plugin loaded : ")+ pluginName();}
     //#endif
     //! Called to stop the plugin and free memory.
     virtual inline void     unload()              { loaded = false; }

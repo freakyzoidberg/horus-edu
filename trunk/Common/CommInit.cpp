@@ -1,5 +1,7 @@
 #include "CommInit.h"
 
+#include <QObject>
+
 CommInit::CommInit(quint8 _protoVersion, const char* _fromName) : CommPacket(CommPacket::INIT)
 {
     protoVersion = _protoVersion;
@@ -35,6 +37,6 @@ void CommInit::write(QByteArray& a) const
 QDebug operator<<(QDebug d, const CommInit& ci)
 {
     return d << (CommPacket&)ci
-             <<  "proto v:" << ci.protoVersion
-             << " from:"    << ci.fromName;
+		<< QObject::tr("proto v:") << ci.protoVersion
+             << QObject::tr(" from:")    << ci.fromName;
 }

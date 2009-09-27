@@ -22,7 +22,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 	if ((oldStatus != Data::EMPTY && oldStatus != Data::UPTODATE) ||
 		(newStatus != Data::UPDATING && newStatus != Data::CREATING && newStatus != Data::SAVING && newStatus != Data::DELETING))
 	{
-		qWarning() << "Data" << data << "try to chage status from" << oldStatus << "to" << newStatus << "which is not authorized.";
+		qWarning() << tr("Data") << data << tr("try to chage status from") << oldStatus << tr("to") << newStatus << tr("which is not authorized.");
 		return;
 	}
 
@@ -38,7 +38,7 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 
 	if (status != Data::UPTODATE && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED)
 	{
-		qWarning() << "DataManagerClient received a status" << status << "which is not authorized.";
+		qWarning() << tr("DataManagerClient received a status") << status << tr("which is not authorized.");
 		return;
 	}
 
@@ -61,7 +61,7 @@ void DataManagerClient::sendData(UserData*, Data* data) const
 
 	if (status != Data::UPDATING && status != Data::DELETING && status != Data::CREATING && status != Data::SAVING)
 	{
-		qWarning() << "Data" << data << "try to be send with status" << status << "which is not authorized.";
+		qWarning() << tr("Data") << data << tr("try to be send with status") << status << tr("which is not authorized.");
 		return;
 	}
 
