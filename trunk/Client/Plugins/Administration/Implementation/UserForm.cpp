@@ -271,8 +271,7 @@ void    UserForm::createUser()
     else
         data->setPicture(imageLabel->pixmap());*/
     data->setLevel(3);
-
-    data->save();
+    data->create();
     loginTxt->setText("");
     nomTxt->setText("");
     passTxt->setText("");

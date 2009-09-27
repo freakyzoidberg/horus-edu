@@ -29,6 +29,9 @@ bool Administration::canLoad() const
 {
         if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<UserDataPlugin *>())
                 return (true);
+        UserData* u = pluginManager->currentUser();
+        if (u->level() > 1)
+            return (false);
         return (false);
 }
 
