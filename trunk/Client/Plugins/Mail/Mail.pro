@@ -22,12 +22,16 @@ HEADERS += Implementation/Mail.h \
     \ \
     \ \
     \ \
+    \ \
+    \ \
     \ \ # qmake configuration for linux-g++
     Implementation/MailList.h \
     Implementation/MailForm.h \
+    ../../../Common/Data.h \
     ../../../Common/DataImplementations/MailData/MailItem.h \
     ../../../Common/DataImplementations/MailData/MailDataPlugin.h \
-    ../../../Common/DataImplementations/MailData/MailData.h
+    ../../../Common/DataImplementations/MailData/MailData.h \
+    ../../../Common/DataPlugin.h
 RESOURCES += Implementation/mailrc.qrc
 TRANSLATIONS = Mail_en.ts \
     Mail_fr.ts

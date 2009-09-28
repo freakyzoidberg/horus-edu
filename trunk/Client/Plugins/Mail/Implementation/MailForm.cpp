@@ -42,8 +42,8 @@ MailForm::MailForm()
     ligne3->addWidget(content_value,1);
 
 
-    QPushButton *send = new QPushButton(tr("Send"));
-    ligne4->addWidget(send,1, Qt::AlignRight);
+    sendbtn = new QPushButton(tr("Send"));
+    ligne4->addWidget(sendbtn,1, Qt::AlignRight);
 
     total->addLayout(ligne1->layout(),0);
     total->addLayout(ligne1_1->layout(),0);
@@ -59,13 +59,25 @@ MailForm::MailForm()
     total->setAlignment(ligne3->layout(), Qt::AlignTop);
     total->setAlignment(ligne4->layout(), Qt::AlignTop);
 
-
-
-
     this->setLayout(total->layout());
+    connect(sendbtn, SIGNAL(clicked()), this, SLOT(mysendmail()));
 }
 
 MailForm::~MailForm()
 {
 }
 
+void MailForm::mysendmail()
+{
+    //QRegExp mailregexp("\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b");
+
+    //if (to_value->text().contains(mailregexp))
+    //{
+    to_value->setText("");
+    cc_value->setText("");
+    bcc_value->setText("");
+    subject_value->setText("");
+    content_value->setText("");
+    //}
+
+}

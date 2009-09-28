@@ -1,41 +1,43 @@
 #include "MailData.h"
 #include "MailDataPlugin.h"
 #include "../../PluginManager.h"
-#include "../../TreeData.h"
+
 
 void MailData::keyToStream(QDataStream& s)
 {
-	s << _node->id();
+        s << _id;
 }
 
 void MailData::dataToStream(QDataStream& s) const
 {
-	s << (quint16)(_items.count());
-        foreach (const MailItem& item, _items)
-		item >> s;
-
+    s << _id
+    << _to
+    << _cc
+    << _bcc
+    << _subject
+    << _content;
 	Data::dataToStream(s);
 }
 
 void MailData::dataFromStream(QDataStream& s)
 {
-	_items.clear();
-
-	quint16 nbItems;
-	s >> nbItems;
-
-	for (quint16 pos = 0; pos < nbItems; pos++)
-                _items.append( MailItem(s) );
-
+        s >>
+        _id >>
+        _to >>
+        _cc >>
+        _bcc >>
+        _subject >>
+        _content;
 	Data::dataFromStream(s);
 }
 
 QDebug MailData::operator<<(QDebug debug) const
 {
-        return debug << tr("MailData::") << _node->id();
+        return debug << tr("MailData::") << _id;
 }
 
 #ifdef HORUS_CLIENT
+/*
 #include <QIcon>
 QVariant MailData::data(int column, int role) const
 {
@@ -52,6 +54,7 @@ QVariant MailData::data(int column, int role) const
 //    }
     return QVariant();
 }
+*/
 #endif
 
 #ifdef HORUS_SERVER
