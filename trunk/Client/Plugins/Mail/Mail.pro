@@ -17,16 +17,6 @@ HEADERS += Implementation/Mail.h \
     ../../DisplayablePlugin.h \
     ../../../Common/Plugin.h \
     Implementation/MailPanel.h \
-    \ \
-    \ \
-    \ \
-    \ \
-    \ \
-    \ \
-    \ \
-    \ \
-    \ \
-    \ \ # qmake configuration for linux-g++
     Implementation/MailList.h \
     Implementation/MailForm.h \
     ../../../Common/Data.h \
