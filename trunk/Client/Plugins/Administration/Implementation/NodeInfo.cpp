@@ -6,8 +6,9 @@
 #include <QBuffer>
 #include <QMenu>
 #include <qvariant.h>
+#include "UserModel.h"
 
-NodeInfo::NodeInfo(TreeData& _node, int type) : node(_node)
+NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users) : users(_users), node(_node)
 {
     setupUi();
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
@@ -22,6 +23,8 @@ NodeInfo::NodeInfo(TreeData& _node, int type) : node(_node)
         buttonBox->addButton(new QPushButton(tr("Add")), QDialogButtonBox::ActionRole);
         buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
     }
+    completer = new QCompleter(new UserModel(users.getAllUser()), this);
+    completer->setCaseSensitivity(Qt::CaseInsensitive);
 }
 
 void    NodeInfo::setupUi()
@@ -48,6 +51,8 @@ void    NodeInfo::setupUi()
     label_3 = new QLabel(tr("User referent"));
     nodeLayout->setWidget(4, QFormLayout::LabelRole, label_3);
     userTxt = new QLineEdit(this);
+
+    userTxt->setCompleter(completer);
     nodeLayout->setWidget(4, QFormLayout::FieldRole, userTxt);
     mainLayout->addLayout(nodeLayout);
     buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
@@ -78,7 +83,7 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         {
             node.setName(nameTxt->text());
             node.setType(typeTxt->text());
-            //node.setUserData();
+            node.setUser((UserData*)((completer->currentIndex()).internalPointer()));
             node.save();
         }
    }
@@ -102,6 +107,10 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
             msgBox.exec();
             return;
         }
+            node.setName(nameTxt->text());
+            node.setType(typeTxt->text());
+            node.setUser((UserData*)((completer->currentIndex()).internalPointer()));
+            node.save();
    }
    else if (button->text() == tr("Cancel"))
    {
