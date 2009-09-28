@@ -7,19 +7,27 @@
 #include <QMenu>
 #include <qvariant.h>
 
-UserForm::UserForm(TreeDataPlugin* tree, UserDataPlugin *users)
+UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users) : users(_users)
 {
-    user = 0;
+    user = _user;
     setupUi();
-    _users = users;
-    studentTree->setModel(new UserModel(_users->getAllUser(), 3));
-    studentTree->setColumnWidth(0, 35);
 
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
-    connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
     connect(imageButton, SIGNAL(clicked()), this, SLOT(ImageButtonClick()));
+    fillUserFields();
+    buttonBox->addButton(new QPushButton(tr("Save")), QDialogButtonBox::ActionRole);
+    buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
 }
 
+UserForm::UserForm(TreeData* treeNode, UserDataPlugin &_users) : users(_users)
+{
+    setupUi();
+    connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
+    connect(imageButton, SIGNAL(clicked()), this, SLOT(ImageButtonClick()));
+    clearForm();
+    buttonBox->addButton(new QPushButton(tr("Add")), QDialogButtonBox::ActionRole);
+    buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
+}
 
 void    UserForm::ImageButtonClick()
 {
@@ -41,9 +49,8 @@ void    UserForm::ImageButtonClick()
 
 }
 
-void UserForm::userSelected(const QModelIndex &userIndex)
+void UserForm::fillUserFields()
 {
-    user = static_cast<UserData*>(userIndex.internalPointer());
     loginTxt->setText(user->login());
     nomTxt->setText(user->name());
     prenomTxt->setText(user->surname());
@@ -57,10 +64,8 @@ void UserForm::userSelected(const QModelIndex &userIndex)
 
 void    UserForm::setupUi()
 {
-    this->setMinimumWidth(700);
+    this->setMinimumWidth(450);
     stuLayout = new QHBoxLayout(this);
-    studentTree = new QTreeView();
-    studentTree->setAnimated(true);
     menuLayout = new QVBoxLayout();
     //menuLayout->setAlignment(Qt::AlignHCenter);
     formLayout = new QHBoxLayout();
@@ -71,8 +76,8 @@ void    UserForm::setupUi()
     leftLayout->setWidget(1, QFormLayout::LabelRole, label);
     loginTxt = new QLineEdit();
     leftLayout->setWidget(1, QFormLayout::FieldRole, loginTxt);
-    label_12 = new QLabel(tr("Password"));
-    leftLayout->setWidget(2, QFormLayout::LabelRole, label_12);
+    label_1 = new QLabel(tr("Password"));
+    leftLayout->setWidget(2, QFormLayout::LabelRole, label_1);
     passTxt = new QLineEdit(this);
     passTxt->setEchoMode(QLineEdit::Password);
     leftLayout->setWidget(2, QFormLayout::FieldRole, passTxt);
@@ -126,18 +131,11 @@ void    UserForm::setupUi()
     formLayout->addLayout(rightLayout);
     menuLayout->addLayout(formLayout);
     buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
-
-    buttonBox->addButton(new QPushButton(tr("Add")), QDialogButtonBox::ActionRole);
-    buttonBox->addButton(new QPushButton(tr("Save")), QDialogButtonBox::ActionRole);
-    buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
-    buttonBox->addButton(new QPushButton(tr("Delete")), QDialogButtonBox::ActionRole);
     menuLayout->addWidget(buttonBox);
-    stuLayout->addWidget(studentTree);
     stuLayout->addLayout(menuLayout);
     formLayout->setStretch(0, 1);
     formLayout->setStretch(1, 1);
     this->stuLayout->setStretch(0, 1);
-    this->stuLayout->setStretch(1, 4);
 }
 
 void UserForm::buttonClicked(QAbstractButton * button)
@@ -154,10 +152,6 @@ void UserForm::buttonClicked(QAbstractButton * button)
    {
         cancelUser();
    }
-   else if (button->text() == tr("Delete"))
-   {
-        deleteUser();
-   }
 }
 
 void    UserForm::editUser()
@@ -170,10 +164,6 @@ void    UserForm::editUser()
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
     {
-        if (user == 0)
-        {
-            return;
-        }
         user->setName(nomTxt->text());
         user->setSurname(prenomTxt->text());
         user->setLanguage(languageTxt->text());
@@ -186,15 +176,7 @@ void    UserForm::editUser()
         user->enable(true);
         user->setLevel(3);
         user->save();
-        loginTxt->setText("");
-        nomTxt->setText("");
-        passTxt->setText("");
-        prenomTxt->setText("");
-        languageTxt->setText("");
-        addrTxt->setText("");
-        phoneTxt->setText("");
-        paysTxt->setText("");
-//        imageLabel->clear();
+        clearForm();
     }
     return;
 }
@@ -208,6 +190,13 @@ void    UserForm::cancelUser()
     int ret = msgBox.exec();
     if (ret == QMessageBox::Yes)
     {
+        clearForm();
+    }
+    return;
+}
+
+void    UserForm::clearForm()
+{
         loginTxt->setText("");
         nomTxt->setText("");
         passTxt->setText("");
@@ -217,8 +206,6 @@ void    UserForm::cancelUser()
         phoneTxt->setText("");
         paysTxt->setText("");
   //      imageLabel->clear();
-    }
-    return;
 }
 
 void    UserForm::deleteUser()
@@ -256,7 +243,7 @@ void    UserForm::createUser()
         msgBox.exec();
         return;
     }
-    UserData *data = _users->createUser(loginTxt->text());
+    UserData *data = users.createUser(loginTxt->text());
     data->setName(nomTxt->text());
     data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
@@ -272,19 +259,8 @@ void    UserForm::createUser()
         data->setPicture(imageLabel->pixmap());*/
     data->setLevel(3);
     data->create();
-    loginTxt->setText("");
-    nomTxt->setText("");
-    passTxt->setText("");
-    prenomTxt->setText("");
-    languageTxt->setText("");
-    addrTxt->setText("");
-    phoneTxt->setText("");
-    paysTxt->setText("");
-    //imageLabel->clear();
-    studentTree->reset();
-    //studentTree->setModel(new StudentModel(_users->getAllUser(), 1));
-    //connect(studentTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
+    clearForm();
     msgBox.setText(tr("The user was succefully created"));
     msgBox.exec();
-
+    this->close();
 }

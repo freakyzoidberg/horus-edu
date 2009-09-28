@@ -6,67 +6,136 @@
 #include <QMenu>
 #include <QRadioButton>
 #include "AdminModel.h"
+#include "UserForm.h"
+#include "NodeInfo.h"
 
-AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *users)
+AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users)
 {
-    mainLayout = new QVBoxLayout(this);
+    users = _users;
+    mainLayout = new QHBoxLayout(this);
     mainTree = new QTreeView();
     mainLayout->addWidget(mainTree);
     mainTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
-
+    mainTree->expandAll();
+    mainTree->setMinimumWidth(200);
     mainTree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(mainTree, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(ShowTreeContextMenu(const QPoint&)));
     connect(mainTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nodeSelected(QModelIndex)));
     groupBox = new QStackedWidget();
     mainLayout->setStretch(1, 1);
-    mainLayout->setContentsMargins(2, 2, 2, 2);
-    mainLayout->addWidget(groupBox);
+    mainTree->clearSelection();
+
 }
 
 void AdminTree::nodeSelected(const QModelIndex &nodeIndex)
 {
+    ckdData = ((Data*)nodeIndex.internalPointer());
     TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
     if (!node)
     {
         UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
-        qDebug() << user->login();
+        editUser();
         return ;
     }
     else
     {
-        qDebug() << node->id();
+        editNode();
     }
-    QGroupBox *grpBox = new QGroupBox(tr("Edit :"));
-    QRadioButton *radio1 = new QRadioButton(tr("&Radio button 1"));
-    QRadioButton *radio2 = new QRadioButton(tr("R&adio button 2"));
-    QRadioButton *radio3 = new QRadioButton(tr("Ra&dio button 3"));
 
-    radio1->setChecked(true);
-
-    QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->addWidget(radio1);
-    vbox->addWidget(radio2);
-    vbox->addWidget(radio3);
-    vbox->addStretch(1);
-    grpBox->setLayout(vbox);
-    groupBox->addWidget(grpBox);
 }
 
 void    AdminTree::ShowTreeContextMenu(const QPoint& pnt)
 {
-  QList<QAction *> actions;
-  if (mainTree->indexAt(pnt).isValid())
-  {
-        QAction *actAdd = new QAction(tr("Ajouter"), this);
-        QAction *actEdit = new QAction(tr("Edit"), this);
-        QAction *actRen = new QAction(tr("Rename"), this);
-        QAction *actDel = new QAction(tr("Delete"), this);
-        actions.append(actAdd);
-        actions.append(actEdit);
-        actions.append(actRen);
-        actions.append(actDel);
+    TreeData* node = qobject_cast<TreeData*>(ckdData);
+    QList<QAction *> actions;
+    if (!node)
+    {
+        UserData* user = qobject_cast<UserData*>(ckdData);
+        if (mainTree->indexAt(pnt).isValid())
+        {
+                QAction *editUser = new QAction(QIcon(":/images/pencil.png"), tr("&Edit User..."), this);
+                editUser->setShortcuts(QKeySequence::New);
+                editUser->setStatusTip(tr("Edit an existing user"));
+                connect(editUser, SIGNAL(triggered()), this, SLOT(editUser()));
+                QAction *delUser = new QAction(QIcon(":/images/cross.png"), tr("&Delete User..."), this);
+                delUser->setShortcuts(QKeySequence::DeleteEndOfWord);
+                delUser->setStatusTip(tr("Delete an existing user"));
+                connect(delUser, SIGNAL(triggered()), this, SLOT(delUser()));
 
-  }
-  if (actions.count() > 0)
-    QMenu::exec(actions, mainTree->mapToGlobal(pnt));
+                actions.append(editUser);
+                actions.append(delUser);
+        }
+    }
+    else
+    {
+          if (mainTree->indexAt(pnt).isValid())
+          {
+                QAction *addUser = new QAction(QIcon(":/images/add.png"), tr("&Add User..."), this);
+                addUser->setShortcuts(QKeySequence::AddTab);
+                addUser->setStatusTip(tr("Add a new user"));
+                connect(addUser, SIGNAL(triggered()), this, SLOT(addUser()));
+                QAction *addNode = new QAction(QIcon(":/images/addButton.png"), tr("&Add Node..."), this);
+                addNode->setShortcuts(QKeySequence::Open);
+                addNode->setStatusTip(tr("Add a new node"));
+                connect(addNode, SIGNAL(triggered()), this, SLOT(addNode()));
+                QAction *editNode = new QAction(QIcon(":/images/editButton.png"), tr("&Edit Node..."), this);
+                editNode->setShortcuts(QKeySequence::Find);
+                editNode->setStatusTip(tr("Edit an existing node"));
+                connect(editNode, SIGNAL(triggered()), this, SLOT(editNode()));
+                QAction *delNode = new QAction(QIcon(":/images/delButton.png"), tr("&Delete Node..."), this);
+                delNode->setShortcuts(QKeySequence::Delete);
+                delNode->setStatusTip(tr("Open an existing node"));
+                connect(delNode, SIGNAL(triggered()), this, SLOT(delNode()));
+
+                actions.append(addNode);
+                actions.append(addUser);
+                actions.append(editNode);
+                actions.append(delNode);
+          }
+    }
+    if (actions.count() > 0)
+        QMenu::exec(actions, mainTree->mapToGlobal(pnt));
+}
+
+void    AdminTree::addNode()
+{
+    NodeInfo *nd = new NodeInfo(*((TreeData*)ckdData), 2);
+    mainLayout->removeItem(mainLayout->itemAt(1));
+    mainLayout->setContentsMargins(2, 2, 2, 2);
+    mainLayout->addWidget(nd);
+}
+
+void    AdminTree::editNode()
+{
+    NodeInfo *nd = new NodeInfo(*((TreeData*)ckdData), 1);
+    mainLayout->removeItem(mainLayout->itemAt(1));
+    mainLayout->setContentsMargins(2, 2, 2, 2);
+    mainLayout->addWidget(nd);
+}
+
+void    AdminTree::delNode()
+{
+    ((TreeData*)ckdData)->recursRemove();
+}
+
+void    AdminTree::addUser()
+{
+    UserForm *usr = new UserForm((TreeData*)ckdData,*users);
+    mainLayout->removeItem(mainLayout->itemAt(1));
+    mainLayout->setContentsMargins(2, 2, 2, 2);
+    mainLayout->addWidget(usr);
+}
+
+
+void    AdminTree::editUser()
+{
+    UserForm *usr = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,*users);
+    mainLayout->removeItem(mainLayout->itemAt(1));
+    mainLayout->setContentsMargins(2, 2, 2, 2);
+    mainLayout->addWidget(usr);
+}
+
+void    AdminTree::delUser()
+{
+
 }

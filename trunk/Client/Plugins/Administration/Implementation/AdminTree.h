@@ -30,14 +30,22 @@ class AdminTree : public QWidget
     Q_OBJECT
 
     public:
-        AdminTree(TreeDataPlugin* tree, UserDataPlugin *users);
+        AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users);
     private:
-        QVBoxLayout *mainLayout;
+        QHBoxLayout *mainLayout;
         QTreeView *mainTree;
         QStackedWidget *groupBox;
+        Data *ckdData;
+        UserDataPlugin* users;
     private slots:
         void ShowTreeContextMenu(const QPoint& pnt);
         void nodeSelected(const QModelIndex &nodeIndex);
+        void addNode();
+        void editNode();
+        void delNode();
+        void addUser();
+        void editUser();
+        void delUser();
 };
 
 #endif // ADMINTREE_H
