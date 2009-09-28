@@ -336,7 +336,7 @@
     <message>
         <location filename="Implementation/UserModel.cpp" line="28"/>
         <source>Students</source>
-        <translation type="unfinished">Students</translation>
+        <translation>Students</translation>
     </message>
 </context>
 </TS>
