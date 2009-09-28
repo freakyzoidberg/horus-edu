@@ -5,7 +5,7 @@
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
-
+/*
 MailData* MailDataPlugin::getMail(TreeData* node)
 {
         foreach (MailData* wb, Mails)
@@ -28,7 +28,7 @@ Data* MailDataPlugin::getDataWithKey(QDataStream& s)
 	s >> nodeId;
         return getMail(nodeId);
 }
-
+*/
 #ifdef HORUS_CLIENT
 void MailDataPlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
