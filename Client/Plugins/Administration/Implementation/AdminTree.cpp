@@ -6,8 +6,7 @@
 #include <QMenu>
 #include <QRadioButton>
 #include "AdminModel.h"
-#include "UserForm.h"
-#include "NodeInfo.h"
+
 
 AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users)
 {
@@ -24,7 +23,18 @@ AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users)
     groupBox = new QStackedWidget();
     mainLayout->setStretch(1, 1);
     mainTree->clearSelection();
+    ndPnl = 0;
+    usrPnl = 0;
+}
 
+void    AdminTree::closePanel()
+{
+    if (ndPnl != NULL)
+        ndPnl->close();
+    if (usrPnl != NULL)
+        usrPnl->close();
+    ndPnl = 0;
+    usrPnl = 0;
 }
 
 void AdminTree::nodeSelected(const QModelIndex &nodeIndex)
@@ -39,6 +49,7 @@ void AdminTree::nodeSelected(const QModelIndex &nodeIndex)
     }
     else
     {
+
         editNode();
     }
 
@@ -99,18 +110,20 @@ void    AdminTree::ShowTreeContextMenu(const QPoint& pnt)
 
 void    AdminTree::addNode()
 {
-    NodeInfo *nd = new NodeInfo(*((TreeData*)ckdData), 2);
+    closePanel();
+    ndPnl = new NodeInfo(*((TreeData*)ckdData), 2);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
-    mainLayout->addWidget(nd);
+    mainLayout->addWidget(ndPnl);
 }
 
 void    AdminTree::editNode()
 {
-    NodeInfo *nd = new NodeInfo(*((TreeData*)ckdData), 1);
+    closePanel();
+    ndPnl = new NodeInfo(*((TreeData*)ckdData), 1);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
-    mainLayout->addWidget(nd);
+    mainLayout->addWidget(ndPnl);
 }
 
 void    AdminTree::delNode()
@@ -120,19 +133,21 @@ void    AdminTree::delNode()
 
 void    AdminTree::addUser()
 {
-    UserForm *usr = new UserForm((TreeData*)ckdData,*users);
+    closePanel();
+    usrPnl = new UserForm((TreeData*)ckdData,*users);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
-    mainLayout->addWidget(usr);
+    mainLayout->addWidget(usrPnl);
 }
 
 
 void    AdminTree::editUser()
 {
-    UserForm *usr = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,*users);
+    closePanel();
+    usrPnl = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,*users);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
-    mainLayout->addWidget(usr);
+    mainLayout->addWidget(usrPnl);
 }
 
 void    AdminTree::delUser()

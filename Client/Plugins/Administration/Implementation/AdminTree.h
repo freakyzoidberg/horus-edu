@@ -23,7 +23,8 @@
 #include "../../../../Common/TreeData.h"
 #include "../../../../Common/UserData.h"
 #include <QStackedWidget>
-
+#include "UserForm.h"
+#include "NodeInfo.h"
 
 class AdminTree : public QWidget
 {
@@ -37,6 +38,9 @@ class AdminTree : public QWidget
         QStackedWidget *groupBox;
         Data *ckdData;
         UserDataPlugin* users;
+        UserForm*       usrPnl;
+        NodeInfo*       ndPnl;
+        void            closePanel();
     private slots:
         void ShowTreeContextMenu(const QPoint& pnt);
         void nodeSelected(const QModelIndex &nodeIndex);
