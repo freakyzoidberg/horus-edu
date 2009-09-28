@@ -106,9 +106,9 @@ CREATE INDEX user_has_group_id_group_idx ON user_has_group (id_group);
 
 
 CREATE TABLE white_board (
-id_tree int(11) NOT NULL,
-mode int(1) NOT NULL,
-items blob,
+id_tree int NOT NULL,
+mode int NOT NULL,
+items bytea,
 mtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY  (id_tree)
 );
