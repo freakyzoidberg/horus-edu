@@ -1,4 +1,5 @@
 #include "PdfController.h"
+#include "editorpdf.h"
 
 #include <QFileDialog>
 #include <QDebug>
@@ -164,6 +165,7 @@ QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILes
 {
     QString     fileName;
     QImage      *image;
+    EditorPdf    *pdfEdit = new EditorPdf(parent);
 
     pdf = this->pluginManager->findPlugin<IPdfRendering *>();
     if (!pdf)
@@ -184,9 +186,9 @@ QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILes
     //QImage disp = image->scaled(w, h);
     QPixmap pix = QPixmap::fromImage(*image);
 
-    label->setPixmap(pix);
+    pdfEdit->setPixmap(pix);
     delete rect;
     delete image;
-
-    return label;
+   // connect(label);
+    return pdfEdit;
 }
