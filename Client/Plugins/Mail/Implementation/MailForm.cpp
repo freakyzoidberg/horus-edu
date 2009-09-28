@@ -1,7 +1,8 @@
 #include "MailForm.h"
-
-MailForm::MailForm()
+#include "../../../../Common/DataImplementations/MailData/MailData.h"
+MailForm::MailForm(MailDataPlugin *MailPlugin)
 {
+    _MailPlugin = MailPlugin;
     QVBoxLayout *total = new QVBoxLayout();
     QHBoxLayout *ligne1 = new QHBoxLayout();
     QHBoxLayout *ligne1_1 = new QHBoxLayout();
@@ -73,6 +74,27 @@ void MailForm::mysendmail()
 
     //if (to_value->text().contains(mailregexp))
     //{
+    qWarning() << "1";
+    QStringList lto;
+    lto.append(to_value->text());
+    QStringList lcc;
+    lcc.append(cc_value->text());
+    QStringList lbcc;
+    lbcc.append(bcc_value->text());
+    qWarning() << "2";
+    MailData *md = _MailPlugin->createMail();
+    //MailData *md = new MailData(_MailPlugin);
+    qWarning() << "3";
+    md->setTo(lto);
+    md->setCc(lcc);
+    md->setBcc(lbcc);
+    md->setSubject(subject_value->text());
+    md->setContent(content_value->toPlainText());
+    md->setId(42);
+    qWarning() << "4";
+    md->save();
+    qWarning() << "5";
+
     to_value->setText("");
     cc_value->setText("");
     bcc_value->setText("");

@@ -2,7 +2,7 @@
 # define			__MAIL_H__
 
 # include			"../../../DisplayablePlugin.h"
-
+#include                        "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 class				Mail : public DisplayablePlugin
 {
     Q_OBJECT
@@ -19,7 +19,7 @@ public:
         bool                canLoad() const;
         void                load();
 
-
+        MailDataPlugin *MailPlugin;
 
 
 

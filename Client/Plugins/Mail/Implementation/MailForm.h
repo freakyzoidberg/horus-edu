@@ -7,12 +7,13 @@
 #include <QtGui>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include                        "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 //class MailForm;
 class MailForm : public QWidget
 {
 Q_OBJECT
 public:
-    MailForm();
+    MailForm(MailDataPlugin *MailPlugin);
     ~MailForm();
 
 private :
@@ -22,6 +23,7 @@ private :
     QLineEdit *subject_value;
     QTextEdit *content_value;
     QPushButton *sendbtn;
+    MailDataPlugin *_MailPlugin;
 
 private slots:
         void mysendmail();

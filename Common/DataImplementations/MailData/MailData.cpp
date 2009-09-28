@@ -37,14 +37,14 @@ QDebug MailData::operator<<(QDebug debug) const
 }
 
 #ifdef HORUS_CLIENT
-/*
+
 #include <QIcon>
 QVariant MailData::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 0)
-			return ((TreeData*)parent())->id();
+       // if (column == 0)
+        //		return ((TreeData*)parent())->id();
         if (column == 1)
 			return tr("White Board");
     }
@@ -54,7 +54,7 @@ QVariant MailData::data(int column, int role) const
 //    }
     return QVariant();
 }
-*/
+
 #endif
 
 #ifdef HORUS_SERVER

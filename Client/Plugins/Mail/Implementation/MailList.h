@@ -6,12 +6,13 @@
 #include <QStackedWidget>
 #include <QtGui>
 #include <QListView>
+#include                        "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 //class MailList;
 class MailList : public QListView
 {
 
 public:
-    MailList();
+    MailList(MailDataPlugin *MailPlugin);
     ~MailList();
 
 
