@@ -111,7 +111,7 @@ void    AdminTree::ShowTreeContextMenu(const QPoint& pnt)
 void    AdminTree::addNode()
 {
     closePanel();
-    ndPnl = new NodeInfo(*((TreeData*)ckdData), 2);
+    ndPnl = new NodeInfo(*((TreeData*)ckdData), 2, *users);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
     mainLayout->addWidget(ndPnl);
@@ -120,7 +120,7 @@ void    AdminTree::addNode()
 void    AdminTree::editNode()
 {
     closePanel();
-    ndPnl = new NodeInfo(*((TreeData*)ckdData), 1);
+    ndPnl = new NodeInfo(*((TreeData*)ckdData), 1, *users);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
     mainLayout->addWidget(ndPnl);

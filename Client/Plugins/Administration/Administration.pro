@@ -16,7 +16,6 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/FileFram.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
-    Implementation/TeacherPage.h \
     Implementation/RoomPage.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \

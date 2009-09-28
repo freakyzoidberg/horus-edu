@@ -19,16 +19,19 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
 #include <QtGui/QCalendarWidget>
-
+#include <QCompleter>
 #include "../../../../Common/TreeData.h"
+#include "../../../../Common/UserData.h"
 
 class NodeInfo : public QWidget
 {
     Q_OBJECT
     public:
-        NodeInfo(TreeData &_node, int type);
+        NodeInfo(TreeData &_node, int type, UserDataPlugin& _users);
     private:
         void    setupUi();
+        QCompleter *completer;
+        UserDataPlugin& users;
         QGroupBox *infos;
         QVBoxLayout *mainLayout;
         QFormLayout *nodeLayout;

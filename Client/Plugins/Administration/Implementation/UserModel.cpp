@@ -1,9 +1,9 @@
 #include "UserModel.h"
 
-UserModel::UserModel(const QHash<quint32, UserData*>&  _users, int _level)
+UserModel::UserModel(const QHash<quint32, UserData*>&  _users)
         : users(_users)
 {
-    level = _level;
+    //level = _level;
 }
 
 int UserModel::columnCount(const QModelIndex &parent) const
@@ -25,7 +25,7 @@ QVariant UserModel::data(const QModelIndex &index, int role) const
 QVariant UserModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
-        return tr("Students");
+        return tr("Users");
 
     return QVariant();
 }
@@ -34,12 +34,12 @@ QModelIndex UserModel::index(int row, int column, const QModelIndex &parent) con
 {
     int i = 0;
     foreach (UserData* user, users)
-        if (user->level() == level)
-        {
+//        if (user->level() == level)
+//        {
             if (i == row)
                 return createIndex(row, column, user);
-            i++;
-        }
+//            i++;
+//        }
     return QModelIndex();
 }
 
@@ -52,7 +52,7 @@ int UserModel::rowCount(const QModelIndex &parent) const
 {
     quint32 i = 0;
     foreach (UserData* user, users)
-        if (user->level() == level)
+//        if (user->level() == level)
             i++;
     return i;
 }

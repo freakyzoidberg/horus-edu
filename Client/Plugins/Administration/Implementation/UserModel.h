@@ -13,7 +13,7 @@ class UserModel: public QAbstractItemModel
     Q_OBJECT
 
     public:
-     UserModel(const QHash<quint32, UserData*>& users, int level);
+     UserModel(const QHash<quint32, UserData*>& users);
 
      QVariant data(const QModelIndex &index, int role) const;
      QVariant headerData(int section, Qt::Orientation orientation,
