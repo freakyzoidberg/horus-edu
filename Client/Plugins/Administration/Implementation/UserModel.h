@@ -7,7 +7,6 @@
  #include <QVariant>
 #include "../../../../Common/UserData.h"
 
-class UserItem;
 
 class UserModel: public QAbstractItemModel
 {

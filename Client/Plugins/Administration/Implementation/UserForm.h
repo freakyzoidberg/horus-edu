@@ -29,17 +29,17 @@ class UserForm : public QWidget
     Q_OBJECT
 
     public:
-        UserForm(TreeDataPlugin* tree, UserDataPlugin *users);
+        UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users);
+        UserForm(TreeData* treeNode, UserDataPlugin &_users);
     private:
         void    setupUi();
         QHBoxLayout *stuLayout;
-        QTreeView *studentTree;
         QGroupBox *formW;
         QHBoxLayout *formLayout;
         QFormLayout *leftLayout;
         QLabel *label;
         QLineEdit *loginTxt;
-        QLabel *label_12;
+        QLabel *label_1;
         QLineEdit *passTxt;
         QCalendarWidget *date;
         QLabel *label_2;
@@ -63,17 +63,17 @@ class UserForm : public QWidget
         QLineEdit *lineEdit_7;
         QDialogButtonBox *buttonBox;
         QVBoxLayout *menuLayout;
-        QVBoxLayout *mainLayout;
         void    editUser();
         void    cancelUser();
         void    deleteUser();
         void    createUser();
-        UserDataPlugin *_users;
         UserData* user;
+        UserDataPlugin& users;
         QImage image;
+        void fillUserFields();
+        void clearForm();
    private slots:
         void buttonClicked(QAbstractButton * button);
-        void userSelected(const QModelIndex &userIndex);
         void ImageButtonClick();
 };
 

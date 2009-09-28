@@ -5,5 +5,11 @@
         <file>images/User Group.png</file>
         <file>images/Tree.png</file>
         <file>images/admin.png</file>
+        <file>images/add.png</file>
+        <file>images/cross.png</file>
+        <file>images/pencil.png</file>
+        <file>images/addButton.png</file>
+        <file>images/delButton.png</file>
+        <file>images/editButton.png</file>
     </qresource>
 </RCC>
