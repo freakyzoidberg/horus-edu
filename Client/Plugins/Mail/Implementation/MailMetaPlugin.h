@@ -2,7 +2,7 @@
 #define MAILMETAPLUGIN_H
 
 #include "../../../../Common/MetaPlugin.h"
-
+#include "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 #include "Mail.h"
 
 class MailMetaPlugin : public MetaPlugin
@@ -13,7 +13,9 @@ class MailMetaPlugin : public MetaPlugin
 public:
     inline MailMetaPlugin() {
       Plugin* p = new Mail();
+      Plugin* mp = new MailDataPlugin();
       pluginList.append(p);
+      pluginList.append(mp);
   }
 };
 

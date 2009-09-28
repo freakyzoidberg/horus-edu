@@ -2,6 +2,7 @@
 #include "../../../../Common/DataImplementations/MailData/MailData.h"
 MailForm::MailForm(MailDataPlugin *MailPlugin)
 {
+    qDebug() << "h";
     _MailPlugin = MailPlugin;
     QVBoxLayout *total = new QVBoxLayout();
     QHBoxLayout *ligne1 = new QHBoxLayout();
@@ -91,8 +92,9 @@ void MailForm::mysendmail()
     md->setSubject(subject_value->text());
     md->setContent(content_value->toPlainText());
     md->setId(42);
+    qDebug() << md->getContent();
     qWarning() << "4";
-    md->save();
+    md->sendMail();
     qWarning() << "5";
 
     to_value->setText("");
