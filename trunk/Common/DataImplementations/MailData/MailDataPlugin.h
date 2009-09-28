@@ -22,8 +22,8 @@ public:
 	inline const QString pluginVersion() const { return "0.1"; }
         inline const QString getDataType()   const { return "MailData"; }
 
-       // MailData*      getMail(TreeData* node);
-       // MailData*      getMail(quint32 nodeId);
+        MailData*      getMail(TreeData* node);
+        MailData*      getMail(quint32 nodeId);
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif
@@ -41,6 +41,9 @@ private:
 
 
         QList<MailData*> Mails;
+
+        public:
+        MailData* createMail();
 };
 
 #endif // MAILDATAPLUGIN_H

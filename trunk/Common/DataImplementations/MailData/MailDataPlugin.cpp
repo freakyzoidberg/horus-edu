@@ -22,13 +22,23 @@ MailData* MailDataPlugin::getMail(quint32 nodeId)
         return getMail( pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId) );
 }
 
+*/
+MailData* MailDataPlugin::createMail()
+{
+        MailData* u = new MailData(this);
+
+    return u;
+}
+
+
 Data* MailDataPlugin::getDataWithKey(QDataStream& s)
 {
-	quint32 nodeId;
-	s >> nodeId;
-        return getMail(nodeId);
+        quint32 Id;
+        s >> Id;
+        //return getMail(nodeId);
+        return 0;
 }
-*/
+
 #ifdef HORUS_CLIENT
 void MailDataPlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {

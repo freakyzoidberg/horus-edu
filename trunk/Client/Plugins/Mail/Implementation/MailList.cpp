@@ -2,7 +2,7 @@
 #include <QHeaderView>
 #include <QList>
 #include <QListView>
-MailList::MailList()
+MailList::MailList(MailDataPlugin *MailPlugin)
 {
     //QList<QString> list;
     //list<<"Read"<<"From"<<"Subject"<<"date";

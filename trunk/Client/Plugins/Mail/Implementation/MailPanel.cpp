@@ -4,8 +4,9 @@
 #include <QTableView>
 #include <QLayoutItem>
 
-MailPanel::MailPanel(): QWidget()
+MailPanel::MailPanel(MailDataPlugin *MailPlugin): QWidget()
 {
+    _MailPlugin = MailPlugin;
     QPushButton *writemail = new QPushButton(tr("Write Mail"));
     QPushButton *mailbox = new QPushButton(tr("MailBox"));
     QComboBox *mailaccnt = new QComboBox();
@@ -14,8 +15,8 @@ MailPanel::MailPanel(): QWidget()
     menuleft->setSizeConstraint(QLayout::SetMaximumSize);
     contentright = new QVBoxLayout();
 
-    this->Mlist = new MailList();
-    this->Mform = new MailForm();
+    this->Mlist = new MailList(_MailPlugin);
+    this->Mform = new MailForm(_MailPlugin);
     menuleft->addWidget(mailaccnt,0, Qt::AlignTop);
     menuleft->addWidget(mailbox,0, Qt::AlignTop);
     menuleft->addWidget(writemail,1, Qt::AlignTop);

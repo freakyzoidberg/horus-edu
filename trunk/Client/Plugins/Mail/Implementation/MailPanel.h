@@ -9,13 +9,14 @@
 #include <QHBoxLayout>
 #include "MailList.h"
 #include "MailForm.h"
+#include                        "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 //class MailPanel;
 class MailPanel : public QWidget
 {
     Q_OBJECT
 
 public:
-    MailPanel();
+    MailPanel(MailDataPlugin *MailPlugin);
     ~MailPanel();
 
 private:
@@ -23,7 +24,7 @@ private:
     MailList *Mlist;
     MailForm *Mform;
 QVBoxLayout *contentright;
-
+MailDataPlugin* _MailPlugin;
 private slots:
         void changetowrite();
         void changetolist();

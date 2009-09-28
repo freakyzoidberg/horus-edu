@@ -1,5 +1,6 @@
 #include		"Mail.h"
 #include            "MailPanel.h"
+#include "../../../../Common/PluginManager.h"
 #include <QIcon>
 const QString	Mail::pluginName() const
 {
@@ -13,7 +14,7 @@ const QString	Mail::pluginVersion() const
 
 QWidget			*Mail::getWidget()
 {
-        return new MailPanel();
+        return new MailPanel(MailPlugin);
 }
 
 const QString       Mail::getDisplayableName() const
@@ -28,11 +29,14 @@ int           Mail::getOrder() const
 
 bool                Mail::canLoad() const
 {
-    return true;
+
+                return (true);
+
 }
 
 void                Mail::load()
 {
+    MailPlugin = pluginManager->findPlugin<MailDataPlugin *>();
     Plugin::load();
 }
 
