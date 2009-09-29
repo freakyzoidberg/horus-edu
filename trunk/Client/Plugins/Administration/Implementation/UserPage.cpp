@@ -22,14 +22,17 @@ UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
 
 void UserPage::userSelected(const QModelIndex &nodeIndex)
 {
-//    ckdData = ((Data*)nodeIndex.internalPointer());
-//    TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
-//    if (!node)
-//    {
-//        UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
-//        editUser();
-//        return ;
-//    }
+	if ( ! nodeIndex.isValid())
+		return;
+
+	ckdData = ((Data*)nodeIndex.internalPointer());
+	TreeData* node = qobject_cast<TreeData*>((Data*)(nodeIndex.internalPointer()));
+	if (!node)
+	{
+		UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
+		editUser();
+		return ;
+	}
     qDebug() << nodeIndex.data(Qt::DisplayRole);
 }
 

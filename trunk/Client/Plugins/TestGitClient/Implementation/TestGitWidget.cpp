@@ -81,6 +81,7 @@ void TestGitWidget::test2()
 
 	UserData* u = p->createUser("New User");
 
+	u->setNode(plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
 	u->enable(true);
 	u->setLevel(3);
 	u->create();

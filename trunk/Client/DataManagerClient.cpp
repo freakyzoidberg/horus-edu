@@ -45,6 +45,9 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 	Data* data = plugin->getDataWithKey(stream);
 	QMutexLocker(data->lock);
 
+	if (status == Data::CREATED)
+		plugin->dataHaveNewKey(data, stream);
+
 	if (status == Data::UPTODATE && ! error)
 		data->dataFromStream(stream);
 
