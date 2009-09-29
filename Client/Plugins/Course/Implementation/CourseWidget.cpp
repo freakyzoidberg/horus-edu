@@ -39,7 +39,7 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
 	this->categoryView->setRootIndex(this->categoryModel->index(0, 0, this->categoryView->rootIndex()));
     this->categoryView->setDragEnabled(true);
-	this->categoryView->expandAll();
+	//this->categoryView->expandAll();
     connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
 }
 
