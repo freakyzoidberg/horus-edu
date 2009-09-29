@@ -23,6 +23,9 @@ SettingsData* SettingsDataBasePlugin::getSettings(QString part, quint8 scope, Us
 
     //not found
     SettingsDataBase* set = new SettingsDataBase(this, part, scope, user);
+#ifdef HORUS_CLIENT
+	set->moveToThread(this->thread());
+#endif
     settings.append(set);
     return set;
 }
