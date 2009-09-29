@@ -1,29 +1,36 @@
 #include "UserPage.h"
 #include "UserModel.h"
 #include "AdminModel.h"
+#include "FilterModel.h"
 
 UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
 {
     users = _users;
+    usrPnl = 0;
     mainLayout = new QHBoxLayout(this);
     userTree = new QTreeView();
     mainLayout->addWidget(userTree);
     //userTree->setModel(new UserModel(users->getAllUser()));
-    userTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+    FilterModel* fModel = new FilterModel(1, this);
+//    QSortFilterProxyModel *fModel = new QSortFilterProxyModel(this);
+    fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+    userTree->setModel(fModel);
+    //userTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
     connect(userTree, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(ShowTreeMenu(const QPoint&)));
     connect(userTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
 }
 
 void UserPage::userSelected(const QModelIndex &nodeIndex)
 {
-    ckdData = ((Data*)nodeIndex.internalPointer());
-    TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
-    if (!node)
-    {
-        UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
-        editUser();
-        return ;
-    }
+//    ckdData = ((Data*)nodeIndex.internalPointer());
+//    TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
+//    if (!node)
+//    {
+//        UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
+//        editUser();
+//        return ;
+//    }
+    qDebug() << nodeIndex.data(Qt::DisplayRole);
 }
 
 void    UserPage::ShowTreeMenu(const QPoint& pnt)
