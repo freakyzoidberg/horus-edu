@@ -15,7 +15,7 @@ public:
     virtual QWidget*  createDocumentWidget(IItems *parent, ILessonDocument *document) = 0;
     virtual void      resizeWidget(IItems *) = 0;
     virtual void      clean(IItems *) = 0;
-    virtual QWidget   *editDocument(QFile *metadata, QWidget *parent, ILessonDocument *) = 0;
+    virtual QWidget   *editDocument(QFile *metadata, IItems *parent, ILessonDocument *) = 0;
 };
 
 Q_DECLARE_INTERFACE(IDocumentController, "net.horus.Client.Plugin.LessonManager.ControllerInterface/1.0");

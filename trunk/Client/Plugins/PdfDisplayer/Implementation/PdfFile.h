@@ -103,7 +103,7 @@ class   PdfFile : public IPdfFile
           \return a pointer to the QImage extracted from the pdf or NULL if an error occurs.
         */
         QImage        *render(int page, QRectF *partToDisplay);
-                QImage        *render(int page);
+        QImage        *render(int page);
 
 
         //! create the picture of the PDF

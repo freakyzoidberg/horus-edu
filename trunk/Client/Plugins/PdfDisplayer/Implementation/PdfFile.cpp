@@ -17,6 +17,8 @@ PdfFile::PdfFile(const QString & fileName)
     currentPageNb = 1;
     scaleFactor = 1;
     matrix = NULL;
+    matrix = new QMatrix(scaleFactor, 0, 0, scaleFactor, 0, 0);
+
     toc = NULL;
 
     openFile();
@@ -226,15 +228,22 @@ QImage        *PdfFile::render(int page, QRectF *partToDisplay)
 }
 
 QImage        *PdfFile::render(int page)
-{   
+{
     if (!pdfDoc)
         if (!openFile())
             return NULL;
 
     if (!loadPage(page))
         return NULL;
-    QRectF  *part = new QRectF(0, 0, this->currentPage->pageSize().width(), this->currentPage->pageSize().height());
-    return generateImg(part);
+
+
+     //QImage      image = currentPage->renderToImage(scaleFactor * 72.0,
+       //                                             scaleFactor * 72.0);
+   /* QRectF  *part = new QRectF(0, 0, this->currentPage->pageSize().width(),
+                               this->currentPage->pageSize().height());
+    return generateImg(part); */
+    // QImage  *subImg = new QImage(image);
+     return generateImg(NULL);
 }
 
 
@@ -248,21 +257,21 @@ QImage  *PdfFile::generateImg(QRectF * partToDisplay)
         return NULL;
     }
 
-    qDebug() << "[PdfDisplayer] Image successfully generated";
+    qDebug() << "[PdfDisplayer] Image successfully generated mon cul";
 
   //  generateLinks(currentPage->links(), &image);
 
     if (!partToDisplay)
-        partToDisplay = new QRectF(0, 0,
-                                   currentPage->pageSize().width(),
-                                   currentPage->pageSize().height());
-
-    partToDisplay->adjust(-2, -2, 2, 2);
-    scaled(scaleFactor);
-
+    {
+        partToDisplay = new QRectF(10, 10, currentPage->pageSize().width(),
+                                           currentPage->pageSize().height());
+        qDebug() << "generate rect:" << currentPage->pageSize().width() << " " << currentPage->pageSize().height();
+    }
+//    partToDisplay->adjust(-2, -2, 2, 2);
+//    scaled(scaleFactor);
     QRect part = matrix->mapRect(*partToDisplay).toRect();
-    QImage  *subImg = new QImage(image.copy(part));
 
+    QImage  *subImg = new QImage(image.copy(part));
     return subImg;
 }
 
