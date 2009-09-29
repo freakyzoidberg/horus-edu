@@ -16,7 +16,14 @@ UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
 
 void UserPage::userSelected(const QModelIndex &nodeIndex)
 {
-
+    ckdData = ((Data*)nodeIndex.internalPointer());
+    TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
+    if (!node)
+    {
+        UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
+        editUser();
+        return ;
+    }
 }
 
 void    UserPage::ShowTreeMenu(const QPoint& pnt)
@@ -41,4 +48,35 @@ void    UserPage::ShowTreeMenu(const QPoint& pnt)
                 actions.append(delUser);
         }
     }
+}
+
+void    UserPage::closePanel()
+{
+    if (usrPnl != NULL)
+        usrPnl->close();
+    usrPnl = 0;
+}
+
+void    UserPage::addUser()
+{
+    closePanel();
+    usrPnl = new UserForm((TreeData*)ckdData,*users);
+    mainLayout->removeItem(mainLayout->itemAt(1));
+    mainLayout->setContentsMargins(2, 2, 2, 2);
+    mainLayout->addWidget(usrPnl);
+}
+
+
+void    UserPage::editUser()
+{
+    closePanel();
+    usrPnl = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,*users);
+    mainLayout->removeItem(mainLayout->itemAt(1));
+    mainLayout->setContentsMargins(2, 2, 2, 2);
+    mainLayout->addWidget(usrPnl);
+}
+
+void    UserPage::delUser()
+{
+
 }
