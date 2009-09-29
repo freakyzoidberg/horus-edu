@@ -2,6 +2,7 @@
 #include "UserModel.h"
 #include "AdminModel.h"
 #include "FilterModel.h"
+#include <QMenu>
 
 UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
 {
@@ -10,9 +11,9 @@ UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
     mainLayout = new QHBoxLayout(this);
     userTree = new QTreeView();
     mainLayout->addWidget(userTree);
-    //userTree->setModel(new UserModel(users->getAllUser()));
+    userTree->setContextMenuPolicy(Qt::CustomContextMenu);
+    userTree->setMinimumWidth(150);
     FilterModel* fModel = new FilterModel(1, this);
-//    QSortFilterProxyModel *fModel = new QSortFilterProxyModel(this);
     fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
     userTree->setModel(fModel);
     //userTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
@@ -22,18 +23,6 @@ UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
 
 void UserPage::userSelected(const QModelIndex &nodeIndex)
 {
-	if ( ! nodeIndex.isValid())
-		return;
-
-	ckdData = ((Data*)nodeIndex.internalPointer());
-	TreeData* node = qobject_cast<TreeData*>((Data*)(nodeIndex.internalPointer()));
-	if (!node)
-	{
-		UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
-		editUser();
-		return ;
-	}
-    qDebug() << nodeIndex.data(Qt::DisplayRole);
 }
 
 void    UserPage::ShowTreeMenu(const QPoint& pnt)
@@ -58,6 +47,8 @@ void    UserPage::ShowTreeMenu(const QPoint& pnt)
                 actions.append(delUser);
         }
     }
+    if (actions.count() > 0)
+        QMenu::exec(actions, userTree->mapToGlobal(pnt));
 }
 
 void    UserPage::closePanel()

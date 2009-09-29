@@ -36,14 +36,14 @@ class UserPage : public QWidget
         QTreeView *userTree;
         Data *ckdData;
         UserDataPlugin* users;
-        void addUser();
-        void editUser();
-        void delUser();
         UserForm*       usrPnl;
         void            closePanel();
     private slots:
         void ShowTreeMenu(const QPoint& pnt);
         void userSelected(const QModelIndex &nodeIndex);
+        void addUser();
+        void editUser();
+        void delUser();
 };
 
 #endif // USERPAGE_H

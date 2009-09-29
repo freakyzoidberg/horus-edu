@@ -41,7 +41,7 @@ void AdminMainFrame::createIcons()
 
     QListWidgetItem *userButton = new QListWidgetItem(contentsWidget);
     userButton ->setIcon(QIcon(":/images/User Group.png"));
-    userButton ->setText(tr("Manage Users"));
+    userButton ->setText(tr("Users"));
     userButton ->setTextAlignment(Qt::AlignHCenter);
     userButton ->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
