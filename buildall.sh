@@ -125,7 +125,7 @@ case $me in
 				echo -e "$ROUGE"
 				qmake && make > $REDIR
 				echo -e "$NORMAL"
-				echo -e "$BLEU" "      ---Finished Building Server Plugins " "$fichier"  "$NORMAL"
+				echo -e "$BLEU" "      ---Finished Building Server Plugins " "$fichier" "$NORMAL"
 				cd ..
 			    fi
 			done
