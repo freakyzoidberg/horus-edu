@@ -91,7 +91,8 @@ void MailForm::mysendmail()
     md->setBcc(lbcc);
     md->setSubject(subject_value->text());
     md->setContent(content_value->toPlainText());
-    md->setId(42);
+    //qDebug() << ;
+    md->setId(rand());
 
 
     md->sendMail();

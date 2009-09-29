@@ -8,16 +8,14 @@
 
 MailData* MailDataPlugin::getMail(quint32 i)
 {
-    qDebug() << "Je passe dans le get mail par id";
-        foreach (MailData* wb, Mails)
+   foreach (MailData* wb, Mails)
+    {
                 if (wb->_id == i)
             {
-            qDebug() << "Trouve";
 			return wb;
                     }
-
+            }
         MailData* wb = new MailData(this);
-        wb->setId(42);
         Mails.append(wb);
 	return wb;
 }
@@ -25,9 +23,7 @@ MailData* MailDataPlugin::getMail(quint32 i)
 
 MailData* MailDataPlugin::createMail()
 {
-    qDebug() << "createMail";
         MailData* u = new MailData(this);
-        u->setId(42);
         Mails.append(u);
     return u;
 }
@@ -35,10 +31,9 @@ MailData* MailDataPlugin::createMail()
 
 Data* MailDataPlugin::getDataWithKey(QDataStream& s)
 {
-    qDebug() << "getDataWithKey";
         quint32 Id;
         s >> Id;
-        return getMail(42);
+        return getMail(Id);
 }
 
 #ifdef HORUS_CLIENT

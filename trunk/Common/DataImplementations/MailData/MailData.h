@@ -11,8 +11,9 @@
 #include <QDateTime>
 #include "../../Data.h"
 #include "MailDataPlugin.h"
-#include "MailItem.h"
+#include "../../UserData.h"
 
+class UserData;
 class MailData : public Data
 {
   Q_OBJECT
@@ -63,7 +64,7 @@ public :
         inline void                     setBcc(QStringList b)   { _bcc = b; }
         inline void			setContent(QString Con) { _content = Con; }
         inline void                     setSubject(QString Sub) {_subject = Sub; }
-        inline void             sendMail() { Data::setStatus(CREATING); }
+        inline void             sendMail() { Data::setStatus(SAVING); }
 
         inline QString			getContent() const { return _content; }
 
