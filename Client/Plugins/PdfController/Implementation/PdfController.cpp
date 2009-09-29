@@ -175,7 +175,7 @@ QWidget      *PdfController::editDocument(QFile *metadata, IItems *parent, ILess
     }
 
     fileName = metadata->fileName();
-    image = pdf->PdfDisplayerDoc(fileName, 3);
+    image = pdf->PdfDisplayerDoc(fileName, doc->getParameters().value("page").toInt());
     if (!image)
     {
        qDebug() << "Call the shot";

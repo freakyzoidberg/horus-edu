@@ -2,6 +2,7 @@
 # Project created by QtCreator 2009-06-05T02:08:17
 # -------------------------------------------------
 TEMPLATE = lib
+QT += xml
 SOURCES += Implementation/PdfController.cpp \
     editorpdf.cpp
 HEADERS += Implementation/PdfController.h \

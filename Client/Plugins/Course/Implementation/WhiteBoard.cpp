@@ -9,7 +9,7 @@
 WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers, ILesson *lesson)
 	: _controllers(controllers), lesson(lesson)
 {
-	wbdata = wbd;
+    wbdata = wbd;
     setAcceptDrops(true);
     setAutoFillBackground(true);
 
@@ -30,6 +30,7 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 void    WhiteBoard::calltheshot()
 {
     QHash<QString, QVariant> parameters;
+    parameters.insert("page", QVariant(10));
     Items *item = new Items(this, 1, "Pdf", "testpdf");
     QFile *merde = new QFile("/tmp/1");
     ILessonDocument *doc = new LessonDocument(this, 1, "cmbdtc", "Pdf", "null", parameters);
