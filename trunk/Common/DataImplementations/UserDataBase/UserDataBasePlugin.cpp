@@ -9,7 +9,13 @@
 UserData* UserDataBasePlugin::getUser(quint32 userId)
 {
     if ( ! users.contains(userId))
-        users[userId] = new UserDataBase(userId, this);
+	{
+		UserData* user = new UserDataBase(userId, this);
+#ifdef HORUS_CLIENT
+		user->moveToThread(this->thread());
+#endif
+		users.insert(userId, user);
+	}
     return users[userId];
 }
 

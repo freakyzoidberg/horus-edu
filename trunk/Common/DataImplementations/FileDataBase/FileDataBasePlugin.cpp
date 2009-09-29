@@ -11,7 +11,13 @@
 FileData* FileDataBasePlugin::getFile(quint32 fileId)
 {
     if ( ! files.contains(fileId))
-        files.insert(fileId, new FileDataBase(fileId, this));
+	{
+		FileData* file = new FileDataBase(fileId, this);
+#ifdef HORUS_CLIENT
+		file->moveToThread(this->thread());
+#endif
+		files.insert(fileId, file);
+	}
 
     return files.value(fileId);
 }
