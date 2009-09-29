@@ -3,7 +3,7 @@
 
 #include "../../../../Common/MetaPlugin.h"
 
-#include "MailServerPlugin.h"
+#include "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 
 class MailServerMetaPlugin : public MetaPlugin
 {
@@ -12,7 +12,7 @@ class MailServerMetaPlugin : public MetaPlugin
 
 public:
     inline MailServerMetaPlugin() {
-      pluginList.append(new MailServerPlugin);
+      pluginList.append(new MailDataPlugin);
   }
 };
 

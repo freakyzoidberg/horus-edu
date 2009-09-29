@@ -46,7 +46,7 @@ QVariant MailData::data(int column, int role) const
        // if (column == 0)
         //		return ((TreeData*)parent())->id();
         if (column == 1)
-			return tr("White Board");
+                        return tr("Mail");
     }
 //    else if (role == Qt::DecorationRole && column == 0)
 //    {
@@ -89,65 +89,21 @@ void MailData::fillFromDatabase(QSqlQuery& query)
 
 void MailData::createIntoDatabase(QSqlQuery& query)
 {
-//    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime,password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
-//    query.addBindValue(_login);
-//    query.addBindValue(_level);
-//    query.addBindValue(_lastLogin);
-//    query.addBindValue(_surname);
-//    query.addBindValue(_name);
-//    query.addBindValue(_birthDate);
-//    query.addBindValue(_picture);
-//    query.addBindValue(_address);
-//    query.addBindValue(_phone);
-//    query.addBindValue(_country);
-//    query.addBindValue(_language);
-//    if (_node)
-//        query.addBindValue(_node->id());
-//    else
-//        query.addBindValue(0);
-//    query.addBindValue(_enabled);
-//    _lastChange = QDateTime::currentDateTime();
-//    query.addBindValue(_lastChange);
+qDebug() << "la je suis passe";
 //
-//	query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b"); // 123456
-//
-//	if ( ! query.exec())
-//	{
-//		_error = DATABASE_ERROR;
-//		qDebug() << query.lastError();
-//	}
-//
-//	_id = query.lastInsertId().toUInt();
+// QStringList mylist;
+//    mylist.append(dest);
+//     smtp *test1 = new smtp(host, sender,mylist , subject, content);
+//                test1->setPriority(smtp::high);
+//                test1->send();
+//                delete test1;
+//    return true;
 }
 
 void MailData::saveIntoDatabase(QSqlQuery& query)
 {
-//    query.prepare("UPDATE users SET login=?,level=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
-//    query.addBindValue(_login);
-//    query.addBindValue(_level);
-//    query.addBindValue(_lastLogin);
-//    query.addBindValue(_surname);
-//    query.addBindValue(_name);
-//    query.addBindValue(_birthDate);
-//    query.addBindValue(_picture);
-//    query.addBindValue(_address);
-//    query.addBindValue(_phone);
-//    query.addBindValue(_country);
-//    query.addBindValue(_language);
-//    if (_node)
-//        query.addBindValue(_node->id());
-//    else
-//        query.addBindValue(0);
-//    query.addBindValue(_enabled);
-//    _lastChange = QDateTime::currentDateTime();
-//    query.addBindValue(_lastChange);
-//    query.addBindValue(_id);
-//
-//    if ( ! query.exec())
-//    {
-//        _error = NOT_FOUND;
-//		qDebug() << query.lastError();
-//    }
+    qDebug() << "ok ca c est appele";
+qDebug() << this->_subject;
 }
 
 void MailData::deleteFromDatabase(QSqlQuery& query)

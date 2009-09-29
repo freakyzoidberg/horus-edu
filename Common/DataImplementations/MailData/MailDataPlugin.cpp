@@ -5,38 +5,40 @@
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
-/*
-MailData* MailDataPlugin::getMail(TreeData* node)
-{
-        foreach (MailData* wb, Mails)
-		if (wb->parent() == (QObject*)node)
-			return wb;
 
-        MailData* wb = new MailData(node, this);
+MailData* MailDataPlugin::getMail(quint32 i)
+{
+    qDebug() << "Je passe dans le get mail par id";
+        foreach (MailData* wb, Mails)
+                if (wb->_id == i)
+            {
+            qDebug() << "Trouve";
+			return wb;
+                    }
+
+        MailData* wb = new MailData(this);
+        wb->setId(42);
         Mails.append(wb);
 	return wb;
 }
 
-MailData* MailDataPlugin::getMail(quint32 nodeId)
-{
-        return getMail( pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId) );
-}
 
-*/
 MailData* MailDataPlugin::createMail()
 {
+    qDebug() << "createMail";
         MailData* u = new MailData(this);
-
+        u->setId(42);
+        Mails.append(u);
     return u;
 }
 
 
 Data* MailDataPlugin::getDataWithKey(QDataStream& s)
 {
+    qDebug() << "getDataWithKey";
         quint32 Id;
         s >> Id;
-        //return getMail(nodeId);
-        return 0;
+        return getMail(42);
 }
 
 #ifdef HORUS_CLIENT
@@ -48,39 +50,28 @@ void MailDataPlugin::dataHaveNewKey(Data*d, QDataStream& s)
 }
 #endif
 #ifdef HORUS_SERVER
-void MailDataPlugin::loadDataBase(QSqlQuery& query)
-{
-//    query.prepare("SELECT id,login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users;");
-//    query.exec();
-//    while (query.next())
-//    {
-//		MailData* user = (MailData*)(getUser(query.value(0).toUInt()));
-//        user->_login       = query.value(1).toString();
-//        user->_level       = (UserLevel)(query.value(2).toUInt());
-//        user->_lastLogin   = query.value(3).toDateTime();
-//        user->_surname     = query.value(4).toString();
-//        user->_name        = query.value(5).toString();
-//        user->_birthDate   = query.value(6).toDate();
-//        user->_picture     = query.value(7).toByteArray();
-//        user->_address     = query.value(8).toString();
-//        user->_phone       = query.value(9).toString();
-//        user->_country     = query.value(10).toString();
-//        user->_language    = query.value(11).toString();
-//        TreeDataPlugin* treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
-//        if (treePlugin)
-//            user->_node = treePlugin->getNode( query.value(12).toUInt() );
-//        else
-//            user->_node = 0;
-//        user->_enabled     = query.value(13).toBool();
-//        user->_lastChange  = query.value(14).toDateTime();
-//        user->_status      = Data::UPTODATE;
-//    }
+void WhiteBoardDataPlugin::loadDataBase(QSqlQuery& query)
+//{
+//        query.prepare("SELECT id_tree,mode,items,mtime FROM white_board;");
+//        if ( ! query.exec())
+//        {
+//                qDebug() << query.lastError();
+//                return;
+//        }
+//        while (query.next())
+//        {
+//                WhiteBoardData* wb	= getWhiteBoard(query.value(0).toUInt());
+//                wb->_syncMode		= (WhiteBoardData::SyncMode)(query.value(1).toUInt());
+//                wb->_items			= query.value(2).toByteArray();
+//                wb->_lastChange		= query.value(3).toDateTime();
+//                wb->_status			= Data::UPTODATE;
+//        }
 }
 
-void MailDataPlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+void WhiteBoardDataPlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
 {
-//    foreach (UserData* data, users)
-//        if (data->lastChange() >= date)
-//            dataManager->sendData(user, data);
+//	foreach (WhiteBoardData* data, whiteBoards)
+//		if (data->lastChange() >= date)
+//			dataManager->sendData(user, data);
 }
 #endif

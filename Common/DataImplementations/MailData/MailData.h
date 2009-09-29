@@ -57,12 +57,16 @@ private:
         QString				_content;
         QString                         _subject;
 public :
-        inline void			setId(int i)     { _id = i; }
+        inline void			setId(quint32 i)     { _id = i; }
         inline void			setTo(QStringList t) { _to = t; }
         inline void			setCc(QStringList c)     { _cc = c; }
         inline void                     setBcc(QStringList b)   { _bcc = b; }
         inline void			setContent(QString Con) { _content = Con; }
         inline void                     setSubject(QString Sub) {_subject = Sub; }
+        inline void             sendMail() { Data::setStatus(CREATING); }
+
+        inline QString			getContent() const { return _content; }
+
 };
 
 #endif // MAILDATA_H
