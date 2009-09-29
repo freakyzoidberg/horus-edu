@@ -157,29 +157,34 @@ QModelIndex LessonModel::parent ( const QModelIndex & index ) const
 
 	Lesson* lesson = qobject_cast<Lesson *>(obj);
 	if (lesson)
-		obj = lesson->getFiledata()->node();
-	else
-		obj = obj->parent();
-
-	lesson = qobject_cast<Lesson *>(obj);
-	if (lesson)
 	{
-		UserData* user = pluginManager->currentUser();
-		FileData* fdata = lesson->getFiledata();
-		TreeData* tdata = fdata->node();
-		int count = tdata->children().count();
-		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
-		foreach (FileData* file, files)
+		FileData *fdata = lesson->getFiledata();
+		obj = fdata->node();
+	}
+	else
+	{
+		obj = obj->parent();
+		lesson = qobject_cast<Lesson *>(obj);
+		if (lesson)
 		{
-			if (file->id() == fdata->id())
+			UserData* user = pluginManager->currentUser();
+			FileData* fdata = lesson->getFiledata();
+			TreeData* tdata = fdata->node();
+			int count = tdata->children().count();
+			QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
+			foreach (FileData* file, files)
 			{
-				return createIndex(count, 0, lesson);
-			}
-			if (file->mimeType() == "x-horus/x-lesson")
-			{
-				count++;
+				if (file->id() == fdata->id())
+				{
+					return createIndex(count, 0, lesson);
+				}
+				if (file->mimeType() == "x-horus/x-lesson")
+				{
+					count++;
+				}
 			}
 		}
 	}
+
     return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
 }
