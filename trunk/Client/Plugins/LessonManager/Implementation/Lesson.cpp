@@ -2,7 +2,7 @@
 #include "LessonSection.h"
 #include "LessonDocument.h"
 
-Lesson::Lesson(FileData *parent) : ILesson(parent), _currentData(NULL), icon(":/Icons/LessonIcon.png")
+Lesson::Lesson(FileData *parent) : ILesson(NULL), _currentData(NULL), icon(":/Icons/LessonIcon.png")
 {
     xmlFile = parent->file();
     QXmlSimpleReader xmlReader;
