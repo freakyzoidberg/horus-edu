@@ -6,8 +6,6 @@ TEMPLATE = lib
 SOURCES += Implementation/LessonManager.cpp \
     Implementation/Lesson.cpp \
     LessonModel.cpp \
-    ILesson.cpp \
-    ILessonSection.cpp \
     Implementation/LessonSection.cpp \
     Implementation/LessonDocument.cpp
 HEADERS += ILessonManager.h \
@@ -17,7 +15,7 @@ HEADERS += ILessonManager.h \
     ../../../Common/Data.h \
     ../../../Common/FileData.h \
     ../../../Common/TreeData.h \
-	../../../Common/UserData.h \
+    ../../../Common/UserData.h \
     ILesson.h \
     IDocumentController.h \
     LessonModel.h \
@@ -32,4 +30,4 @@ DEFINES += HORUS_CLIENT
 RESOURCES += Implementation/TreeIcons.qrc
 TARGET = LessonManager
 TRANSLATIONS = LessonManager_en.ts \
-			   LessonManager_fr.ts
+    LessonManager_fr.ts

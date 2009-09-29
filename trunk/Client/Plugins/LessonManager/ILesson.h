@@ -9,7 +9,7 @@ class ILesson : public ILessonData
     Q_OBJECT
 
 public:
-    ILesson(FileData *parent);
+	inline ILesson(FileData *parent) : ILessonData(parent) {}
     virtual ~ILesson() {}
 };
 

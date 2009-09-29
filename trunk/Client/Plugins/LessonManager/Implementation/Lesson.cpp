@@ -4,11 +4,7 @@
 
 Lesson::Lesson(FileData *parent) : ILesson(parent), _currentData(NULL), icon(":/Icons/LessonIcon.png")
 {
-#ifdef TEST_METADATA
-	xmlFile = new QFile("./Plugins/LessonManager/metadata_test.xml");
-#else
     xmlFile = parent->file();
-#endif
     QXmlSimpleReader xmlReader;
     QXmlInputSource *source = new QXmlInputSource(xmlFile);
     xmlReader.setContentHandler(this);
@@ -16,6 +12,7 @@ Lesson::Lesson(FileData *parent) : ILesson(parent), _currentData(NULL), icon(":/
     bool ok = xmlReader.parse(source);
     if (ok == false)
         qDebug() << "Error parsing metadata";
+	_fileData = parent;
 }
 
 QVariant Lesson::data(int column, int role) const
