@@ -8,7 +8,7 @@ Settings::Settings()
 
 void Settings::CheckSettings()
 {
-    if (GetSettings("Version", "SETTINGS").toInt() != 5)
+    if (GetSettings("Version", "SETTINGS").toInt() != 6)
     {
             qFatal("Server Configuration not found, try running with     --gen-config");
         }
@@ -38,10 +38,10 @@ void Settings::FirstSetSettings()
     line = streami.readLine();
     //qDebug() << line;
      this->Gsettings.setValue("SQL_DRIVER", (line == "" ? "QMYSQL":line));
-     streamo << "SQL HostName [ hint : chine.4--2.net] : ";
+     streamo << "SQL HostName [ hint : localhost] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SQL_HOSTNAME", (line == "" ? "chine.4--2.net":line));
+     this->Gsettings.setValue("SQL_HOSTNAME", (line == "" ? "localhost":line));
      streamo << "SQL DB Name [ hint : testhorus] : ";
     streamo.flush();
     line = streami.readLine();
@@ -66,7 +66,7 @@ void Settings::FirstSetSettings()
      this->Gsettings.setValue("SRV_PORT", (line == "" ? "42000":line));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
-    this->Gsettings.setValue("Version", "5");
+    this->Gsettings.setValue("Version", "6");
     streamo << "Fullpath to Horus Server diretory[ hint : /opt/Horus/Horus-server/] : ";
     streamo.flush();
     line = streami.readLine();
@@ -112,7 +112,32 @@ void Settings::FirstSetSettings()
                         }
                     }
             this->Gsettings.endGroup();
-        }     
+        }
+
+    this->Gsettings.beginGroup("MAILSMTP");
+    streamo << "Mail SMTP Server Hostname :\n";
+    streamo << "Mail Hostname [ hint : smtp.free.fr] : ";
+    streamo.flush();
+    line = streami.readLine();
+    //qDebug() << line;
+     this->Gsettings.setValue("MAIL_HOSTNAME", (line == "" ? "smtp.free.fr":line));
+     streamo << "Mail Domain [ hint : horus-edu.net] : ";
+    streamo.flush();
+    line = streami.readLine();
+     this->Gsettings.setValue("MAIL_DOMAIN", (line == "" ? "horus-edu.net":line));
+     streamo << "MAIL SMTP port [ hint : 25] : ";
+    streamo.flush();
+    line = streami.readLine();
+     this->Gsettings.setValue("MAIL_PORT", (line == "" ? "25":line));
+     streamo << "MAIL SMTP use ssl-tls y/N [ hint : n] : ";
+    streamo.flush();
+    line = streami.readLine();
+     this->Gsettings.setValue("MAIL_SSLTLS", (line == "" ? "n":line));
+     streamo << "Mail SMTP require login y/N [ hint : n] : ";
+    streamo.flush();
+    line = streami.readLine();
+    this->Gsettings.setValue("MAIL_LOGIN", (line == "" ? "n":line));
+    this->Gsettings.endGroup();
     }
     else
        qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings.fileName();

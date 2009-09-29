@@ -276,6 +276,13 @@ void MainWindow::writesettings()
     QString servport = ui->lineEdit_13->text();
     QString path = ui->lineEdit_16->text();
 
+    QString mailhost = ui->lineEdit_5->text();
+    QString maildmn = ui->lineEdit_6->text();
+    QString mailport = ui->lineEdit_7->text();
+
+    QString mailssl = (ui->checkBox->isChecked() ? "y" : "n");
+    QString maillogin = (ui->checkBox_2->isChecked() ? "y" : "n");
+
 
     QString driver;
     if (ui->sqldriver->currentText() == "MySQL")
@@ -300,7 +307,7 @@ else
     this->Gsettings.setValue("SRV_PORT", (servport));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
-    this->Gsettings.setValue("Version", "5");
+    this->Gsettings.setValue("Version", "6");
     this->Gsettings.setValue("PluginsBase", ( path+"/Plugins/"));
     this->Gsettings.setValue("SoftFullPath", (path+"/"));
     this->Gsettings.endGroup();
@@ -323,6 +330,14 @@ else
 
     }
     this->Gsettings.endGroup();
+    this->Gsettings.beginGroup("MAIL");
+    this->Gsettings.setValue("MAIL_HOSTNAME", (mailhost));
+    this->Gsettings.setValue("MAIL_DOMAIN", (maildmn));
+    this->Gsettings.setValue("MAIL_PORT", (mailport));
+    this->Gsettings.setValue("MAIL_SSLTLS", (mailssl));
+    this->Gsettings.setValue("MAIL_LOGIN", (maillogin));
+    this->Gsettings.endGroup();
+
     this->Gsettings.sync();
 
                     QPalette Pal(ui->label_6->palette());
