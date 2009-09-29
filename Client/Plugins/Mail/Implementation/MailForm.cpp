@@ -63,6 +63,10 @@ MailForm::MailForm(MailDataPlugin *MailPlugin)
 
     this->setLayout(total->layout());
     connect(sendbtn, SIGNAL(clicked()), this, SLOT(mysendmail()));
+    connect(to_value, SIGNAL(textChanged(const QString&)), this, SLOT(validate()));
+    connect(cc_value, SIGNAL(textChanged(const QString&)), this, SLOT(validate()));
+    connect(bcc_value, SIGNAL(textChanged(const QString&)), this, SLOT(validate()));
+    validate();
 }
 
 MailForm::~MailForm()
@@ -71,17 +75,23 @@ MailForm::~MailForm()
 
 void MailForm::mysendmail()
 {
-    //QRegExp mailregexp("\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b");
 
-    //if (to_value->text().contains(mailregexp))
-    //{
 
     QStringList lto;
-    lto.append(to_value->text());
+      if (!to_value->text().isEmpty())
+        lto = to_value->text().split(",");
+
+
+   
     QStringList lcc;
-    lcc.append(cc_value->text());
+      if (!cc_value->text().isEmpty())
+        lcc = cc_value->text().split(",");
     QStringList lbcc;
-    lbcc.append(bcc_value->text());
+      if (!bcc_value->text().isEmpty())
+        lbcc = bcc_value->text().split(",");
+
+
+
 
     MailData *md = _MailPlugin->createMail();
     //MailData *md = new MailData(_MailPlugin);
@@ -104,5 +114,88 @@ void MailForm::mysendmail()
     subject_value->setText("");
     content_value->setText("");
     //}
+}
 
+void MailForm::validate()
+{
+
+    QStringList lto;
+      if (!to_value->text().isEmpty())
+        lto = to_value->text().split(",");
+    QStringList lcc;
+      if (!cc_value->text().isEmpty())
+        lcc = cc_value->text().split(",");
+    QStringList lbcc;
+      if (!bcc_value->text().isEmpty())
+        lbcc = bcc_value->text().split(",");
+    QRegExp mailregexp("^\\s*([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+\\s*$");
+
+    int i = 0;
+    bool cto = false;
+    bool ccc = true;
+    bool cbcc = true;
+
+    if (lto.count() > 0)
+    {
+        foreach (QString mail, lto)
+            if (mail.contains(mailregexp))
+            i++;
+
+        if (lto.count() == i)
+            cto = true;
+        else
+            cto = false;
+        if (lcc.count() > 0)
+        {
+            i = 0;
+            foreach (QString mail, lcc)
+            if (mail.contains(mailregexp))
+            i++;
+
+            if (lcc.count() == i)
+            ccc=true;
+            else
+            ccc=false;
+        }
+        else
+            ccc = true;
+
+        if (lbcc.count() > 0)
+        {
+            i = 0;
+            foreach (QString mail, lbcc)
+            if (mail.contains(mailregexp))
+            i++;
+
+            if (lbcc.count() == i)
+            cbcc=true;
+            else
+            cbcc=false;
+        }
+        else
+            cbcc = true;
+    }
+    else
+       cto = false;
+
+
+    if ((cto == true) && (ccc == true) && (cbcc == true))
+        sendbtn->setEnabled(true);
+    else
+        sendbtn->setEnabled(false);
+
+if (cto == true)
+to_value->setStyleSheet("background: lightgreen;");
+else
+to_value->setStyleSheet("background: salmon;");
+
+if (ccc == true)
+cc_value->setStyleSheet("background: lightgreen;");
+else
+cc_value->setStyleSheet("background: salmon;");
+
+if (cbcc == true)
+bcc_value->setStyleSheet("background: lightgreen;");
+else
+bcc_value->setStyleSheet("background: salmon;");
 }

@@ -98,11 +98,6 @@ void MailData::createIntoDatabase(QSqlQuery& query)
 
 void MailData::saveIntoDatabase(QSqlQuery& query)
 {
-qDebug() << "la je suis passe";
-qDebug() << this->_subject;
-
-
-
      smtp *test1 = new smtp("smtp.free.fr", _plugin->pluginManager->currentUser()->login()+"@horus-edu.net",this->_to , this->_subject, this->_content);
                 test1->setPriority(smtp::high);
                 test1->send();
