@@ -9,6 +9,7 @@
 #include "RoomPage.h"
 #include "AdminTree.h"
 
+#include "UserPage.h"
 //class Administration;
 class AdminMainFrame : public QWidget
 {

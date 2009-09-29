@@ -23,8 +23,11 @@ NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users) : users(_u
         buttonBox->addButton(new QPushButton(tr("Add")), QDialogButtonBox::ActionRole);
         buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
     }
-    completer = new QCompleter(new UserModel(users.getAllUser()), this);
+    completer = new QCompleter(new UserModel(users.getAllUser(), this), this);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
+    userTxt->setCompleter(completer);
 }
 
 void    NodeInfo::setupUi()
@@ -52,7 +55,6 @@ void    NodeInfo::setupUi()
     nodeLayout->setWidget(4, QFormLayout::LabelRole, label_3);
     userTxt = new QLineEdit(this);
 
-    userTxt->setCompleter(completer);
     nodeLayout->setWidget(4, QFormLayout::FieldRole, userTxt);
     mainLayout->addLayout(nodeLayout);
     buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
@@ -83,7 +85,7 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         {
             node.setName(nameTxt->text());
             node.setType(typeTxt->text());
-            node.setUser((UserData*)((completer->currentIndex()).internalPointer()));
+            node.setUser(users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
             node.save();
         }
    }
@@ -109,7 +111,7 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         }
             node.setName(nameTxt->text());
             node.setType(typeTxt->text());
-            node.setUser((UserData*)((completer->currentIndex()).internalPointer()));
+            node.setUser(users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
             node.save();
    }
    else if (button->text() == tr("Cancel"))
