@@ -13,6 +13,9 @@ WhiteBoardData* WhiteBoardDataPlugin::getWhiteBoard(TreeData* node)
 			return wb;
 
 	WhiteBoardData* wb = new WhiteBoardData(node, this);
+#ifdef HORUS_CLIENT
+	wb->moveToThread(this->thread());
+#endif
 	whiteBoards.append(wb);
 	return wb;
 }

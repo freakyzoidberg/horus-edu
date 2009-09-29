@@ -35,9 +35,11 @@ Data* TreeDataBasePlugin::getDataWithKey(QDataStream& s)
 #ifdef HORUS_CLIENT
 void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
-    quint32 tmpId;
-    s >> tmpId;
-    ((TreeDataBase*)(d))->_id = tmpId;
+	TreeDataBase* node = ((TreeDataBase*)(d));
+	nodes.remove(node->_id);
+	s >> node->_id;
+	nodes.insert(node->_id, node);
+	qDebug() << "Tree data Have a New Key" << node->_id;
 }
 
 #include "../../../Client/Plugins/TreeBaseClient/TreeModel.h"

@@ -75,12 +75,11 @@ void FileDataBasePlugin::load()
 
 void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
-    FileDataBase* file = ((FileDataBase*)(d));
-
-    files.remove(file->_id);
-
-    s >> file->_id;
-    files.insert(file->_id, file);
+	FileDataBase* file = ((FileDataBase*)(d));
+	files.remove(file->_id);
+	s >> file->_id;
+	files.insert(file->_id, file);
+	qDebug() << "File data Have a New Key" << file->_id;
 }
 #endif
 #ifdef HORUS_SERVER

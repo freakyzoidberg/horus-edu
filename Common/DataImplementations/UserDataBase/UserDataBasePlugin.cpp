@@ -46,9 +46,11 @@ UserData* UserDataBasePlugin::createUser(const QString &login)
 #ifdef HORUS_CLIENT
 void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
-    quint32 tmpId;
-    s >> tmpId;
-    ((UserDataBase*)(d))->_id = tmpId;
+	UserDataBase* user = ((UserDataBase*)(d));
+	users.remove(user->_id);
+	s >> user->_id;
+	users.insert(user->_id, user);
+	qDebug() << "User data Have a New Key" << user->_id;
 }
 #endif
 #ifdef HORUS_SERVER
