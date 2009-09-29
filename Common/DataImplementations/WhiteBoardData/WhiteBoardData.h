@@ -45,7 +45,9 @@ public:
 
 
 	inline TreeData*			node() const { return _node;  }
+#ifdef HORUS_CLIENT
 	inline WhiteBoardItemList&	items() { return _items; }
+#endif
 	inline SyncMode				syncMode() const { return _syncMode; }
 	inline void					setSyncMode(SyncMode mode) { _syncMode = mode; }
 
@@ -53,7 +55,13 @@ private:
 	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { _node = node; }
 	inline ~WhiteBoardData() {}
 
+#ifdef HORUS_CLIENT
 	WhiteBoardItemList _items;
+#endif
+#ifdef HORUS_SERVER
+	// on the server, do not de-serialize, keep binary to put it in database
+	QByteArray		   _items;
+#endif
 	TreeData*		   _node;
 	SyncMode		   _syncMode;
 };

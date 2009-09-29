@@ -1,8 +1,9 @@
 #include "TreeDataBasePlugin.h"
 #include "TreeDataBase.h"
 
-#include "../../../Common/PluginManager.h"
-#include "../../../Common/Plugin.h"
+#include "../../PluginManager.h"
+#include "../../Plugin.h"
+#include "../../UserData.h"
 
 TreeDataBasePlugin::TreeDataBasePlugin()
 {
@@ -56,10 +57,12 @@ void TreeDataBasePlugin::loadDataBase(QSqlQuery& query)
         TreeDataBase* node = (TreeDataBase*)(getNode(query.value(0).toUInt()));
         node->_type   = query.value(1).toString();
         node->_name   = query.value(2).toString();
-        //node->_user   = query.value(3).toUInt();
+		node->_user   = pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(3).toUInt() );
         node->_status = Data::UPTODATE;
         if (node->_id)
             node->setParent( getNode(query.value(4).toUInt()) );
+		else
+			node->setParent(0);
     }
 }
 

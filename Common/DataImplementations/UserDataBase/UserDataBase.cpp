@@ -23,12 +23,10 @@ void UserDataBase::dataToStream(QDataStream& s) const
       << _address
       << _phone
       << _country
-      << _language;
-    if (_node)
-      s << _node->id();
-    else
-      s << 0;
-    Data::dataToStream(s);
+	  << _language
+	  << _node->id();
+
+	Data::dataToStream(s);
 }
 
 void UserDataBase::dataFromStream(QDataStream& s)
@@ -49,11 +47,7 @@ void UserDataBase::dataFromStream(QDataStream& s)
       >> _language
       >> nodeId;
 
-    TreeDataPlugin* treePlugin = _plugin->pluginManager->findPlugin<TreeDataPlugin*>();
-    if (treePlugin)
-        _node = treePlugin->getNode(nodeId);
-    else
-        _node = 0;
+	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
 
     Data::dataFromStream(s);
 }
@@ -202,11 +196,19 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
 {
     query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
     query.addBindValue(_id);
-    if ( ! query.exec() || ! query.next())
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+		return;
+	}
+	if ( ! query.next())
     {
         _error = NOT_FOUND;
         return;
     }
+
     _login      = query.value(0).toString();
     _level      = (UserLevel)(query.value(1).toUInt());
     _lastLogin  = query.value(2).toDateTime();
@@ -218,13 +220,9 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
     _phone      = query.value(8).toString();
     _country    = query.value(9).toString();
     _language   = query.value(10).toString();
-    TreeDataPlugin* treePlugin = _plugin->pluginManager->findPlugin<TreeDataPlugin*>();
-    if (treePlugin)
-        _node = treePlugin->getNode( query.value(11).toUInt() );
-    else
-        _node = 0;
+	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(11).toUInt() );
     _enabled    = query.value(12).toBool();
-    _lastChange= query.value(13).toDateTime();
+	_lastChange	= query.value(13).toDateTime();
 }
 
 void UserDataBase::createIntoDatabase(QSqlQuery& query)
@@ -241,20 +239,16 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
     query.addBindValue(_phone);
     query.addBindValue(_country);
     query.addBindValue(_language);
-    if (_node)
-        query.addBindValue(_node->id());
-    else
-        query.addBindValue(0);
+	query.addBindValue(_node->id());
     query.addBindValue(_enabled);
-    _lastChange = QDateTime::currentDateTime();
-    query.addBindValue(_lastChange);
-
-	query.addBindValue("7c4a8d09ca3762af61e59520943dc26494f8941b"); // 123456
+	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
+	query.addBindValue("da39a3ee5e6b4b0d3255bfef95601890afd80709"); // = no password
 
 	if ( ! query.exec())
 	{
 		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
+		return;
 	}
 
 	_id = query.lastInsertId().toUInt();
@@ -274,31 +268,34 @@ void UserDataBase::saveIntoDatabase(QSqlQuery& query)
     query.addBindValue(_phone);
     query.addBindValue(_country);
     query.addBindValue(_language);
-    if (_node)
-        query.addBindValue(_node->id());
-    else
-        query.addBindValue(0);
-    query.addBindValue(_enabled);
-    _lastChange = QDateTime::currentDateTime();
-    query.addBindValue(_lastChange);
+	query.addBindValue(_node->id());
+    query.addBindValue(_enabled);    
+	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
     query.addBindValue(_id);
 
     if ( ! query.exec())
     {
-        _error = NOT_FOUND;
+		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
+		return;
     }
+	if ( ! query.numRowsAffected())
+		_error = NOT_FOUND;
 }
 
 void UserDataBase::deleteFromDatabase(QSqlQuery& query)
 {
     query.prepare("DELETE FROM users WHERE id=?;");
     query.addBindValue(_id);
-    if ( ! query.exec() || ! query.next())
-    {
-        _error = NOT_FOUND;
-        return;
-    }
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+		return;
+	}
+	if ( ! query.numRowsAffected())
+		_error = NOT_FOUND;
 }
 
 QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
@@ -312,8 +309,18 @@ QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
     query.addBindValue(session.toHex());
     query.addBindValue(end);
     query.addBindValue(_id);
-    if ( ! query.exec())
-        _error = DATABASE_ERROR;
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+		return QByteArray();
+	}
+	if ( ! query.numRowsAffected())
+	{
+		_error = NOT_FOUND;
+		return QByteArray();
+	}
 
     return session;
 }
@@ -322,8 +329,14 @@ void UserDataBase::destroySession(QSqlQuery& query)
 {
     query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
     query.addBindValue(_id);
-    if ( ! query.exec())
+
+	if ( ! query.exec())
+	{
         _error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+	}
+	if ( ! query.numRowsAffected())
+		_error = NOT_FOUND;
 }
 
 void UserDataBase::updateLastLogin(QSqlQuery& query)
@@ -331,7 +344,13 @@ void UserDataBase::updateLastLogin(QSqlQuery& query)
     query.prepare("UPDATE users SET last_login=? WHERE id=?;");
     query.addBindValue(QDateTime::currentDateTime());
     query.addBindValue(_id);
-    if ( ! query.exec())
-        _error = DATABASE_ERROR;
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+	}
+	if ( ! query.numRowsAffected())
+		_error = NOT_FOUND;
 }
 #endif

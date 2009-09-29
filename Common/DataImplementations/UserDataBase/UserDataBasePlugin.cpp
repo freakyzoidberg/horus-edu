@@ -64,11 +64,7 @@ void UserDataBasePlugin::loadDataBase(QSqlQuery& query)
         user->_phone       = query.value(9).toString();
         user->_country     = query.value(10).toString();
         user->_language    = query.value(11).toString();
-        TreeDataPlugin* treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
-        if (treePlugin)
-            user->_node = treePlugin->getNode( query.value(12).toUInt() );
-        else
-            user->_node = 0;
+		user->_node        = pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(12).toUInt() );
         user->_enabled     = query.value(13).toBool();
         user->_lastChange  = query.value(14).toDateTime();
         user->_status      = Data::UPTODATE;

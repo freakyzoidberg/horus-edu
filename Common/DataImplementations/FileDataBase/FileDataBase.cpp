@@ -80,35 +80,49 @@ QDebug FileDataBase::operator<<(QDebug debug) const
 #ifdef HORUS_SERVER
 void FileDataBase::fillFromDatabase(QSqlQuery& query)
 {
-//    query.prepare("SELECT name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files WHERE id=?;");
-//    query.addBindValue(nodeId);
-//    if ( ! query.exec() || ! query.next())
-//    {
-//        _error = NOT_FOUND;
-//        return;
-//    }
-//    _name   = query.value(0).toString();
-//    _mimeType   = query.value(1).toString();
-//    _size   = query.value(2).toUInt();
-//    userId = query.value(2).toUInt();
-//    setParent( ((FileDataBasePlugin*)(_plugin))->getNode(query.value(3).toUInt()) );
-//    ((FileDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
-//    while (query.next())
-//        ((FileDataBasePlugin*)(_plugin))->getNode(query.value(4).toUInt())->setParent(this);
+	query.prepare("SELECT name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files WHERE id=?;");
+	query.addBindValue(_id);
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+		return;
+	}
+	if ( ! query.next())
+	{
+		_error = NOT_FOUND;
+		return;
+	}
+
+	_name		= query.value(0).toString();
+	_mimeType	= query.value(1).toString();
+	_size		= query.value(2).toUInt();
+	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(3).toUInt() );
+	_owner		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(4).toUInt() );
+	_hash		= query.value(5).toByteArray();
+	_lastChange	= query.value(5).toDateTime();
 }
 
 void FileDataBase::createIntoDatabase(QSqlQuery& query)
 {
-//    query.prepare("INSERT INTO File (typeofnode,name,user_ref,id_parent) VALUES (?,?,?,?);");
-//    query.addBindValue(type);
-//    query.addBindValue(name);
-//    query.addBindValue(userId);
-//    query.addBindValue(((FileDataBase*)parent())->getId());
-//    if ( ! query.exec() || ! query.next())
-//    {
-//        _error = DATABASE_ERROR;
-//        return;
-//    }
+	query.prepare("INSERT INTO files (name,mime,size,id_tree,id_owner,hash_sha1,mtime) VALUES (?,?,?,?,?,?,?);");
+	query.addBindValue(_name);
+	query.addBindValue(_mimeType);
+	query.addBindValue(_size);
+	query.addBindValue(_node->id());
+	query.addBindValue(_owner->id());
+	query.addBindValue(_hash.toHex());
+	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+		return;
+	}
+
+	_id = query.lastInsertId().toUInt();
 }
 
 void FileDataBase::saveIntoDatabase(QSqlQuery& query)
@@ -120,27 +134,32 @@ void FileDataBase::saveIntoDatabase(QSqlQuery& query)
 	query.addBindValue(_node->id());
 	query.addBindValue(_owner->id());
     query.addBindValue(_hash.toHex());
-
-	_lastChange = QDateTime::currentDateTime();
-	query.addBindValue(_lastChange);
-
+	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
 	query.addBindValue(_id);
-    if ( ! query.exec())
-    {
-        _error = NOT_FOUND;
-        return;
-    }
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+		return;
+	}
+	if ( ! query.numRowsAffected())
+		_error = NOT_FOUND;
 }
 
 void FileDataBase::deleteFromDatabase(QSqlQuery& query)
 {
-//    query.prepare("DELETE FROM File WHERE id=?;");
-//    query.addBindValue(nodeId);
-//    if ( ! query.exec() || ! query.next())
-//    {
-//        _error = NOT_FOUND;
-//        return;
-//    }
+	query.prepare("DELETE FROM File WHERE id=?;");
+	query.addBindValue(_id);
+
+	if ( ! query.exec())
+	{
+		_error = DATABASE_ERROR;
+		qDebug() << query.lastError();
+		return;
+	}
+	if ( ! query.numRowsAffected())
+		_error = NOT_FOUND;
 }
 #endif
 
@@ -201,7 +220,6 @@ void FileDataBase::moveTo(TreeData* node)
 #ifdef HORUS_CLIENT
 void FileDataBase::download()
 {
-    qDebug() << "File::download()";
     _netPlugin->askForDownload(this);
     _isDownloaded = false;
 }
@@ -257,7 +275,6 @@ void FileDataBase::uploadAuthorized(const QByteArray& key)
 
 void FileDataBase::connexionBytesWritten(qint64 len)
 {
-//    qDebug() << "File::connexionByteWritten(" << len << ")";
     QByteArray buff = _file.read(len);
     if (buff.length())
         _socket.write(buff);

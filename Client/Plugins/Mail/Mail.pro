@@ -19,7 +19,6 @@ HEADERS += Implementation/Mail.h \
     Implementation/MailPanel.h \
     Implementation/MailList.h \
     Implementation/MailForm.h \
-    ../../../Common/Data.h \
     ../../../Common/DataImplementations/MailData/MailItem.h \
     ../../../Common/DataImplementations/MailData/MailDataPlugin.h \
     ../../../Common/DataImplementations/MailData/MailData.h \
