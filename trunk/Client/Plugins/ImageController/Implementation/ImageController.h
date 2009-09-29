@@ -25,7 +25,7 @@ public:
         QWidget*		createDocumentWidget(IItems *parent, ILessonDocument *document);
         void                    resizeWidget(IItems *);
         void                    clean(IItems *);
-        QWidget                 *editDocument(QFile *metadata, QWidget *parent, ILessonDocument *);
+        QWidget                 *editDocument(QFile *metadata, IItems *parent, ILessonDocument *);
 
  private slots:
         void                    dl();

@@ -1,5 +1,5 @@
 #include "PdfController.h"
-#include "editorpdf.h"
+#include "../editorpdf.h"
 
 #include <QFileDialog>
 #include <QDebug>
