@@ -26,7 +26,7 @@ void    UserPage::ShowTreeMenu(const QPoint& pnt)
     if (!node)
     {
         UserData* user = qobject_cast<UserData*>(ckdData);
-        if (mainTree->indexAt(pnt).isValid())
+        if (userTree->indexAt(pnt).isValid())
         {
                 QAction *editUser = new QAction(QIcon(":/images/pencil.png"), tr("&Edit User..."), this);
                 editUser->setShortcuts(QKeySequence::New);
