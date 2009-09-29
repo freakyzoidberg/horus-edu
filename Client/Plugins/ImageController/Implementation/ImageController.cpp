@@ -86,7 +86,7 @@ void    ImageController::resizeWidget(IItems *widget)
 
 }
 
- QWidget        *ImageController::editDocument(QFile *file, QWidget *parent, ILessonDocument *doc)
+ QWidget        *ImageController::editDocument(QFile *file, IItems *parent, ILessonDocument *doc)
 {
     QString     fileName = file->fileName();
     QLabel      *editLabel = new QLabel("Loading image...", parent);
