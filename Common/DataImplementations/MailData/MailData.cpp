@@ -10,6 +10,7 @@ void MailData::keyToStream(QDataStream& s)
 
 void MailData::dataToStream(QDataStream& s) const
 {
+
     s << _id
     << _to
     << _cc
@@ -34,6 +35,7 @@ void MailData::dataFromStream(QDataStream& s)
 QDebug MailData::operator<<(QDebug debug) const
 {
         return debug << tr("MailData::") << _id;
+
 }
 
 #ifdef HORUS_CLIENT
@@ -57,7 +59,9 @@ QVariant MailData::data(int column, int role) const
 
 #endif
 
+
 #ifdef HORUS_SERVER
+#include "../../../Server/Plugins/MailServer/Implementation/smtp.h"
 void MailData::fillFromDatabase(QSqlQuery& query)
 {
 //    query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
@@ -89,21 +93,21 @@ void MailData::fillFromDatabase(QSqlQuery& query)
 
 void MailData::createIntoDatabase(QSqlQuery& query)
 {
-qDebug() << "la je suis passe";
-//
-// QStringList mylist;
-//    mylist.append(dest);
-//     smtp *test1 = new smtp(host, sender,mylist , subject, content);
-//                test1->setPriority(smtp::high);
-//                test1->send();
-//                delete test1;
-//    return true;
+
 }
 
 void MailData::saveIntoDatabase(QSqlQuery& query)
 {
-    qDebug() << "ok ca c est appele";
+qDebug() << "la je suis passe";
 qDebug() << this->_subject;
+
+
+
+     smtp *test1 = new smtp("smtp.free.fr", _plugin->pluginManager->currentUser()->login()+"@horus-edu.net",this->_to , this->_subject, this->_content);
+                test1->setPriority(smtp::high);
+                test1->send();
+                delete test1;
+
 }
 
 void MailData::deleteFromDatabase(QSqlQuery& query)

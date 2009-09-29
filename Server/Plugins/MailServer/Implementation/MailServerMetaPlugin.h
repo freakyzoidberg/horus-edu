@@ -2,7 +2,6 @@
 #define MAILSERVERMETAPLUGIN_H
 
 #include "../../../../Common/MetaPlugin.h"
-
 #include "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 
 class MailServerMetaPlugin : public MetaPlugin
