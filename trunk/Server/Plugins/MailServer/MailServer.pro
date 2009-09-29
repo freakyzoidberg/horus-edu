@@ -14,11 +14,11 @@ SOURCES += Implementation/smtp.cpp \
 HEADERS += Implementation/MailServerMetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
-    ../../../Common/Data.h \
+	../../../Common/Data.h \
     ../../../Common/UserData.h \
     ../../../Common/MetaPlugin.h \
-    ../../../Common/AbstractManager.h \
-    Implementation/smtp.h \
+	../../../Common/AbstractManager.h \
+	Implementation/smtp.h \
     ../../../Common/DataImplementations/MailData/MailItem.h \
     ../../../Common/DataImplementations/MailData/MailDataPlugin.h \
     ../../../Common/DataImplementations/MailData/MailData.h \
