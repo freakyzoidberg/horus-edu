@@ -179,7 +179,6 @@ QWidget      *PdfController::editDocument(QFile *metadata, IItems *parent, ILess
     if (!image)
     {
        qDebug() << "Call the shot";
-       delete rect;
        return NULL;
     }
 

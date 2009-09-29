@@ -12,8 +12,8 @@ void EditorPdf::mousePressEvent(QMouseEvent *event)
      QPoint origin = event->pos();
      if (!rubberBand)
          rubberBand = new QRubberBand(QRubberBand::Rectangle, this);
-     rubberBand->setGeometry(QRect(origin, QSize()));
-     rubberBand->show();
+   //  rubberBand->setGeometry(QRect(origin, QSize()));
+   //  rubberBand->show();
  }
 
  void EditorPdf::mouseMoveEvent(QMouseEvent *event)
