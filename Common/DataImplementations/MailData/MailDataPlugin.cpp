@@ -50,8 +50,8 @@ void MailDataPlugin::dataHaveNewKey(Data*d, QDataStream& s)
 }
 #endif
 #ifdef HORUS_SERVER
-void WhiteBoardDataPlugin::loadDataBase(QSqlQuery& query)
-//{
+void MailDataPlugin::loadDataBase(QSqlQuery& query)
+{
 //        query.prepare("SELECT id_tree,mode,items,mtime FROM white_board;");
 //        if ( ! query.exec())
 //        {
@@ -68,7 +68,7 @@ void WhiteBoardDataPlugin::loadDataBase(QSqlQuery& query)
 //        }
 }
 
-void WhiteBoardDataPlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+void MailDataPlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
 {
 //	foreach (WhiteBoardData* data, whiteBoards)
 //		if (data->lastChange() >= date)

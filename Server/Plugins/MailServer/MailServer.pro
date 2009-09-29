@@ -22,6 +22,4 @@ HEADERS += Implementation/MailServerMetaPlugin.h \
     ../../../Common/DataImplementations/MailData/MailItem.h \
     ../../../Common/DataImplementations/MailData/MailDataPlugin.h \
     ../../../Common/DataImplementations/MailData/MailData.h \
-    ../../../Common/PluginManager.h \
-    ../../../Common/Plugin.h \
     ../../../Common/DataPlugin.h
