@@ -11,20 +11,21 @@
 AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users)
 {
     users = _users;
+    ndPnl = 0;
+    usrPnl = 0;
     mainLayout = new QHBoxLayout(this);
     mainTree = new QTreeView();
     mainLayout->addWidget(mainTree);
     mainTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
-    mainTree->expandAll();
+    //mainTree->expandAll();
     mainTree->setMinimumWidth(200);
     mainTree->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(mainTree, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(ShowTreeContextMenu(const QPoint&)));
+    //mainTree->clearSelection();
     connect(mainTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nodeSelected(QModelIndex)));
     groupBox = new QStackedWidget();
     mainLayout->setStretch(1, 1);
-    mainTree->clearSelection();
-    ndPnl = 0;
-    usrPnl = 0;
+    //closePanel();
 }
 
 void    AdminTree::closePanel()
@@ -49,7 +50,6 @@ void AdminTree::nodeSelected(const QModelIndex &nodeIndex)
     }
     else
     {
-
         editNode();
     }
 

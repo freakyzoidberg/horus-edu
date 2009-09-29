@@ -13,7 +13,8 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/UserModel.cpp \
     Implementation/UserForm.cpp \
     Implementation/NodeInfo.cpp \
-    Implementation/FileFram.cpp
+    Implementation/FileFram.cpp \
+    Implementation/UserPage.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/RoomPage.h \
@@ -34,7 +35,8 @@ HEADERS += Implementation/Administration.h \
     Implementation/UserModel.h \
     Implementation/UserForm.h \
     Implementation/NodeInfo.h \
-    Implementation/FileFram.h
+    Implementation/FileFram.h \
+    Implementation/UserPage.h
 RESOURCES += Implementation/AdminMainFrame.qrc
 TRANSLATIONS = Administration_en.ts \
     Administration_fr.ts

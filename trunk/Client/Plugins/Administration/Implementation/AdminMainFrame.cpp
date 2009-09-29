@@ -11,12 +11,13 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     contentsWidget->setViewMode(QListView::IconMode);
     contentsWidget->setIconSize(QSize(20, 20));
     contentsWidget->setMovement(QListView::Static);
-    contentsWidget->setMaximumWidth(75);
+    contentsWidget->setMaximumWidth(80);
     contentsWidget->setSpacing(2);
     contentsWidget->setUniformItemSizes(true);
 
     framesWidget = new QStackedWidget;
     framesWidget->addWidget(new AdminTree(tree, users));
+    framesWidget->addWidget(new UserPage(tree, users));
     framesWidget->addWidget(new RoomPage(tree));
 
 
@@ -38,6 +39,11 @@ void AdminMainFrame::createIcons()
     treeButton->setText(tr("Tree View"));
     treeButton->setTextAlignment(Qt::AlignHCenter);
 
+    QListWidgetItem *userButton = new QListWidgetItem(contentsWidget);
+    userButton ->setIcon(QIcon(":/images/User Group.png"));
+    userButton ->setText(tr("Manage Users"));
+    userButton ->setTextAlignment(Qt::AlignHCenter);
+    userButton ->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
     QListWidgetItem *queryButton = new QListWidgetItem(contentsWidget);
     queryButton->setIcon(QIcon(":/images/Clipboard.png"));
