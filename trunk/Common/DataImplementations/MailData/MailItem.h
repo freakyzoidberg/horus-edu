@@ -5,6 +5,7 @@
 
 class MailItem
 {
+
 public:
         inline MailItem(quint32 id, QStringList dest, QStringList cc, QStringList bcc, QString content)
                                                         { _id=id;   _dest=dest;    _cc=cc;  _bcc=bcc; _content=content;}
