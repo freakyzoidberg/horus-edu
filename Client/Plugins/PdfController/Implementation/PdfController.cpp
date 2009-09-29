@@ -161,7 +161,7 @@ void         PdfController::resizeWidget(IItems *widget)
 
 }
 
-QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILessonDocument *)
+QWidget      *PdfController::editDocument(QFile *metadata, IItems *parent, ILessonDocument *doc)
 {
     QString     fileName;
     QImage      *image;
@@ -174,8 +174,8 @@ QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILes
         return NULL;
     }
 
-    fileName = data->file()->fileName();
-    image = pdf->PdfDisplayerDoc(fileName, page);
+    fileName = metadata->fileName();
+    image = pdf->PdfDisplayerDoc(fileName, 3);
     if (!image)
     {
        qDebug() << "Call the shot";
@@ -187,8 +187,8 @@ QWidget      *PdfController::editDocument(QFile *metadata, QWidget *parent, ILes
     QPixmap pix = QPixmap::fromImage(*image);
 
     pdfEdit->setPixmap(pix);
-    delete rect;
-    delete image;
-   // connect(label);
+   // delete rect;
+   //delete image;
+   // connect(label);*/
     return pdfEdit;
 }

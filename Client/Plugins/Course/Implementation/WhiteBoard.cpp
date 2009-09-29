@@ -1,6 +1,7 @@
 #include "WhiteBoard.h"
 
 #include <QDebug>
+#include <QPushButton>
 
 #include "LessonDocument.h"
 #include "Items.h"
@@ -20,7 +21,21 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
     p.setColor(QPalette::Background, Qt::white);
     this->setPalette(p);
 
-	QObject::connect(wbdata, SIGNAL(updated()), this, SLOT(update()));
+    QObject::connect(wbdata, SIGNAL(updated()), this, SLOT(update()));
+
+    QPushButton *testicule = new QPushButton("edtion pdf", this);
+    connect(testicule, SIGNAL(clicked()), this, SLOT(calltheshot()));
+}
+
+void    WhiteBoard::calltheshot()
+{
+    QHash<QString, QVariant> parameters;
+    Items *item = new Items(this, 1, "Pdf", "testpdf");
+    QFile *merde = new QFile("/tmp/1");
+    ILessonDocument *doc = new LessonDocument(this, 1, "cmbdtc", "Pdf", "null", parameters);
+    doc->setId(1);
+    QWidget *docWidget = this->_controllers["Pdf"]->editDocument(merde, item, doc);
+    item->show();
 }
 
 void   WhiteBoard::setTmp(Items *item)

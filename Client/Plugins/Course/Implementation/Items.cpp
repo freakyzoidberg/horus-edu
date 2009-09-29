@@ -26,7 +26,7 @@ Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
 
     this->setStyleSheet("Items{border: 1px dotted #888888;}");
     this->connect(closeItem, SIGNAL(clicked()), this, SLOT(deleteWidgets()));
-	this->connect(closeItem, SIGNAL(clicked()), this, SIGNAL(destroyed()));
+    this->connect(closeItem, SIGNAL(clicked()), this, SIGNAL(destroyed()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
     this->setMinimumHeight(25);
     this->setMinimumWidth(45);

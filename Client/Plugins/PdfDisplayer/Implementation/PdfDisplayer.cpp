@@ -91,7 +91,7 @@ QImage    *PdfDisplayer::PdfDisplayerDoc(quint32 fileId, int page,
 
 QImage    *PdfDisplayer::PdfDisplayerDoc(const QString & fileName, int page)
 {
-     QFileInfo    filePath(fileName);
+    QFileInfo    filePath(fileName);
     QMap<quint32, IPdfFile *>::iterator it;
 
     if (!filePath.isAbsolute())
@@ -101,6 +101,8 @@ QImage    *PdfDisplayer::PdfDisplayerDoc(const QString & fileName, int page)
             return NULL;
         }
     quint32 fileId = fileName.toInt();
+
+    fileId = 1;
 
     if ((it = pdfFiles->find(fileId)) == pdfFiles->end())
         it = pdfFiles->insert(fileId, new PdfFile(filePath.filePath()));
