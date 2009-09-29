@@ -1,21 +1,15 @@
 #include "LessonModel.h"
 
 #include <QMimeData>
-
-#include "Implementation/Lesson.h"
-#include "ILessonDocument.h"
+#include <iostream>
 
 #include "../../../Common/UserData.h"
 
 LessonModel::LessonModel(PluginManager* pluginManager)
 {
     this->pluginManager = pluginManager;
-#ifdef TEST_METADATA
-    rootItem = new Lesson((FileData *)NULL);
-#else
-    rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
+	rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
 	filePlugin = pluginManager->findPlugin<FileDataPlugin*>();
-#endif
 }
 
 int LessonModel::columnCount ( const QModelIndex & parent) const
@@ -139,12 +133,15 @@ QModelIndex LessonModel::index ( int row, int column, const QModelIndex & parent
 			if (file->mimeType() == "x-horus/x-lesson")
 			{
 				if (row == count)
-					return createIndex(row, column, new Lesson(file));
+				{
+					Lesson *lesson = new Lesson(file);
+					return createIndex(row, column, lesson);
+				}
 				count++;
 			}
 		}
 	}
-	qDebug() << "too many rows there";
+	qDebug() << "[LessonModel] too many rows there";
 	return createIndex(row, column, ((QObject*)(parent.internalPointer()))->children().at(row));
 }
 
@@ -152,30 +149,37 @@ QModelIndex LessonModel::parent ( const QModelIndex & index ) const
 {
     QObject* obj = (QObject*)(index.internalPointer());
 
-	ILesson* lesson = qobject_cast<ILesson *>(obj);
-	if (lesson)
-	{
-		UserData* user = pluginManager->currentUser();
-		FileData* fpar = qobject_cast<FileData *>(lesson->parent());
-		TreeData* tdata = fpar->node();
-		int count = tdata->children().count();
-		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
-		foreach (FileData* file, files)
-		{
-			if (file->id() == fpar->id())
-			{
-				return createIndex(count, 0, tdata);
-			}
-			count++;
-		}
-	}
-
     if (obj == rootItem)
         return QModelIndex();
 
     if (obj->parent() == rootItem)
         return createIndex(0, 0, rootItem);
 
-    obj = obj->parent();
+	Lesson* lesson = qobject_cast<Lesson *>(obj);
+	if (lesson)
+		obj = lesson->getFiledata()->node();
+	else
+		obj = obj->parent();
+
+	lesson = qobject_cast<Lesson *>(obj);
+	if (lesson)
+	{
+		UserData* user = pluginManager->currentUser();
+		FileData* fdata = lesson->getFiledata();
+		TreeData* tdata = fdata->node();
+		int count = tdata->children().count();
+		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
+		foreach (FileData* file, files)
+		{
+			if (file->id() == fdata->id())
+			{
+				return createIndex(count, 0, lesson);
+			}
+			if (file->mimeType() == "x-horus/x-lesson")
+			{
+				count++;
+			}
+		}
+	}
     return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
 }

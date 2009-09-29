@@ -12,8 +12,8 @@ class ILessonSection : public ILessonData
     Q_OBJECT
 
 public:
-    ILessonSection(ILesson *parent);
-    ILessonSection(ILessonSection *parent);
+	inline ILessonSection(ILesson *parent) : ILessonData(parent) {}
+	inline ILessonSection(ILessonSection *parent) : ILessonData(parent) {}
 };
 
 #endif // ILESSONSECTION_H
