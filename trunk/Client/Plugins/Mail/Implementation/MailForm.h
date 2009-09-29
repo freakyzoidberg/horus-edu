@@ -27,6 +27,7 @@ private :
 
 private slots:
         void mysendmail();
+        void validate();
 
 };
 
