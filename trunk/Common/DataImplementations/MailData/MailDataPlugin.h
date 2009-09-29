@@ -18,12 +18,12 @@ class MailDataPlugin : public DataPlugin
 #endif
 
 public:
-        inline const QString pluginName()    const { return "Mail Data Plugin"; }
+        inline const QString pluginName()    const { return "MailDataPlugin"; }
 	inline const QString pluginVersion() const { return "0.1"; }
         inline const QString getDataType()   const { return "MailData"; }
 
-        MailData*      getMail(TreeData* node);
-        MailData*      getMail(quint32 nodeId);
+
+        MailData*      getMail(quint32 i);
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif

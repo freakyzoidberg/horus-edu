@@ -2,7 +2,7 @@
 #include "../../../../Common/DataImplementations/MailData/MailData.h"
 MailForm::MailForm(MailDataPlugin *MailPlugin)
 {
-    qDebug() << "h";
+    ;
     _MailPlugin = MailPlugin;
     QVBoxLayout *total = new QVBoxLayout();
     QHBoxLayout *ligne1 = new QHBoxLayout();
