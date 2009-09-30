@@ -14,6 +14,11 @@ JoinWhiteBoard::JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager) : 
 	proxyModel->setFilterKeyColumn(1);
 	proxyModel->setSourceModel(model);
 	this->ui.treeView->setModel(proxyModel);
+	this->ui.treeView->expandAll();
+	this->ui.treeView->setAnimated(true);
+    this->ui.treeView->setAutoExpandDelay(500);
+	this->ui.treeView->setRootIsDecorated(false);
+    this->ui.treeView->setHeaderHidden(true);
 	connect(this->ui.button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 }
 

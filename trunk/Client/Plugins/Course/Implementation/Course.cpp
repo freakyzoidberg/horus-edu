@@ -42,13 +42,6 @@ bool	Course::canLoad() const
 
 void	Course::load()
 {
-	this->parent = new QWidget();
-	this->layout = new QVBoxLayout(this->parent);
-	// following segfault...
-	//this->user = pluginManager->currentUser();
-	//connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
-	//if (this->user->status() == Data::UPTODATE)
-	//	this->createWidget();
     Plugin::load();
 }
 
@@ -62,7 +55,7 @@ void	Course::createWidget()
 	switch (this->user->level())
 	{
 	case LEVEL_TEACHER:
-		this->widget = new CreateWhiteBoard();
+		this->widget = new CreateWhiteBoard(this->parent, this->pluginManager);
 		break ;
 	case LEVEL_STUDENT:
 		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager);
@@ -75,7 +68,6 @@ void	Course::createWidget()
 		this->layout->addWidget(this->widget);
 		connect(this->widget, SIGNAL(whiteBoardJoined(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
 	}
-	//this->widget = new CourseWidget(lessonPlugin, treePlugin, whiteboardPlugin, _controllers);
 }
 
 void	Course::userUpdate()
@@ -86,12 +78,10 @@ void	Course::userUpdate()
 
 QWidget             *Course::getWidget()
 {
-	// remove the following lines when core stop to delete widgets
 	this->user = pluginManager->currentUser();
-	connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
-	if (this->user->status() == Data::UPTODATE)
-		this->createWidget();
-	// to here
+	this->parent = new QWidget();
+	this->layout = new QVBoxLayout(this->parent);
+	this->createWidget();
 	return (this->parent);
 }
 
@@ -99,6 +89,17 @@ void				Course::joinWhiteBoard(WhiteBoardData *whiteBoardData)
 {
 	delete this->widget;
 	this->widget = new CourseWidget(this->parent, whiteBoardData, this->pluginManager);
+	this->back = new QPushButton(tr("Back"));
 	this->layout->addWidget(this->widget);
+	this->layout->addWidget(this->back);
 	this->widget->show();
+	this->back->show();
+	connect(this->back, SIGNAL(clicked()), this, SLOT(goBack()));
+}
+
+void				Course::goBack()
+{
+	delete this->back;
+	delete this->widget;
+	this->createWidget();
 }
