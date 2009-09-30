@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/" >
-        <file>dump-mysql.sql</file>
         <file>dump-pgsql.sql</file>
+        <file>dump-mysql.sql</file>
     </qresource>
 </RCC>
