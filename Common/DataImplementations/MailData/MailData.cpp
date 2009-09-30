@@ -104,16 +104,10 @@ void MailData::saveIntoDatabase(QSqlQuery& query)
          test1->setCc(_cc);
          test1->setBcc(_bcc);
                 test1->setPriority(smtp::high);
-
-
-                test1->setSmtpServer("smtp.gmail.com");
-
-                test1->setLogin("login", "pass");
-
-                test1->setPort(587);
-
-                test1->setSsl(true);
-
+                test1->setSmtpServer("localhost");
+                //test1->setLogin("login", "pass");
+                //test1->setPort(25);
+                //test1->setSsl(true);
                 test1->send();
                 qDebug() << test1->lastError();
                 delete test1;
