@@ -188,4 +188,5 @@ case $me in
 	;;
     *)
 	echo -e "$JAUNE" " ... Edit the buildall to set where to copy your files after L151..." "$NORMAL"
+	;;
 esac
