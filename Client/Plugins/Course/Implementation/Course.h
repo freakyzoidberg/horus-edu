@@ -6,6 +6,7 @@
 # include <QHash>
 # include <QString>
 # include <QBoxLayout>
+# include <QPushButton>
 
 # include "../../../DisplayablePlugin.h"
 # include "../../../../Common/PluginManager.h"
@@ -43,10 +44,12 @@ private:
 	QBoxLayout			*layout;
 	QWidget				*parent;
 	QWidget				*widget;
+	QPushButton			*back;
 
 private slots:
 	void				userUpdate();
 	void				joinWhiteBoard(WhiteBoardData *whiteBoardData);
+	void				goBack();
 };
 
 #endif // Course_H
