@@ -4,6 +4,7 @@
 #include <QTreeView>
 #include <QDebug>
 #include <QVBoxLayout>
+#include <QMenu>
 
 CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager) : QSplitter(parent)
 {
@@ -43,11 +44,18 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
 	this->categoryView->setRootIndex(this->categoryModel->index(0, 0, this->categoryView->rootIndex()));
     this->categoryView->setDragEnabled(true);
-	//this->categoryView->expandAll();
-    connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(lessonSelected(QModelIndex)));
+	this->categoryView->setContextMenuPolicy(Qt::CustomContextMenu);
+	QObject::connect(this->categoryView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenu(QPoint)));
+	this->categoryView->expandAll();
 }
 
-void CourseWidget::lessonSelected(const QModelIndex &lessonIndex)
+void CourseWidget::contextMenu(const QPoint &point)
 {
-
+	QModelIndex idx = this->categoryView->currentIndex();
+	if (idx.isValid())
+	{
+		QList<QAction *> actions;
+		actions.insert(actions.end(), new QAction("pwet", NULL));
+		QMenu::exec(actions, this->categoryView->mapToGlobal(point));
+	}
 }
