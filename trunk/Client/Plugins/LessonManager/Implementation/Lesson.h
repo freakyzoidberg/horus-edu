@@ -16,7 +16,7 @@ class Lesson : public ILesson, public QXmlDefaultHandler
     Q_OBJECT
 
 public:
-    Lesson(FileData *parent);
+	static Lesson* createLesson(FileData *);
 
     QVariant data(int column, int role) const;
 
@@ -27,10 +27,12 @@ public:
 	FileData *getFiledata() { return _fileData; }
 
 private:
+	Lesson(FileData *parent);
     QFile *xmlFile;
     ILessonData *_currentData;
 	FileData *_fileData;
-    QIcon icon;
+	static QIcon *icon;
+	static QHash<FileData *, Lesson *> lessons;
 };
 
 #endif // LESSON_H

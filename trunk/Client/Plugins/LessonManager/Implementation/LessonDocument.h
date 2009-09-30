@@ -28,7 +28,7 @@ private:
     QString 	content;
     QString     type;
 	int			_id;
-    QIcon       icon;
+	static QIcon *icon;
 };
 
 #endif // LESSONDOCUMENT_H

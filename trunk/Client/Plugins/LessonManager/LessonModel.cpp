@@ -136,7 +136,7 @@ QModelIndex LessonModel::index ( int row, int column, const QModelIndex & parent
 			{
 				if (row == count)
 				{
-					Lesson *lesson = new Lesson(file);
+					Lesson *lesson = Lesson::createLesson(file);
 					return createIndex(row, column, lesson);
 				}
 				count++;
