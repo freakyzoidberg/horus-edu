@@ -1,5 +1,6 @@
 #include "Course.h"
 
+#include "../../../../Common/Defines.h"
 #include "CreateWhiteBoard.h"
 #include "JoinWhiteBoard.h"
 
@@ -44,10 +45,10 @@ void	Course::load()
 	foreach (IDocumentController *controller, controllersList)
 		this->_controllers[controller->getSupportedType()] = controller;
 	// following segfault...
-	this->user = pluginManager->currentUser();
-	connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
-	if (this->user->status() == Data::UPTODATE)
-		this->createWidget();
+	//this->user = pluginManager->currentUser();
+	//connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
+	//if (this->user->status() == Data::UPTODATE)
+	//	this->createWidget();
     Plugin::load();
 }
 
@@ -60,14 +61,15 @@ void	Course::createWidget()
 {
 	switch (this->user->level())
 	{
-	case 2: // Teacher
+	case UserLevel::LEVEL_TEACHER:
 		this->widget = new CreateWhiteBoard();
 		break ;
-	case 3: // Student
-		this->widget = new JoinWhiteBoard();
+	case UserLevel::LEVEL_STUDENT:
+		this->widget = new JoinWhiteBoard(this->pluginManager);
 		break ;
 	default :
 		this->widget = 0;
+		this->widget = new JoinWhiteBoard(this->pluginManager); // to delete
 	}
 	//this->widget = new CourseWidget(lessonPlugin, treePlugin, whiteboardPlugin, _controllers);
 }
@@ -81,9 +83,10 @@ void	Course::userUpdate()
 QWidget             *Course::getWidget()
 {
 	// remove the following lines when core stop to delete widgets
-	//this->user = pluginManager->currentUser();
-	//connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
-	//if (this->user->status() == Data::UPTODATE)
+	this->user = pluginManager->currentUser();
+	connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
+	if (this->user->status() == Data::UPTODATE)
 		this->createWidget();
+	// to here
 	return (this->widget);
 }

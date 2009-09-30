@@ -26,7 +26,7 @@ MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
     //if (tree)
     //{
     //    QTreeView *tv = new QTreeView();
-    //    tv->setModel(tree->getTreeModel());
+    //    tv->setModel(tree->getWhiteBoardModel());
     //    layout->setRowStretch(2, 0);
     //    layout->addWidget(tv, 2, 0);
 
