@@ -6,14 +6,15 @@ TARGET = Course
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Course.cpp \
-	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp \
-	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.cpp \
+    ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp \
+    ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.cpp \
     Implementation/LessonDocument.cpp \
     Implementation/CourseWidget.cpp \
     Implementation/WhiteBoard.cpp \
     Implementation/CreateWhiteBoard.cpp \
     Implementation/JoinWhiteBoard.cpp \
-	Implementation/Items.cpp
+    Implementation/Items.cpp \
+    Implementation/WhiteBoardModel.cpp
 HEADERS += Implementation/Course.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
@@ -25,9 +26,9 @@ HEADERS += Implementation/Course.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
-	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h \
-	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h \
-	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h \
+    ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h \
+    ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h \
+    ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h \
     ../../DisplayablePlugin.h \
     ../LessonManager/ILessonDocument.h \
     ../LessonManager/ILessonData.h \
@@ -35,12 +36,13 @@ HEADERS += Implementation/Course.h \
     Implementation/CourseMetaPlugin.h \
     Implementation/LessonDocument.h \
     Implementation/Items.h \
-	Implementation/WhiteBoard.h \
-	Implementation/CreateWhiteBoard.h \
-	Implementation/JoinWhiteBoard.h \
-    IItems.h
+    Implementation/WhiteBoard.h \
+    Implementation/CreateWhiteBoard.h \
+    Implementation/JoinWhiteBoard.h \
+    IItems.h \
+    Implementation/WhiteBoardModel.h
 RESOURCES += Implementation/Course.qrc
 FORMS += Implementation/Ui/CreateWhiteBoard.ui \
-		 Implementation/Ui/JoinWhiteBoard.ui
+    Implementation/Ui/JoinWhiteBoard.ui
 TRANSLATIONS = Course_en.ts \
-			   Course_fr.ts
+    Course_fr.ts

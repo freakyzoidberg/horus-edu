@@ -13,7 +13,7 @@ QVariant LessonDocument::data(int column, int role) const
     if (role == Qt::DisplayRole)
         return QVariant(getTitle());
     else if (role == Qt::DecorationRole)
-        return QVariant(icon);
+		return QVariant(icon);
     return QVariant();
 }
 

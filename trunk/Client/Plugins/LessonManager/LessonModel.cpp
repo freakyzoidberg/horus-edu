@@ -55,7 +55,7 @@ QVariant LessonModel::data ( const QModelIndex & index, int role) const
     {
        ILessonData* ldata = qobject_cast<ILessonData *>(obj);
        if (ldata)
-           return ldata->data(index.column(), role);
+		   return ldata->data(0, role);
     }
     return QVariant();
 }
@@ -174,12 +174,12 @@ QModelIndex LessonModel::parent ( const QModelIndex & index ) const
 			QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
 			foreach (FileData* file, files)
 			{
-				if (file->id() == fdata->id())
-				{
-					return createIndex(count, 0, lesson);
-				}
 				if (file->mimeType() == "x-horus/x-lesson")
 				{
+					if (file == fdata)
+					{
+						return createIndex(count, 0, lesson);
+					}
 					count++;
 				}
 			}
