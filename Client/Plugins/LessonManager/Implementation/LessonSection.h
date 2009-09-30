@@ -14,7 +14,7 @@ public:
     LessonSection(ILesson *parent);
 
     QVariant data(int column, int role) const;
-    QIcon icon;
+	static QIcon *icon;
 };
 
 #endif // LESSONSECTION_H

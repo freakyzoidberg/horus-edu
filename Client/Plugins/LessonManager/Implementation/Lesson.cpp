@@ -2,7 +2,7 @@
 #include "LessonSection.h"
 #include "LessonDocument.h"
 
-Lesson::Lesson(FileData *parent) : ILesson(NULL), _currentData(NULL), icon(":/Icons/LessonIcon.png")
+Lesson::Lesson(FileData *parent) : ILesson(NULL), _currentData(NULL)
 {
     xmlFile = parent->file();
     QXmlSimpleReader xmlReader;
@@ -13,6 +13,8 @@ Lesson::Lesson(FileData *parent) : ILesson(NULL), _currentData(NULL), icon(":/Ic
     if (ok == false)
         qDebug() << "Error parsing metadata";
 	_fileData = parent;
+	if (icon == NULL)
+		icon = new QIcon(":/Icons/LessonIcon.png");
 }
 
 QVariant Lesson::data(int column, int role) const
@@ -20,7 +22,7 @@ QVariant Lesson::data(int column, int role) const
     if (role == Qt::DisplayRole)
         return QVariant(getTitle());
     else if (role == Qt::DecorationRole)
-        return QVariant(icon);
+		return QVariant(*icon);
     return QVariant();
 }
 
@@ -95,3 +97,16 @@ bool    Lesson::characters(const QString& ch)
         document->setContent(ch);
     return true;
 }
+
+QHash<FileData *, Lesson *> Lesson::lessons;
+
+Lesson *Lesson::createLesson(FileData *data)
+{
+	if (lessons.contains(data))
+		return *(lessons.find(data));
+	Lesson *res = new Lesson(data);
+	lessons.insert(data, res);
+	return res;
+}
+
+QIcon *Lesson::icon = NULL;
