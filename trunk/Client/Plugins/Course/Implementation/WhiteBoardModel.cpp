@@ -13,7 +13,7 @@ WhiteBoardModel::WhiteBoardModel(PluginManager* _pluginManager)
 
 int WhiteBoardModel::columnCount ( const QModelIndex & ) const
 {
-    return 3;
+    return (1);
 }
 
 int WhiteBoardModel::rowCount ( const QModelIndex & parent ) const
