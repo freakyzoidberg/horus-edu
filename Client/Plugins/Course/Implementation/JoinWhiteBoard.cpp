@@ -1,10 +1,11 @@
 #include	"JoinWhiteBoard.h"
 
 #include	<QSortFilterProxyModel>
+#include	<QVBoxLayout>
 
 #include	"WhiteBoardModel.h"
 
-JoinWhiteBoard::JoinWhiteBoard(PluginManager *pluginManager) : QWidget()
+JoinWhiteBoard::JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager) : QWidget(parent)
 {
 	this->ui.setupUi(this);
 	QAbstractItemModel		*model = new WhiteBoardModel(pluginManager);
@@ -13,4 +14,10 @@ JoinWhiteBoard::JoinWhiteBoard(PluginManager *pluginManager) : QWidget()
 	proxyModel->setFilterKeyColumn(1);
 	proxyModel->setSourceModel(model);
 	this->ui.treeView->setModel(proxyModel);
+	connect(this->ui.button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+}
+
+void		JoinWhiteBoard::buttonClicked()
+{
+	emit whiteBoardJoined(0);
 }

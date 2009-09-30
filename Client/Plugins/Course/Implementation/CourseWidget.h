@@ -10,15 +10,16 @@
 # include				"../../../../Common/TreeDataPlugin.h"
 # include				"../../../../Common/FileDataPlugin.h"
 # include				"../../../../Common/FileData.h"
-#include  "WhiteBoard.h"
-#include  "Items.h"
+
+# include				"WhiteBoard.h"
+# include				"Items.h"
 
 class                   CourseWidget : public QSplitter
 {
     Q_OBJECT
 
 public:
-						CourseWidget(ILessonManager *lessonPlugin, TreeDataPlugin *treePlugin, WhiteBoardDataPlugin* _whiteboardPlugin, QHash<QString, IDocumentController *> controllers);
+						CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager);
 
 private:
     void                buildCategoryTree();

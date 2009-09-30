@@ -1,9 +1,9 @@
 #include "WhiteBoardModel.h"
 
-#include "../../../Common/PluginManager.h"
-#include "../../../Common/TreeData.h"
-#include "../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
-#include "../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
+#include "../../../../Common/PluginManager.h"
+#include "../../../../Common/TreeData.h"
+#include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
+#include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 
 WhiteBoardModel::WhiteBoardModel(PluginManager* _pluginManager)
 {
