@@ -1,12 +1,10 @@
 #include "UserPage.h"
-#include "UserModel.h"
-#include "AdminModel.h"
-#include "FilterModel.h"
 #include <QMenu>
 
-UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
+UserPage::UserPage(TreeDataPlugin* _tree, UserDataPlugin *_users)
 {
     users = _users;
+    tree = _tree;
     usrPnl = 0;
     mainLayout = new QHBoxLayout(this);
     userTree = new QTreeView();
@@ -31,6 +29,11 @@ void UserPage::userSelected(const QModelIndex &nodeIndex)
         UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
         editUser();
         return ;
+    }
+    else
+    {
+        closePanel();
+        _index = nodeIndex;
     }
 }
 
@@ -79,7 +82,7 @@ void    UserPage::closePanel()
 void    UserPage::addUser()
 {
     closePanel();
-    usrPnl = new UserForm((TreeData*)ckdData,*users);
+    usrPnl = new UserForm((TreeData*)ckdData,*users, this);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
     mainLayout->addWidget(usrPnl);
@@ -89,7 +92,7 @@ void    UserPage::addUser()
 void    UserPage::editUser()
 {
     closePanel();
-    usrPnl = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,*users);
+    usrPnl = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,*users, this);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
     mainLayout->addWidget(usrPnl);
@@ -98,4 +101,12 @@ void    UserPage::editUser()
 void    UserPage::delUser()
 {
 
+}
+
+void    UserPage::resetPage()
+{
+    FilterModel* fModel = new FilterModel(1, this);
+    fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+    userTree->setModel(fModel);
+    userTree->expand(_index);
 }

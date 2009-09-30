@@ -24,13 +24,15 @@
 #include "../../../../Common/TreeData.h"
 #include "UserModel.h"
 
+class UserPage;
+
 class UserForm : public QWidget
 {
     Q_OBJECT
 
     public:
-        UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users);
-        UserForm(TreeData* treeNode, UserDataPlugin &_users);
+        UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users, UserPage* _page);
+        UserForm(TreeData* treeNode, UserDataPlugin &_users, UserPage *_page);
     private:
         void    setupUi();
         QHBoxLayout *stuLayout;
@@ -75,6 +77,7 @@ class UserForm : public QWidget
         QImage image;
         void fillUserFields();
         void clearForm();
+        UserPage *page;
    private slots:
         void buttonClicked(QAbstractButton * button);
         void ImageButtonClick();

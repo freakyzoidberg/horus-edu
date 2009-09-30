@@ -7,7 +7,9 @@
 #include <QMenu>
 #include <qvariant.h>
 
-UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users) : users(_users)
+#include "UserPage.h"
+
+UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users, UserPage *_page) : users(_users), page(_page)
 {
     user = _user;
     node = treeNode;
@@ -20,7 +22,7 @@ UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users) 
     buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
 }
 
-UserForm::UserForm(TreeData* treeNode, UserDataPlugin &_users) : users(_users)
+UserForm::UserForm(TreeData* treeNode, UserDataPlugin &_users, UserPage *_page) : users(_users), page(_page)
 {
     node = treeNode;
     setupUi();
@@ -61,9 +63,9 @@ void UserForm::fillUserFields()
     phoneTxt->setText(user->phone());
     paysTxt->setText(user->country());
     if (user->level() == 2)
-        typeBox->setCurrentIndex(0);
-    else
         typeBox->setCurrentIndex(1);
+    else
+        typeBox->setCurrentIndex(0);
     //imageLabel->setPixmap(QPixmap::fromImage(user->picture().value<QImage>()));
     //qDebug() << user->picture();
 }
@@ -192,6 +194,8 @@ void    UserForm::editUser()
             user->setLevel(3);
         user->save();
         clearForm();
+        this->close();
+        page->resetPage();
     }
     return;
 }
@@ -278,5 +282,6 @@ void    UserForm::createNewUser()
     clearForm();
     msgBox.setText(tr("The user was succefully created"));
     msgBox.exec();
+    page->resetPage();
     this->close();
 }

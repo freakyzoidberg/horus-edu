@@ -7,8 +7,9 @@
 #include <QMenu>
 #include <qvariant.h>
 #include "UserModel.h"
+#include "AdminTree.h"
 
-NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users, QString nodeType, AdminTree& _parent) : users(_users), node(_node), parent(_parent)
+NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users, QString nodeType, AdminTree* _parent) : users(_users), node(_node), parent(_parent)
 {
     setupUi();
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
@@ -92,7 +93,8 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         if (ret == QMessageBox::Yes)
         {
             TreeData* newNode = node.createChild(nameTxt->text(), typeBox->currentText(), users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
-            newNode->save();
+            qDebug() << newNode << nameTxt->text()<< typeBox->currentText() << users.getUser(completer->currentIndex().data(Qt::UserRole).toInt());
+            //newNode->save();
             //parent.mainTree->reset();
         }
    }
@@ -118,7 +120,7 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
             node.setType(typeBox->currentText());
             node.setUser(users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
             node.save();
-            //parent.mainTree->reset();
+            parent->mainTree->reset();
    }
    else if (button->text() == tr("Cancel"))
    {
