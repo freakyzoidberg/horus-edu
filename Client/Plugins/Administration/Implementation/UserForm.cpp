@@ -152,7 +152,7 @@ void UserForm::buttonClicked(QAbstractButton * button)
 {
    if (button->text() == tr("Add"))
    {
-        createUser();
+        createNewUser();
    }
    else if (button->text() == tr("Save"))
    {
@@ -226,7 +226,7 @@ void    UserForm::deleteUser()
 
 }
 
-void    UserForm::createUser()
+void    UserForm::createNewUser()
 {
     QMessageBox msgBox;
     QString      Error = "";
@@ -266,10 +266,6 @@ void    UserForm::createUser()
     data->setCountry(this->paysTxt->text());
     data->enable(true);
     data->setPicture("vide");
-    /*if(imageLabel->pixmap()->height() == 0)
-        data->setPicture("vide");
-    else
-        data->setPicture(imageLabel->pixmap());*/
     if (typeBox->currentText() == "Professeur")
         data->setLevel(2);
     else
