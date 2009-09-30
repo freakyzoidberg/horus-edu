@@ -58,6 +58,10 @@ void UserForm::fillUserFields()
     addrTxt->setText(user->address());
     phoneTxt->setText(user->phone());
     paysTxt->setText(user->country());
+    if (user->level() == 2)
+        typeBox->setCurrentIndex(0);
+    else
+        typeBox->setCurrentIndex(1);
     //imageLabel->setPixmap(QPixmap::fromImage(user->picture().value<QImage>()));
     //qDebug() << user->picture();
 }
@@ -124,10 +128,16 @@ void    UserForm::setupUi()
     rightLayout->setWidget(2, QFormLayout::FieldRole, imageLabel);
     classTxt = new QLineEdit(this);
     classTxt->setObjectName(QString::fromUtf8("classTxt"));
-    rightLayout->setWidget(0, QFormLayout::FieldRole, classTxt);
+    rightLayout->setWidget(1, QFormLayout::FieldRole, classTxt);
     label_5 = new QLabel(tr("Classe"));
     label_5->setObjectName(QString::fromUtf8("label_5"));
-    rightLayout->setWidget(0, QFormLayout::LabelRole, label_5);
+    rightLayout->setWidget(1, QFormLayout::LabelRole, label_5);
+    label_6 = new QLabel(tr("Type"));
+    rightLayout->setWidget(0, QFormLayout::LabelRole, label_6);
+    typeBox = new QComboBox(this);
+    typeBox->addItem(QIcon(":/images/GroupIcon.png"), tr("Etudiant"));
+    typeBox->addItem(QIcon(":/images/GradeIcon.png"), tr("Professeur"));
+    rightLayout->setWidget(0, QFormLayout::FieldRole, typeBox);
     formLayout->addLayout(rightLayout);
     menuLayout->addLayout(formLayout);
     buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
@@ -174,7 +184,10 @@ void    UserForm::editUser()
         user->setPicture(imageLabel->pixmap());
         user->setPicture("vide");
         user->enable(true);
-        user->setLevel(3);
+        if (typeBox->currentText() == "Professeur")
+            user->setLevel(2);
+        else
+            user->setLevel(3);
         user->save();
         clearForm();
     }
@@ -257,7 +270,10 @@ void    UserForm::createUser()
         data->setPicture("vide");
     else
         data->setPicture(imageLabel->pixmap());*/
-    data->setLevel(3);
+    if (typeBox->currentText() == "Professeur")
+        data->setLevel(2);
+    else
+        data->setLevel(3);
     data->create();
     clearForm();
     msgBox.setText(tr("The user was succefully created"));

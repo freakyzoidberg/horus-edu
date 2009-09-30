@@ -11,5 +11,11 @@
         <file>images/addButton.png</file>
         <file>images/delButton.png</file>
         <file>images/editButton.png</file>
+        <file>images/DefaultIcon.png</file>
+        <file>images/GradeIcon.png</file>
+        <file>images/GroupIcon.png</file>
+        <file>images/LessonIcon.png</file>
+        <file>images/RootIcon.png</file>
+        <file>images/SubjectIcon.png</file>
     </qresource>
 </RCC>

@@ -18,16 +18,18 @@
 #include <QtGui/QLabel>
 #include <QtGui/QLineEdit>
 #include <QtGui/QPushButton>
+#include <QComboBox>
 #include <QtGui/QCalendarWidget>
 #include <QCompleter>
 #include "../../../../Common/TreeData.h"
 #include "../../../../Common/UserData.h"
 
+class AdminTree;
 class NodeInfo : public QWidget
 {
     Q_OBJECT
     public:
-        NodeInfo(TreeData &_node, int type, UserDataPlugin& _users);
+        NodeInfo(TreeData &_node, int type, UserDataPlugin& _users, QString nodeType, AdminTree& _parent);
     private:
         void    setupUi();
         QCompleter *completer;
@@ -43,11 +45,12 @@ class NodeInfo : public QWidget
         QLabel *label_2;
         QLineEdit *nomTxt;
         QLabel *label_3;
-        QLineEdit *typeTxt;
+        QComboBox *typeBox;
         QLabel *label_4;
         QLineEdit *userTxt;
         QDialogButtonBox *buttonBox;
         TreeData&   node;
+        AdminTree&   parent;
         void fillFields();
     private slots:
         void buttonClicked(QAbstractButton * button);
