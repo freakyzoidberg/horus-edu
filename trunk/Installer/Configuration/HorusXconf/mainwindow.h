@@ -16,6 +16,7 @@
 #endif
 #include <QCompleter>
 #include <QKeyEvent>
+#include <QVBoxLayout>
 namespace Ui
 {
     class MainWindowClass;
@@ -34,6 +35,9 @@ private:
     void writesettings();
     QSettings Gsettings;
     QCompleter *completer;
+    QCompleter *completer2;
+    QWidget *checkboxes;
+    QVBoxLayout* layout;
 
 //protected:
 //    void keyPressEvent(QKeyEvent *e);
@@ -43,6 +47,7 @@ private slots:
     void on_buttonBox_2_clicked(QAbstractButton* button);
     void on_buttonBox_clicked(QAbstractButton* button);
     void on_lineEdit_16_textChanged(QString );
+    void on_lineEdit_10_textChanged(QString );
     void on_pushButton_4_clicked();
     void on_pushButton_clicked();
 };
