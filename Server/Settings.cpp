@@ -116,11 +116,11 @@ void Settings::FirstSetSettings()
 
     this->Gsettings.beginGroup("MAILSMTP");
     streamo << "Mail SMTP Server Hostname :\n";
-    streamo << "Mail Hostname [ hint : smtp.free.fr] : ";
+    streamo << "Mail Hostname [ hint : locahost] : ";
     streamo.flush();
     line = streami.readLine();
     //qDebug() << line;
-     this->Gsettings.setValue("MAIL_HOSTNAME", (line == "" ? "smtp.free.fr":line));
+     this->Gsettings.setValue("MAIL_HOSTNAME", (line == "" ? "localhost":line));
      streamo << "Mail Domain [ hint : horus-edu.net] : ";
     streamo.flush();
     line = streami.readLine();
