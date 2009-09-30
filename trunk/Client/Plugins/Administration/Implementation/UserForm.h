@@ -68,7 +68,7 @@ class UserForm : public QWidget
         void    editUser();
         void    cancelUser();
         void    deleteUser();
-        void    createUser();
+        void    createNewUser();
         UserData* user;
         UserDataPlugin& users;
         QImage image;
