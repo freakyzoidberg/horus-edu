@@ -56,6 +56,26 @@ case $me in
 		    fi
 		    echo -e "$NORMAL"
 		    ;;
+		'noredir')
+		    qmake && make
+		    if [ -d ./Plugins ]
+		    then
+			cd Plugins
+			for fichier in *
+			do
+			    if [ -d $fichier ]
+			    then
+				cd $fichier
+				echo -e "$BLEU" "      ----Building Client Plugins" "$fichier"  "$NORMAL"
+				qmake && make
+				echo -e "$BLEU" "      ---Finished Building Client Plugins " "$fichier"  "$NORMAL"
+				cd ..
+			    fi
+			done
+			cd ..
+		    fi
+		    echo -e "$NORMAL"
+		    ;;
 		*)
 		    echo -e "$ROUGE"
 		    qmake && make > $REDIR
@@ -103,6 +123,25 @@ case $me in
 				cd $fichier
 				echo -e "$JAUNE"
 				make clean
+				cd ..
+			    fi
+			done
+		    fi
+		    echo -e "$NORMAL"
+		    ;;
+		'noredir')
+		    qmake && make
+		    if [ -d ./Plugins ]
+		    then
+			cd Plugins
+			for fichier in *
+			do
+			    if [ -d $fichier ]
+			    then
+				cd $fichier
+				echo -e "$BLEU" "      ----Building Server Plugins" "$fichier"  "$NORMAL"
+				qmake && make
+				echo -e "$BLEU" "      ---Finished Building Server Plugins " "$fichier" "$NORMAL"
 				cd ..
 			    fi
 			done
