@@ -5,17 +5,6 @@ FilterModel::FilterModel(int _type, QObject *parent)
     type = _type;
 }
 
-
-QModelIndex FilterModel::index(int row, int column, const QModelIndex &parent) const
-{
-    return mapFromSource(sourceModel()->index(row, column, parent));
-}
-
-QModelIndex FilterModel::parent(const QModelIndex &index) const
-{
-    return sourceModel()->parent(index);
-}
-
 QModelIndex FilterModel::mapToSource(const QModelIndex &proxyIndex) const
 {
     return sourceModel()->index(proxyIndex.row(), proxyIndex.column(), proxyIndex.parent());
@@ -34,4 +23,14 @@ int FilterModel::rowCount(const QModelIndex &index) const
 int FilterModel::columnCount(const QModelIndex &index) const
 {
     return sourceModel()->columnCount(index);
+}
+
+QModelIndex FilterModel::index(int row, int column, const QModelIndex &parent) const
+{
+    return mapFromSource(sourceModel()->index(row, column, parent));
+}
+
+QModelIndex FilterModel::parent(const QModelIndex &index) const
+{
+    return sourceModel()->parent(index);
 }

@@ -38,18 +38,15 @@ class AdminTree : public QWidget
         QStackedWidget *groupBox;
         Data *ckdData;
         UserDataPlugin* users;
-        UserForm*       usrPnl;
         NodeInfo*       ndPnl;
         void            closePanel();
+        QMenu           *menu;
     private slots:
         void ShowTreeContextMenu(const QPoint& pnt);
         void nodeSelected(const QModelIndex &nodeIndex);
-        void addNode();
-        void editNode();
-        void delNode();
-        void addUser();
-        void editUser();
-        void delUser();
+        void menuNode(QAction * action);
+        //void editNode();
+        //void delNode();
 };
 
 #endif // ADMINTREE_H

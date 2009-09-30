@@ -16,6 +16,7 @@ UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
     FilterModel* fModel = new FilterModel(1, this);
     fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
     userTree->setModel(fModel);
+
     //userTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
     connect(userTree, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(ShowTreeMenu(const QPoint&)));
     connect(userTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
@@ -23,6 +24,14 @@ UserPage::UserPage(TreeDataPlugin* tree, UserDataPlugin *_users)
 
 void UserPage::userSelected(const QModelIndex &nodeIndex)
 {
+    ckdData = ((Data*)nodeIndex.internalPointer());
+    TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
+    if (!node)
+    {
+        UserData* user = qobject_cast<UserData*>((Data*)nodeIndex.internalPointer());
+        editUser();
+        return ;
+    }
 }
 
 void    UserPage::ShowTreeMenu(const QPoint& pnt)
@@ -46,6 +55,15 @@ void    UserPage::ShowTreeMenu(const QPoint& pnt)
                 actions.append(editUser);
                 actions.append(delUser);
         }
+    }
+    else
+    {
+        QAction *addUser = new QAction(QIcon(":/images/add.png"), tr("&Add User..."), this);
+        addUser->setShortcuts(QKeySequence::Open);
+        addUser->setStatusTip(tr("Add a new user"));
+        connect(addUser, SIGNAL(triggered()), this, SLOT(addUser()));
+
+        actions.append(addUser);
     }
     if (actions.count() > 0)
         QMenu::exec(actions, userTree->mapToGlobal(pnt));

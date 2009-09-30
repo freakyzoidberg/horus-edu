@@ -8,7 +8,7 @@
 #include <qvariant.h>
 #include "UserModel.h"
 
-NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users) : users(_users), node(_node)
+NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users, QString nodeType, AdminTree& _parent) : users(_users), node(_node), parent(_parent)
 {
     setupUi();
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
@@ -22,6 +22,8 @@ NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users) : users(_u
     {
         buttonBox->addButton(new QPushButton(tr("Add")), QDialogButtonBox::ActionRole);
         buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
+        typeBox->setCurrentIndex(typeBox->findText(nodeType));
+        typeBox->setMaxVisibleItems(1);
     }
     completer = new QCompleter(new UserModel(users.getAllUser(), this), this);
     completer->setCompletionMode(QCompleter::PopupCompletion);
@@ -49,8 +51,13 @@ void    NodeInfo::setupUi()
     nodeLayout->setWidget(2, QFormLayout::FieldRole, nameTxt);
     label_2 = new QLabel(tr("Type"));
     nodeLayout->setWidget(3, QFormLayout::LabelRole, label_2);
-    typeTxt = new QLineEdit(this);
-    nodeLayout->setWidget(3, QFormLayout::FieldRole, typeTxt);
+    typeBox = new QComboBox(this);
+    typeBox->addItem(QIcon(":/images/GroupIcon.png"), tr("GROUP"));
+    typeBox->addItem(QIcon(":/images/GradeIcon.png"), tr("GRADE"));
+    typeBox->addItem(QIcon(":/images/SubjectIcon.png"), tr("SUBJECT"));
+    typeBox->addItem(QIcon(":/images/RootIcon.png"), tr("ROOT"));
+    typeBox->addItem(QIcon(":/images/DefaultIcon.png"), tr("CLASSES"));
+    nodeLayout->setWidget(3, QFormLayout::FieldRole, typeBox);
     label_3 = new QLabel(tr("User referent"));
     nodeLayout->setWidget(4, QFormLayout::LabelRole, label_3);
     userTxt = new QLineEdit(this);
@@ -67,8 +74,9 @@ void NodeInfo::fillFields()
 {
     idTxt->setText(QVariant(node.id()).toString());
     nameTxt->setText(node.name());
-    typeTxt->setText(node.type());
-    //userTxt->setText(((UserData*)node.user())->login());
+    typeBox->setCurrentIndex(typeBox->findText(node.type()));
+    if (((UserData*)node.user()) != 0)
+        userTxt->setText(((UserData*)node.user())->login());
 }
 
 void    NodeInfo::buttonClicked(QAbstractButton * button)
@@ -83,10 +91,9 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         int ret = msgBox.exec();
         if (ret == QMessageBox::Yes)
         {
-            node.setName(nameTxt->text());
-            node.setType(typeTxt->text());
-            node.setUser(users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
-            node.save();
+            TreeData* newNode = node.createChild(nameTxt->text(), typeBox->currentText(), users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
+            newNode->save();
+            //parent.mainTree->reset();
         }
    }
    else if (button->text() == tr("Save"))
@@ -95,8 +102,6 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         QString      Error = "";
         if(this->nameTxt->text() == "")
             Error.append(tr("Name |"));
-        if(this->typeTxt->text() == "")
-            Error.append(tr("Type |"));
         if(this->userTxt->text() == "")
             Error.append(tr("User |"));
         if (Error != "")
@@ -110,12 +115,16 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
             return;
         }
             node.setName(nameTxt->text());
-            node.setType(typeTxt->text());
+            node.setType(typeBox->currentText());
             node.setUser(users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
             node.save();
+            //parent.mainTree->reset();
    }
    else if (button->text() == tr("Cancel"))
    {
-
+        idTxt->setText("");
+        nameTxt->setText("");
+        typeBox->setCurrentIndex(0);
+        userTxt->setText("");
    }
 }

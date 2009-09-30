@@ -20,7 +20,7 @@
 #include <QtGui/QCalendarWidget>
 #include <QWidget>
 #include <QTreeView>
-
+#include <QComboBox>
 #include "../../../../Common/TreeData.h"
 #include "UserModel.h"
 
@@ -61,6 +61,8 @@ class UserForm : public QWidget
         QLineEdit *classTxt;
         QLabel *label_5;
         QLineEdit *lineEdit_7;
+        QLabel *label_6;
+        QComboBox *typeBox;
         QDialogButtonBox *buttonBox;
         QVBoxLayout *menuLayout;
         void    editUser();
