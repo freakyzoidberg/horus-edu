@@ -70,6 +70,7 @@ class UserForm : public QWidget
         void    deleteUser();
         void    createNewUser();
         UserData* user;
+        TreeData* node;
         UserDataPlugin& users;
         QImage image;
         void fillUserFields();

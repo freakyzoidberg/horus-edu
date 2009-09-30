@@ -10,6 +10,7 @@
 UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users) : users(_users)
 {
     user = _user;
+    node = treeNode;
     setupUi();
 
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
@@ -21,6 +22,7 @@ UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users) 
 
 UserForm::UserForm(TreeData* treeNode, UserDataPlugin &_users) : users(_users)
 {
+    node = treeNode;
     setupUi();
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
     connect(imageButton, SIGNAL(clicked()), this, SLOT(ImageButtonClick()));
@@ -270,6 +272,7 @@ void    UserForm::createNewUser()
         data->setLevel(2);
     else
         data->setLevel(3);
+    data->setNode(node);
     data->create();
     clearForm();
     msgBox.setText(tr("The user was succefully created"));
