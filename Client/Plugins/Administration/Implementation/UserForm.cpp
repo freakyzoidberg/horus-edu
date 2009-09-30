@@ -252,6 +252,7 @@ void    UserForm::createNewUser()
     {
         QString msg;
         msg.append(tr("les champs suivant doivent etre remplis: \n"));
+        Error.chop(1);
         msg.append(Error);
 
         msgBox.setText(msg);
