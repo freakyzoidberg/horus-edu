@@ -4,6 +4,8 @@
 #include <iostream>
 
 #include "../../../Common/UserData.h"
+#include "Implementation/Lesson.h"
+#include "ILessonDocument.h"
 
 LessonModel::LessonModel(PluginManager* pluginManager)
 {

@@ -6,9 +6,6 @@
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/FileDataPlugin.h"
 
-#include "Implementation/Lesson.h"
-#include "ILessonDocument.h"
-
 class LessonModel : public QAbstractItemModel
 {
 public:
@@ -25,7 +22,6 @@ public:
 private:
     PluginManager*  pluginManager;
 	FileDataPlugin*		filePlugin;
-	QHash<int, Lesson*> lessons;
     Data*           rootItem;
 };
 
