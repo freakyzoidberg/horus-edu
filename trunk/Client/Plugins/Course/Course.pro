@@ -40,7 +40,8 @@ HEADERS += Implementation/Course.h \
     Implementation/CreateWhiteBoard.h \
     Implementation/JoinWhiteBoard.h \
     IItems.h \
-    Implementation/WhiteBoardModel.h
+    Implementation/WhiteBoardModel.h \
+    Implementation/JoinWhiteBoard.h
 RESOURCES += Implementation/Course.qrc
 FORMS += Implementation/Ui/CreateWhiteBoard.ui \
     Implementation/Ui/JoinWhiteBoard.ui
