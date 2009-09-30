@@ -5,14 +5,18 @@
 #include <QDebug>
 #include <QVBoxLayout>
 
-CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treePlugin, WhiteBoardDataPlugin* _whiteboardPlugin, QHash<QString, IDocumentController *> controllers) : QSplitter()
+CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager) : QSplitter(parent)
 {
     QWidget *leftPane;
     QVBoxLayout *layout;
 
-    this->lessonPlugin = _lessonPlugin;
-    this->treePlugin = _treePlugin;
-	this->whiteboardPlugin = _whiteboardPlugin;
+    lessonPlugin = pluginManager->findPlugin<ILessonManager *>("LessonManager");
+	treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
+	whiteboardPlugin = pluginManager->findPlugin<WhiteBoardDataPlugin*>();
+	QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
+	QHash<QString, IDocumentController *> controllers;
+	foreach (IDocumentController *controller, controllersList)
+		controllers[controller->getSupportedType()] = controller;
     this->buildCategoryTree();
     leftPane = new QWidget(this);
     this->addWidget(leftPane);
@@ -21,7 +25,7 @@ CourseWidget::CourseWidget(ILessonManager *_lessonPlugin, TreeDataPlugin *_treeP
 	layout->setMargin(0);
     leftPane->setLayout(layout);
 	//TODO, chage 0 by the selected witheboard
-	this->pageWidget = new WhiteBoard(_whiteboardPlugin->getWhiteBoard((quint32)0), controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
+	this->pageWidget = new WhiteBoard(wbd, controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
     this->addWidget(this->pageWidget);
 }
 

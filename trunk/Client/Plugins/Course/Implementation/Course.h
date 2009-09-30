@@ -11,6 +11,7 @@
 # include "../../../../Common/TreeDataPlugin.h"
 # include "../../../../Common/UserData.h"
 # include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
+# include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
 
@@ -38,10 +39,12 @@ private:
 	WhiteBoardDataPlugin* whiteboardPlugin;
 	QHash<QString, IDocumentController *> _controllers;
 	UserData			*user;
+	QWidget				*parent;
 	QWidget				*widget;
 
 private slots:
 	void				userUpdate();
+	void				joinWhiteBoard(WhiteBoardData *whiteBoardData);
 };
 
 #endif // Course_H

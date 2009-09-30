@@ -1,6 +1,7 @@
 #include "Course.h"
 
 #include "../../../../Common/Defines.h"
+#include "CourseWidget.h"
 #include "CreateWhiteBoard.h"
 #include "JoinWhiteBoard.h"
 
@@ -38,12 +39,7 @@ bool	Course::canLoad() const
 
 void	Course::load()
 {
-    lessonPlugin = pluginManager->findPlugin<ILessonManager *>("LessonManager");
-	treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
-	whiteboardPlugin = pluginManager->findPlugin<WhiteBoardDataPlugin*>();
-	QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
-	foreach (IDocumentController *controller, controllersList)
-		this->_controllers[controller->getSupportedType()] = controller;
+	this->parent = new QWidget();
 	// following segfault...
 	//this->user = pluginManager->currentUser();
 	//connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
@@ -65,11 +61,12 @@ void	Course::createWidget()
 		this->widget = new CreateWhiteBoard();
 		break ;
 	case LEVEL_STUDENT:
-		this->widget = new JoinWhiteBoard(this->pluginManager);
+		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager);
+		connect(this->widget, SIGNAL(whiteBoardJoined(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
 		break ;
 	default :
 		this->widget = 0;
-		this->widget = new JoinWhiteBoard(this->pluginManager); // to delete
+		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager); // to delete
 	}
 	//this->widget = new CourseWidget(lessonPlugin, treePlugin, whiteboardPlugin, _controllers);
 }
@@ -88,5 +85,11 @@ QWidget             *Course::getWidget()
 	if (this->user->status() == Data::UPTODATE)
 		this->createWidget();
 	// to here
-	return (this->widget);
+	return (this->parent);
+}
+
+void				Course::joinWhiteBoard(WhiteBoardData *whiteBoardData)
+{
+	delete this->widget;
+	this->widget = new CourseWidget(this->parent, whiteBoardData, this->pluginManager);
 }

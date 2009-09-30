@@ -4,15 +4,24 @@
 # include			<QWidget>
 
 # include			"../../../../Common/PluginManager.h"
+# include			"../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 # include			"../ui_JoinWhiteBoard.h"
 
 class				JoinWhiteBoard : public QWidget
 {
+	Q_OBJECT
+
 public:
-	JoinWhiteBoard(PluginManager *pluginManager);
+	JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager);
 
 private:
 	Ui::JoinForm	ui;
+
+private slots:
+	void			buttonClicked();
+
+signals:
+	void			whiteBoardJoined(WhiteBoardData *whiteBoard);
 };
 
 #endif //			__JOINWHITEBOARD_H__
