@@ -61,10 +61,10 @@ void	Course::createWidget()
 {
 	switch (this->user->level())
 	{
-	case UserLevel::LEVEL_TEACHER:
+	case LEVEL_TEACHER:
 		this->widget = new CreateWhiteBoard();
 		break ;
-	case UserLevel::LEVEL_STUDENT:
+	case LEVEL_STUDENT:
 		this->widget = new JoinWhiteBoard(this->pluginManager);
 		break ;
 	default :
