@@ -64,9 +64,17 @@ void Settings::FirstSetSettings()
     streamo.flush();
     line = streami.readLine();
      this->Gsettings.setValue("SRV_PORT", (line == "" ? "42000":line));
+     streamo << "File Server Port [ hint : 42042] : ";
+    streamo.flush();
+    line = streami.readLine();
+     this->Gsettings.setValue("SRV_FILE_TRANSFERT_PORT", (line == "" ? "42042":line));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
     this->Gsettings.setValue("Version", "6");
+    streamo << "Fullpath to Horus File diretory[ hint : /opt/Horus/Horus-server/Files] : ";
+    streamo.flush();
+    line = streami.readLine();
+        this->Gsettings.setValue("FilesDirectory", (line == "" ? "/opt/Horus/Horus-server/Files/":line+QDir::toNativeSeparators("/Plugins/")));
     streamo << "Fullpath to Horus Server diretory[ hint : /opt/Horus/Horus-server/] : ";
     streamo.flush();
     line = streami.readLine();
@@ -110,10 +118,10 @@ void Settings::FirstSetSettings()
                              }
                              }
                         }
-                    }
+                    }        
+
             this->Gsettings.endGroup();
         }
-
     this->Gsettings.beginGroup("MAILSMTP");
     streamo << "Mail SMTP Server Hostname :\n";
     streamo << "Mail Hostname [ hint : locahost] : ";
