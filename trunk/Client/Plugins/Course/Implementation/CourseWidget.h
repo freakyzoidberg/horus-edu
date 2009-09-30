@@ -26,7 +26,7 @@ private:
 
 
 private slots:
-    void lessonSelected(const QModelIndex &item);
+	void contextMenu(const QPoint& point);
 
 private:
     ILessonManager      *lessonPlugin;
