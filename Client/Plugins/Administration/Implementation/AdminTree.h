@@ -32,9 +32,9 @@ class AdminTree : public QWidget
 
     public:
         AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users);
+        QTreeView *mainTree;
     private:
         QHBoxLayout *mainLayout;
-        QTreeView *mainTree;
         QStackedWidget *groupBox;
         Data *ckdData;
         UserDataPlugin* users;

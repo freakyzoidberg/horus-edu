@@ -24,20 +24,26 @@
 #include "../../../../Common/UserData.h"
 #include <QStackedWidget>
 #include "UserForm.h"
+#include "UserModel.h"
+#include "AdminModel.h"
+#include "FilterModel.h"
 
 class UserPage : public QWidget
 {
     Q_OBJECT
 
     public:
-        UserPage(TreeDataPlugin* tree, UserDataPlugin *_users);
+        UserPage(TreeDataPlugin* _tree, UserDataPlugin *_users);
+        void        resetPage();
     private:
         QHBoxLayout *mainLayout;
         QTreeView *userTree;
         Data *ckdData;
         UserDataPlugin* users;
+        TreeDataPlugin* tree;
         UserForm*       usrPnl;
         void            closePanel();
+        QModelIndex     _index;
     private slots:
         void ShowTreeMenu(const QPoint& pnt);
         void userSelected(const QModelIndex &nodeIndex);

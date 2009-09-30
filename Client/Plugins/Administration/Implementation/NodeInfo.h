@@ -25,11 +25,12 @@
 #include "../../../../Common/UserData.h"
 
 class AdminTree;
+
 class NodeInfo : public QWidget
 {
     Q_OBJECT
     public:
-        NodeInfo(TreeData &_node, int type, UserDataPlugin& _users, QString nodeType, AdminTree& _parent);
+        NodeInfo(TreeData &_node, int type, UserDataPlugin& _users, QString nodeType, AdminTree* _parent);
     private:
         void    setupUi();
         QCompleter *completer;
@@ -50,7 +51,7 @@ class NodeInfo : public QWidget
         QLineEdit *userTxt;
         QDialogButtonBox *buttonBox;
         TreeData&   node;
-        AdminTree&   parent;
+        AdminTree*   parent;
         void fillFields();
     private slots:
         void buttonClicked(QAbstractButton * button);
