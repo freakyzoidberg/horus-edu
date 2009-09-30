@@ -64,9 +64,9 @@ void	Course::createWidget()
 		break ;
 	default :
 		this->widget = 0;
-		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager); // to delete
+		this->widget = new CreateWhiteBoard(this->parent, this->pluginManager); // to delete
 		this->layout->addWidget(this->widget);
-		connect(this->widget, SIGNAL(whiteBoardJoined(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
+		connect(this->widget, SIGNAL(whiteBoardCreated(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
 	}
 }
 
