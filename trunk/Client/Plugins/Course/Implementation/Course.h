@@ -9,6 +9,7 @@
 # include "../../../DisplayablePlugin.h"
 # include "../../../../Common/PluginManager.h"
 # include "../../../../Common/TreeDataPlugin.h"
+# include "../../../../Common/UserData.h"
 # include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
@@ -24,16 +25,23 @@ public:
     const QString		getDisplayableName() const;
 	int					getOrder() const;
 	QIcon				getIcon() const;
-    bool		canLoad() const;
-    void		load();
-    void		unload();
+    bool				canLoad() const;
+    void				load();
+    void				unload();
     QWidget*            getWidget();
 
 private:
+	void				createWidget();
+
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
 	WhiteBoardDataPlugin* whiteboardPlugin;
 	QHash<QString, IDocumentController *> _controllers;
+	UserData			*user;
+	QWidget				*widget;
+
+private slots:
+	void				userUpdate();
 };
 
 #endif // Course_H
