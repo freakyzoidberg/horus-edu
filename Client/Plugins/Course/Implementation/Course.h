@@ -5,6 +5,7 @@
 # include <QWidget>
 # include <QHash>
 # include <QString>
+# include <QBoxLayout>
 
 # include "../../../DisplayablePlugin.h"
 # include "../../../../Common/PluginManager.h"
@@ -39,6 +40,7 @@ private:
 	WhiteBoardDataPlugin* whiteboardPlugin;
 	QHash<QString, IDocumentController *> _controllers;
 	UserData			*user;
+	QBoxLayout			*layout;
 	QWidget				*parent;
 	QWidget				*widget;
 

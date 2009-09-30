@@ -1,6 +1,9 @@
 #include "Course.h"
 
+#include <QVBoxLayout>
+
 #include "../../../../Common/Defines.h"
+
 #include "CourseWidget.h"
 #include "CreateWhiteBoard.h"
 #include "JoinWhiteBoard.h"
@@ -40,6 +43,7 @@ bool	Course::canLoad() const
 void	Course::load()
 {
 	this->parent = new QWidget();
+	this->layout = new QVBoxLayout(this->parent);
 	// following segfault...
 	//this->user = pluginManager->currentUser();
 	//connect(this->user, SIGNAL(updated()), this, SLOT(userUpdate()));
@@ -62,11 +66,13 @@ void	Course::createWidget()
 		break ;
 	case LEVEL_STUDENT:
 		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager);
+		this->layout->addWidget(this->widget);
 		connect(this->widget, SIGNAL(whiteBoardJoined(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
 		break ;
 	default :
 		this->widget = 0;
 		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager); // to delete
+		this->layout->addWidget(this->widget);
 		connect(this->widget, SIGNAL(whiteBoardJoined(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
 	}
 	//this->widget = new CourseWidget(lessonPlugin, treePlugin, whiteboardPlugin, _controllers);
@@ -93,5 +99,6 @@ void				Course::joinWhiteBoard(WhiteBoardData *whiteBoardData)
 {
 	delete this->widget;
 	this->widget = new CourseWidget(this->parent, whiteBoardData, this->pluginManager);
+	this->layout->addWidget(this->widget);
 	this->widget->show();
 }
