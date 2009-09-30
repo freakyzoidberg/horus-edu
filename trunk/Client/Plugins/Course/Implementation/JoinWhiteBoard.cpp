@@ -5,7 +5,7 @@
 
 #include	"WhiteBoardModel.h"
 
-JoinWhiteBoard::JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager) : QWidget(parent)
+JoinWhiteBoard::JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager) : QWidget(parent), _pluginManager(pluginManager)
 {
 	this->ui.setupUi(this);
 	QAbstractItemModel		*model = new WhiteBoardModel(pluginManager);
@@ -19,5 +19,5 @@ JoinWhiteBoard::JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager) : 
 
 void		JoinWhiteBoard::buttonClicked()
 {
-	emit whiteBoardJoined(0);
+	emit whiteBoardJoined(_pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard((quint32) 0));
 }

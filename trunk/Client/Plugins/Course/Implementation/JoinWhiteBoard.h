@@ -16,6 +16,7 @@ public:
 
 private:
 	Ui::JoinForm	ui;
+	PluginManager	*_pluginManager;
 
 private slots:
 	void			buttonClicked();
