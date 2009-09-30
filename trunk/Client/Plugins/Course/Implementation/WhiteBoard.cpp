@@ -12,9 +12,11 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
     wbdata = wbd;
     setAcceptDrops(true);
     setAutoFillBackground(true);
+    layout = new QVBoxLayout(this);
 
     this->dock = new QToolBar(this);
     this->dock->setGeometry(0, 0, this->geometry().width(), 20);
+   // this->dock->addWidget(this->dock);
     this->posInDoc = 0;
 
     QPalette p(this->palette());
@@ -30,12 +32,14 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 void    WhiteBoard::calltheshot()
 {
     QHash<QString, QVariant> parameters;
-    parameters.insert("page", QVariant(10));
+    parameters.insert("page", QVariant(0));
     Items *item = new Items(this, 1, "Pdf", "testpdf");
-    QFile *merde = new QFile("/tmp/1");
+    QFile *merde = new QFile("/tmp/17");
     ILessonDocument *doc = new LessonDocument(this, 1, "cmbdtc", "Pdf", "null", parameters);
     doc->setId(1);
     QWidget *docWidget = this->_controllers["Pdf"]->editDocument(merde, item, doc);
+    docWidget->lower();
+    item->repaint();
     item->show();
 }
 
@@ -235,7 +239,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				return qobject_cast<ILessonDocument *>(*it);
 			ILessonDocument *document = findDocument(qobject_cast<ILessonData *>(*it));
 			if (document)
-				return document;
+                                return document;
 		}
 	}
 	return NULL;
