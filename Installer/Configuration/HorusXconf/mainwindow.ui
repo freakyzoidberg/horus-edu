@@ -29,8 +29,8 @@
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <layout class="QGridLayout" name="gridLayout_3">
-    <item row="0" column="0">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="0" colspan="3">
      <layout class="QGridLayout" name="gridLayout">
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
@@ -188,7 +188,7 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="0">
+    <item row="1" column="0" colspan="3">
      <layout class="QFormLayout" name="formLayout">
       <property name="fieldGrowthPolicy">
        <enum>QFormLayout::ExpandingFieldsGrow</enum>
@@ -203,7 +203,7 @@
       <item row="0" column="1">
        <widget class="QLineEdit" name="lineEdit_5">
         <property name="text">
-         <string>smtp.free.fr</string>
+         <string>localhost</string>
         </property>
        </widget>
       </item>
@@ -281,73 +281,114 @@
      </layout>
     </item>
     <item row="2" column="0">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="2" column="1">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>Horus Server Port:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLineEdit" name="lineEdit_13">
-        <property name="text">
-         <string>42000</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Horus Server Path:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLineEdit" name="lineEdit_16">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QScrollArea" name="scrollArea">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="midLineWidth">
-         <number>1</number>
-        </property>
-        <property name="verticalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOn</enum>
-        </property>
-        <property name="horizontalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOff</enum>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>464</width>
-           <height>186</height>
-          </rect>
-         </property>
-        </widget>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QLabel" name="label_11">
+      <property name="text">
+       <string>Server Port:</string>
+      </property>
+     </widget>
     </item>
-    <item row="3" column="0">
-     <layout class="QGridLayout" name="gridLayout_5"/>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="lineEdit_13">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>60</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>42000</string>
+      </property>
+     </widget>
     </item>
-    <item row="4" column="0">
+    <item row="3" column="0" colspan="2">
+     <widget class="QLabel" name="label_17">
+      <property name="text">
+       <string>File Server Port : </string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QLineEdit" name="lineEdit_8">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>60</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>42042</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="QLabel" name="label_18">
+      <property name="text">
+       <string>             Server File Path : </string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QLineEdit" name="lineEdit_10"/>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_9">
+      <property name="text">
+       <string>Server Path: : </string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QLineEdit" name="lineEdit_16">
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="midLineWidth">
+       <number>1</number>
+      </property>
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOn</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAlwaysOff</enum>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>423</width>
+         <height>134</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="2">
      <layout class="QGridLayout" name="gridLayout_4">
       <item row="2" column="0">
        <widget class="QDialogButtonBox" name="buttonBox">
@@ -373,10 +414,6 @@
      </layout>
     </item>
    </layout>
-   <zorder>formLayoutWidget</zorder>
-   <zorder>formLayoutWidget</zorder>
-   <zorder>checkBox</zorder>
-   <zorder>label_15</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

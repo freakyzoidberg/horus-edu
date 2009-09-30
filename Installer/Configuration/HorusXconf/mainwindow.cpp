@@ -20,7 +20,25 @@ MainWindow::MainWindow(QWidget *parent)
         ui->lineEdit_16->setText("/opt/Horus/Horus-server/");
 #endif
         on_lineEdit_16_textChanged("");
+
+        completer2 = new QCompleter(this);
+         completer2->setWrapAround(true);
+        completer2->setCompletionMode(QCompleter::PopupCompletion);
+        completer2->setModel(new QDirModel(completer2));
+        ui->lineEdit_10->setCompleter(completer2);
+
+                        completer = new QCompleter(this);
+         completer->setWrapAround(true);
+        completer->setCompletionMode(QCompleter::PopupCompletion);
+        completer->setModel(new QDirModel(completer));
+        ui->lineEdit_16->setCompleter(completer);
+
+        
+
+
+
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -256,12 +274,7 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
                 ui->label_9->setPalette(Pal);
 
        // QCompleter *completer = new QCompleter(this);
-        completer = new QCompleter(this);
-         completer->setWrapAround(true);
-        completer->setCompletionMode(QCompleter::PopupCompletion);
-        completer->setModel(new QDirModel(completer));
-
-        ui->lineEdit_16->setCompleter(completer);
+       
     }
 }
 
@@ -282,7 +295,8 @@ void MainWindow::writesettings()
 
     QString mailssl = (ui->checkBox->isChecked() ? "y" : "n");
     QString maillogin = (ui->checkBox_2->isChecked() ? "y" : "n");
-
+    QString servfileport = ui->lineEdit_8->text();
+    QString servfilepath = ui->lineEdit_10->text();
 
     QString driver;
     if (ui->sqldriver->currentText() == "MySQL")
@@ -305,11 +319,13 @@ else
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SERVER");
     this->Gsettings.setValue("SRV_PORT", (servport));
+    this->Gsettings.setValue("SRV_FILE_TRANSFERT_PORT", (servfileport));
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("SETTINGS");
     this->Gsettings.setValue("Version", "6");
     this->Gsettings.setValue("PluginsBase", ( path+"/Plugins/"));
     this->Gsettings.setValue("SoftFullPath", (path+"/"));
+    this->Gsettings.setValue("FilesDirectory",servfilepath);
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("PLUGINS");;
     qDebug() << this->Gsettings.fileName();
@@ -381,3 +397,19 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
      }
  }
      */
+
+
+
+void MainWindow::on_lineEdit_10_textChanged(QString )
+{
+int found;
+
+QLayoutItem *child;
+QPalette Pal(ui->label_9->palette());
+
+
+       // QCompleter *completer = new QCompleter(this);
+
+
+
+}
