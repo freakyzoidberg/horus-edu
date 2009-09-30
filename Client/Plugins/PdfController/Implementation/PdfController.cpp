@@ -173,21 +173,21 @@ QWidget      *PdfController::editDocument(QFile *metadata, IItems *parent, ILess
         qDebug() << "IPdfRendering not found";
         return NULL;
     }
-
+    int page = doc->getParameters().value("page").toInt();
     fileName = metadata->fileName();
-    image = pdf->PdfDisplayerDoc(fileName, doc->getParameters().value("page").toInt());
+    image = pdf->PdfDisplayerDoc(fileName, page);
+
+    qDebug() << "page to display:" << page;
+
     if (!image)
     {
        qDebug() << "Call the shot";
        return NULL;
     }
 
-    //QImage disp = image->scaled(w, h);
     QPixmap pix = QPixmap::fromImage(*image);
 
+    parent->setGeometry(20, 20, 500, 500);
     pdfEdit->setPixmap(pix);
-   // delete rect;
-   //delete image;
-   // connect(label);*/
     return pdfEdit;
 }
