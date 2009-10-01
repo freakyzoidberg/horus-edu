@@ -17,6 +17,8 @@ class UserDataBasePlugin : public UserDataPlugin
   Q_INTERFACES(ClientUserDataPlugin)
 #endif
 
+	friend class UserDataBase;
+
 public:
     inline const QString pluginVersion() const { return "0.1"; }
     UserData*            getUser(quint32 userId);

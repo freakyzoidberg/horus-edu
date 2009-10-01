@@ -90,6 +90,10 @@ void TreeDataBase::createIntoDatabase(QSqlQuery& query)
 		qDebug() << query.lastError();
 		return;
 	}
+
+	((TreeDataBasePlugin*)_plugin)->nodes.remove(_id);
+	_id = query.lastInsertId().toUInt();
+	((TreeDataBasePlugin*)_plugin)->nodes.insert(_id, this);
 }
 
 void TreeDataBase::saveIntoDatabase  (QSqlQuery& query)

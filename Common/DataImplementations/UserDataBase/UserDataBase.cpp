@@ -71,8 +71,6 @@ QDebug UserDataBase::operator<<(QDebug debug) const
                  //<< country
                  //<< language
                  ;
-    if (_node)
-        debug << _node->id();
 }
 
 void UserDataBase::setName(const QString name)
@@ -251,7 +249,9 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 		return;
 	}
 
+	((UserDataBasePlugin*)_plugin)->users.remove(_id);
 	_id = query.lastInsertId().toUInt();
+	((UserDataBasePlugin*)_plugin)->users.insert(_id, this);
 }
 
 void UserDataBase::saveIntoDatabase(QSqlQuery& query)

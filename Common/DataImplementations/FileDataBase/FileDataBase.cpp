@@ -122,7 +122,9 @@ void FileDataBase::createIntoDatabase(QSqlQuery& query)
 		return;
 	}
 
+	((FileDataBasePlugin*)_plugin)->files.remove(_id);
 	_id = query.lastInsertId().toUInt();
+	((FileDataBasePlugin*)_plugin)->files.insert(_id, this);
 }
 
 void FileDataBase::saveIntoDatabase(QSqlQuery& query)
