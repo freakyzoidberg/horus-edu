@@ -1,7 +1,7 @@
 #include "WhiteBoardDataPlugin.h"
 #include "WhiteBoardData.h"
 
-#include "../../TreeDataPlugin.h"
+#include "../../TreeData.h"
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
@@ -9,7 +9,7 @@
 WhiteBoardData* WhiteBoardDataPlugin::getWhiteBoard(TreeData* node)
 {
 	foreach (WhiteBoardData* wb, whiteBoards)
-		if (wb->parent() == (QObject*)node)
+		if (qobject_cast<TreeData *>(wb->node()) == node)
 			return wb;
 
 	WhiteBoardData* wb = new WhiteBoardData(node, this);

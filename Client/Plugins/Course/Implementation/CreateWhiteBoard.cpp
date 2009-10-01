@@ -14,7 +14,7 @@ CreateWhiteBoard::CreateWhiteBoard(QWidget *parent, PluginManager *pluginManager
 	this->ui.setupUi(this);
 	QAbstractItemModel		*model = new WhiteBoardModel(pluginManager);
     QSortFilterProxyModel	*proxyModel = new QSortFilterProxyModel(this);
-	proxyModel->setFilterRegExp(QRegExp("\\b(ROOT|CLASSES|GRADE|SUBJECT)\\b", Qt::CaseSensitive, QRegExp::RegExp));
+	proxyModel->setFilterRegExp(QRegExp("\\b(ROOT|CLASSES|GRADE|SUBJECT|WHITEBOARD)\\b", Qt::CaseSensitive, QRegExp::RegExp));
 	proxyModel->setFilterKeyColumn(1);
 	proxyModel->setSourceModel(model);
 	this->ui.treeView->setModel(proxyModel);
@@ -44,8 +44,8 @@ void		CreateWhiteBoard::buttonClicked()
 					Data* data = (Data *)(qobject_cast<QSortFilterProxyModel *>(this->ui.treeView->model())->mapToSource(selected.at(0)).internalPointer());
 					TreeData *treeData = qobject_cast<TreeData *>(data);
 					WhiteBoardData *wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(treeData);
-					wbd->setStatus(Data::CREATING);
 					wbd->setSyncMode((WhiteBoardData::SyncMode)(this->ui.syncInput->itemData(this->ui.syncInput->currentIndex(), Qt::UserRole).toUInt()));
+					wbd->save();
 					emit whiteBoardCreated(wbd);
 				}
 				else
