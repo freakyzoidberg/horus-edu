@@ -99,15 +99,25 @@ void MailData::createIntoDatabase(QSqlQuery& query)
 void MailData::saveIntoDatabase(QSqlQuery& query)
 {
 
-    QString host = QSettings().value("MAILSMTP/MAIL_HOSTNAME", ".").toString();
-    QString domain = QSettings().value("MAILSMTP/MAIL_DOMAIN", ".").toString();
-    QString port = QSettings().value("MAILSMTP/MAIL_PORT", ".").toString();
-    QString qssl = QSettings().value("MAILSMTP/MAIL_SSLTLS", ".").toString();
-    QString qlogin = QSettings().value("MAILSMTP/MAIL_LOGIN", ".").toString();
+    QString host = QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString();
+    qDebug() << host;
+    QString domain = QSettings().value("MAIL/MAIL_DOMAIN", ".").toString();
+    qDebug() << domain;
+    QString port = QSettings().value("MAIL/MAIL_PORT", ".").toString();
+    qDebug() << port;
+//    qDebug() << QVariant(port).toInt();
+
+    QString qssl = QSettings().value("MAIL/MAIL_SSLTLS", ".").toString();
+    QString qlogin = QSettings().value("MAIL/MAIL_LOGIN", ".").toString();
+
      smtp *test1 = new smtp(host, _plugin->pluginManager->currentUser()->login()+"@"+domain,this->_to , this->_subject, this->_content);
+
+
+
 
      if (_cc.count() > 0)
          test1->setCc(_cc);
+     if (_bcc.count() > 0)
          test1->setBcc(_bcc);
                 test1->setPriority(smtp::high);
                 //test1->setSmtpServer("localhost");
