@@ -19,6 +19,8 @@ class FileDataBasePlugin : public FileDataPlugin
   Q_INTERFACES(ClientFileDataPlugin)
 #endif
 
+  friend class FileDataBase;
+
 // Plugin Interface
 public:
     inline const QString pluginName() const { return "File Data Base"; }

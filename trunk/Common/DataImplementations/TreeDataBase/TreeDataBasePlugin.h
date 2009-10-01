@@ -17,6 +17,8 @@ class TreeDataBasePlugin : public TreeDataPlugin
   Q_INTERFACES(ClientTreeDataPlugin)
 #endif
 
+  friend class TreeDataBase;
+
 public:
     TreeDataBasePlugin();
     inline const QString pluginName() const { return "Tree Data Base"; }
