@@ -8,6 +8,7 @@
 #include "../../../../Common/FileDataPlugin.h"
 #include "../../../../Common/FileData.h"
 
+#include "LessonModel_ext.h"
 #include "LessonManager.h"
 
 bool	LessonManager::canLoad() const
@@ -19,7 +20,7 @@ bool	LessonManager::canLoad() const
 
 void    LessonManager::load()
 {
-    lessonModel = new LessonModel(pluginManager);
+	lessonModel = new LessonModel_ext(pluginManager);
 }
 
 void    LessonManager::unload()
