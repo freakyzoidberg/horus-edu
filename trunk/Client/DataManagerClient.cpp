@@ -68,6 +68,8 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 	emit data->updated();
 	emit plugin->dataUpdated(data);
 	data->setError(error);
+	if (error)
+		qDebug() << "error data received:" << error;
 }
 
 void DataManagerClient::sendData(UserData*, Data* data) const
