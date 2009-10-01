@@ -25,6 +25,13 @@ TreeData* TreeDataBasePlugin::getNode(quint32 nodeId)
     return nodes[nodeId];
 }
 
+TreeData* TreeDataBasePlugin::createNewNode()
+{
+	static quint32 tmpId = 0;
+	tmpId--;
+	return getNode(tmpId);
+}
+
 Data* TreeDataBasePlugin::getDataWithKey(QDataStream& s)
 {
     quint32 tmpId;

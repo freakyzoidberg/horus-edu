@@ -163,7 +163,13 @@ QVariant TreeDataBase::data(int column, int role) const
 
 TreeData* TreeDataBase::createChild(const QString name, const QString type, UserData* user)
 {
-    return 0;
+	TreeData* node = ((TreeDataBasePlugin*)_plugin)->createNewNode();
+	node->setName(name);
+	node->setType(type);
+	node->setUser(user);
+	node->setParent(this);
+	node->create();
+	return node;
 }
 
 void TreeDataBase::recursRemove()
