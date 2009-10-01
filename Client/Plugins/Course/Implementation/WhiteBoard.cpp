@@ -26,23 +26,6 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
     this->setPalette(p);
 
     QObject::connect(wbdata, SIGNAL(updated()), this, SLOT(update()));
-
-    QPushButton *testicule = new QPushButton("edtion pdf", this);
-    connect(testicule, SIGNAL(clicked()), this, SLOT(calltheshot()));
-}
-
-void    WhiteBoard::calltheshot()
-{
-//    QHash<QString, QVariant> parameters;
-//    parameters.insert("page", QVariant(0));
-//    Items *item = new Items(this, 1, "Pdf", "testpdf");
-//    QFile *merde = new QFile("/tmp/17");
-//    ILessonDocument *doc = new LessonDocument(this, 1, "cmbdtc", "Pdf", "null", parameters);
-//    doc->setId(1);
-//    QWidget *docWidget = this->_controllers["Pdf"]->editDocument(merde, item, doc);
-//    docWidget->lower();
-//    item->repaint();
-//    item->show();
 }
 
 void   WhiteBoard::setTmp(Items *item)
