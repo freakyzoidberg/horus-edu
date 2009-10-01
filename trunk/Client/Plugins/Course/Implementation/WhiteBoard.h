@@ -41,7 +41,6 @@ protected:
 
 public slots:
 	void	update();
-        void    calltheshot();
 
 private:
 	ILessonDocument		*findDocument(int lessonId, int documentId);
