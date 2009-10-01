@@ -3,6 +3,7 @@
 #include "../../PluginManager.h"
 #include "../../TreeData.h"
 #include "../../TreeDataPlugin.h"
+#include <QCryptographicHash>
 
 void UserDataBase::keyToStream(QDataStream& s)
 {
@@ -79,6 +80,14 @@ void UserDataBase::setName(const QString name)
         return;
 
     _name = name;
+}
+
+void UserDataBase::setPassword(const QString password)
+{    
+    if (_password == QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1))
+        return;
+
+    _password = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1);
 }
 
 void UserDataBase::setSurname(const QString surname)
