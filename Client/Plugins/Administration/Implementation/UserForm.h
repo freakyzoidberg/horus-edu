@@ -31,8 +31,8 @@ class UserForm : public QWidget
     Q_OBJECT
 
     public:
-        UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users, UserPage* _page);
-        UserForm(TreeData* treeNode, UserDataPlugin &_users, UserPage *_page);
+        UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin *_users, UserPage* _page);
+        UserForm(TreeData* treeNode, UserDataPlugin *_users, UserPage *_page);
     private:
         void    setupUi();
         QHBoxLayout *stuLayout;
@@ -73,7 +73,7 @@ class UserForm : public QWidget
         void    createNewUser();
         UserData* user;
         TreeData* node;
-        UserDataPlugin& users;
+        UserDataPlugin* users;
         QImage image;
         void fillUserFields();
         void clearForm();

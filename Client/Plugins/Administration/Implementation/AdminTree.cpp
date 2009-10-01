@@ -40,6 +40,7 @@ void    AdminTree::closePanel()
 
 void AdminTree::nodeSelected(const QModelIndex &nodeIndex)
 {
+    qDebug() << nodeIndex.data();
     ckdData = ((Data*)nodeIndex.internalPointer());
     TreeData* node = qobject_cast<TreeData*>((Data*)nodeIndex.internalPointer());
     if (node)
@@ -138,14 +139,14 @@ void    AdminTree::menuNode(QAction * action)
     closePanel();
     if (action->data().toStringList().at(0) == "Add")
     {
-        ndPnl = new NodeInfo(((TreeData*)ckdData), 2, *users, action->data().toStringList().at(1), this);
+        ndPnl = new NodeInfo(((TreeData*)ckdData), 2, users, action->data().toStringList().at(1), this);
         mainLayout->removeItem(mainLayout->itemAt(1));
         mainLayout->setContentsMargins(2, 2, 2, 2);
         mainLayout->addWidget(ndPnl);
     }
     else if (action->data().toStringList().at(0) == "Edit")
     {
-        ndPnl = new NodeInfo(((TreeData*)ckdData), 1, *users, "", this);
+        ndPnl = new NodeInfo(((TreeData*)ckdData), 1, users, "", this);
         mainLayout->removeItem(mainLayout->itemAt(1));
         mainLayout->setContentsMargins(2, 2, 2, 2);
         mainLayout->addWidget(ndPnl);
