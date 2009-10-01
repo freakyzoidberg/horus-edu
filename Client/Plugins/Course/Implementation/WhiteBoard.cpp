@@ -186,6 +186,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		}
 		if (!found)
 		{
+			qDebug() << "new widget in whiteboard";
 			ILessonDocument* document = findDocument(it->idLesson(), it->idSection());
 			if (document)
 			{
@@ -238,6 +239,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
 void	WhiteBoard::fillList(QObject* data, WhiteBoardItemList& list)
 {
+	list.clear();
 	if (data)
 	 {
 		QObjectList::const_iterator it;
