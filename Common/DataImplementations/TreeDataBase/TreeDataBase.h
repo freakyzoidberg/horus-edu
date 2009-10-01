@@ -27,7 +27,8 @@ private:
     UserData*   _user;
     QString     _name;
     QString     _type;
-
+	QList<TreeData*> _children;
+	TreeDataBase*	_parent;
 
 public:
     //INTERFACE Data
@@ -52,6 +53,10 @@ public:
 
     inline const QString type() const { return _type; }
     void                setType(const QString type);
+
+	inline TreeData*	parent() const { return _parent; }
+	void				setParent(TreeData*);
+	inline const QList<TreeData*>&	children() const { return _children; }
 
     bool                isDescendantOf(TreeData* parent);
 

@@ -6,6 +6,7 @@
 TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData((TreeDataPlugin*)plugin)
 {
     _id = nodeId;
+	_parent = 0;
 }
 
 void TreeDataBase::keyToStream(QDataStream& s)
@@ -208,6 +209,18 @@ void TreeDataBase::setType(const QString type)
         return;
 
     _type = type;
+}
+
+void TreeDataBase::setParent(TreeData* p)
+{
+	TreeDataBase* par = ((TreeDataBase*)p);
+
+	if (_parent)
+		_parent->_children.removeOne(this);
+
+	_parent = par;
+	if (par)
+		par->_children.append(this);
 }
 
 bool TreeDataBase::isDescendantOf(TreeData* parent)

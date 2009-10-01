@@ -1,5 +1,6 @@
 #include "TreeDataBasePlugin.h"
 #include "TreeDataBase.h"
+#include <QtCore/QCoreApplication>
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
@@ -16,6 +17,9 @@ TreeData* TreeDataBasePlugin::getNode(quint32 nodeId)
         TreeData* node = new TreeDataBase(nodeId, this);
 #ifdef HORUS_CLIENT
         node->moveToThread(this->thread());
+#endif
+#ifdef HORUS_SERVER
+		node->moveToThread(QCoreApplication::instance()->thread());
 #endif
 
         node->setParent(0);

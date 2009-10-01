@@ -92,6 +92,8 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         int ret = msgBox.exec();
         if (ret == QMessageBox::Yes)
         {
+			parent->resetPage();
+
             TreeData* newNode = node->createChild(nameTxt->text(), typeBox->currentText(), users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
             qDebug() << newNode << nameTxt->text()<< typeBox->currentText() << users.getUser(completer->currentIndex().data(Qt::UserRole).toInt());
             //newNode->save();

@@ -86,6 +86,9 @@ public:
     */
     virtual void    setType(const QString type) = 0;
 
+	virtual TreeData*			parent() const = 0;
+	virtual void				setParent(TreeData*) = 0;
+	virtual const QList<TreeData*>&	children() const = 0;
 
     //! check if the node has a father
     /*!
