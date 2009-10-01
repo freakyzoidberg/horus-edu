@@ -7,13 +7,30 @@
  #include <QLayout>
  #include <QCompleter>
  #include <QDirModel>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QSizePolicy>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
-        QVBoxLayout *mylayout = new QVBoxLayout();
 
-        ui->scrollArea->setLayout(mylayout);
+        checkboxes = new QWidget;
+
+        //area = new QScrollArea(0);
+
+
+        area = new QVBoxLayout;
+        QSizePolicy policy;
+        area->setSpacing(10);
+        //ui->scrollArea->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
+        //ui->scrollArea->setWidgetResizable(true);
+        checkboxes->setLayout(area);
+        ui->scrollArea->setWidget(checkboxes); // A
+
+    //      QVBoxLayout *mylayout = new QVBoxLayout();
+
+//        ui->scrollArea->setLayout(mylayout);
 #ifdef WIN32
         ui->lineEdit_16->setText("C:\\Program Files\\Horus\\");
 #else
@@ -33,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
         completer->setModel(new QDirModel(completer));
         ui->lineEdit_16->setCompleter(completer);
 
-        
+
 
 
 
@@ -220,10 +237,13 @@ void MainWindow::on_lineEdit_16_textChanged(QString )
 int found;
 
 QLayoutItem *child;
-while ((child = ui->scrollArea->layout()->takeAt(0)) != 0) {
+
+
+while ((child = ui->scrollArea->widget()->layout()->takeAt(0)) != 0) {
         child->widget()->deleteLater();
         delete child;
 }
+
 QPalette Pal(ui->label_9->palette());
 QDir dir(ui->lineEdit_16->text()+"/Plugins/");
 if (dir.exists())
@@ -257,9 +277,16 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
                         QFileInfo filefilsInfo = listfils.at(j);
                             if ((filefilsInfo.fileName().endsWith(".so") && filefilsInfo.fileName().count(".so") == 1) || (filefilsInfo.fileName().endsWith(".dll") && filefilsInfo.fileName().count(".dll") == 1))
                             {
-                                QCheckBox * pCheckBox = new QCheckBox
+                                QCheckBox *pCheckBox = new QCheckBox
                                     (fileInfo.fileName()+"/"+filefilsInfo.fileName());
-                                 ui->scrollArea->layout()->addWidget(pCheckBox);
+
+
+
+                                area->addWidget(pCheckBox);
+                                ui->scrollArea->updateGeometry();
+                                ui->scrollArea->adjustSize();
+                                ui->scrollArea->repaint();
+                                //ui->scrollArea->layout()->addWidget(pCheckBox);
                                  //ui->scrollAreaWidgetContents->repaint();
                                  found = 1;
                              }

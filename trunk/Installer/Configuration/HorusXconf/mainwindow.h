@@ -17,6 +17,7 @@
 #include <QCompleter>
 #include <QKeyEvent>
 #include <QVBoxLayout>
+#include <QScrollArea>
 namespace Ui
 {
     class MainWindowClass;
@@ -37,7 +38,8 @@ private:
     QCompleter *completer;
     QCompleter *completer2;
     QWidget *checkboxes;
-    QVBoxLayout* layout;
+    QVBoxLayout* area;
+
 
 //protected:
 //    void keyPressEvent(QKeyEvent *e);
