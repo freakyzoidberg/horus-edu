@@ -47,34 +47,64 @@ void CourseWidget::buildCategoryTree()
     this->categoryView->setModel(this->categoryModel);
     this->categoryView->setAnimated(true);
     this->categoryView->setAutoExpandDelay(500);
-	this->categoryView->setRootIsDecorated(false);
+	//this->categoryView->setRootIsDecorated(false);
     this->categoryView->setHeaderHidden(true);
     this->categoryView->setSelectionMode(QAbstractItemView::SingleSelection);
     this->categoryView->setSelectionBehavior(QAbstractItemView::SelectItems);
-	this->categoryView->setRootIndex(this->categoryModel->index(0, 0, this->categoryView->rootIndex()));
+	//this->categoryView->setRootIndex(this->categoryModel->index(0, 0, this->categoryView->rootIndex()));
     this->categoryView->setDragEnabled(true);
 	this->categoryView->setContextMenuPolicy(Qt::CustomContextMenu);
 	QObject::connect(this->categoryView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenu(QPoint)));
-	this->categoryView->expandAll();
+	QObject::connect(this->categoryView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(selectionChanged(QModelIndex,QModelIndex)));
+	//this->categoryView->expandAll();
 }
 
 void CourseWidget::contextMenu(const QPoint &point)
 {
-	QModelIndex idx = this->categoryView->indexAt(point);
-	if (idx.isValid())
+	if (currentIndex.isValid())
 	{
 		QList<QAction *> actions;
-		QObject* obj = static_cast<QObject *>(idx.internalPointer());
-		ILesson* lesson = static_cast<ILesson *>(obj);
-		if (lesson)
+		QObject* obj = static_cast<QObject *>(currentIndex.internalPointer());
+		ILesson* lesson = dynamic_cast<ILesson *>(obj);
+		ILessonSection* section = dynamic_cast<ILessonSection *>(obj);
+		if (lesson || section)
 		{
-			QAction *action = new QAction(*sectionIcon, tr("createLesson"), NULL);
+			QAction *action = new QAction(*sectionIcon, tr("createSection"), NULL);
+			QObject::connect(action, SIGNAL(triggered()), this, SLOT(addSection()));
 			actions.push_back(action);
 			action = new QAction(*documentIcon, tr("createDocument"), NULL);
+			QObject::connect(action, SIGNAL(triggered()), this, SLOT(addDocument()));
+			actions.push_back(action);
+		}
+		TreeData* treedata = dynamic_cast<TreeData*>(obj);
+		if (treedata && treedata->type() == "SUBJECT")
+		{
+			QAction *action = new QAction(*lessonIcon, tr("createLesson"), NULL);
+			QObject::connect(action, SIGNAL(triggered()), this, SLOT(addLesson()));
 			actions.push_back(action);
 		}
 		QMenu::exec(actions, this->categoryView->mapToGlobal(point));
 	}
+}
+
+void CourseWidget::selectionChanged(QModelIndex current, QModelIndex previous)
+{
+	currentIndex = current;
+}
+
+void CourseWidget::addDocument()
+{
+
+}
+
+void CourseWidget::addSection()
+{
+
+}
+
+void CourseWidget::addLesson()
+{
+	categoryModel->createLesson(currentIndex);
 }
 
 QIcon		*CourseWidget::lessonIcon = NULL;
