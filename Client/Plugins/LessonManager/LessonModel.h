@@ -18,8 +18,9 @@ public:
         Qt::ItemFlags flags( const QModelIndex & index) const;
 	QStringList mimeTypes() const;
 	QMimeData *mimeData(const QModelIndexList &indexes) const;
+	virtual bool createLesson(QModelIndex&) = 0;
 
-private:
+protected:
     PluginManager*  pluginManager;
 	FileDataPlugin*		filePlugin;
     Data*           rootItem;

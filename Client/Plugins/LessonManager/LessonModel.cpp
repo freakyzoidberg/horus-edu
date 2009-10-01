@@ -1,7 +1,6 @@
 #include "LessonModel.h"
 
 #include <QMimeData>
-#include <iostream>
 
 #include "../../../Common/UserData.h"
 #include "Implementation/Lesson.h"
@@ -24,12 +23,12 @@ int LessonModel::rowCount ( const QModelIndex & parent) const
     if (!parent.isValid())
         return 1;
 
-	QObject* data = (QObject*)(parent.internalPointer());
-	int count = data->children().count();
+	QObject* obj = (QObject*)(parent.internalPointer());
 
-	TreeData *tdata = qobject_cast<TreeData *>(data);
+	TreeData *tdata = qobject_cast<TreeData *>(obj);
 	if (tdata)
 	{
+		int count = tdata->children().count();
 		UserData* user = pluginManager->currentUser();
 		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
 		foreach (FileData* file, files)
@@ -37,8 +36,9 @@ int LessonModel::rowCount ( const QModelIndex & parent) const
 			if (file->mimeType() == "x-horus/x-lesson")
 				count++;
 		}
+		return count;
 	}
-	return count;
+	return obj->children().count();
 }
 
 QVariant LessonModel::data ( const QModelIndex & index, int role) const
@@ -120,14 +120,15 @@ QModelIndex LessonModel::index ( int row, int column, const QModelIndex & parent
     if ( ! parent.isValid())
         return createIndex(row, column, rootItem);
 
-	QObject* data = (QObject*)(parent.internalPointer());
-	if (row < data->children().count())
-		return createIndex(row, column, data->children().at(row));
-	int count = data->children().count();
+	QObject* obj = (QObject*)(parent.internalPointer());
 
-	TreeData *tdata = qobject_cast<TreeData *>(data);
+	TreeData *tdata = qobject_cast<TreeData *>(obj);
+
 	if (tdata)
 	{
+		if (row < tdata->children().count())
+			return createIndex(row, column, tdata->children().at(row));
+		int count = tdata->children().count();
 		UserData* user = pluginManager->currentUser();
 		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
 		foreach (FileData* file, files)
@@ -143,8 +144,8 @@ QModelIndex LessonModel::index ( int row, int column, const QModelIndex & parent
 			}
 		}
 	}
-	qDebug() << "[LessonModel] too many rows there";
-	return createIndex(row, column, ((QObject*)(parent.internalPointer()))->children().at(row));
+
+	return createIndex(row, column, obj->children().at(row));
 }
 
 QModelIndex LessonModel::parent ( const QModelIndex & index ) const
@@ -154,39 +155,53 @@ QModelIndex LessonModel::parent ( const QModelIndex & index ) const
     if (obj == rootItem)
         return QModelIndex();
 
-    if (obj->parent() == rootItem)
-        return createIndex(0, 0, rootItem);
-
+	TreeData *tdata = qobject_cast<TreeData *>(obj);
 	Lesson* lesson = qobject_cast<Lesson *>(obj);
-	if (lesson)
+	QObject* parent;
+	if (tdata)
+	{
+		parent = tdata->parent();
+	}
+	else if (lesson)
 	{
 		FileData *fdata = lesson->getFiledata();
-		obj = fdata->node();
+		parent = fdata->node();
 	}
 	else
 	{
-		obj = obj->parent();
-		lesson = qobject_cast<Lesson *>(obj);
-		if (lesson)
+		parent = obj->parent();
+	}
+
+	if (parent == rootItem)
+	{
+		return createIndex(0, 0, rootItem);
+	}
+
+	TreeData *tparent = qobject_cast<TreeData *>(parent);
+	Lesson* tlesson = qobject_cast<Lesson *>(parent);
+	if (tparent)
+	{
+		return createIndex(tparent->parent()->children().indexOf(tparent), 0, parent);
+	}
+	else if (tlesson)
+	{
+		UserData* user = pluginManager->currentUser();
+		FileData* fdata = tlesson->getFiledata();
+		TreeData* tdata = fdata->node();
+		int count = tdata->children().count();
+		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
+		foreach (FileData* file, files)
 		{
-			UserData* user = pluginManager->currentUser();
-			FileData* fdata = lesson->getFiledata();
-			TreeData* tdata = fdata->node();
-			int count = tdata->children().count();
-			QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
-			foreach (FileData* file, files)
+			if (file->mimeType() == "x-horus/x-lesson")
 			{
-				if (file->mimeType() == "x-horus/x-lesson")
+				if (file == fdata)
 				{
-					if (file == fdata)
-					{
-						return createIndex(count, 0, lesson);
-					}
-					count++;
+					return createIndex(count, 0, tlesson);
 				}
+				count++;
 			}
 		}
 	}
 
-    return createIndex(obj->parent()->children().indexOf(obj), 0, obj);
+	return createIndex(parent->parent()->children().indexOf(parent), 0, parent);
 }

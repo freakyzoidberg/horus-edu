@@ -12,10 +12,6 @@ LessonSection::LessonSection(ILesson *parent) : ILessonSection(parent)
 
 QVariant LessonSection::data(int column, int role) const
 {
-	if (getTitle() == "Les grandes decouvertes" && role == Qt::DecorationRole)
-	{
-		int pwet = column;
-	}
     if (role == Qt::DisplayRole)
         return QVariant(getTitle());
     else if (role == Qt::DecorationRole)

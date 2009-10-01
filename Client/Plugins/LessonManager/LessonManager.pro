@@ -7,7 +7,8 @@ SOURCES += Implementation/LessonManager.cpp \
     Implementation/Lesson.cpp \
     LessonModel.cpp \
     Implementation/LessonSection.cpp \
-    Implementation/LessonDocument.cpp
+    Implementation/LessonDocument.cpp \
+    Implementation/LessonModel_ext.cpp
 HEADERS += ILessonManager.h \
     LessonManagerMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -25,7 +26,8 @@ HEADERS += ILessonManager.h \
     Implementation/Lesson.h \
     ILessonData.h \
     Implementation/LessonSection.h \
-    Implementation/LessonDocument.h
+    Implementation/LessonDocument.h \
+    Implementation/LessonModel_ext.h
 DEFINES += HORUS_CLIENT
 RESOURCES += Implementation/TreeIcons.qrc
 TARGET = LessonManager
