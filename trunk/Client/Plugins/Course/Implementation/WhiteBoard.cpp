@@ -6,8 +6,8 @@
 #include "LessonDocument.h"
 #include "Items.h"
 
-WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers, ILesson *lesson)
-	: _controllers(controllers), lesson(lesson)
+WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers)
+	: _controllers(controllers)
 {
     wbdata = wbd;
     setAcceptDrops(true);
@@ -31,16 +31,16 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 
 void    WhiteBoard::calltheshot()
 {
-    QHash<QString, QVariant> parameters;
-    parameters.insert("page", QVariant(0));
-    Items *item = new Items(this, 1, "Pdf", "testpdf");
-    QFile *merde = new QFile("/tmp/17");
-    ILessonDocument *doc = new LessonDocument(this, 1, "cmbdtc", "Pdf", "null", parameters);
-    doc->setId(1);
-    QWidget *docWidget = this->_controllers["Pdf"]->editDocument(merde, item, doc);
-    docWidget->lower();
-    item->repaint();
-    item->show();
+//    QHash<QString, QVariant> parameters;
+//    parameters.insert("page", QVariant(0));
+//    Items *item = new Items(this, 1, "Pdf", "testpdf");
+//    QFile *merde = new QFile("/tmp/17");
+//    ILessonDocument *doc = new LessonDocument(this, 1, "cmbdtc", "Pdf", "null", parameters);
+//    doc->setId(1);
+//    QWidget *docWidget = this->_controllers["Pdf"]->editDocument(merde, item, doc);
+//    docWidget->lower();
+//    item->repaint();
+//    item->show();
 }
 
 void   WhiteBoard::setTmp(Items *item)
@@ -100,7 +100,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			ILessonDocument *doc = new LessonDocument(this, id, title, type, content, parameters);
 			if (this->_controllers.contains(type))
                         {
-                                Items *item = new Items(this, id, type, title);
+								Items *item = new Items(this, NULL, id, type, title);
 
 				QWidget *docWidget;
 				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
@@ -170,7 +170,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		for (it2 = itemList.begin(); it2 != itemList.end(); it2++)
 		{
 			Items* item = qobject_cast<Items *>(*it2);
-			if (item && item->getId() == it->id())
+			if (item && item->getId() == it->idSection() && item->getLesson()->getId() == it->idLesson())
 			{
 				item->setGeometry(it->left(), it->top(), it->width(), it->height());
 //				if (it->docked())
@@ -183,12 +183,12 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		}
 		if (!found)
 		{
-			ILessonDocument* document = findDocument(lesson);
+			ILessonDocument* document = findDocument(it->idLesson(), it->idSection());
 			if (document)
 			{
 				if (this->_controllers.contains(document->getType()))
 				{
-                                        Items *item = new Items(this, document->getId(),
+										Items *item = new Items(this, NULL, document->getId(),
                                                                 document->getParameters().value("type").toString(),
                                                                 document->getParameters().value("title").toString());
 					QWidget *docWidget;
@@ -216,7 +216,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			bool found = false;
 			for (it = list.begin(); it != list.end(); it++)
 			{
-				if (item->getId() == it->id())
+				if (item->getLesson()->getId() == it->idLesson() && item->getId() == it->idSection())
 				{
 					found = true;
 					break;
@@ -228,20 +228,8 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 	}
  }
 
- ILessonDocument*	WhiteBoard::findDocument(ILessonData* data)
+ ILessonDocument*	WhiteBoard::findDocument(int lessonId, int documentId)
  {
-	 if (data)
-	 {
-		QObjectList::const_iterator it;
-		for (it = data->children().begin(); it != data->children().end(); it++)
-		{
-			if (qobject_cast<ILessonDocument *>(*it))
-				return qobject_cast<ILessonDocument *>(*it);
-			ILessonDocument *document = findDocument(qobject_cast<ILessonData *>(*it));
-			if (document)
-                                return document;
-		}
-	}
 	return NULL;
  }
 
@@ -255,7 +243,7 @@ void	WhiteBoard::fillList(QObject* data, WhiteBoardItemList& list)
 			if (qobject_cast<Items *>(*it))
 			{
 				Items* item = qobject_cast<Items *>(*it);
-				list.append(WhiteBoardItem(item->getId(), item->x(), item->y(), item->width(), item->height(), false));
+				list.append(WhiteBoardItem((int)item->getLesson(), item->getId(), item->x(), item->y(), item->width(), item->height(), false));
 			}
 		}
 	}
