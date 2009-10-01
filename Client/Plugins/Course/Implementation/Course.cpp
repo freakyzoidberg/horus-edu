@@ -81,6 +81,7 @@ QWidget             *Course::getWidget()
 	this->user = pluginManager->currentUser();
 	this->parent = new QWidget();
 	this->layout = new QVBoxLayout(this->parent);
+	this->layout->setMargin(0);
 	this->createWidget();
 	return (this->parent);
 }

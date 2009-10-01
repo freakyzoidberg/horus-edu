@@ -43,10 +43,15 @@ void		CreateWhiteBoard::buttonClicked()
 				{
 					Data* data = (Data *)(qobject_cast<QSortFilterProxyModel *>(this->ui.treeView->model())->mapToSource(selected.at(0)).internalPointer());
 					TreeData *treeData = qobject_cast<TreeData *>(data);
-					WhiteBoardData *wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(treeData);
-					wbd->setSyncMode((WhiteBoardData::SyncMode)(this->ui.syncInput->itemData(this->ui.syncInput->currentIndex(), Qt::UserRole).toUInt()));
-					wbd->save();
-					emit whiteBoardCreated(wbd);
+					if (treeData)
+					{
+						WhiteBoardData *wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(treeData);
+						wbd->setSyncMode((WhiteBoardData::SyncMode)(this->ui.syncInput->itemData(this->ui.syncInput->currentIndex(), Qt::UserRole).toUInt()));
+						wbd->save();
+						emit whiteBoardCreated(wbd);
+					}
+					else
+						qWarning() << tr("Cannot create a whitboard inside an other whiteboard");
 				}
 				else
 					qWarning() << tr("Please select only one place to create the whiteboard");
