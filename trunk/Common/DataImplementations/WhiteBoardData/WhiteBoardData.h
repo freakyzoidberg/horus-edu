@@ -48,8 +48,8 @@ public:
 #ifdef HORUS_CLIENT
 	inline WhiteBoardItemList&	items() { return _items; }
 #endif
-	inline SyncMode				syncMode() const { return _syncMode; }
-	inline void					setSyncMode(SyncMode mode) { _syncMode = mode; }
+	inline SyncMode				syncMode() const { return (SyncMode)_syncMode; }
+	inline void					setSyncMode(SyncMode mode) { _syncMode = (quint8)mode; }
 
 private:
 	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { _node = node; }
@@ -63,7 +63,7 @@ private:
 	QByteArray		   _items;
 #endif
 	TreeData*		   _node;
-	SyncMode		   _syncMode;
+	quint8			   _syncMode;
 };
 
 #endif // WHITEBOARDDATA_H
