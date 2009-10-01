@@ -46,6 +46,9 @@ public:
 #endif
     DataManager*          dataManager;
 
+signals:
+	void dataUpdated(Data* data);
+
 	friend class MetaPlugin;
 protected:
 	inline DataPlugin() {}

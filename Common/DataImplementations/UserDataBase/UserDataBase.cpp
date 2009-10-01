@@ -86,7 +86,7 @@ void UserDataBase::setName(const QString name)
 
 void UserDataBase::setPassword(const QString password)
 {    
-    if (_password == QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1))
+	if (_password == QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1))
         return;
 
     _password = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1);
@@ -220,7 +220,7 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
 
     _login      = query.value(0).toString();
     _level      = (UserLevel)(query.value(1).toUInt());
-	_password   = query.value(2).toByteArray();
+	_password   = QByteArray::fromHex(query.value(2).toByteArray());
 	_lastLogin  = query.value(3).toDateTime();
 	_surname    = query.value(4).toString();
 	_name       = query.value(5).toString();
@@ -240,7 +240,7 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 	query.prepare("INSERT INTO users (login,level,password,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
     query.addBindValue(_login);
     query.addBindValue(_level);
-	query.addBindValue(_password);
+	query.addBindValue(_password.toHex());
 	query.addBindValue(_lastLogin);
     query.addBindValue(_surname);
     query.addBindValue(_name);
@@ -271,7 +271,7 @@ void UserDataBase::saveIntoDatabase(QSqlQuery& query)
 	query.prepare("UPDATE users SET login=?,level=?,password=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
     query.addBindValue(_login);
     query.addBindValue(_level);
-	query.addBindValue(_password);
+	query.addBindValue(_password.toHex());
 	query.addBindValue(_lastLogin);
     query.addBindValue(_surname);
     query.addBindValue(_name);
