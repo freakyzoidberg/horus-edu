@@ -38,7 +38,6 @@ HEADERS += Implementation/Course.h \
     Implementation/Items.h \
     Implementation/WhiteBoard.h \
     Implementation/CreateWhiteBoard.h \
-    Implementation/JoinWhiteBoard.h \
     IItems.h \
     Implementation/WhiteBoardModel.h \
     Implementation/JoinWhiteBoard.h

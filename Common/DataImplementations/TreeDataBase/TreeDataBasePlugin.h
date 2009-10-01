@@ -23,6 +23,7 @@ public:
     inline const QString pluginVersion() const { return "0.1"; }
     inline const QString getDataType() const { return "Tree"; }
     TreeData*            getNode(quint32 nodeId);
+	TreeData*			 createNewNode();
 
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
