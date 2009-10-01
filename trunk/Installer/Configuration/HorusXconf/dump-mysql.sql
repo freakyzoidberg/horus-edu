@@ -165,16 +165,6 @@ CREATE TABLE `users` (
 SET character_set_client = @saved_cs_client;
 
 --
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,1,'root',0,'dc76e9f0c0006e8f919e0c515c66dbba3982f785','2693440cbfb2cb11048c3732070a5eec51a3e3eac48aff993eaaff7afc528c39','2009-10-01 22:53:54','2009-10-01 10:53:54','Father','God',NULL,NULL,NULL,NULL,NULL,NULL,0,'0000-00-00 00:00:00'),(2,1,'prof',2,'da39a3ee5e6b4b0d3255bfef95601890afd80709','fd8c18741464a93bca0cf0170803ef581c0be9a79c4f21a40b6361313def418b','2009-10-01 23:04:41','2009-10-01 11:04:41','prof','prof','2009-09-30 22:00:00','vide','vfrg','prof','frwe','freqg',2,'2009-10-01 10:54:48'),(3,1,'toto',3,'da39a3ee5e6b4b0d3255bfef95601890afd80709','e10aae07b9a16d59fa6b4ca84c60161486854d5c7080d3d34bee471410733074','2009-10-01 23:00:27','2009-10-01 11:00:27','treqt','rqte','2009-09-30 22:00:00','vide','treqt','treqt','treqt','trqt',247,'2009-10-01 10:55:19');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `white_board`
 --
 
