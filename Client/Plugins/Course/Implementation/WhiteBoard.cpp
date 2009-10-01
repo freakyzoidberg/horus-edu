@@ -246,7 +246,7 @@ void	WhiteBoard::fillList(QObject* data, WhiteBoardItemList& list)
 			if (qobject_cast<Items *>(*it))
 			{
 				Items* item = qobject_cast<Items *>(*it);
-				list.append(WhiteBoardItem((int)item->getLesson(), item->getId(), item->x(), item->y(), item->width(), item->height(), false));
+				list.append(WhiteBoardItem(item->getLesson()->getId(), item->getId(), item->x(), item->y(), item->width(), item->height(), false));
 			}
 		}
 	}
