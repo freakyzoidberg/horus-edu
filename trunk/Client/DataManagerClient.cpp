@@ -66,6 +66,7 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 
 	data->_status = Data::UPTODATE;
 	emit data->updated();
+	emit plugin->dataManager(data);
 	data->setError(error);
 }
 
