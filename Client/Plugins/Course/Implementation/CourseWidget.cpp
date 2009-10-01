@@ -28,6 +28,12 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
 	//TODO, chage 0 by the selected witheboard
 	this->pageWidget = new WhiteBoard(wbd, controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
     this->addWidget(this->pageWidget);
+	if (lessonIcon == NULL)
+		lessonIcon = new QIcon(":/LessonIcon.png");
+	if (sectionIcon == NULL)
+		sectionIcon = new QIcon(":/SectionIcon.png");
+	if (documentIcon == NULL)
+		documentIcon = new QIcon(":/DocumentIcon.png");
 }
 
 
@@ -51,11 +57,23 @@ void CourseWidget::buildCategoryTree()
 
 void CourseWidget::contextMenu(const QPoint &point)
 {
-	QModelIndex idx = this->categoryView->currentIndex();
+	QModelIndex idx = this->categoryView->indexAt(point);
 	if (idx.isValid())
 	{
 		QList<QAction *> actions;
-		actions.insert(actions.end(), new QAction("pwet", NULL));
+		QObject* obj = static_cast<QObject *>(idx.internalPointer());
+		ILesson* lesson = static_cast<ILesson *>(obj);
+		if (lesson)
+		{
+			QAction *action = new QAction(*sectionIcon, tr("createLesson"), NULL);
+			actions.push_back(action);
+			action = new QAction(*documentIcon, tr("createDocument"), NULL);
+			actions.push_back(action);
+		}
 		QMenu::exec(actions, this->categoryView->mapToGlobal(point));
 	}
 }
+
+QIcon		*CourseWidget::lessonIcon = NULL;
+QIcon		*CourseWidget::sectionIcon = NULL;
+QIcon		*CourseWidget::documentIcon = NULL;

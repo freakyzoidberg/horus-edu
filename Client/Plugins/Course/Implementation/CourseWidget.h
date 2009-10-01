@@ -37,6 +37,9 @@ private:
 	WhiteBoard          *pageWidget;
     quint32             fileIndex;
     FileData            *lessonFile;
+	static QIcon		*lessonIcon;
+	static QIcon		*sectionIcon;
+	static QIcon		*documentIcon;
 };
 
 #endif // __COURSEWIDGET_H__
