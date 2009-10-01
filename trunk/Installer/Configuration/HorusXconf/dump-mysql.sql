@@ -67,7 +67,7 @@ CREATE TABLE `users` (
   `surname` varchar(255) NULL,
   `name` varchar(255) NULL,
   `birth_date` timestamp NULL,
-  `picture` blob NULL '',
+  `picture` blob,
   `address` varchar(255) NULL,
   `phone` varchar(32) NULL,
   `country` varchar(32) NULL,
