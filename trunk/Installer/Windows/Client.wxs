@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="2dafa691-cbb8-49b7-9581-3732dd3f3f76" Name="Horus" Language="1033" Version="1.0.0.0" Manufacturer="Horus" UpgradeCode="e47dbf4f-8dbf-4256-a4f0-7c476e313134">
+	<Product Id="2dafa691-cbb8-49b7-9581-3732dd3f3f76" Name="Horus" Language="1033" Version="0.1.1253" Manufacturer="Horus" UpgradeCode="e47dbf4f-8dbf-4256-a4f0-7c476e313134">
 		<Package InstallerVersion="200" Compressed="yes" />
 
 		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
@@ -15,42 +15,83 @@
 					<Component Id="ClientMainExe" Guid="8e1af3bd-93bf-47f0-a7d4-02359cc0439f">
 						<File Name='Horus_Client.exe' Source='../../Client/release/Horus_Client.exe' KeyPath='yes' />
 					</Component>
-					<Component Id="MingwLibrary10" Guid="142937ff-b5be-49ce-b21a-cff1d52003db" KeyPath="yes">
-						<File Name='mingwm10.dll' Source='CoreDLL/mingwm10.dll'/>
+					<Component Id="QtCore4" Guid="baf20c78-35b8-4421-909c-e3078c6ace35" KeyPath="yes">
+						<File Name='QtCore4.dll' Source='CoreDLL/msvc2008/QtCore4.dll' />
 					</Component>
-					<Component Id="QtCore4" Guid="b6f03124-0948-4f2c-ab61-c5da9f2f843c" KeyPath="yes">
-						<File Name='QtCore4.dll' Source='CoreDLL/QtCore4.dll' />
+					<Component Id="QtGui4" Guid="40969bba-b2e3-4436-98a1-5a56cdf91830" KeyPath="yes">
+						<File Name='QtGui4.dll' Source='CoreDLL/msvc2008/QtGui4.dll' />
 					</Component>
-					<Component Id="QtGui4" Guid="68bf494d-0e44-4538-bc93-4bb6f5cf5957" KeyPath="yes">
-						<File Name='QtGui4.dll' Source='CoreDLL/QtGui4.dll' />
-					</Component>
-					<Component Id="QtNetwork4" Guid="07fa073e-0113-4b73-a11b-00536f83b5e8" KeyPath="yes">
-						<File Name='QtNetwork4.dll' Source='CoreDLL/QtNetwork4.dll' />
-					</Component>
-					<Component Id='OpenSSL' Guid='5a8df2eb-b043-4506-b85f-5ad31c947d6b'>
-						<File Name='ssleay32.dll' Source='CoreDLL/ssleay32.dll' />
-						<File Name='libeay32.dll' Source='CoreDLL/libeay32.dll' />
-					</Component>
-					<Directory Id="PLUGINDIR" Name="Plugins">
-						<Component Id="ClientPluginLessonManager" Guid="65b38138-a23a-4533-99f2-ecac289a39a7">
-							<File Name="LessonManager.dll" Source="..\..\Client\Plugins\LessonManager\release\LessonManager.dll" KeyPath="yes"/>
-						</Component>
-						<Component Id="ClientPluginAdministration" Guid="a0facbdf-5f29-4ac8-a32a-851f07383cd2">
-							<File Name="Administration.dll" Source="..\..\Client\Plugins\Administration\release\Administration.dll" KeyPath="yes" />
-						</Component>
-						<Component Id="ClientPluginTreeManagement" Guid="84aba3d2-2fd2-44a3-a6c8-991ae9254c2f">
-							<File Name="TreeManagement.dll" Source="..\..\Client\Plugins\TreeManagement\release\TreeManagement.dll" KeyPath="yes" />
-						</Component>
-						<Component Id="ClientPluginCourse" Guid="8ee021e8-293c-47c2-ba99-0d5920408ed1">
+          <Component Id="QtNetwork4" Guid="07fa073e-0113-4b73-a11b-00536f83b5e8" KeyPath="yes">
+            <File Name='QtNetwork4.dll' Source='CoreDLL/msvc2008/QtNetwork4.dll' />
+          </Component>
+          <Component Id="QtXml4" Guid="7f52fc24-89ce-4d4e-8f42-afa8b4c31577" KeyPath="yes">
+            <File Name='QtXml4.dll' Source='CoreDLL/msvc2008/QtXml4.dll' />
+          </Component>
+          <Component Id='OpenSSL' Guid='adb3be26-b5e7-4dea-b4ee-f5314596897c'>
+            <File Name='ssleay32.dll' Source='CoreDLL/msvc2008/ssleay32.dll' />
+            <File Name='libeay32.dll' Source='CoreDLL/msvc2008/libeay32.dll' />
+          </Component>
+          <Component Id='Poppler' Guid='9da8bbb2-409b-4ce0-a4e5-311da661898f'>
+            <File Name='poppler-qt4.dll' Source='CoreDLL/msvc2008/poppler-qt4.dll' />
+            <File Name='jpeg62.dll' Source='CoreDLL/msvc2008/jpeg62.dll' />
+            <File Name='freetype.dll' Source='CoreDLL/msvc2008/freetype.dll' />
+          </Component>
+          <Directory Id="PLUGINDIR" Name="Plugins">
+            <Component Id="ClientPluginAdministration" Guid="a0facbdf-5f29-4ac8-a32a-851f07383cd2">
+              <File Name="Administration.dll" Source="..\..\Client\Plugins\Administration\release\Administration.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginAttendance" Guid="1de77829-65fe-4d02-8d88-eff0d76233c9">
+              <File Name="Attendance.dll" Source="..\..\Client\Plugins\Attendance\release\Attendance.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginCourse" Guid="84aba3d2-2fd2-44a3-a6c8-991ae9254c2f">
 							<File Name="Course.dll" Source="..\..\Client\Plugins\Course\release\Course.dll" KeyPath="yes" />
 						</Component>
-						<Component Id="ClientPluginMainFrame" Guid="d6801f3f-3030-42de-acfd-9b0935629ba3">
-							<File Name="MainFrame.dll" Source="..\..\Client\Plugins\MainFrame\release\MainFrame.dll" KeyPath="yes" />
+						<Component Id="ClientPluginEditor" Guid="8ee021e8-293c-47c2-ba99-0d5920408ed1">
+							<File Name="Editor.dll" Source="..\..\Client\Plugins\Editor\release\Editor.dll" KeyPath="yes" />
 						</Component>
-						<Component Id="ClientPluginTextController" Guid="fd9dbfb9-0465-4049-9b6c-9edf915352ef">
-							<File Name="TextController.dll" Source="..\..\Client\Plugins\TextController\release\TextController.dll" KeyPath="yes" />
+						<Component Id="ClientPluginFileBaseClient" Guid="d6801f3f-3030-42de-acfd-9b0935629ba3">
+							<File Name="FileBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\FileBaseClient\release\FileBaseClientMetaPlugin.dll" KeyPath="yes" />
 						</Component>
-					</Directory>
+            <Component Id="ClientPluginImageController" Guid="fd9dbfb9-0465-4049-9b6c-9edf915352ef">
+              <File Name="ImageController.dll" Source="..\..\Client\Plugins\ImageController\release\ImageController.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginLessonManager" Guid="fe0572a0-1890-4881-89af-2f9cd728cf56">
+              <File Name="LessonManager.dll" Source="..\..\Client\Plugins\LessonManager\release\LessonManager.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginMail" Guid="e8bfe583-4913-4a1f-8e9f-0ae752978e3c">
+              <File Name="Mail.dll" Source="..\..\Client\Plugins\Mail\release\Mail.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginMainFrame" Guid="4ae89dc9-2873-4d0c-ad8b-82e893a18ef2">
+              <File Name="MainFrame.dll" Source="..\..\Client\Plugins\MainFrame\release\MainFrame.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginMarks" Guid="f12edb18-a3b5-4680-8a7b-440734be5926">
+              <File Name="Marks.dll" Source="..\..\Client\Plugins\Marks\release\Marks.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginPdfController" Guid="ff005b4b-ca72-467d-b5a4-871ec27ba9ef">
+              <File Name="PdfController.dll" Source="..\..\Client\Plugins\PdfController\release\PdfController.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginPdfDisplayer" Guid="a3aaaf99-bffc-493b-a17a-9116c2d1b453">
+              <File Name="PdfDisplayer.dll" Source="..\..\Client\Plugins\PdfDisplayer\release\PdfDisplayer.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginPdfEditor" Guid="00d92b76-a27f-488c-954c-738e8b42dce5">
+              <File Name="PdfEditor.dll" Source="..\..\Client\Plugins\PdfEditor\release\PdfEditor.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginSettingsBaseClient" Guid="6af2fb2a-bcb6-445b-9f84-9d39a19a751f">
+              <File Name="SettingsBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\SettingsBaseClient\release\SettingsBaseClientMetaPlugin.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginTestGitClient" Guid="caacd5aa-7dd8-43cc-ba44-8d650437792b">
+              <File Name="TestGitClient.dll" Source="..\..\Client\Plugins\TestGitClient\release\TestGitClient.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginTextController" Guid="5cb298a2-9f72-417b-84db-9e046df02261">
+              <File Name="TextController.dll" Source="..\..\Client\Plugins\TextController\release\TextController.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginTreeBaseClient" Guid="6a74b419-af5a-479a-92ae-a16b3882d68c">
+              <File Name="TreeBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\TreeBaseClient\release\TreeBaseClientMetaPlugin.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginUserBaseClient" Guid="6e6a9a25-89cb-4d26-9014-585e15219b96">
+              <File Name="UserBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\UserBaseClient\release\UserBaseClientMetaPlugin.dll" KeyPath="yes" />
+            </Component>
+          </Directory>
 				</Directory>
 			</Directory>
 			<Directory Id="HorusConfFolder" Name=".Horus">
@@ -59,7 +100,25 @@
 					<RemoveFolder Id="HorusConfFolder" On="uninstall"/>
 					<RegistryValue Root="HKCU" Key="Software\Horus" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
 				</Component>
-			</Directory>
+        <Directory Id="TranslationsFolder" Name="Translations">
+          <Component Id="TranslationsCore" Guid="05b0a30e-a55e-41e2-a43e-ed95d864e2e1">
+            <File Name="Horus_en.qm" Source="..\..\Client\Horus_en.qm" />
+            <File Name="Horus_fr.qm" Source="..\..\Client\Horus_fr.qm" />
+          </Component>
+          <Component Id="TranslationsAdministration" Guid="c265f03a-f052-4d68-bf2d-645f9a603527">
+            <File Name="Administration_en.qm" Source="..\..\Client\Plugins\Administration\Administration_en.qm" />
+            <File Name="Administration_fr.qm" Source="..\..\Client\Plugins\Administration\Administration_fr.qm" />
+          </Component>
+          <Component Id="TranslationsMainFrame" Guid="17549bbd-f16c-44d0-82eb-2dd7a649e47f">
+            <File Name="MainFrame_en.qm" Source="..\..\Client\Plugins\MainFrame\MainFrame_en.qm" />
+            <File Name="MainFrame_fr.qm" Source="..\..\Client\Plugins\MainFrame\MainFrame_fr.qm" />
+          </Component>
+          <Component Id="TranslationsCourse" Guid="b617f3c4-8f8c-48b9-84a4-0afcddd0dd6a">
+            <File Name="Course_en.qm" Source="..\..\Client\Plugins\Course\Course_en.qm" />
+            <File Name="Course_fr.qm" Source="..\..\Client\Plugins\Course\Course_fr.qm" />
+          </Component>
+        </Directory>
+      </Directory>
 			<Directory Id="ProgramMenuFolder">
 				<Directory Id="ApplicationProgramsFolder" Name="Horus"/>
 			</Directory>
@@ -92,12 +151,15 @@
 		<Feature Id="ClientMainExeFeature" Title="Horus" Level="1" ConfigurableDirectory='INSTALLDIR'>
 			<ComponentRef Id="ClientMainExe" />
 			<ComponentRef Id="HorusConfFile" />
-			<ComponentRef Id="MingwLibrary10" />
 			<ComponentRef Id="QtCore4" />
 			<ComponentRef Id="QtGui4" />
-			<ComponentRef Id="QtNetwork4" />
-			<ComponentRef Id="OpenSSL" />
-			<Feature Id="ClientShortcutsFeature" Title ="!(loc.ClientMenuShortcutsTitle)" Level="1">
+      <ComponentRef Id="QtNetwork4" />
+      <ComponentRef Id="QtXml4" />
+      <ComponentRef Id="OpenSSL" />
+      <ComponentRef Id="TranslationsCore" />
+      <ComponentRef Id="ClientPluginUserBaseClient" />
+      <ComponentRef Id="ClientPluginTreeBaseClient" />
+      <Feature Id="ClientShortcutsFeature" Title ="!(loc.ClientMenuShortcutsTitle)" Level="1">
 				<ComponentRef Id="ClientMenuShortcut"/>
 			</Feature>
 			<Feature Id="ClientDesktopFeature" Title ="!(loc.ClientDesktopShortcutTitle)" Level="1">
@@ -107,17 +169,41 @@
 				
 				<Feature Id="ClientMainFramePluginFeature" Title="!(loc.MainFrameTitle)" Level="1" Absent="disallow">
 					<ComponentRef Id="ClientPluginMainFrame" />
-				</Feature>
+          <ComponentRef Id="TranslationsMainFrame" />
+        </Feature>
 				<Feature Id="ClientCoursePluginFeature" Title="!(loc.CourseTitle)" Level="1">
-					<ComponentRef Id="ClientPluginCourse" />
-					<ComponentRef Id="ClientPluginLessonManager" />
-					<ComponentRef Id="ClientPluginTreeManagement" />
-					<ComponentRef Id="ClientPluginTextController" />
-				</Feature>
-				<Feature Id="ClientAdminPluginFeature" Title="!(loc.AdminTitle)" Level="1">
-					<ComponentRef Id="ClientPluginAdministration" />
-				</Feature>
-			</Feature>
+          <ComponentRef Id="ClientPluginCourse" />
+          <ComponentRef Id="ClientPluginFileBaseClient" />
+          <ComponentRef Id="ClientPluginLessonManager" />
+          <ComponentRef Id="ClientPluginTextController" />
+          <ComponentRef Id="ClientPluginImageController" />
+          <ComponentRef Id="ClientPluginPdfController" />
+          <ComponentRef Id="ClientPluginPdfDisplayer" />
+          <ComponentRef Id="ClientPluginPdfEditor" />
+          <ComponentRef Id="Poppler" />
+          <ComponentRef Id="TranslationsCourse" />
+        </Feature>
+        <Feature Id="ClientAdminPluginFeature" Title="!(loc.AdminTitle)" Level="1">
+          <ComponentRef Id="ClientPluginAdministration" />
+          <ComponentRef Id="TranslationsAdministration" />
+        </Feature>
+        <Feature Id="ClientAttendancePluginFeature" Title="!(loc.AttendanceTitle)" Level="1">
+          <ComponentRef Id="ClientPluginAttendance" />
+        </Feature>
+        <Feature Id="ClientEditorPluginFeature" Title="!(loc.EditorTitle)" Level="1">
+          <ComponentRef Id="ClientPluginEditor" />
+        </Feature>
+        <Feature Id="ClientMarksPluginFeature" Title="!(loc.MarksTitle)" Level="1">
+          <ComponentRef Id="ClientPluginMarks" />
+        </Feature>
+        <Feature Id="ClientTestGitClientPluginFeature" Title="!(loc.TestGitClientTitle)" Level="1">
+          <ComponentRef Id="ClientPluginTestGitClient" />
+        </Feature>
+        <Feature Id="ClientMailPluginFeature" Title="!(loc.MailTitle)" Level="1">
+          <ComponentRef Id="ClientPluginMail" />
+          <ComponentRef Id="ClientPluginSettingsBaseClient" />
+        </Feature>
+      </Feature>
 		</Feature>
 
 		<UIRef Id="WixUI_FeatureTree" />

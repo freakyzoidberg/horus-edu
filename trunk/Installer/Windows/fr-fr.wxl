@@ -7,5 +7,10 @@
 	<String Id="CourseTitle">Cours</String>
 	<String Id="AdminTitle">Administration</String>
 	<String Id="UninstallTitle">Désinstaller l'application cliente Horus</String>
-	<String Id="ServerTitle">Serveur horus</String>
+  <String Id="AttendanceTitle">Intendance</String>
+  <String Id="EditorTitle">Editeur</String>
+  <String Id="MarksTitle">Notes</String>
+  <String Id="MailTitle">Messagerie</String>
+  <String Id="TestGitClientTitle">Test Git</String>
+  <String Id="ServerTitle">Serveur horus</String>
 </WixLocalization>

@@ -11,7 +11,10 @@
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLLDIR" Name="HorusServer">
-					<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+          <!--<Component Id="QtSql4" Guid="27b87a65-9bb0-49dd-b6c6-bc0edcedb2b9" KeyPath="yes">-->
+          <!--<File Name='QtSql4.dll' Source='CoreDLL/msvc2008/QtSql4.dll' />-->
+          <!-- </Component>-->
+          <!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
 					<!-- <Component Id="ProductComponent" Guid="32daee05-bc31-4159-8908-68f63f0e4fbb"> -->
 						<!-- TODO: Insert files, registry keys, and other resources here. -->
 					<!-- </Component> -->
