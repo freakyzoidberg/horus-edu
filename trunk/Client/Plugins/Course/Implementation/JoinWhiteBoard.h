@@ -21,7 +21,8 @@ private:
 private slots:
 	void			buttonClicked();
 	void			updateTree();
-
+	void			ShowContextMenu(const QPoint& pnt);
+	void			joinBoard();
 signals:
 	void			whiteBoardJoined(WhiteBoardData *whiteBoard);
 };
