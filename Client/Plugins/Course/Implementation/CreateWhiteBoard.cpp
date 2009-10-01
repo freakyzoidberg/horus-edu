@@ -7,26 +7,31 @@
 #include	"../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 #include	"../../../../Common/TreeData.h"
 
-#include	"WhiteBoardModel.h"
-
 CreateWhiteBoard::CreateWhiteBoard(QWidget *parent, PluginManager *pluginManager) : QWidget(parent), _pluginManager(pluginManager)
 {
 	this->ui.setupUi(this);
-	QAbstractItemModel		*model = new WhiteBoardModel(pluginManager);
+	this->model = new WhiteBoardModel(pluginManager);
     QSortFilterProxyModel	*proxyModel = new QSortFilterProxyModel(this);
 	proxyModel->setFilterRegExp(QRegExp("\\b(ROOT|CLASSES|GRADE|SUBJECT|WHITEBOARD)\\b", Qt::CaseSensitive, QRegExp::RegExp));
 	proxyModel->setFilterKeyColumn(1);
 	proxyModel->setSourceModel(model);
 	this->ui.treeView->setModel(proxyModel);
-	this->ui.treeView->expandAll();
 	this->ui.treeView->setAnimated(true);
     this->ui.treeView->setAutoExpandDelay(500);
 	this->ui.treeView->setRootIsDecorated(false);
     this->ui.treeView->setHeaderHidden(true);
+	this->ui.treeView->expandAll();
 	connect(this->ui.button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
 	this->ui.syncInput->insertItem(0, tr("No Sync"), WhiteBoardData::NO_SYNC);
 	this->ui.syncInput->insertItem(0, tr("Semi Sync"), WhiteBoardData::SEMI_SYNC);
 	this->ui.syncInput->insertItem(0, tr("Full Sync"), WhiteBoardData::FULL_SYNC);
+	connect(pluginManager->findPlugin<WhiteBoardDataPlugin *>(), SIGNAL(dataUpdated(Data *)), this, SLOT(updateTree()));
+}
+
+void		CreateWhiteBoard::updateTree()
+{
+	this->ui.treeView->reset();
+	this->ui.treeView->expandAll();
 }
 
 void		CreateWhiteBoard::buttonClicked()

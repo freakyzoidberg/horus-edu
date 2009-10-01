@@ -20,6 +20,7 @@ private:
 
 private slots:
 	void			buttonClicked();
+	void			updateTree();
 
 signals:
 	void			whiteBoardJoined(WhiteBoardData *whiteBoard);

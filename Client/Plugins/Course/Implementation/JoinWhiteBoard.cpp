@@ -20,6 +20,13 @@ JoinWhiteBoard::JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager) : 
 	this->ui.treeView->setRootIsDecorated(false);
     this->ui.treeView->setHeaderHidden(true);
 	connect(this->ui.button, SIGNAL(clicked()), this, SLOT(buttonClicked()));
+	connect(pluginManager->findPlugin<WhiteBoardDataPlugin *>(), SIGNAL(dataUpdated(Data *)), this, SLOT(updateTree()));
+}
+
+void		JoinWhiteBoard::updateTree()
+{
+	this->ui.treeView->reset();
+	this->ui.treeView->expandAll();
 }
 
 void		JoinWhiteBoard::buttonClicked()
