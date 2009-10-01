@@ -121,7 +121,7 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
             node->setType(typeBox->currentText());
             node->setUser(users->getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
             node->save();
-            parent->resetPage();
+            //parent->resetPage();
             this->close();
    }
    else if (button->text() == tr("Cancel"))

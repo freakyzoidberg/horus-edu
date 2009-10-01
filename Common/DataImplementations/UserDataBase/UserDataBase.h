@@ -53,6 +53,8 @@ public:
     inline const QString    name() const { return _name; }
     void                    setName(const QString name);
 
+    void                    setPassword(const QString password);
+
     inline const QString    surname() const { return _surname; }
     void                    setSurname(const QString name);
 
@@ -97,6 +99,7 @@ private:
     bool        _enabled;
     bool        _loggedIn;
     QString     _login;
+    QByteArray  _password;
     TreeData*   _node;
     QString     _name;
     QString     _surname;

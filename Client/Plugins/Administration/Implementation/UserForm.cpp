@@ -195,7 +195,7 @@ void    UserForm::editUser()
         user->save();
         clearForm();
         this->close();
-        page->resetPage();
+        //page->resetPage();
     }
     return;
 }
@@ -267,6 +267,7 @@ void    UserForm::createNewUser()
     data->setName(nomTxt->text());
     data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
+    data->setPassword(passTxt->text());
     data->setAddress(addrTxt->text());
     data->setPhone(phoneTxt->text());
     data->setBirthDate(this->date->selectedDate());

@@ -31,6 +31,8 @@ public:
     virtual const QString   name() const = 0;
     virtual void            setName(const QString name) = 0;
 
+    virtual void            setPassword(const QString password) = 0;
+
     virtual const QString   surname() const = 0;
     virtual void            setSurname(const QString name) = 0;
 
