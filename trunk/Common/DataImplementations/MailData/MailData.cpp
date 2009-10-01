@@ -98,15 +98,21 @@ void MailData::createIntoDatabase(QSqlQuery& query)
 
 void MailData::saveIntoDatabase(QSqlQuery& query)
 {
-     smtp *test1 = new smtp("smtp.free.fr", _plugin->pluginManager->currentUser()->login()+"@horus-edu.net",this->_to , this->_subject, this->_content);
+
+    QString host = QSettings().value("MAILSMTP/MAIL_HOSTNAME", ".").toString();
+    QString domain = QSettings().value("MAILSMTP/MAIL_DOMAIN", ".").toString();
+    QString port = QSettings().value("MAILSMTP/MAIL_PORT", ".").toString();
+    QString qssl = QSettings().value("MAILSMTP/MAIL_SSLTLS", ".").toString();
+    QString qlogin = QSettings().value("MAILSMTP/MAIL_LOGIN", ".").toString();
+     smtp *test1 = new smtp(host, _plugin->pluginManager->currentUser()->login()+"@"+domain,this->_to , this->_subject, this->_content);
 
      if (_cc.count() > 0)
          test1->setCc(_cc);
          test1->setBcc(_bcc);
                 test1->setPriority(smtp::high);
-                test1->setSmtpServer("localhost");
+                //test1->setSmtpServer("localhost");
                 //test1->setLogin("login", "pass");
-                //test1->setPort(25);
+                test1->setPort(QVariant(port).toInt());
                 //test1->setSsl(true);
                 test1->send();
                 qDebug() << test1->lastError();
