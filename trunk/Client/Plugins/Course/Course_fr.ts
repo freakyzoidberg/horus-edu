@@ -15,6 +15,24 @@
     </message>
 </context>
 <context>
+    <name>CourseWidget</name>
+    <message>
+        <location filename="Implementation/CourseWidget.cpp" line="69"/>
+        <source>createSection</source>
+        <translation type="unfinished">Ajouter une section</translation>
+    </message>
+    <message>
+        <location filename="Implementation/CourseWidget.cpp" line="71"/>
+        <source>createDocument</source>
+        <translation type="unfinished">Ajouter un document</translation>
+    </message>
+    <message>
+        <location filename="Implementation/CourseWidget.cpp" line="77"/>
+        <source>createLesson</source>
+        <translation type="unfinished">Créer une leçon</translation>
+    </message>
+</context>
+<context>
     <name>CreateForm</name>
     <message>
         <location filename="Implementation/Ui/CreateWhiteBoard.ui" line="14"/>

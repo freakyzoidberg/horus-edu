@@ -27,12 +27,16 @@ private:
 
 private slots:
 	void contextMenu(const QPoint& point);
+	void selectionChanged(QModelIndex current, QModelIndex previous);
+	void addDocument();
+	void addSection();
+	void addLesson();
 
 private:
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
 	WhiteBoardDataPlugin *whiteboardPlugin;
-    QAbstractItemModel  *categoryModel;
+	LessonModel			*categoryModel;
     QTreeView           *categoryView;
 	WhiteBoard          *pageWidget;
     quint32             fileIndex;
@@ -40,6 +44,7 @@ private:
 	static QIcon		*lessonIcon;
 	static QIcon		*sectionIcon;
 	static QIcon		*documentIcon;
+	QModelIndex			currentIndex;
 };
 
 #endif // __COURSEWIDGET_H__

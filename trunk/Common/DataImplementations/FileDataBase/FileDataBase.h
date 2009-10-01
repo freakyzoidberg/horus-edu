@@ -57,6 +57,7 @@ public:
     void               setName(const QString name);
 
     inline QString     mimeType() const { return _mimeType; }
+	void               setMimeType(const QString name);
 
     inline TreeData*   node() const { return _node; }
     void               moveTo(TreeData* node);

@@ -33,6 +33,7 @@ public:
     virtual void        moveTo(TreeData* node) = 0;
 
     virtual QString     mimeType() const = 0;
+	virtual void        setMimeType(const QString name) = 0;
 
     virtual QFile*      file() const = 0;
 

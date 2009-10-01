@@ -211,6 +211,14 @@ void FileDataBase::setName(const QString name)
     _name = name;
 }
 
+void FileDataBase::setMimeType(const QString type)
+{
+	if (_mimeType == type)
+		return;
+
+	_mimeType = type;
+}
+
 void FileDataBase::moveTo(TreeData* node)
 {
     if ( ! node || _node == node)
