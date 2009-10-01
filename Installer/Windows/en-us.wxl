@@ -7,5 +7,10 @@
 	<String Id="CourseTitle">Course</String>
 	<String Id="AdminTitle">Administration</String>
 	<String Id="UninstallTitle">Uninstall Horus client application</String>
-	<String Id="ServerTitle">Horus Server</String>
+  <String Id="AttendanceTitle">Attendance</String>
+  <String Id="EditorTitle">Editor</String>
+  <String Id="MarksTitle">Marks</String>
+  <String Id="MailTitle">Mail</String>
+  <String Id="TestGitClientTitle">Git's Test</String>
+  <String Id="ServerTitle">Horus Server</String>
 </WixLocalization>
