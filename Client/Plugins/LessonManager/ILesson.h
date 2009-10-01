@@ -10,6 +10,7 @@ class ILesson : public ILessonData
 
 public:
 	inline ILesson(FileData *parent) : ILessonData(parent) {}
+	virtual int getId() = 0;
     virtual ~ILesson() {}
 };
 
