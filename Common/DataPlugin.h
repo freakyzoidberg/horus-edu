@@ -23,6 +23,8 @@ class DataPlugin : public Plugin
 {
   Q_OBJECT
   Q_INTERFACES(Plugin)
+	friend class MetaPlugin;
+	friend class DataManager;
 
 public:
     virtual const QString getDataType() const = 0;
@@ -49,7 +51,6 @@ public:
 signals:
 	void dataUpdated(Data* data);
 
-	friend class MetaPlugin;
 protected:
 	inline DataPlugin() {}
 	inline ~DataPlugin() {}
