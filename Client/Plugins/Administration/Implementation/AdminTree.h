@@ -31,13 +31,15 @@ class AdminTree : public QWidget
     Q_OBJECT
 
     public:
-        AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users);
-        QTreeView *mainTree;
+        AdminTree(TreeDataPlugin* _tree, UserDataPlugin *_users);
+        void        resetPage();
     private:
+        QTreeView *mainTree;
         QHBoxLayout *mainLayout;
         QStackedWidget *groupBox;
         Data *ckdData;
         UserDataPlugin* users;
+        TreeDataPlugin* tree;
         NodeInfo*       ndPnl;
         void            closePanel();
         QMenu           *menu;

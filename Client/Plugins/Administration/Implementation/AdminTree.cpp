@@ -7,9 +7,10 @@
 #include <QRadioButton>
 #include "AdminModel.h"
 
-AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users)
+AdminTree::AdminTree(TreeDataPlugin* _tree, UserDataPlugin *_users)
 {
     users = _users;
+    tree = _tree;
     ndPnl = 0;
     mainLayout = new QHBoxLayout(this);
     mainTree = new QTreeView();
@@ -18,6 +19,8 @@ AdminTree::AdminTree(TreeDataPlugin* tree, UserDataPlugin *_users)
     //mainTree->expandAll();
     mainTree->setMinimumWidth(200);
     mainTree->setContextMenuPolicy(Qt::CustomContextMenu);
+    mainTree->setAnimated(true);
+    mainTree->setAutoExpandDelay(500);
     connect(mainTree, SIGNAL(customContextMenuRequested(const QPoint&)),this, SLOT(ShowTreeContextMenu(const QPoint&)));
     //mainTree->clearSelection();
     connect(mainTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nodeSelected(QModelIndex)));
@@ -52,6 +55,7 @@ void AdminTree::nodeSelected(const QModelIndex &nodeIndex)
 
 void    AdminTree::ShowTreeContextMenu(const QPoint& pnt)
 {
+    menu->clear();
     TreeData* node = qobject_cast<TreeData*>(ckdData);
     QList<QAction *> actions;
     if (node)
@@ -134,14 +138,14 @@ void    AdminTree::menuNode(QAction * action)
     closePanel();
     if (action->data().toStringList().at(0) == "Add")
     {
-        ndPnl = new NodeInfo(*((TreeData*)ckdData), 2, *users, action->data().toStringList().at(1), this);
+        ndPnl = new NodeInfo(((TreeData*)ckdData), 2, *users, action->data().toStringList().at(1), this);
         mainLayout->removeItem(mainLayout->itemAt(1));
         mainLayout->setContentsMargins(2, 2, 2, 2);
         mainLayout->addWidget(ndPnl);
     }
     else if (action->data().toStringList().at(0) == "Edit")
     {
-        ndPnl = new NodeInfo(*((TreeData*)ckdData), 1, *users, "", this);
+        ndPnl = new NodeInfo(((TreeData*)ckdData), 1, *users, "", this);
         mainLayout->removeItem(mainLayout->itemAt(1));
         mainLayout->setContentsMargins(2, 2, 2, 2);
         mainLayout->addWidget(ndPnl);
@@ -151,6 +155,15 @@ void    AdminTree::menuNode(QAction * action)
         ((TreeData*)ckdData)->recursRemove();
         mainTree->reset();
     }
+}
+
+void    AdminTree::resetPage()
+{
+    mainTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+    connect(mainTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nodeSelected(QModelIndex)));
+
+    //menu->clear();
+    //mainTree->expand(_index);
 }
 
 //void    AdminTree::editNode()
