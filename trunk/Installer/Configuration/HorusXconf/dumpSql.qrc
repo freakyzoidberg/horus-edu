@@ -3,4 +3,8 @@
         <file>dump-pgsql.sql</file>
         <file>dump-mysql.sql</file>
     </qresource>
+    <qresource prefix="/Files" >
+        <file>zoidberg.png</file>
+        <file>13091.3977592.wallpaper.1600.jpg</file>
+    </qresource>
 </RCC>

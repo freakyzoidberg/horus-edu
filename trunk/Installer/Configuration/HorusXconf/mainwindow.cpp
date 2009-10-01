@@ -10,6 +10,8 @@
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QSizePolicy>
+#include <Qt>
+#include <QProgressBar>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
@@ -50,8 +52,16 @@ MainWindow::MainWindow(QWidget *parent)
         completer->setModel(new QDirModel(completer));
         ui->lineEdit_16->setCompleter(completer);
 
+vlayo  = new QVBoxLayout();
+frame=new QFrame(this,Qt::SplashScreen);
+frame->setLayout(vlayo);
+//frame->setFrameShape(QFrame::NoFrame);
+  frame->setMinimumWidth(300);
+  frame->setMinimumHeight(100);
+frame->setAttribute(Qt::WA_TranslucentBackground);
 
 
+  frame->setAutoFillBackground(true);
 
 
 }
@@ -103,6 +113,7 @@ else
         db.setUserName(login);
         db.setPassword(pass);
         db.setPort(port.toInt(&ok));
+
         QPalette Pal(ui->label_2->palette());
         if (!db.open())
         {
@@ -436,7 +447,88 @@ QPalette Pal(ui->label_9->palette());
 
 
        // QCompleter *completer = new QCompleter(this);
+}
+
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    extract_files();
+}
+
+void MainWindow::extract_files()
+{
+  frame->show();
 
 
 
+
+
+  QColor semi_red_color(255,0,0,127);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    int totalsize = 0;
+     QDir rhdl = QDir(":/Files/");
+     rhdl.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
+     rhdl.setSorting(QDir::Size | QDir::Reversed);
+     QFileInfoList list = rhdl.entryInfoList();
+
+
+     for (int i = 0; i < list.size(); ++i) {
+         QFileInfo fileInfo = list.at(i);
+         qDebug() << qPrintable(QString("%1 %2").arg(fileInfo.size(), 10)
+                                                 .arg(fileInfo.fileName()));
+         totalsize += fileInfo.size();
+
+     }
+
+
+QString result;
+bool ok = false;
+
+     for (int i = 0; i < list.size(); ++i) {
+         QFileInfo fileInfo = list.at(i);
+         QFile file(fileInfo.absoluteFilePath());
+         qDebug() << fileInfo.absoluteFilePath();
+           if (file.copy(ui->lineEdit_10->text()+"/"+fileInfo.fileName()))
+            {
+
+               ok = true;
+               result = "Finished Copying Files";
+
+           }
+           else
+           {
+                result = "Error while copying";
+
+           }
+
+    }
+
+QLabel *finishf = new QLabel(result);
+QPalette Pal(finishf->palette());
+if (ok)
+                           Pal.setColor(QPalette::Foreground, Qt::green);
+else
+                            Pal.setColor(QPalette::Foreground, Qt::red);
+            finishf->setPalette(Pal);
+        vlayo->addWidget(finishf);
+        vlayo->activate();
+        frame->show();
 }
