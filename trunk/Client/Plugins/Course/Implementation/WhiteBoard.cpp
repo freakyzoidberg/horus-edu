@@ -6,8 +6,10 @@
 #include "LessonDocument.h"
 #include "Items.h"
 
-WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers)
-	: _controllers(controllers)
+#include "../LessonManager/Implementation/Lesson.h"
+
+WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers, LessonModel *model)
+	: _controllers(controllers), model(model)
 {
     wbdata = wbd;
     setAcceptDrops(true);
@@ -97,10 +99,11 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				stream >> key >> value;
 				parameters[key] = value;
 			}
-			ILessonDocument *doc = new LessonDocument(this, id, title, type, content, parameters);
+			ILesson *lesson = model->getLesson(1);
+			ILessonDocument *doc = model->getLessonDocument(1, id);
 			if (this->_controllers.contains(type))
                         {
-								Items *item = new Items(this, NULL, id, type, title);
+								Items *item = new Items(this, lesson, id, type, title);
 
 				QWidget *docWidget;
 				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
@@ -188,7 +191,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			{
 				if (this->_controllers.contains(document->getType()))
 				{
-										Items *item = new Items(this, NULL, document->getId(),
+										Items *item = new Items(this, model->getLesson(1), document->getId(),
                                                                 document->getParameters().value("type").toString(),
                                                                 document->getParameters().value("title").toString());
 					QWidget *docWidget;

@@ -15,6 +15,7 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
     lessonPlugin = pluginManager->findPlugin<ILessonManager *>("LessonManager");
 	treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
 	whiteboardPlugin = pluginManager->findPlugin<WhiteBoardDataPlugin*>();
+	filePlugin = pluginManager->findPlugin<FileDataPlugin*>();
 	QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
 	QHash<QString, IDocumentController *> controllers;
 	foreach (IDocumentController *controller, controllersList)
@@ -27,7 +28,7 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
 	layout->setMargin(0);
     leftPane->setLayout(layout);
 	//TODO, chage 0 by the selected witheboard
-	this->pageWidget = new WhiteBoard(wbd, controllers);
+	this->pageWidget = new WhiteBoard(wbd, controllers, this->categoryModel);
     this->addWidget(this->pageWidget);
 	this->setStretchFactor(0, 0);
 	this->setStretchFactor(1, 3);

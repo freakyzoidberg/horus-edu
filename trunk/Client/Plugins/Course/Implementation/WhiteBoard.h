@@ -13,6 +13,7 @@
 
 #include "../../LessonManager/IDocumentController.h"
 #include "../../LessonManager/ILesson.h"
+#include "../../LessonManager/LessonModel.h"
 #include "../../../../Common/FileDataPlugin.h"
 #include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 
@@ -23,7 +24,7 @@ class WhiteBoard : public QWidget
     Q_OBJECT
 
 public:
-	 WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *> controllers);
+	 WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *> controllers, LessonModel *model);
      void   setTmp(Items *);
      Items  *getTmp();
      void   setPosInDoc(int posInDoc);
@@ -51,6 +52,7 @@ private:
     int             posInDoc;
     WhiteBoardData* wbdata;
     QVBoxLayout     *layout;
+	LessonModel		*model;
 };
 
 #endif // WHITEBOARD_H
