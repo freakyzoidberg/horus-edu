@@ -161,7 +161,7 @@ CREATE TABLE `users` (
   KEY `login` (`login`),
   KEY `enabled` (`enabled`),
   KEY `mtime` (`mtime`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
 --
