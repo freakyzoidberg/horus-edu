@@ -10,7 +10,7 @@ void WhiteBoardData::keyToStream(QDataStream& s)
 
 void WhiteBoardData::dataToStream(QDataStream& s) const
 {
-	s << ((quint8 )_syncMode);
+	s << _syncMode;
 #ifdef HORUS_CLIENT
 	QByteArray bufItems;
 	QDataStream ds(&bufItems, QIODevice::WriteOnly);
@@ -30,7 +30,7 @@ void WhiteBoardData::dataFromStream(QDataStream& s)
 {
 	_items.clear();
 
-	s >> ((quint8&)_syncMode);
+	s >> _syncMode;
 
 #ifdef HORUS_CLIENT
 	QByteArray bufItems;
