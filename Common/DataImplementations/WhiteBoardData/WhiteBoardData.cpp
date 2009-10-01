@@ -36,6 +36,7 @@ void WhiteBoardData::dataFromStream(QDataStream& s)
 	QByteArray bufItems;
 	s >> bufItems;
 	QDataStream ds(bufItems);
+	_items.clear();
 	while ( ! ds.atEnd())
 		_items.append( WhiteBoardItem(ds) );
 #endif
@@ -120,8 +121,8 @@ void WhiteBoardData::saveIntoDatabase(QSqlQuery& query)
 		qDebug() << query.lastError();
 		return;
 	}
-	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+//	if ( ! query.numRowsAffected())
+//		_error = NOT_FOUND;
 }
 
 void WhiteBoardData::deleteFromDatabase(QSqlQuery& query)

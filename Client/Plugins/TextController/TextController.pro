@@ -4,8 +4,7 @@
 TARGET = TextController
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
-SOURCES += Implementation/TextController.cpp \
-    Implementation/LessonDocument.cpp
+SOURCES += Implementation/TextController.cpp
 HEADERS += Implementation/TextController.h \
     Implementation/TextControllerMetaPlugin.h \
     ../LessonManager/ILessonDocument.h \
