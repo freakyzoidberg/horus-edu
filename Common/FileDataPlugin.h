@@ -26,6 +26,8 @@ public:
 	virtual QList<FileData*> getFilesInNode(const TreeData *node) const = 0;
 	virtual QList<FileData*> getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const = 0;
 	virtual QList<FileData*> getFilesInNodeAndUser(const TreeData *node, const UserData* user) const = 0;
+
+	virtual FileData*		 createNewFile(TreeData*) = 0;
 };
 
 #ifdef HORUS_SERVER

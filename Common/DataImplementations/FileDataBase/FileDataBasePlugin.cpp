@@ -54,6 +54,17 @@ QList<FileData*> FileDataBasePlugin::getFilesInNodeAndUser(const TreeData *node,
 	return res;
 }
 
+FileData* FileDataBasePlugin::createNewFile(TreeData* node)
+{
+	static quint32 tmpId = 0;
+	tmpId--;
+
+	FileDataBase* f = ((FileDataBase*)( getFile(tmpId)) );
+	f->_node = node;
+	f->_owner = pluginManager->currentUser();
+	return f;
+}
+
 Data* FileDataBasePlugin::getDataWithKey(QDataStream& s)
 {
     quint32 tmpId;
