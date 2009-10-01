@@ -34,12 +34,14 @@ public:
 private:
     Ui::MainWindowClass *ui;
     void writesettings();
+    void extract_files();
     QSettings Gsettings;
     QCompleter *completer;
     QCompleter *completer2;
     QWidget *checkboxes;
     QVBoxLayout* area;
-
+QVBoxLayout *vlayo;
+QFrame* frame;
 
 //protected:
 //    void keyPressEvent(QKeyEvent *e);
@@ -51,6 +53,7 @@ private slots:
     void on_lineEdit_16_textChanged(QString );
     void on_lineEdit_10_textChanged(QString );
     void on_pushButton_4_clicked();
+    void on_pushButton_2_clicked();
     void on_pushButton_clicked();
 };
 
