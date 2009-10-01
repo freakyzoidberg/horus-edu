@@ -1,4 +1,8 @@
 #include "MainWindow.h"
+
+#include <QSettings>
+#include <QDir>
+
 #include "SettingsDialog.h"
 #include "DisplayablePlugin.h"
 #include "ClientEvents.h"
@@ -32,10 +36,15 @@ void    MainWindow::createActions()
     exitAction->setStatusTip(tr("Exit the application"));
     connect(exitAction, SIGNAL(triggered()), this, SLOT(close()));
 
-    settingsAction = new QAction(QIcon(":/Pictures/configure.png"), tr("&Settings"), this);
+    settingsAction = new QAction(QIcon(":/Pictures/configure.png"), tr("Se&ttings"), this);
     settingsAction->setShortcut(tr("Ctrl+T"));
     settingsAction->setStatusTip(tr("Edit settings of Horus"));
     connect(settingsAction, SIGNAL(triggered()), this, SLOT(editSettings()));
+
+	logoutAction = new QAction(tr("Log &Out"), this);
+    logoutAction->setShortcut(tr("Ctrl+D"));
+    logoutAction->setStatusTip(tr("Destroy the session"));
+    connect(logoutAction, SIGNAL(triggered()), this, SLOT(logout()));
 }
 
 void    MainWindow::createMenus()
@@ -168,6 +177,7 @@ void    MainWindow::createMenus()
 	fake = new QAction(tr("About"), this);
 	helpMenu->addAction(fake);
 	// Following isn't FAKE
+    this->fileMenu->addAction(logoutAction);
     this->fileMenu->addAction(exitAction);
     this->editMenu->addAction(settingsAction);
 }
@@ -178,4 +188,11 @@ void    MainWindow::editSettings()
 
     dialog = new SettingsDialog(this);
     dialog->show();
+}
+
+void	MainWindow::logout()
+{
+	QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat, this);
+	settings.remove("SESSIONS/sessionString");
+	this->close();
 }
