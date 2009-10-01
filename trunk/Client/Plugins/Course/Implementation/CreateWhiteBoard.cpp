@@ -38,10 +38,18 @@ void		CreateWhiteBoard::buttonClicked()
 			QItemSelectionModel *selection = this->ui.treeView->selectionModel();
 			if (selection->hasSelection())
 			{
-				WhiteBoardData *wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(qobject_cast<TreeData *>((Data *)selection->currentIndex().internalPointer()));
-				wbd->setStatus(Data::CREATING);
-				wbd->setSyncMode((WhiteBoardData::SyncMode)(this->ui.syncInput->itemData(this->ui.syncInput->currentIndex(), Qt::UserRole).toUInt()));
-				emit whiteBoardCreated(wbd);
+				QModelIndexList	selected = selection->selectedIndexes();
+				if (selected.count() == 1)
+				{
+					Data* data = (Data *)(qobject_cast<QSortFilterProxyModel *>(this->ui.treeView->model())->mapToSource(selected.at(0)).internalPointer());
+					TreeData *treeData = qobject_cast<TreeData *>(data);
+					WhiteBoardData *wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(treeData);
+					wbd->setStatus(Data::CREATING);
+					wbd->setSyncMode((WhiteBoardData::SyncMode)(this->ui.syncInput->itemData(this->ui.syncInput->currentIndex(), Qt::UserRole).toUInt()));
+					emit whiteBoardCreated(wbd);
+				}
+				else
+					qWarning() << tr("Please select only one place to create the whiteboard");
 			}
 			else
 				qWarning() << tr("Please select a place to create the whiteboard");
