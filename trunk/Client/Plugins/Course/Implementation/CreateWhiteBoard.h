@@ -7,6 +7,8 @@
 # include			"../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 # include			"../ui_CreateWhiteBoard.h"
 
+# include	"WhiteBoardModel.h"
+
 class				CreateWhiteBoard : public QWidget
 {
 	Q_OBJECT
@@ -17,9 +19,11 @@ public:
 private:
 	Ui::CreateForm	ui;
 	PluginManager	*_pluginManager;
+	WhiteBoardModel		*model;
 
 private slots:
 	void			buttonClicked();
+	void			updateTree();
 
 signals:
 	void			whiteBoardCreated(WhiteBoardData *whiteBoard);

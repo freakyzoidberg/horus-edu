@@ -3,7 +3,6 @@
 #include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeData.h"
 #include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
-#include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 
 WhiteBoardModel::WhiteBoardModel(PluginManager* _pluginManager)
 {
@@ -30,13 +29,6 @@ int WhiteBoardModel::rowCount ( const QModelIndex & parent ) const
 		return (node->children().count() + 1);
 	return (node->children().count());
 }
-
-//QVariant WhiteBoardModel::headerData (int section, Qt::Orientation orientation, int role) const
-//{
-//   if (role == Qt::DisplayRole)
-//        return QVariant("");
-//   return QVariant();
-//}
 
 QVariant WhiteBoardModel::data ( const QModelIndex & index, int role ) const
 {
@@ -84,3 +76,11 @@ QModelIndex WhiteBoardModel::parent ( const QModelIndex & index ) const
             return (createIndex(0, 0, rootItem));
 	return (createIndex(node->parent()->children().indexOf(node), 0, node));
 }
+
+//bool		WhiteBoardModel::insertRow(WhiteBoardData *wbd)
+//{
+//	TreeData *parent = wbd->node();
+//	TreeData *gparent = parent->parent();
+//	QModelIndex parentIndex = createdIndex(gparent->children().indexOf(parent), 0, parent);
+//	this->beginInsertRows(parentIndex, 0, 1);
+//}
