@@ -32,7 +32,8 @@ HEADERS += Implementation/Course.h \
     ../../DisplayablePlugin.h \
     ../LessonManager/ILessonDocument.h \
     ../LessonManager/ILessonData.h \
-    Implementation/CourseWidget.h \
+	../LessonManager/ILesson.h \
+	Implementation/CourseWidget.h \
     Implementation/CourseMetaPlugin.h \
     Implementation/LessonDocument.h \
     Implementation/Items.h \
