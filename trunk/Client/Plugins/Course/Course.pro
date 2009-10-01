@@ -24,7 +24,8 @@ HEADERS += Implementation/Course.h \
     ../../../Common/FileData.h \
     ../../../Common/Data.h \
     ../../../Common/DataPlugin.h \
-    ../../../Common/UserData.h \
+	../../../Common/TreeData.h \
+	../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
     ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h \
     ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h \
@@ -32,6 +33,7 @@ HEADERS += Implementation/Course.h \
     ../../DisplayablePlugin.h \
     ../LessonManager/ILessonDocument.h \
     ../LessonManager/ILessonData.h \
+	../LessonManager/ILessonSection.h \
 	../LessonManager/ILesson.h \
 	Implementation/CourseWidget.h \
     Implementation/CourseMetaPlugin.h \
