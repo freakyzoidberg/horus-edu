@@ -122,7 +122,7 @@ void Settings::FirstSetSettings()
 
             this->Gsettings.endGroup();
         }
-    this->Gsettings.beginGroup("MAILSMTP");
+    this->Gsettings.beginGroup("MAIL");
     streamo << "Mail SMTP Server Hostname :\n";
     streamo << "Mail Hostname [ hint : locahost] : ";
     streamo.flush();
