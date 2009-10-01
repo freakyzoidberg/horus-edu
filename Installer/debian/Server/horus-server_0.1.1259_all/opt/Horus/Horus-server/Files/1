@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<lesson title="Histoire de la Chine">
+	<page title="Époque préhistorique">
+		<object type="text" position="10,10" size="100,50" parameters="text">
+La Chine a été peuplée il y a plus d'un million d'années par l'Homo erectus. Les fouilles de Lantian et Yuanmou révèlent des habitations précoces. Les hommes modernes ont probablement atteint la Chine il y a 75 000 ans, et vers 7500 av. J.-C. ont développé une économie agricole basée sur le millet, le porc, le chien et le poulet (il existe quelques incertitudes sur les dates : les preuves archéologiques sont rares).
+
+La culture néolithique la plus connue est celle de Yangshao. Elle est datée des Ve et IVe millénaire av. J.-C. et s'est développée dans la plaine centrale, au Henan, au Shanxi et au Shaanxi, avant de s'étendre au sud vers le Yangzi Jiang et à l'ouest vers le Gansu et le Qinghai. Son site le plus représentatif est celui du village de Banpo, près de Xi'an dans le Shaanxi. Plus à l'est, au Shandong, se trouvait la culture à peu près contemporaine de Dawenkou, surtout connue grâce à ses sépultures. L'économie de ces deux cultures était basée sur le millet. Plus au sud, dans les provinces maritimes du Jiangsu et du Zhejiang, le riz a été cultivé dès l'an -5000, mais dans le cadre de cultures qui n'étaient certainement pas chinoises. Elles étaient plutôt liées aux îles du Pacifique.
+
+Au Shandong, la culture de Longshan succède à celle de Dawenkou durant la première moitié du IIIe millénaire av. J.-C. Elle est caractérisée par une poterie noire très fine, une hiérarchisation sociale poussée et des villages souvent protégés par des enceintes en terre damée. Des principautés dirigées par une élite commencent à se former. L'élevage du mouton et du bœuf fait son apparition, ainsi que la culture du blé et de l'orge. Cette culture s'étend sur la plaine centrale et correspond sans doute à la période des « dix mille royaumes » (wan guo) dont parlent les textes chinois. La civilisation chinoise de l'âge du bronze, au IIe millénaire av. J.-C. est fille de la culture de Longshan.
+		</object>
+	</page>
+	<page title="Les premières dynasties">
+		<object type="text" position="10,10" size="140,130" parameters="text">
+Les historiens chinois ont traditionnellement commencé leurs récits de l'histoire chinoise avec l'empereur Jaune, souverain civilisateur mythique, puis la fondation de la dynastie Xia par Yu le Grand, au XXIe siècle av. J.-C. Cette dynastie est considérée comme mythique, même si certains historiens chinois se basent sur la découverte d'un site archéologique à Erlitou (daté de 1900-1350 av. J.-C.) pour soutenir son caractère historique. C'est de cette période que date le début de la métallurgie donc le début de l'âge de bronze chinois. C'est aussi de cette période que remontent les plus anciennes écailles de tortues marquée de signes et des poteries décorées.
+		</object>
+	</page>
+	<section title="L'Empire chinois">
+	  <page title="L'empire Qin">
+		<object type="text" position="10,10" size="140,130" parameters="text">
+De par son emplacement la principauté des Qin était très souvent exposée aux invasions des barbares du Nord-Ouest et la fréquence de ces incursions harassèrent les vertus guerrières des Qin. Cependant le territoire est naturellement fortifié par les montagnes et il fut assez peu attaqué par les autres princes feudataires. La longévité des princes de Qin, l'utilisation précoce de techniques d'irrigation et le respect des rites confucéens qui unifie le peuple de la principauté leur permettra de se livrer à une guerre totale. En 361 avant J.C. Shag Yang, régent de Qin entreprend de grandes réformes pour la principauté de Qin qui annexe les territoires du Nord-Ouest, peuplés de tribus nomades, et se renforce jusqu'à ce qu'il puisse conquérir l'ensemble des principautés et du royaume des Zhou orientaux.
+
+Vers -220, le prince Yin Zheng de la principauté Qin parvint à conquérir les autres États et se proclama lui-même premier empereur de la dynastie Qin, avec le titre de Qin Shi Huangdi, en référence aux Trois Augustes. Bien que son règne n'ait duré qu'onze ans, il réussit à soumettre de grandes parties de ce qui constitue le territoire actuel des Han et à l'unifier sous un gouvernement étroitement centralisé basé à Xianyang (près de Xi'an). Il débuta également la construction de ce que l'on appelle aujourd'hui la Grande Muraille. Cependant son successeur Qin Er Shi ne fut pas en mesure de poursuivre son œuvre. La dynastie des Qin s'effondra et la dynastie Han lui succéda après une période de guerres civiles.
+
+Les fonctionnaires sont recrutés au niveau central et une grille des salaires est établie pour créer un système qui perdure encore de nos jours. Les Qin entreprennent l'unification de la monnaie, des poids et mesures ainsi que de l'écriture : Qin Shi Huandi parvient ainsi à imposer une culture commune à l'empire malgré une évolution différente de l'écriture ossécaille dans les différentes principautés.
+		</object>
+	  </page>
+	  <page title="L’empire Han (202 av. J.-C. – 220 ap. J.-C.)">
+		<object type="text" position="5,5" size="150,145" parameters="text">
+Ce fut la première dynastie à adopter le confucianisme, qui devint le soutien idéologique de toutes les dynasties jusqu'à la fin de la Chine impériale. Sous la dynastie Han, l'histoire et les arts s'épanouirent, de nouvelles inventions améliorèrent la vie et des empereurs comme Wudi renforcèrent et étendirent l'Empire chinois en repoussant les Xiongnu (quelquefois assimilés avec les Huns), en soumettant des territoires à l'ouest, dans le bassin du Tarim, et au sud, au Viêt Nam. Avec l'établissement de la route de la soie, on observe pour la première fois l'apparition d'un commerce entre la Chine et l'Occident.
+Carte du territoire de la dynastie Han
+
+Mais au Ier siècle av. J.-C., le pouvoir des souverains han diminua et en l'an 9 de l'ère chrétienne, l'usurpateur Wang Mang fonda l'éphémère dynastie Xin. En 25, la dynastie Han fut rétablie et dura jusqu'au début du IIIe siècle.
+		</object>
+	  </page>
+	  <page title="L’empire Song et l'empire Jin">
+		<object type="image" position="20,10" size="100,45" parameters="text">
+En 960, la dynastie Song prit le pouvoir sur une grande partie de la Chine et établit sa capitale à Kaifeng tandis que la dynastie Liao gouvernait la Mandchourie actuelle et une partie de la Mongolie. En 1115, la deuxième dynastie Jin arriva sur le devant de la scène. Elle annihila la dynastie Liao en dix ans et la dynastie Song elle-même perdit la Chine du Nord et déplaça sa capitale à Hangzhou. La dynastie Song dut aussi s'humilier en reconnaissant la suzeraineté de la dynastie Jin.
+Carte des territoires de la dynastie Song, de la dynastie Jin et du Xia occidental
+
+Dans les années qui suivirent, la Chine fut divisée entre la dynastie Song, la dynastie Jin et le Xia occidental, gouverné par les Tangoutes. Cette période permit de grandes avancées technologiques en Chine du Sud en partie à cause de la pression militaire au Nord.
+                </object>
+	  </page>
+	</section>
+	  <page title="La dynastie Qing, mandchoue">
+		<object type="text" position="2.99998887776654321,5" size="150,45" parameters="text">
+La dernière dynastie fut établie en 1644 quand les nomades mandchous incorporés dans l'armée renversèrent la dynastie nationale des Ming, et fondèrent la dynastie Qing, avec Pékin pour capitale. Au cours du demi siècle suivant, les Mandchous étendirent leur pouvoir à des régions auparavant sous contrôle Ming, telles que le Yunnan et au-delà en s'emparant du Xinjiang (Turkestan chinois), du Tibet, de Taïwan et de la Mongolie, au prix de beaucoup d'or et de sang. Les premiers Qing durent ces succès à la combinaison des performances militaires des Mandchous et de l'efficacité de l'administration chinoise.
+
+Pour certains historiens, le déclin commencé sous les Ming se poursuivit sous les Qing, alors que pour d'autres, les XVIIe siècle et XVIIIe siècle Qing furent une période de progrès, le déclin ne venant qu'ensuite. L'empereur Kangxi fit rédiger le plus complet des dictionnaires des caractères chinois jamais réalisé et sous l'empereur Qianlong, on compila le catalogue de toutes les œuvres importantes de la culture chinoise. La période Qing vit aussi se continuer le développement de la littérature populaire, avec des œuvres telles que le Rêve dans le pavillon rouge (hóng lóu mèng çææ), un des plus grands romans chinois, et surtout des progrès agricoles, comme la triple récolte annuelle de riz qui permit à la population de passer au cours du XVIIIe siècle de cent quatre-vingts à quatre cents millions. En revanche, elle ne réagit pas à la supériorité technique de plus en plus évidente des Européens qui venaient commercer à Canton, notamment dans les domaines des armes ou des navires, ni à leur implantation de plus en plus forte dans l'océan Indien. Il est vrai que les Européens ne pensaient pas encore pouvoir se mesurer à la Chine.
+		</object>
+		<object type="text" position="20.99998887776654321,50" size="150,45" parameters="text">
+Au cours du XIXe siècle, le pouvoir des Qing s'affaiblit et la prospérité diminua. La Chine subit une forte agitation sociale, une stagnation économique, une croissance démographique explosive, et des ingérences de plus en plus marquées de la part des puissances occidentales. La volonté britannique d'ouvrir le commerce et notamment de poursuivre ses exportations d'opium, que des édits impériaux rendaient illégales, aboutit à la première guerre de l'opium, en 1840, et à la défaite chinoise. Le Royaume-Uni obtint la cession de Hong Kong au traité de Nankin en 1842, ainsi que l'ouverture d'autres ports au commerce européen. Par la suite, le Royaume-Uni et d'autres puissances occidentales, y compris les États-Unis et plus tard le Japon, obtinrent des « concessions », c'est-à-dire des petits territoires souvent côtiers sous leur contrôle, ainsi qu'une influence dans de vastes régions voisines, et des privilèges commerciaux. La révolte des Taiping dans les années 1850 et 1860, qui ne fut vaincue qu'avec l'appui des Occidentaux, celle des Nian, l'agitation entretenue par la Russie dans les provinces frontalières, Xinjiang et Mongolie, achevèrent d'appauvrir la Chine et faillirent mettre fin à la dynastie.
+		</object>
+		<object type="text" position="20.99998887776654321,100" size="150,45" parameters="text">
+Les sphères du pouvoir étaient peu désireuses d'admettre le commerce occidental, particulièrement celui de l'opium. L'Occident a donc pu se contenter d'y établir des « sphères d'influence ». Au contraire par exemple de l'Afrique sub-saharienne, il était possible d'accéder au marché chinois sans établir un contrôle politique formel. À la suite de la première guerre de l'opium, le commerce britannique et plus tard les capitaux investis par d'autres pays industrialisés étaient possibles avec moins de contrôle occidental direct qu'en Afrique, en Asie du Sud-Est, ou dans le Pacifique. Par bien des aspects, la Chine était une colonie et la destination de très importants investissements occidentaux (la première au tournant du siècle). Les puissances occidentales (en y incluant parfois le Japon) intervinrent militairement pour maintenir l'ordre, notamment en mettant fin à la révolte des Taiping où à celle des boxers. Le général britannique Charles Gordon, plus tard défenseur malheureux de Khartoum, est souvent crédité d'avoir sauvé la dynastie mandchoue de l'insurrection des Taiping.
+		</object>
+	  </page>
+</lesson>
