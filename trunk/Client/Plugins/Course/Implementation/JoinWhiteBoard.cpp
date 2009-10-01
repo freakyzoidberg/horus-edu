@@ -38,10 +38,11 @@ void		JoinWhiteBoard::ShowContextMenu(const QPoint &pnt)
 	QList<QAction *> actions;
 	if (this->ui.treeView->indexAt(pnt).isValid())
 	{
-		QAction *joinBrd = new QAction(QIcon(":/Ui/edit.png"), tr("&Join Board..."), this);
+		QAction *joinBrd = new QAction(QIcon(":/LessonIcon.png"), tr("&Join Board..."), this);
 		joinBrd->setShortcuts(QKeySequence::Open);
-		joinBrd->setStatusTip(tr("Add a new group"));
-		connect(joinBrd, SIGNAL(triggered(QAction *)), this, SLOT(joinBoard(QAction *)));
+		joinBrd->setStatusTip(tr("Join"));
+		actions.append(joinBrd);
+		connect(joinBrd, SIGNAL(triggered()), this, SLOT(joinBoard()));
 	}
 	if (actions.count() > 0)
 		QMenu::exec(actions, this->ui.treeView->mapToGlobal(pnt));

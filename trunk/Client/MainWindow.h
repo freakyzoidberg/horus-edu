@@ -31,6 +31,8 @@ public:
 private slots:
     //! Display a dialog for editing the settings
     void editSettings();
+    //! Destroy the session and exit
+    void logout();
 
 private:
     //! Create actions used in menus
@@ -50,6 +52,8 @@ private:
     QAction *exitAction;
     // The action which edit the settings
     QAction *settingsAction;
+    // The action which destroy the session
+    QAction *logoutAction;
 };
 
 #endif // MAINWINDOW_H

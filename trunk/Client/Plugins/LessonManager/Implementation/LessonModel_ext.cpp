@@ -1,5 +1,5 @@
 #include "LessonModel_ext.h"
-#include "../../../Common/FileData.h"
+#include "../../../../Common/FileData.h"
 
 LessonModel_ext::LessonModel_ext(PluginManager *manager) : LessonModel(manager)
 {
