@@ -84,7 +84,7 @@ void    UserPage::closePanel()
 void    UserPage::addUser()
 {
     closePanel();
-    usrPnl = new UserForm((TreeData*)ckdData,*users, this);
+    usrPnl = new UserForm((TreeData*)ckdData,users, this);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
     mainLayout->addWidget(usrPnl);
@@ -94,7 +94,7 @@ void    UserPage::addUser()
 void    UserPage::editUser()
 {
     closePanel();
-    usrPnl = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,*users, this);
+    usrPnl = new UserForm(((UserData*)ckdData)->node(),(UserData*)ckdData ,users, this);
     mainLayout->removeItem(mainLayout->itemAt(1));
     mainLayout->setContentsMargins(2, 2, 2, 2);
     mainLayout->addWidget(usrPnl);

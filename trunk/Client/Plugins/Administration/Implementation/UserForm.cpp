@@ -9,7 +9,7 @@
 
 #include "UserPage.h"
 
-UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users, UserPage *_page) : users(_users), page(_page)
+UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin *_users, UserPage *_page) : users(_users), page(_page)
 {
     user = _user;
     node = treeNode;
@@ -22,7 +22,7 @@ UserForm::UserForm(TreeData* treeNode, UserData *_user, UserDataPlugin &_users, 
     buttonBox->addButton(new QPushButton(tr("Cancel")), QDialogButtonBox::ActionRole);
 }
 
-UserForm::UserForm(TreeData* treeNode, UserDataPlugin &_users, UserPage *_page) : users(_users), page(_page)
+UserForm::UserForm(TreeData* treeNode, UserDataPlugin *_users, UserPage *_page) : users(_users), page(_page)
 {
     node = treeNode;
     setupUi();
@@ -72,7 +72,7 @@ void UserForm::fillUserFields()
 
 void    UserForm::setupUi()
 {
-    this->setMinimumWidth(450);
+    this->setMinimumWidth(600);
     stuLayout = new QHBoxLayout(this);
     menuLayout = new QVBoxLayout();
     //menuLayout->setAlignment(Qt::AlignHCenter);
@@ -263,7 +263,7 @@ void    UserForm::createNewUser()
         msgBox.exec();
         return;
     }
-    UserData *data = users.createUser(loginTxt->text());
+    UserData *data = users->createUser(loginTxt->text());
     data->setName(nomTxt->text());
     data->setSurname(prenomTxt->text());
     data->setLanguage(languageTxt->text());
@@ -282,6 +282,6 @@ void    UserForm::createNewUser()
     clearForm();
     msgBox.setText(tr("The user was succefully created"));
     msgBox.exec();
-    page->resetPage();
+    //page->resetPage();
     this->close();
 }

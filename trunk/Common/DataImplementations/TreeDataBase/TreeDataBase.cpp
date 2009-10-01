@@ -172,8 +172,8 @@ TreeData* TreeDataBase::createChild(const QString name, const QString type, User
 	node->setName(name);
 	node->setType(type);
 	node->setUser(user);
-	node->setParent(this);
-	node->create();
+        node->setParent(this);
+        node->create();
 	return node;
 }
 

@@ -30,11 +30,11 @@ class NodeInfo : public QWidget
 {
     Q_OBJECT
     public:
-        NodeInfo(TreeData* _node, int type, UserDataPlugin& _users, QString nodeType, AdminTree* _parent);
+        NodeInfo(TreeData* _node, int type, UserDataPlugin* _users, QString nodeType, AdminTree* _parent);
     private:
         void    setupUi();
         QCompleter *completer;
-        UserDataPlugin& users;
+        UserDataPlugin* users;
         QGroupBox *infos;
         QVBoxLayout *mainLayout;
         QFormLayout *nodeLayout;
