@@ -24,7 +24,7 @@ class DataPlugin : public Plugin
   Q_OBJECT
   Q_INTERFACES(Plugin)
 	friend class MetaPlugin;
-	friend class DataManager;
+	friend class DataManagerClient;
 
 public:
     virtual const QString getDataType() const = 0;
