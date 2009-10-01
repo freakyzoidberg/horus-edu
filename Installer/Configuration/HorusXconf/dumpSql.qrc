@@ -4,7 +4,13 @@
         <file>dump-mysql.sql</file>
     </qresource>
     <qresource prefix="/Files" >
-        <file>zoidberg.png</file>
-        <file>13091.3977592.wallpaper.1600.jpg</file>
+        <file>Files/1</file>
+        <file>Files/2</file>
+        <file>Files/3</file>
+        <file>Files/4</file>
+        <file>Files/16</file>
+        <file>Files/42</file>
+        <file>Files/51</file>
+        <file>Files/260</file>
     </qresource>
 </RCC>
