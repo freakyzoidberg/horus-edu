@@ -52,16 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
         completer->setModel(new QDirModel(completer));
         ui->lineEdit_16->setCompleter(completer);
 
-vlayo  = new QVBoxLayout();
-frame=new QFrame(this,Qt::SplashScreen);
-frame->setLayout(vlayo);
-//frame->setFrameShape(QFrame::NoFrame);
-  frame->setMinimumWidth(300);
-  frame->setMinimumHeight(100);
-frame->setAttribute(Qt::WA_TranslucentBackground);
-
-
-  frame->setAutoFillBackground(true);
 
 
 }
@@ -457,7 +447,19 @@ void MainWindow::on_pushButton_2_clicked()
 
 void MainWindow::extract_files()
 {
-  frame->show();
+
+    vlayo  = new QVBoxLayout();
+frame=new QFrame(this,Qt::SplashScreen);
+frame->setLayout(vlayo);
+//frame->setFrameShape(QFrame::NoFrame);
+  frame->setMinimumWidth(300);
+  frame->setMinimumHeight(100);
+frame->setAttribute(Qt::WA_TranslucentBackground);
+
+
+  frame->setAutoFillBackground(true);
+
+    frame->show();
 
 
 
@@ -484,7 +486,7 @@ void MainWindow::extract_files()
 
 
     int totalsize = 0;
-     QDir rhdl = QDir(":/Files/");
+     QDir rhdl = QDir(":/Files/Files/");
      rhdl.setFilter(QDir::Files | QDir::Hidden | QDir::NoSymLinks);
      rhdl.setSorting(QDir::Size | QDir::Reversed);
      QFileInfoList list = rhdl.entryInfoList();
@@ -501,34 +503,38 @@ void MainWindow::extract_files()
 
 QString result;
 bool ok = false;
-
+QLabel *finishf = new QLabel("Error");
      for (int i = 0; i < list.size(); ++i) {
          QFileInfo fileInfo = list.at(i);
          QFile file(fileInfo.absoluteFilePath());
          qDebug() << fileInfo.absoluteFilePath();
            if (file.copy(ui->lineEdit_10->text()+"/"+fileInfo.fileName()))
             {
-
+            qDebug() << "ok";
                ok = true;
                result = "Finished Copying Files";
+               finishf->setText("Finished Copying Files");
 
            }
            else
            {
+               qDebug() << "ko";
+
                 result = "Error while copying";
+                finishf->setText("Error while copying");
 
            }
 
     }
 
-QLabel *finishf = new QLabel(result);
+
 QPalette Pal(finishf->palette());
-if (ok)
-                           Pal.setColor(QPalette::Foreground, Qt::green);
-else
-                            Pal.setColor(QPalette::Foreground, Qt::red);
-            finishf->setPalette(Pal);
+
+                           Pal.setColor(QPalette::Foreground, Qt::white);
+
+//                            Pal.setColor(QPalette::Foreground, Qt::red);
+        finishf->setPalette(Pal);
         vlayo->addWidget(finishf);
         vlayo->activate();
-        frame->show();
+
 }
