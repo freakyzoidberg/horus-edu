@@ -79,9 +79,6 @@
             <Component Id="ClientPluginSettingsBaseClient" Guid="6af2fb2a-bcb6-445b-9f84-9d39a19a751f">
               <File Name="SettingsBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\SettingsBaseClient\release\SettingsBaseClientMetaPlugin.dll" KeyPath="yes" />
             </Component>
-            <Component Id="ClientPluginTestGitClient" Guid="caacd5aa-7dd8-43cc-ba44-8d650437792b">
-              <File Name="TestGitClient.dll" Source="..\..\Client\Plugins\TestGitClient\release\TestGitClient.dll" KeyPath="yes" />
-            </Component>
             <Component Id="ClientPluginTextController" Guid="5cb298a2-9f72-417b-84db-9e046df02261">
               <File Name="TextController.dll" Source="..\..\Client\Plugins\TextController\release\TextController.dll" KeyPath="yes" />
             </Component>
@@ -195,9 +192,6 @@
         </Feature>
         <Feature Id="ClientMarksPluginFeature" Title="!(loc.MarksTitle)" Level="1">
           <ComponentRef Id="ClientPluginMarks" />
-        </Feature>
-        <Feature Id="ClientTestGitClientPluginFeature" Title="!(loc.TestGitClientTitle)" Level="1">
-          <ComponentRef Id="ClientPluginTestGitClient" />
         </Feature>
         <Feature Id="ClientMailPluginFeature" Title="!(loc.MailTitle)" Level="1">
           <ComponentRef Id="ClientPluginMail" />

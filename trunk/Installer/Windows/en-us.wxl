@@ -11,6 +11,11 @@
   <String Id="EditorTitle">Editor</String>
   <String Id="MarksTitle">Marks</String>
   <String Id="MailTitle">Mail</String>
-  <String Id="TestGitClientTitle">Git's Test</String>
   <String Id="ServerTitle">Horus Server</String>
+  <String Id="FileTitle">File Management</String>
+  <String Id="SettingsTitle">Settings Management</String>
+  <String Id="TreeTitle">Tree Management</String>
+  <String Id="UserTitle">User Management</String>
+  <String Id="WhiteBoardTitle">WhiteBoard Management</String>
+  <String Id="XconfTitle">X Configurator</String>
 </WixLocalization>
