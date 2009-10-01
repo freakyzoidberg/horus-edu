@@ -357,18 +357,18 @@ else
     this->Gsettings.endGroup();
     this->Gsettings.beginGroup("PLUGINS");;
     qDebug() << this->Gsettings.fileName();
-    for (int i = 0; (i < ui->scrollArea->layout()->count()); i++)
+    for (int i = 0; (i < ui->scrollArea->widget()->layout()->count()); i++)
     {
 
-        if (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->isChecked())
+        if (((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->isChecked())
         {
 
-        this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text().split("/").first(),
+        this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->text().split("/").first(),
 
                                  #ifdef WIN32
-                                (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()));
+                                (((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->text()));
                                  #else
-                                (((QCheckBox *)(ui->scrollArea->layout()->itemAt(i)->widget()))->text()));
+                                (((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->text()));
                                 #endif
         }
 
