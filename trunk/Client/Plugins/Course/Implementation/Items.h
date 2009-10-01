@@ -17,12 +17,13 @@ class Items : public IItems
 public:
                     Items();
                     ~Items();
-                    Items(WhiteBoard *, int id, QString, QString);
+					Items(WhiteBoard *, ILesson* lesson, int id, QString, QString);
     void            enterEvent(QEvent *event);
     void            leaveEvent(QEvent *event);
     bool            getIsDocked();
     void            setMainWidget(QWidget *);
     QWidget         *getMainWidget();
+	inline ILesson*		getLesson() const { return lesson; }
 
 public slots:
     void            moveToDock();
@@ -48,6 +49,7 @@ private:
     bool            isResizing;
     int             X, Y, saveX, saveY;
     QGridLayout     *layout;
+	ILesson*		lesson;
 };
 
 #endif // ITEMS_H

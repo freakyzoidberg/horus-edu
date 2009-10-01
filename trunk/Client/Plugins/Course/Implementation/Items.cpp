@@ -11,11 +11,12 @@
 #include <QBoxLayout>
 #include <QCursor>
 
-Items::Items(WhiteBoard *papyrus, int id, QString type, QString title)
+Items::Items(WhiteBoard *papyrus, ILesson* _lesson, int id, QString type, QString title)
     : IItems(papyrus), id(id)
 {
     this->setAcceptDrops(true);
     this->board = papyrus;
+	lesson = _lesson;
 
     closeItem = new QPushButton(this);
     closeItem->setIcon(QIcon(":/close.png"));
