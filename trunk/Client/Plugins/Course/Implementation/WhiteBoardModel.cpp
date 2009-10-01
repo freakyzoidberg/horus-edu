@@ -58,7 +58,7 @@ QModelIndex WhiteBoardModel::index ( int row, int column, const QModelIndex & pa
         return (createIndex(row, column, rootItem));
 	TreeData* node = qobject_cast<TreeData*>((Data*)(parent.internalPointer()));
 	if (node->children().count() > row)
-		return (createIndex(row, column, ((Data *)(parent.internalPointer()))->children().at(row)));
+		return (createIndex(row, column, node->children().at(row)));
 	return (createIndex(row, column, pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(node)));
 }
 
