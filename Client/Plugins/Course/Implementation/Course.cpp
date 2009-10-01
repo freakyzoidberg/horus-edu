@@ -56,6 +56,8 @@ void	Course::createWidget()
 	{
 	case LEVEL_TEACHER:
 		this->widget = new CreateWhiteBoard(this->parent, this->pluginManager);
+		this->layout->addWidget(this->widget);
+		connect(this->widget, SIGNAL(whiteBoardCreated(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
 		break ;
 	case LEVEL_STUDENT:
 		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager);
