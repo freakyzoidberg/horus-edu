@@ -190,11 +190,13 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			ILessonDocument* document = findDocument(it->idLesson(), it->idSection());
 			if (document)
 			{
+				qDebug() << "found document";
 				if (this->_controllers.contains(document->getType()))
 				{
-										Items *item = new Items(this, model->getLesson(1), document->getId(),
-                                                                document->getParameters().value("type").toString(),
-                                                                document->getParameters().value("title").toString());
+					Items *item = new Items(this, model->getLesson(1), document->getId(),
+											document->getParameters().value("type").toString(),
+											document->getParameters().value("title").toString());
+					qDebug() << "creating item";
 					QWidget *docWidget;
 					docWidget = this->_controllers[document->getType()]->createDocumentWidget(item, document);
 					item->setGeometry(it->left(), it->top(), it->width(), it->height());
