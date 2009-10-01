@@ -4,5 +4,8 @@
         <file>fleche_haut_vert.png</file>
         <file>fleche_bas_vert.png</file>
         <file alias="icon" >Ui/edit.png</file>
+        <file>SectionIcon.png</file>
+        <file>DocumentIcon.png</file>
+        <file>LessonIcon.png</file>
     </qresource>
 </RCC>

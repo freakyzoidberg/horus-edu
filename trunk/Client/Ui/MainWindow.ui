@@ -152,12 +152,12 @@ border: 1px solid black;
 QListView 
 { 
 background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
-border: 0px; 
+border: 0px;; 
 selection-background-color: rgb(73, 150, 186); 
 } 
 QTreeView 
 { 
-	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255));
+	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:1, stop:0 rgba(216, 227, 229, 255), stop:0.704545 rgba(255, 255, 255, 255));
 border: 0px; 
 selection-background-color: rgb(73, 150, 186); 
 } 
