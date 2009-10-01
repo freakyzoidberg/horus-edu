@@ -236,7 +236,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
  ILessonDocument*	WhiteBoard::findDocument(int lessonId, int documentId)
  {
-	return NULL;
+	return model->getLessonDocument(lessonId, documentId);
  }
 
 void	WhiteBoard::fillList(QObject* data, WhiteBoardItemList& list)
