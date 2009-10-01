@@ -24,5 +24,22 @@ JoinWhiteBoard::JoinWhiteBoard(QWidget *parent, PluginManager *pluginManager) : 
 
 void		JoinWhiteBoard::buttonClicked()
 {
-	emit whiteBoardJoined(_pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard((quint32) 0));
+	QItemSelectionModel *selection = this->ui.treeView->selectionModel();
+	if (selection->hasSelection())
+	{
+		QModelIndexList	selected = selection->selectedIndexes();
+		if (selected.count() == 1)
+		{
+			Data* data = (Data *)(qobject_cast<QSortFilterProxyModel *>(this->ui.treeView->model())->mapToSource(selected.at(0)).internalPointer());
+			WhiteBoardData *wbd = qobject_cast<WhiteBoardData *>(data);
+			if (wbd)
+				emit whiteBoardJoined(wbd);
+			else
+				qWarning() << tr("Please select one whiteboard");
+		}
+		else
+			qWarning() << tr("Please select one whiteboard");
+	}
+	else
+		qWarning() << tr("Please select a place to create the whiteboard");	
 }

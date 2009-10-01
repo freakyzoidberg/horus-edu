@@ -3,6 +3,7 @@
 #include <QFileSystemModel>
 #include <QTreeView>
 #include <QDebug>
+#include <QSizePolicy>
 #include <QVBoxLayout>
 #include <QMenu>
 
@@ -28,6 +29,8 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
 	//TODO, chage 0 by the selected witheboard
 	this->pageWidget = new WhiteBoard(wbd, controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
     this->addWidget(this->pageWidget);
+	this->setStretchFactor(0, 0);
+	this->setStretchFactor(1, 3);
 	if (lessonIcon == NULL)
 		lessonIcon = new QIcon(":/LessonIcon.png");
 	if (sectionIcon == NULL)
