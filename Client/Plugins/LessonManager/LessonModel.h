@@ -5,6 +5,8 @@
 #include "../../../Common/TreeData.h"
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/FileDataPlugin.h"
+#include "ILesson.h"
+#include "ILessonDocument.h"
 
 class LessonModel : public QAbstractItemModel
 {
@@ -19,6 +21,8 @@ public:
 	QStringList mimeTypes() const;
 	QMimeData *mimeData(const QModelIndexList &indexes) const;
 	virtual bool createLesson(QModelIndex&) = 0;
+	virtual ILesson* getLesson(int id) = 0;
+	virtual ILessonDocument* getLessonDocument(int lessonId, int documentId) = 0;
 
 protected:
     PluginManager*  pluginManager;

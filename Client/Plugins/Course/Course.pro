@@ -5,8 +5,7 @@ QT += xml
 TARGET = Course
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
-SOURCES += Implementation/Course.cpp \
-    ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp \
+SOURCES += ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp \
     ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.cpp \
     Implementation/LessonDocument.cpp \
     Implementation/CourseWidget.cpp \
@@ -14,9 +13,9 @@ SOURCES += Implementation/Course.cpp \
     Implementation/CreateWhiteBoard.cpp \
     Implementation/JoinWhiteBoard.cpp \
     Implementation/Items.cpp \
-    Implementation/WhiteBoardModel.cpp
-HEADERS += Implementation/Course.h \
-    ../../../Common/MetaPlugin.h \
+    Implementation/WhiteBoardModel.cpp \
+    Implementation/Course.cpp
+HEADERS += ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
     ../../../Common/AbstractManager.h \
@@ -24,8 +23,8 @@ HEADERS += Implementation/Course.h \
     ../../../Common/FileData.h \
     ../../../Common/Data.h \
     ../../../Common/DataPlugin.h \
-	../../../Common/TreeData.h \
-	../../../Common/UserData.h \
+    ../../../Common/TreeData.h \
+    ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
     ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h \
     ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h \
@@ -33,9 +32,9 @@ HEADERS += Implementation/Course.h \
     ../../DisplayablePlugin.h \
     ../LessonManager/ILessonDocument.h \
     ../LessonManager/ILessonData.h \
-	../LessonManager/ILessonSection.h \
-	../LessonManager/ILesson.h \
-	Implementation/CourseWidget.h \
+    ../LessonManager/ILessonSection.h \
+    ../LessonManager/ILesson.h \
+    Implementation/CourseWidget.h \
     Implementation/CourseMetaPlugin.h \
     Implementation/LessonDocument.h \
     Implementation/Items.h \
@@ -43,7 +42,8 @@ HEADERS += Implementation/Course.h \
     Implementation/CreateWhiteBoard.h \
     IItems.h \
     Implementation/WhiteBoardModel.h \
-    Implementation/JoinWhiteBoard.h
+    Implementation/JoinWhiteBoard.h \
+    Implementation/Course.h
 RESOURCES += Implementation/Course.qrc
 FORMS += Implementation/Ui/CreateWhiteBoard.ui \
     Implementation/Ui/JoinWhiteBoard.ui

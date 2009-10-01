@@ -36,6 +36,7 @@ private:
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
 	WhiteBoardDataPlugin *whiteboardPlugin;
+	FileDataPlugin		*filePlugin;
 	LessonModel			*categoryModel;
     QTreeView           *categoryView;
 	WhiteBoard          *pageWidget;
