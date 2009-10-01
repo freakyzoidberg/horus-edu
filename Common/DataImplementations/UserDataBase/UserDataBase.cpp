@@ -15,6 +15,7 @@ void UserDataBase::dataToStream(QDataStream& s) const
     s << _level
       << _enabled
       << _login
+	  << _password
 
       << _lastLogin
       << _surname
@@ -36,6 +37,7 @@ void UserDataBase::dataFromStream(QDataStream& s)
     s >> _level
       >> _enabled
       >> _login
+	  >> _password
 
       >> _lastLogin
       >> _surname
@@ -201,7 +203,7 @@ QVariant UserDataBase::data(int column, int role) const
 #ifdef HORUS_SERVER
 void UserDataBase::fillFromDatabase(QSqlQuery& query)
 {
-    query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
+	query.prepare("SELECT login,level,password,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -218,26 +220,28 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
 
     _login      = query.value(0).toString();
     _level      = (UserLevel)(query.value(1).toUInt());
-    _lastLogin  = query.value(2).toDateTime();
-    _surname    = query.value(3).toString();
-    _name       = query.value(4).toString();
-    _birthDate  = query.value(5).toDate();
-    _picture    = query.value(6).toByteArray();
-    _address    = query.value(7).toString();
-    _phone      = query.value(8).toString();
-    _country    = query.value(9).toString();
-    _language   = query.value(10).toString();
-	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(11).toUInt() );
-    _enabled    = query.value(12).toBool();
-	_lastChange	= query.value(13).toDateTime();
+	_password   = query.value(2).toByteArray();
+	_lastLogin  = query.value(3).toDateTime();
+	_surname    = query.value(4).toString();
+	_name       = query.value(5).toString();
+	_birthDate  = query.value(6).toDate();
+	_picture    = query.value(7).toByteArray();
+	_address    = query.value(8).toString();
+	_phone      = query.value(9).toString();
+	_country    = query.value(10).toString();
+	_language   = query.value(11).toString();
+	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(12).toUInt() );
+	_enabled    = query.value(13).toBool();
+	_lastChange	= query.value(14).toDateTime();
 }
 
 void UserDataBase::createIntoDatabase(QSqlQuery& query)
 {
-    query.prepare("INSERT INTO users (login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime,password) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+	query.prepare("INSERT INTO users (login,level,password,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
     query.addBindValue(_login);
     query.addBindValue(_level);
-    query.addBindValue(_lastLogin);
+	query.addBindValue(_password);
+	query.addBindValue(_lastLogin);
     query.addBindValue(_surname);
     query.addBindValue(_name);
     query.addBindValue(_birthDate);
@@ -249,7 +253,6 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 	query.addBindValue(_node->id());
     query.addBindValue(_enabled);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
-	query.addBindValue("da39a3ee5e6b4b0d3255bfef95601890afd80709"); // = no password
 
 	if ( ! query.exec())
 	{
@@ -265,10 +268,11 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 
 void UserDataBase::saveIntoDatabase(QSqlQuery& query)
 {
-    query.prepare("UPDATE users SET login=?,level=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
+	query.prepare("UPDATE users SET login=?,level=?,password=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
     query.addBindValue(_login);
     query.addBindValue(_level);
-    query.addBindValue(_lastLogin);
+	query.addBindValue(_password);
+	query.addBindValue(_lastLogin);
     query.addBindValue(_surname);
     query.addBindValue(_name);
     query.addBindValue(_birthDate);
