@@ -27,7 +27,7 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
 	layout->setMargin(0);
     leftPane->setLayout(layout);
 	//TODO, chage 0 by the selected witheboard
-	this->pageWidget = new WhiteBoard(wbd, controllers, (ILesson *)this->categoryModel->index(0, 0, QModelIndex()).internalPointer());
+	this->pageWidget = new WhiteBoard(wbd, controllers);
     this->addWidget(this->pageWidget);
 	this->setStretchFactor(0, 0);
 	this->setStretchFactor(1, 3);

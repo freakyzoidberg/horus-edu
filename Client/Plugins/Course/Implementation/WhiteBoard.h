@@ -23,7 +23,7 @@ class WhiteBoard : public QWidget
     Q_OBJECT
 
 public:
-	 WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *> controllers, ILesson *lesson);
+	 WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *> controllers);
      void   setTmp(Items *);
      Items  *getTmp();
      void   setPosInDoc(int posInDoc);
@@ -43,14 +43,13 @@ public slots:
         void    calltheshot();
 
 private:
-	ILessonDocument		*findDocument(ILessonData* data);
+	ILessonDocument		*findDocument(int lessonId, int documentId);
     void                fillList(QObject* data, WhiteBoardItemList&);
 
  private:
     Items           *tmp;
     int             posInDoc;
     WhiteBoardData* wbdata;
-    ILesson         *lesson;
     QVBoxLayout     *layout;
 };
 
