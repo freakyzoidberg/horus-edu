@@ -46,10 +46,10 @@ QVariant AdminModel::data ( const QModelIndex & index, int role ) const
 
     if (role == Qt::DisplayRole)
         return ((Data*)(index.internalPointer()))->data(index.column() + 1, role);
-//    else if (role == Qt::UserRole)
-//    {
-//        return "UserItem";
-//    }
+    else if (role == Qt::BackgroundColorRole)
+    {
+        return QVariant();
+    }
     else
         return ((Data*)(index.internalPointer()))->data(index.column(), role);
 }

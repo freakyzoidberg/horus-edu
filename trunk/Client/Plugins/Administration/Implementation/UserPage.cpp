@@ -11,6 +11,8 @@ UserPage::UserPage(TreeDataPlugin* _tree, UserDataPlugin *_users)
     mainLayout->addWidget(userTree);
     userTree->setContextMenuPolicy(Qt::CustomContextMenu);
     userTree->setMinimumWidth(150);
+    userTree->setAnimated(true);
+    userTree->setAutoExpandDelay(500);
     FilterModel* fModel = new FilterModel(1, this);
     fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
     userTree->setModel(fModel);
@@ -108,5 +110,6 @@ void    UserPage::resetPage()
     FilterModel* fModel = new FilterModel(1, this);
     fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
     userTree->setModel(fModel);
-    userTree->expand(_index);
+    connect(userTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
+
 }

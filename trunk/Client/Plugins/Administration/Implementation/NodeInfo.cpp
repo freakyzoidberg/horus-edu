@@ -9,7 +9,7 @@
 #include "UserModel.h"
 #include "AdminTree.h"
 
-NodeInfo::NodeInfo(TreeData& _node, int type, UserDataPlugin &_users, QString nodeType, AdminTree* _parent) : users(_users), node(_node), parent(_parent)
+NodeInfo::NodeInfo(TreeData* _node, int type, UserDataPlugin &_users, QString nodeType, AdminTree* _parent) : users(_users), node(_node), parent(_parent)
 {
     setupUi();
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(buttonClicked(QAbstractButton *)));
@@ -73,11 +73,11 @@ void    NodeInfo::setupUi()
 
 void NodeInfo::fillFields()
 {
-    idTxt->setText(QVariant(node.id()).toString());
-    nameTxt->setText(node.name());
-    typeBox->setCurrentIndex(typeBox->findText(node.type()));
-    if (((UserData*)node.user()) != 0)
-        userTxt->setText(((UserData*)node.user())->login());
+    idTxt->setText(QVariant(node->id()).toString());
+    nameTxt->setText(node->name());
+    typeBox->setCurrentIndex(typeBox->findText(node->type()));
+    if (((UserData*)node->user()) != 0)
+        userTxt->setText(((UserData*)node->user())->login());
 }
 
 void    NodeInfo::buttonClicked(QAbstractButton * button)
@@ -92,10 +92,11 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         int ret = msgBox.exec();
         if (ret == QMessageBox::Yes)
         {
-            TreeData* newNode = node.createChild(nameTxt->text(), typeBox->currentText(), users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
+            TreeData* newNode = node->createChild(nameTxt->text(), typeBox->currentText(), users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
             qDebug() << newNode << nameTxt->text()<< typeBox->currentText() << users.getUser(completer->currentIndex().data(Qt::UserRole).toInt());
             //newNode->save();
-            //parent.mainTree->reset();
+            parent->resetPage();
+            this->close();
         }
    }
    else if (button->text() == tr("Save"))
@@ -116,11 +117,12 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
             msgBox.exec();
             return;
         }
-            node.setName(nameTxt->text());
-            node.setType(typeBox->currentText());
-            node.setUser(users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
-            node.save();
-            parent->mainTree->reset();
+            node->setName(nameTxt->text());
+            node->setType(typeBox->currentText());
+            node->setUser(users.getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
+            node->save();
+            parent->resetPage();
+            this->close();
    }
    else if (button->text() == tr("Cancel"))
    {
