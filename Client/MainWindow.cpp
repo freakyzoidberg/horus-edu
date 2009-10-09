@@ -25,7 +25,7 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow()
 bool MainWindow::event(QEvent *event)
 {
     if (event->type() == QEvent::Close)
-        this->parent->preExit();
+		parent->exit();
     return (QMainWindow::event(event));
 }
 
