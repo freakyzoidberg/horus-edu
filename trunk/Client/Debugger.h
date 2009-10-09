@@ -20,12 +20,7 @@ private:
     QVBoxLayout layout;
     QTextEdit   text;
     QPushButton resetButton;
-    QStringList list;
     static Debugger* _instance;
-
-private slots:
-    void reset();
-    void refresh();
 };
 
 #endif // DEBUGGER_H

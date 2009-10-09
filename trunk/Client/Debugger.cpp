@@ -8,7 +8,7 @@ Debugger::Debugger()
 {
     text.setReadOnly(true);
     resetButton.setText(tr("Reset"));
-    QObject::connect(&resetButton, SIGNAL(clicked()), this, SLOT(reset()));
+	QObject::connect(&resetButton, SIGNAL(clicked()), &text, SLOT(clear()));
 
     setWindowFlags(Qt::Dialog);
     setLayout(&layout);
@@ -17,8 +17,7 @@ Debugger::Debugger()
     layout.addWidget(&text);
     layout.addWidget(&resetButton);
 
-    reset();
-    show();
+	show();
 }
 
 Debugger::~Debugger()
@@ -34,21 +33,7 @@ Debugger* Debugger::instance()
     return _instance;
 }
 
-void Debugger::reset()
-{
-    list.clear();
-    refresh();
-}
-
-void Debugger::refresh()
-{
-    text.setText(list.join("\n"));
-    QScrollBar* bar = text.verticalScrollBar();
-    bar->setValue( bar->maximum() );
-}
-
 void Debugger::addDebugMessage(const QString msg)
 {
-    list.append(msg);
-    refresh();
+	text.append(msg);
 }
