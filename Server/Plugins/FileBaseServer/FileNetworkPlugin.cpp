@@ -1,6 +1,6 @@
 #include "FileNetworkPlugin.h"
+#include "FileTransfertServer.h"
 #include "../../../Common/FileData.h"
-#include "FileTransfert.h"
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 
@@ -26,7 +26,7 @@ void FileNetworkPlugin::receivePacket(UserData* user, const PluginPacket packet)
         response = "uploadAuthorized";
     }
 
-    data["key"] = (new FileTransfert(file, type))->key();
+	data["key"] = (new FileTransfertServer(file, type))->key();
 
     emit sendPacket(user, PluginPacket(packet.sourcePlugin, response, data));
 }

@@ -25,9 +25,7 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 	_mimeType = "";
 	_owner = 0;
 	_node = 0;
-    _netPlugin = plugin->pluginManager->findPlugin<FileNetworkPlugin*>("File Network Plugin");
     QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    _file.setFileName(settings.value("General/TmpDir", QDir::tempPath()).toString()+'/'+QVariant(_id).toString());
 #endif
 }
 void FileDataBase::keyToStream(QDataStream& s)
@@ -42,6 +40,7 @@ void FileDataBase::dataToStream(QDataStream& s) const
 	  << _owner->id()
 	  << _node->id()
       << _mimeType
+	  << _size
       << _hash;
 }
 
@@ -56,11 +55,13 @@ void FileDataBase::dataFromStream(QDataStream& s)
       >> ownerId
       >> nodeId
       >> _mimeType
+	  >> _size
       >> hash;
 
     _owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId);
     _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
 #ifdef HORUS_CLIENT
+	//auto download
     if (hash.isEmpty() || hash.isEmpty() || hash != _hash)
         download();
 #endif
@@ -71,10 +72,10 @@ QDebug FileDataBase::operator<<(QDebug debug) const
 {
     return debug
       << _id
-      << _name
+	  << _name;
 	  //<< _owner->id()
 	  //<< _node->id()
-      << _mimeType;
+	  //<< _mimeType;
 }
 
 #ifdef HORUS_SERVER
@@ -168,13 +169,12 @@ void FileDataBase::deleteFromDatabase(QSqlQuery& query)
 QFile* FileDataBase::file() const
 {
 #ifdef HORUS_SERVER
-    return new QFile(QSettings().value("SETTINGS/FilesDirectory").toString()+'/'+QVariant(_id).toString());
+	QString dirname = QSettings().value("SETTINGS/FilesDirectory").toString();
 #endif
 #ifdef HORUS_CLIENT
-    QFile* f = new QFile(_file.fileName());
-    connect(f, SIGNAL(aboutToClose()),this, SLOT(calculateHash()));
-    return f;
+	QString dirname = QSettings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat).value("General/TmpDir", QDir::tempPath()).toString();
 #endif
+	return new QFile(dirname + '/' + QVariant(_id).toString());
 }
 
 #ifdef HORUS_CLIENT
@@ -228,114 +228,21 @@ void FileDataBase::moveTo(TreeData* node)
 }
 
 #ifdef HORUS_CLIENT
+void FileDataBase::upload()
+{
+	qDebug() << "File::upload()";
+	_plugin->pluginManager->findPlugin<FileNetworkPlugin*>()->askForTransfert(this, FileTransfert::UPLOAD);
+}
+
 void FileDataBase::download()
 {
-    _netPlugin->askForDownload(this);
+	qDebug() << "File::download()";
+	_plugin->pluginManager->findPlugin<FileNetworkPlugin*>()->askForTransfert(this, FileTransfert::DOWNLOAD);
     _isDownloaded = false;
 }
 
 bool FileDataBase::isDownloaded() const
 {
     return _isDownloaded;
-}
-
-void FileDataBase::downloadAuthorized(const QByteArray& key)
-{
-    _transfertKey = key;
-    _file.open(QIODevice::ReadWrite | QIODevice::Truncate);
-    connect(&_socket, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
-    connect(&_socket, SIGNAL(disconnected()), this, SLOT(downloadFinished()));
-    connectToServer();
-}
-
-void FileDataBase::connexionReadyRead()
-{
-//    qDebug() << "File::connexionReadyRead()";
-
-    QByteArray buff = _socket.readAll();
-    if ( ! buff.length())
-        return;
-
-    _file.write(buff);
-}
-
-void FileDataBase::downloadFinished()
-{
-    _file.close();
-    disconnect(&_socket, SIGNAL(readyRead()), this, SLOT(connexionReadyRead()));
-    disconnect(&_socket, SIGNAL(disconnected()), this, SLOT(downloadFinished()));
-    _isDownloaded = true;
-    emit downloaded();
-}
-
-void FileDataBase::upload()
-{
-    qDebug() << "File::upload()";
-    _netPlugin->askForUpload(this);
-}
-
-void FileDataBase::uploadAuthorized(const QByteArray& key)
-{
-    _transfertKey = key;
-    _file.open(QIODevice::ReadOnly);
-    connect(&_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(connexionBytesWritten(qint64)));
-    connect(&_socket, SIGNAL(disconnected()), this, SLOT(uploadFinished()));
-    connectToServer();
-}
-
-void FileDataBase::connexionBytesWritten(qint64 len)
-{
-    QByteArray buff = _file.read(len);
-    if (buff.length())
-        _socket.write(buff);
-    else
-        _socket.close();
-}
-
-void FileDataBase::uploadFinished()
-{
-    _file.close();
-    disconnect(&_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(connexionBytesWritten(qint64)));
-    disconnect(&_socket, SIGNAL(disconnected()), this, SLOT(uploadFinished()));
-    emit uploaded();
-}
-
-int FileDataBase::progress() const
-{
-    //TODO
-    return 0;
-}
-
-void FileDataBase::connectToServer()
-{
-    qDebug() << "File::connectToServer()";
-
-    _socket.setProtocol(QSsl::SslV3);
-    _socket.setPeerVerifyMode(QSslSocket::VerifyNone);
-
-    connect(&_socket, SIGNAL(encrypted()), this, SLOT(connexionEncrypted()));
-
-    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-    _socket.connectToHostEncrypted(settings.value("Network/Server", "localhost").toString(),
-                                     settings.value("Network/PortTransfert", 42042).toInt());
-}
-
-void FileDataBase::connexionEncrypted()
-{
-    disconnect(&_socket, SIGNAL(encrypted()), this, SLOT(connexionEncrypted()));
-    _socket.write(_transfertKey);
-    _socket.flush();
-}
-
-void FileDataBase::calculateHash()
-{
-    QCryptographicHash h(QCryptographicHash::Sha1);
-
-    _file.open(QIODevice::ReadOnly);
-    while ( ! _file.atEnd())
-        h.addData( _file.read(8192) );
-    _file.close();
-
-    _hash = h.result();
 }
 #endif

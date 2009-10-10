@@ -50,6 +50,7 @@ public:
 	QList<FileData*>	getFilesInNode(const TreeData *node) const;
 	QList<FileData*>	getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const;
 	QList<FileData*>	getFilesInNodeAndUser(const TreeData *node, const UserData* user) const;
+	inline const QHash<quint32,FileData*>& getAllFiles() const { return files; }
 	FileData*			createNewFile(TreeData*);
 
 private:

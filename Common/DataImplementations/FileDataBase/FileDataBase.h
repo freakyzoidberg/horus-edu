@@ -22,7 +22,7 @@ class FileDataBase : public FileData
   Q_OBJECT
 #ifdef HORUS_SERVER
   Q_INTERFACES(ServerFileData)
-  friend class FileTransfert;
+  friend class FileTransfertServer;
 #endif
 #ifdef HORUS_CLIENT
   Q_INTERFACES(ClientFileData)
@@ -56,15 +56,16 @@ public:
     inline QString     name() const { return _name; }
     void               setName(const QString name);
 
-    inline QString     mimeType() const { return _mimeType; }
+	inline UserData*   owner() const { return _owner; }
+
+	inline TreeData*   node() const { return _node; }
+	void               moveTo(TreeData* node);
+
+	inline QString     mimeType() const { return _mimeType; }
 	void               setMimeType(const QString name);
 
-    inline TreeData*   node() const { return _node; }
-    void               moveTo(TreeData* node);
-
-    inline UserData*   owner() const { return _owner; }
-
     inline QByteArray  hash() const { return _hash; }
+	inline quint64	   size() const { return _size; }
 
     QFile*             file() const;
 
@@ -79,41 +80,16 @@ private:
     QByteArray _hash;
 
 #ifdef HORUS_CLIENT
- public:
-    //! return the progress value (for a down/up-load)
-    int                 progress() const;
-    //! download the file from the server.
-    void                download();
-    //! return true if the file is downloaded in local
-    bool                isDownloaded() const;
-    //! upload the file to the server.
-    void                upload();
-    //! called by FileNetworkPlugin after receiving the download authorisation
-    void                downloadAuthorized(const QByteArray& key);
-    //! called by FileNetworkPlugin after receiving the upload authorisation
-    void                uploadAuthorized(const QByteArray& key);
+public:
+	//! upload the file to the server.
+	void                upload();
+	//! download the file from the server.
+	void                download();
+	//! return true if the file is downloaded in local
+	bool                isDownloaded() const;
 
 private:
-    //! the socket to the server
-    QSslSocket  _socket;
-    //! the localfile
-    QFile       _file;
-
-    bool        _isDownloaded;
-
-    QByteArray  _transfertKey;
-
-    FileNetworkPlugin* _netPlugin;
-
-    void connectToServer();
-
-private slots:
-    void connexionReadyRead();
-    void connexionBytesWritten(qint64);
-    void downloadFinished();
-    void uploadFinished();
-    void connexionEncrypted();
-    void calculateHash();
+	bool        _isDownloaded;
 #endif
 };
 

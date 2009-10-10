@@ -1,5 +1,5 @@
 #include "FileServer.h"
-#include "FileTransfert.h"
+#include "FileTransfertServer.h"
 
 #include "../../../Common/Defines.h"
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
@@ -25,7 +25,7 @@ FileServer::FileServer()
 
 void FileServer::incomingConnection(int socket)
 {
-    qDebug() << "FileServer::incommingConnection";
+//    qDebug() << "FileServer::incommingConnection";
     QSslSocket* s = new QSslSocket(this);
 
     connect(s, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(errorSlot(QAbstractSocket::SocketError)));
@@ -47,14 +47,13 @@ void FileServer::incomingConnection(int socket)
 
 void FileServer::readKey()
 {
-    qDebug() << "FileServer::readKey";
+//    qDebug() << "FileServer::readKey";
     QSslSocket* s = (QSslSocket*)(sender());
-//    QSslSocket* s = (QSslSocket*)(sender());
     if (s->bytesAvailable() < FILE_TRANSFERT_KEY_SIZE)
         return;
 
     s->disconnect(this, SLOT(readKey()));
-    FileTransfert::registerSocket(s->read(FILE_TRANSFERT_KEY_SIZE), s);
+	FileTransfertServer::registerSocket(s->read(FILE_TRANSFERT_KEY_SIZE), s);
 }
 
 void FileServer::errorSlot(QAbstractSocket::SocketError e)
