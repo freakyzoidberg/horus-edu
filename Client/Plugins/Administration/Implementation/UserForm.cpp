@@ -224,6 +224,7 @@ void    UserForm::clearForm()
         addrTxt->setText("");
         phoneTxt->setText("");
         paysTxt->setText("");
+        activeBox->setChecked(false);
   //      imageLabel->clear();
 }
 
