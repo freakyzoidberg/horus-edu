@@ -1,6 +1,5 @@
 #include "FileNetworkPlugin.h"
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
-#include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 
 void FileNetworkPlugin::receivePacket(const PluginPacket packet)
 {
@@ -11,17 +10,15 @@ void FileNetworkPlugin::receivePacket(const PluginPacket packet)
     FileDataBase* file = ((FileDataBase*)(_dataPlugin->getFile( data["file"].toUInt() )));
 
     if (packet.request == "downloadAuthorized")
-        ((FileDataBase*)(file))->downloadAuthorized( data["key"].toByteArray());
+		new FileTransfertClient(file, FileTransfert::DOWNLOAD, data["key"].toByteArray());
     else
-        ((FileDataBase*)(file))->uploadAuthorized( data["key"].toByteArray());
+		new FileTransfertClient(file, FileTransfert::UPLOAD,   data["key"].toByteArray());
 }
 
-void FileNetworkPlugin::askForDownload(FileData* file)
+void FileNetworkPlugin::askForTransfert(FileData* file, FileTransfert::TransfertType type)
 {
-    emit sendPacket(PluginPacket("File Network Plugin", "askForDownload", file->id()));
-}
-
-void FileNetworkPlugin::askForUpload(FileData* file)
-{
-    emit sendPacket(PluginPacket("File Network Plugin", "askForUpload", file->id()));
+	if (type == FileTransfert::DOWNLOAD)
+		emit sendPacket(PluginPacket("File Network Plugin", "askForDownload", file->id()));
+	else
+		emit sendPacket(PluginPacket("File Network Plugin", "askForUpload", file->id()));
 }

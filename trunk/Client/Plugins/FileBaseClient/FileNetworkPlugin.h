@@ -5,6 +5,7 @@
 
 class FileData;
 class FileDataBasePlugin;
+#include "FileTransfertClient.h"
 
 class FileNetworkPlugin : public NetworkPlugin
 {
@@ -24,8 +25,7 @@ public slots:
 
 public:
     inline FileNetworkPlugin(FileDataBasePlugin* dataPlugin) { _dataPlugin = dataPlugin; }
-    void                    askForDownload(FileData* file);
-    void                    askForUpload(FileData* file);
+	void                    askForTransfert(FileData* file, FileTransfert::TransfertType type);
 private:
     FileDataBasePlugin* _dataPlugin;
 };
