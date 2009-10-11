@@ -13,9 +13,7 @@ FileData* FileDataBasePlugin::getFile(quint32 fileId)
     if ( ! files.contains(fileId))
 	{
 		FileData* file = new FileDataBase(fileId, this);
-#ifdef HORUS_CLIENT
 		file->moveToThread(this->thread());
-#endif
 		files.insert(fileId, file);
 	}
 
@@ -102,9 +100,10 @@ void FileDataBasePlugin::load()
     Plugin::load();
 }
 
-void FileDataBasePlugin::loadDataBase(QSqlQuery& query)
+void FileDataBasePlugin::loadData()
 {
-    query.prepare("SELECT id,name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files;");
+	QSqlQuery query = pluginManager->sqlQuery();
+	query.prepare("SELECT id,name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files;");
     query.exec();
     while (query.next())
     {
@@ -123,10 +122,10 @@ void FileDataBasePlugin::loadDataBase(QSqlQuery& query)
     }
 }
 
-void FileDataBasePlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+void FileDataBasePlugin::userConnected(UserData* user, QDateTime date)
 {
     foreach (FileData* file, files)
-        if (file->lastChange() >= date)
+		if (file->lastChange() >= date && file->status() == Data::UPTODATE)
             dataManager->sendData(user, file);
 }
 #endif

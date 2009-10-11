@@ -58,10 +58,10 @@ void FileServer::readKey()
 
 void FileServer::errorSlot(QAbstractSocket::SocketError e)
 {
-    qDebug() << "error" << e;
+	qDebug() << e;
 }
 
 void FileServer::sslErrorsSlot(QList<QSslError> e)
 {
-    qDebug() << "sslError" << e;
+	qDebug() << e;
 }

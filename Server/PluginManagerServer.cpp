@@ -11,16 +11,15 @@
 #include <QStringList>
 #include <QDebug>
 #include <QThread>
-#include <QtSql>
 #include "Sql.h"
 
 const QHash<QString, Plugin*>& PluginManagerServer::plugins() const { return _plugins; }
 
 PluginManagerServer::PluginManagerServer() { }
 
-UserData* PluginManagerServer::currentUser() const { return users[ QThread::currentThreadId() ]; }
+UserData* PluginManagerServer::currentUser() const { return _users[ QThread::currentThreadId() ]; }
 
-void PluginManagerServer::setCurrentUser(UserData* user) { users[ QThread::currentThreadId() ] = user; }
+void PluginManagerServer::setCurrentUser(UserData* user) { _users[ QThread::currentThreadId() ] = user; }
 
 PluginManagerServer* PluginManagerServer::instance()
 {
@@ -61,12 +60,10 @@ void PluginManagerServer::load()
     }
 
     // DataPlugin
-    Sql db;
-    QSqlQuery query(QSqlDatabase::database(db));
     foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
     {
         plugin->dataManager = new DataManagerServer(plugin);
-        plugin->loadDataBase(query);
+		plugin->loadData();
     }
 
     // NetworkPlugin
@@ -83,4 +80,20 @@ void PluginManagerServer::sendPluginPacket(UserData* user, const PluginPacket pa
        QMetaObject::invokeMethod(socket, "sendPacket", Qt::QueuedConnection, Q_ARG(QByteArray, CommPlugin(packet).getPacket()));
     else
         qDebug() << "PluginManagerServer::sendPluginPacket error user not connected";
+}
+
+QSqlQuery PluginManagerServer::sqlQuery()
+{
+	Qt::HANDLE thread = QThread::currentThreadId();
+	Sql* conn;
+
+	if ( ! _sqlConnexions.contains(thread))
+	{
+		conn = new Sql;
+		_sqlConnexions.insert(thread, conn);
+	}
+	else
+		conn = _sqlConnexions.value(thread);
+
+	return QSqlQuery(QSqlDatabase::database(*conn));
 }

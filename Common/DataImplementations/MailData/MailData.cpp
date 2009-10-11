@@ -5,12 +5,11 @@
 
 void MailData::keyToStream(QDataStream& s)
 {
-        s << _id;
+	s << _id;
 }
 
 void MailData::dataToStream(QDataStream& s) const
 {
-
     s << _id
     << _to
     << _cc
@@ -22,24 +21,22 @@ void MailData::dataToStream(QDataStream& s) const
 
 void MailData::dataFromStream(QDataStream& s)
 {
-        s >>
-        _id >>
-        _to >>
-        _cc >>
-        _bcc >>
-        _subject >>
-        _content;
+	s >>
+	_id >>
+	_to >>
+	_cc >>
+	_bcc >>
+	_subject >>
+	_content;
 	Data::dataFromStream(s);
 }
 
 QDebug MailData::operator<<(QDebug debug) const
 {
-        return debug << tr("MailData::") << _id;
-
+	return debug << tr("MailData::") << _id;
 }
 
 #ifdef HORUS_CLIENT
-
 #include <QIcon>
 QVariant MailData::data(int column, int role) const
 {
@@ -58,47 +55,10 @@ QVariant MailData::data(int column, int role) const
 }
 
 #endif
-
-
 #ifdef HORUS_SERVER
 #include "../../../Server/Plugins/MailServer/Implementation/smtp.h"
-void MailData::fillFromDatabase(QSqlQuery& query)
+quint8 MailData::serverSave()
 {
-//    query.prepare("SELECT login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
-//    query.addBindValue(_id);
-//    if ( ! query.exec() || ! query.next())
-//    {
-//        _error = NOT_FOUND;
-//        return;
-//    }
-//    _login      = query.value(0).toString();
-//    _level      = (UserLevel)(query.value(1).toUInt());
-//    _lastLogin  = query.value(2).toDateTime();
-//    _surname    = query.value(3).toString();
-//    _name       = query.value(4).toString();
-//    _birthDate  = query.value(5).toDate();
-//    _picture    = query.value(6).toByteArray();
-//    _address    = query.value(7).toString();
-//    _phone      = query.value(8).toString();
-//    _country    = query.value(9).toString();
-//    _language   = query.value(10).toString();
-//    TreeDataPlugin* treePlugin = _plugin->pluginManager->findPlugin<TreeDataPlugin*>();
-//    if (treePlugin)
-//        _node = treePlugin->getNode( query.value(11).toUInt() );
-//    else
-//        _node = 0;
-//    _enabled    = query.value(12).toBool();
-//    _lastChange= query.value(13).toDateTime();
-}
-
-void MailData::createIntoDatabase(QSqlQuery& query)
-{
-
-}
-
-void MailData::saveIntoDatabase(QSqlQuery& query)
-{
-
     QString host = QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString();
     qDebug() << host;
     QString domain = QSettings().value("MAIL/MAIL_DOMAIN", ".").toString();
@@ -127,17 +87,6 @@ void MailData::saveIntoDatabase(QSqlQuery& query)
                 test1->send();
                 qDebug() << test1->lastError();
                 delete test1;
-
-}
-
-void MailData::deleteFromDatabase(QSqlQuery& query)
-{
-//    query.prepare("DELETE FROM users WHERE id=?;");
-//    query.addBindValue(_id);
-//    if ( ! query.exec() || ! query.next())
-//    {
-//        _error = NOT_FOUND;
-//        return;
-//    }
+	return NONE;
 }
 #endif

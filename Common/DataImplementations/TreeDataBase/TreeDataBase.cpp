@@ -53,32 +53,32 @@ QDebug TreeDataBase::operator<<(QDebug debug) const
 }
 
 #ifdef HORUS_SERVER
-void TreeDataBase::fillFromDatabase(QSqlQuery& query)
+quint8 TreeDataBase::serverRead()
 {
-    query.prepare("SELECT typeofnode,name,user_ref,id_parent FROM tree WHERE id=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("SELECT typeofnode,name,user_ref,id_parent FROM tree WHERE id=?;");
     query.addBindValue(_id);
 
-		if ( ! query.exec())
+	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.next())
-	{
-		_error = NOT_FOUND;
-		return;
-	}
+		return NOT_FOUND;
 
 	_type   = query.value(0).toString();
     _name   = query.value(1).toString();
 	_user	= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(2).toUInt() );
 	setParent( ((TreeDataPlugin*)_plugin)->getNode(query.value(3).toUInt()) );
+
+	return NONE;
 }
 
-void TreeDataBase::createIntoDatabase(QSqlQuery& query)
+quint8 TreeDataBase::serverCreate()
 {
-    query.prepare("INSERT INTO tree (typeofnode,name,user_ref,id_parent) VALUES (?,?,?,?);");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("INSERT INTO tree (typeofnode,name,user_ref,id_parent) VALUES (?,?,?,?);");
     query.addBindValue(_type);
     query.addBindValue(_name);
 	query.addBindValue(_user->id());
@@ -86,19 +86,21 @@ void TreeDataBase::createIntoDatabase(QSqlQuery& query)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 
 	((TreeDataBasePlugin*)_plugin)->nodes.remove(_id);
 	_id = query.lastInsertId().toUInt();
 	((TreeDataBasePlugin*)_plugin)->nodes.insert(_id, this);
+
+	return NONE;
 }
 
-void TreeDataBase::saveIntoDatabase  (QSqlQuery& query)
+quint8 TreeDataBase::serverSave()
 {
-    query.prepare("UPDATE tree SET typeofnode=?,name=?,user_ref=?,id_parent=? WHERE id=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("UPDATE tree SET typeofnode=?,name=?,user_ref=?,id_parent=? WHERE id=?;");
     query.addBindValue(_type);
     query.addBindValue(_name);
 	query.addBindValue(_user->id());
@@ -108,27 +110,30 @@ void TreeDataBase::saveIntoDatabase  (QSqlQuery& query)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+		return NOT_FOUND;
+
+	return NONE;
 }
 
-void TreeDataBase::deleteFromDatabase(QSqlQuery& query)
+quint8 TreeDataBase::serverRemove()
 {
-    query.prepare("DELETE FROM tree WHERE id=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("DELETE FROM tree WHERE id=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+		return NOT_FOUND;
+
+	return NONE;
 }
 #endif
 #ifdef HORUS_CLIENT

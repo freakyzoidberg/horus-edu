@@ -59,25 +59,29 @@ void SettingsDataBase::setValue(const QString& key, const QVariant& val)
 }
 
 #ifdef HORUS_SERVER
-void SettingsDataBase::fillFromDatabase(QSqlQuery& query)
+quint8 SettingsDataBase::serverRead()
 {
-    query.prepare("SELECT value,mtime FROM settings WHERE user=? AND plugin=? AND scope=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("SELECT value,mtime FROM settings WHERE user=? AND plugin=? AND scope=?;");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
     if ( ! query.exec() || ! query.next())
     {
         _values = QVariantHash();
-        return;
+		return NONE;
     }
     inDatabase = true;
     _values = query.value(0).toHash();
     _lastChange = query.value(1).toDateTime();
+
+	return NONE;
 }
 
-void SettingsDataBase::createIntoDatabase(QSqlQuery& query)
+quint8 SettingsDataBase::serverCreate()
 {
-    query.prepare("INSERT INTO settings (user,plugin,scope,value,mtime) VALUES (?,?,?,?,?);");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("INSERT INTO settings (user,plugin,scope,value,mtime) VALUES (?,?,?,?,?);");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
@@ -85,16 +89,16 @@ void SettingsDataBase::createIntoDatabase(QSqlQuery& query)
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
     if ( ! query.exec() || ! query.next())
-    {
-        _error = DATABASE_ERROR;
-        return;
-    }
+		return DATABASE_ERROR;
+
+	return NONE;
 }
 
-void SettingsDataBase::saveIntoDatabase  (QSqlQuery& query)
+quint8 SettingsDataBase::serverSave()
 {
-    if ( ! inDatabase)
-        return createIntoDatabase(query);
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	if ( ! inDatabase)
+		return serverCreate();
 
     query.prepare("UPDATE settings SET value=?,mtime=? WHERE user=? AND plugin=? AND scope=?;");
     query.addBindValue(_values);
@@ -104,22 +108,21 @@ void SettingsDataBase::saveIntoDatabase  (QSqlQuery& query)
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
     if ( ! query.exec() || ! query.next())
-    {
-        _error = NOT_FOUND;
-        return;
-    }
+		return NOT_FOUND;
+
+	return NONE;
 }
 
-void SettingsDataBase::deleteFromDatabase(QSqlQuery& query)
+quint8 SettingsDataBase::serverRemove()
 {
-    query.prepare("DELETE FROM settings WHERE user=? AND plugin=? AND scope=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("DELETE FROM settings WHERE user=? AND plugin=? AND scope=?;");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
     if ( ! query.exec() || ! query.next())
-    {
-        _error = NOT_FOUND;
-        return;
-    }
+		return NOT_FOUND;
+
+	return NONE;
 }
 #endif

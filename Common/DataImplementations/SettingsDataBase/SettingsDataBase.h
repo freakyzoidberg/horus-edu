@@ -42,11 +42,11 @@ public:
     inline quint8    scope() const { return _scope; }
 
 #ifdef HORUS_SERVER
-    void             fillFromDatabase  (QSqlQuery&);
-    void             createIntoDatabase(QSqlQuery&);
-    void             saveIntoDatabase  (QSqlQuery&);
-    void             deleteFromDatabase(QSqlQuery&);
-    bool             inDatabase;
+	quint8     serverRead();
+	quint8     serverCreate();
+	quint8     serverSave();
+	quint8     serverRemove();
+	bool             inDatabase;
 #endif
 
 private:

@@ -18,7 +18,7 @@ HEADERS += \
 	../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h \
 	../../../Common/DataImplementations/FileDataBase/FileTransfert.h \
-	../../../Common/Plugin.h \
+		../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Data.h \

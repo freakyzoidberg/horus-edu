@@ -2,9 +2,6 @@
 
 #include "FileDataBase.h"
 
-QList<FileTransfert*> FileTransfert::_transferts;
-QMutex FileTransfert::_transfertsLock;
-
 FileTransfert::FileTransfert(FileData* file, TransfertType type)
 {
 	_fileData = (FileDataBase*)(file);
@@ -14,8 +11,7 @@ FileTransfert::FileTransfert(FileData* file, TransfertType type)
 	_hash = 0;
 	_progress = 0;
 
-	QMutexLocker lock(&_transfertsLock);
-	_transferts.append(this);
+	FileTransfertList::list().append(this);
 }
 
  void FileTransfert::socketToFile()
@@ -60,8 +56,7 @@ void FileTransfert::disconnected()
 
 FileTransfert::~FileTransfert()
 {
-	QMutexLocker lock(&_transfertsLock);
-	_transferts.removeOne(this);
+	FileTransfertList::list().remove(this);
 
 //	if (_socket)
 //		_socket->deleteLater();;
@@ -69,10 +64,4 @@ FileTransfert::~FileTransfert()
 		delete _file;
 	if (_hash)
 		delete _hash;
-}
-
-const QList<FileTransfert*> FileTransfert::transferts()
-{
-	QMutexLocker lock(&_transfertsLock);
-	return _transferts;
 }

@@ -22,11 +22,11 @@ public:
     inline const QString getDataType() const { return "User"; }
     virtual UserData*    getUser(quint32 userId) = 0;
     virtual const QHash<quint32, UserData*>&      getAllUser() = 0;
-    virtual UserData*                createUser(const QString &login) = 0;
+	virtual UserData*	 createUser(const QString &login) = 0;
 #ifdef HORUS_SERVER
     virtual void         userDisconnected(UserData* user) = 0;
-    virtual UserData*    authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password) = 0;
-    virtual UserData*    authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& sesion) = 0;
+	virtual UserData*    authenticatePassword(const QString& login, const QByteArray& password) = 0;
+	virtual UserData*    authenticateSession (const QString& login, const QByteArray& sesion) = 0;
 #endif
 };
 

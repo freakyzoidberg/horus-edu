@@ -36,10 +36,10 @@ public:
     QVariant data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
-    void fillFromDatabase  (QSqlQuery&);
-    void createIntoDatabase(QSqlQuery&);
-    void saveIntoDatabase  (QSqlQuery&);
-    void deleteFromDatabase(QSqlQuery&);
+	inline quint8     serverRead()   { return INTERNAL_SERVER_ERROR; }
+	inline quint8     serverCreate() { return INTERNAL_SERVER_ERROR; }
+		   quint8     serverSave();
+	inline quint8     serverRemove() { return INTERNAL_SERVER_ERROR; }
 #endif
 
 /*

@@ -28,11 +28,11 @@ public:
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
-    void                 loadDataBase(QSqlQuery&);
-    void                 userDisconnected(UserData* user);
-    UserData*            authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password);
-    UserData*            authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& sesion);
-    void                 sendUpdates(QSqlQuery&, UserData* user, QDateTime date);
+	void                 loadData();
+	void                 userConnected(UserData* user, QDateTime date);
+	void                 userDisconnected(UserData* user);
+	UserData*            authenticatePassword(const QString& login, const QByteArray& password);
+	UserData*            authenticateSession (const QString& login, const QByteArray& sesion);
 #endif
 
 protected:

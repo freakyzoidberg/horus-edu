@@ -72,27 +72,29 @@ QVariant WhiteBoardData::data(int column, int role) const
 #endif
 
 #ifdef HORUS_SERVER
-void WhiteBoardData::fillFromDatabase(QSqlQuery& query)
+quint8 WhiteBoardData::serverRead()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("SELECT mode,items,mtime FROM white_board WHERE id_tree=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.next())
-		return createIntoDatabase(query);
+		return serverCreate();
 
 	_syncMode	= (SyncMode)(query.value(0).toUInt());
 	_items		= query.value(1).toByteArray();
 	_lastChange	= query.value(2).toDateTime();
+	return NONE;
 }
 
-void WhiteBoardData::createIntoDatabase(QSqlQuery& query)
+quint8 WhiteBoardData::serverCreate()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("INSERT INTO white_board (id_tree,mode,items,mtime)VALUES(?,?,?,?);");
 	query.addBindValue(_node->id());
 	query.addBindValue(_syncMode);
@@ -101,14 +103,15 @@ void WhiteBoardData::createIntoDatabase(QSqlQuery& query)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
+	return NONE;
 }
 
-void WhiteBoardData::saveIntoDatabase(QSqlQuery& query)
+quint8 WhiteBoardData::serverSave()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("UPDATE white_board SET mode=?,items=?,mtime=? WHERE id_tree=?;");
 	query.addBindValue(_syncMode);
 	query.addBindValue(_items);
@@ -117,26 +120,25 @@ void WhiteBoardData::saveIntoDatabase(QSqlQuery& query)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
-//	if ( ! query.numRowsAffected())
-//		_error = NOT_FOUND;
+	return NONE;
 }
 
-void WhiteBoardData::deleteFromDatabase(QSqlQuery& query)
+quint8 WhiteBoardData::serverRemove()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("DELETE FROM white_board WHERE id_tree=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+		return NOT_FOUND;
+	return NONE;
 }
 #endif

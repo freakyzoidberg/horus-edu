@@ -23,7 +23,7 @@
 class PluginManagerClient : public PluginManager
 {
     Q_OBJECT
-    Q_INTERFACES(PluginManager)
+	Q_INTERFACES(PluginManagerCli)
 
 public:
 	PluginManagerClient();

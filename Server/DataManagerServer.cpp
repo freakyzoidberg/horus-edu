@@ -3,7 +3,6 @@
 #include "../Common/CommData.h"
 #include "../Common/Data.h"
 
-#include "Sql.h"
 #include "ClientSocket.h"
 #include "PluginManagerServer.h"
 
@@ -12,10 +11,10 @@
 
 void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 {
-    Sql conn;
-    QSqlQuery query(QSqlDatabase::database(conn));
     QMutexLocker(data->lock);
 
+	UserData* user = PluginManagerServer::instance()->currentUser();
+	quint8 error = 0;
     quint8 oldStatus = data->status();
 
 	// if a client whant an update of a data
@@ -24,12 +23,12 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 	{
 		if (oldStatus == Data::EMPTY)
 		{
-			data->fillFromDatabase(query);
+			if ((error = data->serverRead()))
+				return sendData(user, data, Data::ERROR, error);
 			data->_status = Data::UPTODATE;
 		}
 
-		sendData(PluginManagerServer::instance()->currentUser(), data);
-		return;
+		return sendData(user, data);
 	}
 
 	// if a client save a new value of the data
@@ -38,20 +37,22 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 	{
 		if (oldStatus == Data::EMPTY)
 		{
-			data->fillFromDatabase(query);
+			if ((error = data->serverRead()))
+				return sendData(user, data, Data::ERROR, error);
 			data->_status = Data::UPTODATE;
 		}
 
-		data->saveIntoDatabase(query);
+		if ((error = data->serverSave()))
+			return sendData(user, data, Data::ERROR, error);
+
+		data->_status = Data::UPTODATE;
 
 		//send to the user who saved the data SAVED
-		data->_status = Data::SAVED;
-		sendData(PluginManagerServer::instance()->currentUser(), data);
+		sendData(user, data, Data::SAVED);
 
 		//send to the other user the data UPTODATE
-		data->_status = Data::UPTODATE;
 		foreach (UserData* u, ClientSocket::connectedUsers.keys())
-			if (u != PluginManagerServer::instance()->currentUser())
+			if (u != user)
 				sendData(u, data);
 
 		return;
@@ -65,16 +66,15 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		QDataStream stream(&oldKey, QIODevice::ReadWrite);
 		data->keyToStream(stream);
 
-		data->createIntoDatabase(query);
+		data->serverCreate();
+		data->_status = Data::UPTODATE;
 
 		//send to the user who saved the data CREATED
-		data->_status = Data::CREATED;
-		sendData(PluginManagerServer::instance()->currentUser(), data, oldKey);
+		sendData(user, data, Data::CREATED, 0, oldKey);
 
 		//send to the other user the data UPTODATE
-		data->_status = Data::UPTODATE;
 		foreach (UserData* u, ClientSocket::connectedUsers.keys())
-			if (u != PluginManagerServer::instance()->currentUser())
+			if (u != user)
 				sendData(u, data);
 
 		return;
@@ -84,12 +84,14 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 	if ((oldStatus == Data::EMPTY || oldStatus == Data::UPTODATE) &&
 		 newStatus == Data::DELETING)
 	{
-		data->deleteFromDatabase(query);
+		data->serverRemove();
 		data->_status = Data::DELETED;
 
 		//send to every users the data DELETED
 		foreach (UserData* u, ClientSocket::connectedUsers.keys())
-			sendData(u, data);
+			sendData(u, data, Data::DELETED);
+
+		delete data;
 		return;
 	}
 
@@ -140,27 +142,35 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
 	data->setStatus(status);
 }
 
-void DataManagerServer::sendData(UserData* user, Data* data, const QByteArray oldKey) const
+void DataManagerServer::sendData(UserData* user, Data* data) const
+{
+	sendData(user, data, Data::UPDATED);
+}
+
+void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, quint8 error, const QByteArray& oldKey) const
 {
     QMutexLocker(data->lock);
 	CommData packet(plugin->getDataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
-	quint8 status = data->status();
 
-	if (status != Data::UPTODATE && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED)
+	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED)
 	{
 		qWarning() << "DataManagerServer try to send a data with status" << status << "which is not authorized.";
 		return;
 	}
 
-	stream << status << data->error();
+	stream << status;
 
 	if (status == Data::CREATED)
 		stream << oldKey;
 
 	data->keyToStream(stream);
-	if (status == Data::UPTODATE && ! data->error())
+
+	if (status == Data::UPDATED)
 		data->dataToStream(stream);
+
+	else if (status == Data::ERROR)
+		stream << error;
 
 	ClientSocket* socket = ClientSocket::connectedUsers.value(user);
     if (socket)

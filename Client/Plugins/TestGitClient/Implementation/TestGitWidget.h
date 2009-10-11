@@ -23,6 +23,7 @@ private slots:
     void test1();
     void test2();
     void test3();
+	void created();
 };
 
 #endif // TESTGITWIDGET_H

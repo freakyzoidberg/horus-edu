@@ -23,9 +23,7 @@ SettingsData* SettingsDataBasePlugin::getSettings(QString part, quint8 scope, Us
 
     //not found
     SettingsDataBase* set = new SettingsDataBase(this, part, scope, user);
-#ifdef HORUS_CLIENT
 	set->moveToThread(this->thread());
-#endif
     settings.append(set);
     return set;
 }
@@ -41,14 +39,14 @@ Data* SettingsDataBasePlugin::getDataWithKey(QDataStream& s)
 }
 
 #ifdef HORUS_SERVER
-void SettingsDataBasePlugin::loadDataBase(QSqlQuery& query)
+void SettingsDataBasePlugin::loadData()
 {
 }
 
-void SettingsDataBasePlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+void SettingsDataBasePlugin::userConnected(UserData* user, QDateTime date)
 {
 //    foreach (UserData* data, users)
-//        if (data->lastChange() >= date)
+//        if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 //            dataManager->sendData(user, data);
 }
 #endif

@@ -1,8 +1,6 @@
 #include <QDateTime>
 #include <QDebug>
 
-#include "Sql.h"
-
 #include "ThreadPacket.h"
 #include "../Common/DataManager.h"
 #include "PluginManagerServer.h"
@@ -86,20 +84,17 @@ void ThreadPacket::PacketLogin()
     if ( ! plugin)
         return sendError(CommError::INTERNAL_ERROR, "No UserDataPlugin found. Cannot authenticate the user.");
 
-    Sql conn;
-    QSqlQuery query(QSqlDatabase::database(conn));
-
     UserData* user = 0;
     if (login.method == CommLogin::LOGIN_SESSION)
-        user = plugin->authenticateSession(query, login.login, login.sessionString);
+		user = plugin->authenticateSession(login.login, login.sessionString);
 
     else if (login.method == CommLogin::LOGIN_PASSWORD)
-        user = plugin->authenticatePassword(query, login.login, login.password);
+		user = plugin->authenticatePassword(login.login, login.password);
 
     else if (socket->user)
     {
         ClientSocket::connectedUsers.remove(socket->user);
-        socket->user->destroySession(query);
+		socket->user->destroySession();
         socket->user = 0;
         CommLogin resp(CommLogin::DISCONNECTED);
         emit sendPacket(resp.getPacket());
@@ -129,13 +124,13 @@ void ThreadPacket::PacketLogin()
     CommLogin resp(CommLogin::ACCEPTED);
     resp.serverDateTime = QDateTime::currentDateTime();
     resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
-    resp.sessionString = socket->user->newSession(query, resp.sessionEnd);
+	resp.sessionString = socket->user->newSession(resp.sessionEnd);
     resp.user = user;
     emit sendPacket(resp.getPacket());
 
     // send every data the user need
     foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
-        p->sendUpdates(query, user, QDateTime());
+		p->userConnected(user, QDateTime());
 
     //allow other threads to be started
     socket->allowOtherThreads();

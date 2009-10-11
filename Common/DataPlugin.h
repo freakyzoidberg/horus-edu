@@ -1,12 +1,6 @@
 #ifndef DATAPLUGIN_H
 #define DATAPLUGIN_H
 
-#include "Defines.h"
-
-#ifdef HORUS_SERVER
-#include <QtSql>
-#endif
-
 #include "QByteArray"
 #include "Plugin.h"
 #include "MetaPlugin.h"
@@ -29,8 +23,6 @@ class DataPlugin : public Plugin
 public:
     virtual const QString getDataType() const = 0;
 
-//    virtual inline const QList<Data*> getAllDatas() const { return QList<Data*>(); }
-
     //! Return the pointer to the Data with a his unique key read in the stream
     virtual Data*         getDataWithKey(QDataStream&) = 0;
 
@@ -43,13 +35,16 @@ public:
 #endif
 #ifdef HORUS_SERVER
     //! On the server, the module may want to check if the database is ok
-    virtual inline void   loadDataBase(QSqlQuery&) { }
-    virtual inline void   sendUpdates(QSqlQuery&, UserData*, QDateTime) { }
+	virtual inline void   loadData() { }
+	virtual inline void   userConnected(UserData*, QDateTime) { }
 #endif
     DataManager*          dataManager;
 
 signals:
+	void dataCreated(Data* data);
 	void dataUpdated(Data* data);
+	void dataRemoved(Data* data);
+	void dataError  (Data* data, quint8 error);
 
 protected:
 	inline DataPlugin() {}

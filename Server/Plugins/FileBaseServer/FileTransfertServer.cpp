@@ -1,11 +1,7 @@
 #include "FileTransfertServer.h"
-
-#include <QTime>
-
-//#include "../../../Common/Defines.h"
-////#include "../../../Common/FileData.h"
-#include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
 #include "FileServer.h"
+#include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
+#include <QTime>
 
 FileTransfertServer::FileTransfertServer(FileData* file, TransfertType type) : FileTransfert(file, type)
 {
@@ -73,7 +69,7 @@ FileTransfertServer::~FileTransfertServer()
 
 void FileTransfertServer::registerSocket(const QByteArray& key, QSslSocket* socket)
 {
-	foreach (FileTransfert* trans, _transferts)
+	foreach (FileTransfert* trans, (QList<FileTransfert*>&)FileTransfertList::list())
 		if (trans->key() == key)
 			return ((FileTransfertServer*)trans)->clientConnected(socket);
 

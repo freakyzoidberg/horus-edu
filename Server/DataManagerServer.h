@@ -19,7 +19,7 @@ public:
      *  - To check permitions (also on the client side but can be less restrictive)
      */
 	void			dataStatusChange(Data* data, quint8 newStatus) const;
-	inline void		sendData(UserData* user, Data* data) const { sendData(user, data, QByteArray()); }
+	void			sendData(UserData* user, Data* data) const;
 
 public slots:
 	void			receiveData(UserData *, const QByteArray& packet) const;
@@ -30,7 +30,7 @@ private:
 	/*!
 	 * \param oldkey: contain the temporary key when the client is creating a data (internal use only)
 	 */
-	void			sendData(UserData* user, Data* data, const QByteArray oldKey) const;
+	void			sendData( UserData* user, Data* data, quint8 status, quint8 error = 0, const QByteArray& olgKey="") const;
 
 	DataPlugin*		plugin;
 };

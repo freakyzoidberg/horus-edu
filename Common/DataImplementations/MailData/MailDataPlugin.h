@@ -27,13 +27,6 @@ public:
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif
-#ifdef HORUS_SERVER
-    void                 loadDataBase(QSqlQuery&);
-    void                 userDisconnected(UserData* user);
-    UserData*            authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password);
-    UserData*            authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& sesion);
-    void                 sendUpdates(QSqlQuery&, UserData* user, QDateTime date);
-#endif
 
 private:
     //! Return the pointer to the Data with a his unique key read in the stream

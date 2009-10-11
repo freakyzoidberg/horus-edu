@@ -58,7 +58,6 @@ void UserDataBase::dataFromStream(QDataStream& s)
 QDebug UserDataBase::operator<<(QDebug debug) const
 {
     return debug << getDataType()
-                 << error()
                  << status()
                  << _id
                  << _level
@@ -201,22 +200,19 @@ QVariant UserDataBase::data(int column, int role) const
 #endif
 
 #ifdef HORUS_SERVER
-void UserDataBase::fillFromDatabase(QSqlQuery& query)
+quint8 UserDataBase::serverRead()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("SELECT login,level,password,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users WHERE id=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.next())
-    {
-        _error = NOT_FOUND;
-        return;
-    }
+		return NOT_FOUND;
 
     _login      = query.value(0).toString();
     _level      = (UserLevel)(query.value(1).toUInt());
@@ -233,10 +229,13 @@ void UserDataBase::fillFromDatabase(QSqlQuery& query)
 	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(12).toUInt() );
 	_enabled    = query.value(13).toBool();
 	_lastChange	= query.value(14).toDateTime();
+
+	return NONE;
 }
 
-void UserDataBase::createIntoDatabase(QSqlQuery& query)
+quint8 UserDataBase::serverCreate()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("INSERT INTO users (login,level,password,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
     query.addBindValue(_login);
     query.addBindValue(_level);
@@ -256,18 +255,20 @@ void UserDataBase::createIntoDatabase(QSqlQuery& query)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 
 	((UserDataBasePlugin*)_plugin)->users.remove(_id);
 	_id = query.lastInsertId().toUInt();
 	((UserDataBasePlugin*)_plugin)->users.insert(_id, this);
+
+	return NONE;
 }
 
-void UserDataBase::saveIntoDatabase(QSqlQuery& query)
+quint8 UserDataBase::serverSave()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("UPDATE users SET login=?,level=?,password=?,last_login=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone=?,country=?,language=?,id_tree=?,enabled=?,mtime=? WHERE id=?;");
     query.addBindValue(_login);
     query.addBindValue(_level);
@@ -288,32 +289,36 @@ void UserDataBase::saveIntoDatabase(QSqlQuery& query)
 
     if ( ! query.exec())
     {
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
     }
 	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+		return NOT_FOUND;
+
+	return NONE;
 }
 
-void UserDataBase::deleteFromDatabase(QSqlQuery& query)
+quint8 UserDataBase::serverRemove()
 {
-    query.prepare("DELETE FROM users WHERE id=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("DELETE FROM users WHERE id=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+		return NOT_FOUND;
+
+	return NONE;
 }
 
-QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
+QByteArray UserDataBase::newSession(const QDateTime& end)
 {
-    QByteArray session;
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	QByteArray session;
     qsrand(QTime::currentTime().msec() + _id);
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
         session[i] = qrand();
@@ -325,45 +330,33 @@ QByteArray UserDataBase::newSession(QSqlQuery& query, const QDateTime& end)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
 		return QByteArray();
 	}
 	if ( ! query.numRowsAffected())
-	{
-		_error = NOT_FOUND;
 		return QByteArray();
-	}
 
     return session;
 }
 
-void UserDataBase::destroySession(QSqlQuery& query)
+void UserDataBase::destroySession()
 {
-    query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
-	{
-        _error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-	}
-	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
 }
 
-void UserDataBase::updateLastLogin(QSqlQuery& query)
+void UserDataBase::updateLastLogin()
 {
-    query.prepare("UPDATE users SET last_login=? WHERE id=?;");
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
+	query.prepare("UPDATE users SET last_login=? WHERE id=?;");
     query.addBindValue(QDateTime::currentDateTime());
     query.addBindValue(_id);
 
 	if ( ! query.exec())
-	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-	}
-	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
 }
 #endif

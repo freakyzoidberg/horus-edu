@@ -6,6 +6,10 @@
 #include <QList>
 #include <QString>
 
+#ifdef HORUS_SERVER
+#include <QtSql>
+#endif
+
 #include "Plugin.h"
 #include "AbstractManager.h"
 class UserData;
@@ -55,8 +59,19 @@ template <typename T>
 
     virtual const QHash<QString, Plugin*>& plugins() const = 0;
     virtual UserData*                      currentUser() const = 0;
+
+#ifdef HORUS_SERVER
+	virtual QSqlQuery					   sqlQuery() = 0;
+#endif
 };
 
-Q_DECLARE_INTERFACE(PluginManager, "net.horus.PluginManager/1.0");
+#ifdef HORUS_SERVER
+typedef PluginManager PluginManagerSrv;
+Q_DECLARE_INTERFACE(PluginManagerSrv, "net.horus.PluginManagerSrv/1.0");
+#endif
+#ifdef HORUS_CLIENT
+typedef PluginManager PluginManagerCli;
+Q_DECLARE_INTERFACE(PluginManagerCli, "net.horus.PluginManagerCli/1.0");
+#endif
 
 #endif // PLUGINMANAGER_H

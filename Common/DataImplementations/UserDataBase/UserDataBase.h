@@ -35,14 +35,10 @@ public:
     QVariant data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
-    //! Fill the current data with a defined key from teh database.
-    void fillFromDatabase  (QSqlQuery&);
-    //! Create this data into the database, and update the key.
-    void createIntoDatabase(QSqlQuery&);
-    //! Save the current data into the database.
-    void saveIntoDatabase  (QSqlQuery&);
-    //! Delete the current data from the database.
-    void deleteFromDatabase(QSqlQuery&);
+	quint8     serverRead();
+	quint8     serverCreate();
+	quint8     serverSave();
+	quint8     serverRemove();
 #endif
 
     //UserData Interface
@@ -86,9 +82,9 @@ public:
     void                    setCountry(const QString country);
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
-    QByteArray newSession(QSqlQuery&, const QDateTime& end);
+	QByteArray newSession(const QDateTime& end);
     //! Destroy the session generated to allow only password authentication.
-    void destroySession(QSqlQuery&);
+	void destroySession();
 #endif
 
 private:
@@ -111,7 +107,7 @@ private:
     QString     _phone;
     QString     _country;
 #ifdef HORUS_SERVER
-    void updateLastLogin(QSqlQuery&);
+	void updateLastLogin();
 #endif
 };
 
