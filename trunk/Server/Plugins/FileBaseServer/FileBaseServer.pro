@@ -26,7 +26,6 @@ HEADERS += \
     ../../../Common/FileData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/FileDataPlugin.h \
-	../../../Common/FileTransfertClient.h \
 	../../../Common/AbstractManager.h \
     ../../NetworkPlugin.h \
     FileBaseServerMetaPlugin.h \

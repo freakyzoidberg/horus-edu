@@ -79,22 +79,19 @@ QDebug FileDataBase::operator<<(QDebug debug) const
 }
 
 #ifdef HORUS_SERVER
-void FileDataBase::fillFromDatabase(QSqlQuery& query)
+quint8 FileDataBase::serverRead()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("SELECT name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files WHERE id=?;");
 	query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.next())
-	{
-		_error = NOT_FOUND;
-		return;
-	}
+		return NOT_FOUND;
 
 	_name		= query.value(0).toString();
 	_mimeType	= query.value(1).toString();
@@ -103,10 +100,13 @@ void FileDataBase::fillFromDatabase(QSqlQuery& query)
 	_owner		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(4).toUInt() );
 	_hash		= query.value(5).toByteArray();
 	_lastChange	= query.value(5).toDateTime();
+
+	return NONE;
 }
 
-void FileDataBase::createIntoDatabase(QSqlQuery& query)
+quint8 FileDataBase::serverCreate()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("INSERT INTO files (name,mime,size,id_tree,id_owner,hash_sha1,mtime) VALUES (?,?,?,?,?,?,?);");
 	query.addBindValue(_name);
 	query.addBindValue(_mimeType);
@@ -118,18 +118,20 @@ void FileDataBase::createIntoDatabase(QSqlQuery& query)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 
 	((FileDataBasePlugin*)_plugin)->files.remove(_id);
 	_id = query.lastInsertId().toUInt();
 	((FileDataBasePlugin*)_plugin)->files.insert(_id, this);
+
+	return NONE;
 }
 
-void FileDataBase::saveIntoDatabase(QSqlQuery& query)
+quint8 FileDataBase::serverSave()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("UPDATE files SET name=?,mime=?,size=?,id_tree=?,id_owner=?,hash_sha1=?,mtime=? WHERE id=?;");
     query.addBindValue(_name);
     query.addBindValue(_mimeType);
@@ -142,27 +144,30 @@ void FileDataBase::saveIntoDatabase(QSqlQuery& query)
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+		return NOT_FOUND;
+
+	return NONE;
 }
 
-void FileDataBase::deleteFromDatabase(QSqlQuery& query)
+quint8 FileDataBase::serverRemove()
 {
+	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("DELETE FROM File WHERE id=?;");
 	query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
-		_error = DATABASE_ERROR;
 		qDebug() << query.lastError();
-		return;
+		return DATABASE_ERROR;
 	}
 	if ( ! query.numRowsAffected())
-		_error = NOT_FOUND;
+		return NOT_FOUND;
+
+	return NONE;
 }
 #endif
 

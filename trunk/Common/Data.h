@@ -1,14 +1,8 @@
 #ifndef DATA_H
 #define DATA_H
 
-#ifdef HORUS_SERVER
-  #include <QtSql>
-#else
 #ifdef HORUS_CLIENT
   #include <QColor>
-#else
-  #error "You must define HORUS_CLIENT or HORUS_SERVER in your project."
-#endif
 #endif
 
 #include <QMutex>
@@ -34,24 +28,24 @@ class Data : public QObject
 #endif
 
 public:
-    //                          // key|value| other
-    enum DataStatus { EMPTY,    //  - |  -  |
-                      CACHED,   //  X |  X  |
-                    // CLIENT -> SERVER
-                      UPDATING, //  X |  -  |
-                      SAVING,   //  X |  X  | old data
-                      CREATING, //  X |  X  |
-                      DELETING, //  X |  -  |
-                    // SERVER -> CLIENT
-                      UPTODATE, //  X |  X  |
-                      SAVED,    //  X |  -  |
-                      CREATED,  //  X |  -  | new key
-                      DELETED}; //  X |  -  |
-    //              error!=NONE //  X |  -  |
-    enum Error { NONE=0, PERMITION_DENIED=1, NOT_FOUND=2, DATABASE_ERROR=3, DATA_ALREADY_CHANGED=4 };
+	// Data streamed between Client and Server:    V->value     N->new key     E->error
+	//                          // Client|Server|Client |Server
+	//                          //   to  |  to  |-Memory|-Memory
+	//                          // Server|Client|-Cache |
+	enum DataStatus { EMPTY,    //       |      |   X   |  X
+					  CACHED,   //       |      |   X   |
+					  UPTODATE, //       |      |   X   |  X
+					  UPDATING, //  X    |      |   X   |
+					  SAVING,   //  X  V |      |   X   |
+					  CREATING, //  X  V |      |   X   |
+					  DELETING, //  X    |      |   X   |
+					  UPDATED,  //       | X  V |       |
+					  SAVED,    //       | X    |       |
+					  CREATED,  //       | X  N |       |
+					  DELETED,  //       | X    |       |  X
+					  ERROR};   //       | X  E |       |
 
-    inline quint8           error() const { return _error; }
-    inline void             setError(quint8 e) { _error=e; if (_error) emit dataError(_error); }
+	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
 
     inline const QString    getDataType() const { return _plugin->getDataType(); }
 
@@ -96,10 +90,14 @@ public:
 	virtual inline bool canAccess(UserData*) { return true; }
 
 signals:
-    //! Signal emmited when the data is updated.
+	//! Signal emmited when the data is created.
+	void                    created();
+	//! Signal emmited when the data is updated.
     void                    updated();
-    //! Signal emmited when an error append on this data
-    void                    dataError(quint8 error);
+	//! Signal emmited when the data is removed.
+	void                    removed();
+	//! Signal emmited when an error append on this data
+	void                    error(quint8 error);
 
 public:
     //! Usefull for debuging. Not mandatory but important.
@@ -126,23 +124,22 @@ public:
         { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(UPDATING); }
 #endif
 #ifdef HORUS_SERVER
-    //! Fill the current data with a defined key from teh database.
-    virtual void            fillFromDatabase  (QSqlQuery&) = 0;
+	//! Fill the current data with a defined key from the database.
+	virtual inline quint8     serverRead() { return NOT_FOUND; }
     //! Create this data into the database, and update the key.
-    virtual void            createIntoDatabase(QSqlQuery&) = 0;
+	virtual        quint8     serverCreate() = 0;
     //! Save the current data into the database.
-    virtual void            saveIntoDatabase  (QSqlQuery&) = 0;
+	virtual        quint8     serverSave() = 0;
     //! Delete the current data from the database.
-    virtual void            deleteFromDatabase(QSqlQuery&) = 0;
+	virtual        quint8     serverRemove() = 0;
 #endif
 
 protected:
-    inline Data(DataPlugin* plugin) { _plugin=plugin; _status=EMPTY; _error=NONE; lock=new QMutex(QMutex::Recursive); }
+	inline Data(DataPlugin* plugin) { _plugin=plugin; _status=EMPTY; lock=new QMutex(QMutex::Recursive); }
     inline ~Data() { delete lock; }
 
     DataPlugin*             _plugin;
     quint8                  _status;
-    quint8                  _error;
     QDateTime               _lastChange;
 
     QMutex                  *lock;

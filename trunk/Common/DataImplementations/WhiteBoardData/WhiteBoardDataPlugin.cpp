@@ -33,8 +33,9 @@ Data* WhiteBoardDataPlugin::getDataWithKey(QDataStream& s)
 }
 
 #ifdef HORUS_SERVER
-void WhiteBoardDataPlugin::loadDataBase(QSqlQuery& query)
+void WhiteBoardDataPlugin::loadData()
 {
+	QSqlQuery query = pluginManager->sqlQuery();
 	query.prepare("SELECT id_tree,mode,items,mtime FROM white_board;");
 	if ( ! query.exec())
 	{
@@ -51,10 +52,10 @@ void WhiteBoardDataPlugin::loadDataBase(QSqlQuery& query)
 	}
 }
 
-void WhiteBoardDataPlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+void WhiteBoardDataPlugin::userConnected(UserData* user, QDateTime date)
 {
 	foreach (WhiteBoardData* data, whiteBoards)
-		if (data->lastChange() >= date)
+		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 			dataManager->sendData(user, data);
 }
 #endif

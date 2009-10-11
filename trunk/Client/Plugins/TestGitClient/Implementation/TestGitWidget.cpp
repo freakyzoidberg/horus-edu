@@ -85,6 +85,12 @@ void TestGitWidget::test2()
 	u->enable(true);
 	u->setLevel(3);
 	u->create();
+	connect(u, SIGNAL(updated()), this, SLOT(created()));
+}
+
+void TestGitWidget::created()
+{
+	((Data*)sender())->remove();
 }
 
 void TestGitWidget::test3()

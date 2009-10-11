@@ -1,9 +1,6 @@
 #ifndef USERDATA_H
 #define USERDATA_H
 
-#ifdef HORUS_SERVER
-#include <QtSql>
-#endif
 #include <QByteArray>
 #include <QDateTime>
 #include "Defines.h"
@@ -65,9 +62,9 @@ public:
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
-    virtual QByteArray newSession(QSqlQuery&, const QDateTime& end) = 0;
+	virtual QByteArray newSession(const QDateTime& end) = 0;
     //! Destroy the session generated to allow only password authentication.
-    virtual void destroySession(QSqlQuery&) = 0;
+	virtual void destroySession() = 0;
 #endif
 
 protected:

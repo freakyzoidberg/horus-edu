@@ -19,7 +19,7 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 
 	// data must be EMPTY or UPTODATE before
 	// and must being set to UPDATING, CREATING, SAVING or DELETING
-	if ((oldStatus != Data::EMPTY && oldStatus != Data::UPTODATE) ||
+	if ((oldStatus != Data::EMPTY && oldStatus != Data::UPTODATE && oldStatus != Data::CACHED) ||
 		(newStatus != Data::UPDATING && newStatus != Data::CREATING && newStatus != Data::SAVING && newStatus != Data::DELETING))
 	{
 		qWarning() << tr("Data") << data << tr("try to chage status from") << oldStatus << tr("to") << newStatus << tr("which is not authorized.");
@@ -33,15 +33,14 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 {
 	QDataStream stream(d); // ReadOnly
-    quint8    status,   error;
-	stream >> status >> error;
+	quint8    status;
+	stream >> status;
 
-	if (status != Data::UPTODATE && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED)
+	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED)
 	{
 		qWarning() << tr("DataManagerClient received a status") << status << tr("which is not authorized.");
 		return;
 	}
-
 
 	Data* data;
 	if (status == Data::CREATED)
@@ -59,17 +58,34 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 	if (status == Data::CREATED)
 	{
 		plugin->dataHaveNewKey(data, stream);
+		data->_status = Data::UPTODATE;
+		emit data->created();
+		emit plugin->dataCreated(data);
+
+		emit data->updated();
+		emit plugin->dataUpdated(data);
 	}
-
-	if (status == Data::UPTODATE && ! error)
+	else if (status == Data::UPDATED)
+	{
 		data->dataFromStream(stream);
-
-	data->_status = Data::UPTODATE;
-	emit data->updated();
-	emit plugin->dataUpdated(data);
-	data->setError(error);
-	if (error)
+		data->_status = Data::UPTODATE;
+		emit data->updated();
+		emit plugin->dataUpdated(data);
+	}
+	else if (status == Data::DELETED)
+	{
+		data->_status = Data::DELETED;
+		emit data->removed();
+		emit plugin->dataRemoved(data);
+	}
+	else if (status == Data::ERROR)
+	{
+		quint8 error;
+		stream >> error;
 		qDebug() << "error data received:" << error;
+		emit data->error((Data::Error)error);
+		emit plugin->dataError(data, (Data::Error)error);
+	}
 }
 
 void DataManagerClient::sendData(UserData*, Data* data) const

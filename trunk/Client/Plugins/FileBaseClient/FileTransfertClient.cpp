@@ -3,9 +3,6 @@
 
 #include <QSettings>
 #include <QDir>
-#include <QBoxLayout>
-#include <QLabel>
-#include <QProgressBar>
 
 FileTransfertClient::FileTransfertClient(FileData* file, TransfertType type, const QByteArray& key) : FileTransfert(file, type)
 {
@@ -48,22 +45,4 @@ void FileTransfertClient::connexionEncrypted()
 	disconnect(_socket, SIGNAL(encrypted()), this, SLOT(connexionEncrypted()));
 	_socket->write(_key);
 	_socket->flush();
-}
-
-QWidget* FileTransfertClient::progressBar()
-{
-	QWidget* widget = new QWidget;
-	QBoxLayout* layout = new QBoxLayout(QBoxLayout::LeftToRight, widget);
-	widget->setLayout(layout);
-
-	layout->addWidget(new QLabel(QVariant(_fileData->id()).toString(), widget));
-	layout->addWidget(new QLabel(_fileData->name(), widget));
-	QProgressBar* bar = new QProgressBar;
-	bar->setRange(0, _fileData->size());
-	bar->setValue(_progress);
-	connect(this, SIGNAL(progressChange(int)), bar, SLOT(setValue(int)));
-	layout->addWidget(bar);
-	layout->addWidget(new QLabel(QVariant(_fileData->size()).toString(), widget));
-	layout->addWidget(new QLabel(QVariant(_progress).toString(), widget));
-	return widget;
 }

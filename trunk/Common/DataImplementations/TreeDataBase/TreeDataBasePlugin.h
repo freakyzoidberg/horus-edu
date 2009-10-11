@@ -32,11 +32,12 @@ public:
     QAbstractItemModel*  getTreeModel();
 #endif
 #ifdef HORUS_SERVER
-    void                 loadDataBase(QSqlQuery&);
-    void                 userDisconnected(TreeData* user);
+	void                 loadData();
+	void                 userConnected(UserData* user, QDateTime date);
+
+	void                 userDisconnected(TreeData* user);
     TreeData*            authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password);
     TreeData*            authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& sesion);
-    void                 sendUpdates(QSqlQuery&, UserData* user, QDateTime date);
 #endif
 
 protected:

@@ -11,9 +11,8 @@ UserData* UserDataBasePlugin::getUser(quint32 userId)
     if ( ! users.contains(userId))
 	{
 		UserData* user = new UserDataBase(userId, this);
-#ifdef HORUS_CLIENT
 		user->moveToThread(this->thread());
-#endif
+//		connect(user, SIGNAL(destroyed()), this,
 		users.insert(userId, user);
 	}
     return users[userId];
@@ -54,9 +53,10 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 }
 #endif
 #ifdef HORUS_SERVER
-void UserDataBasePlugin::loadDataBase(QSqlQuery& query)
+void UserDataBasePlugin::loadData()
 {
-    query.prepare("SELECT id,login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users;");
+	QSqlQuery query = pluginManager->sqlQuery();
+	query.prepare("SELECT id,login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users;");
     query.exec();
     while (query.next())
     {
@@ -76,29 +76,30 @@ void UserDataBasePlugin::loadDataBase(QSqlQuery& query)
         user->_enabled     = query.value(13).toBool();
         user->_lastChange  = query.value(14).toDateTime();
         user->_status      = Data::UPTODATE;
-    }
+	}
 }
 
-void UserDataBasePlugin::sendUpdates(QSqlQuery&, UserData* user, QDateTime date)
+void UserDataBasePlugin::userConnected(UserData* user, QDateTime date)
 {
     foreach (UserData* data, users)
-        if (data->lastChange() >= date)
+		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
             dataManager->sendData(user, data);
 }
 
-void UserDataBasePlugin::userDisconnected(UserData* TODO)
+void UserDataBasePlugin::userDisconnected(UserData*)
 {
 }
 
-UserData* UserDataBasePlugin::authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password)
+UserData* UserDataBasePlugin::authenticatePassword(const QString& login, const QByteArray& password)
 {
-    if (login.length() > 32 || password.length() != SHA1_WORD_SIZE)
+	if (login.length() > 32 || password.length() != SHA1_WORD_SIZE)
     {
         qDebug() << "UserDataBasePlugin::authenticatePassword Password is not a SHA1 hash.";
         return 0;
     }
 
-    query.prepare("SELECT id FROM users WHERE enabled=1 AND login=? AND password=?;");
+	QSqlQuery query = pluginManager->sqlQuery();
+	query.prepare("SELECT id FROM users WHERE enabled=1 AND login=? AND password=?;");
     query.addBindValue(login);
     query.addBindValue(password.toHex());
     if ( ! query.exec() || ! query.next())
@@ -108,19 +109,20 @@ UserData* UserDataBasePlugin::authenticatePassword(QSqlQuery& query, const QStri
     }
 
     UserDataBase* user = (UserDataBase*)(getUser(query.value(0).toUInt()));
-    user->updateLastLogin(query);
+	user->updateLastLogin();
     return user;
 }
 
-UserData* UserDataBasePlugin::authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& session)
+UserData* UserDataBasePlugin::authenticateSession(const QString& login, const QByteArray& session)
 {
-    if (login.length() > 32 || session.length() != SESSION_WORD_SIZE)
+	if (login.length() > 32 || session.length() != SESSION_WORD_SIZE)
     {
         qDebug() << "UserDataBasePlugin::authenticateSession Session key have an invalid size.";
         return 0;
     }
 
-    query.prepare("SELECT id FROM users WHERE enabled=1 AND login=? AND session_key=?;");
+	QSqlQuery query = pluginManager->sqlQuery();
+	query.prepare("SELECT id FROM users WHERE enabled=1 AND login=? AND session_key=?;");
     query.addBindValue(login);
     query.addBindValue(session.toHex());
     if ( ! query.exec() || ! query.next())
@@ -130,7 +132,7 @@ UserData* UserDataBasePlugin::authenticateSession (QSqlQuery& query, const QStri
     }
 
     UserDataBase* user = (UserDataBase*)(getUser(query.value(0).toUInt()));
-    user->updateLastLogin(query);
+	user->updateLastLogin();
     return user;
 }
 #endif

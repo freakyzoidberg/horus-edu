@@ -8,7 +8,6 @@ class FileTransfertClient : public FileTransfert
   Q_OBJECT
 public:
 	FileTransfertClient(FileData* file, TransfertType type, const QByteArray& key);
-	QWidget* progressBar();
 
 private:
 	void				connectToServer();

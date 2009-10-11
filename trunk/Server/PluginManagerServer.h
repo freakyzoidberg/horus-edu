@@ -8,7 +8,7 @@
 #include "../Common/PluginManager.h"
 #include "../Common/UserData.h"
 #include "../Common/PluginPacket.h"
-
+#include "Sql.h"
 
 //! To find another plugin with name and/or type
 /*! Sample:
@@ -20,13 +20,14 @@
 class PluginManagerServer : public PluginManager
 {
     Q_OBJECT
-    Q_INTERFACES(PluginManager)
+	Q_INTERFACES(PluginManagerSrv)
 
 public:
     void load();
     const QHash<QString, Plugin*>& plugins() const;
     UserData*                      currentUser() const;
     void                           setCurrentUser(UserData* user);
+	QSqlQuery					   sqlQuery();
 
     static PluginManagerServer* instance();
 
@@ -35,8 +36,9 @@ private slots:
 
 private:
     PluginManagerServer();
-    QHash<QString,Plugin*> _plugins;
-    QHash<Qt::HANDLE,UserData*> users;
+	QHash<QString,Plugin*>		_plugins;
+	QHash<Qt::HANDLE,UserData*> _users;
+	QHash<Qt::HANDLE,Sql*>		_sqlConnexions;
 };
 
 #endif // PLUGINMANAGERSERVER_H
