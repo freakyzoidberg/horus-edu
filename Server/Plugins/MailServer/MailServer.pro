@@ -10,7 +10,9 @@ TEMPLATE = lib
 DEFINES += HORUS_SERVER
 SOURCES += Implementation/smtp.cpp \
     ../../../Common/DataImplementations/MailData/MailDataPlugin.cpp \
-    ../../../Common/DataImplementations/MailData/MailData.cpp
+    ../../../Common/DataImplementations/MailData/MailData.cpp \
+    Implementation/mime.cpp \
+    Implementation/pop3.cpp
 HEADERS += Implementation/MailServerMetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
@@ -24,5 +26,7 @@ HEADERS += Implementation/MailServerMetaPlugin.h \
     ../../../Common/DataImplementations/MailData/MailData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserDataPlugin.h \
-    ../../../Common/DataManager.h
-
+    ../../../Common/DataManager.h \
+    Implementation/mime-types.h \
+    Implementation/mime.h \
+    Implementation/pop3.h
