@@ -5,8 +5,9 @@
 #include <QLabel>
 #include <QProgressBar>
 
-QString calcUnit(qint64 nbr)
+QString calcUnit(qint64 nbrBytes)
 {
+	qreal nbr = nbrBytes;
 	static QString units[] = {
 		QObject::tr("b"),
 		QObject::tr("kb"),
@@ -17,11 +18,11 @@ QString calcUnit(qint64 nbr)
 	int p = 0;
 	while (nbr > 9000)
 	{
-		nbr /= 1000;
+		nbr /= 1024;
 		p++;
 	}
 
-	return QVariant(nbr).toString() + units[p];
+	return QVariant(qRound(nbr)).toString() + units[p];
 }
 
 
