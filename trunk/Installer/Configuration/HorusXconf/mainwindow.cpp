@@ -448,24 +448,24 @@ void MainWindow::on_pushButton_2_clicked()
 void MainWindow::extract_files()
 {
 
-    vlayo  = new QVBoxLayout();
-frame=new QFrame(this,Qt::SplashScreen);
-frame->setLayout(vlayo);
+//vlayo  = new QVBoxLayout();
+//frame=new QFrame(this,Qt::SplashScreen);
+//frame->setLayout(vlayo);
 //frame->setFrameShape(QFrame::NoFrame);
-  frame->setMinimumWidth(300);
-  frame->setMinimumHeight(100);
-frame->setAttribute(Qt::WA_TranslucentBackground);
+  //frame->setMinimumWidth(300);
+  //frame->setMinimumHeight(100);
+//frame->setAttribute(Qt::WA_TranslucentBackground);
 
 
-  frame->setAutoFillBackground(true);
+  //frame->setAutoFillBackground(true);
 
-    frame->show();
-
-
+    //frame->show();
 
 
 
-  QColor semi_red_color(255,0,0,127);
+
+
+  //QColor semi_red_color(255,0,0,127);
 
 
 
@@ -503,7 +503,14 @@ frame->setAttribute(Qt::WA_TranslucentBackground);
 
 QString result;
 bool ok = false;
-QLabel *finishf = new QLabel("Error");
+
+
+  QPalette Pal(ui->label_6->palette());
+
+
+
+
+//QLabel *finishf = new QLabel("Error");
      for (int i = 0; i < list.size(); ++i) {
          QFileInfo fileInfo = list.at(i);
          QFile file(fileInfo.absoluteFilePath());
@@ -512,29 +519,34 @@ QLabel *finishf = new QLabel("Error");
             {
             qDebug() << "ok";
                ok = true;
-               result = "Finished Copying Files";
-               finishf->setText("Finished Copying Files");
+               Pal.setColor(QPalette::Foreground, Qt::green);
+               ui->label_6->setPalette(Pal);
+                                ui->label_6->setText("Finished Copying Files");
+
+               //finishf->setText("Finished Copying Files");
 
            }
            else
            {
                qDebug() << "ko";
+               Pal.setColor(QPalette::Foreground, Qt::red);
+               ui->label_6->setPalette(Pal);
+                 ui->label_6->setText("Error while copying");
 
-                result = "Error while copying";
-                finishf->setText("Error while copying");
+                //finishf->setText("Error while copying");
 
            }
 
     }
 
 
-QPalette Pal(finishf->palette());
+//QPalette Pal(finishf->palette());
 
-                           Pal.setColor(QPalette::Foreground, Qt::white);
+  //                         Pal.setColor(QPalette::Foreground, Qt::white);
 
 //                            Pal.setColor(QPalette::Foreground, Qt::red);
-        finishf->setPalette(Pal);
-        vlayo->addWidget(finishf);
-        vlayo->activate();
+    //    finishf->setPalette(Pal);
+        //vlayo->addWidget(finishf);
+        //vlayo->activate();
 
 }
