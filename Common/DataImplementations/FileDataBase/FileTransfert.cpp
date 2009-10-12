@@ -51,6 +51,7 @@ void FileTransfert::disconnected()
 {
 	disconnect(this, SLOT(socketToFile()));
 	disconnect(this, SLOT(fileToSocket(qint64)));
+	emit finished();
 	deleteLater();
 }
 

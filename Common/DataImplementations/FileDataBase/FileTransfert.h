@@ -46,6 +46,7 @@ protected:
 
 signals:
 	void progressChange(int);
+	void finished();
 
 protected slots:
     void socketToFile();
@@ -59,15 +60,11 @@ class FileTransfertList : public QObject, public QList<FileTransfert*>
 
 public:
 	inline static FileTransfertList& list() { static FileTransfertList _list; return _list; }
-	inline void						append(FileTransfert* t) { emit started(t);  QList<FileTransfert*>::append(t); }
-	inline void						remove(FileTransfert* t) { emit finished(t); QList<FileTransfert*>::removeOne(t); }
-
-	// to be mor clean, implement every used methods to protect changing the qlist from another way
-// 	inline int						size() const { return QList<FileTransfert*>::size(); }
+	inline void						append(FileTransfert* t) { QList<FileTransfert*>::append(t); emit started(t); }
+	inline void						remove(FileTransfert* t) { QList<FileTransfert*>::removeOne(t); }
 
 signals:
 	void							started(FileTransfert*);
-	void							finished(FileTransfert*);
 
 private:
 									FileTransfertList() {}

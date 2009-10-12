@@ -1,5 +1,5 @@
 #include "CommData.h"
-
+#include "Data.h"
 #include <QObject>
 
 CommData::CommData(const QString& _type) : CommPacket(CommPacket::DATA)
@@ -36,5 +36,9 @@ void CommData::write(QByteArray& a) const
 
 QDebug operator<<(QDebug d, const CommData& p)
 {
-	return d << (CommPacket&)p << p.type << QObject::tr("lenght:") << p.data.length();
+	QDataStream stream(p.data);
+	quint8 status;
+	stream >> status;
+
+	return d << (CommPacket&)p << p.type << (Data::DataStatus)status;
 }
