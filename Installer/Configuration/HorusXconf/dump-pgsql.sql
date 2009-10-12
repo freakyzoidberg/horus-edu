@@ -13,11 +13,11 @@ CREATE INDEX files_mtime_idx ON files (mtime);
 
 
 INSERT INTO files (id, name, mime, size, id_tree, id_owner, hash_sha1, mtime) VALUES
-(1, 'Histoire de la Chine', 'x-horus/x-lesson', 0, 241, 3, '', '2009-09-15 21:14:33'),
-(2, 'Histoire de costume', 'x-horus/x-lesson', 0, 241, 3, '', '2009-09-15 21:14:33'),
-(3, 'Tectonique des plaques', 'x-horus/x-lesson', 0, 243, 3, '', '2009-09-15 21:14:33'),
-(4, 'Reglement interieur.pdf', 'application/pdf', 0, 258, 4, '', '2009-09-15 21:14:33'),
-(5, 'Chine.pdf', 'application/pdf', 0, 0, 0, '', '2009-09-15 21:14:33'),
+(1, 'Histoire de la Chine', 'x-horus/x-lesson', 0, 241, 1, '', '2009-09-15 21:14:33'),
+(2, 'Histoire de costume', 'x-horus/x-lesson', 0, 241, 1, '', '2009-09-15 21:14:33'),
+(3, 'Tectonique des plaques', 'x-horus/x-lesson', 0, 243, 1, '', '2009-09-15 21:14:33'),
+(4, 'Reglement interieur.pdf', 'application/pdf', 0, 258, 1, '', '2009-09-15 21:14:33'),
+(5, 'Chine.pdf', 'application/pdf', 0, 0, 1, '', '2009-09-15 21:14:33'),
 (6, 'Decharge de responsabilitee.pdf', 'application/pdf', 0, 256, 0, '', '2009-09-15 21:14:33'),
 (7, 'Fiche descriptive.pdf', 'application/pdf', 0, 257, 0, '', '2009-09-15 21:14:33');
 
