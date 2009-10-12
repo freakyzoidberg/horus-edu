@@ -28,6 +28,7 @@ public:
     UserData*                      currentUser() const;
     void                           setCurrentUser(UserData* user);
 	QSqlQuery					   sqlQuery();
+	void						   threadFinnished();
 
     static PluginManagerServer* instance();
 

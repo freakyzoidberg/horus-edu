@@ -28,7 +28,7 @@ void ThreadPacket::run()
     CommPacket pac(packet);
     // redirect to the good method
     (this->*packetDirections[ pac.packetType ])();
-    PluginManagerServer::instance()->setCurrentUser(0);
+	PluginManagerServer::instance()->threadFinnished();
 }
 
 ThreadPacket::packetDirection ThreadPacket::packetDirections[] =

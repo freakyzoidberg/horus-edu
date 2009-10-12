@@ -97,3 +97,15 @@ QSqlQuery PluginManagerServer::sqlQuery()
 
 	return QSqlQuery(QSqlDatabase::database(*conn));
 }
+
+void PluginManagerServer::threadFinnished()
+{
+	Qt::HANDLE thread = QThread::currentThreadId();
+	if (_sqlConnexions.contains(thread))
+	{
+		delete _sqlConnexions.value(thread);
+		_sqlConnexions.remove(thread);
+	}
+	if (_users.contains(thread))
+		_users.remove(thread);
+}
