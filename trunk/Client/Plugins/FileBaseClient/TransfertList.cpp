@@ -5,65 +5,73 @@
 #include <QLabel>
 #include <QProgressBar>
 
-TransfertList::TransfertList()
+QString calcUnit(qint64 nbr)
 {
-	layout = new QGridLayout(this);
+	static QString units[] = {
+		QObject::tr("b"),
+		QObject::tr("kb"),
+		QObject::tr("Mb"),
+		QObject::tr("Gb"),
+		QObject::tr("Tb")
+	};
+	int p = 0;
+	while (nbr > 9000)
+	{
+		nbr /= 1000;
+		p++;
+	}
 
-	foreach (FileTransfert* transfert, (QList<FileTransfert*>&)FileTransfertList::list())
-		append(transfert);
-
-	connect(&FileTransfertList::list(), SIGNAL(started(FileTransfert*)),  this, SLOT(append(FileTransfert*)), Qt::DirectConnection);
-	connect(&FileTransfertList::list(), SIGNAL(finished(FileTransfert*)), this, SLOT(remove(FileTransfert*)), Qt::DirectConnection);
+	return QVariant(nbr).toString() + units[p];
 }
 
-void TransfertList::append(FileTransfert* transfert)
+
+TransfertList::TransfertList()
 {
-	int row = FileTransfertList::list().size();
+	(new QVBoxLayout(this))->addStretch(1);
+
+	foreach (FileTransfert* transfert, (QList<FileTransfert*>&)FileTransfertList::list())
+		newTransfert(transfert);
+
+	connect(&FileTransfertList::list(), SIGNAL(started(FileTransfert*)),  this, SLOT(newTransfert(FileTransfert*)));
+}
+
+void TransfertList::newTransfert(FileTransfert* transfert)
+{
+	((QVBoxLayout*)layout())->insertLayout(0, new Transfert(transfert));
+}
+
+Transfert::Transfert(FileTransfert* transfert)
+{
+	_transfert = transfert;
 
 	QProgressBar* bar = new QProgressBar;
 	bar->setRange(0, transfert->file()->size());
 	bar->setValue(transfert->progress());
-	bar->setFixedHeight(16);
+	bar->setFixedHeight(14);
 
-	layout->addWidget(new QLabel(QVariant(row).toString()), row, 0);
-	layout->addWidget(new QLabel(QVariant(transfert->file()->id()).toString()), row, 1);
-	layout->addWidget(new QLabel(transfert->file()->name()), row, 2);
-	layout->addWidget(bar, row, 3);
-	layout->addWidget(new QLabel(QVariant(transfert->progress()).toString()), row, 4);
-	layout->addWidget(new QLabel("/" + QVariant(transfert->file()->size()).toString()), row, 5);
+	addWidget(new QLabel(QVariant(transfert->file()->id()).toString())); //0
+	addWidget(new QLabel(transfert->file()->name())); //1
+	addWidget(bar, 1); //2
+	addWidget(new QLabel(calcUnit(transfert->progress()))); //3
+	addWidget(new QLabel("/" + calcUnit(transfert->file()->size()))); //4
 
-	layout->setRowStretch(row,     0);
-	layout->setRowStretch(row + 1, 1);
-
-	connect(transfert, SIGNAL(progressChange(int)), this, SLOT(refreshTransfert(int)));
+	connect(transfert, SIGNAL(progressChange(int)), this, SLOT(refresh(int)));
+	connect(transfert, SIGNAL(finished()), this, SLOT(finished()));
 }
 
-void TransfertList::remove(FileTransfert* transfert)
+void Transfert::refresh(int progress)
 {
-	disconnect(transfert, SIGNAL(progressChange(int)), this, SLOT(refreshTransfert(int)));
+	QProgressBar* bar = ((QProgressBar*)(itemAt(2)->widget()));
+	bar->setValue(progress);
 
-	int row = FileTransfertList::list().indexOf(transfert);
-
-	qDebug() << "remove" << row;
-
-	layout->removeWidget(layout->itemAtPosition(row, 0)->widget());
-	layout->removeWidget(layout->itemAtPosition(row, 1)->widget());
-	layout->removeWidget(layout->itemAtPosition(row, 2)->widget());
-	layout->removeWidget(layout->itemAtPosition(row, 3)->widget());
-	layout->removeWidget(layout->itemAtPosition(row, 4)->widget());
-	layout->removeWidget(layout->itemAtPosition(row, 5)->widget());
-
-	layout->update();
+	((QLabel*)(itemAt(3)->widget()))->setText(calcUnit(progress));
 }
 
-void TransfertList::refreshTransfert(int progress)
+void Transfert::finished()
 {
-	int row = FileTransfertList::list().indexOf((FileTransfert*)sender());
-	QLayoutItem* item;
+	QProgressBar* bar = ((QProgressBar*)(itemAt(2)->widget()));
+	bar->setRange(0, 100);
+	bar->setValue(100);
 
-	if ((item = layout->itemAtPosition(row, 3)))
-		((QProgressBar*)(item->widget()))->setValue(progress);
-
-	if ((item = layout->itemAtPosition(row, 4)))
-		((QLabel*)(item->widget()))->setText(QVariant(progress).toString());
+//	((QLabel*)      (((QHBoxLayout*)layout())->itemAt(3)->widget()))->setText(QVariant(progress).toString());
 }

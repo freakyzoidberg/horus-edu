@@ -29,21 +29,21 @@ class Data : public QObject
 
 public:
 	// Data streamed between Client and Server:    V->value     N->new key     E->error
-	//                          // Client|Server|Client |Server
-	//                          //   to  |  to  |-Memory|-Memory
-	//                          // Server|Client|-Cache |
-	enum DataStatus { EMPTY,    //       |      |   X   |  X
-					  CACHED,   //       |      |   X   |
-					  UPTODATE, //       |      |   X   |  X
-					  UPDATING, //  X    |      |   X   |
-					  SAVING,   //  X  V |      |   X   |
-					  CREATING, //  X  V |      |   X   |
-					  DELETING, //  X    |      |   X   |
-					  UPDATED,  //       | X  V |       |
-					  SAVED,    //       | X    |       |
-					  CREATED,  //       | X  N |       |
-					  DELETED,  //       | X    |       |  X
-					  ERROR};   //       | X  E |       |
+	//                          //   Client|Server|Client |Server
+	//                          //     to  |  to  |-Memory|-Memory
+	//                          //   Server|Client|-Cache |
+	enum DataStatus { EMPTY,    // 0       |      |   X   |  X
+					  CACHED,   // 1       |      |   X   |
+					  UPTODATE, // 2       |      |   X   |  X
+					  UPDATING, // 3  X    |      |   X   |
+					  SAVING,   // 4  X  V |      |   X   |
+					  CREATING, // 5  X  V |      |   X   |
+					  DELETING, // 6  X    |      |   X   |
+					  UPDATED,  // 7       | X  V |       |
+					  SAVED,    // 8       | X    |       |
+					  CREATED,  // 9       | X  N |       |
+					  DELETED,  //10       | X    |       |  X
+					  ERROR};   //11       | X  E |       |
 
 	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
 
@@ -147,6 +147,41 @@ protected:
 
 inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }
 inline QDebug operator<<(QDebug debug, const Data* data) { if (data) return (*data) << debug; else return debug << "null"; }
+inline QDebug operator<<(QDebug debug, Data::DataStatus status) {
+	static const quint8 nbrStatus = 12;
+	static const char*  txtStatus[] = {
+		"EMPTY",
+		"CACHED",
+		"UPTODATE",
+		"UPDATING",
+		"SAVING",
+		"CREATING",
+		"DELETING",
+		"UPDATED",
+		"SAVED",
+		"CREATED",
+		"DELETED",
+		"ERROR"
+	};
+	if ((quint8)status < nbrStatus)
+		debug << txtStatus[ status ];
+	return debug;
+ }
+
+inline QDebug operator<<(QDebug debug, Data::Error error) {
+	static const quint8 nbrErrors = 12;
+	static const char*  txtErrors[] = {
+		"NONE",
+		"PERMITION_DENIED",
+		"NOT_FOUND",
+		"DATABASE_ERROR",
+		"DATA_ALREADY_CHANGED",
+		"INTERNAL_SERVER_ERROR"
+	};
+	if ((quint8)error < nbrErrors)
+		debug << txtErrors[ error ];
+	return debug;
+ }
 
 #ifdef HORUS_SERVER
 typedef Data ServerData;
