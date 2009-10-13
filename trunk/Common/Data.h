@@ -25,6 +25,7 @@ class Data : public QObject
 #endif
 #ifdef HORUS_CLIENT
   friend class DataManagerClient;
+  friend class UserCache;
 #endif
 
 public:
