@@ -27,11 +27,10 @@ public:
     virtual Data*         getDataWithKey(QDataStream&) = 0;
 
 #ifdef HORUS_CLIENT
-    //! Return a pointer to a new Data with a unique temporary key
-    virtual inline Data*         getNewData() { return 0; }
-
     //! On the client, when creating a new data, the key can change. So this function have to update the data with the new key in the stream
     virtual inline void          dataHaveNewKey(Data*, QDataStream&) {}
+	//! called by the UserCache to put every data into the cache
+	virtual inline QList<Data*>	allDatas() const { return QList<Data*>(); }
 #endif
 #ifdef HORUS_SERVER
     //! On the server, the module may want to check if the database is ok
