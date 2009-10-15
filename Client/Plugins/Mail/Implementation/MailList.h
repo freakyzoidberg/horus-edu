@@ -8,9 +8,8 @@
 #include <QListView>
 #include                        "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 //class MailList;
-class MailList : public QListView
+class MailList : public QWidget
 {
-
 public:
     MailList(MailDataPlugin *MailPlugin);
     ~MailList();

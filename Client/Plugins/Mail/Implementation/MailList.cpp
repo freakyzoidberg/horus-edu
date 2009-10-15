@@ -2,6 +2,8 @@
 #include <QHeaderView>
 #include <QList>
 #include <QListView>
+#include <QStringListModel>
+#include <QStringList>
 MailList::MailList(MailDataPlugin *MailPlugin)
 {
     //QList<QString> list;
@@ -26,6 +28,52 @@ MailList::MailList(MailDataPlugin *MailPlugin)
     //QHeaderView *header = new QHeaderView(Qt::Horizontal);
 
     //this->setHorizontalHeader(header);
+
+    QStringList toto;
+
+    toto.append("email 1");
+toto.append("email 2");
+toto.append("email 3");
+
+    QVBoxLayout *total = new QVBoxLayout();
+    QListView *emailList = new QListView();
+    QStringListModel *listmodel = new QStringListModel();
+
+    listmodel->setStringList(toto);
+emailList->setEditTriggers(0);
+    emailList->setModel(listmodel);
+    total->addWidget(emailList);
+/*
+  this->addColumn( "Mail id" );
+  this->addColumn( "From" );
+  this->addColumn( "Subject" );
+  this->addColumn( "Date - Time" );
+
+  this->setRootIsDecorated( true );
+
+  QListViewItem *root = new QListViewItem(this, "root" );
+
+  QListViewItem *a = new QListViewItem( root, "A" );
+  QListViewItem *b = new QListViewItem( root, "B" );
+  QListViewItem *c = new QListViewItem( root, "C" );
+
+  new QListViewItem( a, "foo", "1", "2", "3" );
+  new QListViewItem( a, "bar", "i", "ii", "iii" );
+  new QListViewItem( a, "baz", "a", "b", "c" );
+
+  new QListViewItem( b, "foo", "1", "2", "3" );
+  new QListViewItem( b, "bar", "i", "ii", "iii" );
+  new QListViewItem( b, "baz", "a", "b", "c" );
+
+  new QListViewItem( c, "foo", "1", "2", "3" );
+  new QListViewItem( c, "bar", "i", "ii", "iii" );
+  new QListViewItem( c, "baz", "a", "b", "c" );
+*/
+    setLayout(total->layout());
+
+
+
+
 }
 
 MailList::~MailList()

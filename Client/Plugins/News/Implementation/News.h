@@ -12,6 +12,13 @@ public:
 	const QString	pluginName() const;
 	const QString	pluginVersion() const;
 	QWidget			*getWidget();
+        const QString       getDisplayableName() const;
+                int					getOrder() const;
+        QIcon               getIcon() const;
+
+        bool                canLoad() const;
+        void                load();
+
 };
 
 #endif
