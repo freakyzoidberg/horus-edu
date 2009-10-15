@@ -42,11 +42,11 @@
 #include <QDebug>
 //
 #ifdef Q_OS_WIN32
- #ifdef BUILD_DLL
+// #ifdef BUILD_DLL
   #define DLL_MAKRO __declspec(dllexport)
- #else
-  #define DLL_MAKRO __declspec(dllimport)
- #endif
+ //#else
+  //#define DLL_MAKRO __declspec(dllimport)
+ //#endif
 #else
  #define DLL_MAKRO
 #endif
