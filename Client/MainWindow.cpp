@@ -17,15 +17,20 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow()
     this->createActions();
     this->createMenus();
     this->addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
-    DisplayablePlugin *mainBoard = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<DisplayablePlugin*>("MainFrame");
+
+	DisplayablePlugin *mainBoard = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<DisplayablePlugin*>("MainFrame");
     if (mainBoard)
         this->setCentralWidget(mainBoard->getWidget());
 }
 
+#include "CacheManager.h"
 bool MainWindow::event(QEvent *event)
 {
     if (event->type() == QEvent::Close)
+	{
+		CacheManager::instance()->save();
 		parent->exit();
+	}
     return (QMainWindow::event(event));
 }
 

@@ -7,8 +7,7 @@ DEFINES += HORUS_CLIENT
 TEMPLATE = lib
 TARGET = TreeBaseClientMetaPlugin
 SOURCES += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.cpp \
-    ../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.cpp \
-    TreeModel.cpp
+    ../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.cpp
 HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
     ../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.h \
     ../../../Common/Plugin.h \
@@ -21,9 +20,7 @@ HEADERS += ../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/TreeDataPlugin.h \
     ../../../Common/AbstractManager.h \
-    TreeModel.h \
     TreeBaseClientMetaPlugin.h
-RESOURCES += Icons.qrc
-
+RESOURCES += 
 TRANSLATIONS = TreeBaseClientMetaPlugin_en.ts \
-			   TreeBaseClientMetaPlugin_fr.ts
+    TreeBaseClientMetaPlugin_fr.ts

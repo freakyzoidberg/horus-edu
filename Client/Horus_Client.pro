@@ -80,7 +80,6 @@ HEADERS += NetworkManager.h \
     UserCache.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
-    Ui/LoginDialog.ui \
     Ui/SettingsDialog.ui \
     Ui/DockMenu.ui
 RESOURCES += Ui/Loader.qrc \

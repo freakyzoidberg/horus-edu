@@ -18,23 +18,30 @@ class SettingsDataBasePlugin : public SettingsDataPlugin
 #endif
 
 public:
-    SettingsDataBasePlugin();
-    inline const QString pluginName() const { return "Settings Data Base"; }
-    inline const QString pluginVersion() const { return "0.1"; }
+							SettingsDataBasePlugin();
+	SettingsData*			getSettings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0);
+private:
+	QList<SettingsData*>	settings;
 
-    SettingsData*        getSettings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0);
 
+
+	//Plugin
+public:
+	inline const QString	pluginName() const { return "Settings Data Base"; }
+	inline const QString	pluginVersion() const { return "0.1"; }
+
+
+
+	//DataPlugin
+public:
+	QList<Data*>			allDatas() const;
 #ifdef HORUS_SERVER
-	void                 loadData();
-	void                 userConnected(UserData* user, QDateTime date);
+	void					loadData();
+	void					userConnected(UserData* user, QDateTime date);
 #endif
-
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
-    Data*                getDataWithKey(QDataStream& s);
-
-private:
-    QList<SettingsData*> settings;
+	Data*					getDataWithKey(QDataStream& s);
 };
 
 #endif // SETTINGSDATABASEPLUGIN_H

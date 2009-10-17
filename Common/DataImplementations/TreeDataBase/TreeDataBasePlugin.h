@@ -20,32 +20,33 @@ class TreeDataBasePlugin : public TreeDataPlugin
   friend class TreeDataBase;
 
 public:
-    TreeDataBasePlugin();
-    inline const QString pluginName() const { return "Tree Data Base"; }
-    inline const QString pluginVersion() const { return "0.1"; }
-    inline const QString getDataType() const { return "Tree"; }
-    TreeData*            getNode(quint32 nodeId);
-	TreeData*			 createNewNode();
+							TreeDataBasePlugin();		
+	TreeData*				getNode(quint32 nodeId);
+	TreeData*				createNewNode();
+private:
+	QHash<quint32,TreeData*>	nodes;
 
+
+	//Plugin
+public:
+	inline const QString	pluginName() const { return "Tree Data Base"; }
+	inline const QString	pluginVersion() const { return "0.1"; }
+
+
+	//DataPlugin
+public:
+	inline const QString	getDataType() const { return "Tree"; }
+	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
-    void                 dataHaveNewKey(Data*d, QDataStream& s);
-    QAbstractItemModel*  getTreeModel();
+	void					dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
-	void                 loadData();
-	void                 userConnected(UserData* user, QDateTime date);
-
-	void                 userDisconnected(TreeData* user);
-    TreeData*            authenticatePassword(QSqlQuery& query, const QString& login, const QByteArray& password);
-    TreeData*            authenticateSession (QSqlQuery& query, const QString& login, const QByteArray& sesion);
+	void					loadData();
+	void					userConnected(UserData* user, QDateTime date);
 #endif
-
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
-    Data*                getDataWithKey(QDataStream& s);
-
-private:
-    QHash<quint32,TreeData*> nodes;
+	Data*					getDataWithKey(QDataStream& s);
 };
 
 #endif // TREEDATABASEPLUGIN_H

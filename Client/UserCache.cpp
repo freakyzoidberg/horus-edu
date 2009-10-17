@@ -8,19 +8,20 @@
 #include "../Common/DataPlugin.h"
 #include "../Common/UserData.h"
 
-UserCache::UserCache(UserData* user, const QDateTime lastUpdate)
+UserCache::UserCache(const QString& login, const QDateTime lastUpdate)
 {
-	_user = user;
+	_login = login;
 	_lastUpdate = lastUpdate;
 	_loaded = false;
 }
 
-void UserCache::loadCache()
+void UserCache::load()
 {
-	QFile file("/tmp/HorusCache-"+user()->id());
+	QFile file("/tmp/HorusCache-"+_login);
 	file.open(QIODevice::ReadOnly);
 	QDataStream stream(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
+	stream >> _lastSession;
 
 	while ( ! stream.atEnd())
 	{
@@ -39,9 +40,9 @@ void UserCache::loadCache()
 	_loaded = true;
 }
 
-void UserCache::saveCache()
+void UserCache::save()
 {
-	QFile file("/tmp/HorusCache-"+user()->id());
+	QFile file("/tmp/HorusCache-"+_login);
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QDataStream stream(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();

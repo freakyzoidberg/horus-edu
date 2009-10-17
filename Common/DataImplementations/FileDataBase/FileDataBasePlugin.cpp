@@ -76,6 +76,15 @@ Data* FileDataBasePlugin::getNewData()
     return getFile(--uniqueId);
 }
 
+QList<Data*> FileDataBasePlugin::allDatas() const
+{
+	QList<Data*> list;
+	foreach (Data* data, files)
+		if (data->status() != Data::EMPTY)
+			list.append(data);
+
+	return list;
+}
 #ifdef HORUS_CLIENT
 void FileDataBasePlugin::load()
 {
