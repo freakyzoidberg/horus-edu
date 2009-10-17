@@ -13,7 +13,6 @@
 
 #include "MetaManager.h"
 #include "ClientEvents.h"
-
 #include "CacheManager.h"
 
 LoginDialog::LoginDialog()
@@ -26,32 +25,24 @@ LoginDialog::LoginDialog()
 	QVBoxLayout* l1 = new QVBoxLayout(this);
 	l1->setMargin(30);
 
-	//CacheManager::instance()->userCache("git");
+	const QList<UserCache*>& list = CacheManager::instance()->availableCaches();
+	foreach (UserCache* cache, list)
+		l1->addWidget(new LoginDialogItem(cache, this), 0);
 
-	foreach (UserCache* cache, CacheManager::instance()->availableCaches())
-	{
-		QPushButton* button = new QPushButton(cache->login(), this);
-		connect(button, SIGNAL(pressed()), this, SLOT(userSelected()));
-		l1->addWidget(button, 0);
-	}
+	_other = new QPushButton(tr("Other"), this);
+	connect(_other, SIGNAL(pressed()), this, SLOT(otherClick()));
+	l1->addWidget(_other);
 
-	QPushButton* button = new QPushButton(tr("Other"), this);
-	connect(button, SIGNAL(pressed()), this, SLOT(otherUser()));
-	l1->addWidget(button);
-
-//	QCheckBox* remember = new QCheckBox(tr("Remember my choice"), this);
-//	l1->addWidget(remember);
+	if (list.length() == 0)
+		otherClick();
 
 	exec();
 }
 
-void LoginDialog::otherUser()
+void LoginDialog::otherClick()
 {
-	qDebug() << sender();
-	QPushButton* other = ((QPushButton*)sender());
-	((LoginDialog*)(other->parent()))->layout()->removeWidget(other);
-	delete other;
-//	((LoginDialog*)(other->parent()))->layout()->update();
+	((LoginDialog*)(_other->parent()))->layout()->removeWidget(_other);
+	delete _other;
 
 	QFormLayout* l2 = new QFormLayout;
 	((QVBoxLayout*)layout())->addLayout(l2, 1);
@@ -64,23 +55,14 @@ void LoginDialog::otherUser()
 
 	QPushButton* ok = new QPushButton(tr("Ok"));
 	l2->addRow("", ok);
-	connect(ok, SIGNAL(clicked()), this, SLOT(loginNewUser()));
+	connect(ok, SIGNAL(clicked()), this, SLOT(loginUser()));
 
 	_login->setFocus();
 }
 
-void LoginDialog::userSelected()
+void LoginDialog::loginUser()
 {
-	CommLogin  l(CommLogin::LOGIN_SESSION);
-        l.login = ((QPushButton*)sender())->text();
-	l.sessionString = CacheManager::instance()->userCache(l.login)->lastSession();
-	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
-	close();
-}
-
-void LoginDialog::loginNewUser()
-{
-	if ( ! _login || ! _password)
+	if ( ! _login || ! _password || _login->text().isEmpty() || _password->text().isEmpty())
 		return;
 
 	CommLogin  l(CommLogin::LOGIN_PASSWORD);
@@ -98,7 +80,7 @@ void LoginDialog::loginNewUser()
 void    LoginDialog::keyPressEvent(QKeyEvent *event)
 {
 	if (event->key() == Qt::Key_Return)
-		loginNewUser();
+		loginUser();
 }
 
 //void LoginDialog::on_connectButton_clicked()
@@ -124,3 +106,30 @@ void    LoginDialog::keyPressEvent(QKeyEvent *event)
 //		delete this;
 //    }
 //}
+
+LoginDialogItem::LoginDialogItem(UserCache* cache, LoginDialog* dialog) : QPushButton(dialog)
+{
+	_cache = cache;
+
+	setText(cache->login()+'\n'+cache->lastUpdate().toString());
+	setIcon(QIcon(":/Pictures/user.png"));
+	setIconSize(QSize(48, 48));
+	connect(this, SIGNAL(clicked()), this, SLOT(clicked()));
+}
+
+void LoginDialogItem::clicked()
+{
+//	if (_cache->lastSessionValidity() >= QDateTime::currentDateTime())
+//	{
+//		layout()->addWidget(new QLineEdit());
+//	}
+//	else
+//	{
+	_cache->load();
+		CommLogin  l(CommLogin::LOGIN_SESSION);
+		l.login = _cache->login();
+		l.sessionString = _cache->lastSession();
+		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
+		((LoginDialog*)(parent()))->close();
+//	}
+}

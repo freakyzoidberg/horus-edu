@@ -12,7 +12,7 @@ CacheManager::CacheManager()
 {
 	_autoLogin = 0;
 
-	QFile file("/tmp/HorusCache");
+	QFile file(QDir::tempPath()+"/HorusCache");
 	file.open(QIODevice::ReadOnly);
 	QDataStream stream(&file);
 
@@ -45,7 +45,7 @@ UserCache* CacheManager::userCache(const QString& login)
 
 void CacheManager::save()
 {
-	QFile file("/tmp/HorusCache");
+	QFile file(QDir::tempPath()+"/HorusCache");
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QDataStream stream(&file);
 	UserData* currentUser = MetaManager::getInstance()->findManager<PluginManager*>()->currentUser();

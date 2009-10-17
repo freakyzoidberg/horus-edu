@@ -2,6 +2,7 @@
 
 #include <QDataStream>
 #include <QFile>
+#include <QDir>
 
 #include "MetaManager.h"
 #include "../Common/PluginManager.h"
@@ -17,11 +18,11 @@ UserCache::UserCache(const QString& login, const QDateTime lastUpdate)
 
 void UserCache::load()
 {
-	QFile file("/tmp/HorusCache-"+_login);
+	QFile file(QDir::tempPath()+"/HorusCache-"+_login);
 	file.open(QIODevice::ReadOnly);
 	QDataStream stream(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
-	stream >> _lastSession;
+	stream >> _lastSession >> _lastSessionValidity;
 
 	while ( ! stream.atEnd())
 	{
@@ -29,12 +30,13 @@ void UserCache::load()
 		quint32 nbrData;
 		stream >> type >> nbrData;
 		DataPlugin* plugin = plugins->findPlugin<DataPlugin*>(type);
-		for (quint32 i; i < nbrData; i++)
-		{
-			Data* data = plugin->getDataWithKey(stream);
-			data->dataFromStream(stream);
-			data->_status = Data::CACHED;
-		}
+		if (plugin)
+			for (quint32 i; i < nbrData; i++)
+			{
+				Data* data = plugin->getDataWithKey(stream);
+				data->dataFromStream(stream);
+				data->_status = Data::CACHED;
+			}
 	}
 
 	_loaded = true;
@@ -42,10 +44,11 @@ void UserCache::load()
 
 void UserCache::save()
 {
-	QFile file("/tmp/HorusCache-"+_login);
+	QFile file(QDir::tempPath()+"/HorusCache-"+_login);
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QDataStream stream(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
+	stream << _lastSession << _lastSessionValidity;
 
 	foreach (DataPlugin* plugin, plugins->findPlugins<DataPlugin*>())
 	{

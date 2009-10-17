@@ -17,6 +17,7 @@
         <file>filenew-16.png</file>
         <file>fileopen-16.png</file>
         <file>prefix-add.png</file>
+        <file>user.png</file>
     </qresource>
     <qresource prefix="/" >
         <file>branch-closed.png</file>
