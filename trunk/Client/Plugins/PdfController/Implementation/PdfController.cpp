@@ -67,19 +67,24 @@ QWidget* PdfController::createDocumentWidget(IItems *parent, ILessonDocument *do
     int         x, y, w, h;
     int         fileId;
 
-    if (document->getType() != this->getSupportedType())
+     /*if (document->getType() != this->getSupportedType())
     {
         qDebug() << "[Plugin PdfController] Type error:";
         qDebug() << "\tThe type of your IObject is" << document->getType();
         qDebug() << "\tThe controller PdfController handle " << this->getSupportedType() << " type.";
-    }
+    }*/
 
-    fileId = document->getParameters().value("id").toInt();
-    x = document->getParameters()["x"].toInt();
+    //fileId = document->getParameters().value("id").toInt();
+    /* x = document->getParameters()["x"].toInt();
     y = document->getParameters()["y"].toInt();
     w = document->getParameters()["w"].toInt();
-    h = document->getParameters()["h"].toInt();
-    page = document->getParameters()["page"].toInt();
+    h = document->getParameters()["h"].toInt(); */
+
+
+    //page = document->getParameters()["page"].toInt();
+    fileId = 19;
+    page = 10;
+    x = y = w = h = 100;
     rect = new QRectF(x, y, h, w);
     data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
@@ -165,7 +170,7 @@ QWidget      *PdfController::editDocument(QFile *metadata, IItems *parent, ILess
 {
     QString     fileName;
     QImage      *image;
-    EditorPdf    *pdfEdit = new EditorPdf(parent);
+    EditorPdf    *pdfEdit = new EditorPdf(parent, doc);
 
     pdf = this->pluginManager->findPlugin<IPdfRendering *>();
     if (!pdf)

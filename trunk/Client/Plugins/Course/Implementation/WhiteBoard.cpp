@@ -83,7 +83,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				parameters[key] = value;
 			}
 			ILesson *lesson = model->getLesson(1);
-			ILessonDocument *doc = model->getLessonDocument(1, id);
+                        ILessonDocument *doc = model->getLessonDocument(1, id);
 			if (this->_controllers.contains(type))
                         {
 								Items *item = new Items(this, lesson, id, type, title);

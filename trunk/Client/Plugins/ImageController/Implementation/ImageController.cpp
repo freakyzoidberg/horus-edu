@@ -23,23 +23,30 @@ const QString      ImageController::getSupportedType() const
 
 QWidget*            ImageController::createDocumentWidget(IItems *parent, ILessonDocument *document)
 {
-    int fileId;
+        qDebug() << "doc:" << document;
 
-    fileId = document->getParameters().value("id").toInt();
-    data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
+
+
+
+    int fileId = 15;
+    //fileId = document->getParameters().value("id").toInt();
+    //fileId = document->getId();
+    qDebug() << "file id:" << fileId;
+
+   data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
 
-    if (document->getType() != this->getSupportedType())
+  //  if (document->getType() != this->getSupportedType())
     {
         qDebug() << "[Plugin ImageController] Type error:";
-        qDebug() << "\tThe type of your IObject is" << document->getType();
+   //     qDebug() << "\tThe type of your IObject is" << document->getType();
         qDebug() << "\tThe controller ImageController handle " << this->getSupportedType() << " type.";
     }
 
     label = new QLabel("Loading image...", parent);
     //if (data->isDownloaded())
-        dl();
-
+       dl();
+    qDebug() << "label geneted";
     return (label);
 }
 
@@ -47,7 +54,7 @@ void        ImageController::dl()
 {
     QString fileName;
     fileName = data->file()->fileName();
-
+//fileName  = "/tmp/15";
     QImage  *image = new QImage(fileName);
     if (image->isNull())
     {
@@ -73,7 +80,7 @@ void    ImageController::reload()
     }
     QPixmap pix = QPixmap::fromImage(*image);
     label->setPixmap(pix);
-    delete image;
+    //delete image;
 }
 
 void    ImageController::clean(IItems *widget)
