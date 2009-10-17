@@ -18,8 +18,8 @@
 
 LoginDialog::LoginDialog()
 {
-	_login = 0;
-	_password = 0;
+        _login = 0;
+        _password = 0;
 
 	setMinimumSize(300, 200);
 
@@ -72,7 +72,7 @@ void LoginDialog::otherUser()
 void LoginDialog::userSelected()
 {
 	CommLogin  l(CommLogin::LOGIN_SESSION);
-	l.login = ((QPushButton*)sender())->text();
+        l.login = ((QPushButton*)sender())->text();
 	l.sessionString = CacheManager::instance()->userCache(l.login)->lastSession();
 	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
 	close();
