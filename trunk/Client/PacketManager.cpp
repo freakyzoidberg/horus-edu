@@ -9,6 +9,8 @@
 #include "PluginManagerClient.h"
 #include "MetaManager.h"
 
+#include "CacheManager.h"
+
 PacketManager::PacketManager()
 {
     state = DISCONNECTED;
@@ -85,23 +87,20 @@ void PacketManager::PacketAlive()
 
 void PacketManager::PacketLogin()
 {
-    QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-
     CommLogin l(packet);
 
     if (l.method == CommLogin::ACCEPTED)
     {
-        settings.beginGroup("SESSIONS");
-        settings.setValue("sessionString", l.sessionString);
-        QDateTime sessionEnd = l.sessionEnd;
-        sessionEnd.addSecs(QDateTime::currentDateTime().secsTo(l.serverDateTime));
-        settings.setValue("sessionEnd", sessionEnd);
+		((PluginManagerClient *)MetaManager::getInstance()->findManager<PluginManager *>())->setCurrentUser(l.user);
+
+		QDateTime sessionEnd = l.sessionEnd;
+		sessionEnd.addSecs(QDateTime::currentDateTime().secsTo(l.serverDateTime));
+		UserCache* cache = CacheManager::instance()->userCache(l.login);
+		cache->setLastSession(l.sessionString, sessionEnd);
 
         qDebug() << tr("PacketManager::PacketLogin seconds between client and server:") << QDateTime::currentDateTime().secsTo(l.serverDateTime);
-        qDebug() << tr("PacketManager::PacketLogin end of session:") << sessionEnd;
 
         //QTimer::singleShot(sessionEnd - QDateTime::currentDateTime().addSecs(l.sessionTime).toTime_t(), this, SLOT(sessionEnd()));
-        settings.endGroup();
         //QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::HideLoginEvent));
         //QApplication::postEvent(((ClientApplication*)(QCoreApplication::instance()))->loader, new QEvent(ClientEvents::StartEvent));
 		emit logged();
