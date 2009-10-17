@@ -32,6 +32,15 @@ Data* WhiteBoardDataPlugin::getDataWithKey(QDataStream& s)
 	return getWhiteBoard(nodeId);
 }
 
+QList<Data*> WhiteBoardDataPlugin::allDatas() const
+{
+	QList<Data*> list;
+	foreach (Data* data, whiteBoards)
+		if (data->status() != Data::EMPTY)
+			list.append(data);
+
+	return list;
+}
 #ifdef HORUS_SERVER
 void WhiteBoardDataPlugin::loadData()
 {

@@ -180,10 +180,12 @@ void	NotificationClient::retry(const QString message)
 
 void	NotificationClient::login(const QString message)
 {
-	LoginDialog *loginDialog;
+	LoginDialog loginDialog;
 
-	loginDialog = new LoginDialog();
-	loginDialog->show();
+//	loginDialog.exec();
+
+//	loginDialog = new LoginDialog();
+//	loginDialog->exec();
 }
 
 QEvent::Type QtNotificationEvent::Type = (QEvent::Type)QEvent::registerEventType();

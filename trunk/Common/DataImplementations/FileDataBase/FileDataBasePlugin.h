@@ -23,40 +23,41 @@ class FileDataBasePlugin : public FileDataPlugin
 
 // Plugin Interface
 public:
-    inline const QString pluginName() const { return "File Data Base"; }
-    inline const QString pluginVersion() const { return "0.1"; }
-    void                 load();
+	inline const QString	pluginName() const { return "File Data Base"; }
+	inline const QString	pluginVersion() const { return "0.1"; }
+	void					load();
 
 
 // DataPlugin Interface
 public:
-    Data*           getNewData();
+	Data*					getNewData();
+	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
-    void            dataHaveNewKey(Data*d, QDataStream& s);
+	void					dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
-	void            loadData();
-	void            userConnected(UserData* user, QDateTime date);
+	void					loadData();
+	void					userConnected(UserData* user, QDateTime date);
 #endif
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
-    Data*                getDataWithKey(QDataStream& s);
+	Data*					getDataWithKey(QDataStream& s);
 
 
 // FileDataPlugin Interface
 public:
-	FileData*           getFile(quint32 fileId);
-	QList<FileData*>	getFilesInNode(quint32 nodeId) const;
-	QList<FileData*>	getFilesInNode(const TreeData *node) const;
-	QList<FileData*>	getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const;
-	QList<FileData*>	getFilesInNodeAndUser(const TreeData *node, const UserData* user) const;
-	inline const QHash<quint32,FileData*>& getAllFiles() const { return files; }
-	FileData*			createNewFile(TreeData*);
+	FileData*				getFile(quint32 fileId);
+	QList<FileData*>		getFilesInNode(quint32 nodeId) const;
+	QList<FileData*>		getFilesInNode(const TreeData *node) const;
+	QList<FileData*>		getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const;
+	QList<FileData*>		getFilesInNodeAndUser(const TreeData *node, const UserData* user) const;
+	inline const QHash<quint32,FileData*>&	getAllFiles() const { return files; }
+	FileData*				createNewFile(TreeData*);
 
 private:
-    QHash<quint32,FileData*> files;
+	QHash<quint32,FileData*>	files;
 #ifdef HORUS_SERVER
-    FileServer*          server;
+	FileServer*					server;
 #endif
 };
 

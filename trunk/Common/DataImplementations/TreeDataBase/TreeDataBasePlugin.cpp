@@ -37,6 +37,16 @@ Data* TreeDataBasePlugin::getDataWithKey(QDataStream& s)
     return getNode(tmpId);
 }
 
+QList<Data*> TreeDataBasePlugin::allDatas() const
+{
+	QList<Data*> list;
+	foreach (Data* data, nodes)
+		if (data->status() != Data::EMPTY)
+			list.append(data);
+
+	return list;
+}
+
 #ifdef HORUS_CLIENT
 void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
@@ -45,13 +55,6 @@ void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 	s >> node->_id;
 	nodes.insert(node->_id, node);
 	qDebug() << "Tree data Have a New Key" << node->_id;
-}
-
-#include "../../../Client/Plugins/TreeBaseClient/TreeModel.h"
-
-QAbstractItemModel* TreeDataBasePlugin::getTreeModel()
-{
-    return new TreeModel(pluginManager);
 }
 #endif
 #ifdef HORUS_SERVER

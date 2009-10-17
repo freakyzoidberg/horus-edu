@@ -46,15 +46,15 @@ TestGitWidget::TestGitWidget(TestGit* _plugin, TestNetworkPlugin* testNetworkPlu
     layout.addWidget(bt3, 3, 0);
     layout.setRowStretch(3, 3);
 
-    TreeDataPlugin* tree = plugin->pluginManager->findPlugin<TreeDataPlugin*>();
-    if (tree)
-    {
-        QTreeView *tv = new QTreeView();
-        tv->setModel(tree->getTreeModel());
-        layout.setRowStretch(4, 0);
-        layout.addWidget(tv, 4, 0);
-		tv->expandAll();
-    }
+//    TreeDataPlugin* tree = plugin->pluginManager->findPlugin<TreeDataPlugin*>();
+//    if (tree)
+//    {
+//        QTreeView *tv = new QTreeView();
+//        tv->setModel(tree->getTreeModel());
+//        layout.setRowStretch(4, 0);
+//        layout.addWidget(tv, 4, 0);
+//		tv->expandAll();
+//    }
 
     setLayout(&layout);
 }

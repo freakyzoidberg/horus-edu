@@ -38,6 +38,15 @@ Data* SettingsDataBasePlugin::getDataWithKey(QDataStream& s)
     return getSettings(part, scope, pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId));
 }
 
+QList<Data*> SettingsDataBasePlugin::allDatas() const
+{
+	QList<Data*> list;
+	foreach (Data* data, settings)
+		if (data->status() != Data::EMPTY)
+			list.append(data);
+
+	return list;
+}
 #ifdef HORUS_SERVER
 void SettingsDataBasePlugin::loadData()
 {

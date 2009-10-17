@@ -16,31 +16,41 @@ class UserDataBasePlugin : public UserDataPlugin
 #ifdef HORUS_CLIENT
   Q_INTERFACES(ClientUserDataPlugin)
 #endif
-
 	friend class UserDataBase;
 
+private:
+	QHash<quint32,UserData*>	users;
+
+	//UserDataPlugin
 public:
-    inline const QString pluginVersion() const { return "0.1"; }
-    UserData*            getUser(quint32 userId);
-    const QHash<quint32, UserData*>&    getAllUser();
-	UserData*            createUser(const QString &login);
+	UserData*				getUser(quint32 userId);
+	const QHash<quint32,UserData*>&	getAllUser();
+	UserData*				createUser(const QString &login);
+#ifdef HORUS_SERVER
+	void					userDisconnected(UserData* user);
+	UserData*				authenticatePassword(const QString& login, const QByteArray& password);
+	UserData*				authenticateSession (const QString& login, const QByteArray& sesion);
+#endif
+
+
+	//DataPlugin
+public:
+	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
-    void                 dataHaveNewKey(Data*d, QDataStream& s);
+	void					dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
-	void                 loadData();
-	void                 userConnected(UserData* user, QDateTime date);
-	void                 userDisconnected(UserData* user);
-	UserData*            authenticatePassword(const QString& login, const QByteArray& password);
-	UserData*            authenticateSession (const QString& login, const QByteArray& sesion);
+	void					loadData();
+	void					userConnected(UserData* user, QDateTime date);
 #endif
-
 protected:
-    //! Return the pointer to the Data with a his unique key read in the stream
-    Data*                getDataWithKey(QDataStream& s);
+	//! Return the pointer to the Data with a his unique key read in the stream
+	Data*					getDataWithKey(QDataStream& s);
 
-private:
-    QHash<quint32,UserData*> users;
+
+	//Plugin
+public:
+	inline const QString	pluginVersion() const { return "0.1"; }
 };
 
 #endif // USERDATABASEPLUGIN_H

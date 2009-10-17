@@ -8,23 +8,24 @@ class UserCache
 {
 	friend class CacheManager;
 public:
-	void					loadCache();
-	void					saveCache();
+	void						load();
+	inline bool					isLoaded()	  const { return _loaded; }
+	void						save();
 
-	inline const QDateTime&	lastUpdate() const { return _lastUpdate; }
-	inline const QString&	login()		 const { return _user; }
-	inline bool				isLoaded()	 const { return _loaded; }
+	inline const QString&		login()		  const { return _login; }
+	inline const QDateTime&		lastUpdate()  const { return _lastUpdate; }
+	inline const QByteArray&	lastSession() const { return _lastSession; }
 
 private:
-	QDateTime				_lastUpdate;
-	QString					_login;
-	bool					_loaded;
+	QDateTime					_lastUpdate;
+	QString						_login;
+	bool						_loaded;
 
 	//present only after being loaded
-	QByteArray				_lastSession;
+	QByteArray					_lastSession;
 
-							UserCache(const QString& login, const QDateTime lastUpdate = QDateTime());
-							~UserCache() {}
+								UserCache(const QString& login, const QDateTime lastUpdate = QDateTime());
+								~UserCache() {}
 };
 
 #endif // USERCACHE_H

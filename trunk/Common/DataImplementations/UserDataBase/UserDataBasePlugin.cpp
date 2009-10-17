@@ -42,6 +42,16 @@ UserData* UserDataBasePlugin::createUser(const QString &login)
     return u;
 }
 
+QList<Data*> UserDataBasePlugin::allDatas() const
+{
+	QList<Data*> list;
+	foreach (Data* data, users)
+		if (data->status() != Data::EMPTY)
+			list.append(data);
+
+	return list;
+}
+
 #ifdef HORUS_CLIENT
 void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {

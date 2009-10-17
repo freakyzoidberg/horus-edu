@@ -20,9 +20,6 @@ class TreeDataPlugin : public DataPlugin
 
 public:
     virtual TreeData* getNode(quint32 id) = 0;
-#ifdef HORUS_CLIENT
-    virtual QAbstractItemModel* getTreeModel() = 0;
-#endif
 };
 
 #ifdef HORUS_SERVER

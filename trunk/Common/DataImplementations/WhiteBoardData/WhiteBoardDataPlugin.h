@@ -15,29 +15,33 @@ class WhiteBoardDataPlugin : public DataPlugin
 #endif
 #ifdef HORUS_CLIENT
   Q_INTERFACES(ClientDataPlugin)
-#endif
+#endif	
 
 public:
-	inline const QString pluginName()    const { return "WhiteBoard Data Plugin"; }
-	inline const QString pluginVersion() const { return "0.1"; }
-	inline const QString getDataType()   const { return "WhiteBoardData"; }
+	WhiteBoardData*			getWhiteBoard(TreeData* node);
+	WhiteBoardData*			getWhiteBoard(quint32 nodeId);
+private:
+	QList<WhiteBoardData*>	whiteBoards;
 
-	WhiteBoardData*      getWhiteBoard(TreeData* node);
-	WhiteBoardData*      getWhiteBoard(quint32 nodeId);
-#ifdef HORUS_CLIENT
-	inline void          dataHaveNewKey(Data*, QDataStream&) {}
-#endif
+
+	//DataPlugin
+public:
+	inline const QString	getDataType()   const { return "WhiteBoardData"; }
+	QList<Data*>			allDatas() const;
 #ifdef HORUS_SERVER
-	void                 loadData();
-	void                 userConnected(UserData* user, QDateTime date);
+	void					loadData();
+	void					userConnected(UserData* user, QDateTime date);
 #endif
-
 private:
     //! Return the pointer to the Data with a his unique key read in the stream
-    Data*                getDataWithKey(QDataStream& s);
+	Data*					getDataWithKey(QDataStream& s);
 
 
-	QList<WhiteBoardData*> whiteBoards;
+	//Plugin
+public:
+	inline const QString	pluginName()    const { return "WhiteBoard Data Plugin"; }
+	inline const QString	pluginVersion() const { return "0.1"; }
+
 };
 
 #endif // WHITEBOARDDATAPLUGIN_H
