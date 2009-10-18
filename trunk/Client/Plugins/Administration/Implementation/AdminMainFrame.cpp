@@ -19,7 +19,9 @@ AdminMainFrame::AdminMainFrame(TreeDataPlugin *_treePlugin, UserDataPlugin *_use
     framesWidget->addWidget(new AdminTree(tree, users));
     framesWidget->addWidget(new UserPage(tree, users));
     framesWidget->addWidget(new RoomPage(tree));
-
+    framesWidget->addWidget(new AbsenceFrame());
+    framesWidget->addWidget(new NoteFrame());
+    framesWidget->addWidget(new BulletinFrame());
 
     createIcons();
     contentsWidget->setCurrentRow(0);

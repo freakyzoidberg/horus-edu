@@ -18,7 +18,9 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/FilterModel.cpp \
     Implementation/AbsenceFrame.cpp \
     Implementation/NoteFrame.cpp \
-    Implementation/BulletinFrame.cpp
+    Implementation/BulletinFrame.cpp \
+    Implementation/CourPanel.cpp \
+    Implementation/ElevePanel.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/RoomPage.h \
@@ -44,7 +46,9 @@ HEADERS += Implementation/Administration.h \
     Implementation/FilterModel.h \
     Implementation/AbsenceFrame.h \
     Implementation/NoteFrame.h \
-    Implementation/BulletinFrame.h
+    Implementation/BulletinFrame.h \
+    Implementation/CourPanel.h \
+    Implementation/ElevePanel.h
 RESOURCES += Implementation/AdminMainFrame.qrc
 TRANSLATIONS = Administration_en.ts \
     Administration_fr.ts
