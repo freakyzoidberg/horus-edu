@@ -16,12 +16,7 @@
 class TreeDataBase : public TreeData
 {
   Q_OBJECT
-#ifdef HORUS_SERVER
-  Q_INTERFACES(ServerTreeData)
-#endif
-#ifdef HORUS_CLIENT
-  Q_INTERFACES(ClientTreeData)
-#endif
+  Q_INTERFACES(TreeData)
 
   friend class TreeDataBasePlugin;
 private:
