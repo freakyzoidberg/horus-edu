@@ -1,10 +1,6 @@
 #ifndef TREEDATAPLUGIN_H
 #define TREEDATAPLUGIN_H
 
-#ifdef HORUS_CLIENT
-    #include <QAbstractItemModel>
-#endif
-
 #include "DataPlugin.h"
 
 class TreeData;
@@ -19,7 +15,7 @@ class TreeDataPlugin : public DataPlugin
 #endif
 
 public:
-    virtual TreeData* getNode(quint32 id) = 0;
+	virtual TreeData*	getNode(quint32 id) = 0;
 };
 
 #ifdef HORUS_SERVER

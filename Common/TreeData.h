@@ -103,6 +103,13 @@ protected:
     inline ~TreeData() {}
 };
 
-Q_DECLARE_INTERFACE(TreeData, "net.horus.TreeData/1.0");
+#ifdef HORUS_SERVER
+typedef TreeData ServerTreeData;
+Q_DECLARE_INTERFACE(ServerTreeData, "net.horus.ServerTreeData/1.0");
+#endif
+#ifdef HORUS_CLIENT
+typedef TreeData ClientTreeData;
+Q_DECLARE_INTERFACE(ClientTreeData, "net.horus.ClientTreeData/1.0");
+#endif
 
 #endif // TREEDATA_H

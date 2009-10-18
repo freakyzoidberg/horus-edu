@@ -1,17 +1,18 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-04-09T19:51:57
 # -------------------------------------------------
-QT -= gui
 QT += sql
-DEFINES += HORUS_SERVER
+DEFINES += HORUS_CLIENT
 TEMPLATE = lib
-TARGET = TreeBaseServerMetaPlugin
+TARGET = EventBaseClientMetaPlugin
 SOURCES += \
-	../../../Common/DataImplementations/TreeDataBase/TreeDataBase.cpp \
-	../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.cpp
+	../../../Common/DataImplementations/EventDataBase/EventDataBase.cpp \
+	../../../Common/DataImplementations/EventDataBase/EventDataBasePlugin.cpp
 HEADERS += \
-	../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
-	../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.h \
+	../../../Common/DataImplementations/EventDataBase/EventDataBase.h \
+	../../../Common/DataImplementations/EventDataBase/EventDataBasePlugin.h \
+	../../../Common/EventData.h \
+	../../../Common/EventDataPlugin.h \
 	../../../Common/TreeData.h \
 	../../../Common/TreeDataPlugin.h \
 	../../../Common/MetaPlugin.h \
@@ -20,6 +21,5 @@ HEADERS += \
 	../../../Common/Data.h \
 	../../../Common/DataPlugin.h \
 	../../../Common/DataManager.h \
-	../../../Common/UserData.h \
 	../../../Common/AbstractManager.h \
-	TreeBaseServerMetaPlugin.h
+	EventBaseClientMetaPlugin.h
