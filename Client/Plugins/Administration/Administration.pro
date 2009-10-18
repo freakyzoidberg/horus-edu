@@ -15,7 +15,10 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/NodeInfo.cpp \
     Implementation/FileFram.cpp \
     Implementation/UserPage.cpp \
-    Implementation/FilterModel.cpp
+    Implementation/FilterModel.cpp \
+    Implementation/AbsenceFrame.cpp \
+    Implementation/NoteFrame.cpp \
+    Implementation/BulletinFrame.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/RoomPage.h \
@@ -38,7 +41,10 @@ HEADERS += Implementation/Administration.h \
     Implementation/NodeInfo.h \
     Implementation/FileFram.h \
     Implementation/UserPage.h \
-    Implementation/FilterModel.h
+    Implementation/FilterModel.h \
+    Implementation/AbsenceFrame.h \
+    Implementation/NoteFrame.h \
+    Implementation/BulletinFrame.h
 RESOURCES += Implementation/AdminMainFrame.qrc
 TRANSLATIONS = Administration_en.ts \
     Administration_fr.ts
