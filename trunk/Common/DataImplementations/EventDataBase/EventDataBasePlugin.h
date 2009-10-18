@@ -42,4 +42,4 @@ protected:
 	Data*						getDataWithKey(QDataStream& s);
 };
 
-#endif // TREEDATABASEPLUGIN_H
+#endif // EVENTDATABASEPLUGIN_H
