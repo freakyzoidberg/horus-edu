@@ -51,6 +51,23 @@ void AdminMainFrame::createIcons()
     queryButton->setTextAlignment(Qt::AlignHCenter);
     queryButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
+    QListWidgetItem *absButton = new QListWidgetItem(contentsWidget);
+    absButton->setIcon(QIcon(":/images/pasla.png"));
+    absButton->setText(tr(" Absences "));
+    absButton->setTextAlignment(Qt::AlignHCenter);
+    absButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QListWidgetItem *noteButton = new QListWidgetItem(contentsWidget);
+    noteButton->setIcon(QIcon(":/images/notes.png"));
+    noteButton->setText(tr(" Notes "));
+    noteButton->setTextAlignment(Qt::AlignHCenter);
+    noteButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
+
+    QListWidgetItem *bullButton = new QListWidgetItem(contentsWidget);
+    bullButton ->setIcon(QIcon(":/images/bull.png"));
+    bullButton ->setText(tr(" Bulletins "));
+    bullButton ->setTextAlignment(Qt::AlignHCenter);
+    bullButton ->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);
 
 
     treeButton->setFlags(Qt::ItemIsSelectable | Qt::ItemIsEnabled);

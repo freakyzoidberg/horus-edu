@@ -17,5 +17,8 @@
         <file>images/LessonIcon.png</file>
         <file>images/RootIcon.png</file>
         <file>images/SubjectIcon.png</file>
+        <file>images/bull.png</file>
+        <file>images/notes.png</file>
+        <file>images/pasla.png</file>
     </qresource>
 </RCC>
