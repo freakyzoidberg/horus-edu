@@ -29,7 +29,7 @@ private:
 	//present only after being loaded
 	QByteArray					_lastSession;
 
-								UserCache(const QString& login, const QDateTime lastUpdate = QDateTime());
+								UserCache(const QString& login, const QDateTime lastUpdate = QDateTime(), const QDateTime lastSessionValidity = QDateTime());
 								~UserCache() {}
 };
 
