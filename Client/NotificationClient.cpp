@@ -180,7 +180,7 @@ void	NotificationClient::retry(const QString message)
 
 void	NotificationClient::login(const QString message)
 {
-	LoginDialog loginDialog;
+	LoginDialog* dialog = new LoginDialog;
 
 //	loginDialog.exec();
 

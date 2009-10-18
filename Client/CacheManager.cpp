@@ -19,13 +19,13 @@ CacheManager::CacheManager()
 	QString autoLogin;
 	stream >> autoLogin;
 
-	//	foreach (UserCache* cache, _caches)
 	while ( ! file.atEnd())
 	{
 		QString login;
 		QDateTime lastLogin;
-		stream >> login >> lastLogin;
-		UserCache* cache = new UserCache(login, lastLogin);
+		QDateTime lastSessionValidity;
+		stream >> login >> lastLogin >> lastSessionValidity;
+		UserCache* cache = new UserCache(login, lastLogin, lastSessionValidity);
 		_caches.append(cache);
 		if (login == autoLogin)
 			_autoLogin = cache;
@@ -57,7 +57,7 @@ void CacheManager::save()
 
 	foreach (UserCache* cache, _caches)
 	{
-		stream << cache->login() << cache->lastUpdate();
+		stream << cache->login() << cache->lastUpdate() << cache->lastSessionValidity();
 
 		if (cache->login() == currentUser->login())
 			cache->save();

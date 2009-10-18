@@ -9,10 +9,11 @@
 #include "../Common/DataPlugin.h"
 #include "../Common/UserData.h"
 
-UserCache::UserCache(const QString& login, const QDateTime lastUpdate)
+UserCache::UserCache(const QString& login, const QDateTime lastUpdate, const QDateTime lastSessionValidity)
 {
 	_login = login;
 	_lastUpdate = lastUpdate;
+	_lastSessionValidity = lastSessionValidity;
 	_loaded = false;
 }
 
@@ -22,7 +23,7 @@ void UserCache::load()
 	file.open(QIODevice::ReadOnly);
 	QDataStream stream(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
-	stream >> _lastSession >> _lastSessionValidity;
+	stream >> _lastSession;
 
 	while ( ! stream.atEnd())
 	{
@@ -48,7 +49,7 @@ void UserCache::save()
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QDataStream stream(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
-	stream << _lastSession << _lastSessionValidity;
+	stream << _lastSession;
 
 	foreach (DataPlugin* plugin, plugins->findPlugins<DataPlugin*>())
 	{

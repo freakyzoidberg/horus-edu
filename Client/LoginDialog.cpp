@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QCheckBox>
+#include <QPlastiqueStyle>
 
 #include "MetaManager.h"
 #include "ClientEvents.h"
@@ -17,9 +18,6 @@
 
 LoginDialog::LoginDialog()
 {
-        _login = 0;
-        _password = 0;
-
 	setMinimumSize(300, 200);
 
 	QVBoxLayout* l1 = new QVBoxLayout(this);
@@ -29,107 +27,137 @@ LoginDialog::LoginDialog()
 	foreach (UserCache* cache, list)
 		l1->addWidget(new LoginDialogItem(cache, this), 0);
 
-	_other = new QPushButton(tr("Other"), this);
-	connect(_other, SIGNAL(pressed()), this, SLOT(otherClick()));
-	l1->addWidget(_other);
-
-	if (list.length() == 0)
-		otherClick();
+	l1->addWidget(new LoginDialogItem(0, this), 0);
+	l1->addStretch(1);
 
 	exec();
 }
 
-void LoginDialog::otherClick()
-{
-	((LoginDialog*)(_other->parent()))->layout()->removeWidget(_other);
-	delete _other;
-
-	QFormLayout* l2 = new QFormLayout;
-	((QVBoxLayout*)layout())->addLayout(l2, 1);
-
-	_login    = new QLineEdit;
-	l2->addRow("Login", _login);
-
-	_password = new QLineEdit;
-	l2->addRow("Password", _password);
-
-	QPushButton* ok = new QPushButton(tr("Ok"));
-	l2->addRow("", ok);
-	connect(ok, SIGNAL(clicked()), this, SLOT(loginUser()));
-
-	_login->setFocus();
-}
-
-void LoginDialog::loginUser()
-{
-	if ( ! _login || ! _password || _login->text().isEmpty() || _password->text().isEmpty())
-		return;
-
-	CommLogin  l(CommLogin::LOGIN_PASSWORD);
-	l.login = _login->text();
-	l.password = QCryptographicHash::hash(_password->text().toAscii(), QCryptographicHash::Sha1);
-	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
-	close();
-}
-
-//void    LoginDialog::closeEvent()
-//{
-//	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new QEvent(ClientEvents::OfflineModeEvent));
-//}
-
-void    LoginDialog::keyPressEvent(QKeyEvent *event)
-{
-	if (event->key() == Qt::Key_Return)
-		loginUser();
-}
-
-//void LoginDialog::on_connectButton_clicked()
-//{
-//    connectMethod();
-//}
-
-//void    LoginDialog::connectMethod()
-//{
-//    if (l_ui.loginE->text() != "" || l_ui.passE->text() != "")
-//    {
-//        QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-//        settings.beginGroup("SESSIONS");
-//        settings.setValue("sessionString", "");
-//        settings.setValue("sessionLogin", l_ui.loginE->text());
-//        settings.setValue("sessionTime", "");
-//        settings.setValue("sessionEnd", "");
-//        CommLogin  l(CommLogin::LOGIN_PASSWORD);
-//        l.login = l_ui.loginE->text();
-//        l.password = QCryptographicHash::hash(l_ui.passE->text().toUtf8(), QCryptographicHash::Sha1);
-//        QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
-//        settings.endGroup();
-//		delete this;
-//    }
-//}
-
-LoginDialogItem::LoginDialogItem(UserCache* cache, LoginDialog* dialog) : QPushButton(dialog)
+LoginDialogItem::LoginDialogItem(UserCache* cache, LoginDialog* dialog) : QFrame(dialog)
 {
 	_cache = cache;
+	_login = 0;
+	_password = 0;
+	_layout = new QGridLayout(this);
 
-	setText(cache->login()+'\n'+cache->lastUpdate().toString());
-	setIcon(QIcon(":/Pictures/user.png"));
-	setIconSize(QSize(48, 48));
-	connect(this, SIGNAL(clicked()), this, SLOT(clicked()));
+	setFrameStyle(Box | Sunken);
+	init();
 }
 
-void LoginDialogItem::clicked()
+void LoginDialogItem::init()
 {
-//	if (_cache->lastSessionValidity() >= QDateTime::currentDateTime())
-//	{
-//		layout()->addWidget(new QLineEdit());
-//	}
-//	else
-//	{
+	QLabel* label;
+
+	if ( ! _layout->itemAtPosition(0,0))
+	{
+		label = new QLabel(this);
+		label->setPixmap(QPixmap::fromImage(QImage(":/Pictures/user.png")));
+		label->setFixedHeight(48);
+		label->setFixedWidth(48);
+		_layout->addWidget(label, 0, 0, 2, 1);
+	}
+
+	if (_cache)
+	{
+		label = new QLabel(_cache->login(), this);
+		QFont font = label->font();
+		font.setBold(true);
+		label->setFont(font);
+		_layout->addWidget(label, 0, 1, 1, 2);
+
+		label = new QLabel("Session:", this);
+		_layout->addWidget(label, 1, 1);
+		if (_cache->lastSessionValidity() < QDateTime::currentDateTime())
+		{
+			label = new QLabel("Expired", this);
+			_layout->addWidget(label, 1, 2);
+		}
+		else
+		{
+			label = new QLabel(_cache->lastSessionValidity().toString(), this);
+			_layout->addWidget(label, 1, 2);
+		}
+	}
+	else
+	{
+		label = new QLabel("Add a user", this);
+		_layout->addWidget(label, 0, 1);
+	}
+
+//	_layout->setColumnMinimumWidth(0, 48);
+}
+
+void LoginDialogItem::mousePressEvent(QMouseEvent*)
+{
+	if (_cache)
+	{
+		if (_cache->lastSessionValidity() >= QDateTime::currentDateTime())
+			loginSession();
+
+		else if (_password)
+			loginPassword(_cache->login(), _password->text());
+
+		else
+		{
+			((QLabel*)(_layout->itemAtPosition(1, 1)->widget()))->setText("Password:");
+
+			delete _layout->itemAtPosition(1, 2);
+			_layout->addWidget((_password = new QLineEdit), 1, 2);
+			_password->setFocus();
+		}
+	}
+	else
+	{
+		if (_login && _password)
+			loginPassword(_login->text(), _password->text());
+
+		else
+		{
+			((QLabel*)(_layout->itemAtPosition(0, 1)->widget()))->setText("Login:");
+			_layout->addWidget(new QLabel("Password:", this), 1, 1);
+			_layout->addWidget((_login = new QLineEdit), 0, 2);
+			_layout->addWidget((_password = new QLineEdit), 1, 2);
+			_login->setFocus();
+		}
+	}
+}
+
+void LoginDialogItem::mouseReleaseEvent(QMouseEvent*)
+{
+}
+
+void LoginDialogItem::keyPressEvent(QKeyEvent *event)
+{
+	if (event->key() != Qt::Key_Return)
+		return;
+
+	if (_cache && _password)
+		loginPassword(_cache->login(), _password->text());
+
+	if (_login && _password)
+		loginPassword(_login->text(), _password->text());
+}
+
+void LoginDialogItem::loginSession()
+{
 	_cache->load();
-		CommLogin  l(CommLogin::LOGIN_SESSION);
-		l.login = _cache->login();
-		l.sessionString = _cache->lastSession();
-		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
-		((LoginDialog*)(parent()))->close();
-//	}
+	CommLogin  l(CommLogin::LOGIN_SESSION);
+	l.login = _cache->login();
+	l.sessionString = _cache->lastSession();
+	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
+	((LoginDialog*)(parent()))->close();
+}
+
+void LoginDialogItem::loginPassword(const QString& login, const QString& pass)
+{
+	if (login.isEmpty() || pass.isEmpty())
+		return;
+
+	if (_cache)
+		_cache->load();
+	CommLogin  l(CommLogin::LOGIN_PASSWORD);
+	l.login = login;
+	l.password = QCryptographicHash::hash(pass.toAscii(), QCryptographicHash::Sha1);
+	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(l.getPacket()));
+	((LoginDialog*)(parent()))->close();
 }
