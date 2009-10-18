@@ -8,6 +8,9 @@
 #include "UserForm.h"
 #include "RoomPage.h"
 #include "AdminTree.h"
+#include "AbsenceFrame.h"
+#include "NoteFrame.h"
+#include "BulletinFrame.h"
 
 #include "UserPage.h"
 //class Administration;
