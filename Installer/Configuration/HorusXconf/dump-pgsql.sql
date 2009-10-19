@@ -112,3 +112,11 @@ items bytea,
 mtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY  (id_tree)
 );
+
+CREATE TABLE event (
+id_tree int NOT NULL,
+start_time timestamp NOT NULL,
+end_time timestamp NOT NULL,
+mtime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+PRIMARY KEY  (id_tree)
+);

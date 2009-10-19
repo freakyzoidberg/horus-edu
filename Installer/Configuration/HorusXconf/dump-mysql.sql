@@ -200,3 +200,12 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2009-10-01 11:38:52
+
+DROP TABLE IF EXISTS `event`;
+CREATE TABLE `event` (
+  `id_tree` int(11) NOT NULL,
+  `start_time` timestamp NOT NULL,
+  `end_time` timestamp NOT NULL,
+  `mtime` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id_tree`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
