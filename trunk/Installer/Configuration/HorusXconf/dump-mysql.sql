@@ -204,8 +204,8 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `event`;
 CREATE TABLE `event` (
   `id_tree` int(11) NOT NULL,
-  `start_time` timestamp NOT NULL,
-  `end_time` timestamp NOT NULL,
-  `mtime` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `start_time` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `end_time` timestamp NOT NULL default '0000-00-00 00:00:00',
+  `mtime` timestamp NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id_tree`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
