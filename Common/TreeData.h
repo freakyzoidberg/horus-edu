@@ -98,6 +98,18 @@ public:
     virtual bool    isDescendantOf(TreeData* parent) = 0;
 
     
+	inline void		registerData(Data* data) { _registeredData.append(data); }
+template <typename T>
+	inline T		registeredData() const
+	{
+		foreach (Data* data, _registeredData)
+			if (T ret = qobject_cast<T>( data ))
+				return ret;
+		return 0;
+	}
+private:
+	QList<Data*>	_registeredData;
+
 protected:
     inline TreeData(TreeDataPlugin* plugin) : Data(plugin) { }
     inline ~TreeData() {}

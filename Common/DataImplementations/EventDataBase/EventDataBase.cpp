@@ -6,6 +6,7 @@
 EventDataBase::EventDataBase(TreeData* node, EventDataBasePlugin* plugin) : EventData(plugin)
 {
 	_node = node;
+	_node->registerData(this);
 }
 
 void EventDataBase::keyToStream(QDataStream& s)

@@ -1,6 +1,7 @@
 #ifndef EVENTDATAPLUGIN_H
 #define EVENTDATAPLUGIN_H
 
+#include <QDateTime>
 #include "DataPlugin.h"
 
 class TreeData;
@@ -16,8 +17,9 @@ class EventDataPlugin : public DataPlugin
 #endif
 
 public:
-	virtual EventData* getEvent(quint32 nodeId) = 0;
-	virtual EventData* getEvent(TreeData* node) = 0;
+	virtual EventData*			nodeEvent(quint32 nodeId) = 0;
+	virtual EventData*			nodeEvent(TreeData* node) = 0;
+	virtual QList<EventData*>	userEvents(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime()) = 0;
 };
 
 #ifdef HORUS_SERVER

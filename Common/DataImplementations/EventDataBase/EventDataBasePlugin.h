@@ -18,10 +18,16 @@ class EventDataBasePlugin : public EventDataPlugin
 
 public:
 								EventDataBasePlugin() {}
-	EventData*					getEvent(quint32 nodeId);
-	EventData*					getEvent(TreeData* node);
+
+	EventData*					nodeEvent(quint32 nodeId);
+	EventData*					nodeEvent(TreeData* node);
+	QList<EventData*>			userEvents(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
+
 private:
-	QHash<TreeData*,EventData*>	events;
+	void						recursiveTreeSearch(QList<EventData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to);
+
+	QList<Data*>				_allEvents;
+
 
 	//Plugin
 public:
@@ -29,10 +35,11 @@ public:
 	inline const QString		pluginVersion() const { return "0.1"; }
 
 
+
 	//DataPlugin
 public:
 	inline const QString		getDataType() const { return "Event"; }
-	QList<Data*>				allDatas() const;
+	QList<Data*>				allDatas() const { return _allEvents; }
 #ifdef HORUS_SERVER
 	void						loadData();
 	void						userConnected(UserData* user, QDateTime date);

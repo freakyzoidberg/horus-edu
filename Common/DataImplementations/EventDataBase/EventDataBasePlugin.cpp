@@ -4,38 +4,55 @@
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
 #include "../../TreeData.h"
+#include "../../UserData.h"
 
-EventData* EventDataBasePlugin::getEvent(TreeData* node)
+EventData* EventDataBasePlugin::nodeEvent(TreeData* node)
 {
-	if ( ! events.contains(node))
+	EventData* event = node->registeredData<EventData*>();
+	if ( ! event)
 	{
-		EventData* event = new EventDataBase(node, this);
+		event = new EventDataBase(node, this);
 		event->moveToThread(this->thread());
-		events[ node ] = event;
+		_allEvents.append(event);
 	}
-	return events.value(node);
+	return event;
 }
 
-EventData* EventDataBasePlugin::getEvent(quint32 nodeId)
+EventData* EventDataBasePlugin::nodeEvent(quint32 nodeId)
 {
-	return getEvent(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId));
+	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId));
+}
+
+QList<EventData*> EventDataBasePlugin::userEvents(UserData* user, const QDateTime from, const QDateTime to)
+{
+	QList<EventData*> list;
+	EventData* event;
+	//look in every parent nodes until the root node
+	for (TreeData* node = user->node()->parent(); node; node = node->parent())
+		if ((event = node->registeredData<EventData*>()) && event->startTime() < to && event->endTime() > from)
+			list.append(event);
+
+	//recursively look in every children nodes
+	recursiveTreeSearch(list, user->node(), from, to);
+
+	return list;
+}
+
+void EventDataBasePlugin::recursiveTreeSearch(QList<EventData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to)
+{
+	EventData* event;
+	if ((event = node->registeredData<EventData*>()) && event->startTime() < to && event->endTime() > from)
+		list.append(event);
+
+	foreach (TreeData* child, node->children())
+		recursiveTreeSearch(list, child, from, to);
 }
 
 Data* EventDataBasePlugin::getDataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-	return getEvent(tmpId);
-}
-
-QList<Data*> EventDataBasePlugin::allDatas() const
-{
-	QList<Data*> list;
-	foreach (Data* data, events)
-		if (data->status() != Data::EMPTY)
-			list.append(data);
-
-	return list;
+	return nodeEvent(tmpId);
 }
 
 #ifdef HORUS_SERVER
@@ -46,7 +63,7 @@ void EventDataBasePlugin::loadData()
     query.exec();
     while (query.next())
     {
-		EventDataBase* event = (EventDataBase*)(getEvent(query.value(0).toUInt()));
+		EventDataBase* event = (EventDataBase*)(nodeEvent(query.value(0).toUInt()));
 		event->_startTime = query.value(1).toDateTime();
 		event->_endTime   = query.value(1).toDateTime();
 		event->_status = Data::UPTODATE;
@@ -55,7 +72,7 @@ void EventDataBasePlugin::loadData()
 
 void EventDataBasePlugin::userConnected(UserData* user, QDateTime date)
 {
-	foreach (EventData* data, events)
+	foreach (Data* data, _allEvents)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
             dataManager->sendData(user, data);
 }
