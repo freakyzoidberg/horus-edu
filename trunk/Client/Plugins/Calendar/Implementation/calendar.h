@@ -12,7 +12,7 @@ Q_INTERFACES(Plugin)
 
 public:
     Calendar();
-    const QString   pluginName()    const;
+    const QString   pluginName() const;
     //! Return the version of the plugin.
     /*!
      *  This function provide the version of the plugin.

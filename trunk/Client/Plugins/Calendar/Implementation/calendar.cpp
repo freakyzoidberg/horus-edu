@@ -7,7 +7,7 @@ Calendar::Calendar()
 
 const QString   Calendar::pluginName()    const
 {
-    return "dudule";
+    return "Calendar";
 }
     //! Return the version of the plugin.
     /*!
