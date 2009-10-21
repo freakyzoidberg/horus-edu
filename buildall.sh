@@ -186,6 +186,10 @@ case $me in
 	cp ~/Epitech/EIP/trunk/Client/Plugins/*/*.so ~/.Horus/Plugins/
 	echo -e "$JAUNE" " ... finished copying ..." "$NORMAL"
 	;;
+    'romain')
+	cd /home/romain/Documents/pfe/franceHorus/trunk
+	cp Client/Plugins/*/*.so Client/Plugins
+	;;
     *)
 	echo -e "$JAUNE" " ... Edit the buildall to set where to copy your files after L151..." "$NORMAL"
 	;;
