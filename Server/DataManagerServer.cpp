@@ -95,7 +95,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		return;
 	}
 
-	qDebug() << "Data" << data << "change status from" << oldStatus << "to" << newStatus << "which is not authorized.";
+	qDebug() << "Data" << data << "change status from" << (Data::DataStatus)oldStatus << "to" << (Data::DataStatus)newStatus << "which is not authorized.";
 }
 
 void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
@@ -153,9 +153,13 @@ void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, qui
 	CommData packet(plugin->getDataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
 
-	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED)
+	if (status != Data::UPDATED &&
+		status != Data::SAVED &&
+		status != Data::CREATED &&
+		status != Data::DELETED &&
+		status != Data::ERROR)
 	{
-		qWarning() << "DataManagerServer try to send a data with status" << status << "which is not authorized.";
+		qWarning() << "DataManagerServer try to send a data with status" << (Data::DataStatus)status << "which is not authorized.";
 		return;
 	}
 
