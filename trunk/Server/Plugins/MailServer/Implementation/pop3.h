@@ -101,7 +101,7 @@ signals:
          * <br>Only after this you should delete this object.
          */
         void disconnected(Pop3*);
-        
+
         void newMail(Mail*);
 
 private slots:
@@ -109,6 +109,7 @@ private slots:
         void readyRead();
         void connected();
         void connectionClosed();
+        void showerror(const QString& line);
 
 private:
         void openConnection();
@@ -116,7 +117,8 @@ private:
         void parseStatLine(const QString& line);
         void parseMail(const QString& mail);
         void nextLine(const QString& line);
-        
+
+        QList<Mail*> panier;
         Pop3Private* d;
 };
 

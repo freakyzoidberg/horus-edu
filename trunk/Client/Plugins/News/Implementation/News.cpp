@@ -23,7 +23,7 @@ const QString       News::getDisplayableName() const
 
 int           News::getOrder() const
 {
-    return (100);
+    return (102);
 }
 
 bool                News::canLoad() const

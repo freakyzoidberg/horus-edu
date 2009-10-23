@@ -4,8 +4,17 @@
 #include <QListView>
 #include <QStringListModel>
 #include <QStringList>
+#include "../../../../Common/DataImplementations/MailData/MailData.h"
 MailList::MailList(MailDataPlugin *MailPlugin)
 {
+_MailPlugin = MailPlugin;
+
+    MailData *md = _MailPlugin->createMail();
+
+
+
+    //md->getMail();
+
     //QList<QString> list;
     //list<<"Read"<<"From"<<"Subject"<<"date";
     //this->setHorizontalHeaderLabels(list);
@@ -43,6 +52,8 @@ toto.append("email 3");
 emailList->setEditTriggers(0);
     emailList->setModel(listmodel);
     total->addWidget(emailList);
+
+
 /*
   this->addColumn( "Mail id" );
   this->addColumn( "From" );

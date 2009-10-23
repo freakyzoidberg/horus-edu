@@ -14,7 +14,8 @@ public:
     MailList(MailDataPlugin *MailPlugin);
     ~MailList();
 
-
+private:
+    MailDataPlugin *_MailPlugin;
 };
 
 #endif // MAILPANEL_H
