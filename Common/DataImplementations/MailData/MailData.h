@@ -36,9 +36,9 @@ public:
     QVariant data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
-	inline quint8     serverRead()   { return NONE; }
+        inline quint8     serverRead()   { return NONE; }
 	inline quint8     serverCreate() { return INTERNAL_SERVER_ERROR; }
-		   quint8     serverSave();
+               quint8     serverSave();
 	inline quint8     serverRemove() { return INTERNAL_SERVER_ERROR; }
 #endif
 
@@ -67,6 +67,7 @@ public :
         inline void             sendMail() { Data::setStatus(SAVING); }
 
         inline QString			getContent() const { return _content; }
+
 
 };
 

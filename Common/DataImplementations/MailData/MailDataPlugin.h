@@ -3,6 +3,9 @@
 
 #include <QHash>
 #include "../../DataPlugin.h"
+#ifdef HORUS_SERVER
+#include "../../../Server/Plugins/MailServer/Implementation/mail.h"
+#endif
 
 class Data;
 class TreeData;
@@ -27,7 +30,13 @@ public:
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif
+#ifdef HORUS_SERVER
+        void					userConnected(UserData* user, QDateTime date);
 
+public slots:
+        void SendMailToClient(Mail*);
+
+#endif
 private:
     //! Return the pointer to the Data with a his unique key read in the stream
     Data*                getDataWithKey(QDataStream& s);

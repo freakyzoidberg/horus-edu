@@ -80,6 +80,7 @@ smtp::smtp(const QString &smtpServer, const QString &from, const QStringList &to
     setEncoding(_8bit);
     setISO(utf8);
     setSsl(false);
+    qDebug() << "j essaye quand meme";
 }
 
 smtp::~smtp()

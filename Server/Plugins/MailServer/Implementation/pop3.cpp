@@ -133,6 +133,7 @@ public:
 Pop3::Pop3(const QString &user, const QString &passwd, const QString &smtp_server, QObject *parent)
  : QObject(parent)
 {
+    qDebug() << "je suis bien la";
 	d = new Pop3Private(this, smtp_server, user, passwd);
 	
 	//connect ( d->socket, SIGNAL( readyReadMs() ),
@@ -150,7 +151,7 @@ Pop3::Pop3(const QString &user, const QString &passwd, const QString &smtp_serve
 
 	connect ( d->socket, SIGNAL( connectionClosed() ),
 			  this, SLOT( connectionClosed() ) );
-
+    connect (this, SIGNAL(error(const QString &)), this, SLOT(showerror(const QString &)));
 	d->state = Disconnected;
 }
 
@@ -181,11 +182,16 @@ void Pop3::openConnection()
 	}
 	//QHostInfo::lookupHost(d->pop3_server,this,SLOT(dnsLookupHelper(QHostInfo)));
 	emit status( tr( "Connecting to %1" ).arg( d->pop3_server ) );
-
+        qDebug() << "connecting to " << d->pop3_server;
+         d->socket->abort();
 	d->state = Init;
 	d->read_state = None;
-	d->socket->connectToHost( d->pop3_server , 110 );
+
+
+        d->socket->connectToHost( d->pop3_server , 110 );
+qDebug() << d->socket->error();
 	d->t = new QTextStream( d->socket );
+
 }
 
 void Pop3::dnsLookupHelper(const QHostInfo &hostInfo)
@@ -217,10 +223,12 @@ void Pop3::dnsLookupHelper(const QHostInfo &hostInfo)
 void Pop3::connected()
 {
 	emit status( tr( "Connected to %1" ).arg( d->socket->peerName() ) );
+        qDebug() << "connected" << d->socket->peerName();
 }
 
 void Pop3::connectionClosed()
 {
+    qDebug() << "connection closed" << d->socket->peerName();
 	emit status( tr( "Connection to %1 closed" ).arg( d->socket->peerName() ) );
 	emit disconnected(this);
 	d->state = Disconnected;
@@ -238,8 +246,9 @@ void Pop3::emitBytesWritten(int bw)
 
 void Pop3::parseMail(const QString& mail_data)
 {
+
 	Mail* mail = new Mail();
-	//qDebug()<<"parse Mail";
+        qDebug()<<"parse Mail";
 	mail->setData(mail_data);
 	emit newMail(mail);
 }
@@ -463,3 +472,7 @@ QString Pop3::getPassword () const
         return d->passwd;
 }
 
+void showerror(const QString& line)
+{
+qDebug() << line;
+}
