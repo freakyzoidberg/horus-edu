@@ -110,6 +110,7 @@ private slots:
         void connected();
         void connectionClosed();
         void showerror(const QString& line);
+        void showstatus(const QString& line);
 
 private:
         void openConnection();
