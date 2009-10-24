@@ -41,7 +41,8 @@
 #include <QHostInfo>
 #include <QTimer>
 #include <QRegExp>
-
+#include <QVariant>
+#include <QStringList>
 enum State {
 	Wait,
 	Disconnected,
@@ -133,7 +134,7 @@ public:
 Pop3::Pop3(const QString &user, const QString &passwd, const QString &smtp_server, QObject *parent)
  : QObject(parent)
 {
-    qDebug() << "je suis bien la";
+
 	d = new Pop3Private(this, smtp_server, user, passwd);
 	
 	//connect ( d->socket, SIGNAL( readyReadMs() ),
@@ -152,6 +153,7 @@ Pop3::Pop3(const QString &user, const QString &passwd, const QString &smtp_serve
 	connect ( d->socket, SIGNAL( connectionClosed() ),
 			  this, SLOT( connectionClosed() ) );
     connect (this, SIGNAL(error(const QString &)), this, SLOT(showerror(const QString &)));
+    connect (this, SIGNAL(status(const QString &)), this, SLOT(showstatus(const QString &)));
 	d->state = Disconnected;
 }
 
@@ -172,6 +174,7 @@ void Pop3::getAllMails(bool del)
 
 void Pop3::openConnection()
 {
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::openConnection");
 	//from here we go to dnsLookupHelper, when connect is done
 	if (d->state != Disconnected)
 	{
@@ -182,20 +185,30 @@ void Pop3::openConnection()
 	}
 	//QHostInfo::lookupHost(d->pop3_server,this,SLOT(dnsLookupHelper(QHostInfo)));
 	emit status( tr( "Connecting to %1" ).arg( d->pop3_server ) );
-        qDebug() << "connecting to " << d->pop3_server;
-         d->socket->abort();
+
+
+        //d->socket->abort();
 	d->state = Init;
 	d->read_state = None;
 
 
         d->socket->connectToHost( d->pop3_server , 110 );
-qDebug() << d->socket->error();
+        if( !d->socket->waitForConnected(30000) ) {
+        qDebug() << "Time out connecting host";
+
+        }
+        if( !d->socket->waitForReadyRead(30000) ) {
+            qDebug() << "Read timeout";
+        }
+
+
 	d->t = new QTextStream( d->socket );
 
 }
 
 void Pop3::dnsLookupHelper(const QHostInfo &hostInfo)
 {
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::dnsLookupHelper");
 	QString host = "";
 	*d->mxLookup = hostInfo;
 	QList<QHostAddress> s = d->mxLookup->addresses();
@@ -217,18 +230,21 @@ void Pop3::dnsLookupHelper(const QHostInfo &hostInfo)
 	d->state = Init;
 	d->read_state = None;
 	d->socket->connectToHost( host , 110 );
+
 	d->t = new QTextStream( d->socket );
 }
 
 void Pop3::connected()
 {
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::connected");
 	emit status( tr( "Connected to %1" ).arg( d->socket->peerName() ) );
-        qDebug() << "connected" << d->socket->peerName();
+
 }
 
 void Pop3::connectionClosed()
 {
-    qDebug() << "connection closed" << d->socket->peerName();
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::connectionClosed");
+
 	emit status( tr( "Connection to %1 closed" ).arg( d->socket->peerName() ) );
 	emit disconnected(this);
 	d->state = Disconnected;
@@ -246,26 +262,37 @@ void Pop3::emitBytesWritten(int bw)
 
 void Pop3::parseMail(const QString& mail_data)
 {
-
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::parseMail");
 	Mail* mail = new Mail();
-        qDebug()<<"parse Mail";
+
 	mail->setData(mail_data);
 	emit newMail(mail);
 }
 
 void Pop3::parseStatLine(const QString& line)
 {
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::parseStatLine");
+
 	QStringList sl = line.split(" "); 
 	
 	
-	d->mails_to_read = sl[1].toUInt();
-	d->bytes_to_read = sl[2].toUInt();
-	
+        d->mails_to_read = sl.at(0).toUInt();
+        d->bytes_to_read = sl.at(1).toUInt();
+
 	//qDebug("Stat line: %s, mails: %d, bytes: %d", line.toAscii(), d->mails_to_read, d->bytes_to_read);
 }
 
 void Pop3::readyRead()
 {
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::readyRead");
+
+while (d->state != Close)
+    {
+
+        //    if( !d->socket->waitForReadyRead(30000) ) {
+          //  qDebug() << "Read timeout";
+        //}
+
 	uint bytes = d->socket->bytesAvailable();
 	//char* buf = (char*) malloc(bytes+1);
 	//memset(buf, 0, bytes+1);
@@ -273,54 +300,71 @@ void Pop3::readyRead()
 	//buf[r+1] = 0;
 	d->read_data += d->socket->readAll();
 
+        qDebug() << d->read_data;
         // qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "d->read_data");
         // qDebug ("*** %s,%d : %s", __FILE__, __LINE__, d->read_data);
         
 	if (d->wait_for_line)
 	{
 		int nl = d->read_data.indexOf("\n");
-		qDebug("ready Read, bytes: %d, nl: %d", bytes, nl);
+                qDebug("ready Read, bytes: %d, nl: %d", bytes, nl);
 		if (nl>0)
 		{
 			QString new_line = d->read_data.left(nl);
+
 			nextLine(new_line);
+
 			d->read_data = "";
-			//qDebug("ready Read, after nextLine, read_data: '%s'", d->read_data.toAscii());
+
+                        //qDebug("1.ready Read, after nextLine, read_data: '%s'", d->read_data.toAscii());
 		}
 	}
 	else if (d->wait_for_data)
 	{
 		int nl = d->read_data.indexOf("\n.\r\n");
-		qDebug("ready Read, bytes: %d, nl: %d", bytes, nl);
+                qDebug("ready Read, bytes: %d, nl: %d", bytes, nl);
 		if (nl>0)
 		{
 			QString new_line = d->read_data.left(nl);
 			nextLine(new_line);
 			d->read_data = "";
-			//qDebug("ready Read, after nextLine, read_data: '%s'", d->read_data.toAscii());
+                        //qDebug("2.ready Read, after nextLine, read_data: '%s'", d->read_data.toAscii());
 		}
 	}
+        if( !d->socket->waitForReadyRead(30000) ) {
+
+            d->state = Close;
+        }
+
+    }
 }
 	
 void Pop3::nextLine(const QString& line)
 {
-	//qDebug()<<"nextLine: "<<line.toAscii();
+        qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "Pop3::nextLine");
+        
+        //qDebug()<<"nextLine: "<<line.toAscii();
 	
-	qDebug()<<d->read_state;
+        //qDebug()<<d->read_state;
 	
-	QCoreApplication::processEvents();
+        //QCoreApplication::processEvents();
 	
 	//d->responseLine = line;
-	
+
+        if( !d->socket->isWritable() ) {
+            qDebug() << "cannot write";
+        }
+
 	if (line.left(3) != "+OK")
 	{
 		qDebug("Pop3 Error");
 		//some kind of error
-		*(d->t) << "QUIT\r\n";
+                //*(d->t) << "QUIT\r\n";
 		emit status( tr( "Unexpected reply from POP3 server:\n\n%1").arg(line) );
 		emit (error (tr( "Unexpected reply from POP3 server:\n\n%1").arg(line) ));
 		d->state = Close;
 	}
+
 	
 	if (d->read_state == Stat)
 	{
@@ -378,67 +422,92 @@ void Pop3::nextLine(const QString& line)
 	if (d->state == Init)
 	{
 		qDebug()<<"user";
-		*(d->t) << "USER ";
-		*(d->t) << d->user;
-		*(d->t) << "\r\n";
+                d->socket->write(QVariant("USER " + d->user + "\r\n").toByteArray());
+                //*(d->t) << "USER ";
+
+                //*(d->t) << d->user;
+                //*(d->t) << "\r\n";
 		d->state = Pass;
+
 		d->wait_for_data = FALSE;
 		d->wait_for_line = TRUE;
-		d->t->flush();
+                //d->t->flush();
+                //if (!d->socket->waitForBytesWritten(30000))
+                  //  qDebug() << "timeout sur write";
+
+
 	}
 	else if (d->state == Pass)
 	{
-		*(d->t) << "PASS ";
-		*(d->t) << d->passwd;
-		*(d->t) << "\r\n";
+            qDebug() << "pass";
+              d->socket->write(QVariant("PASS " + d->passwd + "\r\n").toByteArray());
 		d->state = Stat;
 		d->wait_for_data = FALSE;
 		d->wait_for_line = TRUE;
-		d->t->flush();
+
+
 	}
 	else if (d->state == Stat)
 	{
-		*(d->t) << "STAT \r\n";
-		
+            qDebug() << "stat";
+                //*(d->t) << "STAT \r\n";
+                d->socket->write(QVariant("STAT \r\n").toByteArray());
 		d->read_state = Stat;
 		d->wait_for_data = FALSE;
 		d->wait_for_line = TRUE;
 		d->state = Wait; //until we know how many mails do we have
-		d->t->flush();
+
 	}
 	else if (d->state == Retr)
 	{
-		*(d->t) << "RETR " << d->curr_mail << "\r\n";
+            qDebug() << "retr";
+                //*(d->t) << "RETR " << d->curr_mail << "\r\n";
+                d->socket->write(QVariant("RETR "+QString(d->curr_mail)+"\r\n").toByteArray());
 		d->read_state = Retr;
 		d->wait_for_data = TRUE;
 		d->wait_for_line = FALSE;
 		emit status( tr( "Receiving mail %1/%2" ).arg(d->curr_mail).arg(d->mails_to_read) );
-		d->t->flush();
+
 	}
 	else if (d->state == Dele)
 	{
-		*(d->t) << "DELE " << d->curr_mail << "\r\n";
+            qDebug() << "Dele";
+                //*(d->t) << "DELE " << d->curr_mail << "\r\n";
+                d->socket->write(QVariant("DELE "+QString(d->curr_mail)+"\r\n").toByteArray());
 		// here, we just close.
 		d->wait_for_data = FALSE;
 		d->wait_for_line = TRUE;
 		d->read_state = Dele;
 		emit status( tr( "Deleting mail %1/%2" ).arg(d->curr_mail).arg(d->mails_to_read) );
-		d->t->flush();
+
 	}
 	else if (d->state == Quit)
 	{
-		*(d->t) << "QUIT\r\n";
+            qDebug() << "quit";
+                //*(d->t) << "QUIT\r\n";
+                d->socket->write(QVariant("QUIT\r\n").toByteArray());
 		// here, we just close.
 		d->state = Close;
 		d->wait_for_data = FALSE;
 		d->wait_for_line = TRUE;
 		d->read_state = None;
 		emit status( tr( "All Messages received" ));
-		d->t->flush();
+                d->socket->disconnectFromHost();
+                //deleteLater();
+                return;
+
 	}
 	else if (d->state == Close)
 	{
-		emit disconnected(this);
+            qDebug() << "Close";
+            //qDebug() << "D->state = close";
+            if (d->socket->isValid())
+            {
+                d->socket->disconnectFromHost();
+                emit disconnected(this);
+            }
+
+
 		//deleteLater();
 		return;
 	}
@@ -449,6 +518,7 @@ void Pop3::nextLine(const QString& line)
 		emit (error (tr( "Unexpected reply from POP3 server:\n\n%1").arg(line) ));
 		d->state = Close;
 	}
+
 }
 
 /****************************************************************************/
@@ -472,7 +542,13 @@ QString Pop3::getPassword () const
         return d->passwd;
 }
 
-void showerror(const QString& line)
+void Pop3::showerror(const QString& line)
 {
 qDebug() << line;
+}
+
+
+void Pop3::showstatus(const QString& line)
+{
+    qDebug() << line;
 }

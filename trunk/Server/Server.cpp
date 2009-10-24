@@ -23,7 +23,10 @@ Server::Server(QObject *parent) : QTcpServer(parent)
         //qDebug() << "Server::Server() SQL connected";
     }
     else
+    {
         mylog->addlog(LOGERROR,"Problem while connecting to SQL Server");
+        qCritical() << "Problem while connecting to SQL Server";
+    }
         //qDebug() << "Server::Server() NO SQL !!!";
 
     //QSettings settings;
