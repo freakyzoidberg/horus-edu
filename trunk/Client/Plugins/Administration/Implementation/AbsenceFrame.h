@@ -21,6 +21,7 @@
 #include <QComboBox>
 #include <QtGui/QCalendarWidget>
 #include <QListView>
+#include <QDateEdit>
 #include "CourPanel.h"
 
 class AbsenceFrame : public QWidget
@@ -30,6 +31,8 @@ class AbsenceFrame : public QWidget
     public:
         AbsenceFrame();
     private:
+        QDateEdit           *dateAbsence;
+        QHBoxLayout         *absLayout;
         QVBoxLayout         *leftSide;
         QGridLayout         *rightSide;
         QLineEdit           *userName;
