@@ -46,23 +46,3 @@ void FileTransfert::fileToSocket(qint64)
 	_hash->addData(_buffer, len);
 #endif
 }
-
-void FileTransfert::disconnected()
-{
-	disconnect(this, SLOT(socketToFile()));
-	disconnect(this, SLOT(fileToSocket(qint64)));
-	emit finished();
-	deleteLater();
-}
-
-FileTransfert::~FileTransfert()
-{
-	FileTransfertList::list().remove(this);
-
-//	if (_socket)
-//		_socket->deleteLater();;
-	if (_file)
-		delete _file;
-	if (_hash)
-		delete _hash;
-}

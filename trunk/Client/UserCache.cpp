@@ -5,7 +5,7 @@
 #include <QDir>
 
 #include "MetaManager.h"
-#include "../Common/PluginManager.h"
+#include "PluginManagerClient.h"
 #include "../Common/DataPlugin.h"
 #include "../Common/UserData.h"
 
@@ -21,25 +21,34 @@ void UserCache::load()
 {
 	QFile file(QDir::tempPath()+"/HorusCache-"+_login);
 	file.open(QIODevice::ReadOnly);
-	QDataStream stream(&file);
+	QDataStream streamAll(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
-	stream >> _lastSession;
+	streamAll >> _lastSession;
 
-	while ( ! stream.atEnd())
+	while ( ! streamAll.atEnd())
 	{
 		QString type;
-		quint32 nbrData;
-		stream >> type >> nbrData;
+		QByteArray binPlugin;
+		streamAll >> type >> binPlugin;
+
 		DataPlugin* plugin = plugins->findPlugin<DataPlugin*>(type);
 		if (plugin)
-			for (quint32 i; i < nbrData; i++)
+		{
+			QDataStream streamPlugin(&binPlugin, QIODevice::ReadOnly);
+			while ( ! streamPlugin.atEnd())
 			{
-				Data* data = plugin->getDataWithKey(stream);
-				data->dataFromStream(stream);
+				quint8 status;
+				streamPlugin >> status;
+				Data* data = plugin->getDataWithKey(streamPlugin);
+				data->dataFromStream(streamPlugin);
 				data->_status = Data::CACHED;
+				if (status != Data::UPTODATE)
+					data->setStatus(status);
 			}
+		}
 	}
 
+	((PluginManagerClient*)(plugins))->setCurrentUser(plugins->findPlugin<UserDataPlugin*>()->getUser(_login));
 	_loaded = true;
 }
 
@@ -47,19 +56,23 @@ void UserCache::save()
 {
 	QFile file(QDir::tempPath()+"/HorusCache-"+_login);
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
-	QDataStream stream(&file);
+	QDataStream streamAll(&file);
 	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
-	stream << _lastSession;
+	streamAll << _lastSession;
 
 	foreach (DataPlugin* plugin, plugins->findPlugins<DataPlugin*>())
 	{
-		QList<Data*> datas = plugin->allDatas();
-		stream << plugin->getDataType() << (quint32)datas.size();
-		foreach (Data* data, datas)
+		QByteArray binPlugin;
+		QDataStream streamPlugin(&binPlugin, QIODevice::WriteOnly);
+
+		foreach (Data* data, plugin->allDatas())
 		{
-			data->keyToStream(stream);
-			data->dataToStream(stream);
+			streamPlugin << data->status();
+			data->keyToStream(streamPlugin);
+			data->dataToStream(streamPlugin);
 		}
+
+		streamAll << plugin->getDataType() << binPlugin;
 	}
 
 	_lastUpdate = QDateTime::currentDateTime();

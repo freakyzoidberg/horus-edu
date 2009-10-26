@@ -26,7 +26,6 @@ public:
 
 protected:
 	FileTransfert(FileData* file, TransfertType type);
-    ~FileTransfert();
 
 	//! the associated FileData*
 	FileData*			_fileData;
@@ -51,7 +50,6 @@ signals:
 protected slots:
     void socketToFile();
     void fileToSocket(qint64);
-	void disconnected();
 };
 
 class FileTransfertList : public QObject, public QList<FileTransfert*>

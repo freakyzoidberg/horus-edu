@@ -18,6 +18,14 @@ UserData* UserDataBasePlugin::getUser(quint32 userId)
     return users[userId];
 }
 
+UserData* UserDataBasePlugin::getUser(const QString login)
+{
+	foreach (UserData* u, users)
+		if (u->login() == login)
+			return u;
+	return 0;
+}
+
 const QHash<quint32, UserData*>&     UserDataBasePlugin::getAllUser()
 {
     return users;

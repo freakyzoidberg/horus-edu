@@ -26,6 +26,7 @@ class FileDataBase : public FileData
 #endif
 #ifdef HORUS_CLIENT
   Q_INTERFACES(ClientFileData)
+  friend class FileTransfertClient;
 #endif
 
   friend class FileDataBasePlugin;

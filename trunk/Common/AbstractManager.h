@@ -10,13 +10,9 @@ class AbstractManager : virtual public QObject
 {
 	Q_OBJECT
 
-public:
-	virtual ~AbstractManager() {}
-
 signals:
 	void notified(Notification::type, QString message);
 	void loaded(int percentage);
-
 };
 
 #endif

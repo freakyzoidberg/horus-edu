@@ -24,6 +24,7 @@ private:
 	//UserDataPlugin
 public:
 	UserData*				getUser(quint32 userId);
+	UserData*				getUser(const QString login);
 	const QHash<quint32,UserData*>&	getAllUser();
 	UserData*				createUser(const QString &login);
 #ifdef HORUS_SERVER

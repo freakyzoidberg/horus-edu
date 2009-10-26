@@ -26,6 +26,7 @@ public:
 	//UserDataPlugin
 public:
 	virtual UserData*		getUser(quint32 userId) = 0;
+	virtual UserData*		getUser(const QString login) = 0;
 	virtual const QHash<quint32,UserData*>&	getAllUser() = 0;
 	virtual UserData*		createUser(const QString &login) = 0;
 #ifdef HORUS_SERVER
