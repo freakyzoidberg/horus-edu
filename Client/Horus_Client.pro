@@ -35,7 +35,8 @@ SOURCES += main.cpp \
     ManagerThread.cpp \
     Debugger.cpp \
     CacheManager.cpp \
-    UserCache.cpp
+    UserCache.cpp \
+    LoginDialogItem.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -77,7 +78,8 @@ HEADERS += NetworkManager.h \
     Debugger.h \
     DockMenuItem.h \
     CacheManager.h \
-    UserCache.h
+    UserCache.h \
+    LoginDialogItem.h
 FORMS += Ui/Loader.ui \
     Ui/MainWindow.ui \
     Ui/SettingsDialog.ui \

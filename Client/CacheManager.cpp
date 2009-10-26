@@ -1,10 +1,13 @@
 #include "CacheManager.h"
 #include "MetaManager.h"
 #include "PluginManagerClient.h"
+#include "MetaManager.h"
+#include "ManagerThread.h"
 
 CacheManager* CacheManager::instance()
 {
 	static CacheManager* cache = new CacheManager;
+//	cache->moveToThread(MetaManager::getInstance()->findManager<ManagerThread*>());
 	return cache;
 }
 

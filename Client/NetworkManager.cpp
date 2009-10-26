@@ -31,6 +31,7 @@ bool    NetworkManager::event(QEvent *e)
         {
 			emit notified(Notification::WARNING, tr("Server's hostname or port unspecified, please review your settings."));
 			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
+//			waitUserPass();
 			emit loaded(100);
         }
         else

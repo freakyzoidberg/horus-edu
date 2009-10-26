@@ -1,5 +1,5 @@
 #include "FileTransfertClient.h"
-#include "../../../Common/FileData.h"
+#include "../../../Common/DataImplementations/FileDataBase/FileDataBase.h"
 
 #include <QSettings>
 #include <QDir>
@@ -9,8 +9,16 @@ FileTransfertClient::FileTransfertClient(FileData* file, TransfertType type, con
 	moveToThread(file->thread());
 	_key = key;
 	_file = _fileData->file();
+	_isFinished = false;
+	_speed = 0;
+	_lastProgress = 0;
+	_startTime = QDateTime::currentDateTime().toTime_t();
+	_isFinished = false;
+	_speedTimer.setInterval(1000);
+	_speedTimer.start();
+	connect(&_speedTimer, SIGNAL(timeout()), this, SLOT(calcSpeed()));
 	connectToServer();
-	connect(_socket, SIGNAL(disconnected()), this, SLOT(disconnected()), Qt::QueuedConnection);
+	connect(_socket, SIGNAL(disconnected()), this, SLOT(finish()), Qt::QueuedConnection);
 
 	if (_type == DOWNLOAD)
 	{
@@ -45,4 +53,38 @@ void FileTransfertClient::connexionEncrypted()
 	disconnect(_socket, SIGNAL(encrypted()), this, SLOT(connexionEncrypted()));
 	_socket->write(_key);
 	_socket->flush();
+}
+
+void FileTransfertClient::calcSpeed()
+{
+	_speed = _progress - _lastProgress;
+	emit speedChange(_speed);
+
+	_lastProgress = _progress;
+}
+
+void FileTransfertClient::finish()
+{
+	disconnect(this, SLOT(socketToFile()));
+	disconnect(this, SLOT(fileToSocket(qint64)));
+	disconnect(this, SLOT(calcSpeed()));
+	_speedTimer.stop();
+
+	((FileDataBase*)(_fileData))->_size = _file->size();
+	uint duration = QDateTime::currentDateTime().toTime_t() - _startTime;
+	if (duration)
+		_speed = _fileData->size() / duration;
+	else
+		_speed = 0;
+
+
+	emit finished();
+	_isFinished = true;
+
+//	if (_socket)
+//		_socket->deleteLater();;
+	if (_file)
+		delete _file;
+	if (_hash)
+		delete _hash;
 }

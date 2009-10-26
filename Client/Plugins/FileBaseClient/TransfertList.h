@@ -5,6 +5,7 @@
 #include <QGridLayout>
 class FileDataPlugin;
 class FileTransfert;
+class FileTransfertClient;
 
 class Transfert : public QHBoxLayout
 {
@@ -13,11 +14,12 @@ public:
 					Transfert(FileTransfert*);
 
 private slots:
-	void			refresh(int progress);
+	void			progressChange(int progress);
+	void			speedChange(int speed);
 	void			finished();
 
 private:
-	FileTransfert*	_transfert;
+	FileTransfertClient*	_transfert;
 };
 
 class TransfertList : public QWidget

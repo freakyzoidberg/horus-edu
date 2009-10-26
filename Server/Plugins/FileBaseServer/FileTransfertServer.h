@@ -16,6 +16,7 @@ private:
 
 private slots:
     void init();
+	void finish();
 
 public:
     static void registerSocket(const QByteArray& key, QSslSocket* socket);

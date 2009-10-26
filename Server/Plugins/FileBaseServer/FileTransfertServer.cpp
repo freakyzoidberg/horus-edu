@@ -34,7 +34,7 @@ void FileTransfertServer::clientConnected(QSslSocket* socket)
     _socket = socket;
     qDebug() << "FileTransfert::clientConnected";
     disconnect(_timer, SIGNAL(timeout()), 0, 0);
-	connect(_socket, SIGNAL(disconnected()), this, SLOT(disconnected()), Qt::QueuedConnection);
+	connect(_socket, SIGNAL(disconnected()), this, SLOT(finish()), Qt::QueuedConnection);
     if (_type == DOWNLOAD)
     {
         _file = _fileData->file();
@@ -75,4 +75,19 @@ void FileTransfertServer::registerSocket(const QByteArray& key, QSslSocket* sock
 
 	qDebug() << "FileTransfert::registerSocket Key not found. Connexion dropped.";
 	delete socket;
+}
+
+void FileTransfertServer::finish()
+{
+	disconnect(this, SLOT(socketToFile()));
+	disconnect(this, SLOT(fileToSocket(qint64)));
+
+	emit finished();
+
+//	if (_socket)
+//		_socket->deleteLater();;
+	if (_file)
+		delete _file;
+	if (_hash)
+		delete _hash;
 }
