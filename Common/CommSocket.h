@@ -28,11 +28,11 @@ private slots:
 
 public slots:
     //! slot to send packet to a client
-    void sendPacket(const QByteArray&);
+	void sendPacket(const QByteArray);
 
 signals:
     //! signal emmitted when a packet is received
-    void packetReceived(const QByteArray&);
+	void packetReceived(const QByteArray);
 };
 
 #endif // COMMSOCKET_H

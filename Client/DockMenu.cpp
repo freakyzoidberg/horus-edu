@@ -8,7 +8,6 @@
 #include <QtAlgorithms>
 
 #include "MainWindow.h"
-#include "MetaManager.h"
 #include "PluginManagerClient.h"
 
 DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
@@ -20,7 +19,7 @@ DockMenu::DockMenu(MainWindow* parent) : QDockWidget(parent)
 
 	QList<DisplayablePlugin *> plugins;
 
-	plugins = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugins<DisplayablePlugin*>();
+	plugins = PluginManagerClient::instance()->findPlugins<DisplayablePlugin*>();
 	qSort(plugins.begin(), plugins.end(), DockMenu::lessThan);
     foreach (DisplayablePlugin* plugin, plugins)
     {

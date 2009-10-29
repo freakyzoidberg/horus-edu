@@ -20,7 +20,6 @@ HEADERS += Implementation/MailServerMetaPlugin.h \
     ../../../Common/Data.h \
     ../../../Common/UserData.h \
     ../../../Common/MetaPlugin.h \
-    ../../../Common/AbstractManager.h \
     Implementation/smtp.h \
     ../../../Common/DataImplementations/MailData/MailItem.h \
     ../../../Common/DataImplementations/MailData/MailDataPlugin.h \

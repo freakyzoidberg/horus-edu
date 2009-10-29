@@ -18,8 +18,7 @@ HEADERS += Implementation/MainFrame.h \
       ../../../Common/DataPlugin.h \
      ../../../Common/UserDataPlugin.h \
     ../../../Common/TreeDataPlugin.h \
-   ../../../Common/MetaPlugin.h \
-  ../../../Common/AbstractManager.h
+   ../../../Common/MetaPlugin.h
 FORMS += Implementation/Ui/MainFrameWidget.ui
 RESOURCES += Implementation/Ui/MainFrameWidget.qrc
 TRANSLATIONS = MainFrame_en.ts \

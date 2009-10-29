@@ -1,13 +1,15 @@
 #include "CacheManager.h"
-#include "MetaManager.h"
 #include "PluginManagerClient.h"
-#include "MetaManager.h"
-#include "ManagerThread.h"
+#include "SecondaryThread.h"
 
 CacheManager* CacheManager::instance()
 {
-	static CacheManager* cache = new CacheManager;
-//	cache->moveToThread(MetaManager::getInstance()->findManager<ManagerThread*>());
+	static CacheManager* cache = 0;
+	if ( ! cache)
+	{
+		cache = new CacheManager;
+		cache->moveToThread(SecondaryThread::instance());
+	}
 	return cache;
 }
 
@@ -51,7 +53,7 @@ void CacheManager::save()
 	QFile file(QDir::tempPath()+"/HorusCache");
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QDataStream stream(&file);
-	UserData* currentUser = MetaManager::getInstance()->findManager<PluginManager*>()->currentUser();
+	UserData* currentUser = PluginManagerClient::instance()->currentUser();
 
 	if (_autoLogin)
 		stream << _autoLogin->login();
@@ -62,7 +64,7 @@ void CacheManager::save()
 	{
 		stream << cache->login() << cache->lastUpdate() << cache->lastSessionValidity();
 
-		if (cache->login() == currentUser->login())
+		if (currentUser && cache->login() == currentUser->login())
 			cache->save();
 	}
 }

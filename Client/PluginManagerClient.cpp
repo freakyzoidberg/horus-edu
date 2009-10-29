@@ -3,33 +3,28 @@
 #include <QSettings>
 #include <QApplication>
 #include <QPluginLoader>
-#include <QStringList>
 #include <QTranslator>
+#include <QDebug>
 
 #include "../Common/MetaPlugin.h"
 #include "../Common/Plugin.h"
 #include "../Common/DataPlugin.h"
 #include "../Common/CommPlugin.h"
 #include "NetworkPlugin.h"
-#include "MetaManager.h"
-#include "ManagerThread.h"
 
 #include "DataManagerClient.h"
-#include "ClientEvents.h"
 
-PluginManagerClient::PluginManagerClient()
-{
-	user = 0;
-}
+#include "SecondaryThread.h"
 
-bool PluginManagerClient::event(QEvent *event)
+PluginManagerClient* PluginManagerClient::instance()
 {
-    if (event->type() == ClientEvents::StartEvent)
-    {
-        loadPlugins();
-        return true;
-    }
-    return PluginManager::event(event);
+	static PluginManagerClient* _instance = 0;
+	if ( ! _instance)
+	{
+		_instance = new PluginManagerClient;
+		_instance->moveToThread(SecondaryThread::instance());
+	}
+	return _instance;
 }
 
 void PluginManagerClient::loadPlugins()
@@ -37,21 +32,17 @@ void PluginManagerClient::loadPlugins()
     QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 	QStringList	pluginsToLoad;
 	QStringList	pluginFilter;
-	int i = 0;
 
     settings.beginGroup("Plugins");
     QDir pluginsUserDir(settings.value("UserDirectoryPath", "/Undefined").toString());
     QDir pluginsSystemDir(settings.value("SystemDirectoryPath", "/Undefined").toString());
     settings.endGroup();
 	if ( ! pluginsUserDir.exists() && ! pluginsSystemDir.exists())
-    {
-		emit notified(Notification::ERROR, tr("No Plugin paths available."));
-        return ;
-    }
+		qCritical() << tr("No Plugin paths available.");
     if ( ! pluginsUserDir.exists())
-		emit notified(Notification::WARNING, tr("User plugin path doesn't exist, please review your settings."));
+		qWarning() << tr("User plugin path doesn't exist, please review your settings.");
     if ( ! pluginsSystemDir.exists())
-		emit notified(Notification::WARNING, tr("System plugin path doesn't exist, please review your settings."));
+		qWarning() << tr("System plugin path doesn't exist, please review your settings.");
 #if defined(Q_OS_WIN)
 # define PLUGIN_FILTER  "*.dll"
 #elif defined(Q_OS_MAC)
@@ -68,6 +59,8 @@ void PluginManagerClient::loadPlugins()
 		foreach (QString filename, pluginsUserDir.entryList(pluginFilter))
 			if (!pluginsToLoad.contains(filename))
 				pluginsToLoad << filename;
+
+	int i = 0;
 	foreach (QString filename, pluginsToLoad)
     {
 		bool isLoaded = false;
@@ -76,17 +69,22 @@ void PluginManagerClient::loadPlugins()
             isLoaded = loadPlugin(filename, pluginsUserDir);
         else if (pluginsSystemDir.exists() && pluginsSystemDir.exists(filename))
             isLoaded = loadPlugin(filename, pluginsSystemDir);
+
 		if (!isLoaded)
-				pluginsToLoad.removeAll(filename);
+			pluginsToLoad.removeAll(filename);
 		else
-				++i;
-		emit loaded(50 * i / pluginsToLoad.count());
+			++i;
+
+		emit loadProgressChange(50 * i / pluginsToLoad.count());
     }
-	// NetworkPlugin
+
+	QThread* secondaryThread = SecondaryThread::instance();
+
 	qRegisterMetaType<PluginPacket>("PluginPacket");
+	// NetworkPlugin
 	foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
 	{
-		plugin->moveToThread(dynamic_cast<QThread *>(MetaManager::getInstance()->findManager("NetworkManager")));
+		plugin->moveToThread(secondaryThread);
 		connect(plugin, SIGNAL(sendPacket(PluginPacket)), this, SLOT(sendPluginPacket(PluginPacket)));
 	}
 	// DataPlugin
@@ -94,7 +92,7 @@ void PluginManagerClient::loadPlugins()
 	{
 		plugin->dataManager = new DataManagerClient(plugin);
 		//DataPlugins are also moved to the network thread, is it necessary to have a dedicated thread for them ?
-		plugin->moveToThread(dynamic_cast<QThread *>(MetaManager::getInstance()->findManager("NetworkManager")));
+		plugin->moveToThread(secondaryThread);
 	}
 	// every Plugins
     i = 0;
@@ -109,10 +107,10 @@ void PluginManagerClient::loadPlugins()
         else
             plugin->load();
 		++i;
-		emit loaded(50 + 50 * i / _plugins.count());
+		emit loadProgressChange(50 + 50 * i / _plugins.count());
     }
-    if (!i)
-            emit loaded(100);
+	_loaded = true;
+	emit loadProgressChange(100);
 }
 
 bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
@@ -122,7 +120,7 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
     MetaPlugin *metaPlugin = qobject_cast<MetaPlugin*>(loader.instance());
     if (! metaPlugin)
     {
-        emit notified(Notification::WARNING, loader.errorString());
+		qWarning() << loader.errorString();
         return (false);
     }
 	translator = new QTranslator();

@@ -22,5 +22,4 @@ HEADERS += \
 	../../../Common/Data.h \
 	../../../Common/DataPlugin.h \
 	../../../Common/DataManager.h \
-	../../../Common/AbstractManager.h \
 	EventBaseServerMetaPlugin.h

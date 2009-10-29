@@ -1,16 +1,17 @@
 #ifndef __LOCALSETTINGS_H__
 # define __LOCALSETTINGS_H__
 
-# include	<QObject>
+# include	<QSettings>
 
 //! Class managing the local settings of the client
 /*!
  *  Make configuration file if it don't exists.
  */
-class LocalSettings : public QObject
+class LocalSettings : public QSettings
 {
 public:
-	static void createConfig();
+	LocalSettings();
+	void createConfig();
 };
 
 #endif // __LOCALSETTINGS_H__

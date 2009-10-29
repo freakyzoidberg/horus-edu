@@ -6,7 +6,6 @@
 
 #ifdef HORUS_CLIENT
 #include "../Client/PluginManagerClient.h"
-#include "../Client/MetaManager.h"
 #endif
 
 #include "../Common/UserData.h"
@@ -55,17 +54,13 @@ void CommLogin::read(const QByteArray& a)
         stream >> sessionString;
 
 #ifdef HORUS_CLIENT
-        UserDataPlugin* plugin = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<UserDataPlugin*>();
+		UserDataPlugin* plugin = PluginManagerClient::instance()->findPlugin<UserDataPlugin*>();
         if ( ! plugin)
             return;
 
         user = (UserData*)(plugin->getDataWithKey(stream));
         user->dataFromStream(stream);
 		login = user->login();
-
-		//MetaManager::getInstance()->findManager<PluginManagerClient *>()->setCurrentUser(user);
-		// Why the previous line of code doesn't compile but with PluginManager compile ???
-//		((PluginManagerClient *)MetaManager::getInstance()->findManager<PluginManager *>())->setCurrentUser(user);
 #endif
     }
 }

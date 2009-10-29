@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QLabel>
 #include <QProgressBar>
+#include "NetworkManager.h"
 
 //! This Object is the window to login in the server with a username and password
 class LoginDialog : public QDialog
@@ -14,12 +15,16 @@ public:
 	LoginDialog();
 
 private slots:
-//	void			networkStatusChange(...);
-//	void			pluginsLoaded();
-//	void			dataPluginUpToDate(DataPlugin*);
+	void			networkStatusChange(NetworkManager::Status);
+//	void			pluginsLoadProgressChange(int progress);
+//
+//	void			cacheLoadProgressChange(int progress);
+//	void			dataUpdateProgressChange(int progress);
+
+public:
+	QProgressBar*	loadBar;
 private:
-	QProgressBar*	_loadBar;
-	QLabel*			_status;
+	QLabel*			_connexionStatus;
 };
 
 #endif // LOGINDIALOG_H

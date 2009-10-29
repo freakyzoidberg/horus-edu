@@ -1,20 +1,43 @@
-#include				"ClientApplication.h"
+#include	<QApplication>
+#include	<QTranslator>
+#include	<QSettings>
+#include	<QDir>
+//#include	<QLocale>
 
-#include				<QTranslator>
-#include				<QSettings>
-#include				<QDir>
-#include				<QLocale>
-
-#include				"HorusStyle.h"
+#include	"../Common/Defines.h"
+#include	"MainWindow.h"
+#include	"LocalSettings.h"
+#include	"LoginDialog.h"
+#include	"Notification.h"
+#include	"HorusStyle.h"
 
 int						main(int argc, char *argv[])
 {
-	QTranslator			translator;
-    ClientApplication	app(argc, argv);
-    QSettings			settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+	QApplication		app(argc, argv);
+	app.setOrganizationName(ORGANIZATION_NAME);
+	app.setOrganizationDomain(ORGANIZATION_DOMAIN);
+	app.setApplicationName(CLIENT_NAME);
+	app.setApplicationVersion(CLIENT_VERSION);
 
+	qInstallMsgHandler(Notification::notify);
+
+	LocalSettings		settings;
+	settings.createConfig();
+
+	QTranslator			translator;
 	translator.load("Horus_" + settings.value("Locale").toString(), settings.value("TranslationsDirectoryPath").toString());
+
 	app.installTranslator(&translator);
 	app.setStyle(new HorusStyle());
-    return (app.exec());
+
+	LoginDialog login;
+	if (login.result() == QDialog::Accepted)
+	{
+		new MainWindow(&app);
+//		setStyleSheet(window->styleSheet());
+//		window->show();
+		return (app.exec());
+	}
+
+	return 0;
 }

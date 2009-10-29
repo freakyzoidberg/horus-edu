@@ -3,96 +3,187 @@
 #include <QCoreApplication>
 #include <QSettings>
 #include <QDir>
-
-#include "MetaManager.h"
-#include "NotificationClient.h"
+#include <QMetaObject>
 
 #include "PluginManagerClient.h"
+#include "CacheManager.h"
+#include "UserCache.h"
+#include "NetworkPlugin.h"
+#include "../Common/CommInit.h"
+#include "../Common/CommLogin.h"
+#include "../Common/CommPlugin.h"
+#include "../Common/CommPacket.h"
+#include "../Common/CommData.h"
+#include "../Common/CommError.h"
+
+NetworkManager* NetworkManager::instance()
+{
+	static NetworkManager* _instance = 0;
+	if ( ! _instance)
+	{
+		_instance = new NetworkManager;
+		QThread* secondary = SecondaryThread::instance();
+		_instance->moveToThread(secondary);
+	}
+	return _instance;
+}
+
+QDebug operator<<(QDebug d, const NetworkManager::Status& s)
+{
+	static const char*  messages[] =
+	{
+		"DISCONNECTED",
+		"CONNECTED",
+		"ESTABLISHED",
+		"LOGGED_IN"
+	};
+	return d << messages[ s ];
+}
 
 NetworkManager::NetworkManager()
 {
-    this->packManag = new PacketManager();
-    this->socket = new CommSocket();
-    connect(socket, SIGNAL(packetReceived(const QByteArray&)), packManag, SLOT(packetReceived(const QByteArray&)));
-    connect(packManag, SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
-	connect(MetaManager::getInstance()->findManager<PluginManager *>(), SIGNAL(sendPacket(const QByteArray&)), socket, SLOT(sendPacket(const QByteArray&)));
-    connect(socket, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(displayError(QAbstractSocket::SocketError)));
-    connect(socket, SIGNAL(disconnected()), this, SLOT(quit()));
-    connect(packManag, SIGNAL(logged()), this, SLOT(log()));
-    connect(packManag, SIGNAL(waitingUserPass()), this, SLOT(waitUserPass()));
+	_status = DISCONNECTED;
+
+	connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(recvPacket(QByteArray)), Qt::QueuedConnection);
+	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
 }
 
-bool    NetworkManager::event(QEvent *e)
+void NetworkManager::tryToConnect()
 {
-   if(e->type() == ClientEvents::StartEvent)
-    {
-        QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
-        if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
-        {
-			emit notified(Notification::WARNING, tr("Server's hostname or port unspecified, please review your settings."));
-			QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
-//			waitUserPass();
-			emit loaded(100);
-        }
-        else
-        {
-            socket->connectToHostEncrypted(settings.value("Network/Server").toString(), settings.value("Network/Port").toUInt());
-			emit loaded(15);
-			if (!socket->waitForConnected(5000))
-				this->displayError(socket->error());
-        }
-        return (true);
-    }
-    else if (e->type() == ClientEvents::SendPacketEvent)
-    {
-        SendPacketEvent *spe = static_cast<SendPacketEvent *>(e);
-        packManag->PacketToSend(spe->pack);
-        return (true);
-    }
-    else if (e->type() == ClientEvents::OfflineModeEvent)
-    {
-		QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
-        socket->disconnectFromHost();
-		emit loaded(100);
-        return (true);
-    }
-	qDebug() << tr("NetworkManager::event: Received User Event not managed ! (Event.type=") << e->type() << tr(")");
-	return (QObject::event(e));
-}
-
-void    NetworkManager::quit()
-{
-	//emit notified(Notification::ERROR, "Disconnected from server");
-	//emit loaded(100);
-    qDebug() <<  tr("Disconnected from server");
-}
-
-void    NetworkManager::displayError(QAbstractSocket::SocketError socketError)
-{
-	switch (socketError)
+	QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+	if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
 	{
-     case QAbstractSocket::RemoteHostClosedError:
-		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (Server closed the connexion), please review your settings and certificates."));
-         break;
-     case QAbstractSocket::HostNotFoundError:
-		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (Server's hostname not found), please review your settings."));
-         break;
-     case QAbstractSocket::ConnectionRefusedError:
-		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (Server refused the connexion), please review your settings and make sure that the server is running."));
-         break;
-     default:
-		 emit notified(Notification::WARNING, tr("Horus is unable to connect to server (") + socket->errorString() + tr("), please review your settings."));
-    }
-	QCoreApplication::postEvent(MetaManager::getInstance()->findManager("PluginManager"), new QEvent(ClientEvents::OfflineModeEvent));
-	emit loaded(100);
+		qWarning() << tr("Server's hostname or port unspecified, please review your settings.");
+		_status = DISCONNECTED;
+		emit statusChange(_status);
+		return;
+	}
+
+	connectToHostEncrypted(settings.value("Network/Server").toString(), settings.value("Network/Port").toUInt());
+	if ( ! waitForEncrypted(5000))
+		return;
+
+	_status = CONNECTED;
+	emit statusChange(_status);
 }
 
-void NetworkManager::log()
+void NetworkManager::loginPassword(const QString login, const QString pass)
 {
-	emit loaded(100);
+	CommLogin  l(CommLogin::LOGIN_PASSWORD);
+	l.login = login;
+	l.password = QCryptographicHash::hash(pass.toAscii(), QCryptographicHash::Sha1);
+	sendPacket(l.getPacket());
 }
 
-void NetworkManager::waitUserPass()
+void NetworkManager::loginSession(const QString login, const QByteArray session)
 {
-	emit notified(Notification::LOGIN, tr("Please enter your username and password."));
+	CommLogin  l(CommLogin::LOGIN_SESSION);
+	l.login = login;
+	l.sessionString = session;
+	sendPacket(l.getPacket());
+}
+
+void NetworkManager::logout()
+{
+	sendPacket( CommLogin(CommLogin::LOGOUT).getPacket() );
+}
+
+void NetworkManager::socketError(QAbstractSocket::SocketError error)
+{
+	qDebug() << error;
+	_status = DISCONNECTED;
+	emit statusChange(_status);
+}
+
+void NetworkManager::recvPacket(const QByteArray packet)
+{
+	static PacketDirection recvDirections[] =
+	{
+		0,//for CommPacket::UNDEFINED
+		&NetworkManager::recvError,
+		&NetworkManager::recvInit,
+		&NetworkManager::recvAlive,
+		&NetworkManager::recvLogin,
+		&NetworkManager::recvData,
+		&NetworkManager::recvPlugin
+	};
+
+	_recvPacket = packet;
+	CommPacket cp(_recvPacket);
+	if (cp.packetType != CommPacket::UNDEFINED)
+		(this->*recvDirections[ cp.packetType ])();
+}
+
+void NetworkManager::recvError()
+{
+	CommError err(_recvPacket);
+}
+
+void NetworkManager::recvInit()
+{
+	CommInit i(_recvPacket);
+	i.fromName = CLIENT_NAME;
+	sendPacket(i.getPacket());
+	_status = ESTABLISHED;
+	emit statusChange(_status);
+}
+
+void NetworkManager::recvAlive()
+{
+}
+
+void NetworkManager::recvLogin()
+{
+	CommLogin l(_recvPacket);
+
+	if (l.method == CommLogin::ACCEPTED)
+	{
+		PluginManagerClient::instance()->setCurrentUser(l.user);
+
+		QDateTime sessionEnd = l.sessionEnd;
+		sessionEnd.addSecs(QDateTime::currentDateTime().secsTo(l.serverDateTime));
+		UserCache* cache = CacheManager::instance()->userCache(l.login);
+		cache->setLastSession(l.sessionString, sessionEnd);
+
+		qDebug() << tr("NetworkManager::recvLogin seconds between client and server:") << QDateTime::currentDateTime().secsTo(l.serverDateTime);
+
+		_status = LOGGED_IN;
+		emit statusChange(_status);
+	}
+	else if (l.method == CommLogin::REFUSED)
+	{
+		_status = ESTABLISHED;
+		emit statusChange(_status);
+	}
+}
+
+void NetworkManager::recvData()
+{
+	CommData data(_recvPacket);
+
+	foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
+		if (plugin->getDataType() == data.type)
+		{
+			qRegisterMetaType<UserData*>("UserData*");
+			QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData",
+									  Q_ARG(UserData*, PluginManagerClient::instance()->currentUser()),
+									  Q_ARG(const QByteArray, data.data)
+									  );
+			return;
+		}
+	qDebug() << tr("NetworkManager::recvData() cannot find") << data.type << tr("plugin.");
+}
+
+void NetworkManager::recvPlugin()
+{
+	CommPlugin p(_recvPacket);
+
+	NetworkPlugin *plugin = PluginManagerClient::instance()->findPlugin<NetworkPlugin*>( p.packet.targetPlugin );
+	if ( ! plugin)
+	{
+		qDebug() << tr("NetworkManager::recvPlugin() cannot find") << p.packet.targetPlugin << tr("plugin.");
+		return;
+	}
+	qRegisterMetaType<PluginPacket>("PluginPacket");
+	QMetaObject::invokeMethod(plugin, "receivePacket", Qt::QueuedConnection, Q_ARG(PluginPacket, p.packet));
 }

@@ -11,7 +11,6 @@
 #endif
 
 #include "Plugin.h"
-#include "AbstractManager.h"
 class UserData;
 
 //! To find another plugin with name and/or type
@@ -21,7 +20,7 @@ class UserData;
  *  PluginManager().findPlugin<NetworkPlugin*>("NameOfThePlugin")
  *  PluginManager().findPlugins<NetworkPlugin*>()
  */
-class PluginManager : public AbstractManager
+class PluginManager : public QObject
 {
   Q_OBJECT
 public:

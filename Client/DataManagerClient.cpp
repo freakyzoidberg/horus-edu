@@ -9,8 +9,7 @@
 #include "../Common/Data.h"
 
 #include "PluginManagerClient.h"
-#include "MetaManager.h"
-#include "ClientEvents.h"
+#include "NetworkManager.h"
 
 void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 {
@@ -107,5 +106,5 @@ void DataManagerClient::sendData(UserData*, Data* data) const
 	if (status == Data::CREATING || status == Data::SAVING)
 		data->dataToStream(stream);
 
-    QCoreApplication::postEvent(MetaManager::getInstance()->findManager("NetworkManager"), new SendPacketEvent(packet.getPacket()));
+	QMetaObject::invokeMethod(NetworkManager::instance(), "sendPacket", Q_ARG(const QByteArray, packet.getPacket()));
 }
