@@ -2,13 +2,10 @@
 
 #include <QDebug>
 
-#include "../../ClientEvents.h"
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/TreeDataPlugin.h"
 
 #include "MainFrameWidget.h"
-
-QEvent::Type ClientEvents::LoadPluginEvent;
 
 bool MainFrame::canLoad() const
 {

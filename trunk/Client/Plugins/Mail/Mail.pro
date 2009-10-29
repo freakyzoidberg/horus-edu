@@ -17,7 +17,6 @@ HEADERS += Implementation/Mail.h \
     ../../DisplayablePlugin.h \
     ../../../Common/Plugin.h \
 	../../../Common/PluginManager.h \
-	../../../Common/AbstractManager.h \
 	Implementation/MailPanel.h \
     Implementation/MailList.h \
     Implementation/MailForm.h \

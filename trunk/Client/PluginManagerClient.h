@@ -9,7 +9,6 @@
 
 #include "../Common/PluginManager.h"
 #include "../Common/UserData.h"
-#include "../Common/AbstractManager.h"
 #include "../Common/PluginPacket.h"
 
 //! To find another plugin with name and/or type
@@ -22,28 +21,38 @@
 
 class PluginManagerClient : public PluginManager
 {
-    Q_OBJECT
+	Q_OBJECT
 	Q_INTERFACES(PluginManagerCli)
 
 public:
-	PluginManagerClient();
-    bool event(QEvent *event);
-    inline const QHash<QString, Plugin*>& plugins() const { return _plugins; }
-    inline UserData*                      currentUser() const { return user; }
-    inline void                           setCurrentUser(UserData* _user) { user = _user; }
+	//PluginManager Interface
+	inline const QHash<QString, Plugin*>&	plugins() const { return _plugins; }
+	inline UserData*						currentUser() const { return _currentUser; }
+
+public:
+	static PluginManagerClient*				instance();
+	inline void								setCurrentUser(UserData* _user) { _currentUser = _user; }
+	inline bool								isLoaded() { return _loaded; }
+
+public slots:
+	void									loadPlugins();
 
 private slots:
-    void sendPluginPacket(const PluginPacket packet);
+	void									sendPluginPacket(const PluginPacket packet);
 
 signals:
-    void sendPacket(const QByteArray packet);
+	void									sendPacket(const QByteArray packet);
+	void									loadProgressChange(int percent);
 
 private:
-    void loadPlugins();
-    bool loadPlugin(QString pluginName, QDir path);
+	bool									loadPlugin(QString pluginName, QDir path);
 
-    QHash<QString,Plugin*> _plugins;
-    UserData* user;
+	QHash<QString,Plugin*>					_plugins;
+	UserData*								_currentUser;
+	bool									_loaded;
+
+	PluginManagerClient() { _currentUser = 0; _loaded = false; }
+	~PluginManagerClient() {}
 };
 
 #endif // PLUGINMANAGERCLIENT_H

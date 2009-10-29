@@ -89,9 +89,6 @@
 # define LOGDEBUG 4
 #endif
 
-//! enumerate the differents Level of users
-enum UserLevel { LEVEL_ROOT, LEVEL_ADMINISTRATOR, LEVEL_TEACHER, LEVEL_STUDENT, LEVEL_FAMILY, LEVEL_GUEST, __LAST_LEVEL__ };
-
 #ifdef HORUS_SERVER
 #else
 #ifdef HORUS_CLIENT

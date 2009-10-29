@@ -5,12 +5,10 @@
 
 #include "SettingsDialog.h"
 #include "DisplayablePlugin.h"
-#include "ClientEvents.h"
 #include "PluginManagerClient.h"
 #include "DockMenu.h"
-#include "MetaManager.h"
 
-MainWindow::MainWindow(ClientApplication *parent) : QMainWindow()
+MainWindow::MainWindow(QApplication *parent) : QMainWindow()
 {
     this->parent = parent;
     this->ui.setupUi(this);
@@ -18,9 +16,11 @@ MainWindow::MainWindow(ClientApplication *parent) : QMainWindow()
     this->createMenus();
     this->addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
 
-	DisplayablePlugin *mainBoard = MetaManager::getInstance()->findManager<PluginManager *>()->findPlugin<DisplayablePlugin*>("MainFrame");
+	DisplayablePlugin *mainBoard = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("MainFrame");
     if (mainBoard)
         this->setCentralWidget(mainBoard->getWidget());
+
+	show();
 }
 
 #include "CacheManager.h"

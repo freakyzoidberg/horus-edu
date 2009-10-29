@@ -44,14 +44,7 @@ public:
     */
     const QString        pluginVersion() const;
 
-    //! Overload of the event() method
-    /*!
-      \param event the event received by the plugin
-      \return true if the event was successfully handled, false eitherway
-    */
-    bool    event(QEvent *event);
-
-    bool    PluginEventHandler(QEvent *event);
+//    bool    PluginEventHandler(QEvent *event);
 
     //! return the map containing all the PDF files
     /*

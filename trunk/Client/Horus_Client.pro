@@ -16,27 +16,21 @@ SOURCES += main.cpp \
     ../Common/CommPlugin.cpp \
     ../Common/PluginPacket.cpp \
     DataManagerClient.cpp \
-    ClientApplication.cpp \
     NetworkManager.cpp \
     HorusStyle.cpp \
-    PacketManager.cpp \
-    LocalSettings.cpp \
-    Loader.cpp \
+	LocalSettings.cpp \
     MainWindow.cpp \
     PluginManagerClient.cpp \
     LoginDialog.cpp \
-    ClientEvents.cpp \
     SettingsDialog.cpp \
     UserInfo.cpp \
-    NotificationClient.cpp \
+	Notification.cpp \
     DockMenu.cpp \
-    ManagerFactory.cpp \
-    MetaManager.cpp \
-    ManagerThread.cpp \
     Debugger.cpp \
     CacheManager.cpp \
     UserCache.cpp \
-    LoginDialogItem.cpp
+    LoginDialogItem.cpp \
+    SecondaryThread.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -54,38 +48,29 @@ HEADERS += NetworkManager.h \
     ../Common/DataPlugin.h \
     ../Common/UserData.h \
     ../Common/UserDataPlugin.h \
-    ../Common/AbstractManager.h \
     NetworkPlugin.h \
     DisplayablePlugin.h \
     DataManagerClient.h \
     HorusStyle.h \
-    ClientApplication.h \
-    PacketManager.h \
-    ClientEvents.h \
-    Loader.h \
     MainWindow.h \
     LoginDialog.h \
     LocalSettings.h \
     SettingsDialog.h \
     UserInfo.h \
-    NotificationClient.h \
+	Notification.h \
     PluginManagerClient.h \
     DockMenu.h \
-    MetaManager.h \
-    ManagerThread.h \
-    ManagerFactory.h \
     ../Common/Notification.h \
     Debugger.h \
     DockMenuItem.h \
     CacheManager.h \
     UserCache.h \
-    LoginDialogItem.h
-FORMS += Ui/Loader.ui \
-    Ui/MainWindow.ui \
+    LoginDialogItem.h \
+    SecondaryThread.h
+FORMS += Ui/MainWindow.ui \
     Ui/SettingsDialog.ui \
     Ui/DockMenu.ui
-RESOURCES += Ui/Loader.qrc \
-    Ui/SettingsDialog.qrc \
+RESOURCES += Ui/SettingsDialog.qrc \
     Ui/MainWindow.qrc \
     Ui/DockMenu.qrc
 RC_FILE = Client.rc

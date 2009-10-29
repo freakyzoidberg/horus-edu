@@ -6,7 +6,7 @@
 CommSocket::CommSocket(QObject* parent) : QSslSocket(parent)
 {
     connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(errorSlot(QAbstractSocket::SocketError)));
-    connect(this, SIGNAL(sslErrors(QList<QSslError>)),         this, SLOT(sslErrorsSlot(QList<QSslError>)));
+	connect(this, SIGNAL(sslErrors(QList<QSslError>)),         this, SLOT(sslErrorsSlot(QList<QSslError>)));
 
     //TODO later: For test
     setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -48,7 +48,7 @@ void CommSocket::bytesReceived()
     emit readyRead();
 }
 
-void CommSocket::sendPacket(const QByteArray& pac)
+void CommSocket::sendPacket(const QByteArray pac)
 {
     quint32 size = qToLittleEndian(pac.length());
     write((char*)&size, sizeof(size));

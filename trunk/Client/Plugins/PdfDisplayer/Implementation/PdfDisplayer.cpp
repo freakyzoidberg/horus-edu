@@ -9,7 +9,6 @@
 #include <QList>
 
 #include "../../../../Common/FileData.h"
-#include "../../../ClientEvents.h"
 
 #include "../IPdfFile.h"
 
@@ -42,39 +41,27 @@ const QString    PdfDisplayer::pluginVersion() const
     return ("1.1");
 }
 
-bool    PdfDisplayer::event(QEvent *event)
-{
-    qDebug() << "Incoming transmission.";
-    /*if  (event->type() == ClientEvents::PluginEvent)
-    {
-        qDebug() << "I read ya... Sir!";
-        event->accept();
-        return PluginEventHandler(event);
-    } */
-    return QObject::event(event);
-}
-
-bool    PdfDisplayer::PluginEventHandler(QEvent *event)
-{
-    QVariant    data;
-    QList<QVariant> dataList;
-    quint32     fileId;
-    int         page;
-
-    PluginEvent *pe = static_cast<PluginEvent *>(event);
-    data = pe->pack.data;
-
-    dataList = data.toList();
-    fileId = dataList.at(0).toInt();
-    page = dataList.at(1).toInt();
-    QRectF  *rect = new QRectF(dataList.at(2).toRectF());
-    QString fileName(dataList.at(3).toString());
-    if (fileName.isEmpty() || fileName.isNull())
-        PdfDisplayerDoc(fileName, page, rect, fileId);
-    else
-        PdfDisplayerDoc(fileId, page, rect);
-    return true;
-}
+//bool    PdfDisplayer::PluginEventHandler(QEvent *event)
+//{
+//    QVariant    data;
+//    QList<QVariant> dataList;
+//    quint32     fileId;
+//    int         page;
+//
+//    PluginEvent *pe = static_cast<PluginEvent *>(event);
+//    data = pe->pack.data;
+//
+//    dataList = data.toList();
+//    fileId = dataList.at(0).toInt();
+//    page = dataList.at(1).toInt();
+//    QRectF  *rect = new QRectF(dataList.at(2).toRectF());
+//    QString fileName(dataList.at(3).toString());
+//    if (fileName.isEmpty() || fileName.isNull())
+//        PdfDisplayerDoc(fileName, page, rect, fileId);
+//    else
+//        PdfDisplayerDoc(fileId, page, rect);
+//    return true;
+//}
 
 QImage    *PdfDisplayer::PdfDisplayerDoc(quint32 fileId, int page,
                                QRectF *partToDisplay)

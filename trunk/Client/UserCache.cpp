@@ -4,7 +4,6 @@
 #include <QFile>
 #include <QDir>
 
-#include "MetaManager.h"
 #include "PluginManagerClient.h"
 #include "../Common/DataPlugin.h"
 #include "../Common/UserData.h"
@@ -22,34 +21,40 @@ void UserCache::load()
 	QFile file(QDir::tempPath()+"/HorusCache-"+_login);
 	file.open(QIODevice::ReadOnly);
 	QDataStream streamAll(&file);
-	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
 	streamAll >> _lastSession;
+	PluginManagerClient* pluginManager = PluginManagerClient::instance();
 
-	while ( ! streamAll.atEnd())
+	QHash<QString,DataPlugin*> plugins;
+	foreach (DataPlugin* plugin, pluginManager->findPlugins<DataPlugin*>())
+		plugins.insert(plugin->getDataType(), plugin);
+
+	for (int progress = 100;  ! streamAll.atEnd(); progress += 100)
 	{
 		QString type;
 		QByteArray binPlugin;
 		streamAll >> type >> binPlugin;
 
-		DataPlugin* plugin = plugins->findPlugin<DataPlugin*>(type);
-		if (plugin)
+		if (plugins.contains(type))
 		{
 			QDataStream streamPlugin(&binPlugin, QIODevice::ReadOnly);
 			while ( ! streamPlugin.atEnd())
 			{
 				quint8 status;
 				streamPlugin >> status;
-				Data* data = plugin->getDataWithKey(streamPlugin);
+				Data* data = plugins.value(type)->getDataWithKey(streamPlugin);
 				data->dataFromStream(streamPlugin);
 				data->_status = Data::CACHED;
-				if (status != Data::UPTODATE)
+				if (status != Data::UPTODATE && data->status() != Data::CACHED)
 					data->setStatus(status);
 			}
 		}
+		emit loadProgressChange(progress / plugins.count());
 	}
 
-	((PluginManagerClient*)(plugins))->setCurrentUser(plugins->findPlugin<UserDataPlugin*>()->getUser(_login));
+	pluginManager->setCurrentUser(pluginManager->findPlugin<UserDataPlugin*>()->getUser(_login));
 	_loaded = true;
+	emit loadProgressChange(100);
+	emit loaded();
 }
 
 void UserCache::save()
@@ -57,7 +62,7 @@ void UserCache::save()
 	QFile file(QDir::tempPath()+"/HorusCache-"+_login);
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QDataStream streamAll(&file);
-	PluginManager* plugins = MetaManager::getInstance()->findManager<PluginManager*>();
+	PluginManagerClient* plugins = PluginManagerClient::instance();
 	streamAll << _lastSession;
 
 	foreach (DataPlugin* plugin, plugins->findPlugins<DataPlugin*>())

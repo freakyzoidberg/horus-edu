@@ -28,7 +28,6 @@ HEADERS += \
     ../../../Common/TreeData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/FileDataPlugin.h \
-    ../../../Common/AbstractManager.h \
 	../../NetworkPlugin.h \
     ../../DisplayablePlugin.h \
     FileNetworkPlugin.h \

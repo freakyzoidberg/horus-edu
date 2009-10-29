@@ -18,7 +18,6 @@ SOURCES += ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp
 HEADERS += ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
-    ../../../Common/AbstractManager.h \
     ../../../Common/FileDataPlugin.h \
     ../../../Common/FileData.h \
     ../../../Common/Data.h \

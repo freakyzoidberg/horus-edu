@@ -15,5 +15,4 @@ HEADERS += Implementation/TestGitMetaPlugin.h \
     ../../../Common/UserData.h \
     ../../../Common/MetaPlugin.h \
     ../../NetworkPlugin.h \
-    ../../../Common/AbstractManager.h \
     Implementation/TestNetworkPlugin.h

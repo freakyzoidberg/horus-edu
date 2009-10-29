@@ -20,7 +20,6 @@ HEADERS += \
 	../../../Common/DataPlugin.h \
 	../../../Common/DataManager.h \
 	../../../Common/UserData.h \
-	../../../Common/AbstractManager.h \
 	TreeBaseClientMetaPlugin.h
 TRANSLATIONS = \
 	TreeBaseClientMetaPlugin_en.ts \

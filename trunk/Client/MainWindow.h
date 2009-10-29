@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "ui_MainWindow.h"
-#include "ClientApplication.h"
 
 //! Graphical class of the MainWindow
 /*!
@@ -19,10 +18,10 @@ public:
         Initialize UI, create actions and menus
         \param parent The parent
      */
-    MainWindow(ClientApplication *parent);
+	MainWindow(QApplication *parent);
 	//! Overload of the event method
     /*!
-     *  Call preExit from the ClientApplication when receive a CloseEvent
+	 *  Call preExit from the QApplication when receive a CloseEvent
      *  \param event the event received
      *  \return the accept status of the event
      */
@@ -43,7 +42,7 @@ private:
     //! The graphical ui used for the MainWindow
     Ui::MainWindow ui;
     //! A pointer to its parent
-    ClientApplication *parent;
+	QApplication *parent;
     //! The menu regrouping the mains actions of the Client
     QMenu   *fileMenu;
     //! The menu regrouping parameters and settings

@@ -1,85 +1,88 @@
 #include "LocalSettings.h"
 
-#include <QSettings>
 #include <QDir>
 #include <QString>
 #include <QDebug>
-#include <QCoreApplication>
 #include <QLocale>
+#include <QApplication>
 
 #include "../Common/Defines.h"
 
+
+LocalSettings::LocalSettings() :
+		QSettings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat)
+{}
+
 void    LocalSettings::createConfig()
 {
-    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
     QDir      pluginsDir;
     QString   path;
 
-    if (!settings.contains("Version"))
-        settings.setValue("Version", CLIENT_VERSION);
-    if (!settings.contains("LessonsDirectoryPath"))
+	if ( ! contains("Version"))
+		setValue("Version", CLIENT_VERSION);
+	if ( ! contains("LessonsDirectoryPath"))
     {
         path = QDir::homePath() + "/.Horus/Lessons";
-        if (!pluginsDir.exists(path))
+		if ( ! pluginsDir.exists(path))
         {
             qDebug() << tr("ConfigManager: Creating Lessons User Directory.") << path;
-            if (!pluginsDir.mkpath(path))
+			if ( ! pluginsDir.mkpath(path))
                 qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
-                settings.setValue("LessonsDirectoryPath", path);
+				setValue("LessonsDirectoryPath", path);
         }
         else
-            settings.setValue("LessonsDirectoryPath", path);
+			setValue("LessonsDirectoryPath", path);
     }
-    if (!settings.contains("TranslationsDirectoryPath"))
+	if ( ! contains("TranslationsDirectoryPath"))
     {
         path = QDir::homePath() + "/.Horus/Translations";
-        if (!pluginsDir.exists(path))
+		if ( ! pluginsDir.exists(path))
         {
             qDebug() << tr("ConfigManager: Creating Translations User Directory.") << path;
-            if (!pluginsDir.mkpath(path))
+			if ( ! pluginsDir.mkpath(path))
                 qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
-                settings.setValue("TranslationsDirectoryPath", path);
+				setValue("TranslationsDirectoryPath", path);
         }
         else
-            settings.setValue("LessonsDirectoryPath", path);
+			setValue("LessonsDirectoryPath", path);
     }
-	if (!settings.contains("Locale"))
-		settings.setValue("Locale", QLocale::system().name());
-    if (!settings.contains("Plugins/UserDirectoryPath"))
+	if ( ! contains("Locale"))
+		setValue("Locale", QLocale::system().name());
+	if ( ! contains("Plugins/UserDirectoryPath"))
     {
         path = QDir::homePath() + "/.Horus/Plugins";
-        if (!pluginsDir.exists(path))
+		if ( ! pluginsDir.exists(path))
         {
             qDebug() << tr("ConfigManager: Creating Plugins User Directory.") << path;
-            if (!pluginsDir.mkpath(path))
+			if ( ! pluginsDir.mkpath(path))
                 qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
-                settings.setValue("Plugins/UserDirectoryPath", path);
+				setValue("Plugins/UserDirectoryPath", path);
         }
         else
-            settings.setValue("Plugins/UserDirectoryPath", path);
+			setValue("Plugins/UserDirectoryPath", path);
     }
-    if (!settings.contains("Plugins/SystemDirectoryPath"))
+	if ( ! contains("Plugins/SystemDirectoryPath"))
     {
-        path = PREFIX + QCoreApplication::organizationName() + "/" + QCoreApplication::applicationName() + "/Plugins";
-        if (!pluginsDir.exists(path))
+		path = PREFIX + QApplication::organizationName() + "/" + QApplication::applicationName() + "/Plugins";
+		if ( ! pluginsDir.exists(path))
         {
             qDebug() << tr("ConfigManager: Creating Plugins System Directory.") << path;
-            if (!pluginsDir.mkpath(path))
+			if ( ! pluginsDir.mkpath(path))
                 qWarning() << tr("ConfigManager: Unable to create directory (not the rights ?).");
             else
-                settings.setValue("Plugins/SystemDirectoryPath", path);
+				setValue("Plugins/SystemDirectoryPath", path);
         }
         else
-            settings.setValue("Plugins/SystemDirectoryPath", path);
+			setValue("Plugins/SystemDirectoryPath", path);
     }
-    if (!settings.contains("Network/Server"))
-        settings.setValue("Network/Server", "localhost");
-    if (!settings.contains("Network/Port"))
-        settings.setValue("Network/Port", 42000);
-    if (!settings.contains("Network/PortTransfert"))
-        settings.setValue("Network/PortTransfert", 42042);
-    settings.sync();
+	if ( ! contains("Network/Server"))
+		setValue("Network/Server", "localhost");
+	if ( ! contains("Network/Port"))
+		setValue("Network/Port", 42000);
+	if ( ! contains("Network/PortTransfert"))
+		setValue("Network/PortTransfert", 42042);
+	sync();
 }

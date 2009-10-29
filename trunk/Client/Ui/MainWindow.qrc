@@ -18,6 +18,9 @@
         <file>fileopen-16.png</file>
         <file>prefix-add.png</file>
         <file>user.png</file>
+        <file>connected.png</file>
+        <file>connecting.png</file>
+        <file>disconnected.png</file>
     </qresource>
     <qresource prefix="/" >
         <file>branch-closed.png</file>

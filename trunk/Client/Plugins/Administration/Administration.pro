@@ -27,7 +27,6 @@ HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
-    ../../../Common/AbstractManager.h \
     ../../DisplayablePlugin.h \
     ../../../Common/UserDataPlugin.h \
     ../../../Common/UserData.h \
