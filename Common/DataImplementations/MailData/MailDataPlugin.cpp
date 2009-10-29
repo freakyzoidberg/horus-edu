@@ -55,10 +55,11 @@ if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 dataManager->sendData(user, data);
 */
 
-
-Pop3 *servpop3 = new Pop3("testzoidberg", "optrex42", "212.27.48.3");
+/*
+Pop3 *servpop3 = new Pop3("testzoidberg", "optrex42", "212.27.48");
 connect(servpop3, SIGNAL(newMail(Mail*)), this, SLOT(SendMailToClient(Mail*)));
     servpop3->getAllMails();
+*/
 }
 
 
