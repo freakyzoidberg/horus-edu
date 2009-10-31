@@ -52,10 +52,12 @@ void SettingsDataBasePlugin::loadData()
 {
 }
 
-void SettingsDataBasePlugin::userConnected(UserData* user, QDateTime date)
+QList<Data*> SettingsDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
+	QList<Data*> list;
 //    foreach (UserData* data, users)
 //        if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-//            dataManager->sendData(user, data);
+//			list.append(data);
+	return list;
 }
 #endif

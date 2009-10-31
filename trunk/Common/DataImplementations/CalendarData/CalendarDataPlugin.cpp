@@ -61,10 +61,12 @@ void CalendarDataPlugin::loadData()
 	}
 }
 
-void CalendarDataPlugin::userConnected(UserData* user, QDateTime date)
+QList<Data*> CalendarDataPlugin::datasForUpdate(UserData* user, QDateTime date)
 {
-        foreach (CalendarData* data, whiteBoards)
+	QList<Data*> list;
+	foreach (CalendarData* data, whiteBoards)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-			dataManager->sendData(user, data);
+			list.append(data);
+	return list;
 }
 #endif

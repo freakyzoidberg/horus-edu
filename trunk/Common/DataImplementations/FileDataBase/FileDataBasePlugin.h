@@ -37,7 +37,7 @@ public:
 #endif
 #ifdef HORUS_SERVER
 	void					loadData();
-	void					userConnected(UserData* user, QDateTime date);
+	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
 #endif
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream

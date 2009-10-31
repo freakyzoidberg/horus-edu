@@ -1,15 +1,9 @@
 #include <QDateTime>
-#include <QDebug>
 
 #include "ThreadPacket.h"
 #include "../Common/DataManager.h"
 #include "PluginManagerServer.h"
 #include "../Common/UserDataPlugin.h"
-#include "../Common/TreeData.h"
-#include "../Common/TreeDataPlugin.h"
-#include "../Common/SettingsData.h"
-#include "../Common/SettingsDataPlugin.h"
-#include "UserSettings.h"
 #include "../Common/CommInit.h"
 #include "../Common/CommData.h"
 #include "../Common/CommLogin.h"
@@ -98,7 +92,6 @@ void ThreadPacket::PacketLogin()
         socket->user = 0;
         CommLogin resp(CommLogin::DISCONNECTED);
         emit sendPacket(resp.getPacket());
-        qDebug() << "[out]" << resp;
         return;
     }
 
@@ -106,7 +99,6 @@ void ThreadPacket::PacketLogin()
     {
         CommLogin resp(CommLogin::REFUSED);
         emit sendPacket(resp.getPacket());
-        qDebug() << "[out]" << resp;
         return;
     }
 
@@ -121,16 +113,22 @@ void ThreadPacket::PacketLogin()
     socket->user = user;
     PluginManagerServer::instance()->setCurrentUser(socket->user);
 
+	// get every data the user need to be up to date
+	QList<Data*> list;
+	foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
+		list.append(p->datasForUpdate(user, QDateTime()));
+
     CommLogin resp(CommLogin::ACCEPTED);
     resp.serverDateTime = QDateTime::currentDateTime();
     resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
 	resp.sessionString = socket->user->newSession(resp.sessionEnd);
     resp.user = user;
+	resp.nbrDataForUpdate = list.count();
     emit sendPacket(resp.getPacket());
 
-    // send every data the user need
-    foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
-		p->userConnected(user, QDateTime());
+	//now send the datas to user, to be uptodate
+	foreach (Data* data, list)
+		data->sendToUser(user);
 
     //allow other threads to be started
     socket->allowOtherThreads();

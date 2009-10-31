@@ -25,7 +25,8 @@ public slots:
 
 signals:
 	void	statusChange(NetworkManager::Status);
-
+	void	updateProgressChange(int progress);
+	void	updateFinished();
 
 private slots:
 	//! display the socket errors
@@ -35,6 +36,8 @@ private slots:
 private:
 	Status			_status;
 	QByteArray		_recvPacket;
+	quint32			_nbrDatasForUpdate;
+	quint32			_nbrDatasForUpdateReceived;
 
 	NetworkManager();
 	~NetworkManager() {}

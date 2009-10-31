@@ -48,13 +48,13 @@ HEADERS += NetworkManager.h \
     ../Common/DataPlugin.h \
     ../Common/UserData.h \
     ../Common/UserDataPlugin.h \
-    NetworkPlugin.h \
+	../Common/LocalSettings.h \
+	NetworkPlugin.h \
     DisplayablePlugin.h \
     DataManagerClient.h \
     HorusStyle.h \
     MainWindow.h \
     LoginDialog.h \
-    LocalSettings.h \
     SettingsDialog.h \
     UserInfo.h \
 	Notification.h \

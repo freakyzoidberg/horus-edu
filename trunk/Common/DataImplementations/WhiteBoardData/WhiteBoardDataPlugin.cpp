@@ -61,10 +61,12 @@ void WhiteBoardDataPlugin::loadData()
 	}
 }
 
-void WhiteBoardDataPlugin::userConnected(UserData* user, QDateTime date)
+QList<Data*> WhiteBoardDataPlugin::datasForUpdate(UserData* user, QDateTime date)
 {
+	QList<Data*> list;
 	foreach (WhiteBoardData* data, whiteBoards)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-			dataManager->sendData(user, data);
+			list.append(data);
+	return list;
 }
 #endif

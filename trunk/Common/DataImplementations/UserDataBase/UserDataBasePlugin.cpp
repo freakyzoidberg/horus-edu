@@ -97,11 +97,13 @@ void UserDataBasePlugin::loadData()
 	}
 }
 
-void UserDataBasePlugin::userConnected(UserData* user, QDateTime date)
+QList<Data*> UserDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
-    foreach (UserData* data, users)
+	QList<Data*> list;
+	foreach (UserData* data, users)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-            dataManager->sendData(user, data);
+			list.append(data);
+	return list;
 }
 
 void UserDataBasePlugin::userDisconnected(UserData*)

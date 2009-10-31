@@ -131,10 +131,12 @@ void FileDataBasePlugin::loadData()
     }
 }
 
-void FileDataBasePlugin::userConnected(UserData* user, QDateTime date)
+QList<Data*> FileDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
-    foreach (FileData* file, files)
-		if (file->lastChange() >= date && file->status() == Data::UPTODATE)
-            dataManager->sendData(user, file);
+	QList<Data*> list;
+	foreach (FileData* data, files)
+		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
+			list.append(data);
+	return list;
 }
 #endif

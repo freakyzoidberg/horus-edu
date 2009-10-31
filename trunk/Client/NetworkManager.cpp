@@ -1,7 +1,7 @@
 #include "NetworkManager.h"
 
 #include <QCoreApplication>
-#include <QSettings>
+#include <../Common/LocalSettings.h>
 #include <QDir>
 #include <QMetaObject>
 
@@ -24,6 +24,7 @@ NetworkManager* NetworkManager::instance()
 		_instance = new NetworkManager;
 		QThread* secondary = SecondaryThread::instance();
 		_instance->moveToThread(secondary);
+		qRegisterMetaType<UserData*>("UserData*");
 	}
 	return _instance;
 }
@@ -43,6 +44,7 @@ QDebug operator<<(QDebug d, const NetworkManager::Status& s)
 NetworkManager::NetworkManager()
 {
 	_status = DISCONNECTED;
+	_nbrDatasForUpdate = 0;
 
 	connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(recvPacket(QByteArray)), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
@@ -50,7 +52,7 @@ NetworkManager::NetworkManager()
 
 void NetworkManager::tryToConnect()
 {
-	QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+	LocalSettings settings;
 	if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
 	{
 		qWarning() << tr("Server's hostname or port unspecified, please review your settings.");
@@ -145,6 +147,9 @@ void NetworkManager::recvLogin()
 		UserCache* cache = CacheManager::instance()->userCache(l.login);
 		cache->setLastSession(l.sessionString, sessionEnd);
 
+		_nbrDatasForUpdate = l.nbrDataForUpdate;
+		_nbrDatasForUpdateReceived = 0;
+
 		qDebug() << tr("NetworkManager::recvLogin seconds between client and server:") << QDateTime::currentDateTime().secsTo(l.serverDateTime);
 
 		_status = LOGGED_IN;
@@ -164,14 +169,22 @@ void NetworkManager::recvData()
 	foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
 		if (plugin->getDataType() == data.type)
 		{
-			qRegisterMetaType<UserData*>("UserData*");
 			QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData",
 									  Q_ARG(UserData*, PluginManagerClient::instance()->currentUser()),
 									  Q_ARG(const QByteArray, data.data)
 									  );
-			return;
+			break;
 		}
-	qDebug() << tr("NetworkManager::recvData() cannot find") << data.type << tr("plugin.");
+	if (_nbrDatasForUpdate)
+	{
+		_nbrDatasForUpdateReceived++;
+		emit updateProgressChange(_nbrDatasForUpdateReceived * 100 / _nbrDatasForUpdate);
+		if (_nbrDatasForUpdate <= _nbrDatasForUpdateReceived)
+		{
+			_nbrDatasForUpdate = 0;
+			emit updateFinished();
+		}
+	}
 }
 
 void NetworkManager::recvPlugin()

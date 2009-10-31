@@ -11,7 +11,8 @@ class LocalSettings : public QSettings
 {
 public:
 	LocalSettings();
-	void createConfig();
+
+	void checkConfig();
 };
 
 #endif // __LOCALSETTINGS_H__

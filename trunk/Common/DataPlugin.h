@@ -35,7 +35,7 @@ public:
 #ifdef HORUS_SERVER
     //! On the server, the module may want to check if the database is ok
 	virtual inline void			loadData() { }
-	virtual inline void			userConnected(UserData*, QDateTime) { }
+	virtual inline QList<Data*>	datasForUpdate(UserData*, QDateTime) { return QList<Data*>(); }
 #endif
 
 	DataManager*				dataManager;
