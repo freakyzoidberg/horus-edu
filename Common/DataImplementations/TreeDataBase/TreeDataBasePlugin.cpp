@@ -77,10 +77,12 @@ void TreeDataBasePlugin::loadData()
     }
 }
 
-void TreeDataBasePlugin::userConnected(UserData* user, QDateTime date)
+QList<Data*> TreeDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
+	QList<Data*> list;
     foreach (TreeData* data, nodes)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-            dataManager->sendData(user, data);
+			list.append(data);
+	return list;
 }
 #endif

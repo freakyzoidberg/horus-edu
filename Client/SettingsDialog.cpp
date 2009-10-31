@@ -1,4 +1,5 @@
 #include "SettingsDialog.h"
+#include "../Common/LocalSettings.h"
 
 #include <QtGui>
 #include <QFormLayout>
@@ -10,34 +11,29 @@
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
 {
     setAttribute(Qt::WA_DeleteOnClose);
-    this->settings = new QSettings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat, this);
-    this->ui.setupUi(this);
-    connect(this->ui.buttonBox, SIGNAL(accepted()), this, SLOT(Save()));
-    this->FillGeneralTab();
-    this->FillPluginTab();
-    this->FillNetworkTab();
+	ui.setupUi(this);
+	connect(ui.buttonBox, SIGNAL(accepted()), this, SLOT(save()));
+	fillGeneralTab();
+	fillPluginTab();
+	fillNetworkTab();
 }
 
-SettingsDialog::~SettingsDialog()
-{
-    delete this->settings;
-}
-
-void SettingsDialog::FillGeneralTab()
+void SettingsDialog::fillGeneralTab()
 {
     QFormLayout *generalLayout;
     QLineEdit   *line;
+	LocalSettings settings;
 
-    generalLayout = new QFormLayout(this->ui.GeneralTab);
-    foreach (QString key, settings->childKeys())
+	generalLayout = new QFormLayout(ui.GeneralTab);
+	foreach (QString key, settings.childKeys())
     {
-        line = new QLineEdit(settings->value(key).toString());
+		line = new QLineEdit(settings.value(key).toString());
         if (key == "Version")
             line->setDisabled(true);
         line->setObjectName(key);
         generalLayout->addRow(key, line);
     }
-    if (!settings->childKeys().contains("LessonsDirectoryPath", Qt::CaseInsensitive))
+	if ( ! settings.childKeys().contains("LessonsDirectoryPath", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("LessonsDirectoryPath");
@@ -45,101 +41,87 @@ void SettingsDialog::FillGeneralTab()
     }
 }
 
-void SettingsDialog::FillPluginTab()
+void SettingsDialog::fillPluginTab()
 {
     QFormLayout *pluginLayout;
     QLineEdit   *line;
+	LocalSettings settings;
 
-    pluginLayout = new QFormLayout(this->ui.PluginTab);
-    settings->beginGroup("Plugins");
-    foreach (QString key, settings->childKeys())
+	pluginLayout = new QFormLayout(ui.PluginTab);
+	settings.beginGroup("Plugins");
+	foreach (QString key, settings.childKeys())
     {
-        //line = new QLineEdit(settings->value(key).toStringList().join(", ")); for QStringList
-        line = new QLineEdit(settings->value(key).toString());
+		line = new QLineEdit(settings.value(key).toString());
         line->setObjectName(key);
         pluginLayout->addRow(key, line);
     }
-    if (!settings->childKeys().contains("SystemDirectoryPath", Qt::CaseInsensitive))
+	if ( ! settings.childKeys().contains("SystemDirectoryPath", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("SystemDirectoryPath");
         pluginLayout->insertRow(0, "SystemDirectoryPath", line);
     }
-    if (!settings->childKeys().contains("UserDirectoryPath", Qt::CaseInsensitive))
+	if ( ! settings.childKeys().contains("UserDirectoryPath", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("UserDirectoryPath");
         pluginLayout->insertRow(0, "UserDirectoryPath", line);
     }
-    settings->endGroup();
+	settings.endGroup();
 }
 
-void SettingsDialog::FillNetworkTab()
+void SettingsDialog::fillNetworkTab()
 {
     QVBoxLayout *networkLayout;
     QFormLayout *generalLayout;
-    QFormLayout *sessionLayout;
     QGroupBox   *generalBox;
-    QGroupBox   *sessionBox;
     QLineEdit   *line;
+	LocalSettings settings;
 
-    networkLayout = new QVBoxLayout(this->ui.NetworkTab);
+	networkLayout = new QVBoxLayout(ui.NetworkTab);
     generalBox = new QGroupBox(tr("General"));
-    sessionBox = new QGroupBox(tr("Session"));
     networkLayout->addWidget(generalBox);
-    networkLayout->addWidget(sessionBox);
     generalLayout = new QFormLayout(generalBox);
-    sessionLayout = new QFormLayout(sessionBox);
-    settings->beginGroup("Network");
-    foreach (QString key, settings->childKeys())
+	settings.beginGroup("Network");
+	foreach (QString key, settings.childKeys())
     {
-        line = new QLineEdit(settings->value(key).toString());
+		line = new QLineEdit(settings.value(key).toString());
         line->setObjectName(key);
         generalLayout->addRow(key, line);
     }
-    if (!settings->childKeys().contains("Server", Qt::CaseInsensitive))
+	if ( ! settings.childKeys().contains("Server", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("Server");
         generalLayout->insertRow(0, tr("Server"), line);
     }
-    if (!settings->childKeys().contains("Port", Qt::CaseInsensitive))
+	if ( ! settings.childKeys().contains("Port", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("Port");
         generalLayout->insertRow(0, tr("Port"), line);
     }
-    if (!settings->childKeys().contains("PortTransfert", Qt::CaseInsensitive))
+	if ( ! settings.childKeys().contains("PortTransfert", Qt::CaseInsensitive))
     {
         line = new QLineEdit();
         line->setObjectName("PortTransfert");
         generalLayout->insertRow(0, tr("PortTransfert"), line);
     }
-    settings->endGroup();
-    settings->beginGroup("SESSIONS");
-    foreach (QString key, settings->childKeys())
-    {
-        if (key != "sessionString")
-        {
-            line = new QLineEdit(settings->value(key).toString());
-            line->setObjectName("session_" + key);
-            line->setDisabled(true);
-            sessionLayout->addRow(key, line);
-        }
-    }
-    settings->endGroup();
+	settings.endGroup();
 }
 
-void SettingsDialog::Save()
+void SettingsDialog::save()
 {
-    foreach (QLineEdit *line, this->ui.GeneralTab->findChildren<QLineEdit *>())
-        settings->setValue(line->objectName(), line->text());
-    settings->beginGroup("Plugins");
-    foreach (QLineEdit *line, this->ui.PluginTab->findChildren<QLineEdit *>())
-            settings->setValue(line->objectName(), line->text());
-            //settings->setValue(line->objectName(), QStringList(line->text().split(", ", QString::SkipEmptyParts))); for QStringList
-    settings->endGroup();
-    foreach (QLineEdit *line, this->ui.NetworkTab->findChildren<QLineEdit *>())
-        if (!line->objectName().contains("session_"))
-            settings->setValue("Network/" + line->objectName(), line->text());
+	LocalSettings settings;
+
+	foreach (QLineEdit *line, ui.GeneralTab->findChildren<QLineEdit *>())
+		settings.setValue(line->objectName(), line->text());
+
+	settings.beginGroup("Plugins");
+	foreach (QLineEdit *line, ui.PluginTab->findChildren<QLineEdit *>())
+		settings.setValue(line->objectName(), line->text());
+	settings.endGroup();
+
+	foreach (QLineEdit *line, ui.NetworkTab->findChildren<QLineEdit *>())
+		settings.setValue("Network/" + line->objectName(), line->text());
 }

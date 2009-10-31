@@ -24,7 +24,7 @@ public:
      */
     enum                Method { UNDEFINED,
                                  LOGIN_PASSWORD, LOGIN_SESSION, LOGOUT, //REQUEST
-                                 ACCEPTED, REFUSED, DISCONNECTED,      // RESPONSES
+								 ACCEPTED, REFUSED, DISCONNECTED,     // RESPONSES
                                  __LAST__ };
 
     CommLogin(Method);
@@ -49,6 +49,8 @@ public:
     QByteArray          sessionString;
     //! the information of the user
     UserData*           user;
+	//! the number of data the user have to wait
+	quint32				nbrDataForUpdate;
 
 private:
     void                read(const QByteArray&);

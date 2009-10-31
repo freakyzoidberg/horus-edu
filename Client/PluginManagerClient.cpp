@@ -1,6 +1,6 @@
 #include "PluginManagerClient.h"
 
-#include <QSettings>
+#include <../Common/LocalSettings.h>
 #include <QApplication>
 #include <QPluginLoader>
 #include <QTranslator>
@@ -29,7 +29,7 @@ PluginManagerClient* PluginManagerClient::instance()
 
 void PluginManagerClient::loadPlugins()
 {
-    QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+	LocalSettings settings;
 	QStringList	pluginsToLoad;
 	QStringList	pluginFilter;
 
@@ -124,7 +124,7 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
         return (false);
     }
 	translator = new QTranslator();
-    QSettings   settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
+	LocalSettings settings;
 	translator->load(pluginName.left(pluginName.lastIndexOf(".")) + "_" + settings.value("Locale").toString(), settings.value("TranslationsDirectoryPath").toString());
 	QCoreApplication::installTranslator(translator);
     foreach (Plugin* plugin, metaPlugin->pluginList)

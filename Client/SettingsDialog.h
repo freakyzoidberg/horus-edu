@@ -2,7 +2,6 @@
 #define SETTINGSDIALOG_H
 
 #include <QDialog>
-#include <QSettings>
 
 #include "ui_SettingsDialog.h"
 
@@ -12,18 +11,16 @@ class SettingsDialog : public QDialog
 
 public:
     SettingsDialog(QWidget *parent);
-    ~SettingsDialog();
 
 private:
-    Ui::Dialog  ui;
-    QSettings   *settings;
+	Ui::Dialog		ui;
 
-    void        FillGeneralTab();
-    void        FillPluginTab();
-    void        FillNetworkTab();
+	void			fillGeneralTab();
+	void			fillPluginTab();
+	void			fillNetworkTab();
 
 private slots:
-    void        Save();
+	void			save();
 };
 
 #endif // SETTINGSDIALOG_H

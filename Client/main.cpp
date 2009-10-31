@@ -1,12 +1,9 @@
 #include	<QApplication>
 #include	<QTranslator>
-#include	<QSettings>
-#include	<QDir>
-//#include	<QLocale>
 
 #include	"../Common/Defines.h"
+#include	"../Common/LocalSettings.h"
 #include	"MainWindow.h"
-#include	"LocalSettings.h"
 #include	"LoginDialog.h"
 #include	"Notification.h"
 #include	"HorusStyle.h"
@@ -22,7 +19,7 @@ int						main(int argc, char *argv[])
 	qInstallMsgHandler(Notification::notify);
 
 	LocalSettings		settings;
-	settings.createConfig();
+	settings.checkConfig();
 
 	QTranslator			translator;
 	translator.load("Horus_" + settings.value("Locale").toString(), settings.value("TranslationsDirectoryPath").toString());
@@ -35,7 +32,6 @@ int						main(int argc, char *argv[])
 	{
 		new MainWindow(&app);
 //		setStyleSheet(window->styleSheet());
-//		window->show();
 		return (app.exec());
 	}
 

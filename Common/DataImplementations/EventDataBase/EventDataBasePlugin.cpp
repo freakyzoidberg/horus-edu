@@ -70,10 +70,12 @@ void EventDataBasePlugin::loadData()
     }
 }
 
-void EventDataBasePlugin::userConnected(UserData* user, QDateTime date)
+QList<Data*> EventDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
+	QList<Data*> list;
 	foreach (Data* data, _allEvents)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-            dataManager->sendData(user, data);
+			list.append(data);
+	return list;
 }
 #endif

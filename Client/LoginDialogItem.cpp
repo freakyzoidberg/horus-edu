@@ -145,17 +145,20 @@ void LoginDialogItem::cacheLoaded()
 	NetworkManager* net = NetworkManager::instance();
 
 	//case no network
-	if (net->status() != NetworkManager::ESTABLISHED)
+	if (net->status() == NetworkManager::ESTABLISHED)
+	{
+		connect(net, SIGNAL(updateProgressChange(int)), _dialog->loadBar, SLOT(setValue(int)));
+		connect(net, SIGNAL(updateFinished()), _dialog, SLOT(accept()));
+
+		if ( ! _cache)
+			QMetaObject::invokeMethod(net, "loginPassword", Qt::QueuedConnection, Q_ARG(const QString, _login->text()), Q_ARG(const QString, _password->text()));
+
+		else if ( ! _password)
+			QMetaObject::invokeMethod(net, "loginSession", Qt::QueuedConnection, Q_ARG(const QString, _cache->login()), Q_ARG(const QByteArray, _cache->lastSession()));
+
+		else
+			QMetaObject::invokeMethod(net, "loginPassword", Qt::QueuedConnection, Q_ARG(const QString, _cache->login()), Q_ARG(const QString, _password->text()));
+	}
+	else if (net->status() == NetworkManager::DISCONNECTED)
 		_dialog->accept();
-
-	else if ( ! _cache)
-		QMetaObject::invokeMethod(net, "loginPassword", Qt::QueuedConnection, Q_ARG(const QString, _login->text()), Q_ARG(const QString, _password->text()));
-
-	else if ( ! _password)
-		QMetaObject::invokeMethod(net, "loginSession", Qt::QueuedConnection, Q_ARG(const QString, _cache->login()), Q_ARG(const QByteArray, _cache->lastSession()));
-
-	else
-		QMetaObject::invokeMethod(net, "loginPassword", Qt::QueuedConnection, Q_ARG(const QString, _cache->login()), Q_ARG(const QString, _password->text()));
-
-	_dialog->accept();
 }

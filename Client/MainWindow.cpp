@@ -1,6 +1,5 @@
 #include "MainWindow.h"
 
-#include <QSettings>
 #include <QDir>
 
 #include "SettingsDialog.h"
@@ -10,15 +9,15 @@
 
 MainWindow::MainWindow(QApplication *parent) : QMainWindow()
 {
-    this->parent = parent;
-    this->ui.setupUi(this);
-    this->createActions();
-    this->createMenus();
-    this->addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
+	parent = parent;
+	ui.setupUi(this);
+	createActions();
+	createMenus();
+	addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
 
 	DisplayablePlugin *mainBoard = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("MainFrame");
-    if (mainBoard)
-        this->setCentralWidget(mainBoard->getWidget());
+	if (mainBoard)
+		setCentralWidget(mainBoard->getWidget());
 
 	show();
 }
@@ -197,7 +196,8 @@ void    MainWindow::editSettings()
 
 void	MainWindow::logout()
 {
-	QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat, this);
-	settings.remove("SESSIONS/sessionString");
-	this->close();
+	//todo: send LoginPacket::LOGOUT
+	//todo: save and free the cache
+	//todo: open LoginDialog
+	close();
 }

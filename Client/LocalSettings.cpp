@@ -1,4 +1,4 @@
-#include "LocalSettings.h"
+#include "../Common/LocalSettings.h"
 
 #include <QDir>
 #include <QString>
@@ -13,7 +13,7 @@ LocalSettings::LocalSettings() :
 		QSettings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat)
 {}
 
-void    LocalSettings::createConfig()
+void    LocalSettings::checkConfig()
 {
     QDir      pluginsDir;
     QString   path;

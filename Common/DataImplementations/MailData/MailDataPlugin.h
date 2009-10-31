@@ -31,7 +31,7 @@ public:
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
-        void					userConnected(UserData* user, QDateTime date);
+		QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
 
 public slots:
         void SendMailToClient(Mail*);

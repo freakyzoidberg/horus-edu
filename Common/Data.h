@@ -133,6 +133,8 @@ public:
 	virtual        quint8     serverSave() = 0;
     //! Delete the current data from the database.
 	virtual        quint8     serverRemove() = 0;
+	//! send this data to a user
+	inline void				  sendToUser(UserData* user) { _plugin->dataManager->sendData(user, this); }
 #endif
 
 protected:

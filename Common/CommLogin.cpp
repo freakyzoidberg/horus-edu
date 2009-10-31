@@ -49,9 +49,10 @@ void CommLogin::read(const QByteArray& a)
     }
     else if (method == ACCEPTED)
     {
-        stream >> serverDateTime;
-        stream >> sessionEnd;
-        stream >> sessionString;
+		stream >> serverDateTime
+			   >> sessionEnd
+			   >> sessionString
+			   >> nbrDataForUpdate;
 
 #ifdef HORUS_CLIENT
 		UserDataPlugin* plugin = PluginManagerClient::instance()->findPlugin<UserDataPlugin*>();
@@ -82,9 +83,10 @@ void CommLogin::write(QByteArray& a) const
     }
     else if (method == ACCEPTED)
     {
-        stream << serverDateTime;
-        stream << sessionEnd;
-        stream << sessionString;
+		stream << serverDateTime
+			   << sessionEnd
+			   << sessionString
+			   << nbrDataForUpdate;
         user->keyToStream(stream);
         user->dataToStream(stream);
     }
