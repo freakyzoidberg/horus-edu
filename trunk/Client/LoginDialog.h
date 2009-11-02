@@ -16,10 +16,6 @@ public:
 
 private slots:
 	void			networkStatusChange(NetworkManager::Status);
-//	void			pluginsLoadProgressChange(int progress);
-//
-//	void			cacheLoadProgressChange(int progress);
-//	void			dataUpdateProgressChange(int progress);
 
 public:
 	QProgressBar*	loadBar;

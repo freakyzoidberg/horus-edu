@@ -111,6 +111,7 @@ void PluginManagerClient::loadPlugins()
     }
 	_loaded = true;
 	emit loadProgressChange(100);
+	emit loaded();
 }
 
 bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)

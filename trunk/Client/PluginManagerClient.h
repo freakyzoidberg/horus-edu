@@ -43,6 +43,7 @@ private slots:
 signals:
 	void									sendPacket(const QByteArray packet);
 	void									loadProgressChange(int percent);
+	void									loaded();
 
 private:
 	bool									loadPlugin(QString pluginName, QDir path);

@@ -5,6 +5,7 @@
 #include <QCoreApplication>
 #include <QCryptographicHash>
 #include "NetworkManager.h"
+#include "PluginManagerClient.h"
 
 LoginDialogItem::LoginDialogItem(UserCache* cache, LoginDialog* dialog) : QFrame(dialog)
 {
@@ -110,6 +111,13 @@ void LoginDialogItem::keyPressEvent(QKeyEvent *event)
 
 void LoginDialogItem::login()
 {
+	PluginManagerClient* pluginManager = PluginManagerClient::instance();
+	if ( ! pluginManager->isLoaded())
+	{
+		connect(pluginManager, SIGNAL(loaded()), this, SLOT(login()));
+		return;
+	}
+
 	if (_cache)
 	{
 		connect(_cache, SIGNAL(loadProgressChange(int)), _dialog->loadBar, SLOT(setValue(int)));

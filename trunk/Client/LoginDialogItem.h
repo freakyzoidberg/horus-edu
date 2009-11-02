@@ -15,8 +15,6 @@ public:
 	LoginDialogItem(UserCache* cache, LoginDialog* dialog);
 
 private:
-	void login();
-
 	QLineEdit*		_login;
 	QLineEdit*		_password;
 	QGridLayout*	_layout;
@@ -24,6 +22,7 @@ private:
 	LoginDialog*	_dialog;
 
 private slots:
+	void login();
 	void mousePressEvent(QMouseEvent*);
 	void keyPressEvent (QKeyEvent *event);
 	void cacheLoaded();
