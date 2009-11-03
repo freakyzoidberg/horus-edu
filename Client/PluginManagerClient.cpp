@@ -22,7 +22,8 @@ PluginManagerClient* PluginManagerClient::instance()
 	if ( ! _instance)
 	{
 		_instance = new PluginManagerClient;
-		_instance->moveToThread(SecondaryThread::instance());
+//		_instance->moveToThread(SecondaryThread::instance());
+		_instance->moveToThread(QCoreApplication::instance()->thread());
 	}
 	return _instance;
 }
@@ -90,9 +91,10 @@ void PluginManagerClient::loadPlugins()
 	// DataPlugin
 	foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
 	{
+		plugin->moveToThread(secondaryThread);
 		plugin->dataManager = new DataManagerClient(plugin);
 		//DataPlugins are also moved to the network thread, is it necessary to have a dedicated thread for them ?
-		plugin->moveToThread(secondaryThread);
+		plugin->dataManager->moveToThread(secondaryThread);
 	}
 	// every Plugins
     i = 0;
