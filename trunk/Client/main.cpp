@@ -31,8 +31,8 @@ int						main(int argc, char *argv[])
 	LoginDialog login;
 	if (login.result() == QDialog::Accepted)
 	{
-		new MainWindow(&app);
-//		setStyleSheet(window->styleSheet());
+		QMainWindow *window = new MainWindow(&app);
+		app.setStyleSheet(window->styleSheet());
 		return (app.exec());
 	}
 

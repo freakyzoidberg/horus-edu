@@ -3,16 +3,17 @@
 # -------------------------------------------------
 TEMPLATE = lib
 QT += xml \
-    xmlpatterns
-CONFIG       += plugin
+      xmlpatterns
+CONFIG += plugin
+
+# !!!!!!!!! poppler-glib only for MingGW, it will fail on Visual Studio
 win32 {
-LIBS += \
-    -L./Poppler/lib -lpoppler \
--L./Poppler/lib -lpoppler-glib \
-    -L./Poppler/lib -lpoppler-qt4
+LIBS += -L./Poppler/lib -lpoppler \
+		-L./Poppler/lib -lpoppler-glib \
+		-L./Poppler/lib -lpoppler-qt4
 } unix {
 LIBS += -lpoppler-qt4 \
-     -lpoppler
+		-lpoppler
 }
 
 DEFINES += HORUS_CLIENT
