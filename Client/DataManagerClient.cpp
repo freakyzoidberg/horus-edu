@@ -1,7 +1,6 @@
 #include "DataManagerClient.h"
 
 #include <QEvent>
-#include <QCoreApplication>
 #include <QtDebug>
 
 #include "../Common/CommData.h"
