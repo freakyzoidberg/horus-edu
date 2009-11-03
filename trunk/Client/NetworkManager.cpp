@@ -21,8 +21,7 @@ NetworkManager* NetworkManager::instance()
 	if ( ! _instance)
 	{
 		_instance = new NetworkManager;
-		QThread* secondary = SecondaryThread::instance();
-		_instance->moveToThread(secondary);
+		_instance->moveToThread(SecondaryThread::instance());
 		qRegisterMetaType<UserData*>("UserData*");
 	}
 	return _instance;
@@ -51,6 +50,9 @@ NetworkManager::NetworkManager()
 
 void NetworkManager::tryToConnect()
 {
+	if (state() != QAbstractSocket::UnconnectedState)
+		return;
+
 	LocalSettings settings;
 	if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
 	{

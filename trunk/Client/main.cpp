@@ -11,7 +11,6 @@
 int						main(int argc, char *argv[])
 {
 	QApplication		app(argc, argv);
-	QCoreApplication::instance();
 	app.setOrganizationName(ORGANIZATION_NAME);
 	app.setOrganizationDomain(ORGANIZATION_DOMAIN);
 	app.setApplicationName(CLIENT_NAME);
