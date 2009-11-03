@@ -12,7 +12,11 @@ SOURCES += Implementation/calendar.cpp \
         ../../../Common/DataImplementations/CalendarData/CalendarDataPlugin.cpp
 
 HEADERS += Implementation/calendar.h \
-    Implementation/CalendarMetaPlugin.h \
-     ../../../Common/DataImplementations/CalendarData/CalendarItem.h \
-    ../../../Common/DataImplementations/CalendarData/CalendarData.h \
-    ../../../Common/DataImplementations/CalendarData/CalendarDataPlugin.h
+		   Implementation/CalendarMetaPlugin.h \
+		   ../../../Common/MetaPlugin.h \
+		   ../../../Common/Plugin.h \
+		   ../../../Common/DataPlugin.h \
+		   ../../../Common/Data.h \
+		   ../../../Common/DataImplementations/CalendarData/CalendarItem.h \
+		   ../../../Common/DataImplementations/CalendarData/CalendarData.h \
+		   ../../../Common/DataImplementations/CalendarData/CalendarDataPlugin.h

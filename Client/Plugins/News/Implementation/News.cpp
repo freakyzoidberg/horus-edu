@@ -42,4 +42,5 @@ void                News::load()
 QIcon News::getIcon() const
 {
     //return (QIcon(":/mail.png"));
+	return (QIcon());
 }

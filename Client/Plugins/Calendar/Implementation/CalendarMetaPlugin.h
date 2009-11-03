@@ -1,9 +1,9 @@
 #ifndef CALENDARMETAPLUGIN_H
 #define CALENDARMETAPLUGIN_H
 
-#include "../../../Common/MetaPlugin.h"
+#include "../../../../Common/MetaPlugin.h"
 
-#include "Implementation/calendar.h"
+#include "calendar.h"
 
 class CalendarMetaPlugin : public MetaPlugin
 {

@@ -90,7 +90,7 @@ void    MediaController::resizeWidget(IItems *widget)
 
 QWidget    *MediaController::editDocument(QFile *metadata, IItems *parent, ILessonDocument *)
 {
-
+	return (0);
 }
 
 
