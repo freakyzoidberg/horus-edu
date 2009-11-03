@@ -1,6 +1,5 @@
 #include "NetworkManager.h"
 
-#include <QCoreApplication>
 #include <../Common/LocalSettings.h>
 #include <QDir>
 #include <QMetaObject>

@@ -2,7 +2,6 @@
 #include "LoginDialog.h"
 
 #include <QLabel>
-#include <QCoreApplication>
 #include <QCryptographicHash>
 #include "NetworkManager.h"
 #include "PluginManagerClient.h"
