@@ -1,7 +1,7 @@
 #include "CalendarWidget.h"
 #include <QtGui>
 #include <QPushButton>
-#include "../../../Common/EventDataPlugin.h"
+#include "../../../../Common/EventDataPlugin.h"
 #include "addeventwidget.h"
 
  CalendarWidget::CalendarWidget()
