@@ -33,7 +33,7 @@ QDebug EventDataBase::operator<<(QDebug debug) const
 quint8 EventDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT start_time,end_time FROM event WHERE id=?;");
+	query.prepare("SELECT start_time,end_time FROM event WHERE id_tree=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
@@ -53,7 +53,7 @@ quint8 EventDataBase::serverRead()
 quint8 EventDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO event (id,start_time,end_time) VALUES (?,?,?);");
+	query.prepare("INSERT INTO event (id_tree,start_time,end_time) VALUES (?,?,?);");
 	query.addBindValue(_node->id());
 	query.addBindValue(_startTime);
 	query.addBindValue(_endTime);
@@ -70,7 +70,7 @@ quint8 EventDataBase::serverCreate()
 quint8 EventDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE event SET start_time=?,end_time=? WHERE id=?;");
+	query.prepare("UPDATE event SET start_time=?,end_time=? WHERE id_tree=?;");
 	query.addBindValue(_startTime);
 	query.addBindValue(_endTime);
 	query.addBindValue(_node->id());
@@ -89,7 +89,7 @@ quint8 EventDataBase::serverSave()
 quint8 EventDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM event WHERE id=?;");
+	query.prepare("DELETE FROM event WHERE id_tree=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
