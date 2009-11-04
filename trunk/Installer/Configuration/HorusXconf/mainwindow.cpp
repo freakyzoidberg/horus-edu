@@ -516,8 +516,8 @@ bool ok = false;
          QFile file(fileInfo.absoluteFilePath());
          QDir mydir;
          qDebug() << fileInfo.absoluteFilePath();
-         mydir.mkpath(ui->lineEdit_10->text()+"/");
-           if (file.copy(ui->lineEdit_10->text()+"/"+fileInfo.fileName()))
+		 mydir.mkpath(ui->lineEdit_10->text()+QDir::separator());
+           if (file.copy(ui->lineEdit_10->text()+QDir::separator()+fileInfo.fileName()))
             {
             qDebug() << "ok";
                ok = true;
@@ -530,7 +530,7 @@ bool ok = false;
            }
            else
            {
-               qDebug() << "ko";
+               qDebug() << "ko [" << ui->lineEdit_10->text()+QDir::separator()+fileInfo.fileName() << "]";
                Pal.setColor(QPalette::Foreground, Qt::red);
                ui->label_6->setPalette(Pal);
                  ui->label_6->setText("Error while copying");
