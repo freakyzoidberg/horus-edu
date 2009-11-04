@@ -7,6 +7,8 @@
 #include "PluginManagerClient.h"
 #include "DockMenu.h"
 
+#include <QTabWidget>
+
 MainWindow::MainWindow(QApplication *parent) : QMainWindow()
 {
 	parent = parent;
@@ -18,7 +20,6 @@ MainWindow::MainWindow(QApplication *parent) : QMainWindow()
 	DisplayablePlugin *mainBoard = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("MainFrame");
 	if (mainBoard)
 		setCentralWidget(mainBoard->getWidget());
-
 	show();
 }
 

@@ -8,6 +8,7 @@ class				HorusStyle : public QPlastiqueStyle
 {
 public:
 	int				pixelMetric(PixelMetric metric, const QStyleOption *option = 0, const QWidget *widget = 0) const;
+	//void			drawControl(ControlElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget) const;
 };
 
 #endif
