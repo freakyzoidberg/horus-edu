@@ -514,7 +514,9 @@ bool ok = false;
      for (int i = 0; i < list.size(); ++i) {
          QFileInfo fileInfo = list.at(i);
          QFile file(fileInfo.absoluteFilePath());
+         QDir mydir;
          qDebug() << fileInfo.absoluteFilePath();
+         mydir.mkpath(ui->lineEdit_10->text()+"/");
            if (file.copy(ui->lineEdit_10->text()+"/"+fileInfo.fileName()))
             {
             qDebug() << "ok";
