@@ -66,7 +66,8 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		QDataStream stream(&oldKey, QIODevice::ReadWrite);
 		data->keyToStream(stream);
 
-		data->serverCreate();
+		if ((error = data->serverCreate()))
+			return sendData(user, data, Data::ERROR, error);
 		data->_status = Data::UPTODATE;
 
 		//send to the user who saved the data CREATED
@@ -84,7 +85,8 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 	if ((oldStatus == Data::EMPTY || oldStatus == Data::UPTODATE) &&
 		 newStatus == Data::DELETING)
 	{
-		data->serverRemove();
+		if ((error = data->serverRemove()))
+			return sendData(user, data, Data::ERROR, error);
 		data->_status = Data::DELETED;
 
 		//send to every users the data DELETED
