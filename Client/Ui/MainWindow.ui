@@ -185,7 +185,7 @@ background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, st
 border: 0px; 
 } 
 
-QTabBar::tab
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
 {
 	min-width: 75px;
 	min-height: 75px;
@@ -196,32 +196,32 @@ QTabBar::tab
 	border-bottom-color: rgb(112, 112, 112);
 }
 
-QTabBar::tab
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
 {
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(109, 109, 109, 255), stop:1 rgba(126, 189, 189, 255));
 }
 
-QTabBar::tab:hover
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:hover
 {
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(139, 139, 139, 255), stop:1 rgba(153, 229, 229, 255));
 }
 
-QTabBar::tab:selected
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:selected
 {
 	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:0, stop:0 rgba(169, 169, 169, 255), stop:1 rgba(166, 249, 249, 255));
 }
 
-QTabBar::tab:top
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top
 {
 	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:1, stop:0 rgba(109, 109, 109, 255), stop:1 rgba(126, 189, 189, 255));
 }
 
-QTabBar::tab:top:hover
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:hover
 {
 	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0.994, y2:1, stop:0 rgba(139, 139, 139, 255), stop:1 rgba(153, 229, 229, 255));
 }
 
-QTabBar::tab:top:selected
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:selected
 {
 	background-color: qlineargradient(spread:pad, x1:0.982955, y1:1, x2:1, y2:0, stop:0 rgba(169, 169, 169, 255), stop:1 rgba(166, 249, 249, 255));
 }
