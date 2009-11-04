@@ -15,9 +15,10 @@ public:
 private:
    QString logfile;
    QString logdir;
+   static     QString Fatal;
    static QList<QString> msglogs;
    static QMutex *logmutex;
-   static QString Fatal;
+
 };
 
 #endif // LOGS_H
