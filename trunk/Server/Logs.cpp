@@ -1,12 +1,14 @@
 #include "../Common/Logs.h"
 #include "Settings.h"
 #include <QtDebug>
+#include <QtGlobal>
 #include <QDateTime>
 #include "../Common/Defines.h"
 #include <QDir>
 
 QMutex *logs::logmutex = new QMutex(QMutex::Recursive);
 QList<QString> logs::msglogs;
+QString logs::Fatal;
 logs::logs()
 {
 
@@ -31,6 +33,11 @@ void logs::addlog(int type, QString msg)
     QDateTime now = QDateTime::currentDateTime();
     logs::msglogs.append(now.toString("d-MMM-yy h:mm:ss")+"\t"+msgtype+"\t"+msg);
     logmutex->unlock();
+    if (type == LOGERROR)
+    {
+        logs::Fatal = now.toString("d-MMM-yy h:mm:ss")+"\t"+msgtype+"\t"+msg;
+
+    }
 }
 
 void logs::setFile(QString dir, QString filename)
@@ -65,6 +72,8 @@ QDir dir(logdir+"/Logs");
         file->flush();
 
     }
+    if (Fatal.size() > 0)
+        qFatal(QVariant(Fatal).toByteArray());
     }
 //exec();
  }

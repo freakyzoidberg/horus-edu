@@ -49,7 +49,7 @@ bool Sql::sqlConnect(QString dbName, QString hostname, QString username, QString
 
         //qDebug() << "sql::sqlconnect() connect to" << db.databaseName() << " on " << db.userName() << "@" << db.hostName() << ":" << db.port() << "driver = " << db.driver() << "No:" << connm;
         logs::addlog(LOGINFO,  "Sql connecting to" + db.databaseName() + " infos: " + db.userName() + "@" + db.hostName() + ":" + QVariant(db.port()).toString() + " -- No:" + QString(connm));
-        if ( ! db.open())
+        if ( !db.open())
         {
             logs::addlog(LOGERROR, db.lastError().text());
             //qDebug() << "sql::sqlconnect() //hostname : " << hostname << " //dbName : " << dbName << " //username : " << username;
