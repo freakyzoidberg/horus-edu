@@ -4,12 +4,12 @@
 <context>
     <name>ImageController</name>
     <message>
-        <location filename="Implementation/ImageController.cpp" line="94"/>
+        <location filename="Implementation/ImageController.cpp" line="101"/>
         <source>Save changes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ImageController.cpp" line="98"/>
+        <location filename="Implementation/ImageController.cpp" line="105"/>
         <source>An error occurs. Cannot open image.</source>
         <translation type="unfinished"></translation>
     </message>
