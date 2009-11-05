@@ -1,8 +1,10 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef		MAINWINDOW_H
+# define	MAINWINDOW_H
 
-#include <QMainWindow>
-#include "ui_MainWindow.h"
+# include	<QMainWindow>
+# include	"ui_MainWindow.h"
+
+# include	"DisplayablePlugin.h"
 
 //! Graphical class of the MainWindow
 /*!
@@ -38,7 +40,10 @@ private:
     void createActions();
     //! Create menus of the window
     void createMenus();
-
+    //! Create tabbed menus in central widget
+    void createCentralWidget();
+	//! comparative function for sort displayable plugins
+	static bool MainWindow::lessThan(DisplayablePlugin *a, DisplayablePlugin *b);
     //! The graphical ui used for the MainWindow
     Ui::MainWindow ui;
     //! A pointer to its parent

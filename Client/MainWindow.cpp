@@ -1,13 +1,11 @@
 #include "MainWindow.h"
 
 #include <QDir>
+#include <QTabWidget>
 
 #include "SettingsDialog.h"
 #include "DisplayablePlugin.h"
 #include "PluginManagerClient.h"
-#include "DockMenu.h"
-
-#include <QTabWidget>
 
 MainWindow::MainWindow(QApplication *parent) : QMainWindow()
 {
@@ -15,11 +13,7 @@ MainWindow::MainWindow(QApplication *parent) : QMainWindow()
 	ui.setupUi(this);
 	createActions();
 	createMenus();
-	addDockWidget(Qt::LeftDockWidgetArea, new DockMenu(this));
-
-	DisplayablePlugin *mainBoard = PluginManagerClient::instance()->findPlugin<DisplayablePlugin*>("MainFrame");
-	if (mainBoard)
-		setCentralWidget(mainBoard->getWidget());
+	createCentralWidget();
 	show();
 }
 
@@ -185,6 +179,27 @@ void    MainWindow::createMenus()
     this->fileMenu->addAction(logoutAction);
     this->fileMenu->addAction(exitAction);
     this->editMenu->addAction(settingsAction);
+}
+
+void							MainWindow::createCentralWidget()
+{
+	QTabWidget					*tabMenu;
+	QList<DisplayablePlugin *>	plugins;
+
+	tabMenu = new QTabWidget(this);
+	tabMenu->setTabShape(QTabWidget::Triangular);
+	tabMenu->setTabPosition(QTabWidget::West);
+	setCentralWidget(tabMenu);
+	plugins = PluginManagerClient::instance()->findPlugins<DisplayablePlugin*>();
+	qSort(plugins.begin(), plugins.end(), MainWindow::lessThan);
+	foreach (DisplayablePlugin* plugin, plugins)
+		if (!plugin->getDisplayableName().isEmpty())
+			tabMenu->addTab(plugin->getWidget(), plugin->getIcon(), plugin->getDisplayableName());
+}
+
+bool							MainWindow::lessThan(DisplayablePlugin *a, DisplayablePlugin *b)
+{
+	return (a->getOrder() < b->getOrder());
 }
 
 void    MainWindow::editSettings()
