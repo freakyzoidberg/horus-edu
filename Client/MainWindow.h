@@ -20,17 +20,17 @@ public:
         Initialize UI, create actions and menus
         \param parent The parent
      */
-	MainWindow(QApplication *parent);
-	//! Overload of the event method
-    /*!
-	 *  Call preExit from the QApplication when receive a CloseEvent
-     *  \param event the event received
-     *  \return the accept status of the event
-     */
-	bool event(QEvent *event);
+	MainWindow();
 
 private slots:
-    //! Display a dialog for editing the settings
+	//! Overload of the event method
+	/*!
+	 *  Call preExit from the QApplication when receive a CloseEvent
+	 *  \param event the event received
+	 *  \return the accept status of the event
+	 */
+	void closeEvent(QCloseEvent *event);
+	//! Display a dialog for editing the settings
     void editSettings();
     //! Destroy the session and exit
     void logout();
@@ -43,11 +43,9 @@ private:
     //! Create tabbed menus in central widget
     void createCentralWidget();
 	//! comparative function for sort displayable plugins
-	static bool MainWindow::lessThan(DisplayablePlugin *a, DisplayablePlugin *b);
+	static bool lessThan(DisplayablePlugin *a, DisplayablePlugin *b);
     //! The graphical ui used for the MainWindow
     Ui::MainWindow ui;
-    //! A pointer to its parent
-	QApplication *parent;
     //! The menu regrouping the mains actions of the Client
     QMenu   *fileMenu;
     //! The menu regrouping parameters and settings

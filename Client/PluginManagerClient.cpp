@@ -8,7 +8,7 @@
 
 #include "../Common/MetaPlugin.h"
 #include "../Common/Plugin.h"
-#include "../Common/DataPlugin.h"
+#include "../Common/TreeDataPlugin.h"
 #include "../Common/CommPlugin.h"
 #include "NetworkPlugin.h"
 
@@ -30,6 +30,7 @@ PluginManagerClient* PluginManagerClient::instance()
 
 void PluginManagerClient::loadPlugins()
 {
+	_currentUser = 0;
 	LocalSettings settings;
 	QStringList	pluginsToLoad;
 	QStringList	pluginFilter;
@@ -110,6 +111,13 @@ void PluginManagerClient::loadPlugins()
 		++i;
 		emit loadProgressChange(50 + 50 * i / _plugins.count());
     }
+	if ( ! findPlugin<UserDataPlugin*>() || ! findPlugin<TreeDataPlugin*>())
+	{
+		qCritical() << tr("Horus Client cannot launch. You need at least a User Data Plugin and a TreeDataPlugin");
+		QApplication::instance()->exit(1);
+	}
+
+
 	_loaded = true;
 	emit loadProgressChange(100);
 	emit loaded();
