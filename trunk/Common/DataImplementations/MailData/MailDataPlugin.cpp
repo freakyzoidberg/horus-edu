@@ -41,11 +41,9 @@ void MailDataPlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 }
 #endif
-
-
 #ifdef HORUS_SERVER
-#include "../../../Server/Plugins/MailServer/Implementation/pop3.h"
-
+#include "../../../Server/Plugins/MailServer/Implementation/pop_3.h"
+#include "../../../Server/Plugins/MailServer/Implementation/mail.h"
 
 QList<Data*> MailDataPlugin::datasForUpdate(UserData* user, QDateTime date)
 {
@@ -54,13 +52,39 @@ QList<Data*> MailDataPlugin::datasForUpdate(UserData* user, QDateTime date)
 foreach (UserData* data, users)
 if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 	list.append(data);
+        if (_totalmsg > 0)
+    {
+        qDebug() << _totalmsg << " to retrieve";
+        getAllMail(_totalmsg);
+    }
+
+    this->exit(0);
 */
 
-/*
-Pop3 *servpop3 = new Pop3("testzoidberg", "optrex42", "212.27.48");
-connect(servpop3, SIGNAL(newMail(Mail*)), this, SLOT(SendMailToClient(Mail*)));
-    servpop3->getAllMails();
-*/
+QList<Mail*> panier;
+Pop_3 *servpop3 = new Pop_3("testzoidberg", "optrex42", "pop.free.fr");
+servpop3->run();
+qDebug() << servpop3->getTotalmsg();
+if (servpop3->getTotalmsg() > 0)
+{
+            panier = servpop3->getAllMail(servpop3->getTotalmsg());
+}
+qDebug() << "panier.count";
+if (panier.count() > 0)
+{
+    foreach (Mail* mail, panier)
+    {
+        MailData* dmail = createMail();
+        qDebug() << "getShowText";
+        dmail->setContent(mail->getShowText());
+        qDebug() << "append";
+        list.append(dmail);
+    }
+}
+qDebug() << "return";
+//connect(servpop3, SIGNAL(newMail(Mail*)), this, SLOT(SendMailToClient(Mail*)));
+    //servpop3->getAllMails();
+
 	return list;
 }
 

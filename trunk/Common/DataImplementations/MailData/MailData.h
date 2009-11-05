@@ -64,7 +64,7 @@ public :
         inline void                     setBcc(QStringList b)   { _bcc = b; }
         inline void			setContent(QString Con) { _content = Con; }
         inline void                     setSubject(QString Sub) {_subject = Sub; }
-        inline void             sendMail() { Data::setStatus(SAVING); }
+        inline void                     sendMail() { Data::setStatus(SAVING); }
 
         inline QString			getContent() const { return _content; }
 

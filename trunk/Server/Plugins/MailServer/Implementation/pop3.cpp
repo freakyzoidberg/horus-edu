@@ -275,11 +275,10 @@ void Pop3::parseStatLine(const QString& line)
 
 	QStringList sl = line.split(" "); 
 	
-	
-        d->mails_to_read = sl.at(0).toUInt();
-        d->bytes_to_read = sl.at(1).toUInt();
-
-	//qDebug("Stat line: %s, mails: %d, bytes: %d", line.toAscii(), d->mails_to_read, d->bytes_to_read);
+        d->mails_to_read = sl.at(1).toUInt();
+        d->bytes_to_read = sl.at(2).toUInt();
+        qDebug() << "Stat" << sl.at(1).toUInt() << " -- " << sl.at(2).toUInt();
+        //qDebug("Stat line: %s, mails: %d, bytes: %d", line.toAscii(), d->mails_to_read, d->bytes_to_read);
 }
 
 void Pop3::readyRead()

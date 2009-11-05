@@ -409,7 +409,8 @@ public:
 	* Function is called, when building header data.
 	*/
 	QString timeStamp();
-	
+        QString Getuid() {return uid;}
+        void setuid(QString id) {uid = id;}
 protected:
 	
 	virtual bool isSendDataValid();
@@ -417,7 +418,7 @@ protected:
 	virtual void setSendDataValid(bool VAL = TRUE);
 		
 private:
-
+        QString uid;
 	MailPrivate* d;
 	
 	MimeTypes mimeTypes;

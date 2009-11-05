@@ -13,7 +13,8 @@ SOURCES += Implementation/smtp.cpp \
     ../../../Common/DataImplementations/MailData/MailData.cpp \
     Implementation/mime.cpp \
     Implementation/mail.cpp \
-    Implementation/pop3.cpp
+    Implementation/pop3.cpp \
+Implementation/pop_3.cpp
 HEADERS += Implementation/MailServerMetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
@@ -30,4 +31,5 @@ HEADERS += Implementation/MailServerMetaPlugin.h \
     Implementation/mime-types.h \
     Implementation/mime.h \
 Implementation/mail.h \
-    Implementation/pop3.h
+    Implementation/pop3.h \
+Implementation/pop_3.h

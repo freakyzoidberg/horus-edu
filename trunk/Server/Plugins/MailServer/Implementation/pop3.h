@@ -56,7 +56,8 @@ class QHostInfo;
 
 class Pop3Private;
 
-class DLL_MAKRO Pop3 : public QObject {
+class DLL_MAKRO Pop3 : public QObject
+{
 
         Q_OBJECT
 
