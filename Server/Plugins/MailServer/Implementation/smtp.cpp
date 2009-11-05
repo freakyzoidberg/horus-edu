@@ -349,7 +349,7 @@ bool smtp::send()
     }
 
     _socket = _ssl ? new QSslSocket(this) : new QTcpSocket(this);
- //_socket=new QTcpSocket(this);
+    //_socket=new QTcpSocket(this);
     connect( _socket, SIGNAL( error( QAbstractSocket::SocketError) ), this, SLOT( errorReceived( QAbstractSocket::SocketError ) ) );
     connect( _socket, SIGNAL( proxyAuthenticationRequired(const QNetworkProxy & , QAuthenticator *) ), this, SLOT(proxyAuthentication(const QNetworkProxy &, QAuthenticator * ) ) );
 
