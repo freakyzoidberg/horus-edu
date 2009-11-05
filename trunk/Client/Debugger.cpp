@@ -14,9 +14,9 @@ Debugger::Debugger()
     setLayout(&layout);
     setWindowTitle(tr("Horus debugger"));
 
-//	QFont font;// = text.font();
-//	font.setFixedPitch(true);
-//	text.setFont(font);
+	QFont font = text.font();
+	font.setFixedPitch(true);
+	text.setFont(font);
 
 	layout.addWidget(&text);
 	layout.addWidget(&resetButton);

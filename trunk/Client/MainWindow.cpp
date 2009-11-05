@@ -3,13 +3,13 @@
 #include <QDir>
 #include <QTabWidget>
 
+#include "CacheManager.h"
 #include "SettingsDialog.h"
 #include "DisplayablePlugin.h"
 #include "PluginManagerClient.h"
 
-MainWindow::MainWindow(QApplication *parent) : QMainWindow()
+MainWindow::MainWindow()
 {
-	parent = parent;
 	ui.setupUi(this);
 	createActions();
 	createMenus();
@@ -17,15 +17,10 @@ MainWindow::MainWindow(QApplication *parent) : QMainWindow()
 	show();
 }
 
-#include "CacheManager.h"
-bool MainWindow::event(QEvent *event)
+void MainWindow::closeEvent(QCloseEvent*)
 {
-    if (event->type() == QEvent::Close)
-	{
-		CacheManager::instance()->save();
-		parent->exit();
-	}
-    return (QMainWindow::event(event));
+	CacheManager::instance()->save();
+	QApplication::instance()->exit();
 }
 
 void    MainWindow::createActions()
