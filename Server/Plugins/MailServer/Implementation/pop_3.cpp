@@ -220,7 +220,7 @@ QList<Mail*> Pop_3::getAllMail(int MaxMail)
     QList<Mail*> panier;
     for (i = 1; i <= MaxMail; i++)
     {
-       sendRetr("UIDL " + QVariant(i).toString());
+       sendCommand("UIDL " + QVariant(i).toString(), "+OK");
        if  (!read("+OK"))
            return panier;
        else
