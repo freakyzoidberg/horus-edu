@@ -26,7 +26,8 @@ public:
         inline const QString getDataType()   const { return "MailData"; }
 
 
-        MailData*      getMail(quint32 i);
+        MailData*      getMail(QString i);
+        QList<MailData*>      getAllMail() const;
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif

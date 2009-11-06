@@ -102,7 +102,7 @@ void MailForm::mysendmail()
     md->setSubject(subject_value->text());
     md->setContent(content_value->toPlainText());
     //qDebug() << ;
-    md->setId(rand());
+    md->setId(QVariant(rand()).toString());
 
 
     md->sendMail();

@@ -39,13 +39,17 @@ _MailPlugin = MailPlugin;
     //this->setHorizontalHeader(header);
 
     QStringList toto;
+    QList<MailData*> list;
 
-    toto.append("email 1");
-toto.append("email 2");
-toto.append("email 3");
+    list = _MailPlugin->getAllMail();
+
+    foreach (MailData* data, list)
+    toto.append(data->getSubject());
 
     QVBoxLayout *total = new QVBoxLayout();
     QListView *emailList = new QListView();
+
+
     QStringListModel *listmodel = new QStringListModel();
 
     listmodel->setStringList(toto);
