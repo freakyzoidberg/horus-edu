@@ -11,7 +11,8 @@ CalendarCore::CalendarCore(TreeDataPlugin *_tree,
     this->users = _users;
 }
 
-CalendarCore    *CalendarCore::CalendarCoreInstance(TreeDataPlugin *treePlugin, UserDataPlugin *userPlugin)
+CalendarCore    *CalendarCore::CalendarCoreInstance(TreeDataPlugin *treePlugin,
+                                                    UserDataPlugin *userPlugin)
 {
    if (!_instance)
      _instance = new CalendarCore(treePlugin, userPlugin);
@@ -31,11 +32,9 @@ QHash<quint32, TreeData *>  *CalendarCore::getNodeOfType(QString type)
    return classes;
 }
 
- QStringList CalendarCore::usersName(QHash<quint32, TreeData *> *groups)
+ QHash<quint32, UserData*> *CalendarCore::usersName(const QString & groupName)
  {
-    QStringList userNames;
 
-    for (int i = 0; i < users->getAllUser().size(); ++i)
-       userNames.append(users->getAllUser().value(i)->login());
-    return userNames;
+
+    return NULL;
  }

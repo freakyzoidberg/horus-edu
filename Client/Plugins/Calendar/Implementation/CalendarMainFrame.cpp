@@ -12,28 +12,31 @@
 #include "../../../../Common/EventData.h"
 #include "CalendarCore.h"
 
-CalendarMainFrame::CalendarMainFrame(TreeDataPlugin *_treePlugin,
-                                     UserDataPlugin *_userPlugin,
-                                     EventDataPlugin *_eventPlugin)
+CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
+                                     UserDataPlugin  *_userPlugin,
+                                     EventDataPlugin *_eventPlugin,
+                                     Calendar *_calendarPlugin)
 {
     _tree  = _treePlugin;
     _users = _userPlugin;
     _event = _eventPlugin;
+    this->_calendarPlugin = _calendarPlugin;
     _created = false;
+    _currentUser = _calendarPlugin->pluginManager->currentUser();
 
     _add = new AddEventWidget();
     _mainLayout = new QGridLayout(this);
+    _mainLayout->setMargin(0);
+    _mainLayout->setSpacing(0);
     _tinyCalendar = new QCalendarWidget;
     _tinyCalendar->setGridVisible(true);
 
     _tinyCalendar->adjustSize();
     _mainLayout->addWidget(_tinyCalendar, 0, 0, 1, 1);
 
-    QHash<quint32, TreeData *> *groups = CalendarCore::CalendarCoreInstance()->getNodeOfType("GROUP");
-    QStringList userlist = CalendarCore::CalendarCoreInstance()->usersName(groups);
-    //combo->addItems(userlist);
-
     _googleCalendar = calendar();
+    calendarWeeklyDisplay();
+
     _mainLayout->addWidget(_add, 1, 0, 1, 2);
     _mainLayout->addWidget(_googleCalendar, 1, 0, 1, 2);
 
@@ -48,9 +51,10 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin *_treePlugin,
     connect(_controls->weekly(), SIGNAL(clicked()), this, SLOT(calendarWeeklyDisplay()));
     connect(_controls->planning(), SIGNAL(clicked()), this, SLOT(calendarPlanningDisplay()));
 
+    connect(_tinyCalendar, SIGNAL(selectionChanged()), this, SLOT(dateChanged()));
+
     connect(_add->cancel(), SIGNAL(clicked()), this, SLOT(cancelEventSave()));
     connect(_add->save(), SIGNAL(clicked()), this, SLOT(saveEvent()));
-   // connect(_add->_);
     _add->setVisible(false);
 }
 
@@ -118,7 +122,7 @@ void        CalendarMainFrame::isCreated()
 
  void   CalendarMainFrame::calendarWeeklyDisplay()
  {
-
+    _googleCalendar->weeklyDisplay(_tinyCalendar->selectedDate());
  }
 
  void   CalendarMainFrame::calendarMonthlyDisplay()
@@ -129,4 +133,11 @@ void        CalendarMainFrame::isCreated()
  void   CalendarMainFrame::calendarPlanningDisplay()
  {
 
+ }
+
+ void   CalendarMainFrame::dateChanged()
+ {
+    qDebug() << "date has changed";
+    qDebug() << _tinyCalendar->selectedDate();
+    _googleCalendar->weeklyDisplay(_tinyCalendar->selectedDate());
  }

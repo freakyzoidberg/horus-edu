@@ -17,8 +17,8 @@ class EventDataPlugin : public DataPlugin
 #endif
 
 public:
-	virtual EventData*			nodeEvent(quint32 nodeId) = 0;
-	virtual EventData*			nodeEvent(TreeData* node) = 0;
+        virtual EventData*		nodeEvent(quint32 nodeId) = 0;
+        virtual EventData*		nodeEvent(TreeData* node) = 0;
 	virtual QList<EventData*>	userEvents(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime()) = 0;
 };
 

@@ -17,64 +17,64 @@ class TreeDataBase : public TreeData
 {
   Q_OBJECT
 #ifdef HORUS_SERVER
-  Q_INTERFACES(ServerTreeData)
+    Q_INTERFACES(ServerTreeData)
 #endif
 #ifdef HORUS_CLIENT
-  Q_INTERFACES(ClientTreeData)
+    Q_INTERFACES(ClientTreeData)
 #endif
 
-  friend class TreeDataBasePlugin;
-private:
-    TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin);
-    inline ~TreeDataBase() {}
+    friend class TreeDataBasePlugin;
+ private:
+  TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin);
+  inline ~TreeDataBase() {}
 
-    quint32     _id;
-    UserData*   _user;
-    QString     _name;
-    QString     _type;
-	QList<TreeData*> _children;
-	TreeDataBase*	_parent;
+  quint32     _id;
+  UserData*   _user;
+  QString     _name;
+  QString     _type;
+  QList<TreeData*> _children;
+  TreeDataBase*	_parent;
 
-public:
-    //INTERFACE Data
-    void            keyToStream(QDataStream& s);
-	void            dataToStream(QDataStream& s) const;
-    void            dataFromStream(QDataStream& s);
+ public:
+  //INTERFACE Data
+  void            keyToStream(QDataStream& s);
+  void            dataToStream(QDataStream& s) const;
+  void            dataFromStream(QDataStream& s);
 
-    QDebug          operator<<(QDebug debug) const;
+  QDebug          operator<<(QDebug debug) const;
 
-    // INTERFACE TreeData
-    inline int     id() const { return _id; }
+  // INTERFACE TreeData
+  inline int     id() const { return _id; }
 
-    TreeData*           createChild(const QString name, const QString type, UserData* user);
-    void                recursRemove();
-    void                moveTo(TreeData* father);
+  TreeData*           createChild(const QString name, const QString type, UserData* user);
+  void                recursRemove();
+  void                moveTo(TreeData* father);
 
-    inline const QString name() const { return objectName(); }
-    void                setName(const QString name);
+  inline const QString name() const { return objectName(); }
+  void                setName(const QString name);
 
-    inline UserData*    user() const { return _user; }
-    void                setUser(UserData* user);
+  inline UserData*    user() const { return _user; }
+  void                setUser(UserData* user);
 
-    inline const QString type() const { return _type; }
-    void                setType(const QString type);
+  inline const QString type() const { return _type; }
+  void                setType(const QString type);
 
-	inline TreeData*	parent() const { return _parent; }
-	void				setParent(TreeData*);
-	inline const QList<TreeData*>&	children() const { return _children; }
+  inline TreeData*	parent() const { return _parent; }
+  void				setParent(TreeData*);
+  inline const QList<TreeData*>&	children() const { return _children; }
 
-    bool                isDescendantOf(TreeData* parent);
+  bool                isDescendantOf(TreeData* parent);
 
 #ifdef HORUS_CLIENT
-    QVariant        data(int column, int role = Qt::DisplayRole) const;
+  QVariant        data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
-	quint8			serverRead();
-	quint8			serverCreate();
-	quint8			serverSave();
-	quint8			serverRemove();
-	QByteArray		newSession(const QDateTime& end);
-	void            destroySession();
+  quint8			serverRead();
+  quint8			serverCreate();
+  quint8			serverSave();
+  quint8			serverRemove();
+  QByteArray		newSession(const QDateTime& end);
+  void            destroySession();
 #endif
 };
 

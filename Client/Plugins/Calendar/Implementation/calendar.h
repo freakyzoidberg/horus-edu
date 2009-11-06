@@ -10,9 +10,11 @@
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/UserDataPlugin.h"
 #include "../../../../Common/TreeData.h"
+#include "../../../../Common/EventData.h"
+#include "../../../../Common/EventDataPlugin.h"
 # include "../../../DisplayablePlugin.h"
 
-#include "CalendarMainFrame.h"
+//#include "CalendarMainFrame.h"
 
 class Calendar : public DisplayablePlugin
 {
