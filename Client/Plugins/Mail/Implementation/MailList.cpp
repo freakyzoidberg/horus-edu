@@ -4,14 +4,16 @@
 #include <QListView>
 #include <QStringListModel>
 #include <QStringList>
+#include <QModelIndex>
 #include "../../../../Common/DataImplementations/MailData/MailData.h"
 MailList::MailList(MailDataPlugin *MailPlugin)
 {
 _MailPlugin = MailPlugin;
 
     MailData *md = _MailPlugin->createMail();
+    emailList = new QTableView();
 
-
+connect(emailList, SIGNAL(clicked(QModelIndex)),  this, SLOT(myClicked(QModelIndex)));
 
     //md->getMail();
 
@@ -43,20 +45,43 @@ _MailPlugin = MailPlugin;
 
     list = _MailPlugin->getAllMail();
 
+    MailAbstractModel *listmodel = new MailAbstractModel();
+emailList->horizontalHeader()->resizeMode(QHeaderView::Stretch);
+emailList->horizontalHeader()->setStretchLastSection(true);
+    int mailtotal = list.count();
+    int i = 0;
+    qDebug() << list.count();
+    listmodel->setRow(list.count());
     foreach (MailData* data, list)
-    toto.append(data->getSubject());
+    {
 
+        qDebug() << data->getSubject();
+        qDebug() << data->getMDate();
+        qDebug() << listmodel->setData(listmodel->index(i,0),mailtotal - i, Qt::EditRole);
+        qDebug() << data->getFrom();
+        qDebug() << listmodel->setData(listmodel->index(i,2),data->getFrom(), Qt::EditRole);
+        qDebug() << listmodel->setData(listmodel->index(i,3),data->getSubject(), Qt::EditRole);
+        //qDebug() << listmodel->setData(listmodel->index(i,2),data->getFrom(), Qt::EditRole);
+        qDebug() << listmodel->setData(listmodel->index(i,1),data->getMDate(), Qt::EditRole);
+    i++;
+    //    toto.append(data->getSubject());
+    }
     QVBoxLayout *total = new QVBoxLayout();
-    QListView *emailList = new QListView();
+        emailList->verticalHeader()->hide();
+        emailList->sortByColumn(0);
+    emailList->setShowGrid(false);
 
 
-    QStringListModel *listmodel = new QStringListModel();
 
-    listmodel->setStringList(toto);
-emailList->setEditTriggers(0);
+    //listmodel->RefreshList();
+
+    //listmodel->setRow(4);
+
+    //listmodel->setStringList(toto);
+    emailList->setEditTriggers(0);
     emailList->setModel(listmodel);
     total->addWidget(emailList);
-
+    emailList->resizeColumnsToContents();
 
 /*
   this->addColumn( "Mail id" );
@@ -89,6 +114,12 @@ emailList->setEditTriggers(0);
 
 
 
+}
+
+
+void MailList::myClicked(QModelIndex idx)
+{
+    emailList->selectRow(idx.row());
 }
 
 MailList::~MailList()

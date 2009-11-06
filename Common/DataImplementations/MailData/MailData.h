@@ -57,8 +57,12 @@ private:
         QStringList                     _bcc;
         QString				_content;
         QString                         _subject;
+        QString                         _date;
+        QString                         _from;
 public :
         inline void			setId(QString i)     { _id = i; }
+        inline void			setFrom(QString i)     { _from = i; }
+        inline void			setMDate(QString i)     { _date = i; }
         inline void			setTo(QStringList t) { _to = t; }
         inline void			setCc(QStringList c)     { _cc = c; }
         inline void                     setBcc(QStringList b)   { _bcc = b; }
@@ -68,6 +72,8 @@ public :
 
         inline QString			getContent() const { return _content; }
          inline QString                    getSubject() {return _subject; }
+         inline QString                    getMDate() {return _date; }
+         inline QString                    getFrom() {return _from; }
 
 
 };
