@@ -17,7 +17,12 @@ class CalendarControlsWidget : public QWidget
 public:
                         CalendarControlsWidget();
 
-     QPushButton        *addEvent()                 { return _addEvent; }
+     QPushButton        *addEvent()         { return _addEvent; }
+     QPushButton        *daily()            { return _daily; }
+     QPushButton        *weekly()           { return _weekly; }
+     QPushButton        *monthly()          { return _monthly; }
+     QPushButton        *planning()         { return _planning; }
+
 public slots:
      void               setMonth(int month);
      void               setYear(QDate date);

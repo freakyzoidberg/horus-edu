@@ -32,10 +32,12 @@
      mainLayout->addWidget(new QLabel(tr("gromanche")), 0, 7);
 
      QVector<QWidget *> columnLayout;
-     for (int j = 1; j <= nbRow; ++j)
+     //for (int j = 1; j <= nbRow; ++j)
          for (int i = 1; i <= nbColumn; ++i)
-        {
-            AddEventWidget *tmp = new AddEventWidget();
-            mainLayout->addWidget(tmp, j, i);
-        }
+            {
+                QWidget *tmp = new QWidget();
+                QGridLayout *tmpLay = new QGridLayout(tmp);
+                mainLayout->addWidget(tmp, 2, i, 10, 1);
+                columnLayout.append(tmp);
+            }
  }

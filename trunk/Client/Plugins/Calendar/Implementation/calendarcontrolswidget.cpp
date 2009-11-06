@@ -25,6 +25,7 @@ CalendarControlsWidget::CalendarControlsWidget()
      QComboBox  *userList = new QComboBox;
      QPushButton *go = new QPushButton(tr("Rechercher"));
      QLineEdit  *userName = new QLineEdit;
+
      _addEvent = new QPushButton("add an event");
 
      QDateTimeEdit *yearEdit = new QDateTimeEdit;
@@ -55,7 +56,6 @@ CalendarControlsWidget::CalendarControlsWidget()
      controlsLayout->addWidget(_planning, 2, 6);
 
      this->setLayout(controlsLayout);
-
 }
 
 void CalendarControlsWidget::setMonth(int month)
