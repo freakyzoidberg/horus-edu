@@ -24,7 +24,8 @@ QWidget *Calendar::getWidget()
 {
     CalendarMainFrame *frame = new CalendarMainFrame(this->treePlugin,
                                                      this->userPlugin,
-                                                     this->eventPlugin);
+                                                     this->eventPlugin,
+                                                     this);
     return frame;
 }
 

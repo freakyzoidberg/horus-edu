@@ -94,7 +94,7 @@ signals:
 	//! Signal emmited when the data is created.
 	void                    created();
 	//! Signal emmited when the data is updated.
-    void                    updated();
+        void                    updated();
 	//! Signal emmited when the data is removed.
 	void                    removed();
 	//! Signal emmited when an error append on this data

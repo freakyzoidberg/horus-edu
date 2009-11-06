@@ -20,11 +20,14 @@
 class CalendarMainFrame : public QWidget
 {
     Q_OBJECT
+
 public:
                                 CalendarMainFrame(TreeDataPlugin *,
                                                   UserDataPlugin *,
-                                                  EventDataPlugin *);
+                                                  EventDataPlugin *,
+                                                  Calendar *);
 
+    //jsais plus pkoi javais besoin de ca
     QHash<quint32, TreeData *>  getNodeOfType(QString type);
     CalendarWidget              *calendar();
 
@@ -46,22 +49,27 @@ public slots:
     void                        calendarMonthlyDisplay();
     void                        calendarPlanningDisplay();
 
+    //called when a clicked on the tiny calendar occurs
+    void                        dateChanged();
+
     //used to check if the eventdata already exist,
-    //connected to the signal created() of Data *
+    //connected to the signal created() of Data*
     void                        isCreated();
 
 private:
-    bool                        _created;
-
     TreeDataPlugin              *_tree;
     UserDataPlugin              *_users;
     EventDataPlugin             *_event;
+    UserData                    *_currentUser;
 
     QGridLayout                 *_mainLayout;
     QCalendarWidget             *_tinyCalendar;
     CalendarWidget              *_googleCalendar;
+    Calendar                    *_calendarPlugin;
     CalendarControlsWidget      *_controls;
     AddEventWidget              *_add;
+    QDate                       _selectedDate;
+    bool                        _created;
 };
 
 #endif // CALENDARMAINFRAME_H

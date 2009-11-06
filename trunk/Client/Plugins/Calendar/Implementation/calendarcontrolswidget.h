@@ -8,8 +8,6 @@
 #include <QComboBox>
 #include <QDateTimeEdit>
 
-//#include "CalendarMainFrame.h"
-
 class CalendarControlsWidget : public QWidget
 {
     Q_OBJECT
@@ -23,6 +21,9 @@ public:
      QPushButton        *monthly()          { return _monthly; }
      QPushButton        *planning()         { return _planning; }
 
+     void               initGroupList();
+     void               initUserList(const QString & groupType);
+
 public slots:
      void               setMonth(int month);
      void               setYear(QDate date);
@@ -33,7 +34,11 @@ private:
      QPushButton        *_daily, *_monthly, *_weekly, *_planning, *_addEvent;
      QComboBox          *dayCombo, *monthCombo;
      QDateTimeEdit      *yearEdit;
-    // CalendarMainFrame  *calendar;
+
+     QComboBox          *_groupList;
+     QComboBox          *_userList;
+     QPushButton        *_go;
+     QLineEdit          *_userName;
 };
 
 #endif // CALENDARCONTROLSWIDGET_H

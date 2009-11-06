@@ -23,8 +23,8 @@ public:
 	virtual void			setDuration(const QDateTime& time) = 0;
 
 protected:
-	inline					EventData(EventDataPlugin* plugin) : Data(plugin) { }
-	inline					~EventData() {}
+        inline				EventData(EventDataPlugin* plugin) : Data(plugin) { }
+        inline				~EventData() {}
 };
 
 #ifdef HORUS_SERVER
