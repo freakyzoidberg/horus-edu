@@ -15,7 +15,9 @@ void MailData::dataToStream(QDataStream& s) const
     << _cc
     << _bcc
     << _subject
-    << _content;
+    << _content
+    << _from
+    << _date;
 	Data::dataToStream(s);
 }
 
@@ -27,7 +29,9 @@ void MailData::dataFromStream(QDataStream& s)
 	_cc >>
 	_bcc >>
 	_subject >>
-	_content;
+        _content >>
+        _from >>
+        _date;
 	Data::dataFromStream(s);
 }
 
