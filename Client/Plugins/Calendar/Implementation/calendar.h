@@ -8,6 +8,7 @@
 #include "../../../../Common/UserDataPlugin.h"
 #include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeDataPlugin.h"
+#include "../../../../Common/UserDataPlugin.h"
 #include "../../../../Common/TreeData.h"
 # include "../../../DisplayablePlugin.h"
 
@@ -31,6 +32,7 @@ public:
 private:
     TreeDataPlugin          *treePlugin;
     UserDataPlugin          *userPlugin;
+    EventDataPlugin         *eventPlugin;
 };
 
 #endif // CALENDAR_H

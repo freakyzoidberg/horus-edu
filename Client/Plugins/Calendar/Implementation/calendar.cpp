@@ -22,7 +22,9 @@ const QString   Calendar::pluginVersion() const
 
 QWidget *Calendar::getWidget()
 {
-    CalendarMainFrame *frame = new CalendarMainFrame(this->treePlugin, this->userPlugin);
+    CalendarMainFrame *frame = new CalendarMainFrame(this->treePlugin,
+                                                     this->userPlugin,
+                                                     this->eventPlugin);
     return frame;
 }
 
@@ -30,6 +32,7 @@ void Calendar::load()
 {
     treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
     userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
+    eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
 
     Plugin::load();
     CalendarCore::CalendarCoreInstance(treePlugin, userPlugin);
