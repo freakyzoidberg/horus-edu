@@ -6,7 +6,7 @@
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
 
-MailData* MailDataPlugin::getMail(quint32 i)
+MailData* MailDataPlugin::getMail(QString i)
 {
    foreach (MailData* wb, Mails)
     {
@@ -20,6 +20,14 @@ MailData* MailDataPlugin::getMail(quint32 i)
 	return wb;
 }
 
+QList<MailData*> MailDataPlugin::getAllMail() const
+{
+        QList<MailData*> list;
+        foreach (MailData* data, Mails)
+                if (data->status() != Data::EMPTY)
+                        list.append(data);
+        return list;
+}
 
 MailData* MailDataPlugin::createMail()
 {
@@ -31,7 +39,7 @@ MailData* MailDataPlugin::createMail()
 
 Data* MailDataPlugin::getDataWithKey(QDataStream& s)
 {
-	quint32 Id;
+        QString Id;
 	s >> Id;
 	return getMail(Id);
 }
@@ -41,6 +49,7 @@ void MailDataPlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 }
 #endif
+
 #ifdef HORUS_SERVER
 #include "../../../Server/Plugins/MailServer/Implementation/pop_3.h"
 #include "../../../Server/Plugins/MailServer/Implementation/mail.h"
@@ -77,6 +86,13 @@ if (panier.count() > 0)
         MailData* dmail = createMail();
         qDebug() << "getShowText";
         dmail->setContent(mail->getShowText());
+        //dmail->setTo(mail->to());
+        //dmail->setCc(mail->cc());
+        //dmail->setBcc(mail->bcc());
+        qDebug() << mail->to();
+        dmail->setSubject(mail->subject());
+
+        dmail->setId(mail->Getuid());
         qDebug() << "append";
         list.append(dmail);
     }

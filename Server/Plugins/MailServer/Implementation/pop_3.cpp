@@ -220,9 +220,11 @@ QList<Mail*> Pop_3::getAllMail(int MaxMail)
     QList<Mail*> panier;
     for (i = 1; i <= MaxMail; i++)
     {
-       sendCommand("UIDL " + QVariant(i).toString(), "+OK");
-       if  (!read("+OK"))
+       if (!sendCommand("UIDL " + QVariant(i).toString(), "+OK"))
+       {
+            qDebug() << "Error";
            return panier;
+       }
        else
        {
             uid = _lastResponse.split(" ").at(2);

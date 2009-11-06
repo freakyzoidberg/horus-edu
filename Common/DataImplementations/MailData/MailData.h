@@ -51,14 +51,14 @@ private:
     inline ~MailData() {}
 
 private:
-        quint32				_id;
+        QString				_id;
         QStringList			_to;
         QStringList			_cc;
         QStringList                     _bcc;
         QString				_content;
         QString                         _subject;
 public :
-        inline void			setId(quint32 i)     { _id = i; }
+        inline void			setId(QString i)     { _id = i; }
         inline void			setTo(QStringList t) { _to = t; }
         inline void			setCc(QStringList c)     { _cc = c; }
         inline void                     setBcc(QStringList b)   { _bcc = b; }
@@ -67,6 +67,7 @@ public :
         inline void                     sendMail() { Data::setStatus(SAVING); }
 
         inline QString			getContent() const { return _content; }
+         inline QString                    getSubject() {return _subject; }
 
 
 };
