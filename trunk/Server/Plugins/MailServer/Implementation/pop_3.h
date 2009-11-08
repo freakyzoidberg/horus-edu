@@ -24,7 +24,7 @@ public:
 
 private slots:
     void errorReceived(QAbstractSocket::SocketError socketError);
-    void proxyAuthentication(const QNetworkProxy & proxy, QAuthenticator * authenticator);
+    //void proxyAuthentication(const QNetworkProxy & proxy, QAuthenticator * authenticator);
 
 
 private:

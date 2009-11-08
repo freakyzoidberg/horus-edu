@@ -194,7 +194,6 @@ QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
 	border: 1px solid rgb(199, 199, 199);
 	border-left-color: rgb(112, 112, 112);
 	border-bottom-color: rgb(112, 112, 112);
-	color: white;
 	font-family: &quot;Tohoma&quot;;
 	font-size: 10px;
 	font-weight: bold;
@@ -203,33 +202,34 @@ QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
 {
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(109, 109, 109, 255), stop:1 rgba(126, 189, 189, 255));
+	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:hover
 {
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(139, 139, 139, 255), stop:1 rgba(153, 229, 229, 255));
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:selected
 {
-	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:0, stop:0 rgba(169, 169, 169, 255), stop:1 rgba(166, 249, 249, 255));
-	color: black;
+	color: white;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(155, 155, 155, 255), stop:1 rgba(202, 225, 229, 255));
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top
 {
-	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:1, stop:0 rgba(109, 109, 109, 255), stop:1 rgba(126, 189, 189, 255));
+	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:hover
 {
-	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0.994, y2:1, stop:0 rgba(139, 139, 139, 255), stop:1 rgba(153, 229, 229, 255));
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:selected
 {
-	background-color: qlineargradient(spread:pad, x1:0.982955, y1:1, x2:1, y2:0, stop:0 rgba(169, 169, 169, 255), stop:1 rgba(166, 249, 249, 255));
+	color: white;
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(155, 155, 155, 255), stop:1 rgba(202, 225, 229, 255));
 }
 </string>
   </property>
