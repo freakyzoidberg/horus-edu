@@ -19,7 +19,7 @@ class EventDataBasePlugin : public EventDataPlugin
 public:
 							EventDataBasePlugin() {}
 
-	EventData*				newEvent(TreeData* parent);
+	EventData*				newEvent(TreeData* parent, UserData* user = 0);
 	EventData*				nodeEvent(quint32 nodeId);
 	EventData*				nodeEvent(TreeData* node);
 	QList<EventData*>		nodeEvents(TreeData* node, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
