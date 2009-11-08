@@ -22,12 +22,15 @@
 { 
 background: transparent; 
 } 
+
 QMainWindow::separator { 
 background: black; 
 } 
+
 QDockWidget { 
 titlebar-close-icon: url(:/close.png); 
-} 
+}
+
 QDockWidget::title { 
 text-align: left; 
 background: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255)); 
@@ -47,7 +50,7 @@ QDockWidget::close-button:pressed {
 padding: 1px -1px -1px 1px; 
 } 
 QMenuBar { 
-background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255)); 
+background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255));
 border: 0px; 
 padding: 3px; 
 } 
@@ -159,7 +162,7 @@ QTreeView
 { 
 	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:1, stop:0 rgba(216, 227, 229, 255), stop:0.704545 rgba(255, 255, 255, 255));
 border: 0px; 
-selection-background-color: rgb(73, 150, 186); 
+  selection-background-color: rgb(73, 150, 186)
 } 
 QTreeView::branch:has-siblings:!adjoins-item { 
 border-image: url(:/vline.png) 0; 
@@ -185,51 +188,58 @@ background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, st
 border: 0px; 
 } 
 
-QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
+QMainWindow
 {
-	min-width: 75px;
-	min-height: 60px;
-	max-width: 75px;
-	max-height: 60px;
-	border: 1px solid rgb(199, 199, 199);
-	border-left-color: rgb(112, 112, 112);
-	border-bottom-color: rgb(112, 112, 112);
-	font-family: &quot;Tohoma&quot;;
-	font-size: 10px;
-	font-weight: bold;
-	icon-size: 30px;
+	background-image: url(:/bgtab.png);
+	background-repeat: repeat-y;
+	background-position: left;
+}
+
+tQTabWidget[tabShape=&quot;1&quot;]  tQWidget[tab=&quot;true&quot;]
+{
+	background-color: rgb(220, 220, 220);
+}
+
+QTabWidget[tabShape=&quot;1&quot;]::pane
+{
+	border: 0px;
+}
+
+QTabWidget[tabShape=&quot;1&quot;] QTabBar
+{
+	icon-size: 32px;
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
 {
-	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:0, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
+	min-width: 78px;
+	min-height: 60px;
+	max-width: 78px;
+	max-height: 60px;
+	border: 1px solid rgba(0, 0, 0, 0);
+	border-top-color: rgba(255, 255, 255, 32);
+	border-bottom-color: rgba(0, 0, 0, 32);
+	border-right-color: rgba(255, 255, 255, 64);
+	font-family: &quot;Tohoma&quot;;
+	font-size: 10px;
+	font-weight: bold;
+	color: white;
+}
+
+QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
+{
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.210227 rgba(100, 100, 100, 255), stop:0.784091 rgba(127, 127, 127, 255));
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:hover
 {
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0.210227 rgba(118, 118, 118, 255), stop:0.784091 rgba(146, 146, 146, 255));
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:selected
 {
-	color: white;
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(155, 155, 155, 255), stop:1 rgba(202, 225, 229, 255));
-}
-
-QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top
-{
-	background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:1, y2:1, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
-}
-
-QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:hover
-{
-	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(202, 225, 229, 255));
-}
-
-QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:selected
-{
-	color: white;
-	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:1, y2:0, stop:0 rgba(155, 155, 155, 255), stop:1 rgba(202, 225, 229, 255));
+	color: black;
+	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255));
 }
 </string>
   </property>
@@ -240,7 +250,7 @@ QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:selected
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>

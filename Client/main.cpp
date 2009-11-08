@@ -32,6 +32,7 @@ int						main(int argc, char *argv[])
 	{
 		QMainWindow *window = new MainWindow;
 		app.setStyleSheet(window->styleSheet());
+		window->setStyleSheet("");
 		return (app.exec());
 	}
 
