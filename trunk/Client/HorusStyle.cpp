@@ -53,7 +53,7 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
                 if (!iconSize.isValid()) {
                     int iconExtent = pixelMetric(PM_SmallIconSize);
 					if (tabV2.shape == QTabBar::TriangularWest || tabV2.shape == QTabBar::TriangularNorth)
-						iconExtent = 48;
+						iconExtent = 32;
                     iconSize = QSize(iconExtent, iconExtent);
                 }
                 QSize tabIconSize = tabV2.icon.actualSize(iconSize,
@@ -78,6 +78,10 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
                 p->drawPixmap(iconRect.x(), iconRect.y(), tabIcon);
             }
 
+			tr.setTop(40);
+			tr.setBottom(60);
+			tr.setLeft(2);
+			tr.setRight(76);
             drawItemText(p, tr, alignment, tab->palette, tab->state & State_Enabled, tab->text, QPalette::WindowText);
             if (verticalTabs)
                 p->restore();
@@ -150,12 +154,12 @@ QRect HorusStyle::subElementRect(SubElement sr, const QStyleOption *opt, const Q
                 if (tabV2.leftButtonSize.isEmpty())
                     offset += 2;
 
-                QRect iconRect = QRect(tr.left() + offset, tr.center().y() - tabIconSize.height() / 2,
+				QRect iconRect = QRect(tr.left() + offset, tr.center().y() - tabIconSize.height() / 2,
                             tabIconSize.width(), tabIconSize .height());
                 if (!verticalTabs)
                     iconRect = visualRect(opt->direction, opt->rect, iconRect);
                 //tr.setLeft(tr.left() + tabIconSize.width() + offset + 2);
-				tr.setTop(tr.top() + tabIconSize.height() / 2);
+				//tr.setTop(tr.top() + tabIconSize.height() / 2);
             }
 
             // right widget
