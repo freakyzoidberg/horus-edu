@@ -6,6 +6,14 @@
 #include "../../TreeData.h"
 #include "../../UserData.h"
 
+EventData* EventDataBasePlugin::newEvent(TreeData* parent)
+{
+	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNewNode();
+	node->setParent(parent);
+	node->setType("EVENT");
+	return nodeEvent(node);
+}
+
 EventData* EventDataBasePlugin::nodeEvent(TreeData* node)
 {
 	EventData* event = node->registeredData<EventData*>();
@@ -16,11 +24,6 @@ EventData* EventDataBasePlugin::nodeEvent(TreeData* node)
 		_allEvents.append(event);
 	}
 	return event;
-}
-
-EventData* EventDataBasePlugin::nodeEvent(quint32 nodeId)
-{
-	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId));
 }
 
 QList<EventData*> EventDataBasePlugin::userEvents(UserData* user, const QDateTime from, const QDateTime to)
