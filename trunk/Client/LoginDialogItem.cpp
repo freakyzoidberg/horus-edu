@@ -3,7 +3,6 @@
 
 #include <QLabel>
 #include <QCryptographicHash>
-#include "NetworkManager.h"
 #include "PluginManagerClient.h"
 
 LoginDialogItem::LoginDialogItem(UserCache* cache, LoginDialog* dialog) : QFrame(dialog)
@@ -69,6 +68,7 @@ void LoginDialogItem::mousePressEvent(QMouseEvent* event)
 			_layout->removeItem(item);
 			delete item;
 			_layout->addWidget((_password = new QLineEdit), 1, 2);
+			_password->setEchoMode(QLineEdit::Password);
 			_password->setFocus();
 		}
 		else if ( ! _password->text().isEmpty())
@@ -89,6 +89,7 @@ void LoginDialogItem::mousePressEvent(QMouseEvent* event)
 			_layout->addWidget(new QLabel(tr("Password")+':', this), 1, 1);
 			_layout->addWidget((_login = new QLineEdit), 0, 2);
 			_layout->addWidget((_password = new QLineEdit), 1, 2);
+			_password->setEchoMode(QLineEdit::Password);
 			_login->setFocus();
 		}
 		else if ( ! _login->text().isEmpty() && ! _password->text().isEmpty())
@@ -127,26 +128,6 @@ void LoginDialogItem::login()
 		cacheLoaded();
 }
 
-//void LoginDialogItem::loginPassword(const QString& login, const QString& pass)
-//{
-//	if (login.isEmpty() || pass.isEmpty())
-//		return;
-//
-//	NetworkManager* net = NetworkManager::instance();
-//	if (net->status() != NetworkManager::ESTABLISHED)
-//		return;
-//
-//	if (_cache)
-//	{
-//		QMetaObject::invokeMethod(_cache, "load", Qt::QueuedConnection);
-//		connect(_cache, SIGNAL(loadProgressChange(int)), _dialog, SLOT(cacheLoadProgressChange(int)));
-//	}
-//	else
-//		_dialog->cacheLoadProgressChange(100);
-//
-//	QMetaObject::invokeMethod(net, "loginPassword", Qt::QueuedConnection, Q_ARG(const QString, login), Q_ARG(const QString, pass));
-//}
-
 void LoginDialogItem::cacheLoaded()
 {
 	NetworkManager* net = NetworkManager::instance();
@@ -155,7 +136,7 @@ void LoginDialogItem::cacheLoaded()
 	if (net->status() == NetworkManager::ESTABLISHED)
 	{
 		connect(net, SIGNAL(updateProgressChange(int)), _dialog->loadBar, SLOT(setValue(int)));
-		connect(net, SIGNAL(updateFinished()), _dialog, SLOT(accept()));
+		connect(net, SIGNAL(statusChange(NetworkManager::Status)), this, SLOT(networkStatusChanged(NetworkManager::Status)));
 
 		if ( ! _cache)
 			QMetaObject::invokeMethod(net, "loginPassword", Qt::QueuedConnection, Q_ARG(const QString, _login->text()), Q_ARG(const QString, _password->text()));
@@ -165,7 +146,35 @@ void LoginDialogItem::cacheLoaded()
 
 		else
 			QMetaObject::invokeMethod(net, "loginPassword", Qt::QueuedConnection, Q_ARG(const QString, _cache->login()), Q_ARG(const QString, _password->text()));
+
 	}
 	else if (net->status() == NetworkManager::DISCONNECTED)
+		_dialog->accept();
+}
+
+void LoginDialogItem::networkStatusChanged(NetworkManager::Status status)
+{
+	disconnect(this, SLOT(networkStatusChanged(NetworkManager::Status)));
+	disconnect(_dialog->loadBar, SLOT(setValue(int)));
+	_dialog->loadBar->setValue(100);
+	if (status == NetworkManager::ESTABLISHED)
+	{
+		if ( ! _password)
+		{
+			((QLabel*)(_layout->itemAtPosition(1, 1)->widget()))->setText("Password:");
+			QLayoutItem* item = _layout->itemAtPosition(1, 2);
+			_layout->removeItem(item);
+			delete item;
+			_layout->addWidget((_password = new QLineEdit), 1, 2);
+			_password->setFocus();
+			_password->setEchoMode(QLineEdit::Password);
+		}
+		else
+		{
+			_password->setText("");
+			_password->setFocus();
+		}
+	}
+	else if (status == NetworkManager::LOGGED_IN)
 		_dialog->accept();
 }
