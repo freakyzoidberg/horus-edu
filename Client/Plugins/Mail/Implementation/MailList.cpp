@@ -46,7 +46,7 @@ connect(emailList, SIGNAL(clicked(QModelIndex)),  this, SLOT(myClicked(QModelInd
     list = _MailPlugin->getAllMail();
 
     MailAbstractModel *listmodel = new MailAbstractModel();
-emailList->horizontalHeader()->resizeMode(QHeaderView::Stretch);
+
 emailList->horizontalHeader()->setStretchLastSection(true);
     int mailtotal = list.count();
     int i = 0;
