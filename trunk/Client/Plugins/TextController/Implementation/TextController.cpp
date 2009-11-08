@@ -1,6 +1,6 @@
 #include "TextController.h"
 
-#include <QLabel>
+#include <QTextEdit>
 #include <QTextEdit>
 #include <QPushButton>
 
@@ -21,14 +21,15 @@ const QString       TextController::getSupportedType() const
 
 QWidget*            TextController::createDocumentWidget(IItems *parent, ILessonDocument *document)
 {
-    QLabel *label = 0;
+	QTextEdit *textedit = 0;
 
     if (document->getParameters()["input"] == "content")
     {
-        label = new QLabel(parent);
-        label->setText(document->getContent());
+		textedit = new QTextEdit(parent);
+		textedit->setReadOnly(true);
+		textedit->setText(document->getContent());
     }
-    return (label);
+	return (textedit);
 }
 
 void                TextController::clean(IItems *widget)

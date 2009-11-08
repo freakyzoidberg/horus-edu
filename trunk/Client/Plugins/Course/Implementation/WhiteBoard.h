@@ -9,7 +9,7 @@
 #include <QHash>
 #include <QVector>
 #include <QToolBox>
-#include <QVBoxLayout>
+#include <QGridLayout>
 
 #include "../../LessonManager/IDocumentController.h"
 #include "../../LessonManager/ILesson.h"
@@ -50,7 +50,8 @@ private:
     Items           *tmp;
     int             posInDoc;
     WhiteBoardData* wbdata;
-    QVBoxLayout     *layout;
+	QGridLayout     *layout;
+	QWidget			*displayArea;
 	LessonModel		*model;
 };
 
