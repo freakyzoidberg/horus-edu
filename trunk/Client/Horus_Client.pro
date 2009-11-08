@@ -25,7 +25,6 @@ SOURCES += main.cpp \
     SettingsDialog.cpp \
     UserInfo.cpp \
 	Notification.cpp \
-    DockMenu.cpp \
     Debugger.cpp \
     CacheManager.cpp \
     UserCache.cpp \
@@ -59,10 +58,8 @@ HEADERS += NetworkManager.h \
     UserInfo.h \
 	Notification.h \
     PluginManagerClient.h \
-    DockMenu.h \
     ../Common/Notification.h \
     Debugger.h \
-    DockMenuItem.h \
     CacheManager.h \
     UserCache.h \
     LoginDialogItem.h \
