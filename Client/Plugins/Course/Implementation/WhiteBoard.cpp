@@ -14,11 +14,16 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
     wbdata = wbd;
     setAcceptDrops(true);
     setAutoFillBackground(true);
-    layout = new QVBoxLayout(this);
+	layout = new QGridLayout(this);
+	layout->setMargin(0);
+	layout->setSpacing(0);
 
     this->dock = new QToolBar(this);
-    this->dock->setGeometry(0, 0, this->geometry().width(), 20);
-   // this->dock->addWidget(this->dock);
+	layout->addWidget(this->dock, 0, 0);
+	displayArea = new QFrame(this);
+	displayArea->setProperty("whiteboard", QVariant(true));
+	setStyleSheet("QFrame[whiteboard=\"true\"] { border: 2px solid black; border-top: 0px; border-radius: 4px; } ");
+	layout->addWidget(displayArea, 1, 0);
     this->posInDoc = 0;
 
     QPalette p(this->palette());

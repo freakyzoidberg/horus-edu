@@ -78,10 +78,13 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
                 p->drawPixmap(iconRect.x(), iconRect.y(), tabIcon);
             }
 
-			tr.setTop(40);
-			tr.setBottom(60);
-			tr.setLeft(2);
-			tr.setRight(76);
+			if (verticalTabs && tabV2.shape == QTabBar::TriangularWest)
+			{
+				tr.setTop(40);
+				tr.setBottom(60);
+				tr.setLeft(2);
+				tr.setRight(76);
+			}
             drawItemText(p, tr, alignment, tab->palette, tab->state & State_Enabled, tab->text, QPalette::WindowText);
             if (verticalTabs)
                 p->restore();
