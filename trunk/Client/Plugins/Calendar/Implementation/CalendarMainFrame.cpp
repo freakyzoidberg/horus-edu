@@ -95,7 +95,7 @@ void            CalendarMainFrame::saveEvent()
     _add->hide();
     QDateTime   eventDate;
 
-    EventData *userEvent = this->_event->nodeEvent(240);
+	EventData *userEvent = this->_event->nodeEvent(240);
     connect(userEvent, SIGNAL(created()), this, SLOT(isCreated()));  
 
     if (_created)

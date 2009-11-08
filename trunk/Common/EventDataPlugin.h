@@ -18,6 +18,7 @@ class EventDataPlugin : public DataPlugin
 
 public:
 	virtual EventData*		newEvent(TreeData* parent) = 0;
+	virtual EventData*		nodeEvent(quint32 nodeId) = 0;
 	virtual EventData*		nodeEvent(TreeData* node) = 0;
 	virtual QList<EventData*>	userEvents(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime()) = 0;
 };

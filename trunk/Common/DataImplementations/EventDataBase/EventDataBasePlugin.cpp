@@ -27,6 +27,11 @@ EventData* EventDataBasePlugin::nodeEvent(TreeData* node)
 	return event;
 }
 
+EventData* EventDataBasePlugin::nodeEvent(quint32 nodeId)
+{
+	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId));
+}
+
 QList<EventData*> EventDataBasePlugin::userEvents(UserData* user, const QDateTime from, const QDateTime to)
 {
 	QList<EventData*> list;
