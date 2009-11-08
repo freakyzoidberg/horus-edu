@@ -37,7 +37,7 @@ public:
     void            initMinutes();
 
 public slots:
-    void            dataCreated();
+    //void            dataCreated();
 
 private:
     EventData       *_event;
