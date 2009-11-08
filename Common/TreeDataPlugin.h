@@ -16,6 +16,7 @@ class TreeDataPlugin : public DataPlugin
 
 public:
 	virtual TreeData*	getNode(quint32 id) = 0;
+	virtual TreeData*	createNewNode() = 0;
 };
 
 #ifdef HORUS_SERVER
