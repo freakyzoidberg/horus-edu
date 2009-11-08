@@ -54,25 +54,3 @@ void LoginDialog::networkStatusChange(NetworkManager::Status status)
 	else
 		_connexionStatus->setPixmap(QPixmap::fromImage(QImage(":/Pictures/connected.png")));
 }
-
-//void LoginDialog::pluginsLoadProgressChange(int progress)
-//{
-//	_loadBar->setValue(progress);
-//}
-//
-//void LoginDialog::cacheLoadProgressChange(int progress)
-//{
-//	if (NetworkManager::instance()->status() == NetworkManager::ESTABLISHED)
-//		_loadBar->setValue(progress / 2);
-//	else
-//	{
-//		_loadBar->setValue(progress);
-//		if (progress == 100)
-//			accept();
-//	}
-//}
-//
-//void LoginDialog::dataUpdateProgressChange(int progress)
-//{
-//	_loadBar->setValue(50 + progress / 2);
-//}

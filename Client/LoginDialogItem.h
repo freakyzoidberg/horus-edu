@@ -7,6 +7,7 @@
 #include <QGridLayout>
 class	  LoginDialog;
 #include "UserCache.h"
+#include "NetworkManager.h"
 
 class LoginDialogItem : public QFrame
 {
@@ -26,6 +27,7 @@ private slots:
 	void mousePressEvent(QMouseEvent*);
 	void keyPressEvent (QKeyEvent *event);
 	void cacheLoaded();
+	void networkStatusChanged(NetworkManager::Status);
 };
 
 #endif // LOGINDIALOGITEM_H
