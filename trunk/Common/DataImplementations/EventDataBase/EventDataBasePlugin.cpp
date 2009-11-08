@@ -11,6 +11,7 @@ EventData* EventDataBasePlugin::newEvent(TreeData* parent)
 	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNewNode();
 	node->setParent(parent);
 	node->setType("EVENT");
+	node->create();
 	return nodeEvent(node);
 }
 
