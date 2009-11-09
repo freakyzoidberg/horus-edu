@@ -6,6 +6,7 @@
 #include "../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h"
 #include "FileNetworkPlugin.h"
 #include "LibraryPlugin.h"
+#include "TransfertPlugin.h"
 
 class FileBaseClientMetaPlugin : public MetaPlugin
 {
@@ -14,10 +15,11 @@ class FileBaseClientMetaPlugin : public MetaPlugin
 
 public:
     inline FileBaseClientMetaPlugin() {
-      FileDataBasePlugin* dataPlugin = new FileDataBasePlugin;
-	  pluginList.append( dataPlugin);
-	  pluginList.append( new FileNetworkPlugin(dataPlugin) );
+	  FileDataBasePlugin* filePlugin = new FileDataBasePlugin;
+	  pluginList.append( filePlugin);
+	  pluginList.append( new FileNetworkPlugin(filePlugin) );
 	  pluginList.append( new LibraryPlugin );
+//	  pluginList.append( new TransfertPlugin );
   }
 };
 
