@@ -8,12 +8,15 @@ print "Hey " + getpass.getuser()
 if getpass.getuser() == "zoidberg":
     MV_CLIENT_PLUGINS_TO="/home/zoidberg/.Horus/Plugins/"
     MV_SERVER_PLUGINS_TO=""
+    PATH_TO_TRUNK="/home/zoidberg/Epitech/EIP/trunk/"
 elif getpass.getuser() == "toto":
-    MV_CLIENT_PLUGINS_TO="/home/zoidberg/.Horus/Plugins/"
+    MV_CLIENT_PLUGINS_TO=""
     MV_SERVER_PLUGINS_TO=""
+    PATH_TO_TRUNK=""
 else:
     MV_CLIENT_PLUGINS_TO=""
     MV_SERVER_PLUGINS_TO=""
+    PATH_TO_TRUNK="."
 
 
 class bcolors:
@@ -52,5 +55,6 @@ def ParseCompileCopy(fromwhere, towhere):
     os.chdir("../..")
     return
 
+os.chdir(PATH_TO_TRUNK)
 ParseCompileCopy("./Client", MV_CLIENT_PLUGINS_TO)
 ParseCompileCopy("./Server", MV_SERVER_PLUGINS_TO)
