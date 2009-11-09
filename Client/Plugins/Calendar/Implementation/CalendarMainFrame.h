@@ -16,6 +16,7 @@
 #include "CalendarWidget.h"
 #include "calendarcontrolswidget.h"
 #include "addeventwidget.h"
+#include "userinformations.h"
 
 class CalendarMainFrame : public QWidget
 {
@@ -56,6 +57,9 @@ public slots:
     //connected to the signal created() of Data*
     void                        isCreated();
 
+    //user selection
+    void                        userSelected(int);
+
 private:
     TreeDataPlugin              *_tree;
     UserDataPlugin              *_users;
@@ -67,6 +71,7 @@ private:
     CalendarWidget              *_googleCalendar;
     Calendar                    *_calendarPlugin;
     CalendarControlsWidget      *_controls;
+    UserInformations            *_visibleUser;
     AddEventWidget              *_add;
     QDate                       _selectedDate;
     bool                        _created;

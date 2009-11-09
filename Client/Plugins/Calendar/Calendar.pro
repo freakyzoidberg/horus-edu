@@ -2,23 +2,18 @@
 # Project created by QtCreator 2009-10-09T18:57:51
 # -------------------------------------------------
 TARGET = Calendar
-
 TEMPLATE = lib
-
 DEFINES += HORUS_CLIENT
-
 TEMPLATE = lib
-
 DEFINES += CALENDAR_LIBRARY
-
 SOURCES += Implementation/calendar.cpp \
     Implementation/CalendarMainFrame.cpp \
     Implementation/CalendarWidget.cpp \
     Implementation/CalendarCore.cpp \
     Implementation/addeventwidget.cpp \
     Implementation/addeventwindows.cpp \
-    Implementation/calendarcontrolswidget.cpp
-
+    Implementation/calendarcontrolswidget.cpp \
+    Implementation/userinformations.cpp
 HEADERS += Implementation/calendar.h \
     Implementation/CalendarMetaPlugin.h \
     ../../../Common/EventData.h \
@@ -39,6 +34,6 @@ HEADERS += Implementation/calendar.h \
     Implementation/CalendarCore.h \
     Implementation/addeventwidget.h \
     Implementation/addeventwindows.h \
-    Implementation/calendarcontrolswidget.h
-
+    Implementation/calendarcontrolswidget.h \
+    Implementation/userinformations.h
 RESOURCES += Calendar.qrc

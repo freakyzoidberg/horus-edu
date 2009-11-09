@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/" >
         <file>agenda.png</file>
+        <file>q_silhouette.gif</file>
     </qresource>
 </RCC>

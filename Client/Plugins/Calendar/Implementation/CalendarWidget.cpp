@@ -2,6 +2,7 @@
 #include <QtGui>
 #include <QPushButton>
 #include <QVariant>
+#include <QColor>
 #include "../../../../Common/EventDataPlugin.h"
 #include "addeventwidget.h"
 
@@ -9,42 +10,50 @@
  {
      this->nbColumn = 7;
      this->nbRow = 10;
-     bite = NULL;
-     mainLayout = NULL;
+     this->currentDispType = WEEKLY;
+     currentStartHour = _08AM;
+     mainLayout = new QGridLayout(this);
+
+     initHours();
+     initDays();
  }
 
  void       CalendarWidget::weeklyDisplay(QDate date)
  {
-    if (mainLayout)
-        delete mainLayout;
-    if (bite)
-        delete bite;
-    mainLayout = new QGridLayout(this);
+    this->nbColumn = 7;
+    this->nbRow = 10;
     mainLayout->setMargin(0);
     mainLayout->setSpacing(0);
-    mainLayout->addWidget(new QLabel, 0, 0);
 
-     mainLayout->addWidget(new QLabel(tr("8:00")), 1, 0);
-     mainLayout->addWidget(new QLabel(tr("9:00")), 2, 0);
-     mainLayout->addWidget(new QLabel(tr("10:00")), 3, 0);
-     mainLayout->addWidget(new QLabel(tr("11:00")), 4, 0);
-     mainLayout->addWidget(new QLabel(tr("12:00")), 5, 0);
-     mainLayout->addWidget(new QLabel(tr("13:00")), 6, 0);
-     mainLayout->addWidget(new QLabel(tr("14:00")), 7, 0);
-     mainLayout->addWidget(new QLabel(tr("15:00")), 8, 0);
-     mainLayout->addWidget(new QLabel(tr("16:00")), 9, 0);
-     mainLayout->addWidget(new QLabel(tr("17:00")), 10, 0);
+    for (int i = 0; i < 10; ++i)
+        mainLayout->addWidget(this->hours->value(i + currentStartHour), i + 1, 0);
+    mainLayout->setColumnStretch(0, 0);
 
-     date = date.addDays(-1 * date.dayOfWeek() + 1);
+    date = date.addDays(-1 * date.dayOfWeek() + 1);
 
-     bite = new QLabel(tr("Mon") + date.toString(" d/MM"));
-     mainLayout->addWidget(bite, 0, 1);
-     mainLayout->addWidget(new QLabel(tr("mordi")), 0, 2);
-     mainLayout->addWidget(new QLabel(tr("credi")), 0, 3);
-     mainLayout->addWidget(new QLabel(tr("joudi")), 0, 4);
-     mainLayout->addWidget(new QLabel(tr("dredi")), 0, 5);
-     mainLayout->addWidget(new QLabel(tr("sadi")), 0, 6);
-     mainLayout->addWidget(new QLabel(tr("gromanche")), 0, 7);
+    for (int i = 0; i < 7; ++i)
+     {
+        QString tmp = days->at(i)->text();
+        if (tmp.length() > 4)
+            tmp.chop(tmp.length() - 4);
+
+        days->value(i)->setText(tmp + date.toString("dd/MM"));
+
+        if (date == date.currentDate())
+        {
+            days->value(i)->setText(days->value(i)->text() + tr("(Today)"));
+
+           /* days->value(i)->setAutoFillBackground(true);
+            QPalette newPalette;
+            newPalette.setColor(QPalette::Background, Qt::blue);
+
+
+            days->value(i)->setPalette(newPalette); */
+        }
+
+        mainLayout->addWidget(days->value(i), 0, i + 1);
+        date = date.addDays(1);
+     }
 
      QVector<QWidget *> columnLayout;
      for (int i = 1; i <= nbColumn; ++i)
@@ -54,4 +63,46 @@
          mainLayout->addWidget(tmp, 2, i, 10, 1);
          columnLayout.append(tmp);
      }
+
+     for (int i = 1; i <= 7; ++i)
+        mainLayout->setColumnStretch(i, 1);
+
+ }
+
+ void   CalendarWidget::initHours(void)
+ {
+    this->hours = new QVector<QLabel *>(24);
+
+    for (int i = 0; i <= 23; ++i)
+    {
+        QVariant    tmp(i);
+        this->hours->insert(i, new QLabel(tmp.toString() + ":00"));
+        this->hours->value(i)->setAlignment(Qt::AlignCenter);
+    }
+ }
+
+ void   CalendarWidget::initDays(void)
+ {
+    this->days = new QVector<QLabel *>(7);
+
+    this->days->insert(0, new QLabel(tr("Mon ")));
+    this->days->value(0)->setAlignment(Qt::AlignCenter);
+
+    this->days->insert(1, new QLabel(tr("tue ")));
+    this->days->value(1)->setAlignment(Qt::AlignCenter);
+
+    this->days->insert(2, new QLabel(tr("Wen ")));
+    this->days->value(2)->setAlignment(Qt::AlignCenter);
+
+    this->days->insert(3, new QLabel(tr("Thu ")));
+    this->days->value(3)->setAlignment(Qt::AlignCenter);
+
+    this->days->insert(4, new QLabel(tr("Fri ")));
+    this->days->value(4)->setAlignment(Qt::AlignCenter);
+
+    this->days->insert(5, new QLabel(tr("Sat ")));
+    this->days->value(5)->setAlignment(Qt::AlignCenter);
+
+    this->days->insert(6, new QLabel(tr("Sun ")));
+    this->days->value(6)->setAlignment(Qt::AlignCenter);
  }
