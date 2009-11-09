@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/Icons" >
+        <file>application.msexcel.png</file>
+        <file>application.mspowerpoint.png</file>
+        <file>application-msword.png</file>
+        <file>application-pdf.png</file>
+        <file>audio-x-generic.png</file>
+        <file>image-x-generic.png</file>
+        <file>inode-directory.png</file>
+        <file>x-generic.png</file>
+        <file>x-horus-x-lesson.png</file>
+    </qresource>
+</RCC>
