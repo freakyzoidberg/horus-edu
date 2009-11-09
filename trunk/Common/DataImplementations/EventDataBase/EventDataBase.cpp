@@ -26,7 +26,7 @@ void EventDataBase::dataFromStream(QDataStream& s)
 
 QDebug EventDataBase::operator<<(QDebug debug) const
 {
-	return debug << getDataType() << _node->id() << _startTime << _endTime;
+	return debug << dataType() << _node->id() << _startTime << _endTime;
 }
 
 #ifdef HORUS_SERVER

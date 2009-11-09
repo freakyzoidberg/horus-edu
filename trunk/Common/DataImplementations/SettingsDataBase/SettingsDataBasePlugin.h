@@ -19,9 +19,9 @@ class SettingsDataBasePlugin : public SettingsDataPlugin
 
 public:
 							SettingsDataBasePlugin();
-	SettingsData*			getSettings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0);
+	SettingsData*			settings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0);
 private:
-	QList<SettingsData*>	settings;
+	QList<SettingsData*>	_settings;
 
 
 
@@ -41,7 +41,7 @@ public:
 #endif
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
-	Data*					getDataWithKey(QDataStream& s);
+	Data*					dataWithKey(QDataStream& s);
 };
 
 #endif // SETTINGSDATABASEPLUGIN_H

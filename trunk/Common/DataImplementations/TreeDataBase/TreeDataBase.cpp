@@ -5,8 +5,22 @@
 
 TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData((TreeDataPlugin*)plugin)
 {
-    _id = nodeId;
+	moveToThread(plugin->thread());
+
+	_id = nodeId;
 	_parent = 0;
+	if (nodeId)
+	{
+		_user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
+		connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
+	}
+}
+
+void TreeDataBase::userRemoved()
+{
+	disconnect(this, SLOT(userRemoved()));
+	_user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
+	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 }
 
 void TreeDataBase::keyToStream(QDataStream& s)
@@ -19,8 +33,8 @@ void TreeDataBase::dataToStream(QDataStream& s) const
 	s << _user->id()
       << _name
       << _type;
-    if (_id > 0)
-        s << ((TreeDataBase*)(parent()))->_id;
+	if (_parent)
+		s << _parent->_id;
     else
         s << (quint32)0;
 }
@@ -32,19 +46,22 @@ void TreeDataBase::dataFromStream(QDataStream& s)
       >> _name
       >> _type
       >> parentId;
-    if (_id > 0)
-        setParent( ((TreeDataBasePlugin*)(_plugin))->getNode(parentId) );
-    else
-        setParent(0);
 
-	_user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser( userId );
+	if (this != ((TreeDataBasePlugin*)(_plugin))->rootNode())
+		setParent((TreeDataBase*)((TreeDataBasePlugin*)(_plugin))->node(parentId));
+    else
+		setParent(0);
+
+	disconnect(this, SLOT(userRemoved()));
+	_user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( userId );
+	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 
     setObjectName(_name);
 }
 
 QDebug TreeDataBase::operator<<(QDebug debug) const
 {
-    debug << getDataType() << _id;
+	debug << dataType() << _id;
     if (parent())
         debug << ((TreeDataBase*)parent())->_id;
     else
@@ -69,8 +86,10 @@ quint8 TreeDataBase::serverRead()
 
 	_type   = query.value(0).toString();
     _name   = query.value(1).toString();
-	_user	= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(2).toUInt() );
-	setParent( ((TreeDataPlugin*)_plugin)->getNode(query.value(3).toUInt()) );
+	disconnect(this, SLOT(userRemoved()));
+	_user	= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(2).toUInt() );
+	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
+	setParent( ((TreeDataPlugin*)_plugin)->node(query.value(3).toUInt()) );
 
 	return NONE;
 }
@@ -90,9 +109,9 @@ quint8 TreeDataBase::serverCreate()
 		return DATABASE_ERROR;
 	}
 
-	((TreeDataBasePlugin*)_plugin)->nodes.remove(_id);
+	((TreeDataBasePlugin*)_plugin)->_nodes.remove(_id);
 	_id = query.lastInsertId().toUInt();
-	((TreeDataBasePlugin*)_plugin)->nodes.insert(_id, this);
+	((TreeDataBasePlugin*)_plugin)->_nodes.insert(_id, this);
 
 	return NONE;
 }
@@ -140,15 +159,15 @@ quint8 TreeDataBase::serverRemove()
 #include <QIcon>
 QVariant TreeDataBase::data(int column, int role) const
 {
-    if (role == Qt::DisplayRole)
+	if (role == Qt::DisplayRole)
     {
-        if (column == 0)
+		if (column == -1)
             return _id;
-        if (column == 1)
+		if (column == 0)
             return _name;
-        if (column == 2)
+		if (column == 1)
             return _type;
-		if (column == 3)
+		if (column == 2)
 			return _user->id();
     }
     else if (role == Qt::DecorationRole && column == 0)
@@ -173,24 +192,27 @@ QVariant TreeDataBase::data(int column, int role) const
 
 TreeData* TreeDataBase::createChild(const QString name, const QString type, UserData* user)
 {
-	TreeData* node = ((TreeDataBasePlugin*)_plugin)->createNewNode();
+	QMutexLocker M(&_mutex);
+	TreeData* node = ((TreeDataBasePlugin*)_plugin)->createNode();
 	node->setName(name);
 	node->setType(type);
 	node->setUser(user);
-        node->setParent(this);
-        node->create();
+	node->setParent(this);
+	node->create();
 	return node;
 }
 
 void TreeDataBase::recursRemove()
 {
+	QMutexLocker M(&_mutex);
 	//todo
 	remove();
 }
 
 void TreeDataBase::moveTo(TreeData* par)
 {
-    if ( ! par || parent() == par)
+	QMutexLocker M(&_mutex);
+	if ( ! par || parent() == par)
         return;
 
     setParent(par);
@@ -198,7 +220,8 @@ void TreeDataBase::moveTo(TreeData* par)
 
 void TreeDataBase::setName(QString name)
 {
-    if (_name == name)
+	QMutexLocker M(&_mutex);
+	if (_name == name)
         return;
 
     _name = name;
@@ -206,15 +229,19 @@ void TreeDataBase::setName(QString name)
 
 void TreeDataBase::setUser(UserData* user)
 {
-    if ( ! user || _user == user)
+	QMutexLocker M(&_mutex);
+	if ( ! user || _user == user)
         return;
 
-    _user = user;
+	disconnect(this, SLOT(userRemoved()));
+	_user = user;
+	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 }
 
 void TreeDataBase::setType(const QString type)
 {
-    if (_type == type)
+	QMutexLocker M(&_mutex);
+	if (_type == type)
         return;
 
     _type = type;
@@ -222,14 +249,13 @@ void TreeDataBase::setType(const QString type)
 
 void TreeDataBase::setParent(TreeData* p)
 {
-	TreeDataBase* par = ((TreeDataBase*)p);
-
+	QMutexLocker M(&_mutex);
 	if (_parent)
 		_parent->_children.removeOne(this);
 
-	_parent = par;
-	if (par)
-		par->_children.append(this);
+	_parent = ((TreeDataBase*)p);
+	if (_parent)
+		_parent->_children.append(this);
 }
 
 bool TreeDataBase::isDescendantOf(TreeData* parent)

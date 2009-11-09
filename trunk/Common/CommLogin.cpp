@@ -59,7 +59,7 @@ void CommLogin::read(const QByteArray& a)
         if ( ! plugin)
             return;
 
-        user = (UserData*)(plugin->getDataWithKey(stream));
+		user = (UserData*)(plugin->dataWithKey(stream));
         user->dataFromStream(stream);
 		login = user->login();
 #endif

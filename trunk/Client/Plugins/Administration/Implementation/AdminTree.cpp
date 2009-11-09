@@ -15,7 +15,7 @@ AdminTree::AdminTree(TreeDataPlugin* _tree, UserDataPlugin *_users)
     mainLayout = new QHBoxLayout(this);
     mainTree = new QTreeView();
     mainLayout->addWidget(mainTree);
-    mainTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+	mainTree->setModel(new AdminModel(users->allUser(), tree->rootNode()));
     //mainTree->expandAll();
     mainTree->setMinimumWidth(200);
     mainTree->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -160,7 +160,7 @@ void    AdminTree::menuNode(QAction * action)
 
 void    AdminTree::resetPage()
 {
-    mainTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+	mainTree->setModel(new AdminModel(users->allUser(), tree->rootNode()));
     connect(mainTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(nodeSelected(QModelIndex)));
 
     //menu->clear();

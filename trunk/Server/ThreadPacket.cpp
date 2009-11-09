@@ -138,7 +138,7 @@ void ThreadPacket::PacketData()
 {
     CommData data(packet);
     foreach (DataPlugin* plugin, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
-        if (plugin->getDataType() == data.type)
+		if (plugin->dataType() == data.type)
             plugin->dataManager->receiveData(socket->user, data.data);
 }
 

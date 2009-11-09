@@ -10,7 +10,7 @@ SettingsDataBase::SettingsDataBase(SettingsDataBasePlugin* plugin, QString part,
     _part = part;
     _scope = scope;
     if IS_SYSTEM_SCOPE(scope)
-        _owner = plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(0);
+		_owner = plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
     else if (owner == 0)
         _owner = plugin->pluginManager->currentUser();
     else

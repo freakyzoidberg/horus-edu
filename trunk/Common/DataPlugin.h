@@ -21,10 +21,10 @@ class DataPlugin : public Plugin
 	friend class DataManagerClient;
 
 public:
-	virtual const QString		getDataType() const = 0;
+	virtual const QString		dataType() const = 0;
 
     //! Return the pointer to the Data with a his unique key read in the stream
-	virtual Data*				getDataWithKey(QDataStream&) = 0;
+	virtual Data*				dataWithKey(QDataStream&) = 0;
 	//! called by the UserCache to put every data into the cache
 	virtual inline QList<Data*>	allDatas() const { return QList<Data*>(); }
 

@@ -14,7 +14,7 @@ UserPage::UserPage(TreeDataPlugin* _tree, UserDataPlugin *_users)
     userTree->setAnimated(true);
     userTree->setAutoExpandDelay(500);
     FilterModel* fModel = new FilterModel(1, this);
-    fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+	fModel->setSourceModel(new AdminModel(users->allUser(), tree->rootNode()));
     userTree->setModel(fModel);
 
     //userTree->setModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
@@ -102,14 +102,12 @@ void    UserPage::editUser()
 
 void    UserPage::delUser()
 {
-
 }
 
 void    UserPage::resetPage()
 {
     FilterModel* fModel = new FilterModel(1, this);
-    fModel->setSourceModel(new AdminModel(users->getAllUser(), tree->getNode(0)));
+	fModel->setSourceModel(new AdminModel(users->allUser(), tree->rootNode()));
     userTree->setModel(fModel);
     connect(userTree->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(userSelected(QModelIndex)));
-
 }

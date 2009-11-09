@@ -30,7 +30,6 @@ public:
 
 // DataPlugin Interface
 public:
-	Data*					getNewData();
 	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
 	void					dataHaveNewKey(Data*d, QDataStream& s);
@@ -41,23 +40,23 @@ public:
 #endif
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
-	Data*					getDataWithKey(QDataStream& s);
+	Data*					dataWithKey(QDataStream& s);
 
 
 // FileDataPlugin Interface
 public:
-	FileData*				getFile(quint32 fileId);
-	QList<FileData*>		getFilesInNode(quint32 nodeId) const;
-	QList<FileData*>		getFilesInNode(const TreeData *node) const;
-	QList<FileData*>		getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const;
-	QList<FileData*>		getFilesInNodeAndUser(const TreeData *node, const UserData* user) const;
-	inline const QHash<quint32,FileData*>&	getAllFiles() const { return files; }
-	FileData*				createNewFile(TreeData*);
+	FileData*								file(quint32 fileId);
+	QList<FileData*>						filesInNode(quint32 nodeId) const;
+	QList<FileData*>						filesInNode(const TreeData *node) const;
+	QList<FileData*>						filesInNodeAndUser(quint32 nodeId, quint32 userId) const;
+	QList<FileData*>						filesInNodeAndUser(const TreeData *node, const UserData* user) const;
+	inline const QHash<quint32,FileData*>&	allFiles() const { return _files; }
+	FileData*								createFile(TreeData*);
 
 private:
-	QHash<quint32,FileData*>	files;
+	QHash<quint32,FileData*>	_files;
 #ifdef HORUS_SERVER
-	FileServer*					server;
+	FileServer*					_server;
 #endif
 };
 

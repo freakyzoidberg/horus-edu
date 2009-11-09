@@ -20,15 +20,14 @@ class FileDataPlugin : public DataPlugin
 #endif
 
 public:
-    inline const QString getDataType() const { return "File"; }
-    virtual FileData*    getFile(quint32 fileId) = 0;
-	virtual QList<FileData*> getFilesInNode(quint32 nodeId) const = 0;
-	virtual QList<FileData*> getFilesInNode(const TreeData *node) const = 0;
-	virtual QList<FileData*> getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const = 0;
-	virtual QList<FileData*> getFilesInNodeAndUser(const TreeData *node, const UserData* user) const = 0;
-	virtual const QHash<quint32,FileData*>& getAllFiles() const = 0;
-
-	virtual FileData*		 createNewFile(TreeData*) = 0;
+	inline const QString					dataType() const { return "File"; }
+	virtual FileData*						file(quint32 fileId) = 0;
+	virtual QList<FileData*>				filesInNode(quint32 nodeId) const = 0;
+	virtual QList<FileData*>				filesInNode(const TreeData *node) const = 0;
+	virtual QList<FileData*>				filesInNodeAndUser(quint32 nodeId, quint32 userId) const = 0;
+	virtual QList<FileData*>				filesInNodeAndUser(const TreeData *node, const UserData* user) const = 0;
+	virtual const QHash<quint32,FileData*>&	allFiles() const = 0;
+	virtual FileData*						createFile(TreeData*) = 0;
 };
 
 #ifdef HORUS_SERVER

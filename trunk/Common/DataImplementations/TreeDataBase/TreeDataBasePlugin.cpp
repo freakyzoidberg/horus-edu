@@ -6,41 +6,34 @@
 #include "../../Plugin.h"
 #include "../../UserData.h"
 
-TreeDataBasePlugin::TreeDataBasePlugin()
+TreeData* TreeDataBasePlugin::node(quint32 nodeId)
 {
-}
-
-TreeData* TreeDataBasePlugin::getNode(quint32 nodeId)
-{
-    if ( ! nodes.contains(nodeId))
+	if ( ! _nodes.contains(nodeId))
     {
-        TreeData* node = new TreeDataBase(nodeId, this);
-        node->moveToThread(this->thread());
-        node->setParent(0);
-
-        nodes[nodeId] = node;
+		TreeDataBase* n = new TreeDataBase(nodeId, this);
+		_nodes[nodeId] = n;
     }
-    return nodes[nodeId];
+	return _nodes[nodeId];
 }
 
-TreeData* TreeDataBasePlugin::createNewNode()
+TreeData* TreeDataBasePlugin::createNode()
 {
 	static quint32 tmpId = 0;
 	tmpId--;
-	return getNode(tmpId);
+	return node(tmpId);
 }
 
-Data* TreeDataBasePlugin::getDataWithKey(QDataStream& s)
+Data* TreeDataBasePlugin::dataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-    return getNode(tmpId);
+	return node(tmpId);
 }
 
 QList<Data*> TreeDataBasePlugin::allDatas() const
 {
 	QList<Data*> list;
-	foreach (Data* data, nodes)
+	foreach (Data* data, _nodes)
 		if (data->status() != Data::EMPTY)
 			list.append(data);
 
@@ -51,9 +44,9 @@ QList<Data*> TreeDataBasePlugin::allDatas() const
 void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	TreeDataBase* node = ((TreeDataBase*)(d));
-	nodes.remove(node->_id);
+	_nodes.remove(node->_id);
 	s >> node->_id;
-	nodes.insert(node->_id, node);
+	_nodes.insert(node->_id, node);
 	qDebug() << "Tree data Have a New Key" << node->_id;
 }
 #endif
@@ -65,22 +58,22 @@ void TreeDataBasePlugin::loadData()
     query.exec();
     while (query.next())
     {
-        TreeDataBase* node = (TreeDataBase*)(getNode(query.value(0).toUInt()));
-        node->_type   = query.value(1).toString();
-        node->_name   = query.value(2).toString();
-		node->_user   = pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(3).toUInt() );
-        node->_status = Data::UPTODATE;
-        if (node->_id)
-            node->setParent( getNode(query.value(4).toUInt()) );
+		TreeDataBase* n = (TreeDataBase*)(node(query.value(0).toUInt()));
+		n->_type   = query.value(1).toString();
+		n->_name   = query.value(2).toString();
+		n->_user   = pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(3).toUInt() );
+		n->_status = Data::UPTODATE;
+		if (n->_id)
+			n->setParent( node(query.value(4).toUInt()) );
 		else
-			node->setParent(0);
+			n->setParent(0);
     }
 }
 
 QList<Data*> TreeDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
 	QList<Data*> list;
-    foreach (TreeData* data, nodes)
+	foreach (TreeData* data, _nodes)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 			list.append(data);
 	return list;

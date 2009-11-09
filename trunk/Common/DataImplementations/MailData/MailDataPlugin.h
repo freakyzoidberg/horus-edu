@@ -23,7 +23,7 @@ class MailDataPlugin : public DataPlugin
 public:
         inline const QString pluginName()    const { return "MailDataPlugin"; }
 	inline const QString pluginVersion() const { return "0.1"; }
-        inline const QString getDataType()   const { return "MailData"; }
+		inline const QString dataType()   const { return "MailData"; }
 
 
         MailData*      getMail(QString i);
@@ -40,7 +40,7 @@ public slots:
 #endif
 private:
     //! Return the pointer to the Data with a his unique key read in the stream
-    Data*                getDataWithKey(QDataStream& s);
+	Data*                dataWithKey(QDataStream& s);
 
 
         QList<MailData*> Mails;

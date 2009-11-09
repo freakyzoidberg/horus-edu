@@ -9,22 +9,24 @@ class TreeData;
 class TreeDataBase;
 class TreeDataBasePlugin : public TreeDataPlugin
 {
-  Q_OBJECT
+	Q_OBJECT
 #ifdef HORUS_SERVER
-  Q_INTERFACES(ServerTreeDataPlugin)
+	Q_INTERFACES(ServerTreeDataPlugin)
 #endif
 #ifdef HORUS_CLIENT
-  Q_INTERFACES(ClientTreeDataPlugin)
+	Q_INTERFACES(ClientTreeDataPlugin)
 #endif
 
-  friend class TreeDataBase;
+	friend class TreeDataBase;
 
 public:
-							TreeDataBasePlugin();		
-	TreeData*				getNode(quint32 nodeId);
-	TreeData*				createNewNode();
+	TreeDataBasePlugin() { _rootNode = node(0); }
+	inline TreeData*		rootNode() { return _rootNode; }
+	TreeData*				node(quint32 nodeId);
+	TreeData*				createNode();
 private:
-	QHash<quint32,TreeData*>	nodes;
+	QHash<quint32,TreeData*> _nodes;
+	TreeData*				_rootNode;
 
 
 	//Plugin
@@ -35,7 +37,7 @@ public:
 
 	//DataPlugin
 public:
-	inline const QString	getDataType() const { return "Tree"; }
+	inline const QString	dataType() const { return "Tree"; }
 	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
 	void					dataHaveNewKey(Data*d, QDataStream& s);
@@ -46,7 +48,7 @@ public:
 #endif
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
-	Data*					getDataWithKey(QDataStream& s);
+	Data*					dataWithKey(QDataStream& s);
 };
 
 #endif // TREEDATABASEPLUGIN_H

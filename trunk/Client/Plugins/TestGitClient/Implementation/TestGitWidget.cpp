@@ -81,7 +81,7 @@ void TestGitWidget::test2()
 
 	UserData* u = p->createUser("New User");
 
-	u->setNode(plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
+	u->setNode(plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
 	u->enable(true);
 	u->setLevel(3);
 	u->create();
@@ -99,7 +99,7 @@ void TestGitWidget::test3()
     if ( ! p)
         return;
 
-    FileData* f = p->getFile(1);
+	FileData* f = p->file(1);
     if ( ! f)
         return;
 

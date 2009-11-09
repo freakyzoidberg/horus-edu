@@ -40,7 +40,7 @@ public:
 
 	//DataPlugin
 public:
-	inline const QString	getDataType() const { return "Event"; }
+	inline const QString	dataType() const { return "Event"; }
 	QList<Data*>			allDatas() const { return _allEvents; }
 #ifdef HORUS_SERVER
 	void					loadData();
@@ -48,7 +48,7 @@ public:
 #endif
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
-	Data*					getDataWithKey(QDataStream& s);
+	Data*					dataWithKey(QDataStream& s);
 };
 
 #endif // EVENTDATABASEPLUGIN_H

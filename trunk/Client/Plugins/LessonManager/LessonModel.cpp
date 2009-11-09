@@ -9,7 +9,7 @@
 LessonModel::LessonModel(PluginManager* pluginManager)
 {
     this->pluginManager = pluginManager;
-	rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
+	rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
 	filePlugin = pluginManager->findPlugin<FileDataPlugin*>();
 }
 
@@ -30,7 +30,7 @@ int LessonModel::rowCount ( const QModelIndex & parent) const
 	{
 		int count = tdata->children().count();
 		UserData* user = pluginManager->currentUser();
-		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
+		QList<FileData*> files = filePlugin->filesInNodeAndUser(tdata, user);
 		foreach (FileData* file, files)
 		{
 			if (file->mimeType() == "x-horus/x-lesson")
@@ -48,11 +48,7 @@ QVariant LessonModel::data ( const QModelIndex & index, int role) const
     QObject* obj = (QObject*)(index.internalPointer());
     Data *data = qobject_cast<Data *>(obj);
     if (data)
-    {
-       if (index.column() == 0 && role == Qt::DecorationRole)
-            return data->data(0, role);
-       return data->data(1, role);
-    }
+	   return data->data(index.column(), role);
     else
     {
        ILessonData* ldata = qobject_cast<ILessonData *>(obj);
@@ -130,7 +126,7 @@ QModelIndex LessonModel::index ( int row, int column, const QModelIndex & parent
 			return createIndex(row, column, tdata->children().at(row));
 		int count = tdata->children().count();
 		UserData* user = pluginManager->currentUser();
-		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
+		QList<FileData*> files = filePlugin->filesInNodeAndUser(tdata, user);
 		foreach (FileData* file, files)
 		{
 			if (file->mimeType() == "x-horus/x-lesson")
@@ -189,7 +185,7 @@ QModelIndex LessonModel::parent ( const QModelIndex & index ) const
 		FileData* fdata = tlesson->getFiledata();
 		TreeData* tdata = fdata->node();
 		int count = tdata->children().count();
-		QList<FileData*> files = filePlugin->getFilesInNodeAndUser(tdata, user);
+		QList<FileData*> files = filePlugin->filesInNodeAndUser(tdata, user);
 		foreach (FileData* file, files)
 		{
 			if (file->mimeType() == "x-horus/x-lesson")

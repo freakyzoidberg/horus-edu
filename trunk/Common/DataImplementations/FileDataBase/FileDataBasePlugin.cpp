@@ -8,78 +8,72 @@
 #include "../../../Common/UserData.h"
 #include "../../../Common/TreeData.h"
 
-FileData* FileDataBasePlugin::getFile(quint32 fileId)
+FileData* FileDataBasePlugin::file(quint32 fileId)
 {
-    if ( ! files.contains(fileId))
+	if ( ! _files.contains(fileId))
 	{
-		FileData* file = new FileDataBase(fileId, this);
-		file->moveToThread(this->thread());
-		files.insert(fileId, file);
+		FileData* f = new FileDataBase(fileId, this);
+		f->moveToThread(this->thread());
+		_files.insert(fileId, f);
 	}
 
-    return files.value(fileId);
+	return _files.value(fileId);
 }
 
-QList<FileData*> FileDataBasePlugin::getFilesInNode(quint32 nodeId) const
+QList<FileData*> FileDataBasePlugin::filesInNode(quint32 nodeId) const
 {
-	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
-	return getFilesInNode(node);
+	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
+	return filesInNode(node);
 }
 
-QList<FileData*> FileDataBasePlugin::getFilesInNode(const TreeData *node) const
+QList<FileData*> FileDataBasePlugin::filesInNode(const TreeData *node) const
 {
 	QList<FileData*> res;
-	foreach (FileData* file, files)
-		if (file->node() == node)
-			res.append(file);
+	foreach (FileData* f, _files)
+		if (f->node() == node)
+			res.append(f);
 	return res;
 }
 
-QList<FileData*> FileDataBasePlugin::getFilesInNodeAndUser(quint32 nodeId, quint32 userId) const
+QList<FileData*> FileDataBasePlugin::filesInNodeAndUser(quint32 nodeId, quint32 userId) const
 {
-	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
-	UserData* user = pluginManager->findPlugin<UserDataPlugin*>()->getUser(userId);
+	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
+	UserData* user = pluginManager->findPlugin<UserDataPlugin*>()->user(userId);
 	QList<FileData*> res;
-	return getFilesInNodeAndUser(node, user);
+	return filesInNodeAndUser(node, user);
 }
 
-QList<FileData*> FileDataBasePlugin::getFilesInNodeAndUser(const TreeData *node, const UserData* user) const
+QList<FileData*> FileDataBasePlugin::filesInNodeAndUser(const TreeData *node, const UserData* user) const
 {
 	QList<FileData*> res;
-	foreach (FileData* file, files)
-		if (file->node() == node && file->owner() == user)
-			res.append(file);
+	foreach (FileData* f, _files)
+		if (f->node() == node && f->owner() == user)
+			res.append(f);
 	return res;
 }
 
-FileData* FileDataBasePlugin::createNewFile(TreeData* node)
+FileData* FileDataBasePlugin::createFile(TreeData* node)
 {
 	static quint32 tmpId = 0;
 	tmpId--;
 
-	FileDataBase* f = ((FileDataBase*)( getFile(tmpId)) );
+	FileDataBase* f = ((FileDataBase*)( file(tmpId)) );
 	f->_node = node;
 	f->_owner = pluginManager->currentUser();
 	return f;
 }
 
-Data* FileDataBasePlugin::getDataWithKey(QDataStream& s)
+Data* FileDataBasePlugin::dataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-    return getFile(tmpId);
-}
-
-Data* FileDataBasePlugin::getNewData()
-{
-    static quint32 uniqueId = 0;
-    return getFile(--uniqueId);
+	return file(tmpId);
 }
 
 QList<Data*> FileDataBasePlugin::allDatas() const
 {
 	QList<Data*> list;
-	foreach (Data* data, files)
+	foreach (Data* data, _files)
 		if (data->status() != Data::EMPTY)
 			list.append(data);
 
@@ -93,11 +87,11 @@ void FileDataBasePlugin::load()
 
 void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
-	FileDataBase* file = ((FileDataBase*)(d));
-	files.remove(file->_id);
-	s >> file->_id;
-	files.insert(file->_id, file);
-	qDebug() << "File data Have a New Key" << file->_id;
+	FileDataBase* f = ((FileDataBase*)(d));
+	_files.remove(f->_id);
+	s >> f->_id;
+	_files.insert(f->_id, f);
+	qDebug() << "File data Have a New Key" << f->_id;
 }
 #endif
 #ifdef HORUS_SERVER
@@ -105,7 +99,7 @@ void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 
 void FileDataBasePlugin::load()
 {
-    server = FileServer::instance();
+	_server = FileServer::instance();
     Plugin::load();
 }
 
@@ -116,25 +110,25 @@ void FileDataBasePlugin::loadData()
     query.exec();
     while (query.next())
     {
-        FileDataBase* file = (FileDataBase*)(getFile(query.value(0).toUInt()));
-        file->_name        = query.value(1).toString();
-        file->_mimeType    = query.value(2).toString();
-        file->_size        = query.value(3).toUInt();
+		FileDataBase* f	= (FileDataBase*)(file(query.value(0).toUInt()));
+		f->_name		= query.value(1).toString();
+		f->_mimeType	= query.value(2).toString();
+		f->_size		= query.value(3).toUInt();
 
-		file->_node  = pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(4).toUInt() );
-		file->_owner = pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(5).toUInt() );
+		f->_node		= pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
+		f->_owner		= pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(5).toUInt() );
 
-        file->_hash        = QByteArray::fromHex(query.value(6).toByteArray());
-        file->_lastChange  = query.value(7).toDateTime();
+		f->_hash		= QByteArray::fromHex(query.value(6).toByteArray());
+		f->_lastChange	= query.value(7).toDateTime();
 
-        file->_status = Data::UPTODATE;
+		f->_status		= Data::UPTODATE;
     }
 }
 
 QList<Data*> FileDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
 	QList<Data*> list;
-	foreach (FileData* data, files)
+	foreach (FileData* data, _files)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 			list.append(data);
 	return list;

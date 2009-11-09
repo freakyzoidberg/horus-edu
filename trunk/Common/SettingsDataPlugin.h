@@ -37,9 +37,9 @@ class SettingsDataPlugin : public DataPlugin
 #endif
 
 public:
-    inline const QString getDataType() const { return "Settings"; }
+	inline const QString dataType() const { return "Settings"; }
 
-  virtual SettingsData* getSettings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0) = 0;
+  virtual SettingsData* settings(QString part = QString(), quint8 scope = CLIENT_USER_SCOPE, UserData* user = 0) = 0;
 };
 
 #ifdef HORUS_SERVER

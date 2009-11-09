@@ -50,7 +50,7 @@ void		CreateWhiteBoard::buttonClicked()
 					TreeData *treeData = qobject_cast<TreeData *>(data);
 					if (treeData)
 					{
-						WhiteBoardData *wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(treeData);
+						WhiteBoardData *wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->whiteBoard(treeData);
 						wbd->setSyncMode((WhiteBoardData::SyncMode)(this->ui.syncInput->itemData(this->ui.syncInput->currentIndex(), Qt::UserRole).toUInt()));
 						wbd->save();
 						emit whiteBoardCreated(wbd);

@@ -20,14 +20,15 @@ class UserDataPlugin : public DataPlugin
 	//Plugin
 public:
 	inline const QString	pluginName() const { return "User Data Plugin"; }
-	inline const QString	getDataType() const { return "User"; }
+	inline const QString	dataType() const { return "User"; }
 
 
 	//UserDataPlugin
 public:
-	virtual UserData*		getUser(quint32 userId) = 0;
-	virtual UserData*		getUser(const QString login) = 0;
-	virtual const QHash<quint32,UserData*>&	getAllUser() = 0;
+	virtual UserData*		nobody() = 0;
+	virtual UserData*		user(quint32 userId) = 0;
+	virtual UserData*		user(const QString login) = 0;
+	virtual const QHash<quint32,UserData*>&	allUser() = 0;
 	virtual UserData*		createUser(const QString &login) = 0;
 #ifdef HORUS_SERVER
 	virtual void			userDisconnected(UserData* user) = 0;

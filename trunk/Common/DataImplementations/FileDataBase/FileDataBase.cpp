@@ -58,8 +58,8 @@ void FileDataBase::dataFromStream(QDataStream& s)
 	  >> _size
       >> hash;
 
-    _owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId);
-    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
+	_owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(ownerId);
+	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
 #ifdef HORUS_CLIENT
 	//auto download
     if (hash.isEmpty() || hash.isEmpty() || hash != _hash)
@@ -96,8 +96,8 @@ quint8 FileDataBase::serverRead()
 	_name		= query.value(0).toString();
 	_mimeType	= query.value(1).toString();
 	_size		= query.value(2).toUInt();
-	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(3).toUInt() );
-	_owner		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->getUser( query.value(4).toUInt() );
+	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(3).toUInt() );
+	_owner		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(4).toUInt() );
 	_hash		= query.value(5).toByteArray();
 	_lastChange	= query.value(5).toDateTime();
 
@@ -122,9 +122,9 @@ quint8 FileDataBase::serverCreate()
 		return DATABASE_ERROR;
 	}
 
-	((FileDataBasePlugin*)_plugin)->files.remove(_id);
+	((FileDataBasePlugin*)_plugin)->_files.remove(_id);
 	_id = query.lastInsertId().toUInt();
-	((FileDataBasePlugin*)_plugin)->files.insert(_id, this);
+	((FileDataBasePlugin*)_plugin)->_files.insert(_id, this);
 
 	return NONE;
 }
@@ -183,26 +183,30 @@ QFile* FileDataBase::file() const
 }
 
 #ifdef HORUS_CLIENT
+#include <QIcon>
 QVariant FileDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 0)
+		if (column == -1)
             return _id;
-        if (column == 1)
+		if (column == 0)
             return _name;
-        if (column == 2)
+		if (column == 1)
             return _mimeType;
-        if (column == 3)
+		if (column == 2)
             return _owner->id();
-        if (column == 4)
+		if (column == 3)
             return _node->id();
     }
     else if (role == Qt::DecorationRole && column == 0)
-    {
-//        if (icons.contains( type ))
-//            return icons[ type ];
-//        return icons["DEFAULT"];
+	{
+		QString icon = ":/Icons/" + QString(_mimeType).replace('/', '-') + ".png";
+
+		if (QFile::exists(icon))
+			return QIcon(icon);
+
+		return QIcon(":/Icons/x-generic.png");
     }
    return Data::data(column, role);
 }
