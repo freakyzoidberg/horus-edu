@@ -3,7 +3,7 @@ import os.path
 import shutil
 import getpass
 
-print "Hey " + getpass.getuser()
+print ("Hey " + getpass.getuser())
 
 if getpass.getuser() == "zoidberg":
     MV_CLIENT_PLUGINS_TO="/home/zoidberg/.Horus/Plugins/"
@@ -33,7 +33,7 @@ class bcolors:
 
 
 def ParseCompileCopy(fromwhere, towhere):
-    print bcolors.HEADER + "Compiling " + fromwhere + bcolors.ENDC
+    print (bcolors.HEADER + "Compiling " + fromwhere + bcolors.ENDC)
     os.chdir(fromwhere)
     os.system("qmake")
     os.system("make")
@@ -42,14 +42,14 @@ def ParseCompileCopy(fromwhere, towhere):
     
     for filename in os.listdir ("./"):
         if os.path.isdir (os.path.join (filename)) and filename != ".svn":
-            print bcolors.OKBLUE + "Compiling " + filename + bcolors.ENDC
+            print (bcolors.OKBLUE + "Compiling " + filename + bcolors.ENDC)
             os.chdir(filename)
             os.system("qmake")
             os.system("make")
             if towhere != "":
                 for pluginfiles in os.listdir ("./"):
                     if pluginfiles.endswith(".so") or pluginfiles.endswith(".dll"):
-                        print bcolors.OKGREEN + "Copying " + pluginfiles + bcolors.ENDC
+                        print (bcolors.OKGREEN + "Copying " + pluginfiles + bcolors.ENDC)
                         shutil.copy (pluginfiles,towhere)
             os.chdir("..")
     os.chdir("../..")
