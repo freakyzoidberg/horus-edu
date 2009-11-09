@@ -6,6 +6,7 @@
 #include <QDate>
 #include <QStackedWidget>
 #include <QLabel>
+#include <QVector>
 
 class QTextBrowser;
 
@@ -20,9 +21,26 @@ public:
      void           weeklyDisplay(QDate);
 
  private:
-     unsigned int   nbRow, nbColumn;
-     QGridLayout    *mainLayout;
-     QLabel *bite;
+     void           initHours(void);
+     void           initDays(void);
+
+     enum displayType {
+       DAILY,
+       WEEKLY,
+       MONTHLY
+     };
+
+     enum startHour {
+         _00AM = 0,
+         _08AM = 8,
+         _05PM = 17
+     };
+
+    unsigned int        currentDispType;
+    unsigned int        currentStartHour;
+    QVector<QLabel *>   *hours, *days;
+    unsigned int        nbRow, nbColumn;
+    QGridLayout         *mainLayout;
  };
 
 #endif // CALENDARWIDGET_H

@@ -34,7 +34,16 @@ QHash<quint32, TreeData *>  *CalendarCore::getNodeOfType(QString type)
 
  QHash<quint32, UserData*> *CalendarCore::usersName(const QString & groupName)
  {
+    QHash<quint32, UserData *>  *userList = new QHash<quint32, UserData *>;
 
-
-    return NULL;
+    for (int i = 0; i < users->getAllUser().size(); ++i)
+    {
+        UserData    *tmp = qobject_cast<UserData *>(users->getAllUser().value(i));
+        if (groupName == "ALL"
+            || tmp->node()->name() == groupName)
+        userList->insert(tmp->id(), tmp);
+    }
+   return userList;
  }
+
+

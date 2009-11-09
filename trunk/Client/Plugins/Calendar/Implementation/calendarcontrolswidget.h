@@ -20,6 +20,7 @@ public:
      QPushButton        *weekly()           { return _weekly; }
      QPushButton        *monthly()          { return _monthly; }
      QPushButton        *planning()         { return _planning; }
+     QComboBox          *userList()         { return _userList; }
 
      void               initGroupList();
      void               initUserList(const QString & groupType);
@@ -27,13 +28,13 @@ public:
 public slots:
      void               setMonth(int month);
      void               setYear(QDate date);
+     void               selectGroup(int index);
+     void               selectUser(int index);
 
 private:
      QDate              selectedDate;
      QTextBrowser       *editor;
      QPushButton        *_daily, *_monthly, *_weekly, *_planning, *_addEvent;
-     QComboBox          *dayCombo, *monthCombo;
-     QDateTimeEdit      *yearEdit;
 
      QComboBox          *_groupList;
      QComboBox          *_userList;

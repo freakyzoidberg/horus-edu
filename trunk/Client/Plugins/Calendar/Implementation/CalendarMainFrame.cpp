@@ -22,7 +22,10 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
     _event = _eventPlugin;
     this->_calendarPlugin = _calendarPlugin;
     _created = false;
+
     _currentUser = _calendarPlugin->pluginManager->currentUser();
+    this->_visibleUser = new UserInformations();
+    _visibleUser->setInformations(_currentUser);
 
     _add = new AddEventWidget();
     _mainLayout = new QGridLayout(this);
@@ -33,15 +36,16 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
 
     _tinyCalendar->adjustSize();
     _mainLayout->addWidget(_tinyCalendar, 0, 0, 1, 1);
+    _mainLayout->addWidget(_visibleUser, 0, 1, 1, 1);
 
     _googleCalendar = calendar();
     calendarWeeklyDisplay();
 
-    _mainLayout->addWidget(_add, 1, 0, 1, 2);
-    _mainLayout->addWidget(_googleCalendar, 1, 0, 1, 2);
+    _mainLayout->addWidget(_add, 1, 0, 1, 3);
+    _mainLayout->addWidget(_googleCalendar, 1, 0, 1, 3);
 
     _controls = new CalendarControlsWidget();
-    _mainLayout->addWidget(_controls, 0, 1);
+    _mainLayout->addWidget(_controls, 0, 2);
     _mainLayout->setColumnStretch(1, 1);
     _mainLayout->setRowStretch(1, 1);
 
@@ -52,6 +56,8 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
     connect(_controls->planning(), SIGNAL(clicked()), this, SLOT(calendarPlanningDisplay()));
 
     connect(_tinyCalendar, SIGNAL(selectionChanged()), this, SLOT(dateChanged()));
+
+    connect(_controls->userList(), SIGNAL(activated(int)), this, SLOT(userSelected(int)));
 
     connect(_add->cancel(), SIGNAL(clicked()), this, SLOT(cancelEventSave()));
     connect(_add->save(), SIGNAL(clicked()), this, SLOT(saveEvent()));
@@ -95,15 +101,15 @@ void            CalendarMainFrame::saveEvent()
     _add->hide();
     QDateTime   eventDate;
 
-	EventData *userEvent = this->_event->nodeEvent(240);
+    EventData *userEvent = this->_event->nodeEvent(240);
+    TreeData    *toto = this->tree()->getNode(240);
+    if (!toto)
+    {
+        qDebug() << "toto error";
+        return ;
+    }
+
     connect(userEvent, SIGNAL(created()), this, SLOT(isCreated()));  
-
-    if (_created)
-        userEvent->save();
-    else
-        userEvent->create();
-
- //   eventDate.addYears(_add->)
 
     _created = false;
     _controls->addEvent()->show();
@@ -137,7 +143,11 @@ void        CalendarMainFrame::isCreated()
 
  void   CalendarMainFrame::dateChanged()
  {
-    qDebug() << "date has changed";
-    qDebug() << _tinyCalendar->selectedDate();
     _googleCalendar->weeklyDisplay(_tinyCalendar->selectedDate());
+ }
+
+ void   CalendarMainFrame::userSelected(int index)
+ {
+    _currentUser = this->_users->getUser(_controls->userList()->itemData(index).toInt());
+    _visibleUser->setInformations(_currentUser);
  }
