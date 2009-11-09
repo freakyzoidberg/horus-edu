@@ -102,7 +102,7 @@ void            CalendarMainFrame::saveEvent()
     QDateTime   eventDate;
 
     EventData *userEvent = this->_event->nodeEvent(240);
-    TreeData    *toto = this->tree()->getNode(240);
+	TreeData    *toto = this->tree()->node(240);
     if (!toto)
     {
         qDebug() << "toto error";
@@ -148,6 +148,6 @@ void        CalendarMainFrame::isCreated()
 
  void   CalendarMainFrame::userSelected(int index)
  {
-    _currentUser = this->_users->getUser(_controls->userList()->itemData(index).toInt());
+	_currentUser = this->_users->user(_controls->userList()->itemData(index).toInt());
     _visibleUser->setInformations(_currentUser);
  }
