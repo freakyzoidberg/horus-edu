@@ -70,7 +70,4 @@ int UserModel::rowCount(const QModelIndex &parent) const
 //{
 //    return 1;
 //}
-//    if (role == Qt::DisplayRole)
-//        return item->data(index.column() + 1, role);
-//    else
 //        return item->data(index.column(), role);

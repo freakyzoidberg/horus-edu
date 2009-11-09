@@ -6,6 +6,7 @@
 #endif
 
 #include <QMutex>
+#include <QMutexLocker>
 #include <QDataStream>
 #include <QString>
 #include <QDebug>
@@ -48,7 +49,7 @@ public:
 
 	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
 
-    inline const QString    getDataType() const { return _plugin->getDataType(); }
+	inline const QString    dataType() const { return _plugin->dataType(); }
 
 
     //! Have to write his key into the stream to be able to identify this data with the server and the cache.
@@ -79,7 +80,7 @@ public:
     //! Return the current status of this data.
     inline quint8           status() const { return (quint8)_status; }
     //! Change the current status and tell the coresponding plugin the data just changed.
-	inline void             setStatus(quint8 status) { _plugin->dataManager->dataStatusChange(this, status); }
+	inline void             setStatus(quint8 status) { QMutexLocker M(&_mutex); _plugin->dataManager->dataStatusChange(this, status); }
 
     inline const QDateTime lastChange() { return _lastChange; }
 
@@ -94,7 +95,7 @@ signals:
 	//! Signal emmited when the data is created.
 	void                    created();
 	//! Signal emmited when the data is updated.
-        void                    updated();
+		void                updated();
 	//! Signal emmited when the data is removed.
 	void                    removed();
 	//! Signal emmited when an error append on this data
@@ -102,7 +103,7 @@ signals:
 
 public:
     //! Usefull for debuging. Not mandatory but important.
-    virtual inline QDebug   operator<<(QDebug debug) const { return debug << getDataType(); }
+	virtual inline QDebug   operator<<(QDebug debug) const { return debug << dataType(); }
 #ifdef HORUS_CLIENT
     virtual inline QVariant data(int, int role = Qt::DisplayRole) const
     {
@@ -138,14 +139,14 @@ public:
 #endif
 
 protected:
-	inline Data(DataPlugin* plugin) { _plugin=plugin; _status=EMPTY; lock=new QMutex(QMutex::Recursive); }
-    inline ~Data() { delete lock; }
+	inline Data(DataPlugin* plugin) : _mutex(QMutex::Recursive) { _plugin=plugin; _status=EMPTY; }
+	inline ~Data() {}
 
     DataPlugin*             _plugin;
     quint8                  _status;
     QDateTime               _lastChange;
 
-    QMutex                  *lock;
+	QMutex                  _mutex;
 };
 
 inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }

@@ -33,7 +33,7 @@ QWidget*            ImageController::createDocumentWidget(IItems *parent, ILesso
     //fileId = document->getId();
     qDebug() << "file id:" << fileId;
 
-   data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
+   data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
 
   //  if (document->getType() != this->getSupportedType())

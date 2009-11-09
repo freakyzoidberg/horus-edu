@@ -88,8 +88,8 @@ public:
 #endif
 
 private:
-    inline UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, (UserDataPlugin*)plugin) { _node = 0; }
-    inline ~UserDataBase() {}
+	UserDataBase(quint32 userId, UserDataBasePlugin* plugin);
+	~UserDataBase() {}
 
     quint8      _level;
     bool        _enabled;
@@ -109,6 +109,8 @@ private:
 #ifdef HORUS_SERVER
 	void updateLastLogin();
 #endif
+private slots:
+	void		nodeRemoved();
 };
 
 #endif // USERDATABASE_H

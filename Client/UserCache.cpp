@@ -26,7 +26,7 @@ void UserCache::load()
 
 	QHash<QString,DataPlugin*> plugins;
 	foreach (DataPlugin* plugin, pluginManager->findPlugins<DataPlugin*>())
-		plugins.insert(plugin->getDataType(), plugin);
+		plugins.insert(plugin->dataType(), plugin);
 
 	for (int progress = 100;  ! streamAll.atEnd(); progress += 100)
 	{
@@ -41,7 +41,7 @@ void UserCache::load()
 			{
 				quint8 status;
 				streamPlugin >> status;
-				Data* data = plugins.value(type)->getDataWithKey(streamPlugin);
+				Data* data = plugins.value(type)->dataWithKey(streamPlugin);
 				data->dataFromStream(streamPlugin);
 				data->_status = Data::CACHED;
 				if (status != Data::UPTODATE && data->status() != Data::CACHED)
@@ -51,7 +51,7 @@ void UserCache::load()
 		emit loadProgressChange(progress / plugins.count());
 	}
 
-	pluginManager->setCurrentUser(pluginManager->findPlugin<UserDataPlugin*>()->getUser(_login));
+	pluginManager->setCurrentUser(pluginManager->findPlugin<UserDataPlugin*>()->user(_login));
 	_loaded = true;
 	emit loadProgressChange(100);
 	emit loaded();
@@ -77,7 +77,7 @@ void UserCache::save()
 			data->dataToStream(streamPlugin);
 		}
 
-		streamAll << plugin->getDataType() << binPlugin;
+		streamAll << plugin->dataType() << binPlugin;
 	}
 
 	_lastUpdate = QDateTime::currentDateTime();

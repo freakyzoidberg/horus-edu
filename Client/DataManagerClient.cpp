@@ -12,7 +12,7 @@
 
 void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 {
-    QMutexLocker(data->lock);
+	QMutexLocker(&data->_mutex);
 	quint8 oldStatus = data->status();
 
 	// data must be EMPTY or UPTODATE before
@@ -46,12 +46,12 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 		QByteArray oldKey;
 		stream >> oldKey;
 		QDataStream streamOldKey(oldKey);
-		data = plugin->getDataWithKey(streamOldKey);
+		data = plugin->dataWithKey(streamOldKey);
 	}
 	else
-		data = plugin->getDataWithKey(stream);
+		data = plugin->dataWithKey(stream);
 
-	QMutexLocker(data->lock);
+	QMutexLocker(&data->_mutex);
 
 	if (status == Data::CREATED)
 	{
@@ -88,7 +88,8 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 
 void DataManagerClient::sendData(UserData*, Data* data) const
 {
-    CommData packet(data->getDataType());
+	QMutexLocker(&data->_mutex);
+	CommData packet(data->dataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
 	quint8 status = data->status();
 

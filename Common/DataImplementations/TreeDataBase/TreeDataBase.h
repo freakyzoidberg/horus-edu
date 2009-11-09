@@ -76,6 +76,9 @@ class TreeDataBase : public TreeData
   QByteArray		newSession(const QDateTime& end);
   void            destroySession();
 #endif
+
+private slots:
+	void userRemoved();
 };
 
 #endif // TREEDATABASE_H

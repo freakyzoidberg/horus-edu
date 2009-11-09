@@ -26,7 +26,7 @@ NodeInfo::NodeInfo(TreeData* _node, int type, UserDataPlugin *_users, QString no
         typeBox->setCurrentIndex(typeBox->findText(nodeType));
         typeBox->setMaxVisibleItems(1);
     }
-    completer = new QCompleter(new UserModel(users->getAllUser(), this), this);
+	completer = new QCompleter(new UserModel(users->allUser(), this), this);
     completer->setCompletionMode(QCompleter::PopupCompletion);
     completer->setModelSorting(QCompleter::CaseInsensitivelySortedModel);
     completer->setCaseSensitivity(Qt::CaseInsensitive);
@@ -92,8 +92,8 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         int ret = msgBox.exec();
         if (ret == QMessageBox::Yes)
         {
-            TreeData* newNode = node->createChild(nameTxt->text(), typeBox->currentText(), users->getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
-            //qDebug() << newNode << nameTxt->text()<< typeBox->currentText() << users->getUser(completer->currentIndex().data(Qt::UserRole).toInt());
+			TreeData* newNode = node->createChild(nameTxt->text(), typeBox->currentText(), users->user(completer->currentIndex().data(Qt::UserRole).toInt()));
+			//qDebug() << newNode << nameTxt->text()<< typeBox->currentText() << users->user(completer->currentIndex().data(Qt::UserRole).toInt());
             //newNode->save();
             //parent->resetPage();
             this->close();
@@ -119,7 +119,7 @@ void    NodeInfo::buttonClicked(QAbstractButton * button)
         }
             node->setName(nameTxt->text());
             node->setType(typeBox->currentText());
-            node->setUser(users->getUser(completer->currentIndex().data(Qt::UserRole).toInt()));
+			node->setUser(users->user(completer->currentIndex().data(Qt::UserRole).toInt()));
             node->save();
             //parent->resetPage();
             this->close();

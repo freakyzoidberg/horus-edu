@@ -7,7 +7,7 @@
 WhiteBoardModel::WhiteBoardModel(PluginManager* _pluginManager)
 {
     pluginManager = _pluginManager;
-    rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(0));
+	rootItem = qobject_cast<Data*>(pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
 }
 
 int WhiteBoardModel::columnCount ( const QModelIndex & ) const
@@ -25,7 +25,7 @@ int WhiteBoardModel::rowCount ( const QModelIndex & parent ) const
 	if (!node)
 		return (0);
 	// look if there is a WhiteBoard inside
-	if (qobject_cast<WhiteBoardData *>(pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(node))->status() != Data::EMPTY)
+	if (qobject_cast<WhiteBoardData *>(pluginManager->findPlugin<WhiteBoardDataPlugin *>()->whiteBoard(node))->status() != Data::EMPTY)
 		return (node->children().count() + 1);
 	return (node->children().count());
 }
@@ -38,7 +38,7 @@ QVariant WhiteBoardModel::data ( const QModelIndex & index, int role ) const
 	{
 		TreeData* node = qobject_cast<TreeData*>((Data*)(index.internalPointer()));
 		if (node || index.column() != 1)
-			return ((Data*)(index.internalPointer()))->data(index.column() + 1, role);
+			return ((Data*)(index.internalPointer()))->data(index.column(), role);
 		return ("WHITEBOARD");
 	}
     return ((Data*)(index.internalPointer()))->data(index.column(), role);
@@ -51,7 +51,7 @@ QModelIndex WhiteBoardModel::index ( int row, int column, const QModelIndex & pa
 	TreeData* node = qobject_cast<TreeData*>((Data*)(parent.internalPointer()));
 	if (node->children().count() > row)
 		return (createIndex(row, column, node->children().at(row)));
-	return (createIndex(row, column, pluginManager->findPlugin<WhiteBoardDataPlugin *>()->getWhiteBoard(node)));
+	return (createIndex(row, column, pluginManager->findPlugin<WhiteBoardDataPlugin *>()->whiteBoard(node)));
 }
 
 QModelIndex WhiteBoardModel::parent ( const QModelIndex & index ) const

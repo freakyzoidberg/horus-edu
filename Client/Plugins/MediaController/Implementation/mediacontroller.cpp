@@ -43,7 +43,7 @@ QWidget*        MediaController::createDocumentWidget(IItems *parent, ILessonDoc
 
     //this->parent = parent;
     fileId = document->getParameters().value("name").toInt();
-    data = pluginManager->findPlugin<FileDataPlugin*>()->getFile(fileId);
+	data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
     Player *player = new Player(parent);
     this->parent = parent;
     parent->setMainWidget(player);

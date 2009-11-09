@@ -37,7 +37,7 @@ MailData* MailDataPlugin::createMail()
 }
 
 
-Data* MailDataPlugin::getDataWithKey(QDataStream& s)
+Data* MailDataPlugin::dataWithKey(QDataStream& s)
 {
         QString Id;
 	s >> Id;

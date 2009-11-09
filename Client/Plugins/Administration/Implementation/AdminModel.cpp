@@ -44,14 +44,10 @@ QVariant AdminModel::data ( const QModelIndex & index, int role ) const
     if ( ! index.isValid())
         return QVariant();
 
-    if (role == Qt::DisplayRole)
-        return ((Data*)(index.internalPointer()))->data(index.column() + 1, role);
-    else if (role == Qt::BackgroundColorRole)
-    {
+	if (role == Qt::BackgroundColorRole)
         return QVariant();
-    }
-    else
-        return ((Data*)(index.internalPointer()))->data(index.column(), role);
+
+	return ((Data*)(index.internalPointer()))->data(index.column(), role);
 }
 
 QModelIndex AdminModel::index ( int row, int column, const QModelIndex & parent ) const

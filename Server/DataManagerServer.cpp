@@ -11,7 +11,7 @@
 
 void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 {
-    QMutexLocker(data->lock);
+	QMutexLocker(&data->_mutex);
 
 	UserData* user = PluginManagerServer::instance()->currentUser();
 	quint8 error = 0;
@@ -112,8 +112,8 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
 		return;
 	}
 
-	Data* data = plugin->getDataWithKey(stream);
-	QMutexLocker(data->lock);
+	Data* data = plugin->dataWithKey(stream);
+	QMutexLocker(&data->_mutex);
 
 	if ( ! data->canAccess(user))
 	{
@@ -151,8 +151,8 @@ void DataManagerServer::sendData(UserData* user, Data* data) const
 
 void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, quint8 error, const QByteArray& oldKey) const
 {
-    QMutexLocker(data->lock);
-	CommData packet(plugin->getDataType());
+	QMutexLocker(&data->_mutex);
+	CommData packet(plugin->dataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
 
 	if (status != Data::UPDATED &&

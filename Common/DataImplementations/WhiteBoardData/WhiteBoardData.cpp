@@ -58,9 +58,9 @@ QVariant WhiteBoardData::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 0)
-			return ((TreeData*)parent())->id();
-        if (column == 1)
+		if (column == -1)
+			return _node->id();
+		if (column == 0)
 			return tr("White Board");
     }
 //    else if (role == Qt::DecorationRole && column == 0)

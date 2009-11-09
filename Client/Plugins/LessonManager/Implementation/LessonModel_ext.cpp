@@ -15,7 +15,7 @@ bool LessonModel_ext::createLesson(QModelIndex& index)
 		{
 			int count = rowCount(index);
 			beginInsertRows(index, count, count);
-			FileData *fdata = filePlugin->createNewFile(data);
+			FileData *fdata = filePlugin->createFile(data);
 			fdata->setMimeType("x-horus/x-lesson");
 			fdata->create();
 			endInsertRows();
@@ -27,7 +27,7 @@ bool LessonModel_ext::createLesson(QModelIndex& index)
 
 ILesson* LessonModel_ext::getLesson(int id)
 {
-	return Lesson::createLesson(filePlugin->getFile(id));
+	return Lesson::createLesson(filePlugin->file(id));
 }
 
 ILessonDocument* LessonModel_ext::getLessonDocument(int lessonId, int documentId)

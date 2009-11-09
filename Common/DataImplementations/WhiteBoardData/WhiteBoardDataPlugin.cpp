@@ -6,9 +6,9 @@
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
 
-WhiteBoardData* WhiteBoardDataPlugin::getWhiteBoard(TreeData* node)
+WhiteBoardData* WhiteBoardDataPlugin::whiteBoard(TreeData* node)
 {
-	foreach (WhiteBoardData* wb, whiteBoards)
+	foreach (WhiteBoardData* wb, _whiteBoards)
 		if (qobject_cast<TreeData *>(wb->node()) == node)
 			return wb;
 
@@ -16,26 +16,26 @@ WhiteBoardData* WhiteBoardDataPlugin::getWhiteBoard(TreeData* node)
 #ifdef HORUS_CLIENT
 	wb->moveToThread(this->thread());
 #endif
-	whiteBoards.append(wb);
+	_whiteBoards.append(wb);
 	return wb;
 }
 
-WhiteBoardData* WhiteBoardDataPlugin::getWhiteBoard(quint32 nodeId)
+WhiteBoardData* WhiteBoardDataPlugin::whiteBoard(quint32 nodeId)
 {
-	return getWhiteBoard( pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId) );
+	return whiteBoard( pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId) );
 }
 
-Data* WhiteBoardDataPlugin::getDataWithKey(QDataStream& s)
+Data* WhiteBoardDataPlugin::dataWithKey(QDataStream& s)
 {
 	quint32 nodeId;
 	s >> nodeId;
-	return getWhiteBoard(nodeId);
+	return whiteBoard(nodeId);
 }
 
 QList<Data*> WhiteBoardDataPlugin::allDatas() const
 {
 	QList<Data*> list;
-	foreach (Data* data, whiteBoards)
+	foreach (Data* data, _whiteBoards)
 		if (data->status() != Data::EMPTY)
 			list.append(data);
 
@@ -53,7 +53,7 @@ void WhiteBoardDataPlugin::loadData()
 	}
 	while (query.next())
 	{
-		WhiteBoardData* wb	= getWhiteBoard(query.value(0).toUInt());
+		WhiteBoardData* wb	= whiteBoard(query.value(0).toUInt());
 		wb->_syncMode		= (WhiteBoardData::SyncMode)(query.value(1).toUInt());
 		wb->_items			= query.value(2).toByteArray();
 		wb->_lastChange		= query.value(3).toDateTime();
@@ -64,7 +64,7 @@ void WhiteBoardDataPlugin::loadData()
 QList<Data*> WhiteBoardDataPlugin::datasForUpdate(UserData* user, QDateTime date)
 {
 	QList<Data*> list;
-	foreach (WhiteBoardData* data, whiteBoards)
+	foreach (WhiteBoardData* data, _whiteBoards)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 			list.append(data);
 	return list;

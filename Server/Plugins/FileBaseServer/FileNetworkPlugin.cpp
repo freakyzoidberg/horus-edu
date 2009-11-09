@@ -9,7 +9,7 @@ void FileNetworkPlugin::receivePacket(UserData* user, const PluginPacket packet)
     if (packet.request != "askForDownload" && packet.request != "askForUpload")
         return;
 
-    FileData* file = _dataPlugin->pluginManager->findPlugin<FileDataBasePlugin*>()->getFile( packet.data.toUInt() );
+	FileData* file = _dataPlugin->pluginManager->findPlugin<FileDataBasePlugin*>()->file( packet.data.toUInt() );
     QVariantHash data;
     data["file"] = file->id();
 

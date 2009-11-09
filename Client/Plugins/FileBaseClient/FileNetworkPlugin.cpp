@@ -7,7 +7,7 @@ void FileNetworkPlugin::receivePacket(const PluginPacket packet)
         return;
 
     QVariantHash data = packet.data.toHash();
-    FileDataBase* file = ((FileDataBase*)(_dataPlugin->getFile( data["file"].toUInt() )));
+	FileDataBase* file = ((FileDataBase*)(_dataPlugin->file( data["file"].toUInt() )));
 
     if (packet.request == "downloadAuthorized")
 		new FileTransfertClient(file, FileTransfert::DOWNLOAD, data["key"].toByteArray());

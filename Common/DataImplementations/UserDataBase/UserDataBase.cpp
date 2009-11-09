@@ -5,6 +5,19 @@
 #include "../../TreeDataPlugin.h"
 #include <QCryptographicHash>
 
+UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, plugin)
+{
+	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+	connect(_node, SIGNAL(removed()), this, SLOT(nodeRemoved()));
+}
+
+void UserDataBase::nodeRemoved()
+{
+	disconnect(this, SLOT(nodeRemoved()));
+	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+	connect(_node, SIGNAL(removed()), this, SLOT(nodeRemoved()));
+}
+
 void UserDataBase::keyToStream(QDataStream& s)
 {
     s << _id;
@@ -50,14 +63,16 @@ void UserDataBase::dataFromStream(QDataStream& s)
       >> _language
       >> nodeId;
 
-	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId);
+	disconnect(this, SLOT(nodeRemoved()));
+	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
+	connect(_node, SIGNAL(removed()), this, SLOT(nodeRemoved()));
 
     Data::dataFromStream(s);
 }
 
 QDebug UserDataBase::operator<<(QDebug debug) const
 {
-    return debug << getDataType()
+    return debug << dataType()
                  << status()
                  << _id
                  << _level
@@ -77,7 +92,8 @@ QDebug UserDataBase::operator<<(QDebug debug) const
 
 void UserDataBase::setName(const QString name)
 {
-    if (_name == name)
+	QMutexLocker M(&_mutex);
+	if (_name == name)
         return;
 
     _name = name;
@@ -85,6 +101,7 @@ void UserDataBase::setName(const QString name)
 
 void UserDataBase::setPassword(const QString password)
 {    
+	QMutexLocker M(&_mutex);
 	if (_password == QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1))
         return;
 
@@ -93,7 +110,8 @@ void UserDataBase::setPassword(const QString password)
 
 void UserDataBase::setSurname(const QString surname)
 {
-    if (_surname == surname)
+	QMutexLocker M(&_mutex);
+	if (_surname == surname)
         return;
 
     _surname = surname;
@@ -101,7 +119,8 @@ void UserDataBase::setSurname(const QString surname)
 
 void UserDataBase::setLevel(quint8 level)
 {
-    if (_level == level)
+	QMutexLocker M(&_mutex);
+	if (_level == level)
         return;
 
     _level = level;
@@ -109,7 +128,8 @@ void UserDataBase::setLevel(quint8 level)
 
 void UserDataBase::enable(bool enabled)
 {
-    if (_enabled == enabled)
+	QMutexLocker M(&_mutex);
+	if (_enabled == enabled)
         return;
 
     _enabled = enabled;
@@ -117,15 +137,19 @@ void UserDataBase::enable(bool enabled)
 
 void UserDataBase::setNode(TreeData* node)
 {
-    if ( ! node || _node == node)
+	QMutexLocker M(&_mutex);
+	if ( ! node || _node == node)
         return;
 
-    _node = node;
+	disconnect(this, SLOT(nodeRemoved()));
+	_node = node;
+	connect(_node, SIGNAL(removed()), this, SLOT(nodeRemoved()));
 }
 
 void UserDataBase::setLanguage(const QString language)
 {
-    if (_language == language)
+	QMutexLocker M(&_mutex);
+	if (_language == language)
         return;
 
     _language = language;
@@ -133,7 +157,8 @@ void UserDataBase::setLanguage(const QString language)
 
 void UserDataBase::setCountry(const QString country)
 {
-    if (_country == country)
+	QMutexLocker M(&_mutex);
+	if (_country == country)
         return;
 
     _country = country;
@@ -141,7 +166,8 @@ void UserDataBase::setCountry(const QString country)
 
 void UserDataBase::setPhone(const QString phone)
 {
-    if (_phone == phone)
+	QMutexLocker M(&_mutex);
+	if (_phone == phone)
         return;
 
     _phone = phone;
@@ -149,7 +175,8 @@ void UserDataBase::setPhone(const QString phone)
 
 void UserDataBase::setAddress(const QString address)
 {
-    if (_address == address)
+	QMutexLocker M(&_mutex);
+	if (_address == address)
         return;
 
     _address = address;
@@ -157,7 +184,8 @@ void UserDataBase::setAddress(const QString address)
 
 void UserDataBase::setBirthDate(const QDate birthDate)
 {
-    if (_birthDate == birthDate)
+	QMutexLocker M(&_mutex);
+	if (_birthDate == birthDate)
         return;
 
     _birthDate = birthDate;
@@ -165,7 +193,8 @@ void UserDataBase::setBirthDate(const QDate birthDate)
 
 void UserDataBase::setPicture(const QVariant picture)
 {
-    if (_picture == picture)
+	QMutexLocker M(&_mutex);
+	if (_picture == picture)
         return;
 
     _picture = picture;
@@ -226,7 +255,9 @@ quint8 UserDataBase::serverRead()
 	_phone      = query.value(9).toString();
 	_country    = query.value(10).toString();
 	_language   = query.value(11).toString();
-	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->getNode( query.value(12).toUInt() );
+	disconnect(this, SLOT(nodeRemoved()));
+	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(12).toUInt() );
+	connect(_node, SIGNAL(removed()), this, SLOT(nodeRemoved()));
 	_enabled    = query.value(13).toBool();
 	_lastChange	= query.value(14).toDateTime();
 
@@ -317,6 +348,7 @@ quint8 UserDataBase::serverRemove()
 
 QByteArray UserDataBase::newSession(const QDateTime& end)
 {
+	QMutexLocker M(&_mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	QByteArray session;
     qsrand(QTime::currentTime().msec() + _id);
@@ -341,6 +373,7 @@ QByteArray UserDataBase::newSession(const QDateTime& end)
 
 void UserDataBase::destroySession()
 {
+	QMutexLocker M(&_mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
     query.addBindValue(_id);

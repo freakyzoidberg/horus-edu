@@ -10,38 +10,38 @@ SettingsDataBasePlugin::SettingsDataBasePlugin()
 {
 }
 
-SettingsData* SettingsDataBasePlugin::getSettings(QString part, quint8 scope, UserData* user)
+SettingsData* SettingsDataBasePlugin::settings(QString part, quint8 scope, UserData* user)
 {
     if IS_SYSTEM_SCOPE(scope)
-        user = pluginManager->findPlugin<UserDataPlugin*>()->getUser(0);
+		user = pluginManager->findPlugin<UserDataPlugin*>()->nobody();
     else if (user == 0)
         user = pluginManager->currentUser();
 
-    foreach (SettingsData* setting, settings)
+	foreach (SettingsData* setting, _settings)
         if (setting->part() == part && setting->scope() == scope && setting->owner() == user)
             return setting;
 
     //not found
     SettingsDataBase* set = new SettingsDataBase(this, part, scope, user);
 	set->moveToThread(this->thread());
-    settings.append(set);
+	_settings.append(set);
     return set;
 }
 
-Data* SettingsDataBasePlugin::getDataWithKey(QDataStream& s)
+Data* SettingsDataBasePlugin::dataWithKey(QDataStream& s)
 {
     QString part;
     quint8 scope;
     quint32 ownerId;
     s >> part >> scope >> ownerId;
 
-    return getSettings(part, scope, pluginManager->findPlugin<UserDataPlugin*>()->getUser(ownerId));
+	return settings(part, scope, pluginManager->findPlugin<UserDataPlugin*>()->user(ownerId));
 }
 
 QList<Data*> SettingsDataBasePlugin::allDatas() const
 {
 	QList<Data*> list;
-	foreach (Data* data, settings)
+	foreach (Data* data, _settings)
 		if (data->status() != Data::EMPTY)
 			list.append(data);
 

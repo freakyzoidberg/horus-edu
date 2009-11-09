@@ -168,7 +168,7 @@ void NetworkManager::recvData()
 	CommData data(_recvPacket);
 
 	foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
-		if (plugin->getDataType() == data.type)
+		if (plugin->dataType() == data.type)
 		{
 			QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData",
 									  Q_ARG(UserData*, PluginManagerClient::instance()->currentUser()),

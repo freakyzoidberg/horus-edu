@@ -23,9 +23,10 @@ private:
 
 	//UserDataPlugin
 public:
-	UserData*				getUser(quint32 userId);
-	UserData*				getUser(const QString login);
-	const QHash<quint32,UserData*>&	getAllUser();
+	UserData*				nobody();
+	UserData*				user(quint32 userId);
+	UserData*				user(const QString login);
+	const QHash<quint32,UserData*>&	allUser();
 	UserData*				createUser(const QString &login);
 #ifdef HORUS_SERVER
 	void					userDisconnected(UserData* user);
@@ -46,7 +47,7 @@ public:
 #endif
 protected:
 	//! Return the pointer to the Data with a his unique key read in the stream
-	Data*					getDataWithKey(QDataStream& s);
+	Data*					dataWithKey(QDataStream& s);
 
 
 	//Plugin

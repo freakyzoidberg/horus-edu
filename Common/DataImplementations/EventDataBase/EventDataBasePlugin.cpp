@@ -11,7 +11,7 @@ EventData* EventDataBasePlugin::newEvent(TreeData* parent, UserData* user)
 	if ( ! user)
 		user = pluginManager->currentUser();
 
-	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNewNode();
+	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNode();
 	node->setParent(parent);
 	node->setUser(user);
 	node->setType("EVENT");
@@ -33,7 +33,7 @@ EventData* EventDataBasePlugin::nodeEvent(TreeData* node)
 
 EventData* EventDataBasePlugin::nodeEvent(quint32 nodeId)
 {
-	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(nodeId));
+	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId));
 }
 
 QList<EventData*> EventDataBasePlugin::userEvents(UserData* user, const QDateTime from, const QDateTime to)
@@ -70,11 +70,11 @@ void EventDataBasePlugin::recursiveTreeSearch(QList<EventData*>& list, TreeData*
 		recursiveTreeSearch(list, child, from, to);
 }
 
-Data* EventDataBasePlugin::getDataWithKey(QDataStream& s)
+Data* EventDataBasePlugin::dataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(tmpId));
+	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->node(tmpId));
 }
 
 #ifdef HORUS_SERVER
@@ -85,7 +85,7 @@ void EventDataBasePlugin::loadData()
     query.exec();
     while (query.next())
     {
-		EventDataBase* event = (EventDataBase*)(nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->getNode(query.value(0).toUInt())));
+		EventDataBase* event = (EventDataBase*)(nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
 		event->_startTime = query.value(1).toDateTime();
 		event->_endTime   = query.value(1).toDateTime();
 		event->_status = Data::UPTODATE;
