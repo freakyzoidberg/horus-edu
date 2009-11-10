@@ -39,8 +39,6 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
 					newY = tr.y() +  (tabV2.shape == QTabBar::TriangularWest ? 0 : tr.height());
 					newRot = tabV2.shape == QTabBar::TriangularWest ? 0 : -90;
                 }
-				if (tabV2.shape != QTabBar::TriangularWest)
-					tr.setRect(0, 0, tr.height(), tr.width());
                 QTransform m;
                 m.translate(newX, newY);
                 m.rotate(newRot);
@@ -78,13 +76,6 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
                 p->drawPixmap(iconRect.x(), iconRect.y(), tabIcon);
             }
 
-			if (verticalTabs && tabV2.shape == QTabBar::TriangularWest)
-			{
-				tr.setTop(40);
-				tr.setBottom(60);
-				tr.setLeft(2);
-				tr.setRight(76);
-			}
             drawItemText(p, tr, alignment, tab->palette, tab->state & State_Enabled, tab->text, QPalette::WindowText);
             if (verticalTabs)
                 p->restore();
@@ -163,7 +154,29 @@ QRect HorusStyle::subElementRect(SubElement sr, const QStyleOption *opt, const Q
                     iconRect = visualRect(opt->direction, opt->rect, iconRect);
                 //tr.setLeft(tr.left() + tabIconSize.width() + offset + 2);
 				//tr.setTop(tr.top() + tabIconSize.height() / 2);
+				if (tabV2.shape == QTabBar::TriangularWest || tabV2.shape == QTabBar::TriangularNorth)
+				{
+					tr.setTop(40);
+					tr.setBottom(60);
+					if (tabV2.shape == QTabBar::TriangularWest)
+					{
+						tr.setLeft(2);
+						tr.setRight(76);
+					}
+					return (tr);
+				}
             }
+			else if (tabV2.shape == QTabBar::TriangularWest || tabV2.shape == QTabBar::TriangularNorth)
+			{
+				tr.setTop(5);
+				tr.setBottom(60);
+				if (tabV2.shape == QTabBar::TriangularWest)
+				{
+					tr.setLeft(2);
+					tr.setRight(76);
+				}
+				return (tr);
+			}
 
             // right widget
             if (!tabV2.rightButtonSize.isEmpty()) {

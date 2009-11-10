@@ -1,6 +1,10 @@
 #include "Administration.h"
+
+#include <QLabel>
+
 #include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeDataPlugin.h"
+#include "../../../../Common/UserData.h"
 
 QWidget             *Administration::getWidget()
 {
