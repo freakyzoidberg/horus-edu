@@ -9,8 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Client\Plugins\Ed
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageController", "Client\Plugins\ImageController\ImageController.vcproj", "{09BC3218-750B-3179-BE39-B0E081AD38FC}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MainFrame", "Client\Plugins\MainFrame\MainFrame.vcproj", "{C765DA63-05C4-3D3E-AC44-F54F551E9115}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Marks", "Client\Plugins\Marks\Marks.vcproj", "{EC282E5B-0DB1-3F00-B625-EFF115C9E9F8}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PdfController", "Client\Plugins\PdfController\PdfController.vcproj", "{D20E8E10-D351-386F-AA18-F5D8A0599897}"
@@ -113,6 +111,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus_Server", "Server\Horu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus_Client", "Client\Horus_Client.vcproj", "{8C64C7C9-BDE0-3BA6-8F20-6B60567310CC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MainFrame", "Client\Plugins\MainFrame\MainFrame.vcproj", "{C765DA63-05C4-3D3E-AC44-F54F551E9115}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -163,16 +163,6 @@ Global
 		{09BC3218-750B-3179-BE39-B0E081AD38FC}.Release|Win32.ActiveCfg = Release|Win32
 		{09BC3218-750B-3179-BE39-B0E081AD38FC}.Release|Win32.Build.0 = Release|Win32
 		{09BC3218-750B-3179-BE39-B0E081AD38FC}.Release|x86.ActiveCfg = Release|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Win32.ActiveCfg = Debug|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Win32.Build.0 = Debug|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|x86.ActiveCfg = Debug|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Win32.ActiveCfg = Release|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Win32.Build.0 = Release|Win32
-		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|x86.ActiveCfg = Release|Win32
 		{EC282E5B-0DB1-3F00-B625-EFF115C9E9F8}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{EC282E5B-0DB1-3F00-B625-EFF115C9E9F8}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{EC282E5B-0DB1-3F00-B625-EFF115C9E9F8}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -491,6 +481,16 @@ Global
 		{8C64C7C9-BDE0-3BA6-8F20-6B60567310CC}.Release|Win32.ActiveCfg = Release|Win32
 		{8C64C7C9-BDE0-3BA6-8F20-6B60567310CC}.Release|Win32.Build.0 = Release|Win32
 		{8C64C7C9-BDE0-3BA6-8F20-6B60567310CC}.Release|x86.ActiveCfg = Release|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|Win32.Build.0 = Debug|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Debug|x86.ActiveCfg = Debug|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Win32.ActiveCfg = Release|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|Win32.Build.0 = Release|Win32
+		{C765DA63-05C4-3D3E-AC44-F54F551E9115}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

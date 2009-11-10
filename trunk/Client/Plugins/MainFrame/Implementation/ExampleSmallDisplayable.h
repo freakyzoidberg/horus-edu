@@ -1,7 +1,7 @@
 #ifndef				__EXAMPLESMALLDISPLAYABLE_H__
 # define			__EXAMPLESMALLDISPLAYABLE_H__
 
-# include			"../SmallDisplayable.h"
+# include			"../SmallDisplayablePlugin.h"
 
 class				ExampleSmallDisplayable : public SmallDisplayablePlugin
 {
