@@ -179,6 +179,8 @@ void    MainWindow::createMenus()
 void							MainWindow::createCentralWidget()
 {
 	QTabWidget					*tabMenu;
+	QWidget						*currentWidget;
+	QTabWidget					*subMenu;
 	QList<DisplayablePlugin *>	plugins;
 
 	tabMenu = new QTabWidget(this);
@@ -189,7 +191,16 @@ void							MainWindow::createCentralWidget()
 	qSort(plugins.begin(), plugins.end(), MainWindow::lessThan);
 	foreach (DisplayablePlugin* plugin, plugins)
 		if (!plugin->getDisplayableName().isEmpty())
-			tabMenu->addTab(plugin->getWidget(), plugin->getIcon(), plugin->getDisplayableName());
+		{
+			currentWidget = plugin->getWidget();
+			subMenu = qobject_cast<QTabWidget *>(currentWidget);
+			if (subMenu)
+			{
+				subMenu->setTabShape(QTabWidget::Triangular);
+				subMenu->setTabPosition(QTabWidget::North);
+			}
+			tabMenu->addTab(currentWidget, plugin->getIcon(), plugin->getDisplayableName());
+		}
 }
 
 bool							MainWindow::lessThan(DisplayablePlugin *a, DisplayablePlugin *b)
