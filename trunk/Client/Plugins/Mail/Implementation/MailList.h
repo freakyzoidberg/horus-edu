@@ -19,10 +19,37 @@ public:
 
 private:
     MailDataPlugin *_MailPlugin;
-    QTableView *emailList;
+    //QTableView *emailList;
 
- private slots:
+/*
+private slots:
     void myClicked(QModelIndex);
+  */
+
+    void setSourceModel(QAbstractItemModel *model);
+
+private slots:
+    void filterRegExpChanged();
+    void filterColumnChanged();
+    void sortChanged();
+
+private:
+    QStandardItemModel *model;
+    QSortFilterProxyModel *proxyModel;
+    QGroupBox *sourceGroupBox;
+    QGroupBox *proxyGroupBox;
+    QTreeView *sourceView;
+    QTreeView *proxyView;
+    QCheckBox *filterCaseSensitivityCheckBox;
+    QCheckBox *sortCaseSensitivityCheckBox;
+    QLabel *filterPatternLabel;
+    QLabel *filterSyntaxLabel;
+    QLabel *filterColumnLabel;
+    QLineEdit *filterPatternLineEdit;
+    QComboBox *filterSyntaxComboBox;
+    QComboBox *filterColumnComboBox;
+    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date);
+    QAbstractItemModel *createMailModel(QObject *parent);
 };
 
 #endif // MAILPANEL_H

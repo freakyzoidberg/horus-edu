@@ -36,6 +36,8 @@ MailPanel::MailPanel(MailDataPlugin *MailPlugin): QWidget()
 
     connect(writemail, SIGNAL(clicked()), this, SLOT(changetowrite()));
     connect(mailbox, SIGNAL(clicked()), this, SLOT(changetolist()));
+
+
 }
 
 MailPanel::~MailPanel()
@@ -63,5 +65,4 @@ void MailPanel::changetolist()
     this->Mlist->show();
 
 }
-
 
