@@ -32,8 +32,10 @@ private slots:
     void filterRegExpChanged();
     void filterColumnChanged();
     void sortChanged();
+    void rowDoubleClicked(QModelIndex indx);
 
 private:
+    QTextEdit *mailview;
     QStandardItemModel *model;
     QSortFilterProxyModel *proxyModel;
     QGroupBox *sourceGroupBox;
@@ -48,8 +50,9 @@ private:
     QLineEdit *filterPatternLineEdit;
     QComboBox *filterSyntaxComboBox;
     QComboBox *filterColumnComboBox;
-    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date);
+    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date, const QString &content, const QString &id);
     QAbstractItemModel *createMailModel(QObject *parent);
+    QMap<QString, QString> mailpool;
 };
 
 #endif // MAILPANEL_H

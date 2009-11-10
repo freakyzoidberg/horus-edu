@@ -180,6 +180,8 @@ MailList::MailList(MailDataPlugin *MailPlugin)
      filterColumnLabel = new QLabel(tr("Filter &column:"));
      filterColumnLabel->setBuddy(filterColumnComboBox);
 
+     mailview = new QTextEdit();
+
      connect(filterPatternLineEdit, SIGNAL(textChanged(const QString &)),
              this, SLOT(filterRegExpChanged()));
      connect(filterSyntaxComboBox, SIGNAL(currentIndexChanged(int)),
@@ -190,6 +192,8 @@ MailList::MailList(MailDataPlugin *MailPlugin)
              this, SLOT(filterRegExpChanged()));
      connect(sortCaseSensitivityCheckBox, SIGNAL(toggled(bool)),
              this, SLOT(sortChanged()));
+     connect(proxyView, SIGNAL(doubleClicked(QModelIndex)),
+                  this, SLOT(rowDoubleClicked(QModelIndex)));
 
      //QHBoxLayout *sourceLayout = new QHBoxLayout;
      //sourceLayout->addWidget(sourceView);
@@ -197,16 +201,19 @@ MailList::MailList(MailDataPlugin *MailPlugin)
 
      QGridLayout *proxyLayout = new QGridLayout;
      proxyLayout->addWidget(proxyView, 0, 0, 1, 3);
-     proxyLayout->addWidget(filterPatternLabel, 1, 0);
-     proxyLayout->addWidget(filterPatternLineEdit, 1, 1, 1, 2);
-     proxyLayout->addWidget(filterSyntaxLabel, 2, 0);
-     proxyLayout->addWidget(filterSyntaxComboBox, 2, 1, 1, 2);
-     proxyLayout->addWidget(filterColumnLabel, 3, 0);
-     proxyLayout->addWidget(filterColumnComboBox, 3, 1, 1, 2);
-     proxyLayout->addWidget(filterCaseSensitivityCheckBox, 4, 0, 1, 2);
-     proxyLayout->addWidget(sortCaseSensitivityCheckBox, 4, 2);
+     proxyLayout->addWidget(mailview,1,0,1,3);
+     proxyLayout->addWidget(filterPatternLabel, 2, 0);
+     proxyLayout->addWidget(filterPatternLineEdit, 2, 1, 1, 2);
+     proxyLayout->addWidget(filterSyntaxLabel, 3, 0);
+     proxyLayout->addWidget(filterSyntaxComboBox, 3, 1, 1, 2);
+     proxyLayout->addWidget(filterColumnLabel, 4, 0);
+     proxyLayout->addWidget(filterColumnComboBox, 4, 1, 1, 2);
+     proxyLayout->addWidget(filterCaseSensitivityCheckBox, 5, 0, 1, 2);
+     proxyLayout->addWidget(sortCaseSensitivityCheckBox, 5, 2);
      proxyGroupBox->setLayout(proxyLayout);
 
+
+     mailview->setVisible(false);
      //QVBoxLayout *mainLayout = new QVBoxLayout;
    //  mainLayout->addWidget(sourceGroupBox);
      //mainLayout->addWidget(proxyGroupBox);
@@ -231,7 +238,8 @@ this->setSourceModel(createMailModel(this));
 foreach (MailData* data, list)
 {
 
-    addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()));
+
+    addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId());
 
     //qDebug() << listmodel->setData(listmodel->index(i,2),data->getFrom(), Qt::EditRole);
     //qDebug() << listmodel->setData(listmodel->index(i,3),data->getSubject(), Qt::EditRole);
@@ -273,18 +281,15 @@ foreach (MailData* data, list)
  }
 
  void MailList::addMail(QAbstractItemModel *model, const QString &subject,
-               const QString &sender, const QDateTime &date)
+               const QString &sender, const QDateTime &date, const QString &content, const QString &id)
   {
      
       model->insertRow(0);
       model->setData(model->index(0, 0), subject);
       model->setData(model->index(0, 1), sender);
       model->setData(model->index(0, 2), date);
-
-
-
-
-
+      model->setData(model->index(0, 3), id);
+      mailpool.insert(id, content);
 
   }
 
@@ -296,27 +301,36 @@ foreach (MailData* data, list)
       model->setHeaderData(2, Qt::Horizontal, QObject::tr("Date"));
 
       addMail(model, "Happy New Year!", "Grace K. <grace@software-inc.com>",
-              QDateTime(QDate(2006, 12, 31), QTime(17, 03)));
+              QDateTime(QDate(2006, 12, 31), QTime(17, 03)), "test1", "1");
       addMail(model, "Radically new concept", "Grace K. <grace@software-inc.com>",
-              QDateTime(QDate(2006, 12, 22), QTime(9, 44)));
+              QDateTime(QDate(2006, 12, 22), QTime(9, 44)), "test2", "2");
       addMail(model, "Accounts", "pascale@nospam.com",
-              QDateTime(QDate(2006, 12, 31), QTime(12, 50)));
+              QDateTime(QDate(2006, 12, 31), QTime(12, 50)), "test3", "3");
       addMail(model, "Expenses", "Joe Bloggs <joe@bloggs.com>",
-              QDateTime(QDate(2006, 12, 25), QTime(11, 39)));
+              QDateTime(QDate(2006, 12, 25), QTime(11, 39)),"test4", "4");
       addMail(model, "Re: Expenses", "Andy <andy@nospam.com>",
-              QDateTime(QDate(2007, 01, 02), QTime(16, 05)));
+              QDateTime(QDate(2007, 01, 02), QTime(16, 05)), "test5", "5");
       addMail(model, "Re: Accounts", "Joe Bloggs <joe@bloggs.com>",
-              QDateTime(QDate(2007, 01, 03), QTime(14, 18)));
+              QDateTime(QDate(2007, 01, 03), QTime(14, 18)), "test6", "6");
       addMail(model, "Re: Accounts", "Andy <andy@nospam.com>",
-              QDateTime(QDate(2007, 01, 03), QTime(14, 26)));
+              QDateTime(QDate(2007, 01, 03), QTime(14, 26)), "test7", "7");
       addMail(model, "Sports", "Linda Smith <linda.smith@nospam.com>",
-              QDateTime(QDate(2007, 01, 05), QTime(11, 33)));
+              QDateTime(QDate(2007, 01, 05), QTime(11, 33)), "test8", "8");
       addMail(model, "AW: Sports", "Rolf Newschweinstein <rolfn@nospam.com>",
-              QDateTime(QDate(2007, 01, 05), QTime(12, 00)));
+              QDateTime(QDate(2007, 01, 05), QTime(12, 00)), "test9", "9");
       addMail(model, "RE: Sports", "Petra Schmidt <petras@nospam.com>",
-              QDateTime(QDate(2007, 01, 05), QTime(12, 01)));
+              QDateTime(QDate(2007, 01, 05), QTime(12, 01)), "test10", "10");
 
       return model;
   }
 
+ void MailList::rowDoubleClicked(QModelIndex indx)
+ {
+        mailview->setVisible(true);
 
+//        mailview->setText(mailpool[model->i]);
+
+
+        qDebug() << indx.row() <<" " << indx.data();
+     //QMessageBox::information(NULL, "here", QString("Row ")+QString("was double clicked"));
+ }

@@ -74,6 +74,7 @@ public :
          inline QString                    getSubject() {return _subject; }
          inline QString                    getMDate() {return _date; }
          inline QString                    getFrom() {return _from; }
+         inline QString                    getId() {return _from; }
 
 
 };
