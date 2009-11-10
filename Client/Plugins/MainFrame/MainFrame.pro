@@ -6,10 +6,13 @@ TARGET = MainFrame
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/MainFrame.cpp \
-           Implementation/MainFrameWidget.cpp
+           Implementation/MainFrameWidget.cpp \
+           Implementation/ExampleSmallDisplayable.cpp
 HEADERS += Implementation/MainFrame.h \
            Implementation/MainFrameWidget.h \
            Implementation/MainFrameMetaPlugin.h \
+           Implementation/ExampleSmallDisplayable.h \
+           SmallDisplayablePlugin.h \
            ../../DisplayablePlugin.h \
           ../../../Common/Plugin.h \
          ../../../Common/PluginManager.h \
