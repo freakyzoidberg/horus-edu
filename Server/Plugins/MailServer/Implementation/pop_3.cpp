@@ -227,8 +227,10 @@ QList<Mail*> Pop_3::getAllMail(int MaxMail)
        }
        else
        {
+
             uid = _lastResponse.split(" ").at(2);
-        sendRetr("RETR " + QVariant(i).toString());
+
+            sendRetr("RETR " + QVariant(i).toString());
            if  (!read("+OK"))
                return panier;
            else
@@ -237,10 +239,10 @@ QList<Mail*> Pop_3::getAllMail(int MaxMail)
                readMail(_lastResponse.split(" ").at(1).toUInt());
 
                Mail* mail = new Mail();
+
                mail->setuid(uid);
                mail->setData(_lastResponse);
-
-                panier.append(mail);
+               panier.append(mail);
            }
        }
     }
