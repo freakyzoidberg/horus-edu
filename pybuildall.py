@@ -9,14 +9,17 @@ if getpass.getuser() == "zoidberg":
     MV_CLIENT_PLUGINS_TO="/home/zoidberg/.Horus/Plugins/"
     MV_SERVER_PLUGINS_TO=""
     PATH_TO_TRUNK="/home/zoidberg/Epitech/EIP/trunk/"
+    BUILDPATH="./"
 elif getpass.getuser() == "Adrien":
-    MV_CLIENT_PLUGINS_TO="C:\\Documents and Settings\\Adrien\\.Horus\\Plugins"
+    MV_CLIENT_PLUGINS_TO="C:/Documents and Settings/Adrien/.Horus/Plugins/"
     MV_SERVER_PLUGINS_TO=""
-    PATH_TO_TRUNK="D:\\Projects\\Epitech\\Horus\\trunk"
+    PATH_TO_TRUNK="D:/Projects/Epitech/Horus/trunk/"
+    BUILDPATH="./debug/"
 else:
     MV_CLIENT_PLUGINS_TO=""
     MV_SERVER_PLUGINS_TO=""
     PATH_TO_TRUNK="."
+    BUILDPATH="./"
 
 
 class bcolors:
@@ -32,7 +35,7 @@ class bcolors:
         self.ENDC = ''
 
 
-def ParseCompileCopy(fromwhere, towhere):
+def ParseCompileCopy(fromwhere, towhere, buildpath):
     print (bcolors.HEADER + "Compiling " + fromwhere + bcolors.ENDC)
     os.chdir(fromwhere)
     os.system("qmake")
@@ -47,14 +50,14 @@ def ParseCompileCopy(fromwhere, towhere):
             os.system("qmake")
             os.system("make")
             if towhere != "":
-                for pluginfiles in os.listdir ("./"):
+                for pluginfiles in os.listdir (buildpath):
                     if pluginfiles.endswith(".so") or pluginfiles.endswith(".dll"):
                         print (bcolors.OKGREEN + "Copying " + pluginfiles + bcolors.ENDC)
-                        shutil.copy (pluginfiles,towhere)
+                        shutil.copy (buildpath + pluginfiles,towhere)
             os.chdir("..")
     os.chdir("../..")
     return
 
 os.chdir(PATH_TO_TRUNK)
-ParseCompileCopy("./Client", MV_CLIENT_PLUGINS_TO)
-ParseCompileCopy("./Server", MV_SERVER_PLUGINS_TO)
+ParseCompileCopy("./Client", MV_CLIENT_PLUGINS_TO, BUILDPATH)
+ParseCompileCopy("./Server", MV_SERVER_PLUGINS_TO, BUILDPATH)
