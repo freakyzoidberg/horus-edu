@@ -1,7 +1,5 @@
 #include "MainFrame.h"
 
-#include <QDebug>
-
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/TreeDataPlugin.h"
 
@@ -17,14 +15,14 @@ bool MainFrame::canLoad() const
 void MainFrame::load()
 {
     TreeDataPlugin* t = pluginManager->findPlugin<TreeDataPlugin*>();
-    if ( ! t->isLoaded())
+    if (!t->isLoaded())
         t->load();
     Plugin::load();
 }
 
 QWidget* MainFrame::getWidget()
 {
-    return new MainFrameWidget(this);
+    return (new MainFrameWidget(pluginManager));
 }
 
 void MainFrame::courseClicked()

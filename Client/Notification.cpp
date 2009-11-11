@@ -93,7 +93,7 @@ void	Notification::fatal(const QString message)
 	msgBox.setDefaultButton(QMessageBox::Ok);
 	msgBox.setIcon(QMessageBox::Critical);
 	msgBox.exec();
-	delete qApp;
+	qApp->exit(-1);
 }
 
 void	Notification::yesNo(const QString message)
