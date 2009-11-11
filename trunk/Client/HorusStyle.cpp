@@ -18,6 +18,11 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
         if (const QStyleOptionTab *tab = qstyleoption_cast<const QStyleOptionTab *>(opt)) {
             QStyleOptionTabV3 tabV2(*tab);
             QRect tr = tabV2.rect;
+			if (tabV2.shape != QTabBar::TriangularWest && tabV2.shape != QTabBar::TriangularNorth)
+			{
+				QPlastiqueStyle::drawControl(element, opt, p, widget);
+				break;
+			}
             bool verticalTabs = tabV2.shape == QTabBar::RoundedEast
                                 || tabV2.shape == QTabBar::RoundedWest
                                 || tabV2.shape == QTabBar::TriangularEast

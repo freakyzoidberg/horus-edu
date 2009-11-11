@@ -98,7 +98,19 @@ QWidget             *Course::getWidget()
 	}
 	QTabWidget *tabwidget = new QTabWidget;
 	this->widget = tabwidget;
-	tabwidget->addTab(new QWidget, tr("Lesson management"));
+	switch (this->user->level())
+	{
+	case LEVEL_STUDENT:
+		tabwidget->addTab(new QWidget, tr("Lessons"));
+		tabwidget->addTab(new QWidget, tr("Classes"));
+		break;
+	case LEVEL_TEACHER:
+		tabwidget->addTab(new QWidget, tr("Lessons"));
+		tabwidget->addTab(new CreateWhiteBoard(tabwidget, this->pluginManager), tr("Classes"));
+		break;
+	default:
+		return NULL;
+	}
 	return (tabwidget);
 }
 
