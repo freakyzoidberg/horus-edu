@@ -32,5 +32,6 @@
         <file>handle2.png</file>
         <file>help.png</file>
         <file>bgtab.png</file>
+        <file>bgtabv.png</file>
     </qresource>
 </RCC>

@@ -23,7 +23,11 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
                                 || tabV2.shape == QTabBar::TriangularEast
                                 || tabV2.shape == QTabBar::TriangularWest;
 
-            int alignment = Qt::AlignCenter | Qt::TextShowMnemonic;
+			int alignment;
+			if (verticalTabs)
+				alignment = Qt::AlignCenter | Qt::TextShowMnemonic;
+			else
+				alignment = Qt::AlignLeft | Qt::TextShowMnemonic;
             if (!styleHint(SH_UnderlineShortcut, opt, widget))
                 alignment |= Qt::TextHideMnemonic;
 
@@ -47,13 +51,13 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
             tr = subElementRect(SE_TabBarTabText, opt, widget);
 
             if (!tabV2.icon.isNull()) {
-                QSize iconSize = tabV2.iconSize;
-                if (!iconSize.isValid()) {
-                    int iconExtent = pixelMetric(PM_SmallIconSize);
-					if (tabV2.shape == QTabBar::TriangularWest || tabV2.shape == QTabBar::TriangularNorth)
-						iconExtent = 32;
-                    iconSize = QSize(iconExtent, iconExtent);
-                }
+				QSize iconSize;
+				int iconExtent;
+				if (tabV2.shape == QTabBar::TriangularWest)
+					iconExtent = 32;
+				else if (tabV2.shape == QTabBar::TriangularNorth)
+					iconExtent = 24;
+				iconSize = QSize(iconExtent, iconExtent);
                 QSize tabIconSize = tabV2.icon.actualSize(iconSize,
                                                           (tabV2.state & State_Enabled) ? QIcon::Normal
                                                           : QIcon::Disabled);
@@ -69,11 +73,13 @@ void		HorusStyle::drawControl(ControlElement element, const QStyleOption *opt, Q
                     left += tabV2.leftButtonSize.width() + (6 + 2) + 2;
                 QRect iconRect = QRect(left + offset, tr.center().y() - tabIcon.height() / 2,
                             tabIconSize.width(), tabIconSize.height());
-				if (tabV2.shape == QTabBar::TriangularWest || tabV2.shape == QTabBar::TriangularNorth)
+				if (tabV2.shape == QTabBar::TriangularWest)
 					iconRect = QRect(tr.center().x() - tabIcon.width() / 2, 10, tabIconSize.width(), tabIconSize.height());
-                if (!verticalTabs)
-                    iconRect = visualRect(opt->direction, opt->rect, iconRect);
-                p->drawPixmap(iconRect.x(), iconRect.y(), tabIcon);
+				else if (tabV2.shape == QTabBar::TriangularNorth)
+					iconRect = QRect(4, tr.center().y() - tabIcon.height() / 2,  tabIconSize.width(), tabIconSize.height());
+				if (!verticalTabs)
+					iconRect = visualRect(opt->direction, opt->rect, iconRect);
+				p->drawPixmap(tabV2.rect.left() + iconRect.x(), iconRect.y(), tabIcon);
             }
 
             drawItemText(p, tr, alignment, tab->palette, tab->state & State_Enabled, tab->text, QPalette::WindowText);
@@ -152,29 +158,37 @@ QRect HorusStyle::subElementRect(SubElement sr, const QStyleOption *opt, const Q
                             tabIconSize.width(), tabIconSize .height());
                 if (!verticalTabs)
                     iconRect = visualRect(opt->direction, opt->rect, iconRect);
-                //tr.setLeft(tr.left() + tabIconSize.width() + offset + 2);
-				//tr.setTop(tr.top() + tabIconSize.height() / 2);
-				if (tabV2.shape == QTabBar::TriangularWest || tabV2.shape == QTabBar::TriangularNorth)
+				if (tabV2.shape == QTabBar::TriangularWest)
 				{
 					tr.setTop(40);
 					tr.setBottom(60);
-					if (tabV2.shape == QTabBar::TriangularWest)
-					{
-						tr.setLeft(2);
-						tr.setRight(76);
-					}
+					tr.setLeft(2);
+					tr.setRight(76);
+					return (tr);
+				}
+				else if (tabV2.shape == QTabBar::TriangularNorth)
+				{
+					tr.setTop(9);
+					tr.setBottom(19);
+					tr.setLeft(tr.left() + 32);
+					tr.setRight(tr.left() + 118);
 					return (tr);
 				}
             }
-			else if (tabV2.shape == QTabBar::TriangularWest || tabV2.shape == QTabBar::TriangularNorth)
+			else if (tabV2.shape == QTabBar::TriangularWest)
 			{
 				tr.setTop(5);
 				tr.setBottom(60);
-				if (tabV2.shape == QTabBar::TriangularWest)
-				{
-					tr.setLeft(2);
-					tr.setRight(76);
-				}
+				tr.setLeft(2);
+				tr.setRight(76);
+				return (tr);
+			}
+			else if (tabV2.shape == QTabBar::TriangularNorth)
+			{
+				tr.setTop(9);
+				tr.setBottom(19);
+				tr.setLeft(tr.left() + horizontalShift + 4);
+				tr.setRight(tr.left() + 118);
 				return (tr);
 			}
 
