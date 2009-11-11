@@ -1,79 +1,87 @@
-#include "MainFrameWidget.h"
+#include							"MainFrameWidget.h"
 
-#include "../../../Common/PluginManager.h"
-#include "../../../Common/TreeDataPlugin.h"
+#include							<QApplication>
+#include							<QComboBox>
 
-#include "../../../Common/FileDataPlugin.h"
-#include "../../../Common/FileData.h"
+#include							"../../../../Common/UserData.h"
+#include							"../../../../Common/SettingsData.h"
+#include							"../SmallDisplayablePlugin.h"
 
-#include "../../../Common/UserData.h"
-
-#include <QPushButton>
-#include <QDebug>
-#include <QDateTime>
-#include <QTreeView>
-
-MainFrameWidget::MainFrameWidget(MainFrame *_plugin) : QFrame()
+MainFrameWidget::MainFrameWidget(PluginManager *pluginManager) : QWidget()
 {
-    this->layout = new QGridLayout;
-    Plugin *course = 0;
-    QPushButton *button;
-
-    this->plugin = _plugin;
-    ui.setupUi(this);
-
-    //TreeDataPlugin* tree = plugin->pluginManager->findPlugin<TreeDataPlugin*>();
-    //if (tree)
-    //{
-    //    QTreeView *tv = new QTreeView();
-    //    tv->setModel(tree->getWhiteBoardModel());
-    //    layout->setRowStretch(2, 0);
-    //    layout->addWidget(tv, 2, 0);
-
-    //    tv->expandAll();
-    //}
-
-    course = plugin->pluginManager->findPlugin<DisplayablePlugin*>("Course");
-    if (course)
-    {
-        button = new QPushButton(QIcon(":/Pictures/edit.png"), tr("My Lessons"));
-        layout->addWidget(button, 2, 0);
-        layout->setRowStretch(2, 0);
-        connect(button, SIGNAL(clicked()), plugin, SLOT(courseClicked()));
-    }
-    layout->setRowStretch(0, 0);
-    layout->setRowStretch(1, 1);
-	//FAKE
-        button = new QPushButton(QIcon(":/Pictures/calendarwidget.png"), tr("My Calendar"));
-        layout->addWidget(button, 2, 1);
-        button = new QPushButton(QIcon(":/Pictures/book.png"), tr("My Marks"));
-        layout->addWidget(button, 3, 0);
-        button = new QPushButton(QIcon(":/Pictures/history.png"), tr("My Projects"));
-        layout->addWidget(button, 3, 1);
-        layout->setRowStretch(3, 0);
-	//FIN FAKE
-    this->setLayout(layout);
-
-    connectedAs = new QLabel(tr("Not connected"), this);
-    this->layout->addWidget(connectedAs, 0, 0);
-    lastLogin = new QLabel(tr("Last login: Never"), this);
-    this->layout->addWidget(lastLogin, 0, 1);
-    updateInfos();
+	_pluginManager = pluginManager;
+	fillWidgets();
+	setStyle();
+	updateInfos();
 }
 
-#include "../../../Common/SettingsData.h"
-
-void    MainFrameWidget::updateInfos()
+void								MainFrameWidget::fillWidgets()
 {
-    UserData* user = plugin->pluginManager->currentUser();
+	QList<SmallDisplayablePlugin *>	plugins;
+	QBoxLayout						*mainLayout;
+	QBoxLayout						*topLayout;
+	QBoxLayout						*bottomLayout;
+	QComboBox						*stuff;
+	SettingsData					*settings;
+	bool							flag;
 
-    if ( ! user)
-        return;
+	plugins = _pluginManager->findPlugins<SmallDisplayablePlugin *>();
+	settings = _pluginManager->findPlugin<SettingsDataPlugin *>()->settings("MainBoard");
+	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	bottomLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	mainLayout->addLayout(topLayout, 0);
+	mainLayout->addLayout(bottomLayout, 1);
+	bottomLayout->addLayout(leftLayout, 1);
+	bottomLayout->addLayout(rightLayout, 1);
+    connectedAs = new QLabel(tr("Not connected"), this);
+    topLayout->addWidget(connectedAs, 1);
+    lastLogin = new QLabel(tr("Last login: Never"), this);
+    topLayout->addWidget(lastLogin, 1);
+	stuff = new QComboBox(this);
+	stuff->addItem(tr("Add Stuff..."));
+	topLayout->addWidget(stuff, 1, Qt::AlignRight);
+	leftLayout->addWidget(new QLabel("Left layout 1", this), 1);
+	leftLayout->addWidget(new QLabel("Left layout 2", this), 1);
+	leftLayout->addWidget(new QLabel("Left layout 3", this), 1);
+	rightLayout->addWidget(new QLabel("Right layout 1", this), 1);
+	rightLayout->addWidget(new QLabel("Right layout 2", this), 1);
+	foreach (SmallDisplayablePlugin *plugin, plugins)
+	{
+		flag = true;
+		for (int i = 0; i < settings->value("Left Widget Number", 0).toInt(); i++)
+			if (settings->value("Left Widget " + QString::number(i)) == plugin->pluginName())
+				leftLayout->insertWidget(i, plugin->getWidget(), 1); // TODO put embedded widget
+			else
+				flag = false;
+		for (int i = 0; i < settings->value("Right Widget Number", 0).toInt(); i++)
+			if (settings->value("Right Widget " + QString::number(i)) == plugin->pluginName())
+				leftLayout->insertWidget(i, plugin->getWidget(), 1); // TODO put embedded widget
+			else
+				flag |= false;
+		if (!flag)
+			stuff->addItem(plugin->getIcon(), plugin->getDisplayableName(), plugin->pluginName());
+	}
+}
 
+void								MainFrameWidget::setStyle()
+{
+	QString							style = "QWidget{border:1px solid red}.MainFrameWidget { background-image: url(:/Pictures/HorusPanelBackground-NoFx.png); background-position: center; background-repeat: non;}";
+	setStyleSheet(style);
+}
+
+void								MainFrameWidget::updateInfos()
+{
+    UserData*						user;
+
+	user = _pluginManager->currentUser();
+    if (!user)
+        return ;
+    disconnect(user, SIGNAL(updated()), this, SLOT(updateInfos()));
     connect(user, SIGNAL(updated()), this, SLOT(updateInfos()));
-
     connectedAs->setText(tr("Connected as: ") + user->login() + tr(" (") + user->name() + tr(" ") + user->surname() + tr(")"));
-
     if (user->lastLogin().isValid())
         lastLogin->setText(tr("Last login: ") + user->lastLogin().toString());
     else

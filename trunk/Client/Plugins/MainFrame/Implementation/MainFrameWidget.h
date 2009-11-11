@@ -1,30 +1,30 @@
-#ifndef MAINFRAMEWIDGET_H
-#define MAINFRAMEWIDGET_H
+#ifndef				__MAINFRAMEWIDGET_H__
+# define			__MAINFRAMEWIDGET_H__
 
-#include <QFrame>
-#include <QHash>
-#include <QGridLayout>
-#include <QLabel>
+# include			<QWidget>
+# include			<QBoxLayout>
+# include			<QLabel>
 
-#include "../ui_MainFrameWidget.h"
+#include			"../../../Common/PluginManager.h"
 
-#include "MainFrame.h"
-
-class MainFrameWidget : public QFrame
+class MainFrameWidget : public QWidget
 {
     Q_OBJECT
+
 public:
-    MainFrameWidget(MainFrame *plugin);
+    MainFrameWidget(PluginManager *pluginManager);
 
 private:
-    Ui::Frame   ui;
-    MainFrame *plugin;
-    QGridLayout *layout;
-    QLabel*     connectedAs;
-    QLabel*     lastLogin;
+    QBoxLayout		*leftLayout;
+    QBoxLayout		*rightLayout;
+    QLabel*			connectedAs;
+    QLabel*			lastLogin;
+	PluginManager	*_pluginManager;
+	void			fillWidgets();
+	void			setStyle();
 
-public slots:
-    void updateInfos();
+private slots:
+    void			updateInfos();
 };
 
-#endif // MAINFRAMEWIDGET_H
+#endif //			__MAINFRAMEWIDGET_H__
