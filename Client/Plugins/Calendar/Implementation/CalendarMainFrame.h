@@ -35,7 +35,7 @@ public:
     QGridLayout                 *mainLayout()       { return _mainLayout; }
     TreeDataPlugin              *tree()             { return _tree; }
     UserDataPlugin              *user()             { return _users; }
-    QCalendarWidget             *tinyCalendar()     { return _tinyCalendar; }
+  //  QCalendarWidget             *tinyCalendar()     { return _tinyCalendar; }
    // CalendarWidget              *googleCalendar()   { return _googleCalendar; }
     CalendarControlsWidget      *controls()         { return _controls; }
     //AddEventWidget              *add()              { return _add; }
@@ -51,8 +51,7 @@ public slots:
     void                        calendarMonthlyDisplay();
     void                        calendarPlanningDisplay();
 
-    //called when a clicked on the tiny calendar occurs
-    void                        dateChanged();
+
 
     //used to check if the eventdata already exist,
     //connected to the signal created() of Data*
@@ -68,7 +67,7 @@ private:
     UserData                    *_currentUser;
 
     QGridLayout                 *_mainLayout;
-    QCalendarWidget             *_tinyCalendar;
+   // QCalendarWidget             *_tinyCalendar;
 
     PluginManager               *_calendarPlugin;
     CalendarControlsWidget      *_controls;

@@ -38,10 +38,10 @@ QHash<quint32, TreeData *>  *CalendarCore::getNodeOfType(QString type)
 
     for (int i = 0; i < users->allUser().size(); ++i)
     {
-        UserData    *tmp = qobject_cast<UserData *>(users->allUser().value(i));
-       /*if (if (tmp->) groupName == "ALL"
-            || tmp->node()->name() == groupName)
-        userList->insert(tmp->id(), tmp);*/
+       UserData    *tmp = qobject_cast<UserData *>(users->allUser().value(i));
+       if (tmp && (tmp->status() != UserData::EMPTY) && (groupName == "ALL"
+            || tmp->node()->name() == groupName))
+            userList->insert(tmp->id(), tmp);
     }
    return userList;
  }
