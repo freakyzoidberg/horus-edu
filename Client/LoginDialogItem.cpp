@@ -48,7 +48,7 @@ LoginDialogItem::LoginDialogItem(UserCache* cache, LoginDialog* dialog) : QFrame
 	}
 	else
 	{
-		label = new QLabel(tr("Add a user"), this);
+		label = new QLabel(tr("Sign in with a new user"), this);
 		_layout->addWidget(label, 0, 1);
 	}
 }
