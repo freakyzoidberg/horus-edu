@@ -4,6 +4,7 @@
 # include			<QWidget>
 # include			<QBoxLayout>
 # include			<QLabel>
+# include			<QComboBox>
 
 #include			"../../../Common/PluginManager.h"
 
@@ -15,6 +16,7 @@ public:
     MainFrameWidget(PluginManager *pluginManager);
 
 private:
+	QComboBox		*stuff;
     QBoxLayout		*leftLayout;
     QBoxLayout		*rightLayout;
     QLabel*			connectedAs;
@@ -22,9 +24,11 @@ private:
 	PluginManager	*_pluginManager;
 	void			fillWidgets();
 	void			setStyle();
+	void			updateSettings();
 
 private slots:
     void			updateInfos();
+	void			addedStuff(int index);
 };
 
 #endif //			__MAINFRAMEWIDGET_H__
