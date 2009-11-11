@@ -1,7 +1,6 @@
 #include							"MainFrameWidget.h"
 
 #include							<QApplication>
-#include							<QComboBox>
 
 #include							"../../../../Common/UserData.h"
 #include							"../../../../Common/SettingsData.h"
@@ -21,7 +20,6 @@ void								MainFrameWidget::fillWidgets()
 	QBoxLayout						*mainLayout;
 	QBoxLayout						*topLayout;
 	QBoxLayout						*bottomLayout;
-	QComboBox						*stuff;
 	SettingsData					*settings;
 	bool							flag;
 
@@ -42,6 +40,7 @@ void								MainFrameWidget::fillWidgets()
     topLayout->addWidget(lastLogin, 1);
 	stuff = new QComboBox(this);
 	stuff->addItem(tr("Add Stuff..."));
+	connect(stuff, SIGNAL(currentIndexChanged(int)), this, SLOT(addedStuff(int)));
 	topLayout->addWidget(stuff, 1, Qt::AlignRight);
 	leftLayout->addWidget(new QLabel("Left layout 1", this), 1);
 	leftLayout->addWidget(new QLabel("Left layout 2", this), 1);
@@ -50,17 +49,19 @@ void								MainFrameWidget::fillWidgets()
 	rightLayout->addWidget(new QLabel("Right layout 2", this), 1);
 	foreach (SmallDisplayablePlugin *plugin, plugins)
 	{
-		flag = true;
+		flag = false;
 		for (int i = 0; i < settings->value("Left Widget Number", 0).toInt(); i++)
 			if (settings->value("Left Widget " + QString::number(i)) == plugin->pluginName())
+			{
 				leftLayout->insertWidget(i, plugin->getWidget(), 1); // TODO put embedded widget
-			else
-				flag = false;
+				flag = true;
+			}
 		for (int i = 0; i < settings->value("Right Widget Number", 0).toInt(); i++)
 			if (settings->value("Right Widget " + QString::number(i)) == plugin->pluginName())
+			{
 				leftLayout->insertWidget(i, plugin->getWidget(), 1); // TODO put embedded widget
-			else
-				flag |= false;
+				flag = true;
+			}
 		if (!flag)
 			stuff->addItem(plugin->getIcon(), plugin->getDisplayableName(), plugin->pluginName());
 	}
@@ -70,6 +71,10 @@ void								MainFrameWidget::setStyle()
 {
 	QString							style = "QWidget{border:1px solid red}.MainFrameWidget { background-image: url(:/Pictures/HorusPanelBackground-NoFx.png); background-position: center; background-repeat: non;}";
 	setStyleSheet(style);
+}
+
+void								MainFrameWidget::updateSettings()
+{
 }
 
 void								MainFrameWidget::updateInfos()
@@ -86,4 +91,20 @@ void								MainFrameWidget::updateInfos()
         lastLogin->setText(tr("Last login: ") + user->lastLogin().toString());
     else
         lastLogin->setText(tr("Last login: Never"));
+}
+
+void								MainFrameWidget::addedStuff(int index)
+{
+	QWidget							*widget;
+
+	if (index <= 0)
+		return ;
+	widget = _pluginManager->findPlugin<SmallDisplayablePlugin *>(stuff->itemData(index).toString())->getWidget();
+	stuff->removeItem(index);
+	stuff->setCurrentIndex(0);
+	if (leftLayout->count() <= rightLayout->count())
+		leftLayout->addWidget(widget, 1);
+	else
+		rightLayout->addWidget(widget, 1);
+	updateSettings();
 }

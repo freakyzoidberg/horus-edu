@@ -16,7 +16,7 @@ public:
 	{
       Plugin*	p = new MainFrame();
       pluginList.append(p);
-	  p = new SmallDisplayablePlugin();
+	  p = new ExampleSmallDisplayable();
 	  pluginList.append(p);
       //PluginManager().addPlugin(p);
 	}
