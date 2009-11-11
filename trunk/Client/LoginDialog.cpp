@@ -8,7 +8,7 @@ LoginDialog::LoginDialog()
 	setMinimumSize(300, 200);
 	NetworkManager* net = NetworkManager::instance();
 	QVBoxLayout* l1 = new QVBoxLayout(this);
-	l1->setContentsMargins(10,10,10,0);
+	l1->setContentsMargins(10,10,10,10);
 
 	const QList<UserCache*>& list = CacheManager::instance()->availableCaches();
 	foreach (UserCache* cache, list)
@@ -41,6 +41,8 @@ LoginDialog::LoginDialog()
 	PluginManagerClient* plug = PluginManagerClient::instance();
 	connect(plug, SIGNAL(loadProgressChange(int)), loadBar, SLOT(setValue(int)));
 	QMetaObject::invokeMethod(plug, "loadPlugins", Qt::QueuedConnection);
+
+	setStyleSheet("LoginDialogItem:hover { background-color: rgba(0, 0, 0, 32); }");
 
 	exec();
 }
