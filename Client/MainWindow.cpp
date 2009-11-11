@@ -192,11 +192,13 @@ void							MainWindow::createCentralWidget()
 	foreach (DisplayablePlugin* plugin, plugins)
 		if (!plugin->getDisplayableName().isEmpty())
 		{
+			currentWidget = plugin->getWidget();
+			if (currentWidget == NULL)
+				continue;
 			QWidget *host = new QWidget;
 			QGridLayout *layout = new QGridLayout(host);
 			layout->setMargin(0);
-			layout->setSpacing(0);
-			currentWidget = plugin->getWidget();
+			layout->setSpacing(0);	
 			layout->addWidget(currentWidget, 0, 0);
 			currentWidget->show();
 			subMenu = qobject_cast<QTabWidget *>(currentWidget);

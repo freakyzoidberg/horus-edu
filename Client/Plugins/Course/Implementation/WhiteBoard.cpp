@@ -22,7 +22,7 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 	layout->addWidget(this->dock, 0, 0);
 	displayArea = new QFrame(this);
 	displayArea->setProperty("whiteboard", QVariant(true));
-	setStyleSheet("QFrame[whiteboard=\"true\"] { border: 2px solid black; border-top: 0px; border-radius: 4px; } ");
+	setStyleSheet("QFrame[whiteboard=\"true\"] { border: 0px; background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); } ");
 	layout->addWidget(displayArea, 1, 0);
     this->posInDoc = 0;
 

@@ -10,8 +10,8 @@ QWidget             *Administration::getWidget()
 {
     UserData* u = pluginManager->currentUser();
     if (u != 0)
-        if (u->level() > 1)
-            return new QLabel(tr("Permission denied"));
+		if (u->level() > LEVEL_ADMINISTRATOR)
+			return NULL;
     return new AdminMainFrame(treePlugin, userPlugin);
 }
 
