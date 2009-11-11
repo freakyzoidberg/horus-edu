@@ -9,5 +9,6 @@
         <file>inode-directory.png</file>
         <file>x-generic.png</file>
         <file>x-horus-x-lesson.png</file>
+        <file>lib-icon.png</file>
     </qresource>
 </RCC>
