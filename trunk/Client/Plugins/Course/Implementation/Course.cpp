@@ -81,11 +81,25 @@ void	Course::userUpdate()
 QWidget             *Course::getWidget()
 {
 	this->user = pluginManager->currentUser();
+	/*
 	this->parent = new QWidget();
 	this->layout = new QVBoxLayout(this->parent);
 	this->layout->setMargin(0);
 	this->createWidget();
 	return (this->parent);
+	*/
+	switch (this->user->level())
+	{
+	case LEVEL_STUDENT:
+	case LEVEL_TEACHER:
+		break;
+	default:
+		return NULL;
+	}
+	QTabWidget *tabwidget = new QTabWidget;
+	this->widget = tabwidget;
+	tabwidget->addTab(new QWidget, tr("Lesson management"));
+	return (tabwidget);
 }
 
 void				Course::joinWhiteBoard(WhiteBoardData *whiteBoardData)
