@@ -25,7 +25,7 @@ QList<MailData*> MailDataPlugin::getAllMail() const
         QList<MailData*> list;
         foreach (MailData* data, Mails)
                         list.append(data);
-        list.pop_back();
+       // list.pop_back();
         return list;
 }
 
