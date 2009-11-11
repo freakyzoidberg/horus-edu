@@ -15,11 +15,11 @@ class CalendarControlsWidget : public QWidget
 public:
                         CalendarControlsWidget();
 
-     QPushButton        *addEvent()         { return _addEvent; }
+     /*QPushButton        *addEvent()         { return _addEvent; }
      QPushButton        *daily()            { return _daily; }
      QPushButton        *weekly()           { return _weekly; }
      QPushButton        *monthly()          { return _monthly; }
-     QPushButton        *planning()         { return _planning; }
+     QPushButton        *planning()         { return _planning; } */
      QComboBox          *userList()         { return _userList; }
 
      void               initGroupList();
@@ -34,7 +34,7 @@ public slots:
 private:
      QDate              selectedDate;
      QTextBrowser       *editor;
-     QPushButton        *_daily, *_monthly, *_weekly, *_planning, *_addEvent;
+   //  QPushButton        *_daily, *_monthly, *_weekly, *_planning, *_addEvent;
 
      QComboBox          *_groupList;
      QComboBox          *_userList;

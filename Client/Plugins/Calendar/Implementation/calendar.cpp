@@ -1,8 +1,10 @@
 #include <QHash>
+#include <QDate>
 
 #include "calendar.h"
 #include "CalendarMainFrame.h"
 #include "CalendarCore.h"
+#include "panel.h"
 
 Calendar::Calendar()
 {
@@ -22,11 +24,27 @@ const QString   Calendar::pluginVersion() const
 
 QWidget *Calendar::getWidget()
 {
-    CalendarMainFrame *frame = new CalendarMainFrame(this->treePlugin,
+    _panel =  new Panel();
+    CalendarMainFrame *frame1 = new CalendarMainFrame(this->treePlugin,
                                                      this->userPlugin,
                                                      this->eventPlugin,
-                                                     this);
-    return frame;
+                                                     this->pluginManager);
+    CalendarMainFrame *frame2 = new CalendarMainFrame(this->treePlugin,
+                                                     this->userPlugin,
+                                                     this->eventPlugin,
+                                                     this->pluginManager);
+
+    _googleCalendar = new CalendarWidget();
+    QDate   date;
+    _googleCalendar->weeklyDisplay(date.currentDate());
+    frame1->mainLayout()->addWidget(_googleCalendar, 1, 0, 1, 3);
+    
+    _add = new AddEventWidget();
+     frame2->mainLayout()->addWidget(_add, 1, 0, 1, 3);
+
+    _panel->addTab(frame1, "Main view");
+    _panel->addTab(frame2, "Add an event");
+    return _panel;
 }
 
 void Calendar::load()

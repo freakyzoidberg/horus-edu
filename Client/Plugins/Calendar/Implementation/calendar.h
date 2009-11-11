@@ -14,7 +14,10 @@
 #include "../../../../Common/EventDataPlugin.h"
 # include "../../../DisplayablePlugin.h"
 
-//#include "CalendarMainFrame.h"
+#include "CalendarMainFrame.h"
+#include "panel.h"
+#include "addeventwidget.h"
+#include "CalendarWidget.h"
 
 class Calendar : public DisplayablePlugin
 {
@@ -35,6 +38,9 @@ private:
     TreeDataPlugin          *treePlugin;
     UserDataPlugin          *userPlugin;
     EventDataPlugin         *eventPlugin;
+    Panel                   *_panel;
+    CalendarWidget          *_googleCalendar;
+    AddEventWidget          *_add;
 };
 
 #endif // CALENDAR_H
