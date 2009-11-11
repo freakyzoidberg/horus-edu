@@ -4,6 +4,7 @@
 #include <QIcon>
 #include <QString>
 #include <QHash>
+#include <QCalendarWidget>
 
 #include "../../../../Common/UserDataPlugin.h"
 #include "../../../../Common/PluginManager.h"
@@ -12,7 +13,7 @@
 #include "../../../../Common/TreeData.h"
 #include "../../../../Common/EventData.h"
 #include "../../../../Common/EventDataPlugin.h"
-# include "../../../DisplayablePlugin.h"
+#include "../../../DisplayablePlugin.h"
 
 #include "CalendarMainFrame.h"
 #include "panel.h"
@@ -34,6 +35,11 @@ public:
 
     inline const QString    getDisplayableName() const { return "Calendar"; }
 
+ public slots:
+     //called when a clicked on the tiny calendar occurs
+    void                        dateChanged();
+    void                    tabChanged(int);
+
 private:
     TreeDataPlugin          *treePlugin;
     UserDataPlugin          *userPlugin;
@@ -41,6 +47,9 @@ private:
     Panel                   *_panel;
     CalendarWidget          *_googleCalendar;
     AddEventWidget          *_add;
+    QCalendarWidget         *_tinyCalendar;
+    int                     _currentIndex;
+    QVector<CalendarMainFrame *> frames;
 };
 
 #endif // CALENDAR_H

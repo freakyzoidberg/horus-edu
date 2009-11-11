@@ -18,7 +18,6 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
                                      EventDataPlugin *_eventPlugin,
                                      PluginManager *_pluginManager)
 {
-
     _tree  = _treePlugin;
     _users = _userPlugin;
     _event = _eventPlugin;
@@ -33,13 +32,13 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
 
        //  _add = new AddEventWidget();
         _mainLayout = new QGridLayout(this);
-         _mainLayout->setMargin(0);
-        _mainLayout->setSpacing(0);
-        _tinyCalendar = new QCalendarWidget;
-         _tinyCalendar->setGridVisible(true);
+         _mainLayout->setMargin(3);
+        _mainLayout->setSpacing(3);
+      //  _tinyCalendar = new QCalendarWidget;
+      //   _tinyCalendar->setGridVisible(true);
 
-         _tinyCalendar->adjustSize();
-      _mainLayout->addWidget(_tinyCalendar, 0, 0, 1, 1);
+        // _tinyCalendar->adjustSize();
+      //_mainLayout->addWidget(_tinyCalendar, 0, 0, 1, 1);
         _mainLayout->addWidget(_visibleUser, 0, 1, 1, 1);
 
       //_googleCalendar = calendar();
@@ -53,13 +52,13 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
        _mainLayout->setColumnStretch(1, 1);
        _mainLayout->setRowStretch(1, 1);
 
- /*   connect(_controls->addEvent(), SIGNAL(clicked()), this, SLOT(addEvent()));
+ /*  connect(_controls->addEvent(), SIGNAL(clicked()), this, SLOT(addEvent()));
     connect(_controls->daily(), SIGNAL(clicked()), this, SLOT(calendarDailyDisplay()));
     connect(_controls->monthly(), SIGNAL(clicked()), this, SLOT(calendarMonthlyDisplay()));
     connect(_controls->weekly(), SIGNAL(clicked()), this, SLOT(calendarWeeklyDisplay()));
     connect(_controls->planning(), SIGNAL(clicked()), this, SLOT(calendarPlanningDisplay())); */
 
-    connect(_tinyCalendar, SIGNAL(selectionChanged()), this, SLOT(dateChanged()));
+
 
     connect(_controls->userList(), SIGNAL(activated(int)), this, SLOT(userSelected(int)));
 
@@ -164,10 +163,6 @@ void        CalendarMainFrame::isCreated()
 
  }
 
- void   CalendarMainFrame::dateChanged()
- {
-   // _googleCalendar->weeklyDisplay(_tinyCalendar->selectedDate());
- }
 
  void   CalendarMainFrame::userSelected(int index)
  {
