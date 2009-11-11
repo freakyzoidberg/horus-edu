@@ -13,7 +13,10 @@ SOURCES += Implementation/calendar.cpp \
     Implementation/addeventwidget.cpp \
     Implementation/addeventwindows.cpp \
     Implementation/calendarcontrolswidget.cpp \
-    Implementation/userinformations.cpp
+    Implementation/userinformations.cpp \
+    Implementation/daywidget.cpp \
+    label.cpp \
+    Implementation/panel.cpp
 HEADERS += Implementation/calendar.h \
     Implementation/CalendarMetaPlugin.h \
     ../../../Common/EventData.h \
@@ -35,5 +38,8 @@ HEADERS += Implementation/calendar.h \
     Implementation/addeventwidget.h \
     Implementation/addeventwindows.h \
     Implementation/calendarcontrolswidget.h \
-    Implementation/userinformations.h
+    Implementation/userinformations.h \
+    Implementation/daywidget.h \
+    label.h \
+    Implementation/panel.h
 RESOURCES += Calendar.qrc

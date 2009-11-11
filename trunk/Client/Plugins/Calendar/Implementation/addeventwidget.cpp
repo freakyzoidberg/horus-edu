@@ -13,17 +13,12 @@ AddEventWidget::AddEventWidget()
     QGridLayout     *mainLayout = new QGridLayout(this);
 
     _cancel = new QPushButton(tr("Cancel"));
-    _cancel->setVisible(false);
 
     _save = new QPushButton(tr("Save"));
-    _save->setVisible(false);
 
     _subject = new QLineEdit;
     _place = new QLineEdit;
     _description = new QTextEdit;
-    _subject->setVisible(false);
-    _place->setVisible(false);
-    _description->setVisible(false);
 
     initDayCombo();
     initMonthCombo();
@@ -66,7 +61,6 @@ void            AddEventWidget::initDayCombo()
     }
 
     _dayCombo->addItems(days);
-    _dayCombo->setVisible(false);
 }
 
 void            AddEventWidget::initMonthCombo()
@@ -74,13 +68,11 @@ void            AddEventWidget::initMonthCombo()
     _monthCombo = new QComboBox;
     for (int month = 1; month <= 12; ++month)
         _monthCombo->addItem(QDate::longMonthName(month));
-    _monthCombo->setVisible(false);
 }
 
 void            AddEventWidget::initYearEdit()
 {
     _yearEdit = new QLineEdit;
-    _yearEdit->setVisible(false);
 }
 
 void            AddEventWidget::initHours()
@@ -94,7 +86,6 @@ void            AddEventWidget::initHours()
         hours.append(tmp.toString() + "h");
     }
     _hours->addItems(hours);
-    _hours->setVisible(false);
 }
 
 void            AddEventWidget::initMinutes()
@@ -109,5 +100,4 @@ void            AddEventWidget::initMinutes()
         minutes.append(tmp.toString() + "min");
     }
     _minutes->addItems(minutes);
-    _minutes->setVisible(false);
 }

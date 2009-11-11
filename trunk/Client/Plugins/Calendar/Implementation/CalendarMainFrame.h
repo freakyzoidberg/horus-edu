@@ -11,11 +11,10 @@
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/EventDataPlugin.h"
 #include "../../../../Common/EventData.h"
+#include "../../../../Common/PluginManager.h"
 
-#include "calendar.h"
-#include "CalendarWidget.h"
 #include "calendarcontrolswidget.h"
-#include "addeventwidget.h"
+
 #include "userinformations.h"
 
 class CalendarMainFrame : public QWidget
@@ -26,18 +25,20 @@ public:
                                 CalendarMainFrame(TreeDataPlugin *,
                                                   UserDataPlugin *,
                                                   EventDataPlugin *,
-                                                  Calendar *);
+                                                  PluginManager *);
 
     //jsais plus pkoi javais besoin de ca
     QHash<quint32, TreeData *>  getNodeOfType(QString type);
-    CalendarWidget              *calendar();
+  //  CalendarWidget              *calendar();
 
     //accessors
+    QGridLayout                 *mainLayout()       { return _mainLayout; }
     TreeDataPlugin              *tree()             { return _tree; }
     UserDataPlugin              *user()             { return _users; }
     QCalendarWidget             *tinyCalendar()     { return _tinyCalendar; }
-    CalendarWidget              *googleCalendar()   { return _googleCalendar; }
+   // CalendarWidget              *googleCalendar()   { return _googleCalendar; }
     CalendarControlsWidget      *controls()         { return _controls; }
+    //AddEventWidget              *add()              { return _add; }
 
 
 public slots:
@@ -68,13 +69,14 @@ private:
 
     QGridLayout                 *_mainLayout;
     QCalendarWidget             *_tinyCalendar;
-    CalendarWidget              *_googleCalendar;
-    Calendar                    *_calendarPlugin;
+
+    PluginManager               *_calendarPlugin;
     CalendarControlsWidget      *_controls;
     UserInformations            *_visibleUser;
-    AddEventWidget              *_add;
+
     QDate                       _selectedDate;
     bool                        _created;
+
 };
 
 #endif // CALENDARMAINFRAME_H

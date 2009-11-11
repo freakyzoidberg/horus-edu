@@ -10,10 +10,12 @@
 
 CalendarControlsWidget::CalendarControlsWidget()
 {
-     _monthly = new QPushButton(tr("Month"));
+
+
+  /*   _monthly = new QPushButton(tr("Month"));
      _daily = new QPushButton(tr("Day"));
      _weekly = new QPushButton(tr("Week"));
-     _planning = new QPushButton(tr("Planning"));
+     _planning = new QPushButton(tr("Planning")); */
 
      _groupList = new QComboBox;
      initGroupList();
@@ -23,23 +25,23 @@ CalendarControlsWidget::CalendarControlsWidget()
      _go = new QPushButton(tr("Rechercher"));
      _userName = new QLineEdit;
 
-     _addEvent = new QPushButton("add an event");
+    // _addEvent = new QPushButton("add an event");
 
      QGridLayout *controlsLayout = new QGridLayout;
      controlsLayout->setMargin(0);
      controlsLayout->setSpacing(0);
 
-     controlsLayout->addWidget(_addEvent, 0, 3);
+     //controlsLayout->addWidget(_addEvent, 0, 3);
 
      controlsLayout->addWidget(_groupList, 0, 0);
      controlsLayout->addWidget(_userList, 0, 1);
      controlsLayout->addWidget(_userName, 1, 0);
      controlsLayout->addWidget(_go, 1, 1);
 
-     controlsLayout->addWidget(_monthly, 2, 0);
+   /*  controlsLayout->addWidget(_monthly, 2, 0);
      controlsLayout->addWidget(_daily, 2, 1);
      controlsLayout->addWidget(_weekly, 2, 2);
-     controlsLayout->addWidget(_planning, 2, 3);
+     controlsLayout->addWidget(_planning, 2, 3); */
 
      //connect combo box signals
      connect(_groupList, SIGNAL(activated(int)), this, SLOT(selectGroup(int)));
@@ -111,8 +113,8 @@ void CalendarControlsWidget::setMonth(int month)
     delete users;
   }
 
-  void               CalendarControlsWidget::selectUser(int index)
-  {
+void            CalendarControlsWidget::selectUser(int index)
+{
     QVariant    tmp;
     int         user_id;
 

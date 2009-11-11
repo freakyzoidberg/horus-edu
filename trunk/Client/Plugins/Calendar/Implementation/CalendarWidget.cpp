@@ -27,8 +27,8 @@
 
     for (int i = 0; i < 10; ++i)
         mainLayout->addWidget(this->hours->value(i + currentStartHour), i + 1, 0);
-    mainLayout->setColumnStretch(0, 0);
 
+    mainLayout->setColumnStretch(0, 0);
     date = date.addDays(-1 * date.dayOfWeek() + 1);
 
     for (int i = 0; i < 7; ++i)
@@ -42,31 +42,24 @@
         if (date == date.currentDate())
         {
             days->value(i)->setText(days->value(i)->text() + tr("(Today)"));
-
            /* days->value(i)->setAutoFillBackground(true);
             QPalette newPalette;
             newPalette.setColor(QPalette::Background, Qt::blue);
-
-
             days->value(i)->setPalette(newPalette); */
         }
 
-        mainLayout->addWidget(days->value(i), 0, i + 1);
-        date = date.addDays(1);
-     }
+         mainLayout->addWidget(days->value(i), 0, i + 1);
 
-     QVector<QWidget *> columnLayout;
-     for (int i = 1; i <= nbColumn; ++i)
-     {
-         QWidget *tmp = new QWidget();
-         QGridLayout *tmpLay = new QGridLayout(tmp);
-         mainLayout->addWidget(tmp, 2, i, 10, 1);
-         columnLayout.append(tmp);
+         DayWidget *tmpWidget = new DayWidget(date, this->currentStartHour);
+         QGridLayout *tmpLay = new QGridLayout(tmpWidget);
+         mainLayout->addWidget(tmpWidget, 1, i + 1, 10, 1);
+         columnLayout.append(tmpWidget);
+
+         date = date.addDays(1);
      }
 
      for (int i = 1; i <= 7; ++i)
         mainLayout->setColumnStretch(i, 1);
-
  }
 
  void   CalendarWidget::initHours(void)
@@ -77,7 +70,7 @@
     {
         QVariant    tmp(i);
         this->hours->insert(i, new QLabel(tmp.toString() + ":00"));
-        this->hours->value(i)->setAlignment(Qt::AlignCenter);
+        this->hours->value(i)->setAlignment(Qt::AlignTop);
     }
  }
 

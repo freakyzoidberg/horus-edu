@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QVector>
 
+#include "daywidget.h"
+
 class QTextBrowser;
 
 class CalendarWidget : public QWidget
@@ -41,6 +43,7 @@ public:
     QVector<QLabel *>   *hours, *days;
     unsigned int        nbRow, nbColumn;
     QGridLayout         *mainLayout;
+    QVector<DayWidget *>  columnLayout;
  };
 
 #endif // CALENDARWIDGET_H
