@@ -9,10 +9,10 @@ if getpass.getuser() == "zoidberg":
     MV_CLIENT_PLUGINS_TO="/home/zoidberg/.Horus/Plugins/"
     MV_SERVER_PLUGINS_TO=""
     PATH_TO_TRUNK="/home/zoidberg/Epitech/EIP/trunk/"
-elif getpass.getuser() == "toto":
-    MV_CLIENT_PLUGINS_TO=""
+elif getpass.getuser() == "Adrien":
+    MV_CLIENT_PLUGINS_TO="C:\\Documents and Settings\\Adrien\\.Horus\\Plugins"
     MV_SERVER_PLUGINS_TO=""
-    PATH_TO_TRUNK=""
+    PATH_TO_TRUNK="D:\\Projects\\Epitech\\Horus\\trunk"
 else:
     MV_CLIENT_PLUGINS_TO=""
     MV_SERVER_PLUGINS_TO=""
