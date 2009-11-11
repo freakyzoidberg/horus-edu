@@ -12,8 +12,8 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 	: _controllers(controllers), model(model)
 {
     wbdata = wbd;
-    setAcceptDrops(true);
     setAutoFillBackground(true);
+	setAcceptDrops(true);
 	layout = new QGridLayout(this);
 	layout->setMargin(0);
 	layout->setSpacing(0);
@@ -73,6 +73,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 		QStringList newItems;
 		while (!stream.atEnd())
 		{
+			int lessonid;
 			int id;
 			QString title;
 			QString type;
@@ -81,30 +82,32 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 			QString key;
 			QVariant value;
 			QHash<QString, QVariant> parameters;
-			stream >> id >> title >> type >> content >> count;
+			stream >> lessonid >> id >> title >> type >> content >> count;
 			for (int i = 0; i < count; i++)
 			{
 				stream >> key >> value;
 				parameters[key] = value;
 			}
-			ILesson *lesson = model->getLesson(1);
-                        ILessonDocument *doc = model->getLessonDocument(1, id);
+			ILesson *lesson = model->getLesson(lessonid);
+			ILessonDocument *doc = model->getLessonDocument(lessonid, id);
 			if (this->_controllers.contains(type))
-                        {
-								Items *item = new Items(this, lesson, id, type, title);
+			{
+				Items *item = new Items(this, lesson, id, type, title);
 
 				QWidget *docWidget;
 				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
 				item->move(event->pos());
-                                item->setWindowFlags(Qt::SubWindow);
+				item->setWindowFlags(Qt::SubWindow);
 				if (docWidget)
 				{
 					docWidget->lower();
-
-                                        item->show();
-
+					item->show();
 					item->resize(docWidget->size());
 					item->repaint();
+				}
+				if (event->pos().y() < dock->size().height())
+				{
+					item->moveToDock();
 				}
 				fillList(this, wbdata->items());
 				wbdata->save();

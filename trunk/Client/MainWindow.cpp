@@ -192,14 +192,21 @@ void							MainWindow::createCentralWidget()
 	foreach (DisplayablePlugin* plugin, plugins)
 		if (!plugin->getDisplayableName().isEmpty())
 		{
+			QWidget *host = new QWidget;
+			QGridLayout *layout = new QGridLayout(host);
+			layout->setMargin(0);
+			layout->setSpacing(0);
 			currentWidget = plugin->getWidget();
+			layout->addWidget(currentWidget, 0, 0);
+			currentWidget->show();
 			subMenu = qobject_cast<QTabWidget *>(currentWidget);
 			if (subMenu)
 			{
 				subMenu->setTabShape(QTabWidget::Triangular);
 				subMenu->setTabPosition(QTabWidget::North);
+				host->setProperty("hasSubMenu", QVariant(true));
 			}
-			tabMenu->addTab(currentWidget, plugin->getIcon(), plugin->getDisplayableName());
+			tabMenu->addTab(host, plugin->getIcon(), plugin->getDisplayableName());
 		}
 }
 

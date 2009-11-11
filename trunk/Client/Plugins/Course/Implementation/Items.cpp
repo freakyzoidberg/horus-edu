@@ -168,7 +168,8 @@ void    Items::moveToDock()
     small = new QPushButton(this->board->dock);
     small->setToolTip(this->title);
     small->setIcon(QIcon(":/fleche_bas_vert.png"));
-    small->setGeometry(board->getPosInDoc(), 5, 20, 20);
+	small->setGeometry(board->getPosInDoc(), 5, 100, 20);
+	small->setText("Item");
     this->board->setPosInDoc(board->getPosInDoc() + 21);
     board->button.append(small);
     small->show();

@@ -28,7 +28,7 @@ background: black;
 } 
 
 QDockWidget { 
-titlebar-close-icon: url(:/close.png); 
+titlebar-close-icon: url(:/close.png);
 }
 
 QDockWidget::title { 
@@ -195,6 +195,13 @@ QMainWindow
 	background-position: left;
 }
 
+QWidget[hasSubMenu=&quot;true&quot;]
+{
+	background-image: url(:/bgtabv.png);
+	background-repeat: repeat-x;
+	background-position: top;
+}
+
 tQTabWidget[tabShape=&quot;1&quot;]  tQWidget[tab=&quot;true&quot;]
 {
 	background-color: rgb(220, 220, 220);
@@ -207,7 +214,6 @@ QTabWidget[tabShape=&quot;1&quot;]::pane
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar
 {
-	icon-size: 32px;
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab
@@ -244,6 +250,10 @@ QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:selected
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top
 {
 	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.210227 rgba(130, 130, 130, 255), stop:0.784091 rgba(157, 157, 177, 255));
+	min-width: 120px;
+	min-height: 28px;
+	max-width: 120px;
+	max-height: 28px;
 }
 
 QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:hover
@@ -265,7 +275,7 @@ QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:selected
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>

@@ -59,5 +59,5 @@ void Calendar::load()
 
 QIcon   Calendar::getIcon() const
 {
-    return (QIcon("agenda.png"));
+	return (QIcon(":/agenda.png"));
 }

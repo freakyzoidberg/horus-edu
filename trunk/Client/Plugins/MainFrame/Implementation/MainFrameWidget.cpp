@@ -69,7 +69,7 @@ void								MainFrameWidget::fillWidgets()
 
 void								MainFrameWidget::setStyle()
 {
-	QString							style = "QWidget{border:1px solid red}.MainFrameWidget { background-image: url(:/Pictures/HorusPanelBackground-NoFx.png); background-position: center; background-repeat: non;}";
+	QString							style = "QWidget{border:1px solid red;} MainFrameWidget { background-image: url(:/Pictures/HorusPanelBackground-NoFx.png); background-position: center; background-repeat: no-repeat;}";
 	setStyleSheet(style);
 }
 

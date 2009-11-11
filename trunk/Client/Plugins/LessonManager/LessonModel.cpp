@@ -92,6 +92,23 @@ QMimeData *LessonModel::mimeData(const QModelIndexList &indexes) const
 			ILessonDocument *doc = qobject_cast<ILessonDocument *>(obj);
 			if (doc)
 			{
+				QObject* par = obj;
+				do
+				{
+					par = par->parent();
+				}
+				while (par && !qobject_cast<ILesson *>(par));
+
+				ILesson *lesson = qobject_cast<ILesson *>(par);
+				if (!lesson)
+				{
+					qWarning() << "Lesson's document has no lesson";
+					stream << -1;
+				}
+				else
+				{
+					stream << lesson->getId();
+				}
 				stream << doc->getId();
 				stream << doc->getTitle();
 				stream << doc->getType();
