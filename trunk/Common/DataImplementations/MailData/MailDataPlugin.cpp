@@ -10,6 +10,7 @@ MailData* MailDataPlugin::getMail(QString i)
 {
    foreach (MailData* wb, Mails)
     {
+       qDebug() << "MAILS !!!";
 		if (wb->_id == i)
 		{
 			return wb;
@@ -35,6 +36,7 @@ MailData* MailDataPlugin::createMail()
 {
 	MailData* u = new MailData(this);
 	Mails.append(u);
+        qDebug() << "Mails total : " << Mails.count();
     return u;
 }
 

@@ -80,7 +80,7 @@ smtp::smtp(const QString &smtpServer, const QString &from, const QStringList &to
     setEncoding(_8bit);
     setISO(utf8);
     setSsl(false);
-    qDebug() << "j essaye quand meme";
+qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "smtp()");
 }
 
 smtp::~smtp()
@@ -365,13 +365,13 @@ bool smtp::send()
     if(!read("220")) {
         return false;
     }
-
+qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "read 220");
     if ( !sendCommand("EHLO there", "250") ) {
         if ( !sendCommand("HELO there", "250") ) {
             return false;
         }
     }
-
+qDebug ("*** %s,%d : %s", __FILE__, __LINE__, "sent ehlo");
     if(_ssl) {
         if ( !sendCommand("STARTTLS", "220") ) {
             return false;
@@ -382,6 +382,7 @@ bool smtp::send()
             return false;
         }
         pssl->startClientEncryption ();
+qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " manage ssl");
     }
 
 
@@ -395,30 +396,34 @@ bool smtp::send()
         if( !sendCommand(encodeBase64(_password), "235") ) {
             return false;
         }
+        qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " manage auth");
     }
 
     if( !sendCommand(QString::fromLatin1("MAIL FROM:<") +_from + QString::fromLatin1(">"), "250") ) {
         return false;
     }
-
+qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " sent from");
     QStringList recipients = _to + _cc + _bcc;
     for (int i=0; i< recipients.count(); i++) {
         if( !sendCommand(QString::fromLatin1("RCPT TO:<") + recipients.at(i) + QString::fromLatin1(">"), "250") ) {
             return false;
         }
     }
-
+qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " sent to");
     if( !sendCommand(QString::fromLatin1("DATA"), "354") ) {
         return false;
     }
+ qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " sent data");
     if( !sendCommand(mailData() + QString::fromLatin1("\r\n."), "250") ) {
         return false;
     }
+
     if( !sendCommand(QString::fromLatin1("QUIT"), "221") ) {
         return false;
     }
-
+qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " sent quit");
     _socket->disconnectFromHost();
+    qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " disconnected");
     return true;
 }
 
