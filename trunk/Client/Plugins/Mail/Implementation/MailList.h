@@ -24,7 +24,7 @@ private:
     MailDataPlugin *_MailPlugin;
     void setmailvisible(bool state);
     void setSourceModel(QAbstractItemModel *model);
-    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date, const QString &content, const QString &id);
+    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date, const QString &content, const QString &id, MailData *mail = 0);
 
 private slots:
     void rowDoubleClicked(QModelIndex indx);
@@ -39,9 +39,9 @@ private:
     MailPanel *_panel;
     QList<MailData*> list;
     TextBrowser *mailview;
-    QLineEdit *to_edit;
-    QLineEdit *cc_edit;
-    QLineEdit *sub_edit;
+    QLabel *to_edit;
+    QLabel *cc_edit;
+    QLabel *sub_edit;
     QPushButton *maxi;
     QPushButton *rep;
     QPushButton *repall;
@@ -52,6 +52,7 @@ private:
     QTreeView *proxyView;
     QAbstractItemModel *createMailModel(QObject *parent);
     QMap<QString, QString> mailpool;
+    QMap<QString, MailData*> mailpool2;
 };
 
 #endif // MAILPANEL_H
