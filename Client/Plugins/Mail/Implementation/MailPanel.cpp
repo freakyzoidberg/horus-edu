@@ -1,10 +1,13 @@
 #include	"MailPanel.h"
 
-#include	"MailList.h"
-#include	"MailForm.h"
 
 MailPanel::MailPanel(MailDataPlugin *MailPlugin): QTabWidget()
 {
-	this->addTab(new MailList(MailPlugin), QIcon(":/mail.png"), tr("MailBox"));
-	this->addTab(new MailForm(MailPlugin), tr("Write Mail"));
+    ml = new MailList(MailPlugin,this);
+    mf = new MailForm(MailPlugin);
+        this->addTab(ml, QIcon(":/mail.png"), tr("MailBox"));
+        this->addTab(mf, tr("Write Mail"));
+
+
+
 }

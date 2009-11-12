@@ -76,23 +76,57 @@ MailForm::~MailForm()
 void MailForm::mysendmail()
 {
 
-
+     int i;
+    QRegExp mailregexp("^([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+$");
+QRegExp exmailregexp("^\\s*(\\w*\\s*)*(<\\s*)([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+(\\s*>)\\s*$");
     QStringList lto;
+    QString tmp;
       if (!to_value->text().isEmpty())
         lto = to_value->text().split(",");
+/*
+      for (i = 0; i <= lto.count(); i++)
+        {
+          if (lto.at(i).contains(exmailregexp))
+          {
+            mailregexp.indexIn(lto.at(i));
+            lto.replace(i, mailregexp.capturedTexts().first());
 
-
+            qDebug() << "Mail Search and replace to" << lto.at(i);
+          }
+      }
+*/
    
     QStringList lcc;
       if (!cc_value->text().isEmpty())
         lcc = cc_value->text().split(",");
+/*
+      for (i = 0; i <= lcc.count(); i++)
+        {
+          if (lcc.at(i).contains(exmailregexp))
+          {
+            mailregexp.indexIn(lcc.at(i));
+
+              lcc.replace(i, mailregexp.capturedTexts().first());
+            qDebug() << "Mail Search and replace cc" << lto.at(i);
+          }
+      }
+*/
     QStringList lbcc;
       if (!bcc_value->text().isEmpty())
         lbcc = bcc_value->text().split(",");
 
+/*
+      for (i = 0; i <= lbcc.count(); i++)
+        {
+          if (lbcc.at(i).contains(exmailregexp))
+          {
+            mailregexp.indexIn(lbcc.at(i));
 
-
-
+              lbcc.replace(i, mailregexp.capturedTexts().first());
+            qDebug() << "Mail Search and replace bcc :" << lto.at(i);
+          }
+      }
+*/
     MailData *md = _MailPlugin->createMail();
     //MailData *md = new MailData(_MailPlugin);
 
@@ -129,7 +163,7 @@ void MailForm::validate()
       if (!bcc_value->text().isEmpty())
         lbcc = bcc_value->text().split(",");
     QRegExp mailregexp("^\\s*([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+\\s*$");
-
+    QRegExp exmailregexp("^\\s*(\\w*\\s*)*(<\\s*)([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+(\\s*>)\\s*$");
     int i = 0;
     bool cto = false;
     bool ccc = true;
@@ -138,7 +172,7 @@ void MailForm::validate()
     if (lto.count() > 0)
     {
         foreach (QString mail, lto)
-            if (mail.contains(mailregexp))
+            if (mail.contains(mailregexp) || mail.contains(exmailregexp))
             i++;
 
         if (lto.count() == i)
@@ -149,7 +183,7 @@ void MailForm::validate()
         {
             i = 0;
             foreach (QString mail, lcc)
-            if (mail.contains(mailregexp))
+            if (mail.contains(mailregexp)|| mail.contains(exmailregexp))
             i++;
 
             if (lcc.count() == i)
@@ -164,7 +198,7 @@ void MailForm::validate()
         {
             i = 0;
             foreach (QString mail, lbcc)
-            if (mail.contains(mailregexp))
+            if (mail.contains(mailregexp)|| mail.contains(exmailregexp))
             i++;
 
             if (lbcc.count() == i)

@@ -15,7 +15,11 @@ Q_OBJECT
 public:
     MailForm(MailDataPlugin *MailPlugin);
     ~MailForm();
-
+    void setto(QString to) {to_value->setText(to);}
+    void setcc(QString cc) {cc_value->setText(cc);}
+    void setbcc(QString bcc) {bcc_value->setText(bcc);}
+    void setsub(QString sub) {subject_value->setText(sub);}
+    void setcontent(QString cont) {content_value->setText(cont);}
 private :
     QLineEdit *to_value;
     QLineEdit *cc_value;
