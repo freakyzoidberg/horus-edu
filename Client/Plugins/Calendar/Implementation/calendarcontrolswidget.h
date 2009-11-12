@@ -21,6 +21,7 @@ public:
      QPushButton        *monthly()          { return _monthly; }
      QPushButton        *planning()         { return _planning; } */
      QComboBox          *userList()         { return _userList; }
+     QComboBox          *groupList()        { return _groupList; }
 
      void               initGroupList();
      void               initUserList(const QString & groupType);
@@ -28,8 +29,6 @@ public:
 public slots:
      void               setMonth(int month);
      void               setYear(QDate date);
-     void               selectGroup(int index);
-     void               selectUser(int index);
 
 private:
      QDate              selectedDate;

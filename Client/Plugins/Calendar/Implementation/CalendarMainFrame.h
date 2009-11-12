@@ -37,15 +37,12 @@ public:
     UserDataPlugin              *user()             { return _users; }
   //  QCalendarWidget             *tinyCalendar()     { return _tinyCalendar; }
    // CalendarWidget              *googleCalendar()   { return _googleCalendar; }
-    CalendarControlsWidget      *controls()         { return _controls; }
+  //  CalendarControlsWidget      *controls()         { return _controls; }
     //AddEventWidget              *add()              { return _add; }
 
 
 public slots:
     //slot to handle click on the different buttons
-    void                        addEvent();
-    void                        cancelEventSave();
-    void                        saveEvent();
     void                        calendarDailyDisplay();
     void                        calendarWeeklyDisplay();
     void                        calendarMonthlyDisplay();
@@ -64,14 +61,14 @@ private:
     TreeDataPlugin              *_tree;
     UserDataPlugin              *_users;
     EventDataPlugin             *_event;
-    UserData                    *_currentUser;
+   // UserData                    *_currentUser;
 
     QGridLayout                 *_mainLayout;
    // QCalendarWidget             *_tinyCalendar;
 
     PluginManager               *_calendarPlugin;
-    CalendarControlsWidget      *_controls;
-    UserInformations            *_visibleUser;
+   // CalendarControlsWidget      *_controls;
+
 
     QDate                       _selectedDate;
     bool                        _created;
