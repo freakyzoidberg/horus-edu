@@ -24,5 +24,5 @@ const QString	ExampleSmallDisplayable::getDisplayableName() const
 
 QIcon			ExampleSmallDisplayable::getIcon() const
 {
-	return (QIcon(":icon"));
+	return (QIcon(":/Pictures/icon"));
 }

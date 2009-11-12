@@ -7,9 +7,11 @@ TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/MainFrame.cpp \
            Implementation/MainFrameWidget.cpp \
+           Implementation/DragingWidget.cpp \
            Implementation/ExampleSmallDisplayable.cpp
 HEADERS += Implementation/MainFrame.h \
            Implementation/MainFrameWidget.h \
+           Implementation/DragingWidget.h \
            Implementation/MainFrameMetaPlugin.h \
            Implementation/ExampleSmallDisplayable.h \
            SmallDisplayablePlugin.h \

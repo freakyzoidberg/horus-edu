@@ -9,7 +9,7 @@
 #include <QPushButton>
 #include <QDate>
 
-#include "label.h"
+#include "../label.h"
 
 class AddEventWindows : public QDockWidget
 {

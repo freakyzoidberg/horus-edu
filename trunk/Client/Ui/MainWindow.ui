@@ -266,6 +266,37 @@ QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:selected
 	color: black;
 	background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255));
 }
+
+QFrame#Empty
+{
+	border-width: 2px;
+	border-style: dashed;
+	border-color: #999999;
+	border-radius: 4px;
+}
+
+DragingWidget
+{
+	border-width: 1px;
+	border-style: solid;
+	border-color: #999999;
+	border-radius: 4px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+}
+
+QFrame#Content
+{
+	border-style: solid;
+	border-color: #999999;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-right-width: 0px;
+	border-top-width: 1px;
+	background-color: #dddddd;
+	margin: 0px;
+}
 </string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
@@ -275,7 +306,7 @@ QTabWidget[tabShape=&quot;1&quot;] QTabBar::tab:top:selected
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>27</height>
+     <height>29</height>
     </rect>
    </property>
   </widget>
