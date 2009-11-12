@@ -74,8 +74,8 @@
     }
  }
 
- void   CalendarWidget::initDays(void)
- {
+void   CalendarWidget::initDays(void)
+{
     this->days = new QVector<QLabel *>(7);
 
     this->days->insert(0, new QLabel(tr("Mon ")));
@@ -98,4 +98,4 @@
 
     this->days->insert(6, new QLabel(tr("Sun ")));
     this->days->value(6)->setAlignment(Qt::AlignCenter);
- }
+}

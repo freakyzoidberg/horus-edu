@@ -33,7 +33,6 @@ QWidget *Calendar::getWidget()
 
     this->_visibleUser = new UserInformations();
     _visibleUser->setInformations(_currentUser);
-//_mainLayout->addWidget(_visibleUser, 0, 1, 1, 1);
 
     _tinyCalendar = new QCalendarWidget();
     _tinyCalendar->setGridVisible(true);
@@ -142,10 +141,12 @@ QIcon   Calendar::getIcon() const
 
     QDateTime       begin, end, duration;
     QVariant        years(_add->yearEdit()->text()),
-                    months(_add->monthCombo()->currentText()),
+                    months(_add->monthCombo()->itemData(_add->monthCombo()->currentIndex()).toString()),
                     days(_add->dayCombo()->currentText()),
                     hours(_add->hours()->currentText()),
-                    minutes(_add->minutes()->currentText());
+                    minutes(_add->minutes()->currentText()),
+                    hourDur(_add->hoursDur()->currentText()),
+                    minDur(_add->minutesDur()->currentText());
 
     QTime           t(hours.toInt(), minutes.toInt());
     QDate           eventDay(years.toInt(), months.toInt(), days.toInt());
@@ -154,13 +155,11 @@ QIcon   Calendar::getIcon() const
     begin.setTime(t);
     userEvent->setStartTime(begin);
 
-    t.setHMS(1, 15, 0, 0);
+    t.setHMS(hourDur.toInt() + t.hour(), minDur.toInt() + t.minute(), 0, 0);
 
-    begin.addSecs(hours.toInt() * 3600 + minutes.toInt() * 60);
-
-    duration.setTime(t);
-    userEvent->setDuration(duration);
+    begin.setTime(t);
     userEvent->setEndTime(begin);
+
     userEvent->create();
     _panel->setCurrentIndex(_oldIndex);
 }
