@@ -21,25 +21,35 @@
 #include <QComboBox>
 #include <QtGui/QCalendarWidget>
 #include <QListView>
+#include <QListWidget>
 #include "ElevePanel.h"
+#include "../../../../Common/TreeData.h"
+#include "../../../../Common/UserData.h"
+#include "../../../../Common/EventData.h"
 
 class NoteFrame : public QWidget
 {
     Q_OBJECT
 
     public:
-        NoteFrame();
+        NoteFrame(TreeDataPlugin *tree, UserDataPlugin *user, EventDataPlugin *event);
     private:
         QVBoxLayout         *leftSide;
-        QGridLayout         *rightSide;
+        QHBoxLayout         *noteLayout;
         QLineEdit           *userName;
         QComboBox           *classList;
-        QListView           *matiereList;
-        QListView           *examList;
-        QLineEdit           *coef;
-        QPushButton         *okButton;
-        QList<ElevePanel *> courList;
+        QListWidget           *matiereList;
+        QListWidget           *examList;
+        ElevePanel          *listEleve;
+        TreeDataPlugin      *tree;
+        QHash<quint32,  UserData*> users;
         void                setupUi();
+        void                fillClass(TreeDataPlugin *tree);
+        int                 id;
+    private slots:
+        void                classChanged( int index );
+        void                matiereSelected(QListWidgetItem *item);
+        void                examSelected(QListWidgetItem *item);
 };
 
 #endif // NOTEFRAME_H

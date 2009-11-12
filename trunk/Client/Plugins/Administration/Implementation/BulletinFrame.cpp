@@ -1,5 +1,5 @@
 #include "BulletinFrame.h"
 
-BulletinFrame::BulletinFrame()
+BulletinFrame::BulletinFrame(TreeDataPlugin *tree, UserDataPlugin *user, EventDataPlugin *event)
 {
 }

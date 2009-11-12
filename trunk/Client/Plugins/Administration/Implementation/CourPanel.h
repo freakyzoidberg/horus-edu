@@ -14,12 +14,16 @@ class CourPanel : public QWidget
     public:
         CourPanel(QString cName);
         QVBoxLayout     *checkBoxs;
+        QVBoxLayout     *nameBoxs;
         QHBoxLayout     *courLayout;
         QLabel          *coursName;
         QCheckBox       *lateCheck;
         QCheckBox       *absenceCheck;
    private:
         void            setupUi(QString cName);
+   private slots:
+        void            retardChecked(int state);
+        void            absChecked(int state);
 };
 
 #endif // COURPANEL_H

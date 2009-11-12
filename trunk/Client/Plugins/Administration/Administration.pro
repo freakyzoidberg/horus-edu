@@ -20,7 +20,8 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/NoteFrame.cpp \
     Implementation/BulletinFrame.cpp \
     Implementation/CourPanel.cpp \
-    Implementation/ElevePanel.cpp
+    Implementation/ElevePanel.cpp \
+    Implementation/UserPerClass.cpp
 HEADERS += Implementation/Administration.h \
     Implementation/AdminMainFrame.h \
     Implementation/RoomPage.h \
@@ -47,7 +48,8 @@ HEADERS += Implementation/Administration.h \
     Implementation/NoteFrame.h \
     Implementation/BulletinFrame.h \
     Implementation/CourPanel.h \
-    Implementation/ElevePanel.h
+    Implementation/ElevePanel.h \
+    Implementation/UserPerClass.h
 RESOURCES += Implementation/AdminMainFrame.qrc
 TRANSLATIONS = Administration_en.ts \
     Administration_fr.ts
