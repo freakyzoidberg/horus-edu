@@ -221,12 +221,12 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	}
 	if (toDelete)
 	{
-		//delete toDelete;
+		delete toDelete;
 		toDelete = 0;
 	}
 	foreach (DragingWidget *widget, findChildren<DragingWidget *>())
-		if (!widget->isVisible())
-			delete widget;
+		//if (!widget->isVisible())
+		//	delete widget;
 	if (empty)
 	{
 		empty->hide();
@@ -243,7 +243,7 @@ void							MainFrameWidget::repopulateStuff()
 
 	plugins = _pluginManager->findPlugins<SmallDisplayablePlugin *>();
 	foreach (DragingWidget *widget, findChildren<DragingWidget *>())
-		if (plugins.contains(widget->_plugin))
+		if (plugins.contains(widget->_plugin) && widget->isVisible())
 			plugins.removeAll(widget->_plugin);
 	foreach (SmallDisplayablePlugin *plugin, plugins)
 		if (stuff->findData(plugin->pluginName()) < 0)
