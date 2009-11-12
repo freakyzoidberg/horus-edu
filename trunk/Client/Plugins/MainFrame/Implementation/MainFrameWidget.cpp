@@ -207,7 +207,7 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 		}
 		empty->hide();
 		inserted->show();
-		delete empty;
+		//delete empty;
 		empty = 0;
 	}
 }
@@ -221,7 +221,7 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	}
 	if (toDelete)
 	{
-		delete toDelete;
+		//delete toDelete;
 		toDelete = 0;
 	}
 	//foreach (DragingWidget *widget, findChildren<DragingWidget *>())
@@ -230,7 +230,7 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	if (empty)
 	{
 		empty->hide();
-		delete empty;
+		//delete empty;
 		empty = 0;
 		repopulateStuff();
 	}
