@@ -207,7 +207,7 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 		}
 		empty->hide();
 		inserted->show();
-		delete empty;
+		//delete empty;
 		empty = 0;
 	}
 }
