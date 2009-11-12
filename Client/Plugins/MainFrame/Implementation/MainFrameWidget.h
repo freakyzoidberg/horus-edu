@@ -14,6 +14,9 @@ class MainFrameWidget : public QWidget
 
 public:
     MainFrameWidget(PluginManager *pluginManager);
+	void			dragEnterEvent(QDragEnterEvent *dragEvent);
+	void			dropEvent(QDropEvent *dropEvent);
+	void			mouseMoveEvent(QMouseEvent *mouseEvent);
 
 private:
 	QComboBox		*stuff;
@@ -21,10 +24,13 @@ private:
     QBoxLayout		*rightLayout;
     QLabel*			connectedAs;
     QLabel*			lastLogin;
+	QWidget			*empty;
+	QWidget			*toDelete;
 	PluginManager	*_pluginManager;
 	void			fillWidgets();
 	void			setStyle();
 	void			updateSettings();
+	void			repopulateStuff();
 
 private slots:
     void			updateInfos();
