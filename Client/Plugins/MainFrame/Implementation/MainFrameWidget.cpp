@@ -111,8 +111,8 @@ void								MainFrameWidget::addedStuff(int index)
 	else
 		rightLayout->addWidget(inserted, 1);
 	inserted->show();
-	stuff->removeItem(index);
 	stuff->setCurrentIndex(0);
+	stuff->removeItem(index);
 	updateSettings();
 }
 
@@ -207,7 +207,7 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 		}
 		empty->hide();
 		inserted->show();
-		//delete empty;
+		delete empty;
 		empty = 0;
 	}
 }
@@ -225,12 +225,12 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 		toDelete = 0;
 	}
 	foreach (DragingWidget *widget, findChildren<DragingWidget *>())
-		//if (!widget->isVisible())
-		//	delete widget;
+		if (!widget->isVisible())
+			delete widget;
 	if (empty)
 	{
 		empty->hide();
-		//delete empty;
+		delete empty;
 		empty = 0;
 		repopulateStuff();
 	}
