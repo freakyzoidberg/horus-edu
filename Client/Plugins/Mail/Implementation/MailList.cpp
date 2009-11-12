@@ -141,9 +141,9 @@ MailList::MailList(MailDataPlugin *MailPlugin, MailPanel *panel)
     QHBoxLayout *ligne1 = new QHBoxLayout();
     QHBoxLayout *ligne2 = new QHBoxLayout();
     QHBoxLayout *ligne3 = new QHBoxLayout();
-    to_edit = new QLineEdit();
-    cc_edit = new QLineEdit();
-    sub_edit = new QLineEdit();
+    to_edit = new QLabel();
+    cc_edit = new QLabel();
+    sub_edit = new QLabel();
     lto_edit = new QLabel();
     lcc_edit = new QLabel();
 
@@ -180,11 +180,9 @@ connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
 
     to_edit->setMinimumSize(500,10);
     cc_edit->setMinimumSize(500,10);
-    cc_edit->setReadOnly(true);
-    to_edit->setReadOnly(true);
-    sub_edit->setReadOnly(true);
 
-    lto_edit->setText(tr("To:"));
+
+    lto_edit->setText(tr("From:"));
     lcc_edit->setText(tr("Cc:"));
     ligne1->addWidget(lto_edit,0, Qt::AlignLeft);
     ligne1->addWidget(to_edit,1);
@@ -238,7 +236,7 @@ expanded = false;
 
     foreach (MailData* data, list)
     {
-        addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId());
+        addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId(), data);
     }
 
 }
@@ -262,7 +260,7 @@ void MailList::setmailvisible(bool state)
  }
 
  void MailList::addMail(QAbstractItemModel *model, const QString &subject,
-               const QString &sender, const QDateTime &date, const QString &content, const QString &id)
+               const QString &sender, const QDateTime &date, const QString &content, const QString &id, MailData *mail)
   {
 
       model->insertRow(0);
@@ -272,6 +270,9 @@ void MailList::setmailvisible(bool state)
       model->setData(model->index(0, 3), date);
 
       mailpool.insert(id, content);
+
+      if (mail!=0)
+          mailpool2.insert(id, mail);
 
   }
 
@@ -316,6 +317,33 @@ void MailList::setmailvisible(bool state)
 
 
         mailview->setHtml(mailpool[model->data(model->index(indx.row(),0),0).toString()]);
+        if (mailpool2[model->data(model->index(indx.row(),0),0).toString()] != 0)
+        {
+            if (mailpool2[model->data(model->index(indx.row(),0),0).toString()]->getCc().count() > 0)
+            {
+            cc_edit->setVisible(true);
+            lcc_edit->setVisible(true);
+            int i;
+                    QString res = "";
+            for (i =0; i < mailpool2[model->data(model->index(indx.row(),0),0).toString()]->getCc().count(); i++)
+            {
+                res += mailpool2[model->data(model->index(indx.row(),0),0).toString()]->getCc().at(i);
+                if (i < mailpool2[model->data(model->index(indx.row(),0),0).toString()]->getCc().count())
+                    res+=", ";
+            }
+            cc_edit->setText(res);
+            }
+            else
+            {
+                cc_edit->setVisible(false);
+                lcc_edit->setVisible(false);
+            }
+        }
+        else
+        {
+            cc_edit->setVisible(false);
+            lcc_edit->setVisible(false);
+        }
         to_edit->setText(model->data(model->index(indx.row(),2),0).toString());
         sub_edit->setText(model->data(model->index(indx.row(),1),0).toString());
 //        mailview->setText(mailpool[model->i]);
