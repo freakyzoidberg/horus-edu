@@ -14,7 +14,12 @@ SOURCES += ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp
     Implementation/JoinWhiteBoard.cpp \
     Implementation/Items.cpp \
     Implementation/WhiteBoardModel.cpp \
-    Implementation/Course.cpp
+    Implementation/Course.cpp \
+    Implementation/LessonTabTeacher.cpp \
+    Implementation/LessonTabStudent.cpp \
+    WhiteBoardListModel.cpp \
+    Implementation/ClassTab.cpp \
+    Implementation/CreateWhiteboardDialog.cpp
 HEADERS += ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
@@ -42,7 +47,12 @@ HEADERS += ../../../Common/MetaPlugin.h \
     IItems.h \
     Implementation/WhiteBoardModel.h \
     Implementation/JoinWhiteBoard.h \
-    Implementation/Course.h
+    Implementation/Course.h \
+    Implementation/LessonTabTeacher.h \
+    Implementation/LessonTabStudent.h \
+    WhiteBoardListModel.h \
+    Implementation/ClassTab.h \
+    Implementation/CreateWhiteboardDialog.h
 RESOURCES += Implementation/Course.qrc
 FORMS += Implementation/Ui/CreateWhiteBoard.ui \
     Implementation/Ui/JoinWhiteBoard.ui

@@ -7,5 +7,7 @@
         <file>SectionIcon.png</file>
         <file>DocumentIcon.png</file>
         <file>LessonIcon.png</file>
+        <file>Ui/book.png</file>
+        <file>Ui/desk.png</file>
     </qresource>
 </RCC>
