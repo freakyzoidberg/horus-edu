@@ -55,8 +55,11 @@ public:
 
 #ifdef HORUS_CLIENT
 	QVariant			data(int column, int role = Qt::DisplayRole) const;
+public slots:
+	void				create();
 #endif
 #ifdef HORUS_SERVER
+public:
 	quint8				serverRead();
 	quint8				serverCreate();
 	quint8				serverSave();

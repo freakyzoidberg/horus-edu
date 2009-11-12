@@ -84,13 +84,13 @@ public:
 
 public slots:
 	//! Function to create the value of the data
-	inline void             create() { setStatus(CREATING); }
+	virtual inline void		create() { setStatus(CREATING); }
 
 	//! Function to save the value of the data
-	inline void             save() { setStatus(SAVING); }
+	virtual inline void		save() { setStatus(SAVING); }
 
 	//! Function to delete the value of the data
-	inline void             remove() { setStatus(DELETING); }
+	virtual inline void		remove() { setStatus(DELETING); }
 
 signals:
 	//! Signal emmited when the data is created.

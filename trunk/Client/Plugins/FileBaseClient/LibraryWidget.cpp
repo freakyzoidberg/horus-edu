@@ -56,4 +56,7 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 
 void LibraryWidget::treeSelectionChange(const QItemSelection& selected, const QItemSelection& deselected)
 {
+//	foreach (QModelIndex& index, selected.indexes())
+//		for (int i=0; index.child(i, 0).isValid(); i++)
+//			index.child(i, 0).model()->s
 }
