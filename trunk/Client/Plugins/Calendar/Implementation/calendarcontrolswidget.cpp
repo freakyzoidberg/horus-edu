@@ -62,7 +62,7 @@ void CalendarControlsWidget::setMonth(int month)
  {
     QHash<quint32, TreeData *> *groups = CalendarCore::CalendarCoreInstance()->getNodeOfType("GROUP");
     QHashIterator<quint32, TreeData *> i(*groups);
-
+    _groupList->addItem(tr("All users."), QVariant(-1));
     while (i.hasNext())
     {
         i.next();
