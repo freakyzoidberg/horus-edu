@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Administration", "Client\Plugins\Administration\Administration.vcproj", "{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Attendance", "Client\Plugins\Attendance\Attendance.vcproj", "{F85166CF-519F-371B-9A29-F53F1CF97912}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Editor", "Client\Plugins\Editor\Editor.vcproj", "{78B0DC67-25C9-39E2-81D5-6784B70EC97E}"
@@ -51,7 +49,6 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HorusInstaller", "Installer
 		{D3B0B3C9-E703-39F0-A567-D9CCAE8503DF} = {D3B0B3C9-E703-39F0-A567-D9CCAE8503DF}
 		{8C64C7C9-BDE0-3BA6-8F20-6B60567310CC} = {8C64C7C9-BDE0-3BA6-8F20-6B60567310CC}
 		{F85166CF-519F-371B-9A29-F53F1CF97912} = {F85166CF-519F-371B-9A29-F53F1CF97912}
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5} = {B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}
 		{AB5289D8-A262-3190-9DC7-D7A15BA18C9D} = {AB5289D8-A262-3190-9DC7-D7A15BA18C9D}
 		{2DE285E7-D273-3504-94BA-317113E1CAA4} = {2DE285E7-D273-3504-94BA-317113E1CAA4}
 		{D6C141FD-148F-3084-B3BE-667B9E925B0B} = {D6C141FD-148F-3084-B3BE-667B9E925B0B}
@@ -97,8 +94,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "News", "Client\Plugins\News
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HorusXconf", "Installer\Configuration\HorusXconf\HorusXconf.vcproj", "{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Course", "Client\Plugins\Course\Course.vcproj", "{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MailServerMetaPlugin", "Server\Plugins\MailServer\MailServer.vcproj", "{172F2881-B302-3616-8EA3-B1809A53E221}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus_Server", "Server\Horus_Server.vcproj", "{6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2}"
@@ -113,6 +108,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileBaseClientMetaPlugin", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mail", "Client\Plugins\Mail\Mail.vcproj", "{7EF70F36-62F5-324C-8296-9A14BB1BAD66}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Course", "Client\Plugins\Course\Course.vcproj", "{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -123,16 +120,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Debug|Win32.Build.0 = Debug|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Debug|x86.ActiveCfg = Debug|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Release|Win32.ActiveCfg = Release|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Release|Win32.Build.0 = Release|Win32
-		{B4C7C7D5-DDE1-30A1-98FF-B91E42E337D5}.Release|x86.ActiveCfg = Release|Win32
 		{F85166CF-519F-371B-9A29-F53F1CF97912}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{F85166CF-519F-371B-9A29-F53F1CF97912}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{F85166CF-519F-371B-9A29-F53F1CF97912}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -411,16 +398,6 @@ Global
 		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|Win32.ActiveCfg = Release|Win32
 		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|Win32.Build.0 = Release|Win32
 		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|x86.ActiveCfg = Release|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Win32.ActiveCfg = Debug|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Win32.Build.0 = Debug|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|x86.ActiveCfg = Debug|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Win32.ActiveCfg = Release|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Win32.Build.0 = Release|Win32
-		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|x86.ActiveCfg = Release|Win32
 		{172F2881-B302-3616-8EA3-B1809A53E221}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{172F2881-B302-3616-8EA3-B1809A53E221}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{172F2881-B302-3616-8EA3-B1809A53E221}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -491,6 +468,16 @@ Global
 		{7EF70F36-62F5-324C-8296-9A14BB1BAD66}.Release|Win32.ActiveCfg = Release|Win32
 		{7EF70F36-62F5-324C-8296-9A14BB1BAD66}.Release|Win32.Build.0 = Release|Win32
 		{7EF70F36-62F5-324C-8296-9A14BB1BAD66}.Release|x86.ActiveCfg = Release|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Win32.ActiveCfg = Debug|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|Win32.Build.0 = Debug|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Debug|x86.ActiveCfg = Debug|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Win32.ActiveCfg = Release|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Win32.Build.0 = Release|Win32
+		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
