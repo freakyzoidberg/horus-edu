@@ -11,7 +11,8 @@ SOURCES += Implementation/Mail.cpp \
     Implementation/MailForm.cpp \
     ../../../Common/DataImplementations/MailData/MailDataPlugin.cpp \
     ../../../Common/DataImplementations/MailData/MailData.cpp \
-    Implementation/MailAbstractModel.cpp
+    Implementation/MailAbstractModel.cpp \
+    Implementation/TextBrowser.cpp
 HEADERS += Implementation/Mail.h \
     Implementation/MailMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -27,7 +28,8 @@ HEADERS += Implementation/Mail.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
     ../../../Common/DataManager.h \
-    Implementation/MailAbstractModel.h
+    Implementation/MailAbstractModel.h \
+    Implementation/TextBrowser.h
 RESOURCES += Implementation/mailrc.qrc
 TRANSLATIONS = Mail_en.ts \
     Mail_fr.ts

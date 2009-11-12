@@ -24,7 +24,9 @@ QList<MailData*> MailDataPlugin::getAllMail() const
 {
         QList<MailData*> list;
         foreach (MailData* data, Mails)
+            if (data->getId() != "")
                         list.append(data);
+
        // list.pop_back();
         return list;
 }
@@ -86,9 +88,7 @@ if (panier.count() > 0)
         MailData* dmail = createMail();
         qDebug() << "getShowText";
         dmail->setContent(mail->getShowText());
-        //dmail->setTo(mail->to());
-        //dmail->setCc(mail->cc());
-        //dmail->setBcc(mail->bcc());
+
 
         dmail->setFrom(mail->from());
         qDebug() << mail->from();

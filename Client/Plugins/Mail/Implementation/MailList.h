@@ -8,6 +8,7 @@
 #include <QListView>
 #include                        "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 #include "MailAbstractModel.h"
+#include "TextBrowser.h"
 
 //class MailList;
 class MailList : public QWidget
@@ -19,38 +20,25 @@ public:
 
 private:
     MailDataPlugin *_MailPlugin;
-    //QTableView *emailList;
-
-/*
-private slots:
-    void myClicked(QModelIndex);
-  */
-
+    void setmailvisible(bool state);
     void setSourceModel(QAbstractItemModel *model);
+    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date, const QString &content, const QString &id);
 
 private slots:
-    void filterRegExpChanged();
-    void filterColumnChanged();
-    void sortChanged();
     void rowDoubleClicked(QModelIndex indx);
+    void linkclick(const QString &link);
 
 private:
-    QTextEdit *mailview;
+    QList<MailData*> list;
+    TextBrowser *mailview;
+    QLineEdit *to_edit;
+    QLineEdit *cc_edit;
+    QLineEdit *sub_edit;
+    QLabel *lto_edit;
+    QLabel *lcc_edit;
     QStandardItemModel *model;
     QSortFilterProxyModel *proxyModel;
-    QGroupBox *sourceGroupBox;
-    QGroupBox *proxyGroupBox;
-    QTreeView *sourceView;
     QTreeView *proxyView;
-    QCheckBox *filterCaseSensitivityCheckBox;
-    QCheckBox *sortCaseSensitivityCheckBox;
-    QLabel *filterPatternLabel;
-    QLabel *filterSyntaxLabel;
-    QLabel *filterColumnLabel;
-    QLineEdit *filterPatternLineEdit;
-    QComboBox *filterSyntaxComboBox;
-    QComboBox *filterColumnComboBox;
-    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date, const QString &content, const QString &id);
     QAbstractItemModel *createMailModel(QObject *parent);
     QMap<QString, QString> mailpool;
 };

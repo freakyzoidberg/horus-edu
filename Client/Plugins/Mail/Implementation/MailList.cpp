@@ -135,160 +135,98 @@ MailList::~MailList()
 MailList::MailList(MailDataPlugin *MailPlugin)
  {
     _MailPlugin = MailPlugin;
-    QList<MailData*> list;
 
+    QHBoxLayout *ligne0 = new QHBoxLayout();
+    QHBoxLayout *ligne1 = new QHBoxLayout();
+    QHBoxLayout *ligne2 = new QHBoxLayout();
+    QHBoxLayout *ligne3 = new QHBoxLayout();
+    to_edit = new QLineEdit();
+    cc_edit = new QLineEdit();
+    sub_edit = new QLineEdit();
+    lto_edit = new QLabel();
+    lcc_edit = new QLabel();
+
+    to_edit->setMinimumSize(500,10);
+    cc_edit->setMinimumSize(500,10);
+    cc_edit->setReadOnly(true);
+    to_edit->setReadOnly(true);
+    sub_edit->setReadOnly(true);
+
+    lto_edit->setText(tr("To:"));
+    lcc_edit->setText(tr("Cc:"));
+    ligne1->addWidget(lto_edit,0, Qt::AlignLeft);
+    ligne1->addWidget(to_edit,1);
+
+    ligne2->addWidget(lcc_edit,0, Qt::AlignLeft);
+    ligne2->addWidget(cc_edit, 1);
+
+    ligne3->addWidget(sub_edit);
+
+
+    QVBoxLayout *maildisplay = new QVBoxLayout();
+    QGridLayout *proxyLayout = new QGridLayout();
+    MailData *md = _MailPlugin->createMail();
+
+     proxyModel = new QSortFilterProxyModel();
+     proxyView = new QTreeView();
+    mailview = new TextBrowser();
+    mailview->setReadOnly(true);
+    mailview->setOpenExternalLinks(true);
+    connect(proxyView, SIGNAL(doubleClicked(QModelIndex)),this, SLOT(rowDoubleClicked(QModelIndex)));
+    //connect(mailview, SIGNAL(linkClicked(QString)),this, SLOT(linkclick(QString&)));
     list = _MailPlugin->getAllMail();
 
 
-     MailData *md = _MailPlugin->createMail();
-     proxyModel = new QSortFilterProxyModel;
      proxyModel->setDynamicSortFilter(true);
 
-     //sourceGroupBox = new QGroupBox(tr("Original Model"));
-     proxyGroupBox = new QGroupBox(tr("Sorted/Filtered Model"));
-
-     //sourceView = new QTreeView;
-     //sourceView->setRootIsDecorated(false);
-     //sourceView->setAlternatingRowColors(true);
-
-     proxyView = new QTreeView;
      proxyView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
      proxyView->setRootIsDecorated(false);
      proxyView->setAlternatingRowColors(true);
      proxyView->setModel(proxyModel);
      proxyView->setSortingEnabled(false);
+     maildisplay->addLayout(ligne0);
+     maildisplay->addLayout(ligne1);
+     maildisplay->addLayout(ligne2);
+     maildisplay->addLayout(ligne3);
+     maildisplay->addWidget(mailview);
 
-     sortCaseSensitivityCheckBox = new QCheckBox(tr("Case sensitive sorting"));
-     filterCaseSensitivityCheckBox = new QCheckBox(tr("Case sensitive filter"));
-
-     filterPatternLineEdit = new QLineEdit;
-     filterPatternLabel = new QLabel(tr("&Filter pattern:"));
-     filterPatternLabel->setBuddy(filterPatternLineEdit);
-
-     filterSyntaxComboBox = new QComboBox;
-     filterSyntaxComboBox->addItem(tr("Regular expression"), QRegExp::RegExp);
-     filterSyntaxComboBox->addItem(tr("Wildcard"), QRegExp::Wildcard);
-     filterSyntaxComboBox->addItem(tr("Fixed string"), QRegExp::FixedString);
-     filterSyntaxLabel = new QLabel(tr("Filter &syntax:"));
-     filterSyntaxLabel->setBuddy(filterSyntaxComboBox);
-
-     filterColumnComboBox = new QComboBox;
-     filterColumnComboBox->addItem(tr("Subject"));
-     filterColumnComboBox->addItem(tr("Sender"));
-     filterColumnComboBox->addItem(tr("Date"));
-     filterColumnLabel = new QLabel(tr("Filter &column:"));
-     filterColumnLabel->setBuddy(filterColumnComboBox);
-
-     mailview = new QTextEdit();
-
-     //connect(filterPatternLineEdit, SIGNAL(textChanged(const QString &)),
-      //       this, SLOT(filterRegExpChanged()));
-     //connect(filterSyntaxComboBox, SIGNAL(currentIndexChanged(int)),
-      //       this, SLOT(filterRegExpChanged()));
-    // connect(filterColumnComboBox, SIGNAL(currentIndexChanged(int)),
-     //        this, SLOT(filterColumnChanged()));
-     //connect(filterCaseSensitivityCheckBox, SIGNAL(toggled(bool)),
-     //        this, SLOT(filterRegExpChanged()));
-     //connect(sortCaseSensitivityCheckBox, SIGNAL(toggled(bool)),
-      //       this, SLOT(sortChanged()));
-     connect(proxyView, SIGNAL(doubleClicked(QModelIndex)),
-                  this, SLOT(rowDoubleClicked(QModelIndex)));
-
-     //QHBoxLayout *sourceLayout = new QHBoxLayout;
-     //sourceLayout->addWidget(sourceView);
-     //sourceGroupBox->setLayout(sourceLayout);
-
-
-
-     QGridLayout *proxyLayout = new QGridLayout;
      proxyLayout->addWidget(proxyView, 0, 0, 1, 3);
-     proxyLayout->addWidget(mailview,1,0,1,3);
-/*
-     proxyLayout->addWidget(filterPatternLabel, 2, 0);
-     proxyLayout->addWidget(filterPatternLineEdit, 2, 1, 1, 2);
-     proxyLayout->addWidget(filterSyntaxLabel, 3, 0);
-     proxyLayout->addWidget(filterSyntaxComboBox, 3, 1, 1, 2);
-     proxyLayout->addWidget(filterColumnLabel, 4, 0);
-     proxyLayout->addWidget(filterColumnComboBox, 4, 1, 1, 2);
-     proxyLayout->addWidget(filterCaseSensitivityCheckBox, 5, 0, 1, 2);
-     proxyLayout->addWidget(sortCaseSensitivityCheckBox, 5, 2);
-*/
-     proxyGroupBox->setLayout(proxyLayout);
+     proxyLayout->addLayout(maildisplay,1,0, 1, 3);
 
+     setmailvisible(false);
 
-     mailview->setVisible(false);
-
-     //QVBoxLayout *mainLayout = new QVBoxLayout;
-   //  mainLayout->addWidget(sourceGroupBox);
-     //mainLayout->addWidget(proxyGroupBox);
-
-
-  //   setWindowTitle(tr("Basic Sort/Filter Model"));
-  //   resize(500, 450);
-
-
-     //proxyView->sortByColumn(1, Qt::AscendingOrder);
-     filterColumnComboBox->setCurrentIndex(1);
-
-     filterPatternLineEdit->setText("Andy|Grace|pierre");
-     filterCaseSensitivityCheckBox->setChecked(true);
-     sortCaseSensitivityCheckBox->setChecked(true);
      setLayout(proxyLayout);
-this->setSourceModel(createMailModel(this));
 
-proxyView->hideColumn(0);
+     this->setSourceModel(createMailModel(this));
 
+     proxyView->hideColumn(0);
 
-foreach (MailData* data, list)
-{
-
-
-    addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId());
-
-    //qDebug() << listmodel->setData(listmodel->index(i,2),data->getFrom(), Qt::EditRole);
-    //qDebug() << listmodel->setData(listmodel->index(i,3),data->getSubject(), Qt::EditRole);
-    //qDebug() << listmodel->setData(listmodel->index(i,1),data->getMDate(), Qt::EditRole);
+    foreach (MailData* data, list)
+    {
+        addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId());
+    }
 
 }
 
- }
+void MailList::setmailvisible(bool state)
+{
+    mailview->setVisible(state);
+    lcc_edit->setVisible(state);
+    lto_edit->setVisible(state);
+    to_edit->setVisible(state);
+    cc_edit->setVisible(state);
+    sub_edit->setVisible(state);
 
+}
  void MailList::setSourceModel(QAbstractItemModel *model)
  {
      proxyModel->setSourceModel(model);
-     //sourceView->setModel(model);
- }
-
- void MailList::filterRegExpChanged()
- {
-     QRegExp::PatternSyntax syntax =
-             QRegExp::PatternSyntax(filterSyntaxComboBox->itemData(
-                     filterSyntaxComboBox->currentIndex()).toInt());
-     Qt::CaseSensitivity caseSensitivity =
-             filterCaseSensitivityCheckBox->isChecked() ? Qt::CaseSensitive
-                                                        : Qt::CaseInsensitive;
-
-     QRegExp regExp(filterPatternLineEdit->text(), caseSensitivity, syntax);
-     proxyModel->setFilterRegExp(regExp);
- }
-
- void MailList::filterColumnChanged()
- {
-     proxyModel->setFilterKeyColumn(filterColumnComboBox->currentIndex());
- }
-
- void MailList::sortChanged()
- {
-     proxyModel->setSortCaseSensitivity(
-             sortCaseSensitivityCheckBox->isChecked() ? Qt::CaseSensitive
-                                                      : Qt::CaseInsensitive);
  }
 
  void MailList::addMail(QAbstractItemModel *model, const QString &subject,
                const QString &sender, const QDateTime &date, const QString &content, const QString &id)
   {
-     
+     qDebug() << "Adding Mail UIDL :" << id;
       model->insertRow(0);
       model->setData(model->index(0, 0), id);
       model->setData(model->index(0, 1), subject);
@@ -335,13 +273,20 @@ foreach (MailData* data, list)
 
  void MailList::rowDoubleClicked(QModelIndex indx)
  {
-        mailview->setVisible(true);
+       setmailvisible(true);
        qDebug() << model->data(model->index(indx.row(),0),0).toString();
 
-        mailview->setText(mailpool[model->data(model->index(indx.row(),0),0).toString()]);
+        mailview->setHtml(mailpool[model->data(model->index(indx.row(),0),0).toString()]);
+        to_edit->setText(model->data(model->index(indx.row(),2),0).toString());
+        sub_edit->setText(model->data(model->index(indx.row(),1),0).toString());
 //        mailview->setText(mailpool[model->i]);
 
 
         //qDebug() << indx.row() <<" " << indx.data();
      //QMessageBox::information(NULL, "here", QString("Row ")+QString("was double clicked"));
+ }
+
+ void MailList::linkclick(const QString &link)
+ {
+         QMessageBox::information(NULL, "here", QString("devrait ouvrir un browser sur le systeme avec ")+link);
  }
