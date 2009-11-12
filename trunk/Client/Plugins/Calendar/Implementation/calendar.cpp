@@ -161,7 +161,7 @@ QIcon   Calendar::getIcon() const
     duration.setTime(t);
     userEvent->setDuration(duration);
     userEvent->setEndTime(begin);
-    userEvent->save();
+    userEvent->create();
     _panel->setCurrentIndex(_oldIndex);
 }
 
