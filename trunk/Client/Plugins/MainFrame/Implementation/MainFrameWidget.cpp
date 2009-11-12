@@ -221,16 +221,16 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	}
 	if (toDelete)
 	{
-		delete toDelete;
+		//delete toDelete;
 		toDelete = 0;
 	}
 	foreach (DragingWidget *widget, findChildren<DragingWidget *>())
-		if (!widget->isVisible())
-			delete widget;
+		//if (!widget->isVisible())
+		//	delete widget;
 	if (empty)
 	{
 		empty->hide();
-		delete empty;
+		//delete empty;
 		empty = 0;
 		repopulateStuff();
 	}
