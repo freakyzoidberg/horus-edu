@@ -5,7 +5,7 @@
 #include <QStringListModel>
 #include <QStringList>
 #include <QModelIndex>
-
+#include "MailForm.h"
 #include "../../../../Common/DataImplementations/MailData/MailData.h"
 /*
 MailList::MailList(MailDataPlugin *MailPlugin)
@@ -132,8 +132,9 @@ MailList::~MailList()
 
 
 
-MailList::MailList(MailDataPlugin *MailPlugin)
+MailList::MailList(MailDataPlugin *MailPlugin, MailPanel *panel)
  {
+    _panel = panel;
     _MailPlugin = MailPlugin;
 
     QHBoxLayout *ligne0 = new QHBoxLayout();
@@ -145,6 +146,37 @@ MailList::MailList(MailDataPlugin *MailPlugin)
     sub_edit = new QLineEdit();
     lto_edit = new QLabel();
     lcc_edit = new QLabel();
+
+    QSize size64(64,64);
+    QSize size32(32,32);
+    QSize size16(16,16);
+    QSize size8(8,8);
+
+    maxi = new QPushButton();
+    maxi->setIcon(QIcon(":/expand.png"));
+    maxi->setIconSize(size16);
+    //maxi->setMaximumSize(32,32);
+    maxi->setMaximumWidth(32);
+    maxi->setToolTip(tr("expand"));
+    ligne0->addWidget(maxi);
+
+    connect(maxi, SIGNAL(clicked()), this, SLOT(expandshrink()));
+
+    rep = new QPushButton();
+    rep->setIcon(QIcon(":/reply.png"));
+    rep->setIconSize(size32);
+    rep->setToolTip(tr("reply"));
+    //rep->setMaximumSize(64,64);
+connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
+    ligne0->addWidget(rep);
+
+    repall = new QPushButton();
+    repall->setIcon(QIcon(":/replyall.png"));
+    repall->setIconSize(size32);
+    //repall->setMaximumSize(64,64);
+    connect(repall, SIGNAL(clicked()), this, SLOT(reply()));
+    repall->setToolTip(tr("reply to all"));
+    ligne0->addWidget(repall);
 
     to_edit->setMinimumSize(500,10);
     cc_edit->setMinimumSize(500,10);
@@ -173,6 +205,7 @@ MailList::MailList(MailDataPlugin *MailPlugin)
     mailview->setReadOnly(true);
     mailview->setOpenExternalLinks(true);
     connect(proxyView, SIGNAL(doubleClicked(QModelIndex)),this, SLOT(rowDoubleClicked(QModelIndex)));
+
     //connect(mailview, SIGNAL(linkClicked(QString)),this, SLOT(linkclick(QString&)));
     list = _MailPlugin->getAllMail();
 
@@ -189,10 +222,11 @@ MailList::MailList(MailDataPlugin *MailPlugin)
      maildisplay->addLayout(ligne2);
      maildisplay->addLayout(ligne3);
      maildisplay->addWidget(mailview);
+    
 
      proxyLayout->addWidget(proxyView, 0, 0, 1, 3);
      proxyLayout->addLayout(maildisplay,1,0, 1, 3);
-
+expanded = false;
      setmailvisible(false);
 
      setLayout(proxyLayout);
@@ -216,6 +250,9 @@ void MailList::setmailvisible(bool state)
     to_edit->setVisible(state);
     cc_edit->setVisible(state);
     sub_edit->setVisible(state);
+    maxi->setVisible(state);
+    rep->setVisible(state);
+    repall->setVisible(state);
 
 }
  void MailList::setSourceModel(QAbstractItemModel *model)
@@ -274,6 +311,7 @@ void MailList::setmailvisible(bool state)
  void MailList::rowDoubleClicked(QModelIndex indx)
  {
        setmailvisible(true);
+       current = model->data(model->index(indx.row(),0),0).toString();
        qDebug() << model->data(model->index(indx.row(),0),0).toString();
 
         mailview->setHtml(mailpool[model->data(model->index(indx.row(),0),0).toString()]);
@@ -289,4 +327,37 @@ void MailList::setmailvisible(bool state)
  void MailList::linkclick(const QString &link)
  {
          QMessageBox::information(NULL, "here", QString("devrait ouvrir un browser sur le systeme avec ")+link);
+ }
+
+ void MailList::expandshrink()
+ {
+     if (!expanded)
+     {
+        proxyView->setVisible(false);
+        expanded = true;
+    }
+     else
+     {
+         proxyView->setVisible(true);
+         expanded = false;
+     }
+ }
+
+ void MailList::reply()
+ {
+    _panel->getForm()->setto(to_edit->text());
+    _panel->getForm()->setsub("RE:"+sub_edit->text());
+    _panel->getForm()->setcontent(mailpool[current]);
+     _panel->setCurrentWidget(_panel->getForm());
+    //MailForm *mp = new MailForm(_MailPlugin);
+ }
+
+ void MailList::replyall()
+ {
+    _panel->getForm()->setto(to_edit->text());
+    _panel->getForm()->setcc(cc_edit->text());
+    _panel->getForm()->setsub("RE:"+sub_edit->text());
+    _panel->getForm()->setcontent(mailpool[current]);
+     _panel->setCurrentWidget(_panel->getForm());
+    //MailForm *mp = new MailForm(_MailPlugin);
  }
