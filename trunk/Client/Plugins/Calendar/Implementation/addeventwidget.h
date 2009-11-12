@@ -36,9 +36,6 @@ public:
     void            initHours();
     void            initMinutes();
 
-public slots:
-    //void            dataCreated();
-
 private:
     EventData       *_event;
 

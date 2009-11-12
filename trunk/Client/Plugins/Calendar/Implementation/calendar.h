@@ -19,6 +19,8 @@
 #include "panel.h"
 #include "addeventwidget.h"
 #include "CalendarWidget.h"
+#include "calendarcontrolswidget.h"
+#include "userinformations.h"
 
 class Calendar : public DisplayablePlugin
 {
@@ -37,8 +39,18 @@ public:
 
  public slots:
      //called when a clicked on the tiny calendar occurs
-    void                        dateChanged();
+    void                    dateChanged();
+
+    //called when the current tab changed
     void                    tabChanged(int);
+
+    //called when the button of addEventWidget are pushed
+    void                    cancelEventSave();
+    void                    saveEvent();
+
+    void                    userSelected(int index);
+    void               selectGroup(int index);
+     void               selectUser(int index);
 
 private:
     TreeDataPlugin          *treePlugin;
@@ -48,8 +60,11 @@ private:
     CalendarWidget          *_googleCalendar;
     AddEventWidget          *_add;
     QCalendarWidget         *_tinyCalendar;
-    int                     _currentIndex;
+    int                     _currentIndex, _oldIndex;
     QVector<CalendarMainFrame *> frames;
+    CalendarControlsWidget      *_controls;
+    UserInformations            *_visibleUser;
+    UserData                *_currentUser;
 };
 
 #endif // CALENDAR_H

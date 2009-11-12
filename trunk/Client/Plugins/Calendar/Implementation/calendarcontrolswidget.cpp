@@ -10,8 +10,6 @@
 
 CalendarControlsWidget::CalendarControlsWidget()
 {
-
-
   /*   _monthly = new QPushButton(tr("Month"));
      _daily = new QPushButton(tr("Day"));
      _weekly = new QPushButton(tr("Week"));
@@ -44,8 +42,7 @@ CalendarControlsWidget::CalendarControlsWidget()
      controlsLayout->addWidget(_planning, 2, 3); */
 
      //connect combo box signals
-     connect(_groupList, SIGNAL(activated(int)), this, SLOT(selectGroup(int)));
-     connect(_userList, SIGNAL(activated(int)), this, SLOT(selectUser(int)));
+
 
      this->setLayout(controlsLayout);
 }
@@ -87,39 +84,5 @@ void CalendarControlsWidget::setMonth(int month)
     delete users;
  }
 
-  void               CalendarControlsWidget::selectGroup(int index)
-  {
-    QVariant    tmp;
-    int         group_id;
 
-    tmp = _groupList->itemData(index);
-    group_id = tmp.toInt();
-
-    //empty the user list
-    _userList->clear();
-
-    //recup all users, search them where node == group_id
-    QHash<quint32, UserData *>  *users = CalendarCore::CalendarCoreInstance()->usersName("ALL");
-    QHashIterator<quint32, UserData *> i(*users);
-
-    while (i.hasNext())
-    {
-        i.next();
-        if ((i.value()->status() != Data::EMPTY)
-            && (i.value()->node()->id() == group_id))
-            _userList->addItem(i.value()->name() + " "
-                           + i.value()->surname(), QVariant(i.value()->id()));
-    }
-    delete users;
-  }
-
-void            CalendarControlsWidget::selectUser(int index)
-{
-    QVariant    tmp;
-    int         user_id;
-
-    tmp = _userList->itemData(index);
-    user_id = tmp.toInt();
-    qDebug() << "user:" << user_id;
-}
 
