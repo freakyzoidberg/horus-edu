@@ -56,7 +56,7 @@ void		CreateWhiteBoard::buttonClicked()
 						emit whiteBoardCreated(wbd);
 					}
 					else
-						qWarning() << tr("Cannot create a whitboard inside an other whiteboard");
+						qWarning() << tr("Cannot create a whitboard inside another whiteboard");
 				}
 				else
 					qWarning() << tr("Please select only one place to create the whiteboard");

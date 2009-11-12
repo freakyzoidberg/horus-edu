@@ -8,6 +8,10 @@
 #include "CreateWhiteBoard.h"
 #include "JoinWhiteBoard.h"
 
+#include "ClassTab.h"
+#include "LessonTabTeacher.h"
+#include "LessonTabStudent.h"
+
 const QString    Course::pluginName() const
 {
     return "Course";
@@ -101,12 +105,12 @@ QWidget             *Course::getWidget()
 	switch (this->user->level())
 	{
 	case LEVEL_STUDENT:
-		tabwidget->addTab(new QWidget, tr("Lessons"));
-		tabwidget->addTab(new QWidget, tr("Classes"));
+		tabwidget->addTab(new LessonTabStudent(this->pluginManager), QIcon(":/Ui/book.png"), tr("Lessons"));
+		tabwidget->addTab(new ClassTab(this->pluginManager, this->user), QIcon(":/Ui/desk.png"), tr("Classes"));
 		break;
 	case LEVEL_TEACHER:
-		tabwidget->addTab(new QWidget, tr("Lessons"));
-		tabwidget->addTab(new CreateWhiteBoard(tabwidget, this->pluginManager), tr("Classes"));
+		tabwidget->addTab(new LessonTabTeacher(this->pluginManager), QIcon(":/Ui/book.png"), tr("Lessons"));
+		tabwidget->addTab(new ClassTab(this->pluginManager, this->user), QIcon(":/Ui/desk.png"), tr("Classes"));
 		break;
 	default:
 		return NULL;

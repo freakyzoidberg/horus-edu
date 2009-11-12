@@ -35,8 +35,29 @@ QWidget *Calendar::getWidget()
     _visibleUser->setInformations(_currentUser);
 
     _tinyCalendar = new QCalendarWidget();
-    _tinyCalendar->setGridVisible(true);
+	_tinyCalendar->setFirstDayOfWeek(Qt::Monday);
+	_tinyCalendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+	_tinyCalendar->setHorizontalHeaderFormat(QCalendarWidget::SingleLetterDayNames);
+	QTextCharFormat fmtHeader;
+	fmtHeader.setFontPointSize(7);
+	fmtHeader.setBackground(QBrush(QColor(200, 200, 200, 255)));
+	_tinyCalendar->setHeaderTextFormat(fmtHeader);
+	QTextCharFormat fmtWeek;
+	fmtWeek.setFontPointSize(7);
+	_tinyCalendar->setWeekdayTextFormat(Qt::Monday, fmtWeek);
+	_tinyCalendar->setWeekdayTextFormat(Qt::Tuesday, fmtWeek);
+	_tinyCalendar->setWeekdayTextFormat(Qt::Wednesday, fmtWeek);
+	_tinyCalendar->setWeekdayTextFormat(Qt::Thursday, fmtWeek);
+	_tinyCalendar->setWeekdayTextFormat(Qt::Friday, fmtWeek);
+	QTextCharFormat fmtWeekEnd;
+	fmtWeekEnd.setFontPointSize(7);
+	fmtWeekEnd.setBackground(QBrush(QColor(220, 220, 220, 255)));
+	_tinyCalendar->setWeekdayTextFormat(Qt::Saturday, fmtWeekEnd);
+	_tinyCalendar->setWeekdayTextFormat(Qt::Sunday, fmtWeekEnd);
+	//_tinyCalendar->setGridVisible(true);
+
     _tinyCalendar->adjustSize();
+
 
     _controls = new CalendarControlsWidget();
 
