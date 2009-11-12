@@ -91,4 +91,6 @@ void        CalendarMainFrame::isCreated()
 
  }
 
-
+ void	CalendarMainFrame::userSelected(int)
+ {
+ }

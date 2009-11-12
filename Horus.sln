@@ -99,8 +99,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HorusXconf", "Installer\Con
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Course", "Client\Plugins\Course\Course.vcproj", "{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileBaseClientMetaPlugin", "Client\Plugins\FileBaseClient\FileBaseClient.vcproj", "{54B0C74E-9E2E-34D7-A443-BED709617E7F}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MailServerMetaPlugin", "Server\Plugins\MailServer\MailServer.vcproj", "{172F2881-B302-3616-8EA3-B1809A53E221}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus_Server", "Server\Horus_Server.vcproj", "{6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2}"
@@ -112,6 +110,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MainFrame", "Client\Plugins\MainFrame\MainFrame.vcproj", "{C765DA63-05C4-3D3E-AC44-F54F551E9115}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mail", "Client\Plugins\Mail\Mail.vcproj", "{7EF70F36-62F5-324C-8296-9A14BB1BAD66}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FileBaseClientMetaPlugin", "Client\Plugins\FileBaseClient\FileBaseClient.vcproj", "{54B0C74E-9E2E-34D7-A443-BED709617E7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -421,16 +421,6 @@ Global
 		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Win32.ActiveCfg = Release|Win32
 		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|Win32.Build.0 = Release|Win32
 		{41E7EAAD-9DA0-3DE9-B860-7BD20EA59496}.Release|x86.ActiveCfg = Release|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Win32.Build.0 = Debug|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|x86.ActiveCfg = Debug|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Win32.ActiveCfg = Release|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Win32.Build.0 = Release|Win32
-		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|x86.ActiveCfg = Release|Win32
 		{172F2881-B302-3616-8EA3-B1809A53E221}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{172F2881-B302-3616-8EA3-B1809A53E221}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{172F2881-B302-3616-8EA3-B1809A53E221}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -491,6 +481,16 @@ Global
 		{7EF70F36-62F5-324C-8296-9A14BB1BAD66}.Release|Win32.ActiveCfg = Release|Win32
 		{7EF70F36-62F5-324C-8296-9A14BB1BAD66}.Release|Win32.Build.0 = Release|Win32
 		{7EF70F36-62F5-324C-8296-9A14BB1BAD66}.Release|x86.ActiveCfg = Release|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|Win32.Build.0 = Debug|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Debug|x86.ActiveCfg = Debug|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Win32.ActiveCfg = Release|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|Win32.Build.0 = Release|Win32
+		{54B0C74E-9E2E-34D7-A443-BED709617E7F}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
