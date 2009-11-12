@@ -192,7 +192,7 @@ QVariant TreeDataBase::data(int column, int role) const
 
 TreeData* TreeDataBase::createChild(const QString name, const QString type, UserData* user)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	TreeData* node = ((TreeDataBasePlugin*)_plugin)->createNode();
 	node->setName(name);
 	node->setType(type);
@@ -204,14 +204,14 @@ TreeData* TreeDataBase::createChild(const QString name, const QString type, User
 
 void TreeDataBase::recursRemove()
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	//todo
 	remove();
 }
 
 void TreeDataBase::moveTo(TreeData* par)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if ( ! par || parent() == par)
         return;
 
@@ -220,7 +220,7 @@ void TreeDataBase::moveTo(TreeData* par)
 
 void TreeDataBase::setName(QString name)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_name == name)
         return;
 
@@ -229,7 +229,7 @@ void TreeDataBase::setName(QString name)
 
 void TreeDataBase::setUser(UserData* user)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if ( ! user || _user == user)
         return;
 
@@ -240,7 +240,7 @@ void TreeDataBase::setUser(UserData* user)
 
 void TreeDataBase::setType(const QString type)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_type == type)
         return;
 
@@ -249,7 +249,7 @@ void TreeDataBase::setType(const QString type)
 
 void TreeDataBase::setParent(TreeData* p)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_parent)
 		_parent->_children.removeOne(this);
 

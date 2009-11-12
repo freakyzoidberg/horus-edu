@@ -42,6 +42,7 @@ public:
 	inline void			setEndTime(const QDateTime& time) { _endTime = time; }
 	inline QDateTime	duration() const { return QDateTime::fromTime_t(_endTime.toTime_t() - _startTime.toTime_t()); }
 	inline void			setDuration(const QDateTime& time) { _endTime = QDateTime::fromTime_t(_startTime.toTime_t() + time.toTime_t()); }
+	inline TreeData*	node() const { return _node; }
 
 
 	//INTERFACE Data

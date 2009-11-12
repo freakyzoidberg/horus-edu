@@ -10,6 +10,8 @@
 #include <QSortFilterProxyModel>
 #include <QGridLayout>
 #include <QLineEdit>
+#include <QLabel>
+#include <QCheckBox>
 
 LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 {
@@ -17,21 +19,41 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 
 	QTreeView* tree = new QTreeView(this);
 	tree->setModel(new TreeModel(pluginManager->findPlugin<TreeDataPlugin*>()));
+	tree->expandAll();
+	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	tree->selectAll();
+	tree->setHeaderHidden(true);
+	_treeSelection = tree->selectionModel();
+	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
 
-	QSortFilterProxyModel* filter = new QSortFilterProxyModel(this);
-	filter->setSourceModel(new LibraryModel(pluginManager->findPlugin<FileDataPlugin*>()));
-	filter->setSortCaseSensitivity(Qt::CaseInsensitive);
-	filter->setFilterCaseSensitivity(Qt::CaseInsensitive);
-	filter->sort(0, Qt::AscendingOrder);
+	_filter = new QSortFilterProxyModel(this);
+	_filter->setSourceModel(new LibraryModel(pluginManager->findPlugin<FileDataPlugin*>()));
+	_filter->setSortCaseSensitivity(Qt::CaseInsensitive);
+	_filter->setFilterCaseSensitivity(Qt::CaseInsensitive);
+	_filter->sort(0, Qt::AscendingOrder);
 
 	QListView* list = new QListView(this);
-	list->setModel(filter);
+	list->setModel(_filter);
 
 	QLineEdit* matchLine = new QLineEdit;
-	connect(matchLine, SIGNAL(textChanged(QString)), filter, SLOT(setFilterRegExp(QString)));
+	connect(matchLine, SIGNAL(textChanged(QString)), _filter, SLOT(setFilterRegExp(QString)));
 
+	layout->setColumnStretch(0, 2);
+	layout->setColumnStretch(1, 0);
+	layout->setColumnStretch(2, 6);
+	layout->setColumnStretch(3, 3);
+
+	layout->addWidget(new QLabel(tr("Into Directory")), 0, 0);
 	layout->addWidget(tree, 1, 0);
-	layout->addWidget(matchLine, 0, 1);
-	layout->addWidget(list, 1, 1);
 
+	layout->addWidget(new QLabel(tr("Search")), 0, 1);
+	layout->addWidget(matchLine, 0, 2);
+
+	layout->addWidget(list, 1, 1, 1, 2);
+
+	layout->addWidget(new QLabel(tr("Information")), 0, 3);
+}
+
+void LibraryWidget::treeSelectionChange(const QItemSelection& selected, const QItemSelection& deselected)
+{
 }

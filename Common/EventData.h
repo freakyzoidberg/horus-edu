@@ -21,6 +21,7 @@ public:
 	virtual void			setEndTime(const QDateTime& time) = 0;
 	virtual QDateTime		duration() const = 0;
 	virtual void			setDuration(const QDateTime& time) = 0;
+	virtual TreeData*		node() const = 0;
 
 protected:
         inline				EventData(EventDataPlugin* plugin) : Data(plugin) { }

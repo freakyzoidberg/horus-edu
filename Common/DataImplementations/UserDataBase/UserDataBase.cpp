@@ -92,7 +92,7 @@ QDebug UserDataBase::operator<<(QDebug debug) const
 
 void UserDataBase::setName(const QString name)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_name == name)
         return;
 
@@ -101,7 +101,7 @@ void UserDataBase::setName(const QString name)
 
 void UserDataBase::setPassword(const QString password)
 {    
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_password == QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1))
         return;
 
@@ -110,7 +110,7 @@ void UserDataBase::setPassword(const QString password)
 
 void UserDataBase::setSurname(const QString surname)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_surname == surname)
         return;
 
@@ -119,7 +119,7 @@ void UserDataBase::setSurname(const QString surname)
 
 void UserDataBase::setLevel(quint8 level)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_level == level)
         return;
 
@@ -128,7 +128,7 @@ void UserDataBase::setLevel(quint8 level)
 
 void UserDataBase::enable(bool enabled)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_enabled == enabled)
         return;
 
@@ -137,7 +137,7 @@ void UserDataBase::enable(bool enabled)
 
 void UserDataBase::setNode(TreeData* node)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if ( ! node || _node == node)
         return;
 
@@ -148,7 +148,7 @@ void UserDataBase::setNode(TreeData* node)
 
 void UserDataBase::setLanguage(const QString language)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_language == language)
         return;
 
@@ -157,7 +157,7 @@ void UserDataBase::setLanguage(const QString language)
 
 void UserDataBase::setCountry(const QString country)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_country == country)
         return;
 
@@ -166,7 +166,7 @@ void UserDataBase::setCountry(const QString country)
 
 void UserDataBase::setPhone(const QString phone)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_phone == phone)
         return;
 
@@ -175,7 +175,7 @@ void UserDataBase::setPhone(const QString phone)
 
 void UserDataBase::setAddress(const QString address)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_address == address)
         return;
 
@@ -184,7 +184,7 @@ void UserDataBase::setAddress(const QString address)
 
 void UserDataBase::setBirthDate(const QDate birthDate)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_birthDate == birthDate)
         return;
 
@@ -193,7 +193,7 @@ void UserDataBase::setBirthDate(const QDate birthDate)
 
 void UserDataBase::setPicture(const QVariant picture)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	if (_picture == picture)
         return;
 
@@ -348,7 +348,7 @@ quint8 UserDataBase::serverRemove()
 
 QByteArray UserDataBase::newSession(const QDateTime& end)
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	QByteArray session;
     qsrand(QTime::currentTime().msec() + _id);
@@ -373,7 +373,7 @@ QByteArray UserDataBase::newSession(const QDateTime& end)
 
 void UserDataBase::destroySession()
 {
-	QMutexLocker M(&_mutex);
+	QMutexLocker M(&mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
     query.addBindValue(_id);
