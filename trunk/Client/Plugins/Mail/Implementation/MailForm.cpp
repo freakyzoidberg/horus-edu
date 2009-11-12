@@ -138,8 +138,9 @@ QRegExp exmailregexp("^\\s*(\\w*\\s*)*(<\\s*)([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@((
     md->setSubject(subject_value->text());
     md->setContent(content_value->toHtml());
     //qDebug() << ;
-    QTime time = QTime::fromString("1.30", "m.s");
-    QString nid = time.toString();
+
+    QString nid = QTime::currentTime().toString("hh:mm:ss.zzz");
+
 
    qDebug() << "new id " << nid;
     md->setId(nid);
