@@ -30,10 +30,27 @@ private:
         inline				~MarksDataBase() {}
 
 
-        // INTERFACE MarksData
+        int                             _id;
+        int                             _idUser;
+        int                             _idEvent;
+        QVariant                        _mark;
+        QVariant                        _quote;
+        QDateTime                       _date;
+
+
+        // INTERFACE AttendanceData
 public:
-
-
+        inline int                      id() const { return _id; }
+        inline QDateTime		date() const { return _date; }
+        inline void			setDate(const QDateTime& date) { _date = date; }
+        inline int                      idUser() const { return _idUser; }
+        inline void			setIdUser(const int user) {_idUser = user; }
+        inline int                      idEvent() const { return _idEvent; }
+        inline void			setIdEvent(const int event) { _idEvent = event; }
+        inline void                     setmark(const QVariant note) { _mark = mark; }
+        inline QVariant                 mark() const { return _mark; }
+        inline void                     setQuote(const QVariant quote) { _quote = quote; }
+        inline QVariant                 quote() const { return _quote; }
 
 	//INTERFACE Data
 public:
