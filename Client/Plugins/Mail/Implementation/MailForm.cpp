@@ -136,7 +136,11 @@ QRegExp exmailregexp("^\\s*(\\w*\\s*)*(<\\s*)([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@((
     md->setSubject(subject_value->text());
     md->setContent(content_value->toPlainText());
     //qDebug() << ;
-    md->setId(QVariant(rand()).toString());
+    QTime time = QTime::fromString("1.30", "m.s");
+    QString nid = time.toString();
+
+   qDebug() << "new id " << nid;
+    md->setId(nid);
 
 
     md->sendMail();
