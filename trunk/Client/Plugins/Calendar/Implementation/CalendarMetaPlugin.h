@@ -4,6 +4,8 @@
 #include "../../../../Common/MetaPlugin.h"
 
 #include "calendar.h"
+#include "TaskSmallDisplayable.h"
+#include "EventSmallDisplayable.h"
 
 class CalendarMetaPlugin : public MetaPlugin
 {
@@ -13,6 +15,8 @@ class CalendarMetaPlugin : public MetaPlugin
 public:
     inline CalendarMetaPlugin() {
       pluginList.append(new Calendar());
+	  pluginList.append( new TaskSmallDisplayable );
+	  pluginList.append( new EventSmallDisplayable );
   }
 };
 

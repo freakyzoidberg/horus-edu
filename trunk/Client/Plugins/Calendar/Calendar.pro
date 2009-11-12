@@ -15,6 +15,8 @@ SOURCES += Implementation/calendar.cpp \
     Implementation/calendarcontrolswidget.cpp \
     Implementation/userinformations.cpp \
     Implementation/daywidget.cpp \
+    Implementation/TaskSmallDisplayable.cpp \
+    Implementation/EventSmallDisplayable.cpp \
     label.cpp \
     Implementation/panel.cpp
 HEADERS += Implementation/calendar.h \
@@ -32,6 +34,8 @@ HEADERS += Implementation/calendar.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
+    Implementation/TaskSmallDisplayable.h \
+    Implementation/EventSmallDisplayable.h \
     Implementation/CalendarMainFrame.h \
     Implementation/CalendarWidget.h \
     Implementation/CalendarCore.h \
@@ -40,6 +44,7 @@ HEADERS += Implementation/calendar.h \
     Implementation/calendarcontrolswidget.h \
     Implementation/userinformations.h \
     Implementation/daywidget.h \
+    ../MainFrame/SmallDisplayablePlugin.h \
     label.h \
     Implementation/panel.h
 RESOURCES += Calendar.qrc

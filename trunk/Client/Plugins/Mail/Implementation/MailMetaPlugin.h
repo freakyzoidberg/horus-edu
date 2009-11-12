@@ -4,6 +4,7 @@
 #include "../../../../Common/MetaPlugin.h"
 #include "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 #include "Mail.h"
+#include "MailSmallDisplayable.h"
 
 class MailMetaPlugin : public MetaPlugin
 {
@@ -16,6 +17,7 @@ public:
       Plugin* mp = new MailDataPlugin();
       pluginList.append(p);
       pluginList.append(mp);
+	  pluginList.append(new MailSmallDisplayable());
   }
 };
 
