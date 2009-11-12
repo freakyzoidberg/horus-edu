@@ -41,6 +41,8 @@ MailForm::MailForm(MailDataPlugin *MailPlugin)
 
 
     content_value = new QTextEdit();
+
+    content_value->setFontFamily("Serif");
     ligne3->addWidget(content_value,1);
 
 
@@ -134,7 +136,7 @@ QRegExp exmailregexp("^\\s*(\\w*\\s*)*(<\\s*)([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@((
     md->setCc(lcc);
     md->setBcc(lbcc);
     md->setSubject(subject_value->text());
-    md->setContent(content_value->toPlainText());
+    md->setContent(content_value->toHtml());
     //qDebug() << ;
     QTime time = QTime::fromString("1.30", "m.s");
     QString nid = time.toString();

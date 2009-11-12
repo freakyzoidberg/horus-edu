@@ -76,7 +76,7 @@ smtp::smtp(const QString &smtpServer, const QString &from, const QStringList &to
     setSubject(subject);
     setBody(body);
     setPriority (normal);
-    setContentType(text);
+    setContentType(html);
     setEncoding(_8bit);
     setISO(utf8);
     setSsl(false);
