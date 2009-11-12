@@ -82,7 +82,7 @@ quint8 EventDataBase::serverSave()
 		return DATABASE_ERROR;
 	}
 	if ( ! query.numRowsAffected())
-		return serverCreate();
+		return NOT_FOUND;
 
 	return NONE;
 }
@@ -105,6 +105,16 @@ quint8 EventDataBase::serverRemove()
 }
 #endif
 #ifdef HORUS_CLIENT
+void EventDataBase::create()
+{
+	disconnect(this, SLOT(create()));
+	if (_node->status() == CREATING || _node->status() == EMPTY)
+		connect(_node, SIGNAL(created()), this, SLOT(create()));
+	else
+		Data::create();
+}
+
+
 //#include <QIcon>
 QVariant EventDataBase::data(int column, int role) const
 {

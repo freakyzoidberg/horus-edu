@@ -114,6 +114,7 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
 
 	Data* data = plugin->dataWithKey(stream);
 	QMutexLocker(&data->mutex);
+	qDebug() << "lock" << data;
 
 	if ( ! data->canAccess(user))
 	{
