@@ -66,3 +66,11 @@ QVariant TreeModel::data(const QModelIndex& index, int role) const
 		return QIcon(":/Icons/inode-directory.png");
 	return QVariant();
 }
+
+bool LibrarySortFilter::filterAcceptsRow(int row, const QModelIndex& parent) const
+{
+//	((FileData*)(sourceModel()->index(row, 0, parent).internalPointer()));
+//	if ()
+
+	return QSortFilterProxyModel::filterAcceptsRow(row, parent);
+}

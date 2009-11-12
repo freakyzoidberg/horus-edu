@@ -3,6 +3,7 @@
 
 
 #include <QAbstractListModel>
+#include <QSortFilterProxyModel>
 
 class FileDataPlugin;
 class LibraryModel : public QAbstractListModel
@@ -33,6 +34,18 @@ private:
 	QVariant		data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
 	TreeDataPlugin*	_plugin;
+};
+
+class LibrarySortFilter : public QSortFilterProxyModel
+{
+public:
+	LibrarySortFilter(TreeModel* tree, QObject* parent) : QSortFilterProxyModel(parent) { _tree = tree; }
+
+protected:
+	bool		filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;
+
+private:
+	TreeModel*	_tree;
 };
 
 #endif // LIBRARYMODEL_H
