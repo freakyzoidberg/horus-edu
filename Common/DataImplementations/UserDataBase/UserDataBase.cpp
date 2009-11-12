@@ -206,9 +206,9 @@ QVariant UserDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 0)
-            return _id;
         if (column == 1)
+            return _id;
+        if (column == 0)
             return _login;
         if (column == 2)
             return _name;

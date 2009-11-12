@@ -24,8 +24,9 @@ class Administration : public DisplayablePlugin
 		int					getOrder() const;
         QIcon               getIcon() const;
     private:
-            TreeDataPlugin      *treePlugin;
-            UserDataPlugin      *userPlugin;
+        TreeDataPlugin      *treePlugin;
+        UserDataPlugin      *userPlugin;
+        EventDataPlugin     *eventPlugin;
 };
 
 #endif // ADMINISTRATION_H

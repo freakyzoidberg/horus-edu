@@ -5,6 +5,7 @@
 #include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/UserData.h"
+#include "../../../../Common/EventData.h"
 
 QWidget             *Administration::getWidget()
 {
@@ -12,7 +13,7 @@ QWidget             *Administration::getWidget()
     if (u != 0)
 		if (u->level() > LEVEL_ADMINISTRATOR)
 			return NULL;
-    return new AdminMainFrame(treePlugin, userPlugin);
+    return new AdminMainFrame(treePlugin, userPlugin, eventPlugin);
 }
 
 const QString   Administration::pluginName() const
@@ -32,7 +33,7 @@ const QString   Administration::getDisplayableName() const
 
 bool Administration::canLoad() const
 {
-    if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<UserDataPlugin *>())
+    if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<UserDataPlugin *>() && pluginManager->findPlugin<EventDataPlugin *>())
                 return (true);
         return (false);
 }
@@ -41,6 +42,7 @@ void Administration::load()
 {
     treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
     userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
+    eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
 
     Plugin::load();
 }

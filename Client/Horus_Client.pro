@@ -73,3 +73,7 @@ RC_FILE = Client.rc
 TRANSLATIONS = Horus_en.ts \
     Horus_fr.ts
 QMAKE_EXTRA_TARGETS += plugintarget
+
+POST_TARGETDEPS += .plugins
+plugintarget.target = .plugins
+win32:plugintarget.commands = CopyPlugins.bat
