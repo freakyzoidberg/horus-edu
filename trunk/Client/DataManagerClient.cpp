@@ -34,7 +34,7 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 	quint8    status;
 	stream >> status;
 
-	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED)
+	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED && status != Data::ERROR)
 	{
 		qWarning() << tr("DataManagerClient received a status") << (Data::DataStatus)status << tr("which is not authorized.");
 		return;
