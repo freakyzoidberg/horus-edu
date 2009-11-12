@@ -138,7 +138,7 @@ QIcon   Calendar::getIcon() const
 
  void            Calendar::saveEvent()
 {
-    EventData *userEvent = eventPlugin->newEvent(_currentUser->node(), _currentUser);
+    EventData *userEvent = eventPlugin->newEvent(_currentUser->node(), _add->subject()->text(), _currentUser);
 
     QDateTime       begin, end, duration;
     QVariant        years(_add->yearEdit()->text()),
@@ -188,7 +188,8 @@ QIcon   Calendar::getIcon() const
     {
         i.next();
         if ((i.value()->status() != Data::EMPTY)
-            && (i.value()->node()->id() == group_id))
+            && ((i.value()->node()->id() == group_id)
+                || (group_id == -1)))
             _controls->userList()->addItem(i.value()->name() + " "
                                + i.value()->surname(), QVariant(i.value()->id()));
     }
@@ -202,5 +203,4 @@ void    Calendar::selectUser(int index)
 
     tmp = _controls->userList()->itemData(index);
     user_id = tmp.toInt();
-    qDebug() << "user:" << user_id;
 }

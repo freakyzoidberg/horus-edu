@@ -6,7 +6,7 @@
 #include "../../TreeData.h"
 #include "../../UserData.h"
 
-EventData* EventDataBasePlugin::newEvent(TreeData* parent, UserData* user)
+EventData* EventDataBasePlugin::newEvent(TreeData* parent, QString name, UserData* user)
 {
 	if ( ! user)
 		user = pluginManager->currentUser();
@@ -14,6 +14,7 @@ EventData* EventDataBasePlugin::newEvent(TreeData* parent, UserData* user)
 	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNode();
 	node->setParent(parent);
 	node->setUser(user);
+        node->setName(name);
 	node->setType("EVENT");
 	node->create();
 	return nodeEvent(node);
