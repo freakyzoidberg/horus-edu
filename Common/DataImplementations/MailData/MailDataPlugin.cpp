@@ -10,7 +10,6 @@ MailData* MailDataPlugin::getMail(QString i)
 {
    foreach (MailData* wb, Mails)
     {
-       qDebug() << "MAILS !!!";
 		if (wb->_id == i)
 		{
 			return wb;
@@ -82,13 +81,13 @@ if (servpop3->getTotalmsg() > 0)
 {
             panier = servpop3->getAllMail(servpop3->getTotalmsg());
 }
-qDebug() << "panier.count";
+
 if (panier.count() > 0)
 {
     foreach (Mail* mail, panier)
     {
         MailData* dmail = createMail();
-        qDebug() << "getShowText";
+
         dmail->setContent(mail->getShowText());
 
 
@@ -98,11 +97,11 @@ if (panier.count() > 0)
         qDebug() << mail->timeStamp();
         dmail->setMDate(mail->timeStamp());
         dmail->setId(mail->Getuid());
-        qDebug() << "append";
+
         list.append(dmail);
     }
 }
-qDebug() << "return";
+
 //connect(servpop3, SIGNAL(newMail(Mail*)), this, SLOT(SendMailToClient(Mail*)));
     //servpop3->getAllMails();
 

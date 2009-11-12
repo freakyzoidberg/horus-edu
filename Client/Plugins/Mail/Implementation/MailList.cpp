@@ -202,6 +202,7 @@ connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
      proxyModel = new QSortFilterProxyModel();
      proxyView = new QTreeView();
     mailview = new TextBrowser();
+    mailview->setFontFamily("Serif");
     mailview->setReadOnly(true);
     mailview->setOpenExternalLinks(true);
     connect(proxyView, SIGNAL(doubleClicked(QModelIndex)),this, SLOT(rowDoubleClicked(QModelIndex)));
@@ -263,7 +264,7 @@ void MailList::setmailvisible(bool state)
  void MailList::addMail(QAbstractItemModel *model, const QString &subject,
                const QString &sender, const QDateTime &date, const QString &content, const QString &id)
   {
-     qDebug() << "Adding Mail UIDL :" << id;
+
       model->insertRow(0);
       model->setData(model->index(0, 0), id);
       model->setData(model->index(0, 1), subject);
@@ -312,7 +313,7 @@ void MailList::setmailvisible(bool state)
  {
        setmailvisible(true);
        current = model->data(model->index(indx.row(),0),0).toString();
-       qDebug() << model->data(model->index(indx.row(),0),0).toString();
+
 
         mailview->setHtml(mailpool[model->data(model->index(indx.row(),0),0).toString()]);
         to_edit->setText(model->data(model->index(indx.row(),2),0).toString());
@@ -347,6 +348,7 @@ void MailList::setmailvisible(bool state)
  {
     _panel->getForm()->setto(to_edit->text());
     _panel->getForm()->setsub("RE:"+sub_edit->text());
+
     _panel->getForm()->setcontent(mailpool[current]);
      _panel->setCurrentWidget(_panel->getForm());
     //MailForm *mp = new MailForm(_MailPlugin);
