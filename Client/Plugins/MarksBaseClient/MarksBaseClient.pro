@@ -16,6 +16,8 @@ HEADERS += ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin
     ../../../Common/MarksData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/DataManager.h \
-    ../../../Common/Data.h
+    ../../../Common/Data.h \
+    ../../../Common/EventDataPlugin.h \
+    ../../../Common/EventData.h
 SOURCES += ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.cpp \
     ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.cpp
