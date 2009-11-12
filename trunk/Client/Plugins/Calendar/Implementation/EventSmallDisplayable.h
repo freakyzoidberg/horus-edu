@@ -13,9 +13,9 @@ public:
 	const QString	pluginName() const;
 	const QString	pluginVersion() const;
 	// Interface SmallDisplayablePlugin
-	QWidget			*getWidget();
+        QWidget		*getWidget();
 	const QString	getDisplayableName() const;
-	QIcon			getIcon() const;
+        QIcon		getIcon() const;
 };
 
 #endif

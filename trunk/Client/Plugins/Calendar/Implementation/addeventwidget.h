@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QComboBox>
+#include <QLabel>
 #include <QDateTimeEdit>
 #include <QLineEdit>
 #include <QTextEdit>
@@ -29,12 +30,16 @@ public:
     QLineEdit       *subject()      { return _subject; }
     QLineEdit       *place()        { return _place; }
     QTextEdit       *description()  { return _description; }
+    QComboBox       *hoursDur()     { return _durHour; }
+    QComboBox       *minutesDur()   { return _durMinutes; }
 
     void            initDayCombo();
     void            initMonthCombo();
     void            initYearEdit();
     void            initHours();
     void            initMinutes();
+    void            initDurHour();
+    void            initDurMinutes();
 
 private:
     EventData       *_event;
@@ -49,7 +54,15 @@ private:
 
     //hour
     QComboBox       *_hours;
+    QLabel          *_hoursLabel;
     QComboBox       *_minutes;
+    QLabel          *_minutesLabel;
+
+    //duration
+    QComboBox       *_durHour;
+    QLabel          *_durHourLabel;
+    QComboBox       *_durMinutes;
+    QLabel          *_durMinutesLabel;
 
     //description
     QLineEdit       *_subject;
