@@ -75,6 +75,7 @@ public :
          inline QString                    getMDate() {return _date; }
          inline QString                    getFrom() {return _from; }
          inline QString                    getId() {return _id; }
+         inline QStringList                    getCc() {return _cc; }
 
 
 };
