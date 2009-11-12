@@ -1,5 +1,6 @@
 #include "LibraryModel.h"
 
+#include <QIcon>
 #include "../../../Common/FileData.h"
 
 int LibraryModel::rowCount(const QModelIndex&) const
@@ -59,5 +60,9 @@ QModelIndex TreeModel::index(int row, int col, const QModelIndex& parent) const
 
 QVariant TreeModel::data(const QModelIndex& index, int role) const
 {
-	return ((FileData*)(index.internalPointer()))->data(index.column(), role);
+	if (role == Qt::DisplayRole)
+		return ((FileData*)(index.internalPointer()))->data(index.column(), Qt::DisplayRole);
+	if (role == Qt::DecorationRole)
+		return QIcon(":/Icons/inode-directory.png");
+	return QVariant();
 }

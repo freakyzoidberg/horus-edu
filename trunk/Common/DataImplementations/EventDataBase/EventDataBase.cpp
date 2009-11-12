@@ -52,6 +52,7 @@ quint8 EventDataBase::serverRead()
 
 quint8 EventDataBase::serverCreate()
 {
+	QMutexLocker M(&_node->mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("INSERT INTO event (id_tree,start_time,end_time) VALUES (?,?,?);");
 	query.addBindValue(_node->id());
