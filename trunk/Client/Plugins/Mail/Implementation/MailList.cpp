@@ -161,6 +161,8 @@ MailList::MailList(MailDataPlugin *MailPlugin, MailPanel *panel)
     ligne0->addWidget(maxi);
 
     connect(maxi, SIGNAL(clicked()), this, SLOT(expandshrink()));
+ligne0->addStretch(20);
+
 
     rep = new QPushButton();
     rep->setIcon(QIcon(":/reply.png"));
@@ -168,7 +170,7 @@ MailList::MailList(MailDataPlugin *MailPlugin, MailPanel *panel)
     rep->setToolTip(tr("reply"));
     //rep->setMaximumSize(64,64);
 connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
-    ligne0->addWidget(rep);
+    ligne0->addWidget(rep, 0, Qt::AlignRight);
 
     repall = new QPushButton();
     repall->setIcon(QIcon(":/replyall.png"));
@@ -176,7 +178,8 @@ connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
     //repall->setMaximumSize(64,64);
     connect(repall, SIGNAL(clicked()), this, SLOT(reply()));
     repall->setToolTip(tr("reply to all"));
-    ligne0->addWidget(repall);
+
+    ligne0->addWidget(repall,0, Qt::AlignRight);
 
     to_edit->setMinimumSize(500,10);
     cc_edit->setMinimumSize(500,10);

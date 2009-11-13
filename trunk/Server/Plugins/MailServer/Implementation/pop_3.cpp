@@ -80,7 +80,7 @@ bool Pop_3::connectToPop(const QString &host)
     }
 
     _socket = _ssl ? new QSslSocket(this) : new QTcpSocket(this);
-
+/*
     QNetworkProxy proxy;
     proxy.setType(QNetworkProxy::Socks5Proxy);
     proxy.setHostName("10.42.42.62");
@@ -89,7 +89,7 @@ bool Pop_3::connectToPop(const QString &host)
     proxy.setPassword("pDewqw3(");
 
     _socket.data()->setProxy(proxy);
-
+*/
     //_socket=new QTcpSocket(this);
     connect( _socket, SIGNAL( error( QAbstractSocket::SocketError) ), this, SLOT( errorReceived( QAbstractSocket::SocketError ) ) );
     //connect( _socket, SIGNAL( proxyAuthenticationRequired(const QNetworkProxy & , QAuthenticator *) ), this, SLOT(proxyAuthentication(const QNetworkProxy &, QAuthenticator * ) ) );
@@ -148,10 +148,12 @@ QString response;
 
 
     do {
+
+        /*
         if( ! _socket->waitForReadyRead( _timeout ) ) {
         error("Read timeout");
         return false;
-    }
+    }*/
 
     if( !_socket->canReadLine() ) {
         error("Can't read");
@@ -164,8 +166,10 @@ QString response;
         } while( _socket->canReadLine() && responseLine != ".\r\n" );
     } while (responseLine != ".\r\n");
 
-    _lastResponse = response;
 
+
+_lastResponse = response;
+    //qDebug() << _lastResponse;
 
 }
 
@@ -244,16 +248,21 @@ QList<Mail*> Pop_3::getAllMail(int MaxMail)
 
             sendRetr("RETR " + QVariant(i).toString());
            if  (!read("+OK"))
-               return panier;
+              return panier;
            else
            {
-               qDebug() << _lastResponse.split(" ").at(1).toUInt() << " Buffer : " << _socket->readBufferSize();
+           qDebug() << "le +ok :" <<_lastResponse;
+               //qDebug() << _lastResponse.split(" ").at(1).toUInt() << " Buffer : " << _socket->readBufferSize();
+               //qDebug() << _lastResponse.split(" ").at(1).toUInt();
                readMail(_lastResponse.split(" ").at(1).toUInt());
 
                Mail* mail = new Mail();
 
                mail->setuid(uid);
                mail->setData(_lastResponse);
+               qDebug() << "mail   data: "<< mail->getShowText();
+               //mail->parseData(_lastResponse);
+               qDebug() << _lastResponse;
                panier.append(mail);
            }
        }

@@ -564,9 +564,10 @@ QString Mail::getShowText()
 {
 	QString ret;
 	QString cnt_type = d->header.value("Content-Type");
-	
+
 	if (isSinglePart())
 	{
+
 		if (isText())
 		{
 			if (cnt_type.contains("text/html") || cnt_type.contains("text/plain"))
@@ -618,6 +619,7 @@ QString Mail::getShowText()
 		//ret+="<meta http-equiv=\"content-type\" content=\"text/html; charset=" + encoding() +"\" /> \n";
 		int index=-1;
 		uint pc = getPartCount();
+
 		for (uint i=0; i<pc; i++)
 		{
 			Mail* mp = getPart(i);
@@ -628,19 +630,25 @@ QString Mail::getShowText()
 				index=i;
 			}
 		}
-		
+
 		if(index > -1){
 			Mail* mp = getPart(index);
+
 			ret+= mp->getShowText();
 		}
 		
-	}else {
+        }
+
+        else {
 		//ret+="<meta http-equiv=\"content-type\" content=\"text/html; charset=" + encoding() +"\" /> \n";
 		uint pc = getPartCount();
+                qDebug() << "PART COUNT : " << pc;
 		for (uint i=0; i<pc; i++)
 		{
+                    qDebug() << "AT : " << i;
 			Mail* mp = getPart(i);
 			ret+= mp->getShowText();
+                        qDebug() << mp->getShowText();
 		}
 	}
 
@@ -693,11 +701,12 @@ void Mail::parseBody(QByteArray cstr_body)
 	}
 	else
 	{
+
 		QString body_data=QString::fromAscii(cstr_body);
 		//qDebug("MULTIPART MAIL");
-		QString bound = QString::fromLatin1("\n--") + header().value("boundary");
+                QString bound = QString::fromLatin1("--") + header().value("boundary");
 		uint bound_len = bound.length();
-
+//qDebug() << "Bound " << bound << "len" << bound_len;
 		//qDebug("BOUNDARY: '%s'", bound.latin1());
 		int start = body_data.indexOf(bound);
 		//while(body_data[start] != '\n' || body_data[start] != '\r'
@@ -705,21 +714,29 @@ void Mail::parseBody(QByteArray cstr_body)
 		int end = 1;
 
 		while(1){
-			start += bound_len;
+                        start += bound_len;
+
 			if (body_data[start] == '\r')
 				start++;
 			if (body_data[start] == '\n')
 				start++;
-
+                        qDebug() << body_data.mid(start);
+    //                    qDebug() << start << "value" << body_data[start] << body_data[start + 1];
 			end = body_data.indexOf(bound, start);
-			if (end < 0)break;
+                        qDebug() << end;
+
 			
 			Mail* mp = new Mail(this);
 			QString part_data = body_data.mid(start, end - start);
 			//qDebug("PART DATA: ---\n'%s'---\n", (const char*) part_data);
+                        
+                        qDebug() << "NEW PART DATA " << part_data;
+
 			mp->setData(part_data);
 			addPart(mp);
 			start = end;
+                        if (mp->isSinglePart())
+                            break;
 		};
 	}
 }

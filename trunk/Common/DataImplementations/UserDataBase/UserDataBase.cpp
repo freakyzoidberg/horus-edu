@@ -267,7 +267,7 @@ quint8 UserDataBase::serverRead()
 quint8 UserDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO users (login,level,password,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
+        query.prepare("INSERT INTO users (login,level,password,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
     query.addBindValue(_login);
     query.addBindValue(_level);
 	query.addBindValue(_password.toHex());
@@ -283,6 +283,7 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_node->id());
     query.addBindValue(_enabled);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
+        query.addBindValue(_login);
 
 	if ( ! query.exec())
 	{
