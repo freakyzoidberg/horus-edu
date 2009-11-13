@@ -1,7 +1,7 @@
 #ifndef FILETRANSFERT_H
 #define FILETRANSFERT_H
 
-#include <QList>
+#include <QHash>
 #include <QByteArray>
 #include <QSslSocket>
 #include <QTimer>
@@ -52,14 +52,14 @@ protected slots:
     void fileToSocket(qint64);
 };
 
-class FileTransfertList : public QObject, public QList<FileTransfert*>
+class FileTransfertList : public QObject, public QHash<FileData*,FileTransfert*>
 {
 	Q_OBJECT
 
 public:
 	inline static FileTransfertList& list() { static FileTransfertList _list; return _list; }
-	inline void						append(FileTransfert* t) { QList<FileTransfert*>::append(t); emit started(t); }
-	inline void						remove(FileTransfert* t) { QList<FileTransfert*>::removeOne(t); }
+        inline void						append(FileTransfert* t) { QHash<FileData*,FileTransfert*>::insert(t->file(), t); emit started(t); }
+        inline void						remove(FileTransfert* t) { QHash<FileData*,FileTransfert*>::remove(t->file()); }
 
 signals:
 	void							started(FileTransfert*);
