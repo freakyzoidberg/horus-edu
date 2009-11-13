@@ -5,7 +5,7 @@
 Pop_3::Pop_3(const QString &user,const QString &passwd, const QString &pop3_server,QObject *parent)
 {
        _port = 110;
-    _timeout = 30000;
+    _timeout = 8000;
     _user = user;
     _passwd = passwd;
               _popServer = pop3_server;
@@ -83,7 +83,7 @@ bool Pop_3::connectToPop(const QString &host)
 
     QNetworkProxy proxy;
     proxy.setType(QNetworkProxy::Socks5Proxy);
-    proxy.setHostName("proxies.epitech.net");
+    proxy.setHostName("10.42.42.62");
     proxy.setPort(1080);
     proxy.setUser("bertho_r");
     proxy.setPassword("pDewqw3(");
@@ -93,7 +93,7 @@ bool Pop_3::connectToPop(const QString &host)
 
     //_socket=new QTcpSocket(this);
     connect( _socket, SIGNAL( error( QAbstractSocket::SocketError) ), this, SLOT( errorReceived( QAbstractSocket::SocketError ) ) );
-    connect( _socket, SIGNAL( proxyAuthenticationRequired(const QNetworkProxy & , QAuthenticator *) ), this, SLOT(proxyAuthentication(const QNetworkProxy &, QAuthenticator * ) ) );
+    //connect( _socket, SIGNAL( proxyAuthenticationRequired(const QNetworkProxy & , QAuthenticator *) ), this, SLOT(proxyAuthentication(const QNetworkProxy &, QAuthenticator * ) ) );
 
     qDebug() << "connect pop";
     bool auth = ! _user.isEmpty();
