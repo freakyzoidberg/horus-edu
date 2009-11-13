@@ -18,7 +18,7 @@ QWidget			*News::getWidget()
 
 const QString       News::getDisplayableName() const
 {
-    return("News");
+    return(tr("Navigator"));
 }
 
 int           News::getOrder() const
@@ -35,12 +35,10 @@ bool                News::canLoad() const
 
 void                News::load()
 {
- //   MailPlugin = pluginManager->findPlugin<MailDataPlugin *>();
     Plugin::load();
 }
 
 QIcon News::getIcon() const
 {
-    //return (QIcon(":/mail.png"));
-	return (QIcon());
+    return (QIcon(":/Pictures/Globe.png"));
 }

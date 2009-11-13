@@ -4,7 +4,6 @@
 TARGET = Calendar
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
-TEMPLATE = lib
 DEFINES += CALENDAR_LIBRARY
 SOURCES += Implementation/calendar.cpp \
     Implementation/CalendarMainFrame.cpp \
@@ -25,7 +24,6 @@ HEADERS += Implementation/calendar.h \
     ../../../Common/EventDataPlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
-    ../../../Common/AbstractManager.h \
     ../../DisplayablePlugin.h \
     ../../../Common/UserDataPlugin.h \
     ../../../Common/UserData.h \
@@ -48,3 +46,5 @@ HEADERS += Implementation/calendar.h \
     label.h \
     Implementation/panel.h
 RESOURCES += Calendar.qrc
+TRANSLATIONS = Calendar_en.ts \
+			   Calendar_fr.ts

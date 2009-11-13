@@ -9,6 +9,8 @@
 
 class UserInformations : public QWidget
 {
+	Q_OBJECT
+
 public:
     UserInformations();
     void    setInformations(UserData *);

@@ -15,23 +15,23 @@
 					<Component Id="ClientMainExe" Guid="8e1af3bd-93bf-47f0-a7d4-02359cc0439f">
 						<File Name='Horus_Client.exe' Source='../../Client/release/Horus_Client.exe' KeyPath='yes' />
 					</Component>
-					<Component Id="QtCore4" Guid="baf20c78-35b8-4421-909c-e3078c6ace35" KeyPath="yes">
+					<Component Id="QtCore4" Guid="baf20c78-35b8-4421-909c-e3078c6ace35">
 						<File Name='QtCore4.dll' Source='CoreDLL/msvc2008/QtCore4.dll' />
 					</Component>
-					<Component Id="QtGui4" Guid="40969bba-b2e3-4436-98a1-5a56cdf91830" KeyPath="yes">
+					<Component Id="QtGui4" Guid="40969bba-b2e3-4436-98a1-5a56cdf91830">
 						<File Name='QtGui4.dll' Source='CoreDLL/msvc2008/QtGui4.dll' />
 					</Component>
-          <Component Id="QtNetwork4" Guid="07fa073e-0113-4b73-a11b-00536f83b5e8" KeyPath="yes">
+          <Component Id="QtNetwork4" Guid="07fa073e-0113-4b73-a11b-00536f83b5e8">
             <File Name='QtNetwork4.dll' Source='CoreDLL/msvc2008/QtNetwork4.dll' />
           </Component>
-          <Component Id="QtXml4" Guid="7f52fc24-89ce-4d4e-8f42-afa8b4c31577" KeyPath="yes">
+          <Component Id="QtXml4" Guid="7f52fc24-89ce-4d4e-8f42-afa8b4c31577">
             <File Name='QtXml4.dll' Source='CoreDLL/msvc2008/QtXml4.dll' />
           </Component>
           <Component Id='OpenSSL' Guid='adb3be26-b5e7-4dea-b4ee-f5314596897c'>
             <File Name='ssleay32.dll' Source='CoreDLL/msvc2008/ssleay32.dll' />
             <File Name='libeay32.dll' Source='CoreDLL/msvc2008/libeay32.dll' />
           </Component>
-          <Component Id="QtPhonon4" Guid="2f6640c1-3eee-499f-8c90-8c8aee304676" KeyPath="yes">
+          <Component Id="QtPhonon4" Guid="2f6640c1-3eee-499f-8c90-8c8aee304676">
             <File Name='phonon4.dll' Source='CoreDLL/msvc2008/phonon4.dll' />
           </Component>
           <Component Id='Poppler' Guid='9da8bbb2-409b-4ce0-a4e5-311da661898f'>
@@ -49,15 +49,21 @@
             <Component Id="ClientPluginAudioController" Guid="23a9ce32-21ad-4474-ae4f-79f7a72eeb62">
               <File Name="AudioController.dll" Source="..\..\Client\Plugins\AudioController\release\AudioController.dll" KeyPath="yes" />
             </Component>
+            <Component Id="ClientPluginCalendar" Guid="5d53e122-00ea-4885-b529-588c814eaa59">
+              <File Name="Calendar.dll" Source="..\..\Client\Plugins\Calendar\release\Calendar.dll" KeyPath="yes" />
+            </Component>
             <Component Id="ClientPluginCourse" Guid="84aba3d2-2fd2-44a3-a6c8-991ae9254c2f">
-							<File Name="Course.dll" Source="..\..\Client\Plugins\Course\release\Course.dll" KeyPath="yes" />
-						</Component>
-						<Component Id="ClientPluginEditor" Guid="8ee021e8-293c-47c2-ba99-0d5920408ed1">
+              <File Name="Course.dll" Source="..\..\Client\Plugins\Course\release\Course.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginEditor" Guid="8ee021e8-293c-47c2-ba99-0d5920408ed1">
 							<File Name="Editor.dll" Source="..\..\Client\Plugins\Editor\release\Editor.dll" KeyPath="yes" />
 						</Component>
-						<Component Id="ClientPluginFileBaseClient" Guid="d6801f3f-3030-42de-acfd-9b0935629ba3">
-							<File Name="FileBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\FileBaseClient\release\FileBaseClientMetaPlugin.dll" KeyPath="yes" />
-						</Component>
+            <Component Id="ClientPluginEventBaseClient" Guid="a58dffa4-d43f-408e-9143-70b39572edb7">
+              <File Name="EventBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\EventBaseClient\release\EventBaseClientMetaPlugin.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginFileBaseClient" Guid="d6801f3f-3030-42de-acfd-9b0935629ba3">
+              <File Name="FileBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\FileBaseClient\release\FileBaseClientMetaPlugin.dll" KeyPath="yes" />
+            </Component>
             <Component Id="ClientPluginImageController" Guid="fd9dbfb9-0465-4049-9b6c-9edf915352ef">
               <File Name="ImageController.dll" Source="..\..\Client\Plugins\ImageController\release\ImageController.dll" KeyPath="yes" />
             </Component>
@@ -76,6 +82,9 @@
             <Component Id="ClientPluginMediaController" Guid="3183c437-82f9-478b-aae1-5601c3c2b63c">
               <File Name="MediaController.dll" Source="..\..\Client\Plugins\MediaController\release\MediaController.dll" KeyPath="yes" />
             </Component>
+            <Component Id="ClientPluginNews" Guid="f629cdb0-554d-41ac-88f1-171c5e3262b1">
+              <File Name="News.dll" Source="..\..\Client\Plugins\News\release\News.dll" KeyPath="yes" />
+            </Component>
             <Component Id="ClientPluginPdfController" Guid="ff005b4b-ca72-467d-b5a4-871ec27ba9ef">
               <File Name="PdfController.dll" Source="..\..\Client\Plugins\PdfController\release\PdfController.dll" KeyPath="yes" />
             </Component>
@@ -87,6 +96,9 @@
             </Component>
             <Component Id="ClientPluginSettingsBaseClient" Guid="6af2fb2a-bcb6-445b-9f84-9d39a19a751f">
               <File Name="SettingsBaseClientMetaPlugin.dll" Source="..\..\Client\Plugins\SettingsBaseClient\release\SettingsBaseClientMetaPlugin.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginTestGitClient" Guid="e53f4cc0-753c-4f2b-a6aa-4fb13e59beb7">
+              <File Name="TestGitClient.dll" Source="..\..\Client\Plugins\TestGitClient\release\TestGitClient.dll" KeyPath="yes" />
             </Component>
             <Component Id="ClientPluginTextController" Guid="5cb298a2-9f72-417b-84db-9e046df02261">
               <File Name="TextController.dll" Source="..\..\Client\Plugins\TextController\release\TextController.dll" KeyPath="yes" />
@@ -115,13 +127,93 @@
             <File Name="Administration_en.qm" Source="..\..\Client\Plugins\Administration\Administration_en.qm" />
             <File Name="Administration_fr.qm" Source="..\..\Client\Plugins\Administration\Administration_fr.qm" />
           </Component>
-          <Component Id="TranslationsMainFrame" Guid="17549bbd-f16c-44d0-82eb-2dd7a649e47f">
-            <File Name="MainFrame_en.qm" Source="..\..\Client\Plugins\MainFrame\MainFrame_en.qm" />
-            <File Name="MainFrame_fr.qm" Source="..\..\Client\Plugins\MainFrame\MainFrame_fr.qm" />
+          <Component Id="TranslationsAttendance" Guid="c8768fd2-e8e9-487c-9417-94e2666a08af">
+            <File Name="Attendance_en.qm" Source="..\..\Client\Plugins\Attendance\Attendance_en.qm" />
+            <File Name="Attendance_fr.qm" Source="..\..\Client\Plugins\Attendance\Attendance_fr.qm" />
+          </Component>
+          <Component Id="TranslationsAudioController" Guid="26d834b4-34c0-4b82-b6ac-37ef3cbff1b8">
+            <File Name="AudioController_en.qm" Source="..\..\Client\Plugins\AudioController\AudioController_en.qm" />
+            <File Name="AudioController_fr.qm" Source="..\..\Client\Plugins\AudioController\AudioController_fr.qm" />
+          </Component>
+          <Component Id="TranslationsCalendar" Guid="caff814f-0af2-40dd-b6c5-19fd927cc253">
+            <File Name="Calendar_en.qm" Source="..\..\Client\Plugins\Calendar\Calendar_en.qm" />
+            <File Name="Calendar_fr.qm" Source="..\..\Client\Plugins\Calendar\Calendar_fr.qm" />
           </Component>
           <Component Id="TranslationsCourse" Guid="b617f3c4-8f8c-48b9-84a4-0afcddd0dd6a">
             <File Name="Course_en.qm" Source="..\..\Client\Plugins\Course\Course_en.qm" />
             <File Name="Course_fr.qm" Source="..\..\Client\Plugins\Course\Course_fr.qm" />
+          </Component>
+          <Component Id="TranslationsEditor" Guid="e1c1df87-049b-4f27-939d-e5c556c6f4d8">
+            <File Name="Editor_en.qm" Source="..\..\Client\Plugins\Editor\Editor_en.qm" />
+            <File Name="Editor_fr.qm" Source="..\..\Client\Plugins\Editor\Editor_fr.qm" />
+          </Component>
+          <Component Id="TranslationsEventBaseClient" Guid="00c62b93-d0ef-41ed-9567-2db73e7a03ad">
+            <File Name="EventBaseClientMetaPlugin_en.qm" Source="..\..\Client\Plugins\EventBaseClient\EventBaseClientMetaPlugin_en.qm" />
+            <File Name="EventBaseClientMetaPlugin_fr.qm" Source="..\..\Client\Plugins\EventBaseClient\EventBaseClientMetaPlugin_fr.qm" />
+          </Component>
+          <Component Id="TranslationsFileBaseClient" Guid="d6be9e40-4abc-428e-8277-2e6130958f80">
+            <File Name="FileBaseClientMetaPlugin_en.qm" Source="..\..\Client\Plugins\FileBaseClient\FileBaseClientMetaPlugin_en.qm" />
+            <File Name="FileBaseClientMetaPlugin_fr.qm" Source="..\..\Client\Plugins\FileBaseClient\FileBaseClientMetaPlugin_fr.qm" />
+          </Component>
+          <Component Id="TranslationsImageController" Guid="d24fdf64-0fb9-40a1-88d4-9f66193c23b8">
+            <File Name="ImageController_en.qm" Source="..\..\Client\Plugins\ImageController\ImageController_en.qm" />
+            <File Name="ImageController_fr.qm" Source="..\..\Client\Plugins\ImageController\ImageController_fr.qm" />
+          </Component>
+          <Component Id="TranslationsLessonManager" Guid="dee4623d-d4dd-4401-aaf4-1f95562739b3">
+            <File Name="LessonManager_en.qm" Source="..\..\Client\Plugins\LessonManager\LessonManager_en.qm" />
+            <File Name="LessonManager_fr.qm" Source="..\..\Client\Plugins\LessonManager\LessonManager_fr.qm" />
+          </Component>
+          <Component Id="TranslationsMail" Guid="5ddd2241-68d0-45c5-a4ae-a1b9a9e2b82e">
+            <File Name="Mail_en.qm" Source="..\..\Client\Plugins\Mail\Mail_en.qm" />
+            <File Name="Mail_fr.qm" Source="..\..\Client\Plugins\Mail\Mail_fr.qm" />
+          </Component>
+          <Component Id="TranslationsMainFrame" Guid="17549bbd-f16c-44d0-82eb-2dd7a649e47f">
+            <File Name="MainFrame_en.qm" Source="..\..\Client\Plugins\MainFrame\MainFrame_en.qm" />
+            <File Name="MainFrame_fr.qm" Source="..\..\Client\Plugins\MainFrame\MainFrame_fr.qm" />
+          </Component>
+          <Component Id="TranslationsMarks" Guid="581b1fe5-fc8f-4f6c-8fda-1dbfb0ab26ec">
+            <File Name="Marks_en.qm" Source="..\..\Client\Plugins\Marks\Marks_en.qm" />
+            <File Name="Marks_fr.qm" Source="..\..\Client\Plugins\Marks\Marks_fr.qm" />
+          </Component>
+          <Component Id="TranslationsMediaController" Guid="c4f1b235-eab6-4636-aca7-e4de893d0927">
+            <File Name="MediaController_en.qm" Source="..\..\Client\Plugins\MediaController\MediaController_en.qm" />
+            <File Name="MediaController_fr.qm" Source="..\..\Client\Plugins\MediaController\MediaController_fr.qm" />
+          </Component>
+          <Component Id="TranslationsNews" Guid="6805690a-4ad1-4a4b-b919-b9d5ea32a8bb">
+            <File Name="News_en.qm" Source="..\..\Client\Plugins\News\News_en.qm" />
+            <File Name="News_fr.qm" Source="..\..\Client\Plugins\News\News_fr.qm" />
+          </Component>
+          <Component Id="TranslationsPdfController" Guid="c6338b74-d07f-432f-bda7-38fae387cc52">
+            <File Name="PdfController_en.qm" Source="..\..\Client\Plugins\PdfController\PdfController_en.qm" />
+            <File Name="PdfController_fr.qm" Source="..\..\Client\Plugins\PdfController\PdfController_fr.qm" />
+          </Component>
+          <Component Id="TranslationsPdfDisplayer" Guid="1bd7350a-b8b3-4646-8be0-8cecfa7b5608">
+            <File Name="PdfDisplayer_en.qm" Source="..\..\Client\Plugins\PdfDisplayer\PdfDisplayer_en.qm" />
+            <File Name="PdfDisplayer_fr.qm" Source="..\..\Client\Plugins\PdfDisplayer\PdfDisplayer_fr.qm" />
+          </Component>
+          <Component Id="TranslationsPdfEditor" Guid="443f93d9-7f1c-4ac6-a45e-744350f46696">
+            <File Name="PdfEditor_en.qm" Source="..\..\Client\Plugins\PdfEditor\PdfEditor_en.qm" />
+            <File Name="PdfEditor_fr.qm" Source="..\..\Client\Plugins\PdfEditor\PdfEditor_fr.qm" />
+          </Component>
+          <Component Id="TranslationsSettingsBaseClient" Guid="572255b4-7ecb-466b-85d6-5c2fabd0044f">
+            <File Name="SettingsBaseClientMetaPlugin_en.qm" Source="..\..\Client\Plugins\SettingsBaseClient\SettingsBaseClientMetaPlugin_en.qm" />
+            <File Name="SettingsBaseClientMetaPlugin_fr.qm" Source="..\..\Client\Plugins\SettingsBaseClient\SettingsBaseClientMetaPlugin_fr.qm" />
+          </Component>
+          <Component Id="TranslationsTestGitClient" Guid="2b044fab-e26c-4e85-b34f-60e31c5e518c">
+            <File Name="TestGitClient_en.qm" Source="..\..\Client\Plugins\TestGitClient\TestGitClient_en.qm" />
+            <File Name="TestGitClient_fr.qm" Source="..\..\Client\Plugins\TestGitClient\TestGitClient_fr.qm" />
+          </Component>
+          <Component Id="TranslationsTextController" Guid="22ca676b-c287-4555-a7ce-61df6ff5c6eb">
+            <File Name="TextController_en.qm" Source="..\..\Client\Plugins\TextController\TextController_en.qm" />
+            <File Name="TextController_fr.qm" Source="..\..\Client\Plugins\TextController\TextController_fr.qm" />
+          </Component>
+          <Component Id="TranslationsTreeBaseClient" Guid="d9daece1-79bb-4c38-8845-9f8769c4f02b">
+            <File Name="TreeBaseClientMetaPlugin_en.qm" Source="..\..\Client\Plugins\TreeBaseClient\TreeBaseClientMetaPlugin_en.qm" />
+            <File Name="TreeBaseClientMetaPlugin_fr.qm" Source="..\..\Client\Plugins\TreeBaseClient\TreeBaseClientMetaPlugin_fr.qm" />
+          </Component>
+          <Component Id="TranslationsUserBaseClient" Guid="ee4ae21e-bf45-41d0-b71b-794b3b129d88">
+            <File Name="UserBaseClientMetaPlugin_en.qm" Source="..\..\Client\Plugins\UserBaseClient\UserBaseClientMetaPlugin_en.qm" />
+            <File Name="UserBaseClientMetaPlugin_fr.qm" Source="..\..\Client\Plugins\UserBaseClient\UserBaseClientMetaPlugin_fr.qm" />
           </Component>
         </Directory>
       </Directory>
@@ -156,15 +248,16 @@
 		
 		<Feature Id="ClientMainExeFeature" Title="Horus" Level="1" ConfigurableDirectory='INSTALLDIR'>
 			<ComponentRef Id="ClientMainExe" />
-			<ComponentRef Id="HorusConfFile" />
+      <ComponentRef Id="TranslationsCore" />
+      <ComponentRef Id="ClientPluginUserBaseClient" />
+      <ComponentRef Id="TranslationsUserBaseClient" />
+      <ComponentRef Id="ClientPluginTreeBaseClient" />
+      <ComponentRef Id="TranslationsTreeBaseClient" />
+      <ComponentRef Id="HorusConfFile" />
 			<ComponentRef Id="QtCore4" />
 			<ComponentRef Id="QtGui4" />
       <ComponentRef Id="QtNetwork4" />
-      <ComponentRef Id="QtXml4" />
       <ComponentRef Id="OpenSSL" />
-      <ComponentRef Id="TranslationsCore" />
-      <ComponentRef Id="ClientPluginUserBaseClient" />
-      <ComponentRef Id="ClientPluginTreeBaseClient" />
       <Feature Id="ClientShortcutsFeature" Title ="!(loc.ClientMenuShortcutsTitle)" Level="1">
 				<ComponentRef Id="ClientMenuShortcut"/>
 			</Feature>
@@ -172,42 +265,71 @@
 				<ComponentRef Id="ClientDesktopShortcut"/>
 			</Feature>
 			<Feature Id="ClientPlugginsFeature" Title="!(loc.PluginsTitle)" Level="1" Absent="disallow" ConfigurableDirectory="PLUGINDIR">
-				
-				<Feature Id="ClientMainFramePluginFeature" Title="!(loc.MainFrameTitle)" Level="1" Absent="disallow">
-					<ComponentRef Id="ClientPluginMainFrame" />
-          <ComponentRef Id="TranslationsMainFrame" />
-        </Feature>
-				<Feature Id="ClientCoursePluginFeature" Title="!(loc.CourseTitle)" Level="1">
-          <ComponentRef Id="ClientPluginAudioController" />
-          <ComponentRef Id="ClientPluginCourse" />
-          <ComponentRef Id="ClientPluginFileBaseClient" />
-          <ComponentRef Id="ClientPluginLessonManager" />
-          <ComponentRef Id="ClientPluginTextController" />
-          <ComponentRef Id="ClientPluginImageController" />
-          <ComponentRef Id="ClientPluginMediaController" />
-          <ComponentRef Id="ClientPluginPdfController" />
-          <ComponentRef Id="ClientPluginPdfDisplayer" />
-          <ComponentRef Id="ClientPluginPdfEditor" />
-          <ComponentRef Id="QtPhonon4" />
-          <ComponentRef Id="Poppler" />
-          <ComponentRef Id="TranslationsCourse" />
-        </Feature>
-        <Feature Id="ClientAdminPluginFeature" Title="!(loc.AdminTitle)" Level="1">
+
+        <Feature Id="ClientAdministrationPluginFeature" Title="!(loc.AdministrationTitle)" Level="1">
           <ComponentRef Id="ClientPluginAdministration" />
           <ComponentRef Id="TranslationsAdministration" />
-        </Feature>
-        <Feature Id="ClientAttendancePluginFeature" Title="!(loc.AttendanceTitle)" Level="1">
           <ComponentRef Id="ClientPluginAttendance" />
-        </Feature>
-        <Feature Id="ClientEditorPluginFeature" Title="!(loc.EditorTitle)" Level="1">
-          <ComponentRef Id="ClientPluginEditor" />
-        </Feature>
-        <Feature Id="ClientMarksPluginFeature" Title="!(loc.MarksTitle)" Level="1">
+          <ComponentRef Id="TranslationsAttendance" />
           <ComponentRef Id="ClientPluginMarks" />
+          <ComponentRef Id="TranslationsMarks" />
+        </Feature>
+        <Feature Id="ClientCalendarPluginFeature" Title="!(loc.CalendarTitle)" Level="1">
+          <ComponentRef Id="ClientPluginCalendar" />
+          <ComponentRef Id="TranslationsCalendar" />
+          <ComponentRef Id="ClientPluginEventBaseClient" />
+          <ComponentRef Id="TranslationsEventBaseClient" />
+        </Feature>
+        <Feature Id="ClientLibraryPluginFeature" Title="!(loc.LibraryTitle)" Level="1">
+          <ComponentRef Id="ClientPluginFileBaseClient" />
+          <ComponentRef Id="TranslationsFileBaseClient" />
+        </Feature>
+        <Feature Id="ClientCoursePluginFeature" Title="!(loc.CourseTitle)" Level="1">
+          <ComponentRef Id="ClientPluginAudioController" />
+          <ComponentRef Id="TranslationsAudioController" />
+          <ComponentRef Id="ClientPluginCourse" />
+          <ComponentRef Id="TranslationsCourse" />
+          <ComponentRef Id="ClientPluginEditor" />
+          <ComponentRef Id="TranslationsEditor" />
+          <ComponentRef Id="ClientPluginFileBaseClient" />
+          <ComponentRef Id="TranslationsFileBaseClient" />
+          <ComponentRef Id="ClientPluginImageController" />
+          <ComponentRef Id="TranslationsImageController" />
+          <ComponentRef Id="ClientPluginLessonManager" />
+          <ComponentRef Id="TranslationsLessonManager" />
+          <ComponentRef Id="ClientPluginMediaController" />
+          <ComponentRef Id="TranslationsMediaController" />
+          <ComponentRef Id="ClientPluginPdfController" />
+          <ComponentRef Id="TranslationsPdfController" />
+          <ComponentRef Id="ClientPluginPdfDisplayer" />
+          <ComponentRef Id="TranslationsPdfDisplayer" />
+          <ComponentRef Id="ClientPluginPdfEditor" />
+          <ComponentRef Id="TranslationsPdfEditor" />
+          <ComponentRef Id="ClientPluginTextController" />
+          <ComponentRef Id="TranslationsTextController" />
+          <ComponentRef Id="QtPhonon4" />
+          <ComponentRef Id="Poppler" />
+          <ComponentRef Id="QtXml4" />
         </Feature>
         <Feature Id="ClientMailPluginFeature" Title="!(loc.MailTitle)" Level="1">
           <ComponentRef Id="ClientPluginMail" />
+          <ComponentRef Id="TranslationsMail" />
           <ComponentRef Id="ClientPluginSettingsBaseClient" />
+          <ComponentRef Id="TranslationsSettingsBaseClient" />
+        </Feature>
+        <Feature Id="ClientMainFramePluginFeature" Title="!(loc.MainFrameTitle)" Level="1" Absent="disallow">
+					<ComponentRef Id="ClientPluginMainFrame" />
+          <ComponentRef Id="TranslationsMainFrame" />
+          <ComponentRef Id="ClientPluginSettingsBaseClient" />
+          <ComponentRef Id="TranslationsSettingsBaseClient" />
+        </Feature>
+        <Feature Id="ClientNewsPluginFeature" Title="!(loc.NewsTitle)" Level="1">
+          <ComponentRef Id="ClientPluginNews" />
+          <ComponentRef Id="TranslationsNews" />
+        </Feature>
+        <Feature Id="ClientTestGitClientPluginFeature" Title="!(loc.TestGitClientTitle)" Level="1">
+          <ComponentRef Id="ClientPluginTestGitClient" />
+          <ComponentRef Id="TranslationsTestGitClient" />
         </Feature>
       </Feature>
 		</Feature>
