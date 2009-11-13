@@ -120,7 +120,7 @@ public:
 	uint bytes_received;
 	//QString response;
 	//QString responseLine;
-	uint mails_to_read;
+        uint mails_to_read;
 	uint bytes_to_read;
 	bool firstLine;
 	bool readData;
