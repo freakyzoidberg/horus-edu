@@ -84,7 +84,13 @@ void								MainFrameWidget::updateSettings()
 	SettingsData					*settings;
 
 	settings = _pluginManager->findPlugin<SettingsDataPlugin *>()->settings("MainBoard");
-	settings->setValue("Left Widget Number", QVariant());
+	settings->setValue("Left Widget Number", QVariant(leftLayout->count()));
+	settings->setValue("Right Widget Number", QVariant(rightLayout->count()));
+	for (int i = 0; i < leftLayout->count(); i++)
+		settings->setValue("Left Widget " + QString::number(i), QVariant(qobject_cast<DragingWidget *>(leftLayout->itemAt(i)->widget())->_plugin->pluginName()));
+	for (int i = 0; i < rightLayout->count(); i++)
+		settings->setValue("Right Widget " + QString::number(i), QVariant(qobject_cast<DragingWidget *>(rightLayout->itemAt(i)->widget())->_plugin->pluginName()));
+	settings->save();
 }
 
 void								MainFrameWidget::updateInfos()

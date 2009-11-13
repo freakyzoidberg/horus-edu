@@ -31,6 +31,9 @@
             <File Name='ssleay32.dll' Source='CoreDLL/msvc2008/ssleay32.dll' />
             <File Name='libeay32.dll' Source='CoreDLL/msvc2008/libeay32.dll' />
           </Component>
+          <Component Id="QtPhonon4" Guid="2f6640c1-3eee-499f-8c90-8c8aee304676" KeyPath="yes">
+            <File Name='phonon4.dll' Source='CoreDLL/msvc2008/phonon4.dll' />
+          </Component>
           <Component Id='Poppler' Guid='9da8bbb2-409b-4ce0-a4e5-311da661898f'>
             <File Name='poppler-qt4.dll' Source='CoreDLL/msvc2008/poppler-qt4.dll' />
             <File Name='jpeg62.dll' Source='CoreDLL/msvc2008/jpeg62.dll' />
@@ -42,6 +45,9 @@
             </Component>
             <Component Id="ClientPluginAttendance" Guid="1de77829-65fe-4d02-8d88-eff0d76233c9">
               <File Name="Attendance.dll" Source="..\..\Client\Plugins\Attendance\release\Attendance.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginAudioController" Guid="23a9ce32-21ad-4474-ae4f-79f7a72eeb62">
+              <File Name="AudioController.dll" Source="..\..\Client\Plugins\AudioController\release\AudioController.dll" KeyPath="yes" />
             </Component>
             <Component Id="ClientPluginCourse" Guid="84aba3d2-2fd2-44a3-a6c8-991ae9254c2f">
 							<File Name="Course.dll" Source="..\..\Client\Plugins\Course\release\Course.dll" KeyPath="yes" />
@@ -66,6 +72,9 @@
             </Component>
             <Component Id="ClientPluginMarks" Guid="f12edb18-a3b5-4680-8a7b-440734be5926">
               <File Name="Marks.dll" Source="..\..\Client\Plugins\Marks\release\Marks.dll" KeyPath="yes" />
+            </Component>
+            <Component Id="ClientPluginMediaController" Guid="3183c437-82f9-478b-aae1-5601c3c2b63c">
+              <File Name="MediaController.dll" Source="..\..\Client\Plugins\MediaController\release\MediaController.dll" KeyPath="yes" />
             </Component>
             <Component Id="ClientPluginPdfController" Guid="ff005b4b-ca72-467d-b5a4-871ec27ba9ef">
               <File Name="PdfController.dll" Source="..\..\Client\Plugins\PdfController\release\PdfController.dll" KeyPath="yes" />
@@ -169,14 +178,17 @@
           <ComponentRef Id="TranslationsMainFrame" />
         </Feature>
 				<Feature Id="ClientCoursePluginFeature" Title="!(loc.CourseTitle)" Level="1">
+          <ComponentRef Id="ClientPluginAudioController" />
           <ComponentRef Id="ClientPluginCourse" />
           <ComponentRef Id="ClientPluginFileBaseClient" />
           <ComponentRef Id="ClientPluginLessonManager" />
           <ComponentRef Id="ClientPluginTextController" />
           <ComponentRef Id="ClientPluginImageController" />
+          <ComponentRef Id="ClientPluginMediaController" />
           <ComponentRef Id="ClientPluginPdfController" />
           <ComponentRef Id="ClientPluginPdfDisplayer" />
           <ComponentRef Id="ClientPluginPdfEditor" />
+          <ComponentRef Id="QtPhonon4" />
           <ComponentRef Id="Poppler" />
           <ComponentRef Id="TranslationsCourse" />
         </Feature>

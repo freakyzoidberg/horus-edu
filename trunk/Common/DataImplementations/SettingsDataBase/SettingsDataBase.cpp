@@ -81,7 +81,7 @@ quint8 SettingsDataBase::serverRead()
 quint8 SettingsDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO settings (user,plugin,scope,value,mtime) VALUES (?,?,?,?,?);");
+	query.prepare("INSERT INTO settings (user,part,scope,value,mtime) VALUES (?,?,?,?,?);");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
