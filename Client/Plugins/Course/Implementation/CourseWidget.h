@@ -10,42 +10,44 @@
 # include				"../../../../Common/TreeDataPlugin.h"
 # include				"../../../../Common/FileDataPlugin.h"
 # include				"../../../../Common/FileData.h"
+# include               "../../../../Common/UserData.h"
 
 # include				"WhiteBoard.h"
 # include				"Items.h"
 
-class                   CourseWidget : public QSplitter
+class                   CourseWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-						CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager);
+    CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager, UserData* user);
 
 private:
     void                buildCategoryTree();
 
-
 private slots:
-	void contextMenu(const QPoint& point);
-	void selectionChanged(QModelIndex current, QModelIndex previous);
-	void addDocument();
-	void addSection();
-	void addLesson();
+    void contextMenu(const QPoint& point);
+    void selectionChanged(QModelIndex current, QModelIndex previous);
+    void addDocument();
+    void addSection();
+    void addLesson();
 
 private:
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
-	WhiteBoardDataPlugin *whiteboardPlugin;
-	FileDataPlugin		*filePlugin;
-	LessonModel			*categoryModel;
+    WhiteBoardDataPlugin *whiteboardPlugin;
+    FileDataPlugin	*filePlugin;
+    LessonModel		*categoryModel;
     QTreeView           *categoryView;
-	WhiteBoard          *pageWidget;
+    WhiteBoard          *pageWidget;
     quint32             fileIndex;
     FileData            *lessonFile;
-	static QIcon		*lessonIcon;
-	static QIcon		*sectionIcon;
-	static QIcon		*documentIcon;
-	QModelIndex			currentIndex;
+    static QIcon        *lessonIcon;
+    static QIcon	*sectionIcon;
+    static QIcon	*documentIcon;
+    QModelIndex		currentIndex;
+    QSplitter           splitter;
+    UserData*           user;
 };
 
 #endif // __COURSEWIDGET_H__

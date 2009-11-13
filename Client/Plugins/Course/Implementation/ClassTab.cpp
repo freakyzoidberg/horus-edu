@@ -30,6 +30,7 @@ ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManage
 		_deleteButton = new QPushButton(tr("Delete this class"));
 		_createButton = new QPushButton(tr("Start a new class"));
 		QObject::connect(_createButton, SIGNAL(pressed()), this, SLOT(createNewWhiteboard()));
+                QObject::connect(_deleteButton, SIGNAL(pressed()), this, SLOT(deleteWhiteboard()));
 		sLayout->addWidget(_joinButton, 0, 1);
 		sLayout->addWidget(_deleteButton, 1, 1);
 		sLayout->addWidget(_createButton, 2, 1);
@@ -42,6 +43,7 @@ ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManage
 		sLayout->addWidget(_joinButton, 0, 1);
 		sLayout->addWidget(_info, 1, 1);
 	}
+        QObject::connect(_joinButton, SIGNAL(pressed()), this, SLOT(joinWhiteboard()));
 	_joinButton->setEnabled(false);
         sLayout->setMargin(2);
         sLayout->setSpacing(2);
@@ -76,11 +78,11 @@ void	ClassTab::createNewWhiteboard()
             WhiteBoardData* wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->whiteBoard(dialog.getNode());
             wbd->setSyncMode(WhiteBoardData::FULL_SYNC);
             wbd->save();
-            joinWhiteboard(wbd);
+            doJoinWhiteboard(wbd);
         }
 }
 
-void    ClassTab::joinWhiteboard(WhiteBoardData *wbd)
+void    ClassTab::doJoinWhiteboard(WhiteBoardData *wbd)
 {
     _layout->removeWidget(_selectWbWidget);
     _selectWbWidget->hide();
@@ -88,7 +90,7 @@ void    ClassTab::joinWhiteboard(WhiteBoardData *wbd)
     QGridLayout* wbLayout = new QGridLayout(_wbWidget);
     wbLayout->setMargin(0);
     wbLayout->setSpacing(0);
-    CourseWidget* widget = new CourseWidget(this, wbd, _pluginManager);
+    CourseWidget* widget = new CourseWidget(this, wbd, _pluginManager, _user);
     QPushButton* back = new QPushButton(tr("Leave this class"));
     wbLayout->addWidget(widget);
     wbLayout->addWidget(back);
@@ -104,4 +106,22 @@ void    ClassTab::leaveWhiteboard()
     delete _wbWidget;
     _layout->addWidget(_selectWbWidget, 0, 0);
     _selectWbWidget->show();
+}
+
+void    ClassTab::deleteWhiteboard()
+{
+    WhiteBoardData* wbdata = _wbListModel->getWhiteboard(_wbList->currentIndex());
+    if (wbdata)
+    {
+        wbdata->setStatus(Data::DELETING);
+    }
+}
+
+void    ClassTab::joinWhiteboard()
+{
+    WhiteBoardData* wbdata = _wbListModel->getWhiteboard(_wbList->currentIndex());
+    if (wbdata)
+    {
+        doJoinWhiteboard(wbdata);
+    }
 }
