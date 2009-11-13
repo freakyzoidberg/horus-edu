@@ -88,7 +88,7 @@ quint8 SettingsDataBase::serverCreate()
     query.addBindValue(_values);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
-    if ( ! query.exec() || ! query.next())
+    if ( ! query.exec())
 		return DATABASE_ERROR;
 
 	return NONE;
