@@ -74,7 +74,7 @@ if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 */
 
 QList<Mail*> panier;
-Pop_3 *servpop3 = new Pop_3("testzoidberg", "optrex42", "pop.free.fr");
+Pop_3 *servpop3 = new Pop_3(user->login(),user->login(), "localhost");
 servpop3->run();
 qDebug() << servpop3->getTotalmsg();
 if (servpop3->getTotalmsg() > 0)
@@ -90,7 +90,7 @@ if (panier.count() > 0)
 
         dmail->setContent(mail->getShowText());
 
-
+qDebug() << mail->from();
         dmail->setFrom(mail->from());
         qDebug() << mail->from();
         dmail->setSubject(mail->subject());
