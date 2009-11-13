@@ -20,7 +20,8 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus) const
 	if ((oldStatus != Data::EMPTY && oldStatus != Data::UPTODATE && oldStatus != Data::CACHED) ||
 		(newStatus != Data::UPDATING && newStatus != Data::CREATING && newStatus != Data::SAVING && newStatus != Data::DELETING))
 	{
-		qWarning() << tr("Data") << data << tr("try to chage status from") << (Data::DataStatus)oldStatus << tr("to") << (Data::DataStatus)newStatus << tr("which is not authorized.");
+		//hack for forum, must decomment
+		//qWarning() << tr("Data") << data << tr("try to chage status from") << (Data::DataStatus)oldStatus << tr("to") << (Data::DataStatus)newStatus << tr("which is not authorized.");
 		return;
 	}
 
@@ -36,7 +37,8 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 
 	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED && status != Data::ERROR)
 	{
-		qWarning() << tr("DataManagerClient received a status") << (Data::DataStatus)status << tr("which is not authorized.");
+		//hack for forum, must decomment
+		//qWarning() << tr("DataManagerClient received a status") << (Data::DataStatus)status << tr("which is not authorized.");
 		return;
 	}
 
@@ -101,7 +103,8 @@ void DataManagerClient::sendData(UserData*, Data* data) const
 
 	if (status != Data::UPDATING && status != Data::DELETING && status != Data::CREATING && status != Data::SAVING)
 	{
-		qWarning() << tr("Data") << data << tr("try to be send with status") << (Data::DataStatus)status << tr("which is not authorized.");
+		//hack for forum, must decomment
+		//qWarning() << tr("Data") << data << tr("try to be send with status") << (Data::DataStatus)status << tr("which is not authorized.");
 		return;
 	}
 
