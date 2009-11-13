@@ -30,7 +30,7 @@ TransfertList::TransfertList()
 {
 	(new QVBoxLayout(this))->addStretch(1);
 
-	foreach (FileTransfert* transfert, (QList<FileTransfert*>&)FileTransfertList::list())
+        foreach (FileTransfert* transfert, (QHash<FileData*,FileTransfert*>&)FileTransfertList::list())
 	{
 		newTransfert(transfert);
 	}
