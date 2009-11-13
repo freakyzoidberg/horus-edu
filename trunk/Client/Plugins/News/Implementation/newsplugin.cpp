@@ -17,7 +17,7 @@ NewsPlugin::NewsPlugin() :QWidget()
     proxy.setPassword("pDewqw3(");
     QNetworkProxy::setApplicationProxy(proxy);
     QWebView  *web = new QWebView();
-    web->setUrl(QUrl("http://news.google.com"));
+    web->setUrl(QUrl("https://www.horus-edu.net/"));
     web->setWindowTitle("News gogole");
     //web->show();
     QVBoxLayout *content = new QVBoxLayout();

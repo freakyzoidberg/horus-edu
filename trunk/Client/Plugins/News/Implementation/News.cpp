@@ -28,9 +28,7 @@ int           News::getOrder() const
 
 bool                News::canLoad() const
 {
-
-                return (true);
-
+	return (true);
 }
 
 void                News::load()

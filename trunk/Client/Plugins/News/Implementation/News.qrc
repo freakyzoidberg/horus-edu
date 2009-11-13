@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/Pictures" >
-        <file alias="icon" >Globe.png</file>
+        <file>Globe.png</file>
     </qresource>
 </RCC>
