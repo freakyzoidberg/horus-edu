@@ -81,6 +81,10 @@ void								MainFrameWidget::setStyle()
 
 void								MainFrameWidget::updateSettings()
 {
+	SettingsData					*settings;
+
+	settings = _pluginManager->findPlugin<SettingsDataPlugin *>()->settings("MainBoard");
+	settings->setValue("Left Widget Number", QVariant());
 }
 
 void								MainFrameWidget::updateInfos()
@@ -209,6 +213,7 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 		inserted->show();
 		//delete empty;
 		empty = 0;
+		updateSettings();
 	}
 }
 
@@ -248,4 +253,5 @@ void							MainFrameWidget::repopulateStuff()
 	foreach (SmallDisplayablePlugin *plugin, plugins)
 		if (stuff->findData(plugin->pluginName()) < 0)
 			stuff->addItem(plugin->getIcon(), plugin->getDisplayableName(), plugin->pluginName());
+	updateSettings();
 }
