@@ -46,6 +46,7 @@ NetworkManager::NetworkManager()
 
 	connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(recvPacket(QByteArray)), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
+        connect(PluginManagerClient::instance(), SIGNAL(sendPacket(QByteArray)), this, SLOT(sendPacket(QByteArray)));
 }
 
 void NetworkManager::tryToConnect()

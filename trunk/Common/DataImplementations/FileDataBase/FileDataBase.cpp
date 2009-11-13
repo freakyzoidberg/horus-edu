@@ -62,7 +62,7 @@ void FileDataBase::dataFromStream(QDataStream& s)
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
 #ifdef HORUS_CLIENT
 	//auto download
-    if (hash.isEmpty() || hash.isEmpty() || hash != _hash)
+    if (hash.isEmpty() || _hash.isEmpty() || hash != _hash)
         download();
 #endif
     _hash = hash;
