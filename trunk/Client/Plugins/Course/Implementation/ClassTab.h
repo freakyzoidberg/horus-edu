@@ -21,8 +21,13 @@ public:
 public slots:
         void	wbSelectionChanged(QModelIndex current, QModelIndex previous);
         void	createNewWhiteboard();
-        void    joinWhiteboard(WhiteBoardData*);
+
         void    leaveWhiteboard();
+        void    deleteWhiteboard();
+        void    joinWhiteboard();
+
+private:
+        void    doJoinWhiteboard(WhiteBoardData*);
 
 private:
 	PluginManager*	_pluginManager;

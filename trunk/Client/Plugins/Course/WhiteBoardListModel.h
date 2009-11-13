@@ -12,8 +12,9 @@ class WhiteBoardListModel : public QAbstractListModel
 public:
 	WhiteBoardListModel(PluginManager *pluginManager, UserData* user);
 
-	int			rowCount(const QModelIndex& parent = QModelIndex()) const;
-	QVariant	data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+        int                 rowCount(const QModelIndex& parent = QModelIndex()) const;
+        QVariant            data(const QModelIndex& index, int role = Qt::DisplayRole) const;
+        WhiteBoardData*     getWhiteboard(const QModelIndex& index);
 
 private:
 	WhiteBoardDataPlugin*	_wbDataPlugin;
