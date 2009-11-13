@@ -11,7 +11,7 @@
 #include <QHostInfo>
 #include <time.h>
 #include <QCryptographicHash>
-
+#include <QNetworkProxy>
 
 static int dateswap(QString form, uint unixtime )
 {
@@ -68,6 +68,8 @@ static QString createBoundary()
 
 smtp::smtp(const QString &smtpServer, const QString &from, const QStringList &to, const QString &subject, const QString &body)
 {
+
+    qDebug() << "trying " << smtpServer;
     setSmtpServer(smtpServer);
     setPort(25);
     setTimeout(30000);
@@ -347,21 +349,32 @@ bool smtp::send()
     if(_socket) {
         delete _socket;
     }
-
+setTimeout(300000);
     _socket = _ssl ? new QSslSocket(this) : new QTcpSocket(this);
     //_socket=new QTcpSocket(this);
     connect( _socket, SIGNAL( error( QAbstractSocket::SocketError) ), this, SLOT( errorReceived( QAbstractSocket::SocketError ) ) );
+/*
     connect( _socket, SIGNAL( proxyAuthenticationRequired(const QNetworkProxy & , QAuthenticator *) ), this, SLOT(proxyAuthentication(const QNetworkProxy &, QAuthenticator * ) ) );
 
+    QNetworkProxy proxy;
+    proxy.setType(QNetworkProxy::Socks5Proxy);
+    proxy.setHostName("proxies.epitech.net");
+    proxy.setPort(1080);
+    proxy.setUser("bertho_r");
+    proxy.setPassword("pDewqw3(");
+    QNetworkProxy::setApplicationProxy(proxy);
+    _socket.data()->setProxy(proxy);
+*/
     bool auth = ! _login.isEmpty();
-
+qDebug() << "Connecting" << _smtpServer << ":"<< _port << "time out :"<< _timeout;
     _socket->connectToHost( _smtpServer, _port );
 
     if( !_socket->waitForConnected( _timeout ) ) {
+        qDebug() << _socket->errorString();
         error("Time out connecting host");
         return false;
     }
-
+qDebug() << "Connected";
     if(!read("220")) {
         return false;
     }
@@ -398,7 +411,7 @@ qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " manage ssl");
         }
         qDebug ("*** %s,%d : %s", __FILE__, __LINE__, " manage auth");
     }
-
+qDebug() << "From"  << _from;
     if( !sendCommand(QString::fromLatin1("MAIL FROM:<") +_from + QString::fromLatin1(">"), "250") ) {
         return false;
     }
@@ -450,7 +463,7 @@ bool smtp::read(const QString &waitfor)
     QString prefix = responseLine.left(3);
     bool isOk = (prefix == waitfor);
     if(!isOk) {
-        error("waiting for " + waitfor + ", received " + prefix);
+        error("waiting for " + waitfor + ", received " + prefix + " in "+_lastResponse);
     }
 
     return isOk;
@@ -459,6 +472,7 @@ bool smtp::read(const QString &waitfor)
 
 bool smtp::sendCommand(const QString &cmd, const QString &waitfor)
 {
+    qDebug() << "SMTP: "<< cmd;
     QTextStream t(_socket);
     t << cmd + "\r\n";
     t.flush();
