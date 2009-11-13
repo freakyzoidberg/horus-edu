@@ -17,7 +17,8 @@ SOURCES += Implementation/calendar.cpp \
     Implementation/TaskSmallDisplayable.cpp \
     Implementation/EventSmallDisplayable.cpp \
     label.cpp \
-    Implementation/panel.cpp
+    Implementation/panel.cpp \
+    Implementation/eventoncalendarwidget.cpp
 HEADERS += Implementation/calendar.h \
     Implementation/CalendarMetaPlugin.h \
     ../../../Common/EventData.h \
@@ -44,7 +45,8 @@ HEADERS += Implementation/calendar.h \
     Implementation/daywidget.h \
     ../MainFrame/SmallDisplayablePlugin.h \
     label.h \
-    Implementation/panel.h
+    Implementation/panel.h \
+    Implementation/eventoncalendarwidget.h
 RESOURCES += Calendar.qrc
 TRANSLATIONS = Calendar_en.ts \
 			   Calendar_fr.ts

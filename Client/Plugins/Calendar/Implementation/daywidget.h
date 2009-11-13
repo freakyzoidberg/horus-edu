@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QDate>
+#include <QFrame>
 
 #include "addeventwindows.h"
 

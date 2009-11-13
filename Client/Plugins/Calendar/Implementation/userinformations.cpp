@@ -23,5 +23,5 @@ void    UserInformations::setInformations(UserData *user)
     _firstname->setText(user->name());
     _name->setText(user->surname());
     _phone->setText(user->phone());
-    _picture->setPixmap(QPixmap(":/q_silhouette.gif")); //user->picture() qd yen aura une
+    _picture->setPixmap(QPixmap(":/anonymous.png")); //user->picture() qd yen aura une
 }

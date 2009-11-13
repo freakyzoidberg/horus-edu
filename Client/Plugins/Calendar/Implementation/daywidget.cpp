@@ -2,7 +2,7 @@
 
 #include "daywidget.h"
 
-DayWidget::DayWidget(QDate & date, int startHour) : QWidget()
+DayWidget::DayWidget(QDate & date, int startHour)
 {
     _date = date;
     _startHour = startHour;
