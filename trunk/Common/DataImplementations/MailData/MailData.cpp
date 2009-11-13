@@ -75,7 +75,7 @@ quint8 MailData::serverSave()
     QString qlogin = QSettings().value("MAIL/MAIL_LOGIN", ".").toString();
 qDebug() << "Je vais creer un smpt";
 qDebug() << this->_content;
-     smtp *test1 = new smtp(host, _plugin->pluginManager->currentUser()->login()+"@"+domain,this->_to , this->_subject, this->_content);
+     smtp *test1 = new smtp(host, _plugin->pluginManager->currentUser()->login(),this->_to , this->_subject, this->_content);
 
      if (_cc.count() > 0)
          test1->setCc(_cc);
