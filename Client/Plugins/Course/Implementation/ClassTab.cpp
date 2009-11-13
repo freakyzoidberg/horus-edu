@@ -1,5 +1,6 @@
 #include "ClassTab.h"
 #include "CreateWhiteboardDialog.h"
+#include "CourseWidget.h"
 
 ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManager(pluginManager), _user(user)
 {
@@ -42,13 +43,15 @@ ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManage
 		sLayout->addWidget(_info, 1, 1);
 	}
 	_joinButton->setEnabled(false);
+        sLayout->setMargin(2);
+        sLayout->setSpacing(2);
 	sLayout->setColumnStretch(0, 2);
 	sLayout->setColumnStretch(1, 1);
 
 	_layout->addWidget(_selectWbWidget, 0, 0);
 }
 
-void	ClassTab::wbSelectionChanged(QModelIndex old, QModelIndex current)
+void	ClassTab::wbSelectionChanged(QModelIndex current, QModelIndex previous)
 {
 	if (current.isValid())
 	{
@@ -67,6 +70,38 @@ void	ClassTab::wbSelectionChanged(QModelIndex old, QModelIndex current)
 void	ClassTab::createNewWhiteboard()
 {
 	CreateWhiteboardDialog dialog(_pluginManager);
-
 	dialog.exec();
+        if (dialog.result() == QDialog::Accepted)
+        {
+            WhiteBoardData* wbd = _pluginManager->findPlugin<WhiteBoardDataPlugin *>()->whiteBoard(dialog.getNode());
+            wbd->setSyncMode(WhiteBoardData::FULL_SYNC);
+            wbd->save();
+            joinWhiteboard(wbd);
+        }
+}
+
+void    ClassTab::joinWhiteboard(WhiteBoardData *wbd)
+{
+    _layout->removeWidget(_selectWbWidget);
+    _selectWbWidget->hide();
+    _wbWidget = new QWidget;
+    QGridLayout* wbLayout = new QGridLayout(_wbWidget);
+    wbLayout->setMargin(0);
+    wbLayout->setSpacing(0);
+    CourseWidget* widget = new CourseWidget(this, wbd, _pluginManager);
+    QPushButton* back = new QPushButton(tr("Leave this class"));
+    wbLayout->addWidget(widget);
+    wbLayout->addWidget(back);
+    widget->show();
+    back->show();
+    connect(back, SIGNAL(clicked()), this, SLOT(leaveWhiteboard()));
+    _layout->addWidget(_wbWidget, 0, 0);
+}
+
+void    ClassTab::leaveWhiteboard()
+{
+    _layout->removeWidget(_wbWidget);
+    delete _wbWidget;
+    _layout->addWidget(_selectWbWidget, 0, 0);
+    _selectWbWidget->show();
 }

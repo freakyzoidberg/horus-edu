@@ -19,14 +19,17 @@ public:
 	ClassTab(PluginManager *pluginManager, UserData* user);
 
 public slots:
-	void			wbSelectionChanged(QModelIndex old, QModelIndex current);
-	void			createNewWhiteboard();
+        void	wbSelectionChanged(QModelIndex current, QModelIndex previous);
+        void	createNewWhiteboard();
+        void    joinWhiteboard(WhiteBoardData*);
+        void    leaveWhiteboard();
 
 private:
 	PluginManager*	_pluginManager;
 	UserData*		_user;
 	QGridLayout*	_layout;
 	QWidget*		_selectWbWidget;
+        QWidget*                _wbWidget;
 	QListView*		_wbList;
 	QPushButton*	_joinButton;
 	QPushButton*	_createButton;

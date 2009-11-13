@@ -3,8 +3,12 @@
 
 #include <QDialog>
 #include <QModelIndex>
+#include <QSortFilterProxyModel>
+#include <QAbstractItemModel>
+#include <QPushButton>
 
 #include "../../../../Common/PluginManager.h"
+#include "../../../../Common/TreeData.h"
 
 class CreateWhiteboardDialog : public QDialog
 {
@@ -12,11 +16,19 @@ class CreateWhiteboardDialog : public QDialog
 
 public:
 	CreateWhiteboardDialog(PluginManager *pluginManager);
+        TreeData*   getNode() { return _node; }
 
 public slots:
 	void	selectionChanged(QModelIndex,QModelIndex);
 	void	startHere();
 	void	cancel();
+
+private:
+        TreeData*   _node;
+        QAbstractItemModel* _model;
+        QSortFilterProxyModel* _proxyModel;
+        QPushButton *_cancel;
+        QPushButton *_start;
 };
 
 #endif // CREATEWHITEBOARDDIALOG_H

@@ -4,40 +4,42 @@
 #include <QTreeView>
 #include <QDebug>
 #include <QSizePolicy>
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include <QMenu>
 
 CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager) : QSplitter(parent)
 {
     QWidget *leftPane;
-    QVBoxLayout *layout;
+    QGridLayout *layout;
 
+    setHandleWidth(2);
     lessonPlugin = pluginManager->findPlugin<ILessonManager *>("LessonManager");
-	treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
-	whiteboardPlugin = pluginManager->findPlugin<WhiteBoardDataPlugin*>();
-	filePlugin = pluginManager->findPlugin<FileDataPlugin*>();
-	QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
-	QHash<QString, IDocumentController *> controllers;
-	foreach (IDocumentController *controller, controllersList)
-		controllers[controller->getSupportedType()] = controller;
+    treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
+    whiteboardPlugin = pluginManager->findPlugin<WhiteBoardDataPlugin*>();
+    filePlugin = pluginManager->findPlugin<FileDataPlugin*>();
+    QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
+    QHash<QString, IDocumentController *> controllers;
+    foreach (IDocumentController *controller, controllersList)
+    controllers[controller->getSupportedType()] = controller;
     this->buildCategoryTree();
     leftPane = new QWidget(this);
     this->addWidget(leftPane);
-    layout = new QVBoxLayout(leftPane);
+    layout = new QGridLayout(leftPane);
+    layout->setMargin(0);
+    layout->setSpacing(0);
     layout->addWidget(this->categoryView);
-	layout->setMargin(0);
     leftPane->setLayout(layout);
-	//TODO, chage 0 by the selected witheboard
-	this->pageWidget = new WhiteBoard(wbd, controllers, this->categoryModel);
+//TODO, chage 0 by the selected witheboard
+    this->pageWidget = new WhiteBoard(wbd, controllers, this->categoryModel);
     this->addWidget(this->pageWidget);
-	this->setStretchFactor(0, 0);
-	this->setStretchFactor(1, 3);
-	if (lessonIcon == NULL)
-		lessonIcon = new QIcon(":/LessonIcon.png");
-	if (sectionIcon == NULL)
-		sectionIcon = new QIcon(":/SectionIcon.png");
-	if (documentIcon == NULL)
-		documentIcon = new QIcon(":/DocumentIcon.png");
+    this->setStretchFactor(0, 0);
+    this->setStretchFactor(1, 3);
+    if (lessonIcon == NULL)
+        lessonIcon = new QIcon(":/LessonIcon.png");
+    if (sectionIcon == NULL)
+        sectionIcon = new QIcon(":/SectionIcon.png");
+    if (documentIcon == NULL)
+        documentIcon = new QIcon(":/DocumentIcon.png");
 }
 
 

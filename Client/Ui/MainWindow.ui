@@ -152,6 +152,13 @@ QToolButton:checked
 background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:1 rgba(255, 255, 255, 255)); 
 border: 1px solid black; 
 } 
+
+QSplitter
+{
+	margin: 0px;
+	padding: 2px;
+}
+
 QListView 
 { 
 background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
@@ -306,7 +313,7 @@ QFrame#Content
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>29</height>
+     <height>27</height>
     </rect>
    </property>
   </widget>

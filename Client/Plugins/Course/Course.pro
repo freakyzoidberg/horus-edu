@@ -1,8 +1,7 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-04-04T00:50:57
 # -------------------------------------------------
-QT += xml \
-	phonon
+QT += xml
 TARGET = Course
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT

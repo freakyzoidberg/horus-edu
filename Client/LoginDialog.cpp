@@ -42,7 +42,7 @@ LoginDialog::LoginDialog()
 	connect(plug, SIGNAL(loadProgressChange(int)), loadBar, SLOT(setValue(int)));
 	QMetaObject::invokeMethod(plug, "loadPlugins", Qt::QueuedConnection);
 
-	setStyleSheet("LoginDialogItem:hover { background-color: rgba(0, 0, 0, 32); }");
+        setStyleSheet("LoginDialogItem:hover { background-color: rgba(0, 0, 0, 16); }");
 
 	exec();
 }

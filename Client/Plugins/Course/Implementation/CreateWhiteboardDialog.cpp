@@ -1,23 +1,21 @@
 #include <QTreeView>
-#include <QSortFilterProxyModel>
 #include <QGridLayout>
-#include <QPushButton>
 
 #include "CreateWhiteboardDialog.h"
 #include "WhiteBoardModel.h"
 
-CreateWhiteboardDialog::CreateWhiteboardDialog(PluginManager *pluginManager)
+CreateWhiteboardDialog::CreateWhiteboardDialog(PluginManager *pluginManager) : _node(NULL)
 {
 	setWindowTitle(tr("Start a new class"));
 	QGridLayout* dlgLayout = new QGridLayout(this);
 
 	QTreeView* treeView = new QTreeView();
-	QAbstractItemModel* model = new WhiteBoardModel(pluginManager);
-	QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
-	proxyModel->setFilterRegExp(QRegExp("\\b(ROOT|CLASSES|GRADE|SUBJECT|WHITEBOARD)\\b", Qt::CaseSensitive, QRegExp::RegExp));
-	proxyModel->setFilterKeyColumn(1);
-	proxyModel->setSourceModel(model);
-	treeView->setModel(proxyModel);
+        _model = new WhiteBoardModel(pluginManager);
+        _proxyModel = new QSortFilterProxyModel(this);
+        _proxyModel->setFilterRegExp(QRegExp("\\b(ROOT|CLASSES|GRADE|SUBJECT|WHITEBOARD)\\b", Qt::CaseSensitive, QRegExp::RegExp));
+        _proxyModel->setFilterKeyColumn(1);
+        _proxyModel->setSourceModel(_model);
+        treeView->setModel(_proxyModel);
 	treeView->setAnimated(true);
 	treeView->setAutoExpandDelay(100);
 	treeView->setRootIsDecorated(false);
@@ -27,27 +25,39 @@ CreateWhiteboardDialog::CreateWhiteboardDialog(PluginManager *pluginManager)
 	QObject::connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(selectionChanged(QModelIndex,QModelIndex)));
 
 	dlgLayout->addWidget(treeView, 0, 0, 1, 2);
-	QPushButton *cancel = new QPushButton(tr("Cancel"));
-	QPushButton *start = new QPushButton(tr("Start here"));
-	QObject::connect(cancel, SIGNAL(pressed()), this, SLOT(cancel()));
-	QObject::connect(start, SIGNAL(pressed()), this, SLOT(startHere()));
-	dlgLayout->addWidget(cancel, 1, 0);
-	dlgLayout->addWidget(start, 1, 1);
+        _cancel = new QPushButton(tr("Cancel"));
+        _start = new QPushButton(tr("Start here"));
+        _start->setEnabled(false);
+        QObject::connect(_cancel, SIGNAL(pressed()), this, SLOT(cancel()));
+        QObject::connect(_start, SIGNAL(pressed()), this, SLOT(startHere()));
+        dlgLayout->addWidget(_cancel, 1, 0);
+        dlgLayout->addWidget(_start, 1, 1);
 }
 
 void	CreateWhiteboardDialog::startHere()
 {
-	setResult(QDialog::Accepted);
-	close();
+        if (_node)
+            done(QDialog::Accepted);
+        else
+            done(QDialog::Rejected);
 }
 
 void	CreateWhiteboardDialog::cancel()
 {
-	setResult(QDialog::Rejected);
-	close();
+        done(QDialog::Rejected);
 }
 
-void	CreateWhiteboardDialog::selectionChanged(QModelIndex old,QModelIndex current)
+void	CreateWhiteboardDialog::selectionChanged(QModelIndex current, QModelIndex previous)
 {
-
+    _node = NULL;
+    _start->setEnabled(false);
+    if (current.isValid() && current.internalPointer() != NULL)
+    {
+        TreeData *tdata = qobject_cast<TreeData*>(static_cast<QObject*>(_proxyModel->mapToSource(current).internalPointer()));
+        if (tdata && tdata->type() == "SUBJECT")
+        {
+            _node = tdata;
+            _start->setEnabled(true);
+        }
+    }
 }
