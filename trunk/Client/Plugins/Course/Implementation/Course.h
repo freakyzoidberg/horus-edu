@@ -34,8 +34,6 @@ public:
     QWidget*            getWidget();
 
 private:
-	void				createWidget();
-
     ILessonManager      *lessonPlugin;
     TreeDataPlugin      *treePlugin;
 	WhiteBoardDataPlugin* whiteboardPlugin;
@@ -47,9 +45,7 @@ private:
 	QPushButton			*back;
 
 private slots:
-	void				userUpdate();
 	void				joinWhiteBoard(WhiteBoardData *whiteBoardData);
-	void				goBack();
 };
 
 #endif // Course_H
