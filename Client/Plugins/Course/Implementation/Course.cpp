@@ -5,8 +5,6 @@
 #include "../../../../Common/Defines.h"
 
 #include "CourseWidget.h"
-#include "CreateWhiteBoard.h"
-#include "JoinWhiteBoard.h"
 
 #include "ClassTab.h"
 #include "LessonTabTeacher.h"
@@ -54,44 +52,9 @@ void	Course::unload()
     Plugin::unload();
 }
 
-void	Course::createWidget()
-{
-	switch (this->user->level())
-	{
-	case LEVEL_TEACHER:
-		this->widget = new CreateWhiteBoard(this->parent, this->pluginManager);
-		this->layout->addWidget(this->widget);
-		connect(this->widget, SIGNAL(whiteBoardCreated(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
-		break ;
-	case LEVEL_STUDENT:
-		this->widget = new JoinWhiteBoard(this->parent, this->pluginManager);
-		this->layout->addWidget(this->widget);
-		connect(this->widget, SIGNAL(whiteBoardJoined(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
-		break ;
-	default :
-		this->widget = 0;
-		this->widget = new CreateWhiteBoard(this->parent, this->pluginManager); // to delete
-		this->layout->addWidget(this->widget);
-		connect(this->widget, SIGNAL(whiteBoardCreated(WhiteBoardData *)), this, SLOT(joinWhiteBoard(WhiteBoardData *)));
-	}
-}
-
-void	Course::userUpdate()
-{
-	if (this->user->status() == Data::UPTODATE)
-		createWidget();
-}
-
 QWidget             *Course::getWidget()
 {
 	this->user = pluginManager->currentUser();
-	/*
-	this->parent = new QWidget();
-	this->layout = new QVBoxLayout(this->parent);
-	this->layout->setMargin(0);
-	this->createWidget();
-	return (this->parent);
-	*/
 	switch (this->user->level())
 	{
 	case LEVEL_STUDENT:
@@ -130,9 +93,3 @@ void				Course::joinWhiteBoard(WhiteBoardData *whiteBoardData)
 	connect(this->back, SIGNAL(clicked()), this, SLOT(goBack()));
 }
 
-void				Course::goBack()
-{
-	delete this->back;
-	delete this->widget;
-	this->createWidget();
-}
