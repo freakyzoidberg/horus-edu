@@ -35,29 +35,30 @@ QWidget *Calendar::getWidget()
     _visibleUser->setInformations(_currentUser);
 
     _tinyCalendar = new QCalendarWidget();
-	_tinyCalendar->setFirstDayOfWeek(Qt::Monday);
-	_tinyCalendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
-	_tinyCalendar->setHorizontalHeaderFormat(QCalendarWidget::SingleLetterDayNames);
-	QTextCharFormat fmtHeader;
-	fmtHeader.setFontPointSize(7);
-	fmtHeader.setBackground(QBrush(QColor(200, 200, 200, 255)));
-	_tinyCalendar->setHeaderTextFormat(fmtHeader);
-	QTextCharFormat fmtWeek;
-	fmtWeek.setFontPointSize(7);
-	_tinyCalendar->setWeekdayTextFormat(Qt::Monday, fmtWeek);
-	_tinyCalendar->setWeekdayTextFormat(Qt::Tuesday, fmtWeek);
-	_tinyCalendar->setWeekdayTextFormat(Qt::Wednesday, fmtWeek);
-	_tinyCalendar->setWeekdayTextFormat(Qt::Thursday, fmtWeek);
-	_tinyCalendar->setWeekdayTextFormat(Qt::Friday, fmtWeek);
-	QTextCharFormat fmtWeekEnd;
-	fmtWeekEnd.setFontPointSize(7);
-	fmtWeekEnd.setBackground(QBrush(QColor(220, 220, 220, 255)));
-	_tinyCalendar->setWeekdayTextFormat(Qt::Saturday, fmtWeekEnd);
-	_tinyCalendar->setWeekdayTextFormat(Qt::Sunday, fmtWeekEnd);
-	//_tinyCalendar->setGridVisible(true);
 
+   _tinyCalendar->setFirstDayOfWeek(Qt::Monday);
+        _tinyCalendar->setVerticalHeaderFormat(QCalendarWidget::NoVerticalHeader);
+        _tinyCalendar->setHorizontalHeaderFormat(QCalendarWidget::SingleLetterDayNames);
+        QTextCharFormat fmtHeader;
+        fmtHeader.setFontPointSize(7);
+        fmtHeader.setBackground(QBrush(QColor(200, 200, 200, 255)));
+        _tinyCalendar->setHeaderTextFormat(fmtHeader);
+        QTextCharFormat fmtWeek;
+        fmtWeek.setFontPointSize(7);
+        _tinyCalendar->setWeekdayTextFormat(Qt::Monday, fmtWeek);
+        _tinyCalendar->setWeekdayTextFormat(Qt::Tuesday, fmtWeek);
+        _tinyCalendar->setWeekdayTextFormat(Qt::Wednesday, fmtWeek);
+        _tinyCalendar->setWeekdayTextFormat(Qt::Thursday, fmtWeek);
+        _tinyCalendar->setWeekdayTextFormat(Qt::Friday, fmtWeek);
+        QTextCharFormat fmtWeekEnd;
+        fmtWeekEnd.setFontPointSize(7);
+        fmtWeekEnd.setBackground(QBrush(QColor(220, 220, 220, 255)));
+        _tinyCalendar->setWeekdayTextFormat(Qt::Saturday, fmtWeekEnd);
+        _tinyCalendar->setWeekdayTextFormat(Qt::Sunday, fmtWeekEnd);
+
+
+    _tinyCalendar->setGridVisible(true);
     _tinyCalendar->adjustSize();
-
 
     _controls = new CalendarControlsWidget();
 
@@ -66,36 +67,42 @@ QWidget *Calendar::getWidget()
                                                      this->eventPlugin,
                                                      this->pluginManager);
     frames.insert(0, frame0);
-    frame0->mainLayout()->addWidget(_tinyCalendar, 0, 0, 1, 1);
-    frame0->mainLayout()->addWidget(_visibleUser, 0, 1, 1, 1);
-    frame0->mainLayout()->addWidget(_controls, 0, 2);
+    frame0->mainLayout()->addWidget(_tinyCalendar, 0, 1, 1, 1);
+     frame0->mainLayout()->addWidget(_visibleUser, 1, 1, 1, 1);
+    frame0->mainLayout()->addWidget(_controls, 2, 1, 1, 1);
 
-    frame0->mainLayout()->setColumnStretch(1, 1);
-    frame0->mainLayout()->setRowStretch(1, 1);
 
-    _googleCalendar = new CalendarWidget();
+   // frame0->mainLayout()->setRowStretch(1, 1);
+
+    _googleCalendar = new CalendarWidget(this->eventPlugin);
     QDate date;
-    _googleCalendar->weeklyDisplay(date.currentDate());
-    frame0->mainLayout()->addWidget(_googleCalendar, 1, 0, 1, 3);
+    _googleCalendar->weeklyDisplay(date.currentDate(), _currentUser);
+    frame0->mainLayout()->addWidget(_googleCalendar, 0, 0, 4, 1);
     connect(_controls->groupList(), SIGNAL(activated(int)), this, SLOT(selectGroup(int)));
     connect(_controls->userList(), SIGNAL(activated(int)), this, SLOT(userSelected(int)));
+    frame0->mainLayout()->setColumnStretch(0, 26);
+    frame0->mainLayout()->setRowStretch(3, 2);
 
     CalendarMainFrame *frame1 = new CalendarMainFrame(this->treePlugin,
                                                      this->userPlugin,
                                                      this->eventPlugin,
                                                      this->pluginManager);
-    _add = new AddEventWidget(); 
-    frame1->mainLayout()->addWidget(_add, 1, 0, 1, 3);
+    _add = new AddEventWidget();
+    frame1->mainLayout()->addWidget(_add, 0, 1, 4, 1);
+   /*  frame1->mainLayout()->addWidget(_tinyCalendar, 0, 0, 1, 1);
+     frame1->mainLayout()->addWidget(_visibleUser, 1, 0, 1, 1);
+    frame1->mainLayout()->addWidget(_controls, 2, 0, 1, 1); */
+    frame1->mainLayout()->setColumnStretch(1, 4);
+    frame1->mainLayout()->setRowStretch(3, 2);
+
     frames.insert(1, frame1);
-    frame1->mainLayout()->setColumnStretch(1, 1);
-    frame1->mainLayout()->setRowStretch(1, 1);
 
     CalendarMainFrame *frame2 = new CalendarMainFrame(this->treePlugin,
                                                      this->userPlugin,
                                                      this->eventPlugin,
                                                      this->pluginManager);
-    CalendarWidget *temp = new CalendarWidget();
-    temp->weeklyDisplay(date.currentDate());
+    CalendarWidget *temp = new CalendarWidget(this->eventPlugin);
+    temp->weeklyDisplay(date.currentDate(), _currentUser);
     frame2->mainLayout()->addWidget(temp, 1, 0, 1, 3);
     frames.insert(2, frame2);
 
@@ -132,7 +139,7 @@ QIcon   Calendar::getIcon() const
 
  void   Calendar::dateChanged()
  {
-    _googleCalendar->weeklyDisplay(_tinyCalendar->selectedDate());
+    _googleCalendar->weeklyDisplay(_tinyCalendar->selectedDate(), _currentUser);
  }
 
  void   Calendar::tabChanged(int index)
@@ -141,10 +148,10 @@ QIcon   Calendar::getIcon() const
     frames.value(index)->mainLayout()->addWidget(_tinyCalendar, 0, 0, 1, 1);
 
     frames.value(_currentIndex)->mainLayout()->removeWidget(_visibleUser);
-    frames.value(index)->mainLayout()->addWidget(_visibleUser, 0, 1, 1, 1);
+    frames.value(index)->mainLayout()->addWidget(_visibleUser, 1, 0, 1, 1);
 
     frames.value(_currentIndex)->mainLayout()->removeWidget(_controls);
-    frames.value(index)->mainLayout()->addWidget(_controls, 0, 2);
+    frames.value(index)->mainLayout()->addWidget(_controls, 2, 0, 1, 1);
 
     AddEventWindows::AddEventWindowsInstance()->hide();
     _oldIndex = _currentIndex;
