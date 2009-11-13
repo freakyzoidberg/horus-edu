@@ -1,7 +1,7 @@
 #include "pop_3.h"
 #include "mail.h"
 #include <QVariant>
-
+#include <QNetworkProxy>
 Pop_3::Pop_3(const QString &user,const QString &passwd, const QString &pop3_server,QObject *parent)
 {
        _port = 110;
@@ -80,14 +80,27 @@ bool Pop_3::connectToPop(const QString &host)
     }
 
     _socket = _ssl ? new QSslSocket(this) : new QTcpSocket(this);
+
+    QNetworkProxy proxy;
+    proxy.setType(QNetworkProxy::Socks5Proxy);
+    proxy.setHostName("proxies.epitech.net");
+    proxy.setPort(1080);
+    proxy.setUser("bertho_r");
+    proxy.setPassword("pDewqw3(");
+    QNetworkProxy::setApplicationProxy(proxy);
+
+    _socket.data()->setProxy(proxy);
+
     //_socket=new QTcpSocket(this);
     connect( _socket, SIGNAL( error( QAbstractSocket::SocketError) ), this, SLOT( errorReceived( QAbstractSocket::SocketError ) ) );
     connect( _socket, SIGNAL( proxyAuthenticationRequired(const QNetworkProxy & , QAuthenticator *) ), this, SLOT(proxyAuthentication(const QNetworkProxy &, QAuthenticator * ) ) );
 
+    qDebug() << "connect pop";
     bool auth = ! _user.isEmpty();
 
     _socket->connectToHost( host, _port );
 
+    qDebug() << "connected ?";
     if( !_socket->waitForConnected( _timeout ) )
     {
         error("Time out connecting host");
