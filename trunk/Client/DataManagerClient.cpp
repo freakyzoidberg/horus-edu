@@ -76,6 +76,12 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 		emit data->removed();
 		emit plugin->dataRemoved(data);
 	}
+	else if (status == Data::SAVED)
+	{
+		data->_status = Data::UPTODATE;
+		emit data->updated();
+		emit plugin->dataUpdated(data);
+	}
 	else if (status == Data::ERROR)
 	{
 		quint8 error;
