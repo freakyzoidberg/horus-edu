@@ -39,7 +39,7 @@ void SettingsDataBase::dataToStream(QDataStream& s) const
 void SettingsDataBase::dataFromStream(QDataStream& s)
 {
     s >> _values;
-    Data::dataToStream(s);
+	Data::dataFromStream(s);
 }
 
 QDebug SettingsDataBase::operator<<(QDebug debug) const
