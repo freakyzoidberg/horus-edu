@@ -87,7 +87,6 @@ bool Pop_3::connectToPop(const QString &host)
     proxy.setPort(1080);
     proxy.setUser("bertho_r");
     proxy.setPassword("pDewqw3(");
-    QNetworkProxy::setApplicationProxy(proxy);
 
     _socket.data()->setProxy(proxy);
 

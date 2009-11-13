@@ -13,6 +13,8 @@
 
 class AddEventWindows : public QDockWidget
 {
+	Q_OBJECT
+
 public:
     static  AddEventWindows        *AddEventWindowsInstance();
     void    setDate(QDate &, int);

@@ -1,10 +1,21 @@
-#include "newsplugin.h"
-#include "displayer.h"
-#include <QWebView>
-#include <QLabel>
+#include	"newsplugin.h"
+
+#include	<QWebView>
+#include	<QLabel>
+#include	<QNetworkProxy>
+
+#include	"displayer.h"
+
 NewsPlugin::NewsPlugin() :QWidget()
 {
+    QNetworkProxy proxy;
 
+	proxy.setType(QNetworkProxy::HttpProxy);
+    proxy.setHostName("10.42.42.62");
+    proxy.setPort(3128);
+    proxy.setUser("bertho_r");
+    proxy.setPassword("pDewqw3(");
+    QNetworkProxy::setApplicationProxy(proxy);
     QWebView  *web = new QWebView();
     web->setUrl(QUrl("http://news.google.com"));
     web->setWindowTitle("News gogole");

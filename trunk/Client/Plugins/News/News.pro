@@ -18,3 +18,4 @@ HEADERS += Implementation/News.h \
     Implementation/newsplugin.h
 TRANSLATIONS = News_en.ts \
     News_fr.ts
+RESOURCES = Implementation/News.qrc
