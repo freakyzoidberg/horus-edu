@@ -8,6 +8,8 @@
 #include <QLabel>
 #include <QVector>
 
+#include "../../../../Common/EventDataPlugin.h"
+#include "../../../../Common/UserData.h"
 #include "daywidget.h"
 
 class QTextBrowser;
@@ -17,10 +19,10 @@ class CalendarWidget : public QWidget
     Q_OBJECT
 
 public:
-                    CalendarWidget();
+                    CalendarWidget(EventDataPlugin *);
      void           setNbRow(unsigned int nb)       { nbRow = nb; }
      void           setNbColumn(unsigned int nb)    { nbColumn = nb; }
-     void           weeklyDisplay(QDate);
+     void           weeklyDisplay(QDate, UserData *);
 
  private:
      void           initHours(void);
@@ -44,6 +46,7 @@ public:
     unsigned int        nbRow, nbColumn;
     QGridLayout         *mainLayout;
     QVector<DayWidget *>  columnLayout;
+    EventDataPlugin     *_events;
  };
 
 #endif // CALENDARWIDGET_H

@@ -3,6 +3,7 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QHashIterator>
+#include <QPixmap>
 
 #include "CalendarCore.h"
 #include "calendarcontrolswidget.h"
@@ -13,11 +14,15 @@ CalendarControlsWidget::CalendarControlsWidget()
   /*   _monthly = new QPushButton(tr("Month"));
      _daily = new QPushButton(tr("Day"));
      _weekly = new QPushButton(tr("Week"));
-     _planning = new QPushButton(tr("Planning")); */
+     _planning = new QPushButton(tr("Planning"));*/
 
-     _groupList = new QComboBox;
+     _groupList = new QComboBox();
      initGroupList();
-     _userList = new QComboBox;
+
+     _userList = new QComboBox();
+     //QLabel *userLabel = new QLabel();
+     //userLabel->setPixmap(QPixmap(":/user.png"));
+
      initUserList("ALL");
 
      _go = new QPushButton(tr("Rechercher"));
@@ -26,15 +31,17 @@ CalendarControlsWidget::CalendarControlsWidget()
     // _addEvent = new QPushButton("add an event");
 
      QGridLayout *controlsLayout = new QGridLayout;
-     controlsLayout->setMargin(0);
-     controlsLayout->setSpacing(0);
+   /*  controlsLayout->setMargin(0);
+     controlsLayout->setSpacing(0); */
 
      //controlsLayout->addWidget(_addEvent, 0, 3);
 
+    // controlsLayout->addWidget(groupLabel, 0, 0);
      controlsLayout->addWidget(_groupList, 0, 0);
-     controlsLayout->addWidget(_userList, 0, 1);
-     controlsLayout->addWidget(_userName, 1, 0);
-     controlsLayout->addWidget(_go, 1, 1);
+     //controlsLayout->addWidget(userLabel, 1, 0);
+     controlsLayout->addWidget(_userList, 1, 0);
+     controlsLayout->addWidget(_userName, 2, 0);
+     controlsLayout->addWidget(_go, 2, 1);
 
    /*  controlsLayout->addWidget(_monthly, 2, 0);
      controlsLayout->addWidget(_daily, 2, 1);

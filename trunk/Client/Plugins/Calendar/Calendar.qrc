@@ -1,8 +1,10 @@
 <RCC>
     <qresource prefix="/" >
         <file>agenda.png</file>
-        <file>q_silhouette.gif</file>
         <file>addEvent.png</file>
         <file>schedule_256.png</file>
+        <file>anonymous.png</file>
+        <file>user.png</file>
+        <file>User group.png</file>
     </qresource>
 </RCC>
