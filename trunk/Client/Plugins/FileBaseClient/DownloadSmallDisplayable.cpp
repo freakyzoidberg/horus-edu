@@ -1,5 +1,5 @@
 #include		"DownloadSmallDisplayable.h"
-
+#include                "TransfertList.h"
 #include		<QLabel>
 
 const QString	DownloadSmallDisplayable::pluginName() const
@@ -14,7 +14,7 @@ const QString	DownloadSmallDisplayable::pluginVersion() const
 
 QWidget			*DownloadSmallDisplayable::getWidget()
 {
-	return (new QLabel(tr("Fill me with the current downloads.")));
+        return (new TransfertList);
 }
 
 const QString	DownloadSmallDisplayable::getDisplayableName() const
