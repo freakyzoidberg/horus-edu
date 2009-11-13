@@ -58,7 +58,7 @@ class FileTransfertList : public QObject, public QHash<FileData*,FileTransfert*>
 
 public:
 	inline static FileTransfertList& list() { static FileTransfertList _list; return _list; }
-        inline void						append(FileTransfert* t) { QHash<FileData*,FileTransfert*>::insert(t->file(), t); emit started(t); }
+        inline void						append(FileTransfert* t) { if (contains(t->file())) return; QHash<FileData*,FileTransfert*>::insert(t->file(), t); emit started(t); }
         inline void						remove(FileTransfert* t) { QHash<FileData*,FileTransfert*>::remove(t->file()); }
 
 signals:
