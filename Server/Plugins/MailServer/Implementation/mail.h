@@ -165,7 +165,7 @@ public:
 	 * @return Text representing message body
 	 */
 	QString messageBody();
-	QString textBody(){return d->text_body;};
+        QString textBody(){return d->text_body;}
 	
 	/**
 	 * Sets message body
