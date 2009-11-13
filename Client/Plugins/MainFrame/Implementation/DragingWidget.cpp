@@ -6,7 +6,6 @@
 #include		<QApplication>
 #include		<QLabel>
 #include		<QBoxLayout>
-#include		<QScrollArea>
 
 DragingWidget::DragingWidget(QWidget *parent, SmallDisplayablePlugin *plugin) : QFrame(parent)
 {
@@ -14,18 +13,17 @@ DragingWidget::DragingWidget(QWidget *parent, SmallDisplayablePlugin *plugin) : 
 	QBoxLayout	*topLayout;
 	QBoxLayout	*contentLayout;
 	QLabel		*picture;
-	QScrollArea	*content;
+	QWidget		*content;
 
 	_plugin = plugin;
 	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	mainLayout->addLayout(topLayout, 0);
 	mainLayout->setMargin(0);
-	content = new QScrollArea(this);
+	content = new QFrame(this);
 	content->setObjectName("Content");
 	contentLayout = new QBoxLayout(QBoxLayout::TopToBottom, content);
-	//contentLayout->addWidget(plugin->getWidget(), 1);
-	content->setWidget(plugin->getWidget());
+	contentLayout->addWidget(plugin->getWidget(), 1);
 	mainLayout->addWidget(content, 1);
 	picture = new QLabel(this);
 	picture->setPixmap(plugin->getIcon().pixmap(20));
