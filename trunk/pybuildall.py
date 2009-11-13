@@ -15,6 +15,11 @@ elif getpass.getuser() == "Adrien":
     MV_SERVER_PLUGINS_TO=""
     PATH_TO_TRUNK="D:/Projects/Epitech/Horus/trunk/"
     BUILDPATH="./debug/"
+elif getpass.getuser() == "adri":
+    MV_CLIENT_PLUGINS_TO="C:/Documents and Settings/adri/.Horus/Plugins/"
+    MV_SERVER_PLUGINS_TO=""
+    PATH_TO_TRUNK="C:/horus/trunk/"
+    BUILDPATH="./debug/"
 elif getpass.getuser() == "AbdEr":
     MV_CLIENT_PLUGINS_TO="C:/Documents and Settings/AbdEr/.Horus/Plugins/"
     MV_SERVER_PLUGINS_TO=""

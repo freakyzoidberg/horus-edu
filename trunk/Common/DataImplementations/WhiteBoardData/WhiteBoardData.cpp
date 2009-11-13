@@ -61,7 +61,7 @@ QVariant WhiteBoardData::data(int column, int role) const
 		if (column == -1)
 			return _node->id();
 		if (column == 0)
-			return tr("White Board");
+                        return tr("Class");
     }
 //    else if (role == Qt::DecorationRole && column == 0)
 //    {

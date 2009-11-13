@@ -17,7 +17,7 @@ QVariant	WhiteBoardListModel::data(const QModelIndex& index, int role) const
 	if (role == Qt::DisplayRole)
 	{
 		WhiteBoardData* wbdata = qobject_cast<WhiteBoardData*>(_wbDataPlugin->allDatas().at(index.row()));
-		return QVariant("Class #" + index.row());
+                return QVariant(tr("Class #") + QString::number(index.row()));
 	}
 	return QVariant();
 }

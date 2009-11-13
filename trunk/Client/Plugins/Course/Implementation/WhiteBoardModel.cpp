@@ -34,6 +34,8 @@ QVariant WhiteBoardModel::data ( const QModelIndex & index, int role ) const
 {
     if (!index.isValid())
         return (QVariant());
+    if (role == Qt::BackgroundRole)
+        return QVariant();
     if (role == Qt::DisplayRole)
 	{
 		TreeData* node = qobject_cast<TreeData*>((Data*)(index.internalPointer()));
