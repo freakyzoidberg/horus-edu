@@ -18,5 +18,5 @@
   <String Id="TreeTitle">Management de l'arbre</String>
   <String Id="UserTitle">Management des utilisateurs</String>
   <String Id="WhiteBoardTitle">Management du tableau blanc</String>
-  <String Id="XconfTitle">Configuration X</String>
+  <String Id="XconfTitle">Configuration graphique</String>
 </WixLocalization>
