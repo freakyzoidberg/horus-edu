@@ -8,24 +8,31 @@
 #include <QLineEdit>
 #include <QVBoxLayout>
 
+#include "../../../../../Common/TreeData.h"
+#include "../../../../../Common/UserData.h"
+
 class AdmAddClassWidget : public QWidget
 {
 public:
-    AdmAddClassWidget();
+                    AdmAddClassWidget(TreeDataPlugin *treeplugin,
+                                      UserDataPlugin *userplugin);
 
 private:
-    void        initUserReferent(void);
+    TreeDataPlugin  *_treeplugin;
+    UserDataPlugin  *_userplugin;
 
-    QLabel      *_classNameLabel;
-    QLineEdit   *_className;
+    void            initUserReferent(void);
 
-    QLabel      *_userReferentLabel;
-    QComboBox   *_userReferent;
+    QLabel          *_classNameLabel;
+    QLineEdit       *_className;
 
-    QPushButton *_save;
-    QPushButton *_cancel;
+    QLabel          *_userReferentLabel;
+    QComboBox       *_userReferent;
 
-    QVBoxLayout *_mainLayout;
+    QPushButton     *_save;
+    QPushButton     *_cancel;
+
+    QVBoxLayout     *_mainLayout;
 };
 
 #endif // ADMADDCLASSWIDGET_H
