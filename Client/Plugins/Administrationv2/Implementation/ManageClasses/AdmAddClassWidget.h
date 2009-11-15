@@ -13,9 +13,16 @@
 
 class AdmAddClassWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
                     AdmAddClassWidget(TreeDataPlugin *treeplugin,
                                       UserDataPlugin *userplugin);
+    void            addClassInDatabase();
+
+public slots:
+    void            addClass();
+    void            emptyField();
 
 private:
     TreeDataPlugin  *_treeplugin;
