@@ -2,16 +2,13 @@
 #define MAINVIEW_H
 
 #include <QTabWidget>
-#include "ManageStudents/ManageStudents.h"
-#include "../../../../Common/TreeData.h"
-#include "../../../../Common/UserData.h"
-#include "../../../../Common/EventData.h"
+
+# include	"../../../../Common/PluginManager.h"
 
 class MainView : public QTabWidget
 {
 public:
-    MainView();
-    MainView(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin, EventDataPlugin *eventplugin);
+    MainView(PluginManager *pluginManager);
 };
 
 #endif // MAINVIEW_H
