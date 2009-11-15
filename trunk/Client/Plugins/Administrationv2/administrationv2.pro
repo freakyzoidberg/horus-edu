@@ -6,6 +6,8 @@ TARGET = Administrationv2
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
+    Implementation/ManageParents/ManageParents.cpp \
+    Implementation/ManageParents/DisplayParent.cpp \
     Implementation/ManageStudents/ManageStudents.cpp \
     Implementation/MainView.cpp \
     Implementation/ManageClasses/AdmAddClassWidget.cpp
@@ -21,6 +23,8 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
+    Implementation/ManageParents/ManageParents.h \
+    Implementation/ManageParents/DisplayParent.h \
     Implementation/ManageStudents/ManageStudents.h \
     Implementation/MainView.h \
     Implementation/ManageClasses/AdmAddClassWidget.h

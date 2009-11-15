@@ -734,7 +734,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\debug\moc_PluginManager.cpp"
+				RelativePath=".\Debug\moc_PluginManager.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
