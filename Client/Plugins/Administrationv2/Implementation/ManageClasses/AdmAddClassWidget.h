@@ -26,6 +26,7 @@ public slots:
     void            addClass();
     void            emptyField();
     void            modifUser();
+	void			cellClicked(int, int);
 
 private:
     void            initUserReferent(void);

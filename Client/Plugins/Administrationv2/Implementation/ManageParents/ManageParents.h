@@ -18,7 +18,7 @@ public:
 
 private:
 	QListView		*listView;
-	DisplayParent	*displayer;
+        DisplayParent           *displayer;
 	QPushButton		*editButton;
 	QPushButton		*deleteButton;
 
