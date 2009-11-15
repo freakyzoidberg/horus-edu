@@ -2,7 +2,7 @@
 #define MAINVIEW_H
 
 #include <QTabWidget>
-
+#include "ManageStudents/ManageStudents.h"
 class MainView : public QTabWidget
 {
 public:
