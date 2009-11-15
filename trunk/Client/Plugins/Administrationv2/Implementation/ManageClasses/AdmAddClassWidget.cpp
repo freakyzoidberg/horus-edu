@@ -3,6 +3,8 @@
 #include <QDebug>
 #include <QMessageBox>
 
+#include "../../../../../Common/Data.h"
+#include "../../../../../Common/TreeData.h"
 #include "AdmAddClassWidget.h"
 
 AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
@@ -13,6 +15,9 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     _mainLayout = new QVBoxLayout(this);
     QHBoxLayout  *lineLayout;
     QWidget      *line;
+
+    this->_table = new QTableWidget(0, 2);
+    this->_mainLayout->addWidget(_table);
 
     line = new QWidget();
     lineLayout = new QHBoxLayout(line);
@@ -42,6 +47,25 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 
     connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
     connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
+
+    displayClasses();
+}
+
+void    AdmAddClassWidget::displayClasses()
+{
+    QList<Data*> datas = _treeplugin->allDatas();
+
+    for (int i = 0, j = 0; i < datas.size(); ++i)
+    {
+        TreeData    *tmp = qobject_cast<TreeData *>(datas.at(i));
+        if (tmp->type() == "GROUP")
+        {
+            _table->setRowCount(j + 1);
+            this->_table->setItem(j, 0, new QTableWidgetItem(tmp->name()));
+            this->_table->setItem(j, 1, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
+            j++;
+        }
+    }
 }
 
 void    AdmAddClassWidget::initUserReferent()
@@ -80,7 +104,12 @@ void    AdmAddClassWidget::emptyField()
 
 void    AdmAddClassWidget::addClassInDatabase()
 {
-
+    TreeData    *newClass = this->_treeplugin->createNode();
+    newClass->setName(this->_className->text());
+    newClass->setType("GROUP");
+    newClass->setParent(this->_treeplugin->node(0));
+    newClass->setUser(this->_userplugin->nobody());
+    newClass->create();
 }
 
 /*  id

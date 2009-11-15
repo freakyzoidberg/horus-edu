@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QVBoxLayout>
+#include <QTableWidget>
 
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
@@ -19,16 +20,17 @@ public:
                     AdmAddClassWidget(TreeDataPlugin *treeplugin,
                                       UserDataPlugin *userplugin);
     void            addClassInDatabase();
+    void            displayClasses();
 
 public slots:
     void            addClass();
     void            emptyField();
 
 private:
+    void            initUserReferent(void);
+
     TreeDataPlugin  *_treeplugin;
     UserDataPlugin  *_userplugin;
-
-    void            initUserReferent(void);
 
     QLabel          *_classNameLabel;
     QLineEdit       *_className;
@@ -40,6 +42,7 @@ private:
     QPushButton     *_cancel;
 
     QVBoxLayout     *_mainLayout;
+    QTableWidget    *_table;
 };
 
 #endif // ADMADDCLASSWIDGET_H
