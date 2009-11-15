@@ -7,8 +7,8 @@
 
 #include "FormStudents.h"
 #include "ListSelection.h"
-#include "../../../Common/TreeData.h"
-#include "../../../Common/UserData.h"
+#include "../../../../../Common/TreeData.h"
+#include "../../../../../Common/UserData.h"
 
 class ManageStudents : public QWidget
 {
@@ -20,13 +20,14 @@ public:
 
 
 private:
-    QVBoxLayout *MainLayout;
+    QHBoxLayout *MainLayout;
 
     QPushButton *addstudent;
     QPushButton *editstudent;
     QPushButton *back;
     QPushButton *edit;
     QPushButton *save;
+    QFrame* sidebar;
 
     FormStudents *StudentForm;
     ListSelection *StudentList;
@@ -36,6 +37,8 @@ private slots:
     void goedit();
     void goback();
     void gosave();
+    void seteditfalse();
+    void setedittrue();
 
 };
 

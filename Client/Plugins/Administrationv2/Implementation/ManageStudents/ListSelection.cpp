@@ -2,16 +2,24 @@
 #include "Tools.h"
 #include <QMapIterator>
 #include <QListWidgetItem>
+#include <QLabel>
+
 ListSelection::ListSelection(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
 {
     _tools = new mytools(treeplugin, userplugin);
 
-       QHBoxLayout *ListLayout = new QHBoxLayout();
+      QHBoxLayout *ListLayout = new QHBoxLayout();
 
        StudentList = new QListWidget();
        ClassList = new QListWidget();
        ListLayout->addWidget(ClassList);
        ListLayout->addWidget(StudentList);
+
+
+
+
+
+
 
        connect(ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updatestudents(QListWidgetItem *)));
        this->setLayout(ListLayout);

@@ -4,7 +4,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 {
 
 
-    MainLayout = new QVBoxLayout();
+    MainLayout = new QHBoxLayout();
+
     QHBoxLayout *ActionLayout = new QHBoxLayout();
 
     StudentList = new ListSelection(treeplugin, userplugin);
@@ -20,19 +21,43 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(addstudent, SIGNAL(clicked()), this, SLOT(goadd()));
     connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
     connect(back, SIGNAL(clicked()), this, SLOT(goback()));
-
+    connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
+    connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
     ActionLayout->addWidget(back);
     ActionLayout->addWidget(save);
     ActionLayout->addWidget(edit);
     ActionLayout->addWidget(addstudent);
 
     MainLayout->addWidget(StudentList);
-    MainLayout->addLayout(ActionLayout);
+    //MainLayout->addLayout(ActionLayout);
+
+
+
+
+    QBoxLayout	*rightLayout;
+    rightLayout = new  QBoxLayout(QBoxLayout::TopToBottom);
+    QFrame *informationsFrame = new QFrame(this);
+    informationsFrame->setMinimumWidth(200);
+    QBoxLayout *informationsLayout = new QBoxLayout(QBoxLayout::TopToBottom, informationsFrame);
+    QLabel *informationsTitle = new QLabel(this);
+    informationsLayout->addWidget(informationsTitle);
+    //informationsLayout->addWidget(new DisplayParent(this));
+    rightLayout->addWidget(informationsFrame);
+    rightLayout->addLayout(ActionLayout);
+    MainLayout->addLayout(rightLayout);
+
+
+
+
 
     save->setVisible(false);
     back->setVisible(false);
+    edit->setVisible(false);
 
     StudentList->updateall();
+
+
+
     this->setLayout(MainLayout);
 }
 
@@ -75,7 +100,6 @@ if (StudentForm)
     addstudent->setVisible(false);
     save->setVisible(true);    
     back->setVisible(true);
-
     edit->setVisible(false);
 }
 
@@ -115,4 +139,14 @@ if (StudentForm)
         edit->setVisible(true);
 
     }
+}
+
+void ManageStudents::seteditfalse()
+{
+     edit->setVisible(false);
+}
+
+void ManageStudents::setedittrue()
+{
+     edit->setVisible(true);
 }
