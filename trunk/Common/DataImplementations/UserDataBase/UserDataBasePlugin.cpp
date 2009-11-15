@@ -158,7 +158,7 @@ UserData* UserDataBasePlugin::authenticatePassword(const QString& login, const Q
     }
 
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id FROM users WHERE enabled=1 AND login=? AND password=?;");
+	query.prepare("SELECT id FROM user WHERE enabled=1 AND login=? AND password=?;");
     query.addBindValue(login);
     query.addBindValue(password.toHex());
     if ( ! query.exec() || ! query.next())
@@ -181,7 +181,7 @@ UserData* UserDataBasePlugin::authenticateSession(const QString& login, const QB
     }
 
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id FROM users WHERE enabled=1 AND login=? AND session_key=?;");
+	query.prepare("SELECT id FROM user WHERE enabled=1 AND login=? AND session_key=?;");
     query.addBindValue(login);
     query.addBindValue(session.toHex());
     if ( ! query.exec() || ! query.next())
