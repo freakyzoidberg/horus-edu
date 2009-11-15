@@ -42,7 +42,7 @@ private:
     QPushButton     *_save;
     QPushButton     *_cancel;
 
-    QVBoxLayout     *_mainLayout;
+    QHBoxLayout     *_mainLayout;
     QTableWidget    *_table;
 
     UserData        *save;

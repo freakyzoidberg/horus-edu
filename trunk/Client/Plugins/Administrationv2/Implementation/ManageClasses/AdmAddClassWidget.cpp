@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QStringList>
+#include <QHeaderView>
 
 #include "../../../../../Common/Data.h"
 #include "../../../../../Common/TreeData.h"
@@ -13,42 +14,48 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     _treeplugin = treeplugin;
     _userplugin = userplugin;
 
-    _mainLayout = new QVBoxLayout(this);
-    QHBoxLayout  *lineLayout;
-    QWidget      *line;
+    _mainLayout = new QHBoxLayout(this);
+    QVBoxLayout  *columnLayout;
+    QWidget      *column;
 
     this->_table = new QTableWidget(0, 2);
+    _table->setShowGrid(false);
+    _table->horizontalHeader()->setStretchLastSection(true);
     QStringList header;
 
     header.insert(0, QString("Class name"));
     header.insert(1, QString("Professeur principal"));
     _table->setHorizontalHeaderLabels(header);
+   // _table->
     this->_mainLayout->addWidget(_table);
 
-    line = new QWidget();
-    lineLayout = new QHBoxLayout(line);
-    _mainLayout->addWidget(line);
+    column = new QWidget();
+    columnLayout = new QVBoxLayout(column);
+    _mainLayout->addWidget(column);
     this->_classNameLabel = new QLabel(tr("Nom de la classe:"));
     this->_className = new QLineEdit();
-    lineLayout->addWidget(_classNameLabel);
-    lineLayout->addWidget(_className);
+    columnLayout->addWidget(_classNameLabel);
+    columnLayout->addWidget(_className);
 
-    line = new QWidget();
-    _mainLayout->addWidget(line);
-    lineLayout = new QHBoxLayout(line);
+    //column = new QWidget();
+    //_mainLayout->addWidget(column);
+    //columnLayout = new QVBoxLayout(column);
     this->_userReferentLabel = new QLabel(tr("Professeur principal:"));
     this->_userReferent = new QComboBox();
     initUserReferent();
-    lineLayout->addWidget(_userReferentLabel);
-    lineLayout->addWidget(_userReferent);
+    columnLayout->addWidget(_userReferentLabel);
+    columnLayout->addWidget(_userReferent);
 
-    line = new QWidget();
-    _mainLayout->addWidget(line);
-    lineLayout = new QHBoxLayout(line);
+    //column = new QWidget();
+    //_mainLayout->addWidget(column);
+    //columnLayout = new QVBoxLayout(column);
     this->_save = new QPushButton(tr("Enregister."));
     this->_cancel = new QPushButton(tr("Abandonner."));
-    lineLayout->addWidget(_save);
-    lineLayout->addWidget(_cancel);
+    columnLayout->addWidget(_save);
+    columnLayout->addWidget(_cancel);
+
+    _mainLayout->setStretch(0, 1);
+    columnLayout->addStretch(25);
 
     connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
     connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
