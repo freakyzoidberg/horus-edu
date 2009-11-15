@@ -19,7 +19,7 @@ QWidget             *Administration::getWidget()
 
 const QString   Administration::pluginName() const
 {
-    return ("Administration");
+    return ("Administrationv2");
 }
 
 const QString   Administration::pluginVersion() const
