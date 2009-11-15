@@ -168,7 +168,7 @@ QRect HorusStyle::subElementRect(SubElement sr, const QStyleOption *opt, const Q
 					tr.setTop(40);
 					tr.setBottom(60);
 					tr.setLeft(2);
-					tr.setRight(76);
+                                        tr.setRight(88);
 					return (tr);
 				}
 				else if (tabV2.shape == QTabBar::TriangularNorth)
@@ -185,7 +185,7 @@ QRect HorusStyle::subElementRect(SubElement sr, const QStyleOption *opt, const Q
 				tr.setTop(5);
 				tr.setBottom(60);
 				tr.setLeft(2);
-				tr.setRight(76);
+                                tr.setRight(88);
 				return (tr);
 			}
 			else if (tabV2.shape == QTabBar::TriangularNorth)
