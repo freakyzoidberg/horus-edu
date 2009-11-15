@@ -40,7 +40,7 @@ QHash<quint32, TreeData *>  *CalendarCore::getNodeOfType(QString type)
     {
        UserData    *tmp = qobject_cast<UserData *>(users->allUser().value(i));
        if (tmp && (tmp->status() != UserData::EMPTY) && (groupName == "ALL"
-            || tmp->node()->name() == groupName))
+            || tmp->studentClass()->name() == groupName))
             userList->insert(tmp->id(), tmp);
     }
    return userList;

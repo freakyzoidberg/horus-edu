@@ -42,12 +42,12 @@ QList<EventData*> EventDataBasePlugin::userEvents(UserData* user, const QDateTim
 	QList<EventData*> list;
 	EventData* event;
 	//look in every parent nodes until the root node
-	for (TreeData* node = user->node()->parent(); node; node = node->parent())
+	for (TreeData* node = user->studentClass()->parent(); node; node = node->parent())
 		if ((event = node->registeredData<EventData*>()) && event->startTime() < to && event->endTime() > from)
 			list.append(event);
 
 	//recursively look in every children nodes
-	recursiveTreeSearch(list, user->node(), from, to);
+	recursiveTreeSearch(list, user->studentClass(), from, to);
 
 	return list;
 }

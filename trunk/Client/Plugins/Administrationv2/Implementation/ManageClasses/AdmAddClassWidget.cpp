@@ -142,7 +142,7 @@ void    AdmAddClassWidget::addClassInDatabase()
    if (_userReferent->itemData(index).toInt() != 0)
    {
         user = _userplugin->user(_userReferent->itemData(index).toInt());
-        user->setNode(newClass);
+        user->setStudentClass(newClass);
         _table->setItem(_table->rowCount()-1, 1,
                         new QTableWidgetItem(user->name() + " " + user->surname()));
         newClass->setUser(user);

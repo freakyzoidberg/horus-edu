@@ -60,7 +60,7 @@ void UserForm::fillUserFields()
     prenomTxt->setText(user->surname());
     languageTxt->setText(user->language());
     addrTxt->setText(user->address());
-    phoneTxt->setText(user->phone());
+    phoneTxt->setText(user->phone1());
     paysTxt->setText(user->country());
     if (user->level() == 2)
         typeBox->setCurrentIndex(1);
@@ -182,7 +182,7 @@ void    UserForm::editUser()
         user->setSurname(prenomTxt->text());
         user->setLanguage(languageTxt->text());
         user->setAddress(addrTxt->text());
-        user->setPhone(phoneTxt->text());
+        user->setPhone1(phoneTxt->text());
         user->setBirthDate(this->date->selectedDate());
         user->setCountry(this->paysTxt->text());
         user->setPicture(imageLabel->pixmap());

@@ -41,7 +41,7 @@ int UserPerClass::rowCount(const QModelIndex &parent) const
         {
             if (id != -10)
             {
-                if (user->node()->id() == id)
+                if (user->studentClass()->id() == id)
                     i++;
             }
             else
