@@ -31,6 +31,7 @@ public:
 	UserData*				user(const QString login);
 	const QHash<quint32,UserData*>&	allUser();
 	UserData*				createUser(const QString &login);
+	QList<UserData*>		parentsOfStudent(UserData* student) const;
 #ifdef HORUS_SERVER
 	void					userDisconnected(UserData* user);
 	UserData*				authenticatePassword(const QString& login, const QByteArray& password);

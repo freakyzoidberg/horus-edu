@@ -30,6 +30,7 @@ public:
 	virtual UserData*		user(const QString login) = 0;
 	virtual const QHash<quint32,UserData*>&	allUser() = 0;
 	virtual UserData*		createUser(const QString &login) = 0;
+	virtual QList<UserData*> parentsOfStudent(UserData* student) const = 0;
 #ifdef HORUS_SERVER
 	virtual void			userDisconnected(UserData* user) = 0;
 	virtual UserData*		authenticatePassword(const QString& login, const QByteArray& password) = 0;

@@ -82,6 +82,24 @@ public:
 	virtual UserData*		student() const = 0;
 	virtual void			setStudent(UserData* student) = 0;
 
+	virtual const QString	mail() const = 0;
+	virtual void			setMail(const QString mail) = 0;
+
+	virtual const QString	subscriptionReason() const = 0;
+	virtual void			setSubscriptionReason(const QString reason) = 0;
+
+	virtual quint8			repeatedYears() const = 0;
+	virtual void			setRepeatedYears(quint8) = 0;
+
+	virtual quint16			leaveYear() const = 0;
+	virtual void			setLeaveYear(quint16) = 0;
+
+	virtual const QString	followUp() const = 0;
+	virtual void			setFollowUp(const QString followUp) = 0;
+
+	virtual const QString	comment() const = 0;
+	virtual void			setComment(const QString comment) = 0;
+
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.

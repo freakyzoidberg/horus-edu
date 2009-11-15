@@ -100,6 +100,24 @@ public:
 	inline UserData*		student() const { return _student; }
 	void					setStudent(UserData* student);
 
+	inline const QString	mail() const { return _mail; }
+	void					setMail(const QString mail);
+
+	inline const QString	subscriptionReason() const { return _subscriptionReason; }
+	void					setSubscriptionReason(const QString reason);
+
+	inline quint8			repeatedYears() const { return _repeatedYears; }
+	void					setRepeatedYears(quint8 nbYears);
+
+	inline quint16			leaveYear() const { return _leaveYear; }
+	void					setLeaveYear(quint16 year);
+
+	inline const QString	followUp() const { return _followUp; }
+	void					setFollowUp(const QString followUp);
+
+	inline const QString	comment() const { return _comment; }
+	void					setComment(const QString comment);
+
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
 	QByteArray				newSession(const QDateTime& end);
@@ -133,11 +151,17 @@ private:
 	QString				_proCategory;
 	QString				_relationship;
 	UserData*			_student;
+	QString				_mail;
+	QString				_subscriptionReason;
+	quint8				_repeatedYears;
+	quint16				_leaveYear;
+	QString				_followUp;
+	QString				_comment;
 #ifdef HORUS_SERVER
 	void updateLastLogin();
 #endif
 private slots:
-	void		nodeRemoved();
+	void		studentClassRemoved();
 };
 
 #endif // USERDATABASE_H
