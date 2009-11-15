@@ -1,8 +1,9 @@
 #include "ManageStudents.h"
 #include <QDebug>
+#include <QMessageBox>
 ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
 {
-
+    UD = userplugin;
 
     MainLayout = new QHBoxLayout();
 
@@ -64,24 +65,28 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 
 void ManageStudents::goadd()
 {
-if (StudentForm)
+    if (StudentList->ClassList->selectedItems().count() == 1)
     {
-        delete StudentForm;
-        StudentForm = 0;
+    if (StudentForm)
+        {
+            delete StudentForm;
+            StudentForm = 0;
+        }
+        StudentForm = new FormStudents();
+        MainLayout->insertWidget(0, StudentForm);
+        connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
+        StudentList->setVisible(false);
+
+
+
+        addstudent->setVisible(false);
+        save->setVisible(true);
+        back->setVisible(true);
+
+        edit->setVisible(false);
     }
-    StudentForm = new FormStudents();
-    MainLayout->insertWidget(0, StudentForm);
-    connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
-    StudentList->setVisible(false);
-
-
-
-    addstudent->setVisible(false);
-    save->setVisible(true);
-    back->setVisible(true);
-
-    edit->setVisible(false);
-
+    else
+       qDebug() << "Erreur";
 }
 
 void ManageStudents::goedit()
@@ -124,7 +129,16 @@ if (StudentForm)
 void ManageStudents::gosave()
 {
 if (StudentForm)
+{
+    if (!StudentForm->BaseInfos->getName().isEmpty() &&
+        !StudentForm->BaseInfos->getSurName().isEmpty() &&
+        !StudentForm->BaseInfos->getBday().isEmpty())
     {
+
+
+UserData* newUSer = UD->createUser(StudentForm->BaseInfos->getName());
+
+newUSer->setAddress(StudentForm->BaseInfos->getAddress());
         delete StudentForm;
         StudentForm = 0;
         edit->setVisible(true);
@@ -135,10 +149,9 @@ if (StudentForm)
         addstudent->setVisible(true);
         save->setVisible(false);
         back->setVisible(false);
-
         edit->setVisible(true);
-
     }
+}
 }
 
 void ManageStudents::seteditfalse()
