@@ -6,5 +6,6 @@
         <file>Icons/students.png</file>
         <file>Icons/teachers.png</file>
         <file>Icons/desk.png</file>
+        <file>del.png</file>
     </qresource>
 </RCC>

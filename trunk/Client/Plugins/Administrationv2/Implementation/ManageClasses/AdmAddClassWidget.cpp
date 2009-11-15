@@ -18,15 +18,16 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     QVBoxLayout  *columnLayout;
     QWidget      *column;
 
-    this->_table = new QTableWidget(0, 2);
+	this->_table = new QTableWidget(0, 6);
     _table->setShowGrid(false);
     _table->horizontalHeader()->setStretchLastSection(true);
-    QStringList header;
 
-    header.insert(0, QString("Class name"));
-    header.insert(1, QString("Professeur principal"));
+	QStringList header;
+	header.insert(0, QString(tr("Class name")));
+	header.insert(1, QString(tr("Professeur principal")));
+	header.insert(2, QString(tr("Modifier")));
+	header.insert(3, QString(tr("Supprimer")));
     _table->setHorizontalHeaderLabels(header);
-   // _table->
     this->_mainLayout->addWidget(_table);
 
     column = new QWidget();
@@ -37,18 +38,12 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     columnLayout->addWidget(_classNameLabel);
     columnLayout->addWidget(_className);
 
-    //column = new QWidget();
-    //_mainLayout->addWidget(column);
-    //columnLayout = new QVBoxLayout(column);
     this->_userReferentLabel = new QLabel(tr("Professeur principal:"));
     this->_userReferent = new QComboBox();
     initUserReferent();
     columnLayout->addWidget(_userReferentLabel);
     columnLayout->addWidget(_userReferent);
 
-    //column = new QWidget();
-    //_mainLayout->addWidget(column);
-    //columnLayout = new QVBoxLayout(column);
     this->_save = new QPushButton(tr("Enregister."));
     this->_cancel = new QPushButton(tr("Abandonner."));
     columnLayout->addWidget(_save);
@@ -60,6 +55,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
     connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
 
+	connect(_table, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
     displayClasses();
 }
 
@@ -81,10 +77,21 @@ void    AdmAddClassWidget::displayClasses()
                                   new QTableWidgetItem(tmp->user()->name() == "" ?
                                                        "Non renseigne" :
                                                         tmp->user()->name() + " "
-                                                        + tmp->user()->surname()));
+
+														+ tmp->user()->surname()));
+			_table->setItem(j, 3, new QTableWidgetItem(QIcon(":/del.png"), ""));
+			_table->setItem(j, 4, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
+			_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->id()).toString()));
+			/*
+				_table->setItem(j, 2, new QTableWidgetItem("modif"));
+				_table->setItem(j, 3, new QTableWidgetItem("delet"));
+			*/
+
             j++;
         }
     }
+	_table->setColumnHidden(4, true);
+	_table->setColumnHidden(5, true);
 }
 
 void    AdmAddClassWidget::initUserReferent()
@@ -139,7 +146,6 @@ void    AdmAddClassWidget::addClassInDatabase()
     newClass->setParent(this->_treeplugin->node(0));
     newClass->setUser(this->_userplugin->nobody());
 
-
     _table->setRowCount(_table->rowCount() + 1);
     QTableWidgetItem *name = new QTableWidgetItem(this->_className->text());
     name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
@@ -150,20 +156,26 @@ void    AdmAddClassWidget::addClassInDatabase()
    {
         user = _userplugin->user(_userReferent->itemData(index).toInt());
         user->setStudentClass(newClass);
-        _table->setItem(_table->rowCount()-1, 1,
+		_table->setItem(_table->rowCount() - 1, 1,
                         new QTableWidgetItem(user->name() + " " + user->surname()));
         newClass->setUser(user);
    }
    else
-       _table->setItem(_table->rowCount()-1, 1, new QTableWidgetItem("Non renseigne."));
+   {
+	   _table->setItem(_table->rowCount() - 1, 1, new QTableWidgetItem("Non renseigne."));
+	   _table->setItem(_table->rowCount() - 1, 4,
+					   new QTableWidgetItem(QVariant(0).toString()));
+   }
 
-   _table->setItem(_table->rowCount() -1, 0, name);
-   newClass->create();
+   _table->setItem(_table->rowCount() - 1, 0, name);
+	_table->setItem(_table->rowCount() - 1, 3, new QTableWidgetItem(QIcon(":/del.png"), ""));
+
+	newClass->create();
 
    if (_userReferent->itemData(index).toInt() != 0)
    {
-       connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
        save = user;
+	   connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
    }
 
    _table->showRow(_table->rowCount());
@@ -172,4 +184,20 @@ void    AdmAddClassWidget::addClassInDatabase()
 void    AdmAddClassWidget::modifUser()
 {
     save->save();
+	_table->setItem(_table->rowCount() - 1, 4, new QTableWidgetItem(QVariant(save->id()).toString()));
+}
+
+void	AdmAddClassWidget::cellClicked(int row, int col)
+{
+	if (col == 3)
+	{
+		//UserData *user = _userplugin->user(QVariant(_table->item(row, 4)->text()).toInt());
+		//TreeData *data = _treeplugin->node(QVariant(_table->item(row, 4)->text()).toInt());
+
+		qDebug() << "delete id: " << _table->item(row, 5)->text();
+
+	//	data->remove();
+		//user->setStudent(_userplugin->user(0));
+		//user->save();
+	}
 }
