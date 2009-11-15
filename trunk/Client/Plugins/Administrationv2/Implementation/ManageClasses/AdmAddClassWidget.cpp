@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <QDebug>
 #include <QMessageBox>
+#include <QStringList>
 
 #include "../../../../../Common/Data.h"
 #include "../../../../../Common/TreeData.h"
@@ -17,6 +18,11 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     QWidget      *line;
 
     this->_table = new QTableWidget(0, 2);
+    QStringList header;
+
+    header.insert(0, QString("Class name"));
+    header.insert(1, QString("Professeur principal"));
+    _table->setHorizontalHeaderLabels(header);
     this->_mainLayout->addWidget(_table);
 
     line = new QWidget();
@@ -73,7 +79,15 @@ void    AdmAddClassWidget::displayClasses()
 
 void    AdmAddClassWidget::initUserReferent()
 {
-
+     QList<Data*> datas = _userplugin->allDatas();
+     _userReferent->addItem("", 0);
+     for (int i = 0; i < datas.size(); ++i)
+     {
+        UserData    *tmp = qobject_cast<UserData *>(datas.at(i));
+        if (tmp->level() == LEVEL_TEACHER)
+            this->_userReferent->addItem(tmp->name() + " " + tmp->surname(),
+                                         QVariant(tmp->id()));
+     }
 }
 
 void    AdmAddClassWidget::addClass()
@@ -115,10 +129,13 @@ void    AdmAddClassWidget::addClassInDatabase()
     newClass->create();
 
     _table->setRowCount(_table->rowCount() + 1);
-    _table->setItem(_table->rowCount() -1, 0, new QTableWidgetItem(this->_className->text()));
+    QTableWidgetItem *name = new QTableWidgetItem(this->_className->text());
+    name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+
+    _table->setItem(_table->rowCount() -1, 0, name);
     _table->setItem(_table->rowCount()-1, 1,
                     new QTableWidgetItem(QVariant(newClass->user()->id()).toString()));
-   _table->showRow(_table->rowCount()); 
+   _table->showRow(_table->rowCount());
 }
 
 /*  id
