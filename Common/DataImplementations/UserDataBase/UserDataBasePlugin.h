@@ -9,17 +9,20 @@ class UserData;
 class UserDataBase;
 class UserDataBasePlugin : public UserDataPlugin
 {
-  Q_OBJECT
+	Q_OBJECT
 #ifdef HORUS_SERVER
-  Q_INTERFACES(ServerUserDataPlugin)
+	Q_INTERFACES(ServerUserDataPlugin)
 #endif
 #ifdef HORUS_CLIENT
-  Q_INTERFACES(ClientUserDataPlugin)
+	Q_INTERFACES(ClientUserDataPlugin)
 #endif
 	friend class UserDataBase;
 
+public:
+	UserDataBasePlugin();
 private:
-	QHash<quint32,UserData*>	users;
+	QHash<quint32,UserData*>	_users;
+	UserDataBase*				_nobody;
 
 	//UserDataPlugin
 public:

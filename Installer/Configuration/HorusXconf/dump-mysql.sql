@@ -131,35 +131,45 @@ LOCK TABLES `user_has_group` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `users`
+-- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `user`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-CREATE TABLE `users` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL auto_increment,
   `enabled` tinyint(1) NOT NULL,
   `login` varchar(32) NOT NULL,
   `level` tinyint(1) NOT NULL,
   `password` char(40) NOT NULL,
+  `student_class` int(11) default NULL,
   `session_key` char(64) default NULL,
   `session_end` timestamp NULL default NULL,
   `last_login` timestamp NULL default NULL,
+  `language` varchar(32) default NULL,
   `surname` varchar(255) default NULL,
   `name` varchar(255) default NULL,
   `birth_date` timestamp NULL default NULL,
   `picture` blob,
   `address` varchar(255) default NULL,
-  `phone` varchar(32) default NULL,
+  `phone1` varchar(32) default NULL,
+  `phone2` varchar(32) default NULL,
+  `phone3` varchar(32) default NULL,
   `country` varchar(32) default NULL,
-  `language` varchar(32) default NULL,
-  `id_tree` int(11) default NULL,
+  `gender` tinyint(1) NOT NULL,
+  `occupation` varchar(32) default NULL,
+  `pro_category` varchar(32) default NULL,
+  `relationship` varchar(32) default NULL,
+  `student` int(11) default NULL,
+  `passmail` varchar(40) default NULL,
   `mtime` timestamp NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `level` (`level`),
   KEY `login` (`login`),
   KEY `enabled` (`enabled`),
+  KEY `student_class` (`student_class`),
+  KEY `student` (`student`),
   KEY `mtime` (`mtime`)
 ) ENGINE=MyISAM AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;

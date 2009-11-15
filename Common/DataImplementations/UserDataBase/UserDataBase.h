@@ -42,70 +42,97 @@ public:
 #endif
 
     //UserData Interface
-    inline const QString    login() const { return _login; }
-    inline const QDateTime  lastLogin() const { return _lastLogin; }
-    inline bool             loggedIn() const { return _loggedIn; }
+	inline const QString	login() const { return _login; }
+	inline const QDateTime	lastLogin() const { return _lastLogin; }
+	inline bool				loggedIn() const { return _loggedIn; }
 
-    inline const QString    name() const { return _name; }
-    void                    setName(const QString name);
+	inline const QString	name() const { return _name; }
+	void					setName(const QString name);
 
-    void                    setPassword(const QString password);
+	void					setPassword(const QString password);
 
-    inline const QString    surname() const { return _surname; }
-    void                    setSurname(const QString name);
+	inline const QString	surname() const { return _surname; }
+	void					setSurname(const QString name);
 
-    inline quint8           level() const { return _level; }
-    void                    setLevel(quint8 level);
+	inline quint8			level() const { return _level; }
+	void					setLevel(quint8 level);
 
-    inline bool             enabled() const { return _enabled; }
-    void                    enable(bool enabled);
+	inline bool				enable() const { return _enabled; }
+	void					setEnable(bool enabled);
 
-    inline TreeData*        node() const { return _node; }
-    void                    setNode(TreeData* node);
+	inline TreeData*		studentClass() const { return _studentClass; }
+	void					setStudentClass(TreeData* node);
 
-    inline const QString    language() const { return _language; }
-    void                    setLanguage(const QString language);
+	inline const QString	language() const { return _language; }
+	void					setLanguage(const QString language);
 
-    inline const QDate    birthDate() const { return _birthDate; }
-    void                    setBirthDate(const QDate birthDate);
+	inline const QDate		birthDate() const { return _birthDate; }
+	void					setBirthDate(const QDate birthDate);
 
-    inline const QVariant    picture() const { return _picture; }
-    void                    setPicture(const QVariant picture);
+	inline const QVariant	picture() const { return _picture; }
+	void					setPicture(const QVariant picture);
 
-    inline const QString    address() const { return _address; }
-    void                    setAddress(const QString address);
+	inline const QString	address() const { return _address; }
+	void					setAddress(const QString address);
 
-    inline const QString    phone() const { return _phone; }
-    void                    setPhone(const QString phone);
+	inline const QString	phone1() const { return _phone1; }
+	void					setPhone1(const QString phone);
+	inline const QString	phone2() const { return _phone2; }
+	void					setPhone2(const QString phone);
+	inline const QString	phone3() const { return _phone3; }
+	void					setPhone3(const QString phone);
 
-    inline const QString    country() const { return _country; }
-    void                    setCountry(const QString country);
+	inline const QString	country() const { return _country; }
+	void					setCountry(const QString country);
+
+	inline UserGender		gender() const { return _gender; }
+	void					setGender(UserGender);
+
+	inline const QString	occupation() const { return _occupation; }
+	void					setOccupation(const QString occupation);
+
+	inline const QString	proCategory() const { return _proCategory; }
+	void					setProCategory(const QString category);
+
+	inline const QString	relationship() const { return _relationship; }
+	void					setRelationship(const QString relationship);
+
+	inline UserData*		student() const { return _student; }
+	void					setStudent(UserData* student);
+
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
-	QByteArray newSession(const QDateTime& end);
+	QByteArray				newSession(const QDateTime& end);
     //! Destroy the session generated to allow only password authentication.
-	void destroySession();
+	void					destroySession();
 #endif
 
 private:
 	UserDataBase(quint32 userId, UserDataBasePlugin* plugin);
 	~UserDataBase() {}
 
-    quint8      _level;
-    bool        _enabled;
-    bool        _loggedIn;
-    QString     _login;
-    QByteArray  _password;
-    TreeData*   _node;
-    QString     _name;
-    QString     _surname;
-    QDateTime   _lastLogin;
-    QString     _language;
-    QDate   _birthDate;
-    QVariant  _picture;
-    QString     _address;
-    QString     _phone;
-    QString     _country;
+	quint8				_level;
+	bool				_enabled;
+	bool				_loggedIn;
+	QString				_login;
+	QByteArray			_password;
+	TreeData*			_studentClass;
+	QString				_name;
+	QString				_surname;
+	QDateTime			_lastLogin;
+	QString				_language;
+	QDate				_birthDate;
+	QVariant			_picture;
+	QString				_address;
+	QString				_phone1;
+	QString				_phone2;
+	QString				_phone3;
+	QString				_country;
+	UserGender			_gender;
+	QString				_occupation;
+	QString				_proCategory;
+	QString				_relationship;
+	UserData*			_student;
 #ifdef HORUS_SERVER
 	void updateLastLogin();
 #endif

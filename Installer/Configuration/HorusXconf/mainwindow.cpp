@@ -201,12 +201,12 @@ else
 		}
 
  if (ui->sqldriver->currentText() == "MySQL")
-                     query.prepare("INSERT INTO `users` (`enabled`, `login`, `level`, `password`, `surname`, `name`, `id_tree`) VALUES "\
-                                                                                  "(        1,       ?,       0,          ?,  'Father',  'God',  0)");
+					 query.prepare("INSERT INTO `users` (`enabled`, `login`, `level`, `password`, `surname`, `name`) VALUES "\
+																				  "(        1,       ?,       0,          ?,  'Father',  'God')");
  else if (ui->sqldriver->currentText() == "PostgreSQL")
-    query.prepare("INSERT INTO users (id, enabled, login, level, password, surname, name, id_tree) VALUES (       1, 1,       ?,       0,          ?,  'Father',  'God',  0)");
+	query.prepare("INSERT INTO users (id, enabled, login, level, password, surname, name) VALUES (       1, 1,       ?,       0,          ?,  'Father',  'God')");
 else
-query.prepare("INSERT INTO 'users' ('enabled', 'login', 'level', 'password', 'surname', 'name', 'id_tree') VALUES (        1,       ?,       0,          ?,  'Father',  'God',  0)");
+query.prepare("INSERT INTO 'users' ('enabled', 'login', 'level', 'password', 'surname', 'name') VALUES (        1,       ?,       0,          ?,  'Father',  'God')");
 
 
 		query.addBindValue(ui->lineEdit_14->text());
