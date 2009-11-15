@@ -1312,10 +1312,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\qrc_TreeIcons.cpp"
+				RelativePath="debug\qrc_TreeIcons.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1324,10 +1324,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\qrc_TreeIcons.cpp"
+				RelativePath="release\qrc_TreeIcons.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
