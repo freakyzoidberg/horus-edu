@@ -15,7 +15,8 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageStudents/FormStudents.cpp \
     Implementation/ManageStudents/BasicInfos.cpp \
     Implementation/ManageStudents/ListSelection.cpp \
-    Implementation/ManageStudents/Tools.cpp
+    Implementation/ManageStudents/Tools.cpp \
+    Implementation/ManageStudents/ClassList.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -37,5 +38,6 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/FormStudents.h \
     Implementation/ManageStudents/BasicInfos.h \
     Implementation/ManageStudents/ListSelection.h \
-    Implementation/ManageStudents/Tools.h
+    Implementation/ManageStudents/Tools.h \
+    Implementation/ManageStudents/ClassList.h
 RESOURCES += Implementation/Icons.qrc

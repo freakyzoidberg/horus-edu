@@ -14,6 +14,7 @@ for (int i = 0; i < _treeplugin->allDatas().size(); ++i)
     TreeData    *data = qobject_cast<TreeData *>(_treeplugin->allDatas().at(i));
     if ((data->type()) == "GRADE")
     {
+        qDebug() << data->name();
         allclass.insert(data->id(), data->name());
     }
 }
@@ -26,7 +27,7 @@ QList<UserData*> mytools::getStudentfromClass(int id)
     QList<UserData*> mylist;
     foreach (UserData* user, _userplugin->allUser())
     {
-		qDebug() << "item child : " << user->studentClass()->id() << " - " << id;
+                //qDebug() << "item child : " << user->studentClass()->id() << " - " << id;
         if (user->studentClass()->id() == id)
         {
             qDebug() << id;

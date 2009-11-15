@@ -4,10 +4,12 @@
 #include <QWidget>
 #include <QListWidget>
 #include <QHBoxLayout>
+#include <QTreeWidget>
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
 #include "Tools.h"
-
+#include "ClassList.h"
+class CClassList;
 class ListSelection : public QWidget
 {
     Q_OBJECT
