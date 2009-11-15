@@ -169,7 +169,8 @@ void    AdmAddClassWidget::addClassInDatabase()
 
    _table->setItem(_table->rowCount() - 1, 0, name);
 	_table->setItem(_table->rowCount() - 1, 3, new QTableWidgetItem(QIcon(":/del.png"), ""));
-
+	_table->setItem(_table->rowCount() - 1, 5,
+					   new QTableWidgetItem(QVariant(newClass->id()).toString()));
 	newClass->create();
 
    if (_userReferent->itemData(index).toInt() != 0)
