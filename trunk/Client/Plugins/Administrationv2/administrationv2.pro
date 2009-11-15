@@ -7,7 +7,8 @@ TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
     Implementation/ManageStudents/ManageStudents.cpp \
-    Implementation/MainView.cpp
+    Implementation/MainView.cpp \
+    Implementation/ManageClasses/AdmAddClassWidget.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -21,4 +22,5 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
     Implementation/ManageStudents/ManageStudents.h \
-    Implementation/MainView.h
+    Implementation/MainView.h \
+    Implementation/ManageClasses/AdmAddClassWidget.h
