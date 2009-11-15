@@ -395,7 +395,7 @@ QByteArray UserDataBase::newSession(const QDateTime& end)
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
         session[i] = qrand();
 
-    query.prepare("UPDATE users SET session_key=?, session_end=? WHERE id=?;");
+	query.prepare("UPDATE user SET session_key=?, session_end=? WHERE id=?;");
     query.addBindValue(session.toHex());
     query.addBindValue(end);
     query.addBindValue(_id);
@@ -415,7 +415,7 @@ void UserDataBase::destroySession()
 {
 	QMutexLocker M(&mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE users SET session_key='', session_end='' WHERE id=?;");
+	query.prepare("UPDATE user SET session_key='', session_end='' WHERE id=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -425,7 +425,7 @@ void UserDataBase::destroySession()
 void UserDataBase::updateLastLogin()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE users SET last_login=? WHERE id=?;");
+	query.prepare("UPDATE user SET last_login=? WHERE id=?;");
     query.addBindValue(QDateTime::currentDateTime());
     query.addBindValue(_id);
 
