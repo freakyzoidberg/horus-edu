@@ -1,9 +1,7 @@
 #ifndef MANAGESTUDENTS_H
 #define MANAGESTUDENTS_H
 
-#include <QTabWidget>
-
-class ManageStudents : public QTabWidget
+class ManageStudents
 {
 public:
     ManageStudents();
