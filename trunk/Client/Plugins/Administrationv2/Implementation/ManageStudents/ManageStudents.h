@@ -31,7 +31,7 @@ private:
 
     FormStudents *StudentForm;
     ListSelection *StudentList;
-
+    UserDataPlugin* UD;
 private slots:
     void goadd();
     void goedit();
