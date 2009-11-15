@@ -8,7 +8,6 @@
 UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, plugin)
 {
 	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
-	_student = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(nodeRemoved()));
 }
 
