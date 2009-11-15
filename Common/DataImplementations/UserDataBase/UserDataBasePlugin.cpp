@@ -25,6 +25,15 @@ UserData* UserDataBasePlugin::nobody()
 	return _nobody;
 }
 
+QList<UserData*> UserDataBasePlugin::parentsOfStudent(UserData* student) const
+{
+	QList<UserData*> list;
+	foreach (UserData* user, _users)
+		if (user->student() == student)
+			list.append(user);
+	return list;
+}
+
 UserData* UserDataBasePlugin::user(quint32 userId)
 {
 	if (userId == 0)
@@ -96,7 +105,7 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 void UserDataBasePlugin::loadData()
 {
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mtime,id FROM user;");
+	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime,id FROM user;");
 
 	if ( ! query.exec())
 	{
@@ -105,7 +114,7 @@ void UserDataBasePlugin::loadData()
 	}
 	while (query.next())
 	{
-		UserDataBase* u = (UserDataBase*)(user(query.value(22).toUInt()));
+		UserDataBase* u = (UserDataBase*)(user(query.value(28).toUInt()));
 
 		u->_enabled    = query.value(0).toBool();
 		u->_login      = query.value(1).toString();
@@ -128,11 +137,16 @@ void UserDataBasePlugin::loadData()
 		u->_proCategory  = query.value(18).toString();
 		u->_relationship = query.value(19).toString();
 		u->_student    = pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
-		u->_lastChange = query.value(21).toDateTime();
+		u->_mail       = query.value(21).toString();
+		u->_subscriptionReason = query.value(22).toString();
+		u->_repeatedYears = query.value(23).toUInt();
+		u->_leaveYear = query.value(24).toUInt();
+		u->_followUp = query.value(25).toString();
+		u->_comment = query.value(26).toString();
+		u->_lastChange = query.value(27).toDateTime();
 
-		disconnect(this, SLOT(nodeRemoved()));
-		connect(u->_studentClass, SIGNAL(removed()), u, SLOT(nodeRemoved()));
-		u->_lastChange	= query.value(14).toDateTime();
+		disconnect(u, SLOT(studentClassRemoved()));
+		connect(u->_studentClass, SIGNAL(removed()), u, SLOT(studentClassRemoved()));
 	}
 }
 
