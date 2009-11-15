@@ -8,6 +8,7 @@
 
 //! enumerate the differents Level of users
 enum UserLevel { LEVEL_ROOT, LEVEL_ADMINISTRATOR, LEVEL_TEACHER, LEVEL_STUDENT, LEVEL_FAMILY, LEVEL_GUEST, __LAST_LEVEL__ };
+enum UserGender { GENDER_MALE, GENDER_FEMALE, GENDER_UNKNOW };
 
 class TreeData;
 class UserData : public Data
@@ -21,46 +22,66 @@ class UserData : public Data
 #endif
 
 public:
-    inline quint32          id() const { return _id; }
+	inline quint32			id() const { return _id; }
 
-    virtual const QString   login() const = 0;
-    virtual const QDateTime lastLogin() const = 0;
-    virtual bool            loggedIn() const = 0;
+	virtual const QString	login() const = 0;
+	virtual const QDateTime	lastLogin() const = 0;
+	virtual bool			loggedIn() const = 0;
 
-    virtual const QString   name() const = 0;
-    virtual void            setName(const QString name) = 0;
+	virtual const QString	name() const = 0;
+	virtual void			setName(const QString name) = 0;
 
-    virtual void            setPassword(const QString password) = 0;
+	virtual void			setPassword(const QString password) = 0;
 
-    virtual const QString   surname() const = 0;
-    virtual void            setSurname(const QString name) = 0;
+	virtual const QString	surname() const = 0;
+	virtual void			setSurname(const QString name) = 0;
 
-    virtual quint8          level() const = 0;
-    virtual void            setLevel(quint8 level) = 0;
+	virtual quint8			level() const = 0;
+	virtual void			setLevel(quint8 level) = 0;
 
-    virtual bool            enabled() const = 0;
-    virtual void            enable(bool enabled) = 0;
+	virtual bool			enable() const = 0;
+	virtual void			setEnable(bool enabled) = 0;
 
-    virtual TreeData*       node() const = 0;
-    virtual void            setNode(TreeData* node) = 0;
+	virtual TreeData*		studentClass() const = 0;
+	virtual void			setStudentClass(TreeData* node) = 0;
 
-    virtual const QString   language() const = 0;
-    virtual void            setLanguage(const QString language) = 0;
+	virtual const QString	language() const = 0;
+	virtual void			setLanguage(const QString language) = 0;
 
-    virtual const QDate    birthDate() const = 0;
-    virtual void                    setBirthDate(const QDate birthDate) = 0;
+	virtual const QDate		birthDate() const = 0;
+	virtual void			setBirthDate(const QDate birthDate) = 0;
 
-    virtual const QVariant    picture() const = 0;
-    virtual void                    setPicture(const QVariant picture) = 0;
+	virtual const QVariant	picture() const = 0;
+	virtual void			setPicture(const QVariant picture) = 0;
 
-    virtual const QString    address() const = 0;
-    virtual void                    setAddress(const QString address) = 0;
+	virtual const QString	address() const = 0;
+	virtual void			setAddress(const QString address) = 0;
 
-    virtual const QString    phone() const = 0;
-    virtual void                    setPhone(const QString phone) = 0;
+	virtual const QString	phone1() const = 0;
+	virtual void			setPhone1(const QString phone) = 0;
+	virtual const QString	phone2() const = 0;
+	virtual void			setPhone2(const QString phone) = 0;
+	virtual const QString	phone3() const = 0;
+	virtual void			setPhone3(const QString phone) = 0;
 
-    virtual const QString    country() const = 0;
-    virtual void                    setCountry(const QString country) = 0;
+	virtual const QString	country() const = 0;
+	virtual void			setCountry(const QString country) = 0;
+
+	virtual UserGender		gender() const = 0;
+	virtual void			setGender(UserGender) = 0;
+
+	virtual const QString	occupation() const = 0;
+	virtual void			setOccupation(const QString occupation) = 0;
+
+	virtual const QString	proCategory() const = 0;
+	virtual void			setProCategory(const QString category) = 0;
+
+	virtual const QString	relationship() const = 0;
+	virtual void			setRelationship(const QString relationship) = 0;
+
+	virtual UserData*		student() const = 0;
+	virtual void			setStudent(UserData* student) = 0;
+
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.

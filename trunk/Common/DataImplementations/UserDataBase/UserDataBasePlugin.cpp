@@ -1,31 +1,46 @@
 #include "UserDataBasePlugin.h"
 #include "UserDataBase.h"
 
-#include "../../TreeDataPlugin.h"
+#include "../../TreeData.h"
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
 
+UserDataBasePlugin::UserDataBasePlugin()
+{
+	_nobody = 0;
+}
+
 UserData* UserDataBasePlugin::nobody()
 {
-	return user(0);
+	if ( ! _nobody)
+	{
+		_nobody = new UserDataBase(0, this);
+		_nobody->_level = __LAST_LEVEL__;
+		_nobody->_name = tr("Nobody");
+		_nobody->_surname = tr("Nobody");
+		_nobody->_login = tr("Nobody");
+	}
+	return _nobody;
 }
 
 UserData* UserDataBasePlugin::user(quint32 userId)
 {
-    if ( ! users.contains(userId))
+	if (userId == 0)
+		return nobody();
+
+	if ( ! _users.contains(userId))
 	{
 		UserData* user = new UserDataBase(userId, this);
 		user->moveToThread(this->thread());
-//		connect(user, SIGNAL(destroyed()), this,
-		users.insert(userId, user);
+		_users.insert(userId, user);
 	}
-    return users[userId];
+	return _users[userId];
 }
 
 UserData* UserDataBasePlugin::user(const QString login)
 {
-	foreach (UserData* u, users)
+	foreach (UserData* u, _users)
 		if (u->login() == login)
 			return u;
 	return 0;
@@ -33,7 +48,7 @@ UserData* UserDataBasePlugin::user(const QString login)
 
 const QHash<quint32, UserData*>&     UserDataBasePlugin::allUser()
 {
-    return users;
+	return _users;
 }
 
 Data* UserDataBasePlugin::dataWithKey(QDataStream& s)
@@ -58,7 +73,7 @@ UserData* UserDataBasePlugin::createUser(const QString &login)
 QList<Data*> UserDataBasePlugin::allDatas() const
 {
 	QList<Data*> list;
-	foreach (Data* data, users)
+	foreach (Data* data, _users)
 		if (data->status() != Data::EMPTY)
 			list.append(data);
 
@@ -69,9 +84,9 @@ QList<Data*> UserDataBasePlugin::allDatas() const
 void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	UserDataBase* user = ((UserDataBase*)(d));
-	users.remove(user->_id);
+	_users.remove(user->_id);
 	s >> user->_id;
-	users.insert(user->_id, user);
+	_users.insert(user->_id, user);
 	qDebug() << "User data Have a New Key" << user->_id;
 }
 #endif
@@ -79,33 +94,50 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 void UserDataBasePlugin::loadData()
 {
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id,login,level,last_login,surname,name,birth_date,picture,address,phone,country,language,id_tree,enabled,mtime FROM users;");
-    query.exec();
-    while (query.next())
-    {
-		UserDataBase* u = (UserDataBase*)(user(query.value(0).toUInt()));
-		u->_login       = query.value(1).toString();
-		u->_level       = (UserLevel)(query.value(2).toUInt());
-		u->_lastLogin   = query.value(3).toDateTime();
-		u->_surname     = query.value(4).toString();
-		u->_name        = query.value(5).toString();
-		u->_birthDate   = query.value(6).toDate();
-		u->_picture     = query.value(7).toByteArray();
-		u->_address     = query.value(8).toString();
-		u->_phone       = query.value(9).toString();
-		u->_country     = query.value(10).toString();
-		u->_language    = query.value(11).toString();
-		u->_node        = pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(12).toUInt() );
-		u->_enabled     = query.value(13).toBool();
-		u->_lastChange  = query.value(14).toDateTime();
-		u->_status      = Data::UPTODATE;
+	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mtime,id FROM user;");
+
+	if ( ! query.exec())
+	{
+		qDebug() << query.lastError();
+		return;
+	}
+	while (query.next())
+	{
+		UserDataBase* u = (UserDataBase*)(user(query.value(22).toUInt()));
+
+		u->_enabled    = query.value(0).toBool();
+		u->_login      = query.value(1).toString();
+		u->_level      = (UserLevel)(query.value(2).toUInt());
+		u->_password   = QByteArray::fromHex(query.value(3).toByteArray());
+		u->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
+		u->_lastLogin  = query.value(5).toDateTime();
+		u->_language   = query.value(6).toString();
+		u->_surname    = query.value(7).toString();
+		u->_name       = query.value(8).toString();
+		u->_birthDate  = query.value(9).toDate();
+		u->_picture    = query.value(10).toByteArray();
+		u->_address    = query.value(11).toString();
+		u->_phone1     = query.value(12).toString();
+		u->_phone2     = query.value(13).toString();
+		u->_phone3     = query.value(14).toString();
+		u->_country    = query.value(15).toString();
+		u->_gender     = (UserGender)(query.value(16).toUInt());
+		u->_occupation = query.value(17).toString();
+		u->_proCategory  = query.value(18).toString();
+		u->_relationship = query.value(19).toString();
+		u->_student    = pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
+		u->_lastChange = query.value(21).toDateTime();
+
+		disconnect(this, SLOT(nodeRemoved()));
+		connect(u->_studentClass, SIGNAL(removed()), u, SLOT(nodeRemoved()));
+		u->_lastChange	= query.value(14).toDateTime();
 	}
 }
 
 QList<Data*> UserDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
 	QList<Data*> list;
-	foreach (UserData* data, users)
+	foreach (UserData* data, _users)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 			list.append(data);
 	return list;
