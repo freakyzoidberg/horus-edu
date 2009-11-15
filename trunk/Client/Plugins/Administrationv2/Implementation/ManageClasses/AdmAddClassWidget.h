@@ -25,6 +25,7 @@ public:
 public slots:
     void            addClass();
     void            emptyField();
+    void            modifUser();
 
 private:
     void            initUserReferent(void);
@@ -43,6 +44,8 @@ private:
 
     QVBoxLayout     *_mainLayout;
     QTableWidget    *_table;
+
+    UserData        *save;
 };
 
 #endif // ADMADDCLASSWIDGET_H

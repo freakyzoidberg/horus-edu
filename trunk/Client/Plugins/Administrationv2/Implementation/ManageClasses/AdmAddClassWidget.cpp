@@ -39,7 +39,6 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     this->_userReferentLabel = new QLabel(tr("Professeur principal:"));
     this->_userReferent = new QComboBox();
     initUserReferent();
-    this->_userReferent->setEditable(true);
     lineLayout->addWidget(_userReferentLabel);
     lineLayout->addWidget(_userReferent);
 
@@ -71,7 +70,11 @@ void    AdmAddClassWidget::displayClasses()
 
             _table->setRowCount(j + 1);
             this->_table->setItem(j, 0, name);
-            this->_table->setItem(j, 1, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
+            this->_table->setItem(j, 1,
+                                  new QTableWidgetItem(tmp->user()->name() == "" ?
+                                                       "Non renseigne" :
+                                                        tmp->user()->name() + " "
+                                                        + tmp->user()->surname()));
             j++;
         }
     }
@@ -122,24 +125,44 @@ void    AdmAddClassWidget::emptyField()
 void    AdmAddClassWidget::addClassInDatabase()
 {
     TreeData    *newClass = this->_treeplugin->createNode();
+    int index;
+
     newClass->setName(this->_className->text());
     newClass->setType("GROUP");
     newClass->setParent(this->_treeplugin->node(0));
     newClass->setUser(this->_userplugin->nobody());
-    newClass->create();
+
 
     _table->setRowCount(_table->rowCount() + 1);
     QTableWidgetItem *name = new QTableWidgetItem(this->_className->text());
     name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
 
-    _table->setItem(_table->rowCount() -1, 0, name);
-    _table->setItem(_table->rowCount()-1, 1,
-                    new QTableWidgetItem(QVariant(newClass->user()->id()).toString()));
+   index = this->_userReferent->currentIndex();
+   UserData *user;
+   if (_userReferent->itemData(index).toInt() != 0)
+   {
+        user = _userplugin->user(_userReferent->itemData(index).toInt());
+        user->setNode(newClass);
+        _table->setItem(_table->rowCount()-1, 1,
+                        new QTableWidgetItem(user->name() + " " + user->surname()));
+        newClass->setUser(user);
+   }
+   else
+       _table->setItem(_table->rowCount()-1, 1, new QTableWidgetItem("Non renseigne."));
+
+   _table->setItem(_table->rowCount() -1, 0, name);
+   newClass->create();
+
+   if (_userReferent->itemData(index).toInt() != 0)
+   {
+       connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
+       save = user;
+   }
+
    _table->showRow(_table->rowCount());
 }
 
-/*  id
-    nom
-    userReferent == prof principal / adm
-    salle referente (option)
-*/
+void    AdmAddClassWidget::modifUser()
+{
+    save->save();
+}
