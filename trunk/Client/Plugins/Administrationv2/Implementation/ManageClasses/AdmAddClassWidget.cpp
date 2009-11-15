@@ -2,8 +2,11 @@
 
 #include "AdmAddClassWidget.h"
 
-AdmAddClassWidget::AdmAddClassWidget()
+AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
 {
+    _treeplugin = treeplugin;
+    _userplugin = userplugin;
+
     _mainLayout = new QVBoxLayout(this);
     QHBoxLayout  *lineLayout;
     QWidget      *line;
@@ -31,6 +34,8 @@ AdmAddClassWidget::AdmAddClassWidget()
     lineLayout = new QHBoxLayout(line);
     this->_save = new QPushButton(tr("Enregister."));
     this->_cancel = new QPushButton(tr("Abandonner."));
+    lineLayout->addWidget(_save);
+    lineLayout->addWidget(_cancel);
 }
 
 void    AdmAddClassWidget::initUserReferent()
