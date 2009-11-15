@@ -6,7 +6,8 @@ TARGET = Administrationv2
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
-    Implementation/ManageStudents/ManageStudents.cpp
+    Implementation/ManageStudents/ManageStudents.cpp \
+    Implementation/MainView.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -19,13 +20,5 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
-    Implementation/ManageStudents/ManageStudents.h
-
-
-
-
-
-
-# RESOURCES += Implementation/AdminMainFrame.qrc
-# TRANSLATIONS = Administration_en.ts \
-# Administration_fr.ts
+    Implementation/ManageStudents/ManageStudents.h \
+    Implementation/MainView.h
