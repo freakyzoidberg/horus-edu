@@ -75,8 +75,7 @@ if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 
 QList<Mail*> panier;
 Pop_3 *servpop3 = new Pop_3(user->login(),user->login(), "localhost");
-servpop3->run();
-qDebug() << servpop3->getTotalmsg();
+if (servpop3->run())
 if (servpop3->getTotalmsg() > 0)
 {
             panier = servpop3->getAllMail(servpop3->getTotalmsg());
