@@ -8,22 +8,19 @@
 #include <QMouseEvent>
 #include <QGridLayout>
 
-#include "../IItems.h"
 #include "WhiteBoard.h"
 
-class Items : public IItems
+class Items : public QWidget
 {
     Q_OBJECT
 public:
-                    Items();
-                    ~Items();
-					Items(WhiteBoard *, ILesson* lesson, int id, QString, QString);
-    void            enterEvent(QEvent *event);
-    void            leaveEvent(QEvent *event);
+    Items(QWidget *parent, WhiteBoard *, ILesson* lesson, int id, QString, QString);
+    ~Items();
+
     bool            getIsDocked();
     void            setMainWidget(QWidget *);
     QWidget         *getMainWidget();
-	inline ILesson*		getLesson() const { return lesson; }
+    inline ILesson* getLesson() const { return lesson; }
 
 public slots:
     void            moveToDock();
@@ -48,8 +45,8 @@ private:
     bool            isMoving;
     bool            isResizing;
     int             X, Y, saveX, saveY;
-    QGridLayout     *layout;
-	ILesson*		lesson;
+    QGridLayout     *_layout;
+    ILesson*        lesson;
 };
 
 #endif // ITEMS_H

@@ -25,6 +25,7 @@ public slots:
         void    leaveWhiteboard();
         void    deleteWhiteboard();
         void    joinWhiteboard();
+        void    updateWbList(Data*);
 
 private:
         void    doJoinWhiteboard(WhiteBoardData*);

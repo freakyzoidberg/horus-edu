@@ -18,7 +18,8 @@
     <normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QLabel 
+   <string notr="true">
+QLabel 
 { 
 background: transparent; 
 } 

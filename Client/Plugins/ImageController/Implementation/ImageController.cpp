@@ -21,7 +21,7 @@ const QString      ImageController::getSupportedType() const
     return ("image");
 }
 
-QWidget*            ImageController::createDocumentWidget(IItems *parent, ILessonDocument *document)
+QWidget*            ImageController::createDocumentWidget(ILessonDocument *document)
 {
         qDebug() << "doc:" << document;
 
@@ -43,7 +43,7 @@ QWidget*            ImageController::createDocumentWidget(IItems *parent, ILesso
         qDebug() << "\tThe controller ImageController handle " << this->getSupportedType() << " type.";
     }
 
-    label = new QLabel("Loading image...", parent);
+    label = new QLabel("Loading image...");
     //if (data->isDownloaded())
        dl();
     qDebug() << "label geneted";
@@ -83,40 +83,8 @@ void    ImageController::reload()
     //delete image;
 }
 
-void    ImageController::clean(IItems *widget)
+QWidget        *ImageController::editDocument(QFile *file, ILessonDocument *doc)
 {
-
+    return 0;
 }
 
-void    ImageController::resizeWidget(IItems *widget)
-{
-
-}
-
- QWidget        *ImageController::editDocument(QFile *file, IItems *parent, ILessonDocument *doc)
-{
-    QString     fileName = file->fileName();
-    QLabel      *editLabel = new QLabel("Loading image...", parent);
-    QImage      *image = new QImage(fileName);
-    QPushButton *save = new QPushButton(tr("Save changes"));
-
-    if (image->isNull())
-    {
-        editLabel->setText(tr("An error occurs. Cannot open image."));
-        return parent;
-    }
-
-    QPixmap pix = QPixmap::fromImage(*image);
-    label->setPixmap(pix);
-    delete image;
-    this->parent = parent;
-    doc->setTitle(fileName);
-    doc->setObjectName(QString(doc->getId()));
-    connect(save, SIGNAL(clicked()), this, SLOT(saveModifs()));
-    return parent;
-}
-
- void       ImageController::saveChanges()
- {
-    parent->close();
- }

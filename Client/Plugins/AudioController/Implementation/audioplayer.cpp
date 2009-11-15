@@ -3,7 +3,7 @@
 #include <QIcon>
 #include <QTime>
 
-AudioPlayer::AudioPlayer(QWidget *parent, Phonon::MediaObject *media) : QWidget(parent)
+AudioPlayer::AudioPlayer(Phonon::MediaObject *media)
 {
     seekSlider = new Phonon::SeekSlider(this);
     volumeSlider = new Phonon::VolumeSlider(this);

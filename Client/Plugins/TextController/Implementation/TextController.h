@@ -5,7 +5,6 @@
 
 # include "../../../../Common/Plugin.h"
 # include "../../LessonManager/IDocumentController.h"
-# include "../../Course/IItems.h"
 
 class TextController : public Plugin, public IDocumentController
 {
@@ -13,20 +12,12 @@ class TextController : public Plugin, public IDocumentController
     Q_INTERFACES(Plugin)
     Q_INTERFACES(IDocumentController)
 
-public slots:
-        void                    saveModifs();
-
 public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
         const QString		getSupportedType() const;
-        QWidget                 *createDocumentWidget(IItems *parent, ILessonDocument *document);
-        void                    resizeWidget(IItems *);
-        void                    clean(IItems *);
-        QWidget                 *editDocument(QFile *metadata, IItems *parent, ILessonDocument *);
-
-private:
-        QWidget                 *parent;
+        QWidget                 *createDocumentWidget(ILessonDocument *document);
+        QWidget                 *editDocument(QFile *metadata, ILessonDocument *);
 };
 
 #endif // __TEXTCONTROLLER_H__
