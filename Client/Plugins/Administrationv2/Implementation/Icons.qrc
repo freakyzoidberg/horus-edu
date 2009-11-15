@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>Icons/admin.png</file>
+        <file>Icons/administrator.png</file>
+        <file>Icons/parents.png</file>
+        <file>Icons/students.png</file>
+        <file>Icons/teachers.png</file>
+        <file>Icons/desk.png</file>
+    </qresource>
+</RCC>

@@ -38,3 +38,4 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/BasicInfos.h \
     Implementation/ManageStudents/ListSelection.h \
     Implementation/ManageStudents/Tools.h
+RESOURCES += Implementation/Icons.qrc

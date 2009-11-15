@@ -1,8 +1,9 @@
 <RCC>
-    <qresource prefix="/">
+    <qresource prefix="/" >
         <file>mail.png</file>
         <file>expand.png</file>
         <file>replyall.png</file>
         <file>reply.png</file>
+        <file>write.png</file>
     </qresource>
 </RCC>
