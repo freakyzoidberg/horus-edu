@@ -2,6 +2,7 @@
 # define	MAINWINDOW_H
 
 # include	<QMainWindow>
+# include       <QTabWidget>
 # include	"ui_MainWindow.h"
 
 # include	"DisplayablePlugin.h"
@@ -56,6 +57,8 @@ private:
     QAction *settingsAction;
     // The action which destroy the session
     QAction *logoutAction;
+    // Central widget
+    QTabWidget *tabMenu;
 };
 
 #endif // MAINWINDOW_H

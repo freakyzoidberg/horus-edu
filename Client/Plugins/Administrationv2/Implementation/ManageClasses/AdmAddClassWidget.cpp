@@ -79,7 +79,7 @@ void    AdmAddClassWidget::displayClasses()
                                                         tmp->user()->name() + " "
 
 														+ tmp->user()->surname()));
-			_table->setItem(j, 3, new QTableWidgetItem(QIcon(":/del.png"), ""));
+                        _table->setItem(j, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
 			_table->setItem(j, 4, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
 			_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->id()).toString()));
 			/*

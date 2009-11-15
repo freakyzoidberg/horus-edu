@@ -40,12 +40,12 @@ ManageParents::ManageParents(QWidget *parent, PluginManager *pluginManager) : QW
 	actionsTitle = new QLabel(tr("Actions"), this);
 	actionsMainLayout->addWidget(actionsTitle);
 	actionsBottomLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	addButton = new QPushButton(tr("Add"), actionsFrame);
+        addButton = new QPushButton(QIcon(":/Icons/add-parents.png"), tr("Add"), actionsFrame);
 	actionsBottomLayout->addWidget(addButton);
-	editButton = new QPushButton(tr("Edit"), actionsFrame);
+        editButton = new QPushButton(QIcon(":/Icons/edit-parents.png"), tr("Edit"), actionsFrame);
 	editButton->setDisabled(true);
 	actionsBottomLayout->addWidget(editButton);
-	deleteButton = new QPushButton(tr("Delete"), actionsFrame);
+        deleteButton = new QPushButton(QIcon(":/Icons/remove-parents.png"), tr("Delete"), actionsFrame);
 	deleteButton->setDisabled(true);
 	actionsBottomLayout->addWidget(deleteButton);
 	actionsMainLayout->addLayout(actionsBottomLayout);
