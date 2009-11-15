@@ -9,22 +9,22 @@
 #include "mail.h"
 
 
-class Pop_3 : public QThread {
-
-        Q_OBJECT
+class Pop_3 : public QObject {
+ Q_OBJECT
 
 public:
 
         Pop_3 (const QString &user,const QString &passwd, const QString &pop3_server,QObject *parent=0);
         QList<Mail*> getAllMail(int MaxMail);
         ~Pop_3();
-        void run();
+        bool run();
 
         int getTotalmsg() { return _totalmsg;}
 
 private slots:
     void errorReceived(QAbstractSocket::SocketError socketError);
     //void proxyAuthentication(const QNetworkProxy & proxy, QAuthenticator * authenticator);
+
 
 
 private:

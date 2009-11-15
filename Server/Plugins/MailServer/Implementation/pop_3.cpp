@@ -5,7 +5,7 @@
 Pop_3::Pop_3(const QString &user,const QString &passwd, const QString &pop3_server,QObject *parent)
 {
        _port = 110;
-    _timeout = 8000;
+    _timeout = 10000;
     _user = user;
     _passwd = passwd;
               _popServer = pop3_server;
@@ -15,7 +15,7 @@ Pop_3::~Pop_3()
 {
 }
 
-void Pop_3::run()
+bool Pop_3::run()
 {
 
     if (connectToPop(_popServer))
@@ -23,21 +23,21 @@ void Pop_3::run()
     else
     {
         qDebug() << "Error - Connecting to POP3";
-        return;
+        return false;
     }
     if (LogintoPop(_user, _passwd))
         qDebug() << "Authed to POP3";
     else
     {
         qDebug() << "Error - Authing to POP3";
-        return;
+        return false;
     }
     if (getStat())
         qDebug() << "Stated POP3";
     else
     {
         qDebug() << "Error - Cannot Stat POP3";
-        return;
+        return false;
     }
 
 }
