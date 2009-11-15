@@ -41,10 +41,8 @@ class   PdfController : public Plugin, public IDocumentController
                 */
         const QString   getSupportedType() const;
 
-        QWidget*        createDocumentWidget(IItems *parent, ILessonDocument *document);
-        void            resizeWidget(IItems *);
-        void            clean(IItems *);
-        QWidget         *editDocument(QFile *metadata, IItems *parent, ILessonDocument *);
+        QWidget*        createDocumentWidget(ILessonDocument *document);
+        QWidget         *editDocument(QFile *metadata, ILessonDocument *);
 
      private slots:
         void            dl();

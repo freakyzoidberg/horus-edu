@@ -12,7 +12,7 @@ class AudioPlayer : public QWidget
 {
     Q_OBJECT
 public:
-    AudioPlayer(QWidget *, Phonon::MediaObject *);
+    AudioPlayer(Phonon::MediaObject *);
     ~AudioPlayer();
     Phonon::VolumeSlider    *getVolumeSlider();
     Phonon::SeekSlider      *getSeekSlider();

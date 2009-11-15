@@ -25,7 +25,7 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
     foreach (IDocumentController *controller, controllersList)
     controllers[controller->getSupportedType()] = controller;
     this->buildCategoryTree();
-    this->pageWidget = new WhiteBoard(wbd, controllers, this->categoryModel);
+    this->pageWidget = new WhiteBoard(wbd, controllers, this->categoryModel, user);
 
     if (user->level() == LEVEL_TEACHER)
     {

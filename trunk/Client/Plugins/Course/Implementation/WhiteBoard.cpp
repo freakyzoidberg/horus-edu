@@ -8,8 +8,8 @@
 
 #include "../LessonManager/Implementation/Lesson.h"
 
-WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers, LessonModel *model)
-	: _controllers(controllers), model(model)
+WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers, LessonModel *model, UserData *user)
+        : _controllers(controllers), model(model), _user(user)
 {
     wbdata = wbd;
     setAutoFillBackground(true);
@@ -30,7 +30,9 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
     p.setColor(QPalette::Background, Qt::white);
     this->setPalette(p);
 
-    QObject::connect(wbdata, SIGNAL(updated()), this, SLOT(update()));
+    qDebug() << "connect";
+    if (_user->level() == LEVEL_STUDENT)
+        QObject::connect(wbdata, SIGNAL(updated()), this, SLOT(update()));
 }
 
 void   WhiteBoard::setTmp(Items *item)
@@ -55,7 +57,8 @@ int     WhiteBoard::getPosInDoc()
 
 void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
  {
-    event->acceptProposedAction();
+    if (_user->level() == LEVEL_TEACHER)
+        event->acceptProposedAction();
  }
 
  void WhiteBoard::dragMoveEvent(QDragMoveEvent *event)
@@ -65,99 +68,78 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 
  void WhiteBoard::dropEvent(QDropEvent *event)
  {
-	const QMimeData *mime = event->mimeData();
-	if (mime->hasFormat("application/vnd.horus.lessondocument.list"))
-	{
-		QByteArray encodedData = mime->data("application/vnd.horus.lessondocument.list");
-		QDataStream stream(&encodedData, QIODevice::ReadOnly);
-		QStringList newItems;
-		while (!stream.atEnd())
-		{
-			int lessonid;
-			int id;
-			QString title;
-			QString type;
-			QString content;
-			int count;
-			QString key;
-			QVariant value;
-			QHash<QString, QVariant> parameters;
-			stream >> lessonid >> id >> title >> type >> content >> count;
-			for (int i = 0; i < count; i++)
-			{
-				stream >> key >> value;
-				parameters[key] = value;
-			}
-			ILesson *lesson = model->getLesson(lessonid);
-			ILessonDocument *doc = model->getLessonDocument(lessonid, id);
-			if (this->_controllers.contains(type))
-			{
-				Items *item = new Items(this, lesson, id, type, title);
+    const QMimeData *mime = event->mimeData();
+    if (mime->hasFormat("application/vnd.horus.lessondocument.list"))
+    {
+        QByteArray encodedData = mime->data("application/vnd.horus.lessondocument.list");
+        QDataStream stream(&encodedData, QIODevice::ReadOnly);
+        QStringList newItems;
+        while (!stream.atEnd())
+        {
+            int lessonid;
+            int id;
+            QString title;
+            QString type;
+            QString content;
+            int count;
+            QString key;
+            QVariant value;
+            QHash<QString, QVariant> parameters;
+            stream >> lessonid >> id >> title >> type >> content >> count;
+            for (int i = 0; i < count; i++)
+            {
+                    stream >> key >> value;
+                    parameters[key] = value;
+            }
+            ILesson *lesson = model->getLesson(lessonid);
+            ILessonDocument *doc = model->getLessonDocument(lessonid, id);
+            if (this->_controllers.contains(type))
+            {
+                    Items *item = new Items(displayArea, this, lesson, id, type, title);
 
-				QWidget *docWidget;
-				docWidget = this->_controllers[type]->createDocumentWidget(item, doc);
-				item->move(event->pos());
-				item->setWindowFlags(Qt::SubWindow);
-				if (docWidget)
-				{
-					docWidget->lower();
-					item->show();
-					item->resize(docWidget->size());
-					item->repaint();
-				}
-				if (event->pos().y() < dock->size().height())
-				{
-					item->moveToDock();
-				}
-				fillList(this, wbdata->items());
-				wbdata->save();
-			}
-			else
-				qWarning()<< tr("WhiteBoard::dropEvent: unable to find a controller for") << type << tr("type.");
-		}
-	}
-	else
-	{
-  //       QByteArray itemData = mime->data("application/x-fridgemagnet");
-    //QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-
-
-         QString text;
-         QPoint offset(event->mimeData()->property("hotspot").toPoint());
-
-         //dataStream >> text >> offset;
-        //dataStream >> offset;
-
-         //Items *newLabel = new Items(this);
-         //newLabel->move(event->pos() - offset);
-         //newLabel->show();
-
-           tmp->move(event->pos() - offset);
-           //tmp->raise();
-
-           tmp->show();
-
- //          tmp->closeItem->raise();
-   //        tmp->closeItem->show();
-           tmp->setVisible(true);
-           tmp->parentWidget()->repaint();
-     //      tmp->closeItem->parentWidget()->repaint();
-           event->acceptProposedAction();
-
-
-           //Position pour le generateur du fichier de position
-
-			fillList(this, wbdata->items());
-			wbdata->save();
-	}
+                    QWidget *docWidget;
+                    docWidget = this->_controllers[type]->createDocumentWidget(doc);
+                    QPoint offset(0, dock->height());
+                    item->move(event->pos() - offset);
+                    if (docWidget)
+                    {
+                            docWidget->lower();
+                            item->show();
+                            item->setMainWidget(docWidget);
+                            item->resize(QSize(200, 200));
+                    }
+                    if (event->pos().y() < dock->size().height())
+                    {
+                            item->moveToDock();
+                    }
+                    fillList(displayArea, wbdata->items());
+                    wbdata->save();
+            }
+            else
+                    qWarning()<< tr("WhiteBoard::dropEvent: unable to find a controller for") << type << tr("type.");
+        }
+    }
+    else
+    {
+        QString text;
+        QPoint offset(event->mimeData()->property("hotspot").toPoint());
+        offset.setY(offset.y() + dock->height());
+        tmp->move(event->pos() - offset);
+        tmp->show();
+        tmp->parentWidget()->repaint();
+        event->acceptProposedAction();
+        fillList(displayArea, wbdata->items());
+        wbdata->save();
+    }
  }
 
  void	WhiteBoard::update()
  {
-	const QObjectList& itemList = children();
+        const QObjectList& itemList = displayArea->children();
 	WhiteBoardItemList& list = wbdata->items();
 	WhiteBoardItemList::const_iterator it;
 	QObjectList::const_iterator it2;
+        qDebug() << "wbdata update: " << list.count();
 	for (it = list.begin(); it != list.end(); it++)
 	{
 		bool found = false;
@@ -171,6 +153,7 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 //					item->moveToDock();
 //				else
 //					item->restore();
+                                qDebug() << "found widget !!";
 				found = true;
 				break;
 			}
@@ -184,19 +167,19 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
 				qDebug() << "found document";
 				if (this->_controllers.contains(document->getType()))
 				{
-					Items *item = new Items(this, model->getLesson(1), document->getId(),
+                                        Items *item = new Items(displayArea, this, model->getLesson(it->idLesson()), document->getId(),
 											document->getParameters().value("type").toString(),
 											document->getParameters().value("title").toString());
 					qDebug() << "creating item";
 					QWidget *docWidget;
-					docWidget = this->_controllers[document->getType()]->createDocumentWidget(item, document);
-					item->setGeometry(it->left(), it->top(), it->width(), it->height());
+                                        docWidget = this->_controllers[document->getType()]->createDocumentWidget(document);
+                                        item->move(it->left(), it->top());
+                                        item->resize(QSize(it->width(), it->height()));
 					if (docWidget)
 					{
 						docWidget->lower();
-
+                                                item->setMainWidget(docWidget);
                                                 item->show();
-
 						item->repaint();
 					}
 				}

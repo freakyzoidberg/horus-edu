@@ -15,6 +15,7 @@
 #include "../../LessonManager/ILesson.h"
 #include "../../LessonManager/LessonModel.h"
 #include "../../../../Common/FileDataPlugin.h"
+#include "../../../../Common/UserData.h"
 #include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 
 class Items;
@@ -24,7 +25,7 @@ class WhiteBoard : public QWidget
     Q_OBJECT
 
 public:
-	 WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *> controllers, LessonModel *model);
+    WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *> controllers, LessonModel *model, UserData *user);
      void   setTmp(Items *);
      Items  *getTmp();
      void   setPosInDoc(int posInDoc);
@@ -53,6 +54,7 @@ private:
 	QGridLayout     *layout;
 	QWidget			*displayArea;
 	LessonModel		*model;
+        UserData*               _user;
 };
 
 #endif // WHITEBOARD_H

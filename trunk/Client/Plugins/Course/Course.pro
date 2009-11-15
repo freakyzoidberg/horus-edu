@@ -41,7 +41,6 @@ HEADERS += ../../../Common/MetaPlugin.h \
     Implementation/LessonDocument.h \
     Implementation/Items.h \
     Implementation/WhiteBoard.h \
-    IItems.h \
     Implementation/WhiteBoardModel.h \
     Implementation/Course.h \
     Implementation/LessonTabTeacher.h \
@@ -50,7 +49,6 @@ HEADERS += ../../../Common/MetaPlugin.h \
     Implementation/ClassTab.h \
     Implementation/CreateWhiteboardDialog.h
 RESOURCES += Implementation/Course.qrc
-FORMS += Implementation/Ui/CreateWhiteBoard.ui \
-    Implementation/Ui/JoinWhiteBoard.ui
+FORMS += Implementation/Ui/CreateWhiteBoard.ui
 TRANSLATIONS = Course_en.ts \
     Course_fr.ts

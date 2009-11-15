@@ -1,6 +1,7 @@
 #include "ClassTab.h"
 #include "CreateWhiteboardDialog.h"
 #include "CourseWidget.h"
+#include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardDataPlugin.h"
 
 ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManager(pluginManager), _user(user)
 {
@@ -11,6 +12,8 @@ ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManage
 	_selectWbWidget = new QWidget;
 	QGridLayout* sLayout = new QGridLayout(_selectWbWidget);
 	_wbList = new QListView;
+        QObject::connect(pluginManager->findPlugin<WhiteBoardDataPlugin*>(), SIGNAL(dataCreated(Data*)), this, SLOT(updateWbList(Data*)));
+        QObject::connect(pluginManager->findPlugin<WhiteBoardDataPlugin*>(), SIGNAL(dataRemoved(Data*)), this, SLOT(updateWbList(Data*)));
 	if (_user->level() == LEVEL_TEACHER)
 	{
 		_wbListModel = new WhiteBoardListModel(pluginManager, user);
@@ -124,4 +127,9 @@ void    ClassTab::joinWhiteboard()
     {
         doJoinWhiteboard(wbdata);
     }
+}
+
+void    ClassTab::updateWbList(Data*)
+{
+    _wbList->reset();
 }

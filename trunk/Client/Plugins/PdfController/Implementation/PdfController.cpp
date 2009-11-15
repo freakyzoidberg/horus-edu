@@ -62,7 +62,7 @@ const QString  PdfController::getSupportedType() const
     return ("Pdf");
 }
 
-QWidget* PdfController::createDocumentWidget(IItems *parent, ILessonDocument *document)
+QWidget* PdfController::createDocumentWidget(ILessonDocument *document)
 {
     int         x, y, w, h;
     int         fileId;
@@ -88,7 +88,7 @@ QWidget* PdfController::createDocumentWidget(IItems *parent, ILessonDocument *do
     rect = new QRectF(x, y, h, w);
 	data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-    label = new QLabel("Loading pdf...", parent);
+    label = new QLabel("Loading pdf...");
 
    // if (data->isDownloaded())
         dl();
@@ -155,18 +155,7 @@ void    PdfController::reload()
     delete image;
 }
 
-
-void         PdfController::clean(IItems *widget)
-{
-
-}
-
-void         PdfController::resizeWidget(IItems *widget)
-{
-
-}
-
-QWidget      *PdfController::editDocument(QFile *metadata, IItems *parent, ILessonDocument *doc)
+QWidget      *PdfController::editDocument(QFile *metadata, ILessonDocument *doc)
 {
     QString     fileName;
     QImage      *image;

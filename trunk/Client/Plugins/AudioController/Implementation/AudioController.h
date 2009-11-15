@@ -10,7 +10,6 @@
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
 # include "../../PdfDisplayer/IPdfRendering.h"
-# include "../../Course/IItems.h"
 # include "audioplayer.h"
 
 class AudioController : public Plugin, public IDocumentController
@@ -34,10 +33,8 @@ class AudioController : public Plugin, public IDocumentController
          */
         const QString   getSupportedType() const;
         const QString   pluginName() const;
-        QWidget*        createDocumentWidget(IItems *parent, ILessonDocument *document);
-        void            resizeWidget(IItems *);
-        void            clean(IItems *);
-        QWidget         *editDocument(QFile *metadata, IItems *parent, ILessonDocument *);
+        QWidget*        createDocumentWidget(ILessonDocument *document);
+        QWidget         *editDocument(QFile *metadata, ILessonDocument *);
 
      private slots:
         void            dl();
@@ -47,7 +44,6 @@ class AudioController : public Plugin, public IDocumentController
         FileData                *data;
         QString                 supportedType;
         Phonon::MediaObject     *media;
-        IItems                  *parent;
 };
 
 #endif // MEDIACONTROLLER_H

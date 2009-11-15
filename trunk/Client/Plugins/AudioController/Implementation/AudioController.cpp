@@ -29,7 +29,7 @@ const QString   AudioController::getSupportedType() const
     return ("Audio");
 }
 
-QWidget*        AudioController::createDocumentWidget(IItems *parent, ILessonDocument *document)
+QWidget*        AudioController::createDocumentWidget(ILessonDocument *document)
 {
     int         fileId;
 
@@ -41,14 +41,11 @@ QWidget*        AudioController::createDocumentWidget(IItems *parent, ILessonDoc
         return NULL;
     }
 
-    this->parent = parent;
-    media = new Phonon::MediaObject(parent);
-    AudioPlayer *reader = new AudioPlayer(parent, media);
+    media = new Phonon::MediaObject;
+    AudioPlayer *reader = new AudioPlayer(media);
     fileId = document->getParameters().value("name").toInt();
 	data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-    this->parent = parent;
-    parent->setMainWidget(reader);
 
     //if (data->isDownloaded())
     dl();
@@ -62,16 +59,16 @@ void    AudioController::dl()
     //this->Audio = new Phonon::AudioObject(parent);
     //Phonon::createPath(this->Audio, this->vid);
 
-    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, parent);
+    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory);
     Phonon::createPath(media, audioOutput);
 
-    tmp = qobject_cast<AudioPlayer *>(this->parent->getMainWidget());
-    tmp->getVolumeSlider()->setAudioOutput(audioOutput);
-    tmp->getSeekSlider()->setMediaObject(media);
+    //tmp = qobject_cast<AudioPlayer *>(this->parent->getMainWidget());
+    //tmp->getVolumeSlider()->setAudioOutput(audioOutput);
+    //tmp->getSeekSlider()->setMediaObject(media);
 
-    Phonon::MediaSource source(data->file()->fileName());
-    tmp->getMedia()->setCurrentSource(source);
-    tmp->getMedia()->play();
+    //Phonon::MediaSource source(data->file()->fileName());
+    //tmp->getMedia()->setCurrentSource(source);
+    //tmp->getMedia()->play();
 }
 
 void    AudioController::reload()
@@ -79,20 +76,7 @@ void    AudioController::reload()
 
 }
 
-void    AudioController::clean(IItems *widget)
-{
-    AudioPlayer *tmp;
-
-    tmp = dynamic_cast<AudioPlayer *>(widget->getMainWidget());
-    tmp->getMedia()->stop();
-    delete tmp;
-}
-
-void    AudioController::resizeWidget(IItems *widget)
-{
-}
-
-QWidget   *AudioController::editDocument(QFile *metadata, IItems *parent, ILessonDocument *doc)
+QWidget   *AudioController::editDocument(QFile *metadata, ILessonDocument *doc)
 {
 	return (0);
 }

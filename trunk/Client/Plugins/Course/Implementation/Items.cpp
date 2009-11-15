@@ -11,26 +11,38 @@
 #include <QBoxLayout>
 #include <QCursor>
 
-Items::Items(WhiteBoard *papyrus, ILesson* _lesson, int id, QString type, QString title)
-    : IItems(papyrus), id(id)
+Items::Items(QWidget *parent, WhiteBoard *wb, ILesson* _lesson, int id, QString type, QString title) : QWidget(parent)
 {
     this->setAcceptDrops(true);
-    this->board = papyrus;
-	lesson = _lesson;
+    this->board = wb;
+    lesson = _lesson;
+
+    QSizeGrip* sizeGrip = new QSizeGrip(this);
+    sizeGrip->move(QPoint(this->size().width() - 10, this->size().height() - 10));
+    _layout = new QGridLayout(this);
 
     closeItem = new QPushButton(this);
     closeItem->setIcon(QIcon(":/close.png"));
+    _layout->addWidget(closeItem, 0, 0);
     openItem = new QPushButton(this);
     openItem->setIcon(QIcon(":/fleche_haut_vert.png"));
-    openItem->setGeometry(21, 0, 20, 20);
-    closeItem->setGeometry(0, 0, 20, 20);
+    _layout->addWidget(openItem, 0, 1);
+    _layout->addWidget(sizeGrip, 0, 3);
+    _layout->setColumnStretch(0, 0);
+    _layout->setColumnStretch(1, 0);
+    _layout->setColumnStretch(2, 10);
+    _layout->setColumnStretch(3, 0);
+    _layout->setMargin(0);
+    _layout->setSpacing(0);
+    openItem->setMaximumSize(20, 20);
+    closeItem->setMaximumSize(20, 20);
 
-    this->setStyleSheet("Items{border: 1px dotted #888888;}");
+    this->setStyleSheet("Items{border: 1px dotted #888888; }");
     this->connect(closeItem, SIGNAL(clicked()), this, SLOT(deleteWidgets()));
     this->connect(closeItem, SIGNAL(clicked()), this, SIGNAL(destroyed()));
     this->connect(openItem, SIGNAL(clicked()), this, SLOT(moveToDock()));
-    this->setMinimumHeight(25);
-    this->setMinimumWidth(45);
+    this->setMinimumHeight(80);
+    this->setMinimumWidth(120);
 
     this->isDocked = false;
     this->isMoving = false;
@@ -48,7 +60,6 @@ Items::~Items()
 
 bool    Items::deleteWidgets()
 {
-    this->board->getControllers().value(this->type)->clean(this);
     close();
     return true;
 }
@@ -56,18 +67,6 @@ bool    Items::deleteWidgets()
 bool    Items::getIsDocked()
 {
     return this->isDocked;
-}
-
-void    Items::leaveEvent(QEvent *event)
-{
-	this->closeItem->hide();
-	this->openItem->hide();
-}
-
-void    Items::enterEvent(QEvent *event)
-{
-	this->closeItem->show();
-	this->openItem->show();
 }
 
 void    Items::mouseReleaseEvent(QMouseEvent *event)
@@ -184,6 +183,7 @@ int	Items::getId()
 void    Items::setMainWidget(QWidget *widget)
 {
     this->mainWidget = widget;
+    _layout->addWidget(widget, 1, 0, 1, 4);
 }
 
 QWidget         *Items::getMainWidget()
