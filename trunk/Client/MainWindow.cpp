@@ -1,7 +1,7 @@
 #include "MainWindow.h"
 
 #include <QDir>
-#include <QTabWidget>
+#include <QPushButton>
 
 #include "CacheManager.h"
 #include "SettingsDialog.h"
@@ -11,9 +11,10 @@
 MainWindow::MainWindow()
 {
 	ui.setupUi(this);
-	createActions();
-	createMenus();
+        //createActions();
+        //createMenus();
 	createCentralWidget();
+        ui.menubar->setVisible(false);
 	show();
 }
 
@@ -178,7 +179,6 @@ void    MainWindow::createMenus()
 
 void							MainWindow::createCentralWidget()
 {
-	QTabWidget					*tabMenu;
 	QWidget						*currentWidget;
 	QTabWidget					*subMenu;
 	QList<DisplayablePlugin *>	plugins;
