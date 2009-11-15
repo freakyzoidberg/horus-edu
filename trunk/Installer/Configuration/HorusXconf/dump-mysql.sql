@@ -157,7 +157,7 @@ CREATE TABLE `user` (
   `phone2` varchar(32) default NULL,
   `phone3` varchar(32) default NULL,
   `country` varchar(32) default NULL,
-  `gender` tinyint(1) NOT NULL,
+  `gender` tinyint(1) default NULL,
   `occupation` varchar(32) default NULL,
   `pro_category` varchar(32) default NULL,
   `relationship` varchar(32) default NULL,
