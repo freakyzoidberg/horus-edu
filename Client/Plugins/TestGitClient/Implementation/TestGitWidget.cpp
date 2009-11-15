@@ -81,8 +81,8 @@ void TestGitWidget::test2()
 
 	UserData* u = p->createUser("New User");
 
-	u->setNode(plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
-	u->enable(true);
+	u->setStudentClass(plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
+	u->enable();
 	u->setLevel(3);
 	u->create();
 	connect(u, SIGNAL(updated()), this, SLOT(created()));
