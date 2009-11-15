@@ -16,6 +16,8 @@ HEADERS += ../../../Common/DataImplementations/AttendanceDataBase/AttendanceData
     ../../../Common/MetaPlugin.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/DataManager.h \
-    ../../../Common/Data.h
+    ../../../Common/Data.h \
+    ../../../Common/EventDataPlugin.h \
+    ../../../Common/EventData.h
 SOURCES += ../../../Common/DataImplementations/AttendanceDataBase/AttendanceDataBasePlugin.cpp \
     ../../../Common/DataImplementations/AttendanceDataBase/AttendanceDataBase.cpp
