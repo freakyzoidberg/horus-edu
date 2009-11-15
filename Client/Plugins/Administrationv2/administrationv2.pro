@@ -10,7 +10,11 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageParents/DisplayParent.cpp \
     Implementation/ManageStudents/ManageStudents.cpp \
     Implementation/MainView.cpp \
-    Implementation/ManageClasses/AdmAddClassWidget.cpp
+    Implementation/ManageClasses/AdmAddClassWidget.cpp \
+    Implementation/ManageStudents/FormStudents.cpp \
+    Implementation/ManageStudents/BasicInfos.cpp \
+    Implementation/ManageStudents/ListSelection.cpp \
+    Implementation/ManageStudents/Tools.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -27,4 +31,8 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageParents/DisplayParent.h \
     Implementation/ManageStudents/ManageStudents.h \
     Implementation/MainView.h \
-    Implementation/ManageClasses/AdmAddClassWidget.h
+    Implementation/ManageClasses/AdmAddClassWidget.h \
+    Implementation/ManageStudents/FormStudents.h \
+    Implementation/ManageStudents/BasicInfos.h \
+    Implementation/ManageStudents/ListSelection.h \
+    Implementation/ManageStudents/Tools.h
