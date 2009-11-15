@@ -13,9 +13,7 @@ QWidget             *Administration::getWidget()
     if (u != 0)
         if (u->level() > LEVEL_ADMINISTRATOR)
             return NULL;
-    return new MainView(treePlugin, userPlugin, eventPlugin);
-    //return new QWidget();
-
+    return new MainView(pluginManager);
 }
 
 const QString   Administration::pluginName() const
@@ -38,15 +36,6 @@ bool Administration::canLoad() const
     if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<UserDataPlugin *>() && pluginManager->findPlugin<EventDataPlugin *>())
                 return (true);
         return (false);
-}
-
-void Administration::load()
-{
-    treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
-    userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
-    eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
-
-    Plugin::load();
 }
 
 int Administration::getOrder() const

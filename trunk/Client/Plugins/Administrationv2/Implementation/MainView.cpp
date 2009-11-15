@@ -1,13 +1,11 @@
 #include "MainView.h"
 #include  "ManageClasses/AdmAddClassWidget.h"
+#include	"ManageParents/ManageParents.h"
+#include	"ManageStudents/ManageStudents.h"
 
-MainView::MainView()
+MainView::MainView(PluginManager *pluginManager)
 {
-
-}
-
-MainView::MainView(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin, EventDataPlugin *eventplugin)
-{
+	this->addTab(new AdmAddClassWidget(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), tr("Classrooms"));
     this->addTab(new ManageStudents(),tr("Students"));
-    this->addTab(new AdmAddClassWidget(treeplugin, userplugin), tr("Classes"));
+	this->addTab(new ManageParents(this, pluginManager), tr("Parents"));
 }

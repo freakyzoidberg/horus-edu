@@ -6,9 +6,6 @@
 # include <QObject>
 
 # include "../../../DisplayablePlugin.h"
-#include "../../../../Common/TreeData.h"
-#include "../../../../Common/UserData.h"
-#include "../../../../Common/EventData.h"
 
 class Administration : public DisplayablePlugin
 {
@@ -18,16 +15,11 @@ class Administration : public DisplayablePlugin
    public:
         const QString       pluginName() const;
         bool                canLoad() const;
-        void                load();
         const QString       pluginVersion() const;
         const QString       getDisplayableName() const;
         QWidget             *getWidget();
 		int					getOrder() const;
         QIcon               getIcon() const;
-    private:
-        TreeDataPlugin      *treePlugin;
-        UserDataPlugin      *userPlugin;
-        EventDataPlugin     *eventPlugin;
 };
 
 #endif // ADMINISTRATION_H
