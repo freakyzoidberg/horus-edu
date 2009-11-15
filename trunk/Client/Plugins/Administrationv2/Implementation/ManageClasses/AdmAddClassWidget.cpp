@@ -60,8 +60,11 @@ void    AdmAddClassWidget::displayClasses()
         TreeData    *tmp = qobject_cast<TreeData *>(datas.at(i));
         if (tmp->type() == "GROUP")
         {
+            QTableWidgetItem *name = new QTableWidgetItem(tmp->name());
+            name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+
             _table->setRowCount(j + 1);
-            this->_table->setItem(j, 0, new QTableWidgetItem(tmp->name()));
+            this->_table->setItem(j, 0, name);
             this->_table->setItem(j, 1, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
             j++;
         }
@@ -79,7 +82,7 @@ void    AdmAddClassWidget::addClass()
     QString     error = "";
 
     if (_className->text().trimmed() == "")
-        error += tr("A class without name, you cock sucker??");
+        error += tr("This class must have a name.");
 
     if (error != "")
     {
@@ -91,7 +94,7 @@ void    AdmAddClassWidget::addClass()
         addClassInDatabase();
         _userReferent->currentText().clear();
         _className->setText("");
-        errorMsg.setText(tr("Ok then what?"));
+        errorMsg.setText(tr("The class was successfully saved."));
         errorMsg.exec();
     }
 }
@@ -110,6 +113,12 @@ void    AdmAddClassWidget::addClassInDatabase()
     newClass->setParent(this->_treeplugin->node(0));
     newClass->setUser(this->_userplugin->nobody());
     newClass->create();
+
+    _table->setRowCount(_table->rowCount() + 1);
+    _table->setItem(_table->rowCount() -1, 0, new QTableWidgetItem(this->_className->text()));
+    _table->setItem(_table->rowCount()-1, 1,
+                    new QTableWidgetItem(QVariant(newClass->user()->id()).toString()));
+   _table->showRow(_table->rowCount()); 
 }
 
 /*  id
