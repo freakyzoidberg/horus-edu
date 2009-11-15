@@ -16,6 +16,7 @@ UserData* UserDataBasePlugin::nobody()
 	if ( ! _nobody)
 	{
 		_nobody = new UserDataBase(0, this);
+		_nobody->_student = _nobody;
 		_nobody->_level = __LAST_LEVEL__;
 		_nobody->_name = tr("Nobody");
 		_nobody->_surname = tr("Nobody");
@@ -31,7 +32,8 @@ UserData* UserDataBasePlugin::user(quint32 userId)
 
 	if ( ! _users.contains(userId))
 	{
-		UserData* user = new UserDataBase(userId, this);
+		UserDataBase* user = new UserDataBase(userId, this);
+		user->_student = nobody();
 		user->moveToThread(this->thread());
 		_users.insert(userId, user);
 	}
