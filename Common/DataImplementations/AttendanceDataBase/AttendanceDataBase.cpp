@@ -3,9 +3,10 @@
 
 #include "../../TreeData.h"
 
-AttendanceDataBase::AttendanceDataBase(AttendanceDataBasePlugin* plugin) : AttendanceData(plugin)
+AttendanceDataBase::AttendanceDataBase(QList<EventData *> events, UserData *user, AttendanceDataBasePlugin* plugin) : AttendanceData(plugin)
 {
-
+	_user = user;
+	_events = events;
 }
 
 void AttendanceDataBase::keyToStream(QDataStream& s)
