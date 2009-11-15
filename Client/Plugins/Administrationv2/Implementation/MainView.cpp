@@ -2,4 +2,5 @@
 
 MainView::MainView()
 {
+    this->addTab(new ManageStudents(),tr("Students"));
 }
