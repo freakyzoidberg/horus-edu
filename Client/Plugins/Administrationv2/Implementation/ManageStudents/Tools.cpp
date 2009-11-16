@@ -28,7 +28,7 @@ QList<UserData*> mytools::getStudentfromClass(int id)
     foreach (UserData* user, _userplugin->allUser())
     {
                 //qDebug() << "item child : " << user->studentClass()->id() << " - " << id;
-        if (user->studentClass()->id() == id)
+        if ((user->studentClass()->id() == id) && (user->level() == LEVEL_STUDENT))
         {
             qDebug() << id;
             mylist.append(user);
