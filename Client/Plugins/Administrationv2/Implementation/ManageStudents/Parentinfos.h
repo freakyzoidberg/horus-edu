@@ -1,10 +1,10 @@
 #ifndef PARENTINFOS_H
 #define PARENTINFOS_H
 
-#include <QWidget>
+#include <QFrame>
 #include <QComboBox>
 #include "../../../../../Common/UserData.h"
-class ParentInfos : public QWidget
+class ParentInfos : public QFrame
 {
 public:
     ParentInfos();

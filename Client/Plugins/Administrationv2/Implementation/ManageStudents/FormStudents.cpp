@@ -4,6 +4,9 @@ FormStudents::FormStudents(QList<UserData*> list)
 {
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
 
+    FormLayout->setSpacing(0);
+    FormLayout->setMargin(0);
+
     BaseInfos = new BasicInfos();
     FormLayout->addWidget(BaseInfos);
 

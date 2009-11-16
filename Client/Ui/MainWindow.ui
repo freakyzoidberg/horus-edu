@@ -178,6 +178,32 @@ QLabel[isTitle=&quot;true&quot;]
 	font-weight: bold;
 }
 
+QLabel[isRound=&quot;true&quot;]
+{
+	border-radius: 4px;
+}
+
+QLabel[isFormLabel=&quot;true&quot;]
+{
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(200, 200, 200, 255), stop:1 rgba(234, 234, 234, 255));
+	border: 1px solid rgba(0, 0, 0, 32);
+	border-top-color: rgba(255, 255, 255, 32);
+	border-bottom-color: rgba(0, 0, 0, 32);
+	border-right-color: rgba(255, 255, 255, 128);
+	padding: 6px;
+	font-family: &quot;Tohoma&quot;;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+QFrame[isFormFrame=&quot;true&quot;]
+{
+	background: rgba(234, 234, 234, 255);
+	border: 1px solid rgb(200, 200, 200);
+	border-top-color: rgb(255, 255, 255);
+	border-left-color: rgb(255, 255, 255);
+}
+
 QListView 
 { 
 	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 

@@ -2,6 +2,7 @@
 
 SchoolInfos::SchoolInfos()
 {
+    setProperty("isFormFrame", true);
     QGridLayout *BasicLayout = new QGridLayout(this);
 
     raisons_redoublement = new QLineEdit();
@@ -9,10 +10,17 @@ SchoolInfos::SchoolInfos()
     //moyenne =new QLineEdit();
     //comment = new QTextEdit();
 
+    BasicLayout->setMargin(8);
+    BasicLayout->setSpacing(4);
 
-    BasicLayout->addWidget(new QLabel(tr("Redoublement")), 0, 0);
+    QLabel* label = new QLabel(tr("Redoublement"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 0, 0);
     BasicLayout->addWidget(nb_redoublement, 0, 1);
-    BasicLayout->addWidget(new QLabel(tr("Raisons")), 1, 0);
+
+    label = new QLabel(tr("Raisons"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 1, 0);
     BasicLayout->addWidget(raisons_redoublement, 1, 1);
 
     //BasicLayout->addWidget(new QLabel(tr("Moyenne")), 2, 0);

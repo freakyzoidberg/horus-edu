@@ -32,7 +32,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     RightLayout->setMargin(0);
     RightLayout->setSpacing(2);
     QLabel *infoTitle = new QLabel(tr("Informations:"));
-    infoTitle->setProperty("isTitle", QVariant(true));
+    infoTitle->setProperty("isTitle", true);
+    infoTitle->setProperty("isRound", true);
     RightLayout->addWidget(infoTitle);
     informationsFrame = new QFrame(this);
     informationsFrame->setMinimumWidth(200);
@@ -43,7 +44,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     RightLayout->addWidget(informationsFrame);
 
     QLabel *actionTitle = new QLabel(tr("Actions:"));
-    actionTitle->setProperty("isTitle", QVariant(true));
+    actionTitle->setProperty("isTitle", true);
+    actionTitle->setProperty("isRound", true);
     RightLayout->addWidget(actionTitle);
     RightLayout->addWidget(back);
     RightLayout->addWidget(save);

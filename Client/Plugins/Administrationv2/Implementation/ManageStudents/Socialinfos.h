@@ -1,13 +1,13 @@
 #ifndef SOCIALINFOS_H
 #define SOCIALINFOS_H
 
-#include <QWidget>
+#include <QFrame>
 #include <QLineEdit>
 #include <QTextEdit>
 #include <QGridLayout>
 #include <QLabel>
 #include "../../../../../Common/UserData.h"
-class SocialInfos : public QWidget
+class SocialInfos : public QFrame
 {
     public:
         SocialInfos();

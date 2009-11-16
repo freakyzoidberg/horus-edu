@@ -2,8 +2,11 @@
 
 SuiviInfos::SuiviInfos()
 {
+    setProperty("isFormFrame", true);
     QGridLayout *BasicLayout = new QGridLayout(this);
 
+    BasicLayout->setMargin(8);
+    BasicLayout->setSpacing(4);
 
     annee_quitte = new QSpinBox();
     suivi = new QTextEdit();
@@ -14,10 +17,14 @@ SuiviInfos::SuiviInfos()
     //BasicLayout->addWidget(new QLabel(tr("Class next year")), 0, 0);
     //BasicLayout->addWidget(ClasseNextYear, 0, 1);
 
-    BasicLayout->addWidget(new QLabel(tr("Annee quitte")), 1, 0);
+    QLabel* label = new QLabel(tr("Annee quitte"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 1, 0);
     BasicLayout->addWidget(annee_quitte, 1, 1);
 
-    BasicLayout->addWidget(new QLabel(tr("Suivi post ecoline")), 2, 0);
+    label = new QLabel(tr("Suivi post ecoline"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 2, 0);
     BasicLayout->addWidget(suivi, 2, 1);
 BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
