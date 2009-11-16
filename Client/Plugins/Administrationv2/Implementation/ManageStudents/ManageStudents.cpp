@@ -199,11 +199,11 @@ void ManageStudents::gosave()
             newUSer->setSurname(StudentForm->BaseInfos->getSurName());
             newUSer->setAddress(StudentForm->BaseInfos->getAddress());
             newUSer->setBirthDate(StudentForm->BaseInfos->getBday());
-            newUSer->setAddress(StudentForm->BaseInfos->getAddress());
+
 
             //Social Infos
             newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
-
+            qDebug() << "Motif " << StudentForm->SocInfos->getMotif();
             // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
             newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison());
 

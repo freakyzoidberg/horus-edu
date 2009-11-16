@@ -25,6 +25,8 @@ FormStudents::FormStudents(UserData *d)
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
     id = d->id();
 
+
+    qDebug() << d;
     BaseInfos = new BasicInfos(d);
     FormLayout->addWidget(BaseInfos);
 
