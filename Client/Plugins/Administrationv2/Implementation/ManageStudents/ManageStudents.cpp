@@ -1,25 +1,25 @@
 #include "ManageStudents.h"
 #include <QDebug>
 #include <QMessageBox>
+
 ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
 {
     UD = userplugin;
     TD = treeplugin;
 
     MainLayout = new QHBoxLayout();
+    MainLayout->setSpacing(0);
+    MainLayout->setMargin(2);
 
-    QHBoxLayout *ActionLayout = new QHBoxLayout();
+    QVBoxLayout *ActionLayout = new QVBoxLayout();
 
     StudentList = new ListSelection(treeplugin, userplugin);
-    addstudent = new QPushButton(tr("add"));
-    back = new QPushButton(tr("back"));
-    edit = new QPushButton(tr("edit"));
-    save = new QPushButton(tr("save"));
-    del = new QPushButton(tr("delete"));
+    addstudent = new QPushButton(QIcon(":/Icons/add-students.png"), tr("Add a student"));
+    back = new QPushButton(QIcon(":/Icons/back.png"), tr("Back"));
+    edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
+    save = new QPushButton(QIcon(":/Icons/save.png"), tr("Save"));
+    del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete this student"));
     StudentForm = 0;
-
-
-
 
     connect(addstudent, SIGNAL(clicked()), this, SLOT(goadd()));
     connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
@@ -28,6 +28,9 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
     connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
+
+    ActionLayout->setMargin(0);
+    ActionLayout->setSpacing(2);
     ActionLayout->addWidget(back);
     ActionLayout->addWidget(save);
     ActionLayout->addWidget(edit);
@@ -42,9 +45,13 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 
     QBoxLayout	*rightLayout;
     rightLayout = new  QBoxLayout(QBoxLayout::TopToBottom);
+    rightLayout->setSpacing(0);
+    rightLayout->setMargin(0);
     QFrame *informationsFrame = new QFrame(this);
     informationsFrame->setMinimumWidth(200);
     QBoxLayout *informationsLayout = new QBoxLayout(QBoxLayout::TopToBottom, informationsFrame);
+    informationsLayout->setSpacing(0);
+    informationsLayout->setMargin(0);
     QLabel *informationsTitle = new QLabel(this);
     informationsLayout->addWidget(informationsTitle);
     //informationsLayout->addWidget(new DisplayParent(this));

@@ -6,7 +6,6 @@
         <file>Icons/students.png</file>
         <file>Icons/teachers.png</file>
         <file>Icons/desk.png</file>
-
         <file>Icons/add-administrator.png</file>
         <file>Icons/add-parents.png</file>
         <file>Icons/add-students.png</file>
@@ -22,5 +21,7 @@
         <file>Icons/remove-desk.png</file>
         <file>Icons/add-desk.png</file>
         <file>Icons/edit-desk.png</file>
+        <file>Icons/back.png</file>
+        <file>Icons/save.png</file>
     </qresource>
 </RCC>
