@@ -10,7 +10,12 @@ FormStudents::FormStudents(QList<UserData*> list)
     ParInfos = new ParentInfos();
     ParInfos->getParent()->addItem(tr("none"), 0);
     foreach (UserData* mud, list)
-    ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+    {
+qDebug() << mud->login();
+        ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+    }
+
+
     FormLayout->addWidget(ParInfos);
 
     SocInfos = new SocialInfos();

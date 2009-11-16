@@ -1,13 +1,11 @@
 #include "ClassList.h"
 #include <QDebug>
 #include <QMimeData>
-CClassList::CClassList(QWidget *it)
+CClassList::CClassList()
 {
-    Ls = it;
-}
+    viewport()->setAcceptDrops(true);
+    setMovement(QListView::Snap);
+    setDragDropMode(QAbstractItemView::DropOnly);
 
-bool CClassList::dropMimeData(QTreeWidgetItem * parent, int index, const QMimeData * data, Qt::DropAction action)
-{
-    qDebug() << data->data("id");
-	return (false); //TODO return a good value
+
 }

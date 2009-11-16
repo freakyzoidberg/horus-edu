@@ -6,7 +6,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 {
     UD = userplugin;
     TD = treeplugin;
-
+    info = 0;
     MainLayout = new QHBoxLayout();
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
@@ -34,9 +34,9 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     QLabel *infoTitle = new QLabel(tr("Informations:"));
     infoTitle->setProperty("isTitle", QVariant(true));
     RightLayout->addWidget(infoTitle);
-    QFrame *informationsFrame = new QFrame(this);
+    informationsFrame = new QFrame(this);
     informationsFrame->setMinimumWidth(200);
-    QVBoxLayout *informationsLayout = new QVBoxLayout(informationsFrame);
+    informationsLayout = new QVBoxLayout(informationsFrame);
     informationsLayout->setSpacing(0);
     informationsLayout->setMargin(0);
     //informationsLayout->addWidget(new DisplayParent(this));
@@ -98,6 +98,7 @@ void ManageStudents::goadd()
         back->setVisible(true);
         del->setVisible(false);
         edit->setVisible(false);
+
     }
     else
        qDebug() << "Erreur";
@@ -121,19 +122,25 @@ if (StudentForm)
     back->setVisible(true);
     edit->setVisible(false);
     del->setVisible(false);
+
+
 }
 
 
 
 void ManageStudents::godel()
 {
-    qDebug() << "del from " <<  StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
+
     if (StudentList->StudentList->selectedItems().count() > 0)
     {
         UserData* myuser = UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt());
         myuser->remove();
 StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
-    }
+if (info)
+{
+delete info;
+info = 0;
+}    }
 
 }
 
@@ -162,7 +169,7 @@ void ManageStudents::goback()
 
     if (StudentList->StudentList->selectedItems().count() > 0)
     {
-        qDebug() << "count : " << StudentList->StudentList->selectedItems().count();
+
     del->setEnabled(true);
     edit->setEnabled(true);
     }
@@ -209,7 +216,7 @@ void ManageStudents::gosave()
 
             //Social Infos
             newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
-            qDebug() << "Motif " << StudentForm->SocInfos->getMotif();
+
             // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
             newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison()+"|:/:|:/|");
 
@@ -261,7 +268,11 @@ void ManageStudents::gosave()
             edit->setEnabled(false);
 
         }
-
+    if (info)
+        {
+    delete info;
+    info = 0;
+        }
     }
 }
 
@@ -274,6 +285,11 @@ void ManageStudents::checkCreated(Data *user)
 
 void ManageStudents::seteditfalse()
 {
+    if (info)
+    {
+        delete info;
+        info = 0;
+    }
      edit->setEnabled(false);
      del->setEnabled(false);
 }
@@ -282,6 +298,13 @@ void ManageStudents::setedittrue()
 {
      edit->setEnabled(true);
      del->setEnabled(true);
+    if (info)
+     {
+        delete info;
+        info = 0;
+    }
+    info = new InfoPanel(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
+    informationsLayout->addWidget(info);
 }
 
 
@@ -291,9 +314,9 @@ QList<UserData*> ManageStudents::getAllParents()
 
     foreach (UserData* user, UD->allUser())
     {
+        qDebug() <<user->id()<< " -----: " << user->level();
         if (user->level() == LEVEL_FAMILY)
         {
-
             mylist.append(user);
         }
     }
