@@ -7,7 +7,7 @@
 
 # include			"../../../../../Common/PluginManager.h"
 # include			"../../../../../Common/UserData.h"
-# include			"ListParents.h"
+//# include			"ListParents.h"
 # include			"EditParent.h"
 
 class				ManageParents : public QWidget
@@ -19,7 +19,7 @@ public:
 
 private:
 	PluginManager	*_pluginManager;
-	ListParents		*list;
+	//ListParents		*list;
 	EditParent		*edit;
 	QBoxLayout		*layout;
 
