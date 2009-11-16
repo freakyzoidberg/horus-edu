@@ -30,8 +30,8 @@ SchoolInfos::SchoolInfos(UserData *d)
 {
     QGridLayout *BasicLayout = new QGridLayout(this);
 
-    raisons_renoublement = new QLineEdit();
-    raisons_renoublement->setText("pas dans les data");
+    raisons_redoublement = new QLineEdit();
+    raisons_redoublement->setText("pas dans les data");
     nb_redoublement = new QSpinBox();
     //nb_redoublement->setValue();
     moyenne =new QLineEdit();
@@ -42,7 +42,7 @@ SchoolInfos::SchoolInfos(UserData *d)
     BasicLayout->addWidget(new QLabel(tr("redoublement")), 0, 0);
     BasicLayout->addWidget(nb_redoublement, 0, 1);
     BasicLayout->addWidget(new QLabel(tr("raisons")), 1, 0);
-    BasicLayout->addWidget(raisons_renoublement, 1, 1);
+    BasicLayout->addWidget(raisons_redoublement, 1, 1);
 
     BasicLayout->addWidget(new QLabel(tr("moyenne")), 2, 0);
     BasicLayout->addWidget(moyenne, 2, 1);
