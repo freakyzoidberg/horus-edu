@@ -25,7 +25,7 @@ QVariant	ParentsModel::data(const QModelIndex &index, int role) const
 	return (QVariant());
 }
 
-int			ParentsModel::rowCount(const QModelIndex &parent) const
+int         ParentsModel::rowCount(const QModelIndex &parent) const
 {
 	quint32	i;
 	
