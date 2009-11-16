@@ -22,6 +22,7 @@ ListSelection::ListSelection(TreeDataPlugin *treeplugin, UserDataPlugin *userplu
        ClassList->setGridSize(QSize(64, 54));
        ClassList->setWrapping(true);
        ClassList->setMaximumHeight(64);
+       ClassList->setSelectionRectVisible(false);
 /*
 StudentList->setSelectionMode(QAbstractItemView::SingleSelection);
 ClassList->setSelectionMode(QAbstractItemView::SingleSelection);
