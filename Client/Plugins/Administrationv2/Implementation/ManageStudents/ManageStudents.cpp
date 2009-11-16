@@ -120,6 +120,13 @@ StudentForm = new FormStudents(UD->user(StudentList->StudentList->selectedItems(
 void ManageStudents::godel()
 {
     qDebug() << "del from " <<  StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
+    if (StudentList->StudentList->selectedItems().count() > 0)
+    {
+        UserData* myuser = UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt());
+        myuser->remove();
+StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
+    }
+
 }
 
 
@@ -214,7 +221,7 @@ void ManageStudents::gosave()
             addstudent->setVisible(true);
             save->setVisible(false);
             StudentList->setVisible(true);
-
+            StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
             addstudent->setVisible(true);
             save->setVisible(false);
             back->setVisible(false);
@@ -228,9 +235,9 @@ void ManageStudents::gosave()
 
 void ManageStudents::checkCreated(Data *user)
 {
-    QMessageBox msgBox;
-    msgBox.setText(tr("L'utilisateur a bien ete crée"));
-    msgBox.exec();
+   // QMessageBox msgBox;
+   // msgBox.setText(tr("L'utilisateur a bien ete crée"));
+   // msgBox.exec();
 }
 
 void ManageStudents::seteditfalse()
