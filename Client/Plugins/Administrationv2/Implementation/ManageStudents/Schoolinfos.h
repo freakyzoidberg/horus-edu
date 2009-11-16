@@ -7,10 +7,12 @@
 #include <QTextEdit>
 #include <QGridLayout>
 #include <QLabel>
+#include "../../../../../Common/UserData.h"
 class SchoolInfos : public QWidget
 {
 public:
     SchoolInfos();
+    SchoolInfos(UserData *d);
     QLineEdit *raisons_renoublement;
     QSpinBox *nb_redoublement;
     QTextEdit *motif;
