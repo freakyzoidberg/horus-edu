@@ -6,13 +6,13 @@ BasicInfos::BasicInfos()
 
     name = new QLineEdit(this);
     surname = new QLineEdit(this);
-    bday = new QLineEdit(this);
+    bday = new QDateEdit(this);
     address = new QLineEdit(this);
 
-    BasicLayout->addRow(tr("name"), name);
-    BasicLayout->addRow(tr("surname"), surname);
-    BasicLayout->addRow(tr("birthday"), bday);
-    BasicLayout->addRow(tr("adress"), address);
+    BasicLayout->addRow(tr("Nom"), name);
+    BasicLayout->addRow(tr("Prenom"), surname);
+    BasicLayout->addRow(tr("Date de naissance"), bday);
+    BasicLayout->addRow(tr("Adresse"), address);
     this->setLayout(BasicLayout);
 }
 
@@ -24,14 +24,14 @@ BasicInfos::BasicInfos(UserData* ud)
     name->setText(ud->name());
     surname = new QLineEdit(this);
     surname->setText(ud->surname());
-    bday = new QLineEdit(this);
-    bday->setText(ud->birthDate().toString());
+    bday = new QDateEdit(this);
+    bday->setDate(ud->birthDate());
     address = new QLineEdit(this);
     address->setText(ud->address());
 
-    BasicLayout->addRow(tr("name"), name);
-    BasicLayout->addRow(tr("surname"), surname);
-    BasicLayout->addRow(tr("birthday"), bday);
-    BasicLayout->addRow(tr("adress"), address);
+    BasicLayout->addRow(tr("Nom"), name);
+    BasicLayout->addRow(tr("Prenom"), surname);
+    BasicLayout->addRow(tr("Date de naissance"), bday);
+    BasicLayout->addRow(tr("Adresse"), address);
     this->setLayout(BasicLayout);
 }

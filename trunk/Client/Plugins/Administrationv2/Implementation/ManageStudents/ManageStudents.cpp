@@ -4,6 +4,7 @@
 ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
 {
     UD = userplugin;
+    TD = treeplugin;
 
     MainLayout = new QHBoxLayout();
 
@@ -131,14 +132,23 @@ void ManageStudents::gosave()
     if (StudentForm)
     {
         if (!StudentForm->BaseInfos->getName().isEmpty() &&
-            !StudentForm->BaseInfos->getSurName().isEmpty() &&
-            !StudentForm->BaseInfos->getBday().isEmpty())
+            !StudentForm->BaseInfos->getSurName().isEmpty())
         {
 
 
             UserData* newUSer = UD->createUser(StudentForm->BaseInfos->getName());
 
+            newUSer->setLevel(LEVEL_STUDENT);
+            newUSer->setSurname(StudentForm->BaseInfos->getSurName());
             newUSer->setAddress(StudentForm->BaseInfos->getAddress());
+            newUSer->setBirthDate(StudentForm->BaseInfos->getBday());
+            newUSer->setAddress(StudentForm->BaseInfos->getAddress());
+            newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
+            newUSer->setComment(StudentForm->SchoInfos->getComment());
+            newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+            newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
+            newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
+            newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
             delete StudentForm;
             StudentForm = 0;
             edit->setVisible(true);
