@@ -53,6 +53,7 @@ StudentList->clear();
         //QMimeData *mimeData = new QMimeData();
 
             QListWidgetItem *tempitem = new QListWidgetItem(user->name() +" "+ user->surname());
+            tempitem->setData(Qt::UserRole, user->id());
             //tempitem->setData(Qt::UserRole, i.key());
 
               //  mimeData->setData("id", QVariant(user->id()).toByteArray());

@@ -31,6 +31,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     ActionLayout->addWidget(back);
     ActionLayout->addWidget(save);
     ActionLayout->addWidget(edit);
+    ActionLayout->addWidget(del);
     ActionLayout->addWidget(addstudent);
 
     MainLayout->addWidget(StudentList);
@@ -102,7 +103,7 @@ if (StudentForm)
         delete StudentForm;
         StudentForm = 0;
     }
-    StudentForm = new FormStudents();
+StudentForm = new FormStudents(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     MainLayout->insertWidget(0, StudentForm);
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     StudentList->setVisible(false);
@@ -156,15 +157,25 @@ void ManageStudents::gosave()
 {
     if (StudentForm)
     {
+
         if (!StudentForm->BaseInfos->getName().isEmpty() &&
             !StudentForm->BaseInfos->getSurName().isEmpty())
         {
 
-            qDebug() << StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
-            UserData* newUSer = UD->createUser(StudentForm->BaseInfos->getName());
+
+          //  qDebug() << StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
+
+//qDebug() << "id user" << StudentForm->id;
+
+            UserData* newUSer;
+            if (StudentForm->id == 0)
+            newUSer = UD->createUser(StudentForm->BaseInfos->getName());
+            else
+            newUSer = UD->user(StudentForm->id);
 
 
             //Data
+            newUSer->setName(StudentForm->BaseInfos->getName());
             newUSer->setLevel(LEVEL_STUDENT);
             newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
             newUSer->setPassword(StudentForm->BaseInfos->getSurName());
@@ -191,8 +202,12 @@ void ManageStudents::gosave()
             newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
                 //ClasseNextYear
 
+
             newUSer->setEnable(true);
-            newUSer->create();
+            if (StudentForm->id == 0)
+                newUSer->create();
+            else
+                newUSer->save();
             delete StudentForm;
             StudentForm = 0;
             edit->setVisible(true);
@@ -205,7 +220,9 @@ void ManageStudents::gosave()
             back->setVisible(false);
             edit->setVisible(true);
             del->setVisible(false);
+
         }
+
     }
 }
 

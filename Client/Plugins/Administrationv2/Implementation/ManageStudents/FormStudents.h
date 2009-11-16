@@ -18,6 +18,7 @@ public:
     SocialInfos *SocInfos;
     SchoolInfos *SchoInfos;
     SuiviInfos *SuiInfos;
+    int id;
 };
 
 #endif // FORMSTUDENTS_H
