@@ -44,7 +44,7 @@ class TreeDataBase : public TreeData
   QDebug          operator<<(QDebug debug) const;
 
   // INTERFACE TreeData
-  inline int     id() const { return _id; }
+  inline quint32      id() const { return _id; }
 
   TreeData*           createChild(const QString name, const QString type, UserData* user);
   void                recursRemove();
