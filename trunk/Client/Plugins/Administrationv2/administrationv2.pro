@@ -8,6 +8,7 @@ DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
     Implementation/ManageParents/ManageParents.cpp \
     Implementation/ManageParents/DisplayParent.cpp \
+    Implementation/ManageParents/EditParent.cpp \
     Implementation/ManageParents/ParentsModel.cpp \
     Implementation/ManageStudents/ManageStudents.cpp \
     Implementation/MainView.cpp \
@@ -34,6 +35,7 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/Data.h \
     Implementation/ManageParents/ManageParents.h \
     Implementation/ManageParents/DisplayParent.h \
+    Implementation/ManageParents/EditParent.h \
     Implementation/ManageParents/ParentsModel.h \
     Implementation/ManageStudents/ManageStudents.h \
     Implementation/MainView.h \
