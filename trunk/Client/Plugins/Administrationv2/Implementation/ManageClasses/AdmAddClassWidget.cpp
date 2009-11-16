@@ -198,16 +198,21 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
 {
 	if (col == 3)
 	{
-		UserData *user = _userplugin->user(QVariant(_table->item(row, 4)->text()).toInt());
-		TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
+		QMessageBox msgBox;
+		msgBox.setText(tr("Voulez-vous vraiment supprimer cette classe?"));
+		QPushButton *connectButton = msgBox.addButton(tr("Confirmer."), QMessageBox::ActionRole);
+		QPushButton *abortButton = msgBox.addButton(QMessageBox::Abort);
 
-		qDebug() << "delete id: " << _table->item(row, 5)->text();
+		msgBox.exec();
 
-		data->remove();
-
-		_table->removeRow(row);
-		//user->setStudent(_userplugin->user(0));
-		//user->save();
+		if (msgBox.clickedButton() == connectButton)
+		{
+			TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
+			data->remove();
+			_table->removeRow(row);
+		}
+		else if (msgBox.clickedButton() == abortButton)
+		  return ;
 	}
         else if (col == 2)
         {
