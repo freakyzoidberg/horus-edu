@@ -58,8 +58,10 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 
     save->setVisible(false);
     back->setVisible(false);
-    edit->setVisible(false);
-    del->setVisible(false);
+    edit->setVisible(true);
+    edit->setEnabled(false);
+    del->setVisible(true);
+    del->setEnabled(false);
     StudentList->updateall();
 
 
@@ -226,7 +228,9 @@ void ManageStudents::gosave()
             save->setVisible(false);
             back->setVisible(false);
             edit->setVisible(true);
-            del->setVisible(false);
+            edit->setEnabled(false);
+            del->setVisible(true);
+            edit->setEnabled(false);
 
         }
 
@@ -242,12 +246,12 @@ void ManageStudents::checkCreated(Data *user)
 
 void ManageStudents::seteditfalse()
 {
-     edit->setVisible(false);
-     del->setVisible(false);
+     edit->setEnabled(false);
+     del->setEnabled(false);
 }
 
 void ManageStudents::setedittrue()
 {
-     edit->setVisible(true);
-     del->setVisible(true);
+     edit->setEnabled(true);
+     del->setEnabled(true);
 }
