@@ -144,6 +144,7 @@ void UserDataBasePlugin::loadData()
 		u->_followUp = query.value(25).toString();
 		u->_comment = query.value(26).toString();
 		u->_lastChange = query.value(27).toDateTime();
+		u->_status = Data::UPTODATE;
 
 		disconnect(u, SLOT(studentClassRemoved()));
 		connect(u->_studentClass, SIGNAL(removed()), u, SLOT(studentClassRemoved()));
