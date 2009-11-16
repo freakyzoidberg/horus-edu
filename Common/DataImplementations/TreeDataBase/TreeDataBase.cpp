@@ -25,7 +25,7 @@ void TreeDataBase::userRemoved()
 
 void TreeDataBase::keyToStream(QDataStream& s)
 {
-    s << id();
+	s << _id;
 }
 
 void TreeDataBase::dataToStream(QDataStream& s) const

@@ -7,6 +7,12 @@
 
 UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, plugin)
 {
+	_level = __LAST_LEVEL__;
+	_enabled = false;
+	_loggedIn = false;
+	_gender = GENDER_UNKNOW;
+	_repeatedYears = 0;
+	_leaveYear = 0;
 	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 }
@@ -24,8 +30,7 @@ void UserDataBase::keyToStream(QDataStream& s)
 }
 
 void UserDataBase::dataToStream(QDataStream& s) const
-{//enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,
- //country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime
+{
 	s << _enabled
 	  << _login
 	  << _level
@@ -42,7 +47,7 @@ void UserDataBase::dataToStream(QDataStream& s) const
 	  << _phone2
 	  << _phone3
 	  << _country
-          << (quint8 ) _gender
+	  << (quint8)_gender
 	  << _occupation
 	  << _proCategory
 	  << _relationship
@@ -307,34 +312,34 @@ quint8 UserDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-	_enabled    = query.value(0).toBool();
-	_login      = query.value(1).toString();
-	_level      = (UserLevel)(query.value(2).toUInt());
-	_password   = QByteArray::fromHex(query.value(3).toByteArray());
-	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
-	_lastLogin  = query.value(5).toDateTime();
-	_language   = query.value(6).toString();
-	_surname    = query.value(7).toString();
-	_name       = query.value(8).toString();
-	_birthDate  = query.value(9).toDate();
-	_picture    = query.value(10).toByteArray();
-	_address    = query.value(11).toString();
-	_phone1     = query.value(12).toString();
-	_phone2     = query.value(13).toString();
-	_phone3     = query.value(14).toString();
-	_country    = query.value(15).toString();
-	_gender     = (UserGender)(query.value(16).toUInt());
-	_occupation = query.value(17).toString();
-	_proCategory  = query.value(18).toString();
-	_relationship = query.value(19).toString();
-	_student    = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
-	_mail       = query.value(21).toString();
-	_subscriptionReason = query.value(22).toString();
-	_repeatedYears = query.value(23).toUInt();
-	_leaveYear = query.value(24).toUInt();
-	_followUp = query.value(25).toString();
-	_comment = query.value(26).toString();
-	_lastChange = query.value(27).toDateTime();
+	_enabled		= query.value(0).toBool();
+	_login			= query.value(1).toString();
+	_level			= (UserLevel)(query.value(2).toUInt());
+	_password		= QByteArray::fromHex(query.value(3).toByteArray());
+	_studentClass	= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
+	_lastLogin		= query.value(5).toDateTime();
+	_language		= query.value(6).toString();
+	_surname		= query.value(7).toString();
+	_name			= query.value(8).toString();
+	_birthDate		= query.value(9).toDate();
+	_picture		= query.value(10).toByteArray();
+	_address		= query.value(11).toString();
+	_phone1			= query.value(12).toString();
+	_phone2			= query.value(13).toString();
+	_phone3			= query.value(14).toString();
+	_country		= query.value(15).toString();
+	_gender			= (UserGender)(query.value(16).toUInt());
+	_occupation		= query.value(17).toString();
+	_proCategory	= query.value(18).toString();
+	_relationship	= query.value(19).toString();
+	_student		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
+	_mail			= query.value(21).toString();
+	_subscriptionReason	= query.value(22).toString();
+	_repeatedYears	= query.value(23).toUInt();
+	_leaveYear		= query.value(24).toUInt();
+	_followUp		= query.value(25).toString();
+	_comment		= query.value(26).toString();
+	_lastChange		= query.value(27).toDateTime();
 
 	disconnect(this, SLOT(studentClassRemoved()));
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
@@ -346,7 +351,7 @@ quint8 UserDataBase::serverRead()
 quint8 UserDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("INSERT INTO user (enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
+	query.prepare("INSERT INTO user (enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
@@ -369,7 +374,7 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_relationship);
 	query.addBindValue(_student->id());
 	query.addBindValue(_mail);
-        qDebug() << _subscriptionReason;
+	qDebug() << _subscriptionReason;
 	query.addBindValue(_subscriptionReason);
 	query.addBindValue(_repeatedYears);
 	query.addBindValue(_leaveYear);
@@ -379,6 +384,7 @@ quint8 UserDataBase::serverCreate()
 
 	//passmail
 	query.addBindValue(_login);
+
     qDebug() << query.lastQuery();
 	if ( ! query.exec())
 	{

@@ -59,7 +59,7 @@ public:
     /*!
       \return id of the node
     */
-    virtual int     id() const = 0;
+	virtual quint32  id() const = 0;
 
 
     //! Get User in charge of the node
