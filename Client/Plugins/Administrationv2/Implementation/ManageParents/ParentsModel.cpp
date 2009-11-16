@@ -16,7 +16,7 @@ QVariant	ParentsModel::data(const QModelIndex &index, int role) const
 		if (index.row() == i && user->level() == LEVEL_FAMILY)
 		{
 			if (role == Qt::DisplayRole || role == Qt::EditRole)
-				return (user->login());
+				return (user->name() +  user->surname());
 			else if (role == Qt::UserRole)
 				return (user->id());
 		}
@@ -25,7 +25,7 @@ QVariant	ParentsModel::data(const QModelIndex &index, int role) const
 	return (QVariant());
 }
 
-int         ParentsModel::rowCount(const QModelIndex &parent) const
+int			ParentsModel::rowCount(const QModelIndex &) const
 {
 	quint32	i;
 	

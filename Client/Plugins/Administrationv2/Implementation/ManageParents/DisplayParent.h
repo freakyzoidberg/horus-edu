@@ -3,12 +3,15 @@
 
 # include	<QWidget>
 
+# include	"../../../../../Common/UserData.h"
+
 class		DisplayParent : public QWidget
 {
 	Q_OBJECT
 
 public:
 	DisplayParent(QWidget *parent);
+	DisplayParent(QWidget *parent, UserData *user);
 };
 
 #endif

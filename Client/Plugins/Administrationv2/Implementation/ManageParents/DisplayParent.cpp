@@ -6,56 +6,128 @@
 DisplayParent::DisplayParent(QWidget *parent) : QWidget(parent)
 {
 	QGridLayout	*layout;
-	QLabel		*fieldLabel;
-	QLabel		*valueLabel;
+	QLabel		*helperLabel;
 
 	layout = new QGridLayout(this);
-	fieldLabel = new QLabel(tr("First name"), this);
-	layout->addWidget(fieldLabel, 0, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 0, 1);
-	fieldLabel = new QLabel(tr("Last name"), this);
-	layout->addWidget(fieldLabel, 1, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 1, 1);
-	fieldLabel = new QLabel(tr("Sex"), this);
-	layout->addWidget(fieldLabel, 2, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 2, 1);
-	fieldLabel = new QLabel(tr("Birthday"), this);
-	layout->addWidget(fieldLabel, 3, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 3, 1);
-	fieldLabel = new QLabel(tr("Address"), this);
-	layout->addWidget(fieldLabel, 4, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 4, 1);
-	fieldLabel = new QLabel(tr("Email"), this);
-	layout->addWidget(fieldLabel, 5, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 5, 1);
-	fieldLabel = new QLabel(tr("Home phone"), this);
-	layout->addWidget(fieldLabel, 6, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 6, 1);
-	fieldLabel = new QLabel(tr("Work phone"), this);
-	layout->addWidget(fieldLabel, 7, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 7, 1);
-	fieldLabel = new QLabel(tr("Mobile phone"), this);
-	layout->addWidget(fieldLabel, 8, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 8, 1);
-	fieldLabel = new QLabel(tr("Occupational Category"), this);
-	layout->addWidget(fieldLabel, 9, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 9, 1);
-	fieldLabel = new QLabel(tr("Job"), this);
-	layout->addWidget(fieldLabel, 10, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 10, 1);
-	fieldLabel = new QLabel(tr("Type"), this);
-	layout->addWidget(fieldLabel, 11, 0);
-	valueLabel = new QLabel("FILL ME", this);
-	layout->addWidget(valueLabel, 11, 1);
+	helperLabel = new QLabel(tr("Please select one parent to display its informations"), this);
+	layout->addWidget(helperLabel);
+}
+
+DisplayParent::DisplayParent(QWidget *parent, UserData *user) : QWidget(parent)
+{
+	QGridLayout	*layout;
+	QLabel		*fieldLabel;
+	QLabel		*valueLabel;
+	QString		value;
+	int			row;
+
+	layout = new QGridLayout(this);
+	value = user->surname();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("First name"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->name();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Last name"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->gender();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Gender"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->birthDate().toString();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Birth date"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->address();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Address"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->mail();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Email"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone1();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Home phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone2();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Work phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone3();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Mobile phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->proCategory();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Occupational category"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->occupation();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Occupation"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->relationship();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Relationship"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
 }
