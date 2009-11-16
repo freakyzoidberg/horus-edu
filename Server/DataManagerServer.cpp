@@ -11,7 +11,7 @@
 
 void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 {
-	QMutexLocker(&data->mutex);
+	QMutexLocker M(&data->mutex);
 
 	UserData* user = PluginManagerServer::instance()->currentUser();
 	quint8 error = 0;
@@ -93,7 +93,9 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		foreach (UserData* u, ClientSocket::connectedUsers.keys())
 			sendData(u, data, Data::DELETED);
 
-		delete data;
+		//TODO: test with this 2 lines
+		//		M.unlock();
+		//		delete data;
 		return;
 	}
 
