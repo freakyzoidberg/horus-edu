@@ -20,7 +20,7 @@ FormStudents::FormStudents()
     this->setLayout(FormLayout);
 }
 
-FormStudents::FormStudents(UserData *)
+FormStudents::FormStudents(UserData *d)
 {
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
 

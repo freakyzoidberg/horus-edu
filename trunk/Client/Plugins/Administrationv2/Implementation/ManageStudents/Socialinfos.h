@@ -6,10 +6,12 @@
 #include <QTextEdit>
 #include <QGridLayout>
 #include <QLabel>
+#include "../../../../../Common/UserData.h"
 class SocialInfos : public QWidget
 {
 public:
     SocialInfos();
+    SocialInfos(UserData *d);
     QLineEdit *referent;
     QLineEdit *aides;
     QTextEdit *motif;

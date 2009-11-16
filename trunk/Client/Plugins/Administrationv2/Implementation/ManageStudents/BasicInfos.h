@@ -3,11 +3,14 @@
 #include <QFormLayout>
 #include <QWidget>
 #include <QLabel>
+#include <QDate>
 #include <QLineEdit>
+#include "../../../../../Common/UserData.h"
 class BasicInfos : public QWidget
 {
 public:
     BasicInfos();
+    BasicInfos(UserData* ud);
     QString getName() { return name->text();};
     QString getSurName() { return surname->text();};
     QString getBday() { return bday->text();};
@@ -18,5 +21,6 @@ private:
     QLineEdit *bday;
     QLineEdit *address;
 };
+
 
 #endif // BASICINFOS_H
