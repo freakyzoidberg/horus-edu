@@ -193,7 +193,7 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
 	if (col == 3)
 	{
 		UserData *user = _userplugin->user(QVariant(_table->item(row, 4)->text()).toInt());
-		TreeData *data = _treeplugin->node(QVariant(_table->item(row, 4)->text()).toInt());
+		TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
 
 		qDebug() << "delete id: " << _table->item(row, 5)->text();
 
