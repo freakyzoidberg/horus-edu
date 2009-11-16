@@ -333,7 +333,7 @@ quint8 UserDataBase::serverRead()
 quint8 UserDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO user (enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
+        query.prepare("INSERT INTO user (enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
@@ -365,7 +365,7 @@ quint8 UserDataBase::serverCreate()
 
 	//passmail
 	query.addBindValue(_login);
-
+    qDebug() << query.lastQuery();
 	if ( ! query.exec())
 	{
 		qDebug() << query.lastError();
