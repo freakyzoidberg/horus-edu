@@ -163,17 +163,34 @@ void ManageStudents::gosave()
             qDebug() << StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
             UserData* newUSer = UD->createUser(StudentForm->BaseInfos->getName());
 
+
+            //Data
             newUSer->setLevel(LEVEL_STUDENT);
+            newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+            newUSer->setPassword(StudentForm->BaseInfos->getSurName());
+            //BasicInfos
             newUSer->setSurname(StudentForm->BaseInfos->getSurName());
             newUSer->setAddress(StudentForm->BaseInfos->getAddress());
             newUSer->setBirthDate(StudentForm->BaseInfos->getBday());
             newUSer->setAddress(StudentForm->BaseInfos->getAddress());
-            newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
-            newUSer->setComment(StudentForm->SchoInfos->getComment());
-            newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+
+            //Social Infos
             newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
+
+            // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
+            newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison());
+
+
+            //Scholar infos
+            newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
+
+
+
+            //Suivi infos
             newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
             newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
+                //ClasseNextYear
+
             newUSer->setEnable(true);
             newUSer->create();
             delete StudentForm;

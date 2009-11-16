@@ -6,8 +6,8 @@ SchoolInfos::SchoolInfos()
 
     raisons_redoublement = new QLineEdit();
     nb_redoublement = new QSpinBox();
-    moyenne =new QLineEdit();
-    comment = new QTextEdit();
+    //moyenne =new QLineEdit();
+    //comment = new QTextEdit();
 
 
     BasicLayout->addWidget(new QLabel(tr("Redoublement")), 0, 0);
@@ -15,11 +15,11 @@ SchoolInfos::SchoolInfos()
     BasicLayout->addWidget(new QLabel(tr("Raisons")), 1, 0);
     BasicLayout->addWidget(raisons_redoublement, 1, 1);
 
-    BasicLayout->addWidget(new QLabel(tr("Moyenne")), 2, 0);
-    BasicLayout->addWidget(moyenne, 2, 1);
+    //BasicLayout->addWidget(new QLabel(tr("Moyenne")), 2, 0);
+    //BasicLayout->addWidget(moyenne, 2, 1);
 
-    BasicLayout->addWidget(new QLabel(tr("Comments")), 3, 0);
-    BasicLayout->addWidget(comment, 3, 1);
+    //BasicLayout->addWidget(new QLabel(tr("Comments")), 3, 0);
+    //BasicLayout->addWidget(comment, 3, 1);
 BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }
