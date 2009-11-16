@@ -44,7 +44,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     columnLayout->addWidget(_userReferentLabel);
     columnLayout->addWidget(_userReferent);
 
-    this->_save = new QPushButton(tr("Enregister"));
+    this->_save = new QPushButton(tr("Ajouter"));
     this->_cancel = new QPushButton(tr("Abandonner"));
     columnLayout->addWidget(_save);
     columnLayout->addWidget(_cancel);
@@ -122,18 +122,42 @@ void    AdmAddClassWidget::addClass()
     }
     else
     {
-        addClassInDatabase();
-        _userReferent->currentText().clear();
-        _className->setText("");
-        errorMsg.setText(tr("The class was successfully saved."));
-        errorMsg.exec();
+        if (_save->text() == tr("Ajouter"))
+        {
+            addClassInDatabase();
+            _userReferent->currentText().clear();
+            _className->setText("");
+            errorMsg.setText(tr("The class was successfully added."));
+            errorMsg.exec();
+        }
+        else
+        {
+            editClassInDatabase();
+            _userReferent->currentText().clear();
+            _className->setText("");
+            _save->setText(tr("Ajouter"));
+            errorMsg.setText(tr("The class was successfully edited."));
+            errorMsg.exec();
+        }
     }
+}
+
+
+void    AdmAddClassWidget::editClassInDatabase()
+{
+    UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
+
+    selectedData->setName(_className->text());
+    selectedData->setUser(user);
+    selectedData->save();
+
 }
 
 void    AdmAddClassWidget::emptyField()
 {
     _className->setText("");
     _userReferent->setCurrentIndex(0);
+    _save->setText(tr("Ajouter"));
 }
 
 void    AdmAddClassWidget::addClassInDatabase()
@@ -219,7 +243,16 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
                 UserData *user = _userplugin->user(QVariant(_table->item(row, 4)->text()).toInt());
                 TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
 
+                selectedData = data;
 
-
+                _className->setText(data->name());
+                for (int i = 0; i < _userReferent->count(); i++)
+                {
+                    if (_userReferent->itemData(i).toInt() == user->id())
+                    {
+                        _userReferent->setCurrentIndex(i);
+                    }
+                }
+                _save->setText(tr("Editer"));
         }
 }
