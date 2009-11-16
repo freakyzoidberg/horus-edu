@@ -40,6 +40,7 @@ private slots:
     void gosave();
     void seteditfalse();
     void setedittrue();
+    void checkCreated(Data *user);
 
 };
 
