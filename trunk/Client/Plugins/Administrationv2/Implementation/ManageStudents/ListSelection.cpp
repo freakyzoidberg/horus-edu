@@ -30,7 +30,7 @@ ClassList->setAcceptDrops(true);
 */
 
        QLabel *title = new QLabel(tr("Select a class to view, add or edit students."));
-       title->setProperty("isTitle", QVariant(true));
+       title->setProperty("isTitle", true);
        ListLayout->addWidget(title);
        ListLayout->addWidget(ClassList);
        ListLayout->addWidget(StudentList);

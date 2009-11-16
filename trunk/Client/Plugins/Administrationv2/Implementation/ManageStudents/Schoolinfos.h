@@ -1,14 +1,14 @@
 #ifndef SCHOOLINFOS_H
 #define SCHOOLINFOS_H
 
-#include <QWidget>
+#include <QFrame>
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QTextEdit>
 #include <QGridLayout>
 #include <QLabel>
 #include "../../../../../Common/UserData.h"
-class SchoolInfos : public QWidget
+class SchoolInfos : public QFrame
 {
     public:
         SchoolInfos();

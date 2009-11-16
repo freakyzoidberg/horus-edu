@@ -3,12 +3,17 @@
 #include <QLabel>
 ParentInfos::ParentInfos()
 {
+    setProperty("isFormFrame", true);
     QGridLayout *BasicLayout = new QGridLayout(this);
+
+    BasicLayout->setMargin(8);
+    BasicLayout->setSpacing(4);
 
     parent = new QComboBox();
 
-
-    BasicLayout->addWidget(new QLabel(tr("Parent")), 0, 0);
+    QLabel *label = new QLabel(tr("Parent"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 0, 0);
     BasicLayout->addWidget(parent, 0, 1);
 
 

@@ -1,13 +1,13 @@
 #ifndef BASICINFOS_H
 #define BASICINFOS_H
 #include <QFormLayout>
-#include <QWidget>
+#include <QFrame>
 #include <QLabel>
 #include <QDate>
 #include <QLineEdit>
 #include <QDateEdit>
 #include "../../../../../Common/UserData.h"
-class BasicInfos : public QWidget
+class BasicInfos : public QFrame
 {
 public:
     BasicInfos();

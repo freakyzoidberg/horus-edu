@@ -2,14 +2,14 @@
 #define SUIVIINFOS_H
 
 #include <QWidget>
-#include <QWidget>
+#include <QFrame>
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QTextEdit>
 #include <QGridLayout>
 #include <QLabel>
 #include "../../../../../Common/UserData.h"
-class SuiviInfos : public QWidget
+class SuiviInfos : public QFrame
 {
     public:
         SuiviInfos();
