@@ -34,7 +34,7 @@ EditParent::EditParent(QWidget *parent, PluginManager *pluginManager, UserData *
 	personnalFrame = new QFrame(this);
 	personnalMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, personnalFrame);
 	personnalTitle = new QLabel(tr("Personnal informations"), personnalFrame);
-	personnalMainLayout->addWidget(personnalTitle);
+	personnalMainLayout->addWidget(personnalTitle, 0, Qt::AlignTop);
 	personnalBottomLayout = new QGridLayout();
 	personnalBottomLayout->addWidget(new QLabel(tr("Last name"), personnalFrame), 0, 0);
 	lastNameField = new QLineEdit(personnalFrame);
@@ -62,7 +62,7 @@ EditParent::EditParent(QWidget *parent, PluginManager *pluginManager, UserData *
 	contactFrame = new QFrame(this);
 	contactMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, contactFrame);
 	contactTitle = new QLabel(tr("Contact informations"), contactFrame);
-	contactMainLayout->addWidget(contactTitle);
+	contactMainLayout->addWidget(contactTitle, 0, Qt::AlignTop);
 	contactBottomLayout = new QGridLayout();
 	contactBottomLayout->addWidget(new QLabel(tr("Address"), contactFrame), 0, 0);
 	addressField = new QTextEdit(contactFrame);
@@ -84,20 +84,20 @@ EditParent::EditParent(QWidget *parent, PluginManager *pluginManager, UserData *
 	occupationFrame = new QFrame(this);
 	occupationMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, occupationFrame);
 	occupationTitle = new QLabel(tr("Occupation informations"), occupationFrame);
-	occupationMainLayout->addWidget(occupationTitle);
+	occupationMainLayout->addWidget(occupationTitle, 0, Qt::AlignTop);
 	occupationBottomLayout = new QGridLayout();
 	occupationBottomLayout->addWidget(new QLabel(tr("Occupational category"), occupationFrame), 0, 0);
 	occupationalCategoryField = new QLineEdit(occupationFrame);
 	occupationBottomLayout->addWidget(occupationalCategoryField, 0, 1);
-	occupationBottomLayout->addWidget(new QLabel(tr("Occupation"), occupationFrame), 0, 0);
+	occupationBottomLayout->addWidget(new QLabel(tr("Occupation"), occupationFrame), 1, 0);
 	occupationField = new QLineEdit(occupationFrame);
-	occupationBottomLayout->addWidget(occupationField, 0, 1);
+	occupationBottomLayout->addWidget(occupationField, 1, 1);
 	occupationMainLayout->addLayout(occupationBottomLayout);
 	mainLayout->addWidget(occupationFrame, 1, 0);
 	actionsFrame = new QFrame(this);
 	actionsMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, actionsFrame);
 	actionsTitle = new QLabel(tr("Actions"), actionsFrame);
-	actionsMainLayout->addWidget(actionsTitle);
+	actionsMainLayout->addWidget(actionsTitle, 0, Qt::AlignTop);
 	actionsBottomLayout = new QGridLayout();
 	okButton = new QPushButton(tr("OK"), actionsFrame);
 	actionsBottomLayout->addWidget(okButton, 0, 0);
@@ -114,10 +114,25 @@ EditParent::EditParent(QWidget *parent, PluginManager *pluginManager, UserData *
 	connect(applyButton, SIGNAL(clicked()), this, SLOT(saved()));
 	connect(resetButton, SIGNAL(clicked()), this, SLOT(reseted()));
 	connect(cancelButton, SIGNAL(clicked()), this, SLOT(exited()));
+	if (user)
+	{
+		// plus tard...
+	}
 }
 
 void			EditParent::saved()
 {
+	UserData	*user;
+
+	user = _pluginManager->findPlugin<UserDataPlugin *>()->createUser(firstNameField->text() + lastNameField->text()); // TODO find unused login
+	user->setName(lastNameField->text());
+	user->setSurname(firstNameField->text());
+	user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
+	user->setBirthDate(birthDateField->date());
+	user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
+	user->setAddress(addressField->document()->toPlainText());
+	// et le reste plus tard...
+	user->save();
 }
 
 void			EditParent::exited()
