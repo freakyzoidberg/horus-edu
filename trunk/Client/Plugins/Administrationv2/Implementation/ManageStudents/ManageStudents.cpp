@@ -128,30 +128,30 @@ if (StudentForm)
 
 void ManageStudents::gosave()
 {
-if (StudentForm)
-{
-    if (!StudentForm->BaseInfos->getName().isEmpty() &&
-        !StudentForm->BaseInfos->getSurName().isEmpty() &&
-        !StudentForm->BaseInfos->getBday().isEmpty())
+    if (StudentForm)
     {
+        if (!StudentForm->BaseInfos->getName().isEmpty() &&
+            !StudentForm->BaseInfos->getSurName().isEmpty() &&
+            !StudentForm->BaseInfos->getBday().isEmpty())
+        {
 
 
-UserData* newUSer = UD->createUser(StudentForm->BaseInfos->getName());
+            UserData* newUSer = UD->createUser(StudentForm->BaseInfos->getName());
 
-newUSer->setAddress(StudentForm->BaseInfos->getAddress());
-        delete StudentForm;
-        StudentForm = 0;
-        edit->setVisible(true);
-        addstudent->setVisible(true);
-        save->setVisible(false);
-        StudentList->setVisible(true);
+            newUSer->setAddress(StudentForm->BaseInfos->getAddress());
+            delete StudentForm;
+            StudentForm = 0;
+            edit->setVisible(true);
+            addstudent->setVisible(true);
+            save->setVisible(false);
+            StudentList->setVisible(true);
 
-        addstudent->setVisible(true);
-        save->setVisible(false);
-        back->setVisible(false);
-        edit->setVisible(true);
+            addstudent->setVisible(true);
+            save->setVisible(false);
+            back->setVisible(false);
+            edit->setVisible(true);
+        }
     }
-}
 }
 
 void ManageStudents::seteditfalse()

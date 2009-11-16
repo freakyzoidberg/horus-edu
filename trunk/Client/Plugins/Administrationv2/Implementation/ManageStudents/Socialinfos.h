@@ -9,12 +9,16 @@
 #include "../../../../../Common/UserData.h"
 class SocialInfos : public QWidget
 {
-public:
-    SocialInfos();
-    SocialInfos(UserData *d);
-    QLineEdit *referent;
-    QLineEdit *aides;
-    QTextEdit *motif;
+    public:
+        SocialInfos();
+		SocialInfos(UserData *d);
+        QString     getMotif() { return motif->toPlainText(); }
+        QString     getReferent() { return referent->text(); }
+        QString     getAides() { return aides->text(); }
+    private:
+        QLineEdit *referent;
+        QLineEdit *aides;
+        QTextEdit *motif;
 };
 
 #endif // SOCIALINFOS_H
