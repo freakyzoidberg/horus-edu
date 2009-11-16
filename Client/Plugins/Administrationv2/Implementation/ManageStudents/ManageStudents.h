@@ -32,6 +32,7 @@ private:
     FormStudents *StudentForm;
     ListSelection *StudentList;
     UserDataPlugin* UD;
+    TreeDataPlugin* TD;
 private slots:
     void goadd();
     void goedit();

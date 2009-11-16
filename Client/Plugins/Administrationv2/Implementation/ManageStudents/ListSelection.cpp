@@ -23,12 +23,6 @@ ClassList->setAcceptDrops(true);
        ListLayout->addWidget(ClassList);
        ListLayout->addWidget(StudentList);
 
-
-
-
-
-
-
        connect(ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(updatestudents(QListWidgetItem *)));
        this->setLayout(ListLayout);
 }

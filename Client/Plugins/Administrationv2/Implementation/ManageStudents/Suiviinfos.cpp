@@ -31,9 +31,9 @@ SuiviInfos::SuiviInfos(UserData *d)
     annee_quitte = new QSpinBox();
     suivi = new QTextEdit();
     ClasseNextYear = new QLineEdit();
-annee_quitte->setMinimum(1980);
-annee_quitte->setValue(2010);
-annee_quitte->setMaximum(3000);
+    annee_quitte->setMinimum(1980);
+    annee_quitte->setValue(2010);
+    annee_quitte->setMaximum(3000);
     BasicLayout->addWidget(new QLabel(tr("class next year")), 0, 0);
     BasicLayout->addWidget(ClasseNextYear, 0, 1);
 
