@@ -9,6 +9,7 @@
 #include "../../../../../Common/UserData.h"
 #include "Tools.h"
 #include "ClassList.h"
+
 class CClassList;
 class ListSelection : public QWidget
 {
