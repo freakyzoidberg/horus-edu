@@ -144,6 +144,7 @@ void    AdmAddClassWidget::editClassInDatabase()
     UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
 
 	_table->item(this->currentrow, 0)->setText(_className->text());
+	_table->item(this->currentrow, 1)->setText(this->_userReferent->currentText());
     selectedData->setName(_className->text());
     selectedData->setUser(user);
     selectedData->save();
