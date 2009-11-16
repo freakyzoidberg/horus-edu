@@ -141,10 +141,10 @@ void    AdmAddClassWidget::editClassInDatabase()
 {
     UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
 
+	_table->item(this->currentrow, 0)->setText(_className->text());
     selectedData->setName(_className->text());
     selectedData->setUser(user);
     selectedData->save();
-
 }
 
 void    AdmAddClassWidget::emptyField()
@@ -250,6 +250,7 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
                 TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
 
                 selectedData = data;
+				currentrow = row;
 
 				_className->setText(data->name());
                 for (int i = 0; i < _userReferent->count(); i++)

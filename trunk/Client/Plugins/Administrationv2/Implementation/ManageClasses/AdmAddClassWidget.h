@@ -48,6 +48,8 @@ private:
     QHBoxLayout     *_mainLayout;
     QTableWidget    *_table;
 
+	int				currentrow;
+
 	TreeData        *selectedData, *classSave;
     UserData        *save;
 };
