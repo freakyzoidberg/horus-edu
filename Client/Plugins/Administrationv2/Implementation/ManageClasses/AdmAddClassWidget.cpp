@@ -44,8 +44,8 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     columnLayout->addWidget(_userReferentLabel);
     columnLayout->addWidget(_userReferent);
 
-    this->_save = new QPushButton(tr("Enregister."));
-    this->_cancel = new QPushButton(tr("Abandonner."));
+    this->_save = new QPushButton(tr("Enregister"));
+    this->_cancel = new QPushButton(tr("Abandonner"));
     columnLayout->addWidget(_save);
     columnLayout->addWidget(_cancel);
 
@@ -54,8 +54,8 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 
     connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
     connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
-
-	connect(_table, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
+    connect(_table, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(choosenClass(QTableWidgetItem *)));
+    connect(_table, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
     displayClasses();
 }
 
@@ -77,8 +77,8 @@ void    AdmAddClassWidget::displayClasses()
                                   new QTableWidgetItem(tmp->user()->name() == "" ?
                                                        "Non renseigne" :
                                                         tmp->user()->name() + " "
-
-														+ tmp->user()->surname()));
+                                                        + tmp->user()->surname()));
+                        _table->setItem(j, 2, new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), ""));
                         _table->setItem(j, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
 			_table->setItem(j, 4, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
 			_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->id()).toString()));
@@ -188,6 +188,12 @@ void    AdmAddClassWidget::modifUser()
 	_table->setItem(_table->rowCount() - 1, 4, new QTableWidgetItem(QVariant(save->id()).toString()));
 }
 
+void    AdmAddClassWidget::choosenClass(QTableWidgetItem *item)
+{
+
+
+}
+
 void	AdmAddClassWidget::cellClicked(int row, int col)
 {
 	if (col == 3)
@@ -203,4 +209,12 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
 		//user->setStudent(_userplugin->user(0));
 		//user->save();
 	}
+        else if (col == 2)
+        {
+                UserData *user = _userplugin->user(QVariant(_table->item(row, 4)->text()).toInt());
+                TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
+
+
+
+        }
 }
