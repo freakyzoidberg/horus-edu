@@ -78,15 +78,10 @@ void    AdmAddClassWidget::displayClasses()
                                                        "Non renseigne" :
                                                         tmp->user()->name() + " "
                                                         + tmp->user()->surname()));
-                        _table->setItem(j, 2, new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), ""));
-                        _table->setItem(j, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
+			_table->setItem(j, 2, new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), ""));
+			_table->setItem(j, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
 			_table->setItem(j, 4, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
 			_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->id()).toString()));
-			/*
-				_table->setItem(j, 2, new QTableWidgetItem("modif"));
-				_table->setItem(j, 3, new QTableWidgetItem("delet"));
-			*/
-
             j++;
         }
     }
@@ -142,7 +137,6 @@ void    AdmAddClassWidget::addClass()
     }
 }
 
-
 void    AdmAddClassWidget::editClassInDatabase()
 {
     UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
@@ -182,24 +176,28 @@ void    AdmAddClassWidget::addClassInDatabase()
         user->setStudentClass(newClass);
 		_table->setItem(_table->rowCount() - 1, 1,
                         new QTableWidgetItem(user->name() + " " + user->surname()));
+		_table->setItem(_table->rowCount() - 1, 4,
+						new QTableWidgetItem(QVariant(user->id()).toString()));
         newClass->setUser(user);
    }
    else
    {
+	   user = NULL;
 	   _table->setItem(_table->rowCount() - 1, 1, new QTableWidgetItem("Non renseigne."));
 	   _table->setItem(_table->rowCount() - 1, 4,
 					   new QTableWidgetItem(QVariant(0).toString()));
    }
 
    _table->setItem(_table->rowCount() - 1, 0, name);
-	_table->setItem(_table->rowCount() - 1, 3, new QTableWidgetItem(QIcon(":/del.png"), ""));
-	_table->setItem(_table->rowCount() - 1, 5,
-					   new QTableWidgetItem(QVariant(newClass->id()).toString()));
+	_table->setItem(_table->rowCount() - 1, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
+	_table->setItem(_table->rowCount() - 1, 2, new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), ""));
+
 	newClass->create();
 
-   if (_userReferent->itemData(index).toInt() != 0)
+   //if (_userReferent->itemData(index).toInt() != 0)
    {
        save = user;
+	   classSave = newClass;
 	   connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
    }
 
@@ -208,8 +206,16 @@ void    AdmAddClassWidget::addClassInDatabase()
 
 void    AdmAddClassWidget::modifUser()
 {
-    save->save();
-	_table->setItem(_table->rowCount() - 1, 4, new QTableWidgetItem(QVariant(save->id()).toString()));
+
+	if (save && save->id() != 0)
+	{
+		_table->setItem(_table->rowCount() - 1, 4,
+						new QTableWidgetItem(QVariant(save->id()).toString()));
+		save->save();
+	}
+
+	_table->setItem(_table->rowCount() - 1, 5,
+					   new QTableWidgetItem(QVariant(classSave->id()).toString()));
 }
 
 void    AdmAddClassWidget::choosenClass(QTableWidgetItem *item)
@@ -245,7 +251,7 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
 
                 selectedData = data;
 
-                _className->setText(data->name());
+				_className->setText(data->name());
                 for (int i = 0; i < _userReferent->count(); i++)
                 {
                     if (_userReferent->itemData(i).toInt() == user->id())
