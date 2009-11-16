@@ -25,6 +25,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(back, SIGNAL(clicked()), this, SLOT(goback()));
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
+    connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
     ActionLayout->addWidget(back);
     ActionLayout->addWidget(save);
     ActionLayout->addWidget(edit);
@@ -111,7 +112,7 @@ if (StudentForm)
 
 void ManageStudents::goback()
 {
-if (StudentForm)
+    if (StudentForm)
     {
         delete StudentForm;
         StudentForm = 0;
@@ -149,6 +150,8 @@ void ManageStudents::gosave()
             newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
             newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
             newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
+            newUSer->setEnable(true);
+            newUSer->create();
             delete StudentForm;
             StudentForm = 0;
             edit->setVisible(true);
@@ -162,6 +165,13 @@ void ManageStudents::gosave()
             edit->setVisible(true);
         }
     }
+}
+
+void ManageStudents::checkCreated(Data *user)
+{
+    QMessageBox msgBox;
+    msgBox.setText(tr("L'utilisateur a bien ete crée"));
+    msgBox.exec();
 }
 
 void ManageStudents::seteditfalse()
