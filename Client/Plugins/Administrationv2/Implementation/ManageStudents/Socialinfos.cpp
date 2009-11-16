@@ -34,9 +34,11 @@ SocialInfos::SocialInfos(UserData *d)
 
 
     QStringList tmp = d->comment().split("|:/:|:/|");
-
-    //referent->setText(tmp.at(0));
-    //aides->setText(tmp.at(1));
+    if (tmp.count() >= 3)
+    {
+    referent->setText(tmp.at(0));
+    aides->setText(tmp.at(1));
+    }
     BasicLayout->addWidget(new QLabel(tr("referent")), 0, 0);
     BasicLayout->addWidget(referent, 0, 1);
 

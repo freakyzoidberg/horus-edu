@@ -31,7 +31,9 @@ SchoolInfos::SchoolInfos(UserData *d)
     QGridLayout *BasicLayout = new QGridLayout(this);
 
     raisons_redoublement = new QLineEdit();
-   // raisons_redoublement->setText(d->comment().split("|:/:|:/|").at(2));
+    QStringList tmp = d->comment().split("|:/:|:/|");
+    if (tmp.count() >= 3)
+    raisons_redoublement->setText(d->comment().split("|:/:|:/|").at(2));
     nb_redoublement = new QSpinBox();
     //nb_redoublement->setValue();
     nb_redoublement->setValue(d->repeatedYears());
