@@ -16,7 +16,7 @@ SocialInfos::SocialInfos()
 
     BasicLayout->addWidget(new QLabel(tr("Aides financiaires")), 2, 0);
     BasicLayout->addWidget(aides, 2, 1);
-
+BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }
 
@@ -28,6 +28,7 @@ SocialInfos::SocialInfos(UserData *d)
     motif = new QTextEdit();
     aides = new QLineEdit();
 
+
     BasicLayout->addWidget(new QLabel(tr("referent")), 0, 0);
     BasicLayout->addWidget(referent, 0, 1);
 
@@ -36,6 +37,6 @@ SocialInfos::SocialInfos(UserData *d)
 
     BasicLayout->addWidget(new QLabel(tr("Aides financiaires")), 2, 0);
     BasicLayout->addWidget(aides, 2, 1);
-
+BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }

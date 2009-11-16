@@ -2,17 +2,32 @@
 
 BasicInfos::BasicInfos()
 {
-    QFormLayout *BasicLayout = new QFormLayout(this);
-
+//    QFormLayout *BasicLayout = new QFormLayout(this);
+    QGridLayout *BasicLayout = new QGridLayout(this);
     name = new QLineEdit(this);
     surname = new QLineEdit(this);
     bday = new QDateEdit(this);
     address = new QLineEdit(this);
 
-    BasicLayout->addRow(tr("Nom"), name);
-    BasicLayout->addRow(tr("Prenom"), surname);
-    BasicLayout->addRow(tr("Date de naissance"), bday);
-    BasicLayout->addRow(tr("Adresse"), address);
+    BasicLayout->addWidget(new QLabel(tr("Nom")), 0, 0);
+    BasicLayout->addWidget(name, 0, 1);
+
+    //BasicLayout->addRow(tr("Nom"), name);
+
+    BasicLayout->addWidget(new QLabel(tr("Surname")), 1, 0);
+    BasicLayout->addWidget(surname, 1, 1);
+    //BasicLayout->addRow(tr("Prenom"), surname);
+
+
+    BasicLayout->addWidget(new QLabel(tr("Birthday")), 2, 0);
+    BasicLayout->addWidget(bday, 2, 1);
+    //BasicLayout->addRow(tr("Date de naissance"), bday);
+
+    BasicLayout->addWidget(new QLabel(tr("Address")), 3, 0);
+    BasicLayout->addWidget(address, 3, 1);
+    //BasicLayout->addRow(tr("Adresse"), address);
+
+    BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }
 
