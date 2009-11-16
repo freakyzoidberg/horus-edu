@@ -71,11 +71,12 @@ void UserCache::save()
 		QDataStream streamPlugin(&binPlugin, QIODevice::WriteOnly);
 
 		foreach (Data* data, plugin->allDatas())
-		{
-			streamPlugin << data->status();
-			data->keyToStream(streamPlugin);
-			data->dataToStream(streamPlugin);
-		}
+			if (data->status() != Data::EMPTY && data->status() != Data::DELETED)
+			{
+				streamPlugin << data->status();
+				data->keyToStream(streamPlugin);
+				data->dataToStream(streamPlugin);
+			}
 
 		streamAll << plugin->dataType() << binPlugin;
 	}
