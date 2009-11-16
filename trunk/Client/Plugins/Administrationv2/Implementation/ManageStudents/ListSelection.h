@@ -22,7 +22,7 @@ public:
 private:
      mytools *_tools;
 
- private slots:
+ public slots:
     void updatestudents(QListWidgetItem* item);
 };
 #endif // LISTSELECTION_H
