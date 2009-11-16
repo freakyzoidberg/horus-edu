@@ -157,9 +157,16 @@ void ManageStudents::goback()
     if (StudentList->StudentList->selectedItems().count() > 0)
     {
         qDebug() << "count : " << StudentList->StudentList->selectedItems().count();
+    del->setEnabled(true);
+    edit->setEnabled(true);
+    }
+    else
+    {
+        del->setEnabled(false);
+        edit->setEnabled(false);
+    }
     del->setVisible(true);
     edit->setVisible(true);
-    }
 }
 
 void ManageStudents::gosave()
