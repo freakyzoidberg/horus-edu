@@ -3,14 +3,12 @@
 
 #include <QTreeWidget>
 #include "ListSelection.h"
-class CClassList : public QTreeWidget
+class CClassList : public QListWidget
 {
 public:
-    CClassList(QWidget *it);
+    CClassList();
 
-    bool dropMimeData ( QTreeWidgetItem * parent, int index, const QMimeData * data, Qt::DropAction action );
-private:
-QWidget *Ls;
+
 
 };
 

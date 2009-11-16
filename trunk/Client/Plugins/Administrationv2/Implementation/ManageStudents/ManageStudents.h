@@ -7,6 +7,7 @@
 
 #include "FormStudents.h"
 #include "ListSelection.h"
+#include "Infopanel.h"
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
 
@@ -29,10 +30,12 @@ private:
     QPushButton *save;
     QPushButton *del;
     QFrame* sidebar;
-
+QFrame *informationsFrame;
+QVBoxLayout *informationsLayout;
     QList<UserData*> getAllParents();
     FormStudents *StudentForm;
     ListSelection *StudentList;
+    InfoPanel *info;
     UserDataPlugin* UD;
     TreeDataPlugin* TD;
 private slots:
