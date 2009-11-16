@@ -26,9 +26,17 @@ SocialInfos::SocialInfos(UserData *d)
 
     referent = new QLineEdit();
     motif = new QTextEdit();
+    motif->setPlainText(d->subscriptionReason());
     aides = new QLineEdit();
 
 
+
+
+
+    QStringList tmp = d->comment().split("|:/:|:/|");
+
+    //referent->setText(tmp.at(0));
+    //aides->setText(tmp.at(1));
     BasicLayout->addWidget(new QLabel(tr("referent")), 0, 0);
     BasicLayout->addWidget(referent, 0, 1);
 

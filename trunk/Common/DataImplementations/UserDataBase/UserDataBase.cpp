@@ -356,6 +356,7 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_relationship);
 	query.addBindValue(_student->id());
 	query.addBindValue(_mail);
+        qDebug() << _subscriptionReason;
 	query.addBindValue(_subscriptionReason);
 	query.addBindValue(_repeatedYears);
 	query.addBindValue(_leaveYear);
