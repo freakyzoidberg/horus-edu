@@ -132,7 +132,7 @@ void			EditParent::saved()
 	user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
 	user->setAddress(addressField->document()->toPlainText());
 	// et le reste plus tard...
-	user->save();
+	user->create();
 }
 
 void			EditParent::exited()
