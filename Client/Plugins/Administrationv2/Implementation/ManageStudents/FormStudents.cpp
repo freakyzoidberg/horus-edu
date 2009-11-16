@@ -26,7 +26,7 @@ FormStudents::FormStudents(QList<UserData*> list)
     this->setLayout(FormLayout);
 }
 
-FormStudents::FormStudents(QList<UserData*> list,UserData *d)
+FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,UserData *d)
 {
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
     id = d->id();
@@ -39,9 +39,13 @@ FormStudents::FormStudents(QList<UserData*> list,UserData *d)
     ParInfos = new ParentInfos(d);
     ParInfos->getParent()->addItem(tr("none"), 0);
     foreach (UserData* mud, list)
-    ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+    {
+        ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+    }
 
-    ParInfos->getParent()->setCurrentIndex(ParInfos->getParent()->findData(d->relationship(), Qt::UserRole, Qt::MatchCaseSensitive));
+
+if (parentlist.count() > 0)
+    ParInfos->getParent()->setCurrentIndex(ParInfos->getParent()->findData(parentlist.first()->id(), Qt::UserRole, Qt::MatchCaseSensitive));
     FormLayout->addWidget(ParInfos);
 
     SocInfos = new SocialInfos(d);

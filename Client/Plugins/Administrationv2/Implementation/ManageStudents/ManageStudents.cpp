@@ -105,7 +105,7 @@ if (StudentForm)
         delete StudentForm;
         StudentForm = 0;
     }
-    StudentForm = new FormStudents(getAllParents(),UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
+    StudentForm = new FormStudents(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     MainLayout->insertWidget(0, StudentForm);
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     StudentList->setVisible(false);
@@ -212,8 +212,13 @@ void ManageStudents::gosave()
             newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
 
             //Parent
-            newUSer->setRelationship(QVariant(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id()).toString());
+            //newUSer->setRelationship(QVariant(x).toString());
             //Suivi infos
+
+
+
+
+
             newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
             newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
                 //ClasseNextYear
@@ -224,6 +229,16 @@ void ManageStudents::gosave()
                 newUSer->create();
             else
                 newUSer->save();
+
+
+            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
+            if (uparent != 0)
+            {
+                uparent->setStudent(newUSer);
+                uparent->save();
+            }
+
+
             delete StudentForm;
             StudentForm = 0;
             edit->setVisible(true);
@@ -272,7 +287,7 @@ QList<UserData*> ManageStudents::getAllParents()
     {
         if (user->level() == LEVEL_FAMILY)
         {
-            qDebug() << "got";
+
             mylist.append(user);
         }
     }
