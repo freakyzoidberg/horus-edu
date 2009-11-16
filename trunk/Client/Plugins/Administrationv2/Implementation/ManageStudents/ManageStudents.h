@@ -30,6 +30,7 @@ private:
     QPushButton *del;
     QFrame* sidebar;
 
+    QList<UserData*> getAllParents();
     FormStudents *StudentForm;
     ListSelection *StudentList;
     UserDataPlugin* UD;
