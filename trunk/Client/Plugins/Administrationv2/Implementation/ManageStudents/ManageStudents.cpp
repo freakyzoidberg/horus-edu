@@ -11,7 +11,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
 
-    QVBoxLayout *ActionLayout = new QVBoxLayout();
+    QVBoxLayout *RightLayout = new QVBoxLayout();
 
     StudentList = new ListSelection(treeplugin, userplugin);
     addstudent = new QPushButton(QIcon(":/Icons/add-students.png"), tr("Add a student"));
@@ -29,35 +29,34 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
     connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
 
-    ActionLayout->setMargin(0);
-    ActionLayout->setSpacing(2);
-    ActionLayout->addWidget(back);
-    ActionLayout->addWidget(save);
-    ActionLayout->addWidget(edit);
-    ActionLayout->addWidget(del);
-    ActionLayout->addWidget(addstudent);
+    RightLayout->setMargin(0);
+    RightLayout->setSpacing(2);
+    QLabel *infoTitle = new QLabel(tr("Informations:"));
+    infoTitle->setProperty("isTitle", QVariant(true));
+    RightLayout->addWidget(infoTitle);
+    QFrame *informationsFrame = new QFrame(this);
+    informationsFrame->setMinimumWidth(200);
+    QVBoxLayout *informationsLayout = new QVBoxLayout(informationsFrame);
+    informationsLayout->setSpacing(0);
+    informationsLayout->setMargin(0);
+    //informationsLayout->addWidget(new DisplayParent(this));
+    RightLayout->addWidget(informationsFrame);
+
+    QLabel *actionTitle = new QLabel(tr("Actions:"));
+    actionTitle->setProperty("isTitle", QVariant(true));
+    RightLayout->addWidget(actionTitle);
+    RightLayout->addWidget(back);
+    RightLayout->addWidget(save);
+    RightLayout->addWidget(addstudent);
+    RightLayout->addWidget(edit);
+    RightLayout->addWidget(del);
+    RightLayout->addWidget(new QWidget, 2);
 
     MainLayout->addWidget(StudentList);
     //MainLayout->addLayout(ActionLayout);
 
 
-
-
-    QBoxLayout	*rightLayout;
-    rightLayout = new  QBoxLayout(QBoxLayout::TopToBottom);
-    rightLayout->setSpacing(0);
-    rightLayout->setMargin(0);
-    QFrame *informationsFrame = new QFrame(this);
-    informationsFrame->setMinimumWidth(200);
-    QBoxLayout *informationsLayout = new QBoxLayout(QBoxLayout::TopToBottom, informationsFrame);
-    informationsLayout->setSpacing(0);
-    informationsLayout->setMargin(0);
-    QLabel *informationsTitle = new QLabel(this);
-    informationsLayout->addWidget(informationsTitle);
-    //informationsLayout->addWidget(new DisplayParent(this));
-    rightLayout->addWidget(informationsFrame);
-    rightLayout->addLayout(ActionLayout);
-    MainLayout->addLayout(rightLayout);
+    MainLayout->addLayout(RightLayout);
 
 
 

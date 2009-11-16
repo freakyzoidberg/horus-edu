@@ -18,10 +18,15 @@
     <normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</normaloff>:/Pictures/2010_LOGO_horus_2_trans.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">
+   <string notr="true">QPushButton
+{
+	text-align: left;
+	padding: 6px;
+}
+
 QLabel 
 { 
-background: transparent; 
+	background: transparent; 
 } 
 
 QMainWindow::separator { 
