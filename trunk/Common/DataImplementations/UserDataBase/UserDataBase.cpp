@@ -131,9 +131,9 @@ void UserDataBase::setStudentClass(TreeData* node)
 {
 	QMutexLocker M(&mutex);
 
-	disconnect(this, SLOT(nodeRemoved()));
+	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass = node;
-	connect(_studentClass, SIGNAL(removed()), this, SLOT(nodeRemoved()));
+	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 }
 
 void UserDataBase::setLanguage(const QString language)
