@@ -24,7 +24,8 @@ void UserDataBase::keyToStream(QDataStream& s)
 }
 
 void UserDataBase::dataToStream(QDataStream& s) const
-{
+{//enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,
+ //country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime
 	s << _enabled
 	  << _login
 	  << _level
@@ -45,7 +46,13 @@ void UserDataBase::dataToStream(QDataStream& s) const
 	  << _occupation
 	  << _proCategory
 	  << _relationship
-	  << _student->id();
+	  << _student->id()
+	  << _mail
+	  << _subscriptionReason
+	  << _repeatedYears
+	  << _leaveYear
+	  << _followUp
+	  << _comment;
 	Data::dataToStream(s);
 }
 
@@ -74,7 +81,13 @@ void UserDataBase::dataFromStream(QDataStream& s)
 	  >> _occupation
 	  >> _proCategory
 	  >> _relationship
-	  >> studentId;
+	  >> studentId
+	  >> _mail
+	  >> _subscriptionReason
+	  >> _repeatedYears
+	  >> _leaveYear
+	  >> _followUp
+	  >> _comment;
 
 	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(studentClassId);
