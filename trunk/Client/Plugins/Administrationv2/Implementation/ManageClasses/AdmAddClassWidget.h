@@ -31,7 +31,8 @@ public slots:
 
 private:
     void            initUserReferent(void);
-
+    void            editClassInDatabase();
+    
     TreeDataPlugin  *_treeplugin;
     UserDataPlugin  *_userplugin;
 
@@ -47,6 +48,7 @@ private:
     QHBoxLayout     *_mainLayout;
     QTableWidget    *_table;
 
+    TreeData        *selectedData;
     UserData        *save;
 };
 
