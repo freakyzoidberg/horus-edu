@@ -27,6 +27,7 @@ private:
     QPushButton *back;
     QPushButton *edit;
     QPushButton *save;
+    QPushButton *del;
     QFrame* sidebar;
 
     FormStudents *StudentForm;
@@ -38,6 +39,7 @@ private slots:
     void goedit();
     void goback();
     void gosave();
+    void godel();
     void seteditfalse();
     void setedittrue();
     void checkCreated(Data *user);

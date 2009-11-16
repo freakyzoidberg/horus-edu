@@ -20,7 +20,7 @@ SchoolInfos::SchoolInfos()
 
     BasicLayout->addWidget(new QLabel(tr("Comments")), 3, 0);
     BasicLayout->addWidget(comment, 3, 1);
-
+BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }
 
@@ -31,12 +31,14 @@ SchoolInfos::SchoolInfos(UserData *d)
     QGridLayout *BasicLayout = new QGridLayout(this);
 
     raisons_redoublement = new QLineEdit();
-    raisons_redoublement->setText("pas dans les data");
+    raisons_redoublement->setText("Pas dans les data");
     nb_redoublement = new QSpinBox();
     //nb_redoublement->setValue();
+    nb_redoublement->setValue(d->repeatedYears());
     moyenne =new QLineEdit();
     //moyenne->setText(d->);
     comment = new QTextEdit();
+    comment->setText(d->comment());
 
 
     BasicLayout->addWidget(new QLabel(tr("redoublement")), 0, 0);
@@ -49,6 +51,6 @@ SchoolInfos::SchoolInfos(UserData *d)
 
     BasicLayout->addWidget(new QLabel(tr("Comments")), 3, 0);
     BasicLayout->addWidget(comment, 3, 1);
-
+BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }

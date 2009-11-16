@@ -19,7 +19,7 @@ SuiviInfos::SuiviInfos()
 
     BasicLayout->addWidget(new QLabel(tr("Suivi post ecoline")), 2, 0);
     BasicLayout->addWidget(suivi, 2, 1);
-
+BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }
 
@@ -30,6 +30,7 @@ SuiviInfos::SuiviInfos(UserData *d)
 
     annee_quitte = new QSpinBox();
     suivi = new QTextEdit();
+
     ClasseNextYear = new QLineEdit();
     annee_quitte->setMinimum(1980);
     annee_quitte->setValue(2010);
@@ -42,6 +43,6 @@ SuiviInfos::SuiviInfos(UserData *d)
 
     BasicLayout->addWidget(new QLabel(tr("suivi post ecoline")), 2, 0);
     BasicLayout->addWidget(suivi, 2, 1);
-
+BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }

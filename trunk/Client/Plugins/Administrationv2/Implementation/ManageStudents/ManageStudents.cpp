@@ -15,6 +15,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     back = new QPushButton(tr("back"));
     edit = new QPushButton(tr("edit"));
     save = new QPushButton(tr("save"));
+    del = new QPushButton(tr("delete"));
     StudentForm = 0;
 
 
@@ -23,6 +24,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(addstudent, SIGNAL(clicked()), this, SLOT(goadd()));
     connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
     connect(back, SIGNAL(clicked()), this, SLOT(goback()));
+    connect(del, SIGNAL(clicked()), this, SLOT(godel()));
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
     connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
@@ -56,7 +58,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     save->setVisible(false);
     back->setVisible(false);
     edit->setVisible(false);
-
+    del->setVisible(false);
     StudentList->updateall();
 
 
@@ -67,6 +69,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 
 void ManageStudents::goadd()
 {
+
     if (StudentList->ClassList->selectedItems().count() == 1)
     {
     if (StudentForm)
@@ -84,7 +87,7 @@ void ManageStudents::goadd()
         addstudent->setVisible(false);
         save->setVisible(true);
         back->setVisible(true);
-
+        del->setVisible(false);
         edit->setVisible(false);
     }
     else
@@ -108,7 +111,21 @@ if (StudentForm)
     save->setVisible(true);    
     back->setVisible(true);
     edit->setVisible(false);
+    del->setVisible(false);
 }
+
+
+
+void ManageStudents::godel()
+{
+    qDebug() << "del from " <<  StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
+}
+
+
+
+
+
+
 
 void ManageStudents::goback()
 {
@@ -117,7 +134,7 @@ void ManageStudents::goback()
         delete StudentForm;
         StudentForm = 0;
         StudentList->setVisible(true);
-        edit->setVisible(true);
+
         addstudent->setVisible(true);
         save->setVisible(false);
     }
@@ -125,7 +142,14 @@ void ManageStudents::goback()
     save->setVisible(false);
     back->setVisible(false);
 
+
+
+    if (StudentList->StudentList->selectedItems().count() > 0)
+    {
+        qDebug() << "count : " << StudentList->StudentList->selectedItems().count();
+    del->setVisible(true);
     edit->setVisible(true);
+    }
 }
 
 void ManageStudents::gosave()
@@ -136,7 +160,7 @@ void ManageStudents::gosave()
             !StudentForm->BaseInfos->getSurName().isEmpty())
         {
 
-
+            qDebug() << StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
             UserData* newUSer = UD->createUser(StudentForm->BaseInfos->getName());
 
             newUSer->setLevel(LEVEL_STUDENT);
@@ -163,6 +187,7 @@ void ManageStudents::gosave()
             save->setVisible(false);
             back->setVisible(false);
             edit->setVisible(true);
+            del->setVisible(false);
         }
     }
 }
@@ -177,9 +202,11 @@ void ManageStudents::checkCreated(Data *user)
 void ManageStudents::seteditfalse()
 {
      edit->setVisible(false);
+     del->setVisible(false);
 }
 
 void ManageStudents::setedittrue()
 {
      edit->setVisible(true);
+     del->setVisible(true);
 }
