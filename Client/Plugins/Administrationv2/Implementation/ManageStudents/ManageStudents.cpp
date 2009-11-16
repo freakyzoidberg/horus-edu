@@ -80,7 +80,7 @@ void ManageStudents::goadd()
             delete StudentForm;
             StudentForm = 0;
         }
-        StudentForm = new FormStudents();
+        StudentForm = new FormStudents(getAllParents());
         MainLayout->insertWidget(0, StudentForm);
         connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
         StudentList->setVisible(false);
@@ -105,7 +105,7 @@ if (StudentForm)
         delete StudentForm;
         StudentForm = 0;
     }
-StudentForm = new FormStudents(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
+    StudentForm = new FormStudents(getAllParents(),UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     MainLayout->insertWidget(0, StudentForm);
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     StudentList->setVisible(false);
@@ -211,8 +211,8 @@ void ManageStudents::gosave()
             //Scholar infos
             newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
 
-
-
+            //Parent
+            newUSer->setRelationship(QVariant(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id()).toString());
             //Suivi infos
             newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
             newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
@@ -261,4 +261,20 @@ void ManageStudents::setedittrue()
 {
      edit->setEnabled(true);
      del->setEnabled(true);
+}
+
+
+QList<UserData*> ManageStudents::getAllParents()
+{
+    QList<UserData*> mylist;
+
+    foreach (UserData* user, UD->allUser())
+    {
+        if (user->level() == LEVEL_FAMILY)
+        {
+            qDebug() << "got";
+            mylist.append(user);
+        }
+    }
+    return mylist;
 }

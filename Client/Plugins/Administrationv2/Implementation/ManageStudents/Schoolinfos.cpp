@@ -35,10 +35,10 @@ SchoolInfos::SchoolInfos(UserData *d)
     nb_redoublement = new QSpinBox();
     //nb_redoublement->setValue();
     nb_redoublement->setValue(d->repeatedYears());
-    moyenne =new QLineEdit();
+  //  moyenne =new QLineEdit();
     //moyenne->setText(d->);
-    comment = new QTextEdit();
-    comment->setText(d->comment());
+    //comment = new QTextEdit();
+    //comment->setText(d->comment());
 
 
 

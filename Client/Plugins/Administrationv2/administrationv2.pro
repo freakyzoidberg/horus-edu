@@ -20,7 +20,8 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageStudents/ClassList.cpp \
     Implementation/ManageStudents/Socialinfos.cpp \
     Implementation/ManageStudents/Schoolinfos.cpp \
-    Implementation/ManageStudents/Suiviinfos.cpp
+    Implementation/ManageStudents/Suiviinfos.cpp \
+    Implementation/ManageStudents/Parentinfos.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -47,5 +48,6 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/ClassList.h \
     Implementation/ManageStudents/Socialinfos.h \
     Implementation/ManageStudents/Schoolinfos.h \
-    Implementation/ManageStudents/Suiviinfos.h
+    Implementation/ManageStudents/Suiviinfos.h \
+    Implementation/ManageStudents/Parentinfos.h
 RESOURCES += Implementation/Icons.qrc

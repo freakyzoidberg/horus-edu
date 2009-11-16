@@ -9,15 +9,17 @@
 #include "Socialinfos.h"
 #include "Schoolinfos.h"
 #include "Suiviinfos.h"
+#include "Parentinfos.h"
 class FormStudents : public QWidget
 {
 public:
-    FormStudents();
-    FormStudents(UserData *user);
+    FormStudents(QList<UserData*> list);
+    FormStudents(QList<UserData*> list,UserData *user);
     BasicInfos *BaseInfos;
     SocialInfos *SocInfos;
     SchoolInfos *SchoInfos;
     SuiviInfos *SuiInfos;
+    ParentInfos *ParInfos;
     int id;
 };
 

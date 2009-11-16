@@ -1,11 +1,17 @@
 #include "FormStudents.h"
 
-FormStudents::FormStudents()
+FormStudents::FormStudents(QList<UserData*> list)
 {
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
 
     BaseInfos = new BasicInfos();
     FormLayout->addWidget(BaseInfos);
+
+    ParInfos = new ParentInfos();
+    ParInfos->getParent()->addItem(tr("none"), 0);
+    foreach (UserData* mud, list)
+    ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+    FormLayout->addWidget(ParInfos);
 
     SocInfos = new SocialInfos();
     FormLayout->addWidget(SocInfos);
@@ -20,7 +26,7 @@ FormStudents::FormStudents()
     this->setLayout(FormLayout);
 }
 
-FormStudents::FormStudents(UserData *d)
+FormStudents::FormStudents(QList<UserData*> list,UserData *d)
 {
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
     id = d->id();
@@ -29,6 +35,14 @@ FormStudents::FormStudents(UserData *d)
     qDebug() << d;
     BaseInfos = new BasicInfos(d);
     FormLayout->addWidget(BaseInfos);
+
+    ParInfos = new ParentInfos(d);
+    ParInfos->getParent()->addItem(tr("none"), 0);
+    foreach (UserData* mud, list)
+    ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+
+    ParInfos->getParent()->setCurrentIndex(ParInfos->getParent()->findData(d->relationship(), Qt::UserRole, Qt::MatchCaseSensitive));
+    FormLayout->addWidget(ParInfos);
 
     SocInfos = new SocialInfos(d);
     FormLayout->addWidget(SocInfos);
