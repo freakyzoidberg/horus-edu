@@ -205,7 +205,7 @@ void ManageStudents::gosave()
             newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
             qDebug() << "Motif " << StudentForm->SocInfos->getMotif();
             // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
-            newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison());
+            newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison()+"|:/:|:/|");
 
 
             //Scholar infos
