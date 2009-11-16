@@ -42,7 +42,7 @@ void UserDataBase::dataToStream(QDataStream& s) const
 	  << _phone2
 	  << _phone3
 	  << _country
-	  << _gender
+          << (quint8 ) _gender
 	  << _occupation
 	  << _proCategory
 	  << _relationship

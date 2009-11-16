@@ -207,7 +207,7 @@ void ManageStudents::gosave()
             // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
             newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison()+"|:/:|:/|");
 
-
+            newUSer->setMail("test debug");
             //Scholar infos
             newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
 
