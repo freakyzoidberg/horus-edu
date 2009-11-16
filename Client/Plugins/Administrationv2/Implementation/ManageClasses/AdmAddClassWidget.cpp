@@ -18,7 +18,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
     QVBoxLayout  *columnLayout;
     QWidget      *column;
 
-	this->_table = new QTableWidget(0, 6);
+	this->_table = new QTableWidget(0, 7);
     _table->setShowGrid(false);
     _table->horizontalHeader()->setStretchLastSection(true);
 
@@ -27,6 +27,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	header.insert(1, QString(tr("Professeur principal")));
 	header.insert(2, QString(tr("Modifier")));
 	header.insert(3, QString(tr("Supprimer")));
+	header.insert(4, QString(tr("")));
     _table->setHorizontalHeaderLabels(header);
     this->_mainLayout->addWidget(_table);
 
@@ -66,7 +67,7 @@ void    AdmAddClassWidget::displayClasses()
     for (int i = 0, j = 0; i < datas.size(); ++i)
     {
         TreeData    *tmp = qobject_cast<TreeData *>(datas.at(i));
-        if (tmp->type() == "GROUP")
+		if (tmp->type() == "GRADE")
         {
             QTableWidgetItem *name = new QTableWidgetItem(tmp->name());
             name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
@@ -74,19 +75,20 @@ void    AdmAddClassWidget::displayClasses()
             _table->setRowCount(j + 1);
             this->_table->setItem(j, 0, name);
             this->_table->setItem(j, 1,
-                                  new QTableWidgetItem(tmp->user()->name() == "" ?
+								  new QTableWidgetItem(tmp->user()->id() == 0 ?
                                                        "Non renseigne" :
                                                         tmp->user()->name() + " "
                                                         + tmp->user()->surname()));
 			_table->setItem(j, 2, new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), ""));
 			_table->setItem(j, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
-			_table->setItem(j, 4, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
-			_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->id()).toString()));
+			_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
+			_table->setItem(j, 6, new QTableWidgetItem(QVariant(tmp->id()).toString()));
             j++;
         }
     }
-	_table->setColumnHidden(4, true);
 	_table->setColumnHidden(5, true);
+	_table->setColumnHidden(6, true);
+	_table->resizeColumnsToContents ();
 }
 
 void    AdmAddClassWidget::initUserReferent()
@@ -160,7 +162,7 @@ void    AdmAddClassWidget::addClassInDatabase()
     int index;
 
     newClass->setName(this->_className->text());
-    newClass->setType("GROUP");
+    newClass->setType("GRADE");
     newClass->setParent(this->_treeplugin->node(0));
     newClass->setUser(this->_userplugin->nobody());
 
@@ -176,7 +178,7 @@ void    AdmAddClassWidget::addClassInDatabase()
         user->setStudentClass(newClass);
 		_table->setItem(_table->rowCount() - 1, 1,
                         new QTableWidgetItem(user->name() + " " + user->surname()));
-		_table->setItem(_table->rowCount() - 1, 4,
+		_table->setItem(_table->rowCount() - 1, 5,
 						new QTableWidgetItem(QVariant(user->id()).toString()));
         newClass->setUser(user);
    }
@@ -184,7 +186,7 @@ void    AdmAddClassWidget::addClassInDatabase()
    {
 	   user = NULL;
 	   _table->setItem(_table->rowCount() - 1, 1, new QTableWidgetItem("Non renseigne."));
-	   _table->setItem(_table->rowCount() - 1, 4,
+	   _table->setItem(_table->rowCount() - 1, 5,
 					   new QTableWidgetItem(QVariant(0).toString()));
    }
 
@@ -194,12 +196,9 @@ void    AdmAddClassWidget::addClassInDatabase()
 
 	newClass->create();
 
-   //if (_userReferent->itemData(index).toInt() != 0)
-   {
        save = user;
 	   classSave = newClass;
 	   connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
-   }
 
    _table->showRow(_table->rowCount());
 }
@@ -209,12 +208,12 @@ void    AdmAddClassWidget::modifUser()
 
 	if (save && save->id() != 0)
 	{
-		_table->setItem(_table->rowCount() - 1, 4,
+		_table->setItem(_table->rowCount() - 1, 5,
 						new QTableWidgetItem(QVariant(save->id()).toString()));
 		save->save();
 	}
 
-	_table->setItem(_table->rowCount() - 1, 5,
+	_table->setItem(_table->rowCount() - 1, 6,
 					   new QTableWidgetItem(QVariant(classSave->id()).toString()));
 }
 
@@ -246,8 +245,8 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
 	}
         else if (col == 2)
         {
-                UserData *user = _userplugin->user(QVariant(_table->item(row, 4)->text()).toInt());
-                TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
+				UserData *user = _userplugin->user(QVariant(_table->item(row, 5)->text()).toInt());
+				TreeData *data = _treeplugin->node(QVariant(_table->item(row, 6)->text()).toInt());
 
                 selectedData = data;
 				currentrow = row;
