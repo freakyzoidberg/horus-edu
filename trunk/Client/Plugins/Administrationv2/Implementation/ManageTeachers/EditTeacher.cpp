@@ -14,17 +14,13 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 	QBoxLayout	*informationsLayout;
 	QGridLayout	*personnalBottomLayout;
 	QGridLayout	*contactBottomLayout;
-	QGridLayout	*occupationBottomLayout;
 	QBoxLayout	*personnalMainLayout;
 	QBoxLayout	*contactMainLayout;
-	QBoxLayout	*occupationMainLayout;
 	QFrame		*personnalFrame;
 	QFrame		*contactFrame;
-	QFrame		*occupationFrame;
 	QFrame		*informationsFrame;
 	QLabel		*personnalTitle;
 	QLabel		*contactTitle;
-	QLabel		*occupationTitle;
 	QLabel		*informationsTitle;
 	QLabel		*actionsTitle;
 	QLabel		*label;
@@ -77,14 +73,6 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 	birthDateField->setCalendarPopup(true);
 	birthDateField->setDisplayFormat(tr("dd/MM/yy"));
 	personnalBottomLayout->addWidget(birthDateField, 3, 1);
-	label = new QLabel(tr("Relationship"), personnalFrame);
-    label->setProperty("isFormLabel", true);
-	personnalBottomLayout->addWidget(label, 4, 0);
-	relationshipField = new QComboBox(personnalFrame);
-	relationshipField->addItem(tr("Teacher"), "Teacher");
-	relationshipField->addItem(tr("Tutor"), "Tutor");
-	relationshipField->addItem(tr("Unknow"), "Unknow");
-	personnalBottomLayout->addWidget(relationshipField, 4, 1);
 	personnalMainLayout->addLayout(personnalBottomLayout);
 	leftLayout->addWidget(personnalFrame);
 	contactFrame = new QFrame(this);
@@ -126,30 +114,6 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 	contactBottomLayout->addWidget(mobilePhoneField, 4, 1);
 	contactMainLayout->addLayout(contactBottomLayout);
 	leftLayout->addWidget(contactFrame);
-	occupationFrame = new QFrame(this);
-	occupationFrame->setProperty("isFormFrame", true);
-	occupationMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, occupationFrame);
-	occupationMainLayout->setSpacing(0);
-	occupationMainLayout->setMargin(0);
-	occupationTitle = new QLabel(tr("Occupation informations"), occupationFrame);
-    occupationTitle->setProperty("isFormTitle", true);
-	occupationMainLayout->addWidget(occupationTitle);
-	occupationBottomLayout = new QGridLayout();
-	occupationBottomLayout->setSpacing(4);
-	occupationBottomLayout->setMargin(8);
-	occupationBottomLayout->setColumnMinimumWidth(0, 150);
-	label = new QLabel(tr("Occupational category"), occupationFrame);
-    label->setProperty("isFormLabel", true);
-	occupationBottomLayout->addWidget(label, 0, 0);
-	occupationalCategoryField = new QLineEdit(occupationFrame);
-	occupationBottomLayout->addWidget(occupationalCategoryField, 0, 1);
-	label = new QLabel(tr("Occupation"), occupationFrame);
-    label->setProperty("isFormLabel", true);
-	occupationBottomLayout->addWidget(label, 1, 0);
-	occupationField = new QLineEdit(occupationFrame);
-	occupationBottomLayout->addWidget(occupationField, 1, 1);
-	occupationMainLayout->addLayout(occupationBottomLayout);
-	leftLayout->addWidget(occupationFrame);
 	mainLayout->addLayout(leftLayout);
 	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
     rightLayout->setMargin(0);
@@ -189,14 +153,11 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 		lastNameField->setText(user->name());
 		genderField->setCurrentIndex(genderField->findData(user->gender()));
 		birthDateField->setDate(user->birthDate());
-		relationshipField->setCurrentIndex(relationshipField->findData(user->relationship()));
 		addressField->document()->setPlainText(user->address());
 		mailField->setText(user->mail());
 		homePhoneField->setText(user->phone1());
 		workPhoneField->setText(user->phone2());
 		mobilePhoneField->setText(user->phone3());
-		occupationalCategoryField->setText(user->proCategory());
-		occupationField->setText(user->occupation());
 	}
 }
 
@@ -216,15 +177,12 @@ void			EditTeacher::saved()
 	_user->setSurname(firstNameField->text());
 	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
 	_user->setBirthDate(birthDateField->date());
-	_user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
 	_user->setAddress(addressField->document()->toPlainText());
 	_user->setMail(mailField->text());
 	_user->setPhone1(homePhoneField->text());
 	_user->setPhone2(workPhoneField->text());
 	_user->setPhone3(mobilePhoneField->text());
-	_user->setOccupation(occupationField->text());
-	_user->setProCategory(occupationalCategoryField->text());
-	_user->setLevel(LEVEL_FAMILY);
+	_user->setLevel(LEVEL_TEACHER);
 	if (editing)
 		_user->save();
 	else
@@ -242,12 +200,9 @@ void			EditTeacher::reseted()
 	lastNameField->clear();
 	genderField->setCurrentIndex(0);
 	birthDateField->setDate(QDate::currentDate());
-	relationshipField->clear();
 	addressField->clear();
 	mailField->clear();
 	homePhoneField->clear();
 	workPhoneField->clear();
 	mobilePhoneField->clear();
-	occupationalCategoryField->clear();
-	occupationField->clear();
 }
