@@ -23,7 +23,7 @@ FormStudents::FormStudents(QList<UserData*> list)
     ParInfos->getParent()->addItem(tr("none"), 0);
     foreach (UserData* mud, list)
     {
-qDebug() << mud->login();
+
         ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
     }
 
