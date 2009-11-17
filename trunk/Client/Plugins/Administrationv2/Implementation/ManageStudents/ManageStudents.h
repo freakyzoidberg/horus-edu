@@ -52,7 +52,7 @@ private slots:
     void seteditfalse();
     void setedittrue();
     void checkCreated(Data *user);
-
+    void refreshall();
 };
 
 #endif // MANAGESTUDENTS_H

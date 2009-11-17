@@ -32,7 +32,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(del, SIGNAL(clicked()), this, SLOT(godel()));
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
-    connect(refresh,SIGNAL(clicked()), StudentList, SLOT(updateall()));
+    connect(refresh,SIGNAL(clicked()), this, SLOT(refreshall()));
     connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
 
     RightLayout->setMargin(0);
@@ -449,4 +449,12 @@ QList<UserData*> ManageStudents::getAllParents()
         }
     }
     return mylist;
+}
+
+
+void ManageStudents::refreshall()
+{
+    edit->setEnabled(false);
+    del->setEnabled(false);
+    StudentList->updateall();
 }
