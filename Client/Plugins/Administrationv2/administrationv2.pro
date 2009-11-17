@@ -11,6 +11,16 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageParents/DisplayParent.cpp \
     Implementation/ManageParents/EditParent.cpp \
     Implementation/ManageParents/ParentsModel.cpp \
+    Implementation/ManageTeachers/ManageTeachers.cpp \
+    Implementation/ManageTeachers/ListTeachers.cpp \
+    Implementation/ManageTeachers/DisplayTeacher.cpp \
+    Implementation/ManageTeachers/EditTeacher.cpp \
+    Implementation/ManageTeachers/TeachersModel.cpp \
+    Implementation/ManageAdministratives/ManageAdministratives.cpp \
+    Implementation/ManageAdministratives/ListAdministratives.cpp \
+    Implementation/ManageAdministratives/DisplayAdministrative.cpp \
+    Implementation/ManageAdministratives/EditAdministrative.cpp \
+    Implementation/ManageAdministratives/AdministrativesModel.cpp \
     Implementation/ManageStudents/ManageStudents.cpp \
     Implementation/MainView.cpp \
     Implementation/ManageClasses/AdmAddClassWidget.cpp \
@@ -36,6 +46,16 @@ HEADERS += Implementation/Administration.h \
     ../../../Common/PluginManager.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
+    Implementation/ManageTeachers/ManageTeachers.h \
+    Implementation/ManageTeachers/ListTeachers.h \
+    Implementation/ManageTeachers/DisplayTeacher.h \
+    Implementation/ManageTeachers/EditTeacher.h \
+    Implementation/ManageTeachers/TeachersModel.h \
+    Implementation/ManageAdministratives/ManageAdministratives.h \
+    Implementation/ManageAdministratives/ListAdministratives.h \
+    Implementation/ManageAdministratives/DisplayAdministrative.h \
+    Implementation/ManageAdministratives/EditAdministrative.h \
+    Implementation/ManageAdministratives/AdministrativesModel.h \
     Implementation/ManageParents/ManageParents.h \
     Implementation/ManageParents/ListParents.h \
     Implementation/ManageParents/DisplayParent.h \

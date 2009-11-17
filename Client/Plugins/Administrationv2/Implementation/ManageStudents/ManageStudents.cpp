@@ -391,7 +391,7 @@ void ManageStudents::gook()
     }
 }
 
-void ManageStudents::checkCreated(Data *user)
+void ManageStudents::checkCreated(Data *)
 {
    // QMessageBox msgBox;
    // msgBox.setText(tr("L'utilisateur a bien ete crée"));

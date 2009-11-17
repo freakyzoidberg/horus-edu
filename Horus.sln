@@ -25,7 +25,6 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HorusInstaller", "..\bin\Wi
 		{B596831A-D492-367F-A278-AF0B5E9DEBB9} = {B596831A-D492-367F-A278-AF0B5E9DEBB9}
 		{37E1DC7E-E545-3A6E-BCF1-BEFBD5B31B76} = {37E1DC7E-E545-3A6E-BCF1-BEFBD5B31B76}
 		{8C64C7C9-BDE0-3BA6-8F20-6B60567310CC} = {8C64C7C9-BDE0-3BA6-8F20-6B60567310CC}
-		{0787AAD7-7500-3F57-9ACD-601C2882697E} = {0787AAD7-7500-3F57-9ACD-601C2882697E}
 	EndProjectSection
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HorusServerInstaller", "..\bin\Windows\HorusServerInstaller.wixproj", "{BE8DB472-B53B-4617-AAD9-8FFE5E21693F}"
@@ -37,7 +36,7 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HorusServerInstaller", "..\
 		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19} = {F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Administrationv2", "Client\Plugins\Administrationv2\administrationv2.vcproj", "{0787AAD7-7500-3F57-9ACD-601C2882697E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Administrationv2", "Client\Plugins\Administrationv2\administrationv2.vcproj", "{BCB69144-277A-3A08-9AED-E527BF576EA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -157,16 +156,16 @@ Global
 		{BE8DB472-B53B-4617-AAD9-8FFE5E21693F}.Release|Win32.ActiveCfg = Release|x86
 		{BE8DB472-B53B-4617-AAD9-8FFE5E21693F}.Release|x86.ActiveCfg = Release|x86
 		{BE8DB472-B53B-4617-AAD9-8FFE5E21693F}.Release|x86.Build.0 = Release|x86
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Debug|Win32.ActiveCfg = Debug|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Debug|Win32.Build.0 = Debug|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Debug|x86.ActiveCfg = Debug|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Release|Win32.ActiveCfg = Release|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Release|Win32.Build.0 = Release|Win32
-		{0787AAD7-7500-3F57-9ACD-601C2882697E}.Release|x86.ActiveCfg = Release|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Debug|Win32.Build.0 = Debug|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Debug|x86.ActiveCfg = Debug|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|Win32.ActiveCfg = Release|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|Win32.Build.0 = Release|Win32
+		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
