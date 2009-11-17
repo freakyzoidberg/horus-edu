@@ -17,7 +17,7 @@ QVariant	ParentsModel::data(const QModelIndex &index, int role) const
 		if (index.row() == i)
 		{
 			if (role == Qt::DisplayRole || role == Qt::EditRole)
-				return (user->name() +  user->surname());
+				return (user->name() +  " " + user->surname());
 			else if (role == Qt::UserRole)
 				return (user->id());
 			else if (role == Qt::DecorationRole)

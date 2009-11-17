@@ -44,6 +44,8 @@ private slots:
     void goadd();
     void goedit();
     void goback();
+    void gook();
+    void goreset();
     void gosave();
     void godel();
     void seteditfalse();

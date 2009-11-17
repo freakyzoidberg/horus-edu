@@ -26,6 +26,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(addstudent, SIGNAL(clicked()), this, SLOT(goadd()));
     connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
     connect(back, SIGNAL(clicked()), this, SLOT(goback()));
+    connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
     connect(del, SIGNAL(clicked()), this, SLOT(godel()));
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
@@ -95,6 +96,7 @@ void ManageStudents::goadd()
         }
         StudentForm = new FormStudents(getAllParents());
         MainLayout->insertWidget(0, StudentForm);
+        connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
         connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
         StudentList->setVisible(false);
 
@@ -122,13 +124,13 @@ if (StudentForm)
     }
     StudentForm = new FormStudents(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     MainLayout->insertWidget(0, StudentForm);
-    connect(ok, SIGNAL(clicked()), this, SLOT(gosave()));
+    connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     StudentList->setVisible(false);
 
 	ok->setVisible(true);
     save->setVisible(true);    
-	reset->setVisible(false);
+	reset->setVisible(true);
     back->setVisible(true);
     addstudent->setVisible(false);
     edit->setVisible(false);
@@ -265,6 +267,104 @@ void ManageStudents::gosave()
             }
 
 
+   //         delete StudentForm;
+   //         StudentForm = 0;
+   //         edit->setVisible(true);
+   //         addstudent->setVisible(true);
+   //         save->setVisible(false);
+   //         StudentList->setVisible(true);
+   //         StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
+   //         addstudent->setVisible(true);
+			//ok->setVisible(false);
+   //         save->setVisible(false);
+			//reset->setVisible(false);
+   //         back->setVisible(false);
+   //         edit->setVisible(true);
+   //         edit->setEnabled(false);
+   //         del->setVisible(true);
+   //         edit->setEnabled(false);
+
+        }
+   // if (info)
+   //     {
+   // delete info;
+   // info = 0;
+   //     }
+    }
+}
+void ManageStudents::goreset()
+{
+}
+void ManageStudents::gook()
+{
+    if (StudentForm)
+    {
+
+        if (!StudentForm->BaseInfos->getName().isEmpty() &&
+            !StudentForm->BaseInfos->getSurName().isEmpty())
+        {
+
+
+          //  qDebug() << StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
+
+//qDebug() << "id user" << StudentForm->id;
+
+            UserData* newUSer;
+            if (StudentForm->id == 0)
+            newUSer = UD->createUser(StudentForm->BaseInfos->getName());
+            else
+            newUSer = UD->user(StudentForm->id);
+
+
+            //Data
+            newUSer->setName(StudentForm->BaseInfos->getName());
+            newUSer->setLevel(LEVEL_STUDENT);
+            newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+            newUSer->setPassword(StudentForm->BaseInfos->getSurName());
+            //BasicInfos
+            newUSer->setSurname(StudentForm->BaseInfos->getSurName());
+            newUSer->setAddress(StudentForm->BaseInfos->getAddress());
+            newUSer->setBirthDate(StudentForm->BaseInfos->getBday());
+
+
+            //Social Infos
+            newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
+
+            // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
+            newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison()+"|:/:|:/|");
+
+            newUSer->setMail("test debug");
+            //Scholar infos
+            newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
+
+            //Parent
+            //newUSer->setRelationship(QVariant(x).toString());
+            //Suivi infos
+
+
+
+
+
+            newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
+            newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
+                //ClasseNextYear
+
+
+            newUSer->setEnable(true);
+            if (StudentForm->id == 0)
+                newUSer->create();
+            else
+                newUSer->save();
+
+
+            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
+            if (uparent != 0)
+            {
+                uparent->setStudent(newUSer);
+                uparent->save();
+            }
+
+
             delete StudentForm;
             StudentForm = 0;
             edit->setVisible(true);
@@ -280,7 +380,7 @@ void ManageStudents::gosave()
             edit->setVisible(true);
             edit->setEnabled(false);
             del->setVisible(true);
-            edit->setEnabled(false);
+            del->setEnabled(false);
 
         }
     if (info)
