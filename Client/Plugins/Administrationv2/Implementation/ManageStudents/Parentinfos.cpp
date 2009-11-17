@@ -9,12 +9,13 @@ ParentInfos::ParentInfos()
     BasicLayout->setMargin(8);
     BasicLayout->setSpacing(4);
 
-    parent = new QComboBox();
+    parent = new QComboBox(this);
 
     QLabel *label = new QLabel(tr("Parent"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 0, 0);
     BasicLayout->addWidget(parent, 0, 1);
+	BasicLayout->setColumnStretch(1, 1);
 
 
 
@@ -25,14 +26,19 @@ BasicLayout->setColumnMinimumWidth(0,150);
 
 ParentInfos::ParentInfos(UserData *d)
 {
+    setProperty("isFormFrame", true);
     QGridLayout *BasicLayout = new QGridLayout(this);
 
-    parent = new QComboBox();
-    //parent->setMaximumHeight(50);
+    BasicLayout->setMargin(8);
+    BasicLayout->setSpacing(4);
 
-    BasicLayout->addWidget(new QLabel(tr("Parent")), 0, 0);
+	parent = new QComboBox(this);
+
+    QLabel *label = new QLabel(tr("Parent"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 0, 0);
     BasicLayout->addWidget(parent, 0, 1);
-
+	BasicLayout->setColumnStretch(1, 1);
 
 
     BasicLayout->setColumnMinimumWidth(0,150);

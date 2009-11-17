@@ -17,9 +17,9 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     addstudent = new QPushButton(QIcon(":/Icons/add-students.png"), tr("Add a student"));
     del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete this student"));
     edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
-    back = new QPushButton(QIcon(":/Icons/ok.png"), tr("Ok"));
+    ok = new QPushButton(QIcon(":/Icons/ok.png"), tr("Ok"));
     save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
-    back = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
+    reset = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
     StudentForm = 0;
 
@@ -48,12 +48,14 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     actionTitle->setProperty("isTitle", true);
     actionTitle->setProperty("isRound", true);
     RightLayout->addWidget(actionTitle);
-    RightLayout->addWidget(back);
-    RightLayout->addWidget(save);
     RightLayout->addWidget(addstudent);
     RightLayout->addWidget(edit);
     RightLayout->addWidget(del);
-    RightLayout->addWidget(new QWidget, 2);
+    RightLayout->addWidget(ok);
+    RightLayout->addWidget(save);
+    RightLayout->addWidget(reset);
+    RightLayout->addWidget(back);
+    RightLayout->addWidget(new QWidget(this), 1);
 
     MainLayout->addWidget(StudentList);
     //MainLayout->addLayout(ActionLayout);
@@ -120,6 +122,7 @@ if (StudentForm)
     }
     StudentForm = new FormStudents(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     MainLayout->insertWidget(0, StudentForm);
+    connect(ok, SIGNAL(clicked()), this, SLOT(gosave()));
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     StudentList->setVisible(false);
 
@@ -170,7 +173,9 @@ void ManageStudents::goback()
         save->setVisible(false);
     }
     addstudent->setVisible(true);
+	ok->setVisible(false);
     save->setVisible(false);
+	reset->setVisible(false);
     back->setVisible(false);
 
 
@@ -268,7 +273,9 @@ void ManageStudents::gosave()
             StudentList->setVisible(true);
             StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
             addstudent->setVisible(true);
+			ok->setVisible(false);
             save->setVisible(false);
+			reset->setVisible(false);
             back->setVisible(false);
             edit->setVisible(true);
             edit->setEnabled(false);
