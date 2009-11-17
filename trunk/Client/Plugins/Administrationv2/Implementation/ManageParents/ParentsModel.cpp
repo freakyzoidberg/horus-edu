@@ -6,14 +6,13 @@ ParentsModel::ParentsModel(const QHash<quint32, UserData*>&  _users, QObject *pa
 
 QVariant	ParentsModel::data(const QModelIndex &index, int role) const
 {
-	int		i;
-
-	if (!index.isValid() || index.row() >= users.size())
-		return (QVariant());
-	i = 0;
+	int		i = 0;
 	foreach (UserData* user, users)
 	{
-		if (index.row() == i && user->level() == LEVEL_FAMILY)
+		if (user->level() != LEVEL_FAMILY)
+			continue;
+
+		if (index.row() == i)
 		{
 			if (role == Qt::DisplayRole || role == Qt::EditRole)
 				return (user->name() +  user->surname());
@@ -27,9 +26,7 @@ QVariant	ParentsModel::data(const QModelIndex &index, int role) const
 
 int			ParentsModel::rowCount(const QModelIndex &) const
 {
-	quint32	i;
-	
-	i = 0;
+	quint32	i = 0;
 	foreach (UserData* user, users)
 		if (user->level() == LEVEL_FAMILY)
 			i++;
