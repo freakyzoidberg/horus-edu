@@ -17,9 +17,9 @@ class				ListAdministratives : public QWidget
 
 public:
 	ListAdministratives(QWidget *parent, PluginManager *pluginManager);
+	QListView		*listView;
 
 private:
-	QListView		*listView;
 	DisplayAdministrative	*displayer;
 	QPushButton		*editButton;
 	QPushButton		*deleteButton;
@@ -31,6 +31,7 @@ private slots:
 	void			AdministrativeAdded();
 	void			AdministrativeEdited();
 	void			AdministrativeDeleted();
+	void			AdministrativeUpdated(Data *data);
 
 signals:
 	void			editAdministrative(UserData *user);

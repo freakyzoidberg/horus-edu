@@ -65,15 +65,22 @@ ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWid
 	connect(addButton, SIGNAL(clicked()), this, SLOT(TeacherAdded()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(TeacherEdited()));
 	connect(deleteButton, SIGNAL(clicked()), this, SLOT(TeacherDeleted()));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataCreated(Data *)), this, SLOT(TeacherUpdated(Data *)));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataUpdated(Data *)), this, SLOT(TeacherUpdated(Data *)));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataRemoved(Data *)), this, SLOT(TeacherUpdated(Data *)));
 }
 
 void					ListTeachers::TeacherSelected(const QModelIndex &current, const QModelIndex &)
 {
-	editButton->setDisabled(false);
-	deleteButton->setDisabled(false);
-	delete displayer;
-	displayer = new DisplayTeacher(this, _pluginManager->findPlugin<UserDataPlugin *>()->user(current.data(Qt::UserRole).toUInt()));
-	informationsLayout->addWidget(displayer);
+	if (current.isValid() && current == listView->currentIndex())
+	{
+		qDebug() << "Teacher" << current.internalPointer() << current.row();
+		editButton->setDisabled(false);
+		deleteButton->setDisabled(false);
+		delete displayer;
+		displayer = new DisplayTeacher(this, _pluginManager->findPlugin<UserDataPlugin *>()->user(current.data(Qt::UserRole).toUInt()));
+		informationsLayout->addWidget(displayer);
+	}
 }
 
 void					ListTeachers::TeacherAdded()
@@ -95,4 +102,9 @@ void					ListTeachers::TeacherDeleted()
 	ret = confirm->exec();
 	if (ret == QMessageBox::Yes)
 		_pluginManager->findPlugin<UserDataPlugin *>()->user(listView->selectionModel()->currentIndex().data(Qt::UserRole).toUInt())->remove();
+}
+
+void					ListTeachers::TeacherUpdated(Data *)
+{
+	listView->update();
 }
