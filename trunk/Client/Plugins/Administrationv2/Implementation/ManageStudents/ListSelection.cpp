@@ -45,6 +45,7 @@ void ListSelection::updateall()
 {
 QMapIterator<int, QString> i(_tools->getallclass());
 
+ClassList->clear();
 while (i.hasNext())
     {
     i.next();

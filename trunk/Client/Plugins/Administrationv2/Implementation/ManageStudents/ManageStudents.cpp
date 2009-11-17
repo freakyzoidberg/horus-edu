@@ -21,6 +21,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
     reset = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
+    back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
+    refresh = new QPushButton(QIcon(":/Icons/refresh.png"),tr("Refresh"));
     StudentForm = 0;
 
     connect(addstudent, SIGNAL(clicked()), this, SLOT(goadd()));
@@ -30,6 +32,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(del, SIGNAL(clicked()), this, SLOT(godel()));
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
+    connect(refresh,SIGNAL(clicked()), StudentList, SLOT(updateall()));
     connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
 
     RightLayout->setMargin(0);
@@ -56,6 +59,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     RightLayout->addWidget(save);
     RightLayout->addWidget(reset);
     RightLayout->addWidget(back);
+    RightLayout->addWidget(refresh);
     RightLayout->addWidget(new QWidget(this), 1);
 
     MainLayout->addWidget(StudentList);
@@ -108,6 +112,7 @@ void ManageStudents::goadd()
         addstudent->setVisible(false);
         del->setVisible(false);
         edit->setVisible(false);
+        refresh->setVisible(false);
 
     }
     else
@@ -137,6 +142,7 @@ if (StudentList->StudentList->selectedItems().count() == 1)
     addstudent->setVisible(false);
     edit->setVisible(false);
     del->setVisible(false);
+    refresh->setVisible(false);
 }
 
 }
@@ -181,7 +187,7 @@ void ManageStudents::goback()
     save->setVisible(false);
 	reset->setVisible(false);
     back->setVisible(false);
-
+    refresh->setVisible(true);
 
 
     if (StudentList->StudentList->selectedItems().count() > 0)
@@ -360,10 +366,13 @@ void ManageStudents::gook()
 
 
             UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
-            if (uparent != 0)
+            if (uparent)
             {
+                if (uparent->name() != "Nobody")
+                {
                 uparent->setStudent(newUSer);
                 uparent->save();
+                }
             }
 
 
@@ -375,15 +384,15 @@ void ManageStudents::gook()
             StudentList->setVisible(true);
             StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
             addstudent->setVisible(true);
-			ok->setVisible(false);
-            save->setVisible(false);
-			reset->setVisible(false);
+            ok->setVisible(false);
+           save->setVisible(false);
+            reset->setVisible(false);
             back->setVisible(false);
             edit->setVisible(true);
             edit->setEnabled(false);
             del->setVisible(true);
             del->setEnabled(false);
-
+            refresh->setVisible(true);
         }
     if (info)
         {
@@ -409,12 +418,14 @@ void ManageStudents::seteditfalse()
     }
      edit->setEnabled(false);
      del->setEnabled(false);
+
 }
 
 void ManageStudents::setedittrue()
 {
      edit->setEnabled(true);
      del->setEnabled(true);
+
     if (info)
      {
         delete info;
