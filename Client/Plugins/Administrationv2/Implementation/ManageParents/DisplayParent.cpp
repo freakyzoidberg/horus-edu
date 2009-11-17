@@ -5,12 +5,6 @@
 
 DisplayParent::DisplayParent(QWidget *parent) : QWidget(parent)
 {
-	QGridLayout	*layout;
-	QLabel		*helperLabel;
-
-	layout = new QGridLayout(this);
-	helperLabel = new QLabel(tr("Please select one parent to display its informations"), this);
-	layout->addWidget(helperLabel);
 }
 
 DisplayParent::DisplayParent(QWidget *parent, UserData *user) : QWidget(parent)
@@ -21,6 +15,7 @@ DisplayParent::DisplayParent(QWidget *parent, UserData *user) : QWidget(parent)
 	QString		value;
 	int			row;
 
+	row = 0;
 	layout = new QGridLayout(this);
 	value = user->surname();
 	if (value.size())
