@@ -122,6 +122,8 @@ if (StudentForm)
         delete StudentForm;
         StudentForm = 0;
     }
+if (StudentList->StudentList->selectedItems().count() == 1)
+{
     StudentForm = new FormStudents(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     MainLayout->insertWidget(0, StudentForm);
     connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
@@ -135,7 +137,7 @@ if (StudentForm)
     addstudent->setVisible(false);
     edit->setVisible(false);
     del->setVisible(false);
-
+}
 
 }
 
