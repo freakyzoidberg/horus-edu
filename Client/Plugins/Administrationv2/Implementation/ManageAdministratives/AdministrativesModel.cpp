@@ -33,7 +33,7 @@ int			AdministrativesModel::rowCount(const QModelIndex &) const
 {
 	quint32	i = 0;
 	foreach (UserData* user, users)
-		if (user->level() == LEVEL_FAMILY && user->status() != Data::DELETED && user->status() != Data::EMPTY)
+		if (user->level() == LEVEL_ADMINISTRATOR && user->status() != Data::DELETED && user->status() != Data::EMPTY)
 			i++;
 	return (i);
 }
