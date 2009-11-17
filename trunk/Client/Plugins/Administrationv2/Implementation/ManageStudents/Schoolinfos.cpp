@@ -36,7 +36,10 @@ BasicLayout->setColumnMinimumWidth(0,150);
 
 SchoolInfos::SchoolInfos(UserData *d)
 {
+    setProperty("isFormFrame", true);
     QGridLayout *BasicLayout = new QGridLayout(this);
+    BasicLayout->setMargin(8);
+    BasicLayout->setSpacing(4);
 
     raisons_redoublement = new QLineEdit();
     QStringList tmp = d->comment().split("|:/:|:/|");
@@ -54,9 +57,13 @@ SchoolInfos::SchoolInfos(UserData *d)
 
 
 
-    BasicLayout->addWidget(new QLabel(tr("redoublement")), 0, 0);
+    QLabel* label = new QLabel(tr("Redoublement"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 0, 0);
     BasicLayout->addWidget(nb_redoublement, 0, 1);
-    BasicLayout->addWidget(new QLabel(tr("raisons")), 1, 0);
+    label = new QLabel(tr("Raisons"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 1, 0);
     BasicLayout->addWidget(raisons_redoublement, 1, 1);
 
  //   BasicLayout->addWidget(new QLabel(tr("moyenne")), 2, 0);
