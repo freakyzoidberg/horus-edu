@@ -35,28 +35,15 @@ DisplayParent::DisplayParent(QWidget *parent, UserData *user) : QWidget(parent)
 		layout->addWidget(valueLabel, row, 1);
 		++row;
 	}
-	value = user->gender();
+	if (user->gender() == GENDER_UNKNOW)
+		value = tr("Unknow");
+	if (user->gender() == GENDER_FEMALE)
+		value = tr("Female");
+	if (user->gender() == GENDER_MALE)
+		value = tr("Male");
 	if (value.size())
 	{
 		fieldLabel = new QLabel(tr("Gender"), this);
-		layout->addWidget(fieldLabel, row, 0);
-		valueLabel = new QLabel(value, this);
-		layout->addWidget(valueLabel, row, 1);
-		++row;
-	}
-	value = user->birthDate().toString();
-	if (value.size())
-	{
-		fieldLabel = new QLabel(tr("Birth date"), this);
-		layout->addWidget(fieldLabel, row, 0);
-		valueLabel = new QLabel(value, this);
-		layout->addWidget(valueLabel, row, 1);
-		++row;
-	}
-	value = user->address();
-	if (value.size())
-	{
-		fieldLabel = new QLabel(tr("Address"), this);
 		layout->addWidget(fieldLabel, row, 0);
 		valueLabel = new QLabel(value, this);
 		layout->addWidget(valueLabel, row, 1);
@@ -93,24 +80,6 @@ DisplayParent::DisplayParent(QWidget *parent, UserData *user) : QWidget(parent)
 	if (value.size())
 	{
 		fieldLabel = new QLabel(tr("Mobile phone"), this);
-		layout->addWidget(fieldLabel, row, 0);
-		valueLabel = new QLabel(value, this);
-		layout->addWidget(valueLabel, row, 1);
-		++row;
-	}
-	value = user->proCategory();
-	if (value.size())
-	{
-		fieldLabel = new QLabel(tr("Occupational category"), this);
-		layout->addWidget(fieldLabel, row, 0);
-		valueLabel = new QLabel(value, this);
-		layout->addWidget(valueLabel, row, 1);
-		++row;
-	}
-	value = user->occupation();
-	if (value.size())
-	{
-		fieldLabel = new QLabel(tr("Occupation"), this);
 		layout->addWidget(fieldLabel, row, 0);
 		valueLabel = new QLabel(value, this);
 		layout->addWidget(valueLabel, row, 1);

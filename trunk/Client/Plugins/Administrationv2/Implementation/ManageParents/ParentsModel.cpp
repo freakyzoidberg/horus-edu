@@ -1,5 +1,7 @@
 #include	"ParentsModel.h"
 
+#include	<QIcon>
+
 ParentsModel::ParentsModel(const QHash<quint32, UserData*>&  _users, QObject *parent) : QAbstractListModel(parent), users(_users)
 {
 }
@@ -18,6 +20,9 @@ QVariant	ParentsModel::data(const QModelIndex &index, int role) const
 				return (user->name() +  user->surname());
 			else if (role == Qt::UserRole)
 				return (user->id());
+			else if (role == Qt::DecorationRole)
+				return (QIcon(":/Icons/parents.png"));
+			return (QVariant());
 		}
 		i++;
 	}

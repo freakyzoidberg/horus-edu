@@ -10,15 +10,14 @@ BasicInfos::BasicInfos()
     name = new QLineEdit(this);
     surname = new QLineEdit(this);
     bday = new QDateEdit(this);
-    bday->setDisplayFormat("dd/MM/yy");
-    QDate *now = new QDate();
-    bday->setDate(now->currentDate());
+    bday->setDisplayFormat(tr("dd/MM/yy"));
+	bday->setDate(QDate::currentDate());
     bday->setCalendarPopup(true);
     address = new QLineEdit(this);
 
     QLabel *label;
 
-    label = new QLabel(tr("Nom"));
+    label = new QLabel(tr("Last name"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 0, 0);
     BasicLayout->addWidget(name, 0, 1);
@@ -56,10 +55,9 @@ QGridLayout *BasicLayout = new QGridLayout(this);
     surname = new QLineEdit(this);
     surname->setText(ud->surname());
     bday = new QDateEdit(this);
-    bday->setDisplayFormat("dd/MM/yy");
+    bday->setDisplayFormat(tr("dd/MM/yy"));
     bday->setCalendarPopup(true);
-    QDate *now = new QDate();
-    bday->setDate(now->currentDate());
+	bday->setDate(QDate::currentDate());
     bday->setDate(ud->birthDate());
     address = new QLineEdit(this);
     address->setText(ud->address());

@@ -196,6 +196,19 @@ QLabel[isFormLabel=&quot;true&quot;]
 	font-weight: bold;
 }
 
+QLabel[isFormTitle=&quot;true&quot;]
+{
+	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(210, 210, 210, 255));
+	border: 1px solid rgba(0, 0, 0, 32);
+	border-top-color: rgba(255, 255, 255, 32);
+	border-bottom-color: rgba(0, 0, 0, 32);
+	border-right-color: rgba(255, 255, 255, 128);
+	padding: 6px;
+	font-family: &quot;Tohoma&quot;;
+	font-size: 12px;
+	font-weight: bold;
+}
+
 QFrame[isFormFrame=&quot;true&quot;]
 {
 	background: rgba(234, 234, 234, 255);
@@ -364,7 +377,7 @@ QFrame#Content
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>27</height>
+     <height>29</height>
     </rect>
    </property>
   </widget>

@@ -23,5 +23,7 @@
         <file>Icons/edit-desk.png</file>
         <file>Icons/back.png</file>
         <file>Icons/save.png</file>
+        <file>Icons/ok.png</file>
+        <file>Icons/reset.png</file>
     </qresource>
 </RCC>

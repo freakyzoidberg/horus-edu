@@ -1,15 +1,24 @@
 #include "FormStudents.h"
 
+#include	<QLabel>
+
 FormStudents::FormStudents(QList<UserData*> list)
 {
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
+	QLabel	*label;
 
     FormLayout->setSpacing(0);
     FormLayout->setMargin(0);
 
+	label = new QLabel(tr("Basic informations"), this);
+	label->setProperty("isFormTitle", true);
+	FormLayout->addWidget(label);
     BaseInfos = new BasicInfos();
     FormLayout->addWidget(BaseInfos);
 
+	//label = new QLabel(tr("Parent informations"), this);
+	label->setProperty("isFormTitle", true);
+	FormLayout->addWidget(label);
     ParInfos = new ParentInfos();
     ParInfos->getParent()->addItem(tr("none"), 0);
     foreach (UserData* mud, list)
@@ -21,13 +30,22 @@ qDebug() << mud->login();
 
     FormLayout->addWidget(ParInfos);
 
+	label = new QLabel(tr("Social informations"), this);
+	label->setProperty("isFormTitle", true);
+	FormLayout->addWidget(label);
     SocInfos = new SocialInfos();
     FormLayout->addWidget(SocInfos);
 
 
+	label = new QLabel(tr("Scholar informations"), this);
+	label->setProperty("isFormTitle", true);
+	FormLayout->addWidget(label);
     SchoInfos = new SchoolInfos();
     FormLayout->addWidget(SchoInfos);
 
+	//label = new QLabel(tr("Follow up"), this);
+	label->setProperty("isFormTitle", true);
+	FormLayout->addWidget(label);
     SuiInfos = new SuiviInfos();
     FormLayout->addWidget(SuiInfos);
     id = 0;
@@ -37,6 +55,8 @@ qDebug() << mud->login();
 FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,UserData *d)
 {
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
+    FormLayout->setSpacing(0);
+    FormLayout->setMargin(0);
     id = d->id();
 
 
