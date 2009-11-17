@@ -40,11 +40,11 @@ ListParents::ListParents(QWidget *parent, PluginManager *pluginManager) : QWidge
     informationsLayout->setSpacing(0);
     informationsLayout->setMargin(0);
 	informationsFrame->setMinimumWidth(200);
-	informationsTitle = new QLabel(tr("Informations:"), this);
+	informationsTitle = new QLabel(tr("Informations:"), informationsFrame);
     informationsTitle->setProperty("isTitle", true);
     informationsTitle->setProperty("isRound", true);
 	informationsLayout->addWidget(informationsTitle);
-	displayer = new DisplayParent(this);
+	displayer = new DisplayParent(informationsFrame);
 	informationsLayout->addWidget(displayer);
 	rightLayout->addWidget(informationsFrame);
 	actionsTitle = new QLabel(tr("Actions:"), this);

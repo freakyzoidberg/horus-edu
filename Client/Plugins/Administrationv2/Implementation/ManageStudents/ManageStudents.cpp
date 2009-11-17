@@ -15,10 +15,12 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 
     StudentList = new ListSelection(treeplugin, userplugin);
     addstudent = new QPushButton(QIcon(":/Icons/add-students.png"), tr("Add a student"));
-    back = new QPushButton(QIcon(":/Icons/back.png"), tr("Back"));
-    edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
-    save = new QPushButton(QIcon(":/Icons/save.png"), tr("Save"));
     del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete this student"));
+    edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
+    back = new QPushButton(QIcon(":/Icons/ok.png"), tr("Ok"));
+    save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
+    back = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
+    back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
     StudentForm = 0;
 
     connect(addstudent, SIGNAL(clicked()), this, SLOT(goadd()));
@@ -63,11 +65,13 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 
 
 
+	ok->setVisible(false);
     save->setVisible(false);
+	reset->setVisible(false);
     back->setVisible(false);
     edit->setVisible(true);
-    edit->setEnabled(false);
     del->setVisible(true);
+    edit->setEnabled(false);
     del->setEnabled(false);
     StudentList->updateall();
 
@@ -93,10 +97,11 @@ void ManageStudents::goadd()
         StudentList->setVisible(false);
 
 
-
-        addstudent->setVisible(false);
+		ok->setVisible(true);
         save->setVisible(true);
+		reset->setVisible(true);
         back->setVisible(true);
+        addstudent->setVisible(false);
         del->setVisible(false);
         edit->setVisible(false);
 
@@ -118,9 +123,11 @@ if (StudentForm)
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     StudentList->setVisible(false);
 
-    addstudent->setVisible(false);
+	ok->setVisible(true);
     save->setVisible(true);    
+	reset->setVisible(false);
     back->setVisible(true);
+    addstudent->setVisible(false);
     edit->setVisible(false);
     del->setVisible(false);
 
