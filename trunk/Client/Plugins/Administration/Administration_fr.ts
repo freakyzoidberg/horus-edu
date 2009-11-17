@@ -21,29 +21,29 @@
     <message>
         <location filename="Implementation/AdminMainFrame.cpp" line="58"/>
         <source> Absences </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"> Absences </translation>
     </message>
     <message>
         <location filename="Implementation/AdminMainFrame.cpp" line="64"/>
         <source> Notes </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"> Grades </translation>
     </message>
     <message>
         <location filename="Implementation/AdminMainFrame.cpp" line="70"/>
         <source> Bulletins </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"> Report </translation>
     </message>
     <message>
         <location filename="Implementation/AdminMainFrame.cpp" line="41"/>
         <source>Tree View</source>
-        <translation>Gesion Ecole</translation>
+        <translation>Gestion Ecole</translation>
     </message>
 </context>
 <context>
     <name>AdminTree</name>
     <message>
         <source>&amp;Edit User...</source>
-        <translation type="obsolete">&amp;Modifier utilisateurr...</translation>
+        <translation type="obsolete">&amp;Modifier l&apos;utilisateur...</translation>
     </message>
     <message>
         <source>Edit an existing user</source>
@@ -51,11 +51,11 @@
     </message>
     <message>
         <source>&amp;Delete User...</source>
-        <translation type="obsolete">&amp;Effecer l&apos;utilisateurr...</translation>
+        <translation type="obsolete">&amp;Effacer l&apos;utilisateur...</translation>
     </message>
     <message>
         <source>Delete an existing user</source>
-        <translation type="obsolete">Delete an existing user</translation>
+        <translation type="obsolete">Supprimer un utilisateur existant</translation>
     </message>
     <message>
         <source>&amp;Add User...</source>
@@ -116,7 +116,7 @@
     <message>
         <location filename="Implementation/AdminTree.cpp" line="110"/>
         <source>Edit an existing item</source>
-        <translation>Editer</translation>
+        <translation>Editer un objet existant</translation>
     </message>
     <message>
         <location filename="Implementation/AdminTree.cpp" line="115"/>
@@ -142,7 +142,7 @@
     </message>
     <message>
         <source>Open an existing node</source>
-        <translation type="obsolete">Effacer un noeud existant</translation>
+        <translation type="obsolete">Ouvrir un noeud existant</translation>
     </message>
 </context>
 <context>
@@ -150,7 +150,7 @@
     <message>
         <location filename="Implementation/Administration.cpp" line="10"/>
         <source>Permission denied</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Permission refusé</translation>
     </message>
 </context>
 <context>
@@ -181,7 +181,7 @@
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="49"/>
-        <source>Name</source>
+        <source>Last name</source>
         <translation>Nom</translation>
     </message>
     <message>
@@ -192,27 +192,27 @@
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="56"/>
         <source>GROUP</source>
-        <translation></translation>
+        <translation>GROUPE</translation>
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="57"/>
         <source>GRADE</source>
-        <translation></translation>
+        <translation>NOTE</translation>
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="58"/>
         <source>SUBJECT</source>
-        <translation></translation>
+        <translation>SUJET</translation>
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="59"/>
         <source>ROOT</source>
-        <translation></translation>
+        <translation>ROOT</translation>
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="60"/>
         <source>CLASSES</source>
-        <translation></translation>
+        <translation>CLASSES</translation>
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="62"/>
@@ -236,7 +236,7 @@
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="107"/>
-        <source>Name |</source>
+        <source>Last name |</source>
         <translation>Nom |</translation>
     </message>
     <message>
@@ -250,8 +250,7 @@
     </message>
     <message>
         <location filename="Implementation/NodeInfo.cpp" line="113"/>
-        <source>les champs suivant doivent etre remplis: 
-</source>
+        <source>Field should be filled : </source>
         <translation>les champs suivant doivent etre remplis: </translation>
     </message>
 </context>
@@ -269,7 +268,7 @@
         <location filename="Implementation/UserForm.cpp" line="21"/>
         <location filename="Implementation/UserForm.cpp" line="161"/>
         <source>Save</source>
-        <translation>Sauvgarder</translation>
+        <translation>Sauvegarder</translation>
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="22"/>
@@ -292,7 +291,7 @@
     <message>
         <location filename="Implementation/UserForm.cpp" line="46"/>
         <source>Image Viewer</source>
-        <translation>Vue d&apos;image</translation>
+        <translation>Visionneuse d&apos;image</translation>
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="47"/>
@@ -337,7 +336,7 @@
     <message>
         <location filename="Implementation/UserForm.cpp" line="115"/>
         <source>Language</source>
-        <translation>Language</translation>
+        <translation>Langue</translation>
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="120"/>
@@ -351,7 +350,7 @@
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="136"/>
-        <source>Classe</source>
+        <source>Class</source>
         <translation>Classe</translation>
     </message>
     <message>
@@ -362,12 +361,12 @@
     <message>
         <location filename="Implementation/UserForm.cpp" line="142"/>
         <source>Etudiant</source>
-        <translation></translation>
+        <translation>Student</translation>
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="143"/>
         <source>Professeur</source>
-        <translation></translation>
+        <translation>Teacher</translation>
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="174"/>
@@ -421,18 +420,17 @@
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="253"/>
-        <source>Prenom |</source>
+        <source>First name|</source>
         <translation>Prenom |</translation>
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="255"/>
-        <source>Nom |</source>
+        <source>Last name |</source>
         <translation>Nom |</translation>
     </message>
     <message>
         <location filename="Implementation/UserForm.cpp" line="259"/>
-        <source>les champs suivant doivent etre remplis: 
-</source>
+        <source>Fields should be filled :</source>
         <translation>les champs suivant doivent etre remplis: </translation>
     </message>
     <message>
@@ -453,7 +451,7 @@
     <message>
         <location filename="Implementation/UserPage.cpp" line="51"/>
         <source>&amp;Edit User...</source>
-        <translation>&amp;Modifier utilisateurr...</translation>
+        <translation>&amp;Modifier utilisateur...</translation>
     </message>
     <message>
         <location filename="Implementation/UserPage.cpp" line="53"/>
@@ -463,17 +461,17 @@
     <message>
         <location filename="Implementation/UserPage.cpp" line="55"/>
         <source>&amp;Delete User...</source>
-        <translation>&amp;Effecer l&apos;utilisateurr...</translation>
+        <translation>&amp;Effacer l&apos;utilisateur...</translation>
     </message>
     <message>
         <location filename="Implementation/UserPage.cpp" line="57"/>
         <source>Delete an existing user</source>
-        <translation>Delete an existing user</translation>
+        <translation>Supprimer un utilisateur existant</translation>
     </message>
     <message>
         <location filename="Implementation/UserPage.cpp" line="66"/>
         <source>&amp;Add User...</source>
-        <translation>&amp;Ajouter utilisateur...</translation>
+        <translation>&amp;Ajouter un utilisateur...</translation>
     </message>
     <message>
         <location filename="Implementation/UserPage.cpp" line="68"/>
