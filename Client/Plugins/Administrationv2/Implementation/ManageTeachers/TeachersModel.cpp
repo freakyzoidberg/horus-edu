@@ -11,7 +11,7 @@ QVariant	TeachersModel::data(const QModelIndex &index, int role) const
 	int		i = 0;
 	foreach (UserData* user, users)
 	{
-		if (user->level() != LEVEL_TEACHER)
+		if (user->level() != LEVEL_TEACHER || user->status() != Data::UPTODATE)
 			continue;
 
 		if (index.row() == i)
@@ -33,7 +33,7 @@ int			TeachersModel::rowCount(const QModelIndex &) const
 {
 	quint32	i = 0;
 	foreach (UserData* user, users)
-		if (user->level() == LEVEL_FAMILY)
+		if (user->level() == LEVEL_FAMILY && user->status() == Data::UPTODATE)
 			i++;
 	return (i);
 }
