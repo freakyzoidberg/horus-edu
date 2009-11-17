@@ -31,6 +31,7 @@ private:
 	QTextEdit		*addressField;
 	QComboBox		*genderField;
 	QComboBox		*relationshipField;
+	UserData		*_user;
 
 private slots:
 	void			saved();
