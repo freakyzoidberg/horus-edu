@@ -22,7 +22,7 @@ layout->addWidget(new QLabel(tr("address :")),2,0);
 
 
 
-QLabel *na = new QLabel(it->name() + it->surname());
+QLabel *na = new QLabel(it->surname()+ " " + it->name());
 na->setWordWrap(true);
     layout->addWidget(na, 0,1);
 
