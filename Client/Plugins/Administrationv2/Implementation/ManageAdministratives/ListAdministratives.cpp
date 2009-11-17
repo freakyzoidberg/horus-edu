@@ -65,6 +65,9 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
 	connect(addButton, SIGNAL(clicked()), this, SLOT(AdministrativeAdded()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(AdministrativeEdited()));
 	connect(deleteButton, SIGNAL(clicked()), this, SLOT(AdministrativeDeleted()));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataCreated(Data *)), this, SLOT(AdministrativeUpdated(Data *)));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataUpdated(Data *)), this, SLOT(AdministrativeUpdated(Data *)));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataRemoved(Data *)), this, SLOT(AdministrativeUpdated(Data *)));
 }
 
 void					ListAdministratives::AdministrativeSelected(const QModelIndex &current, const QModelIndex &)
@@ -95,4 +98,9 @@ void					ListAdministratives::AdministrativeDeleted()
 	ret = confirm->exec();
 	if (ret == QMessageBox::Yes)
 		_pluginManager->findPlugin<UserDataPlugin *>()->user(listView->selectionModel()->currentIndex().data(Qt::UserRole).toUInt())->remove();
+}
+
+void					ListAdministratives::AdministrativeUpdated(Data *)
+{
+	listView->update();
 }

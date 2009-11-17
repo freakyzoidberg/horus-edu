@@ -23,4 +23,5 @@ void		ManageTeachers::editExited()
 	disconnect(edit, SIGNAL(exit()), this, SLOT(editExited()));
 	delete edit;
 	list->show();
+	list->listView->update();
 }

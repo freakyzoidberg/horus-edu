@@ -65,6 +65,9 @@ ListParents::ListParents(QWidget *parent, PluginManager *pluginManager) : QWidge
 	connect(addButton, SIGNAL(clicked()), this, SLOT(parentAdded()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(parentEdited()));
 	connect(deleteButton, SIGNAL(clicked()), this, SLOT(parentDeleted()));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataCreated(Data *)), this, SLOT(ParentUpdated(Data *)));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataUpdated(Data *)), this, SLOT(ParentUpdated(Data *)));
+	connect(pluginManager->findPlugin<UserDataPlugin *>(), SIGNAL(dataRemoved(Data *)), this, SLOT(ParentUpdated(Data *)));
 }
 
 void					ListParents::parentSelected(const QModelIndex &current, const QModelIndex &)
@@ -95,4 +98,9 @@ void					ListParents::parentDeleted()
 	ret = confirm->exec();
 	if (ret == QMessageBox::Yes)
 		_pluginManager->findPlugin<UserDataPlugin *>()->user(listView->selectionModel()->currentIndex().data(Qt::UserRole).toUInt())->remove();
+}
+
+void					ListParents::ParentUpdated(Data *)
+{
+	listView->update();
 }

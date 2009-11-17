@@ -17,9 +17,9 @@ class				ListParents : public QWidget
 
 public:
 	ListParents(QWidget *parent, PluginManager *pluginManager);
+	QListView		*listView;
 
 private:
-	QListView		*listView;
 	DisplayParent	*displayer;
 	QPushButton		*editButton;
 	QPushButton		*deleteButton;
@@ -31,6 +31,7 @@ private slots:
 	void			parentAdded();
 	void			parentEdited();
 	void			parentDeleted();
+	void			ParentUpdated(Data *data);
 
 signals:
 	void			editParent(UserData *user);

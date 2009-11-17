@@ -17,9 +17,9 @@ class				ListTeachers : public QWidget
 
 public:
 	ListTeachers(QWidget *parent, PluginManager *pluginManager);
+	QListView		*listView;
 
 private:
-	QListView		*listView;
 	DisplayTeacher	*displayer;
 	QPushButton		*editButton;
 	QPushButton		*deleteButton;
@@ -31,6 +31,7 @@ private slots:
 	void			TeacherAdded();
 	void			TeacherEdited();
 	void			TeacherDeleted();
+	void			TeacherUpdated(Data *data);
 
 signals:
 	void			editTeacher(UserData *user);
