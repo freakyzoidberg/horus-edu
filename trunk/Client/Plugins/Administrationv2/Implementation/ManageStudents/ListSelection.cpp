@@ -64,6 +64,7 @@ void ListSelection::updatestudents(QListWidgetItem *item)
 {
 StudentList->clear();
     foreach (UserData* user, _tools->getStudentfromClass(item->data(Qt::UserRole).toInt()))
+		if (user->status() == Data::UPTODATE)
     {
         //QMimeData *mimeData = new QMimeData();
 

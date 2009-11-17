@@ -6,7 +6,7 @@ TARGET = Administrationv2
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
-    Implementation/ManageParents/ManageParents.cpp \
+	Implementation/ManageParents/ManageParents.cpp \
     Implementation/ManageParents/ListParents.cpp \
     Implementation/ManageParents/DisplayParent.cpp \
     Implementation/ManageParents/EditParent.cpp \
