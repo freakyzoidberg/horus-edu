@@ -11,7 +11,7 @@ QVariant	AdministrativesModel::data(const QModelIndex &index, int role) const
 	int		i = 0;
 	foreach (UserData* user, users)
 	{
-		if (user->level() != LEVEL_ADMINISTRATOR || user->status() != Data::UPTODATE)
+		if (user->level() != LEVEL_ADMINISTRATOR || user->status() == Data::DELETED || user->status() == Data::EMPTY)
 			continue;
 
 		if (index.row() == i)
@@ -33,7 +33,7 @@ int			AdministrativesModel::rowCount(const QModelIndex &) const
 {
 	quint32	i = 0;
 	foreach (UserData* user, users)
-		if (user->level() == LEVEL_FAMILY && user->status() == Data::UPTODATE)
+		if (user->level() == LEVEL_FAMILY && user->status() != Data::DELETED && user->status() != Data::EMPTY)
 			i++;
 	return (i);
 }
