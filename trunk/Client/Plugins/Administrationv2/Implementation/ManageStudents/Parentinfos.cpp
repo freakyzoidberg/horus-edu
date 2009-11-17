@@ -24,7 +24,7 @@ BasicLayout->setColumnMinimumWidth(0,150);
 }
 
 
-ParentInfos::ParentInfos(UserData *d)
+ParentInfos::ParentInfos(UserData *)
 {
     setProperty("isFormFrame", true);
     QGridLayout *BasicLayout = new QGridLayout(this);

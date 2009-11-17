@@ -1,5 +1,5 @@
-#ifndef				__EDIT_PARENT_H__
-# define			__EDIT_PARENT_H__
+#ifndef				__EDITPARENT_H__
+# define			__EDITPARENT_H__
 
 # include			<QWidget>
 # include			<QLineEdit>
