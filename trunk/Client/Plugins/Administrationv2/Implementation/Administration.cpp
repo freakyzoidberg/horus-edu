@@ -33,7 +33,7 @@ const QString   Administration::getDisplayableName() const
 
 bool Administration::canLoad() const
 {
-    if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<UserDataPlugin *>() && pluginManager->findPlugin<EventDataPlugin *>())
+    if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<UserDataPlugin *>())
                 return (true);
         return (false);
 }
