@@ -125,13 +125,20 @@ void			EditParent::saved()
 	UserData	*user;
 
 	user = _pluginManager->findPlugin<UserDataPlugin *>()->createUser(firstNameField->text() + lastNameField->text()); // TODO find unused login
+	user->setPassword(user->login());
 	user->setName(lastNameField->text());
 	user->setSurname(firstNameField->text());
 	user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
 	user->setBirthDate(birthDateField->date());
 	user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
 	user->setAddress(addressField->document()->toPlainText());
-	// et le reste plus tard...
+	user->setMail(mailField->text());
+	user->setPhone1(homePhoneField->text());
+	user->setPhone2(workPhoneField->text());
+	user->setPhone3(mobilePhoneField->text());
+	user->setOccupation(occupationField->text());
+	user->setProCategory(occupationalCategoryField->text());
+	user->setLevel(LEVEL_FAMILY);
 	user->create();
 }
 
