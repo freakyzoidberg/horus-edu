@@ -85,13 +85,4 @@ DisplayTeacher::DisplayTeacher(QWidget *parent, UserData *user) : QWidget(parent
 		layout->addWidget(valueLabel, row, 1);
 		++row;
 	}
-	value = user->relationship();
-	if (value.size())
-	{
-		fieldLabel = new QLabel(tr("Relationship"), this);
-		layout->addWidget(fieldLabel, row, 0);
-		valueLabel = new QLabel(value, this);
-		layout->addWidget(valueLabel, row, 1);
-		++row;
-	}
 }

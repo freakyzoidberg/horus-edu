@@ -24,7 +24,7 @@ ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWid
 	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom);
 	leftLayout->setMargin(0);
 	leftLayout->setSpacing(0);
-	listTitle = new QLabel(tr("Select a Teacher to view or edit it."));
+	listTitle = new QLabel(tr("Select a teacher to view or edit it."));
 	listTitle->setProperty("isTitle", true);
 	leftLayout->addWidget(listTitle);
 	listView = new QListView(this);
@@ -51,12 +51,12 @@ ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWid
     actionsTitle->setProperty("isTitle", true);
     actionsTitle->setProperty("isRound", true);
 	rightLayout->addWidget(actionsTitle);
-	addButton = new QPushButton(QIcon(":/Icons/add-Teachers.png"), tr("Add a Teacher"), this);
+	addButton = new QPushButton(QIcon(":/Icons/add-teachers.png"), tr("Add a teacher"), this);
 	rightLayout->addWidget(addButton);
-	editButton = new QPushButton(QIcon(":/Icons/edit-Teachers.png"), tr("Edit this Teacher"), this);
+	editButton = new QPushButton(QIcon(":/Icons/edit-teachers.png"), tr("Edit this teacher"), this);
 	editButton->setDisabled(true);
 	rightLayout->addWidget(editButton);
-	deleteButton = new QPushButton(QIcon(":/Icons/remove-Teachers.png"), tr("Delete this Teacher"), this);
+	deleteButton = new QPushButton(QIcon(":/Icons/remove-teachers.png"), tr("Delete this teacher"), this);
 	deleteButton->setDisabled(true);
 	rightLayout->addWidget(deleteButton);
 	rightLayout->addWidget(new QWidget(this), 1);

@@ -24,7 +24,7 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
 	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom);
 	leftLayout->setMargin(0);
 	leftLayout->setSpacing(0);
-	listTitle = new QLabel(tr("Select a Administrative to view or edit it."));
+	listTitle = new QLabel(tr("Select a administrative to view or edit it."));
 	listTitle->setProperty("isTitle", true);
 	leftLayout->addWidget(listTitle);
 	listView = new QListView(this);
@@ -51,12 +51,12 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
     actionsTitle->setProperty("isTitle", true);
     actionsTitle->setProperty("isRound", true);
 	rightLayout->addWidget(actionsTitle);
-	addButton = new QPushButton(QIcon(":/Icons/add-Administratives.png"), tr("Add a Administrative"), this);
+	addButton = new QPushButton(QIcon(":/Icons/add-administrator.png"), tr("Add a administrative"), this);
 	rightLayout->addWidget(addButton);
-	editButton = new QPushButton(QIcon(":/Icons/edit-Administratives.png"), tr("Edit this Administrative"), this);
+	editButton = new QPushButton(QIcon(":/Icons/edit-administrator.png"), tr("Edit this administrative"), this);
 	editButton->setDisabled(true);
 	rightLayout->addWidget(editButton);
-	deleteButton = new QPushButton(QIcon(":/Icons/remove-Administratives.png"), tr("Delete this Administrative"), this);
+	deleteButton = new QPushButton(QIcon(":/Icons/remove-administrator.png"), tr("Delete this administrative"), this);
 	deleteButton->setDisabled(true);
 	rightLayout->addWidget(deleteButton);
 	rightLayout->addWidget(new QWidget(this), 1);
