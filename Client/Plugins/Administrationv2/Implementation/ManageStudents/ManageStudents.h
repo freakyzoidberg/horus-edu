@@ -31,6 +31,7 @@ private:
     QPushButton *del;
     QPushButton *ok;
     QPushButton *reset;
+    QPushButton *refresh;
     QFrame* sidebar;
 QFrame *informationsFrame;
 QVBoxLayout *informationsLayout;

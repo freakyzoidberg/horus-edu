@@ -18,12 +18,13 @@ public:
     ListSelection(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin);
     QListWidget *StudentList;
     QListWidget *ClassList;
-     void updateall();
+
 
 private:
      mytools *_tools;
 
  public slots:
+     void updateall();
     void updatestudents(QListWidgetItem* item);
 };
 #endif // LISTSELECTION_H

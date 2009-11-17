@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>Icons/admin.png</file>
         <file>Icons/administrator.png</file>
         <file>Icons/parents.png</file>
@@ -25,5 +25,6 @@
         <file>Icons/save.png</file>
         <file>Icons/ok.png</file>
         <file>Icons/reset.png</file>
+        <file>Icons/refresh.png</file>
     </qresource>
 </RCC>
