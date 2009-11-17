@@ -38,12 +38,12 @@ ListParents::ListParents(QWidget *parent, PluginManager *pluginManager) : QWidge
 	actionsTitle = new QLabel(tr("Actions"), this);
 	actionsMainLayout->addWidget(actionsTitle);
 	actionsBottomLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-        addButton = new QPushButton(QIcon(":/Icons/add-parents.png"), tr("Add"), actionsFrame);
+	addButton = new QPushButton(QIcon(":/Icons/add-parents.png"), tr("Add"), actionsFrame);
 	actionsBottomLayout->addWidget(addButton);
-        editButton = new QPushButton(QIcon(":/Icons/edit-parents.png"), tr("Edit"), actionsFrame);
+	editButton = new QPushButton(QIcon(":/Icons/edit-parents.png"), tr("Edit"), actionsFrame);
 	editButton->setDisabled(true);
 	actionsBottomLayout->addWidget(editButton);
-        deleteButton = new QPushButton(QIcon(":/Icons/remove-parents.png"), tr("Delete"), actionsFrame);
+	deleteButton = new QPushButton(QIcon(":/Icons/remove-parents.png"), tr("Delete"), actionsFrame);
 	deleteButton->setDisabled(true);
 	actionsBottomLayout->addWidget(deleteButton);
 	actionsMainLayout->addLayout(actionsBottomLayout);
@@ -60,7 +60,8 @@ void					ListParents::parentSelected(const QModelIndex &current, const QModelInd
 	editButton->setDisabled(false);
 	deleteButton->setDisabled(false);
 	delete displayer;
-	informationsLayout->addWidget(new DisplayParent(this, _pluginManager->findPlugin<UserDataPlugin *>()->user(current.data(Qt::UserRole).toUInt())));
+	displayer = new DisplayParent(this, _pluginManager->findPlugin<UserDataPlugin *>()->user(current.data(Qt::UserRole).toUInt()));
+	informationsLayout->addWidget(displayer);
 }
 
 void					ListParents::parentAdded()
