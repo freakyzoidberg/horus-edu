@@ -13,7 +13,7 @@ const QString	News::pluginVersion() const
 
 QWidget			*News::getWidget()
 {
-        return new NewsPlugin();
+        return (0);
 }
 
 const QString       News::getDisplayableName() const
