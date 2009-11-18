@@ -109,7 +109,8 @@ void PluginManagerClient::loadPlugins()
         else
             plugin->load();
 		++i;
-		emit loadProgressChange(50 + 50 * i / _plugins.count());
+		if (_plugins.count())
+			emit loadProgressChange(50 + 50 * i / _plugins.count());
     }
 	if ( ! findPlugin<UserDataPlugin*>() || ! findPlugin<TreeDataPlugin*>())
 		qFatal(tr("Horus Client cannot launch. You need at least a User Data Plugin and a TreeDataPlugin").toAscii().data());

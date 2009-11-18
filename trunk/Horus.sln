@@ -38,6 +38,8 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HorusServerInstaller", "..\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Administrationv2", "Client\Plugins\Administrationv2\administrationv2.vcproj", "{BCB69144-277A-3A08-9AED-E527BF576EA5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "News", "Client\Plugins\News\News.vcproj", "{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -166,6 +168,16 @@ Global
 		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|Win32.ActiveCfg = Release|Win32
 		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|Win32.Build.0 = Release|Win32
 		{BCB69144-277A-3A08-9AED-E527BF576EA5}.Release|x86.ActiveCfg = Release|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Debug|Win32.Build.0 = Debug|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Debug|x86.ActiveCfg = Debug|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|Win32.ActiveCfg = Release|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|Win32.Build.0 = Release|Win32
+		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
