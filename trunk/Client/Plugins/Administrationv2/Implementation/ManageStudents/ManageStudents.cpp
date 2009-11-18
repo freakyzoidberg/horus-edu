@@ -34,6 +34,12 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
     connect(refresh,SIGNAL(clicked()), this, SLOT(refreshall()));
     connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
+    connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
+    connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
+
+        connect(UD, SIGNAL(dataCreated(Data *)), StudentList, SLOT(updatestudents()));
+        connect(UD, SIGNAL(dataUpdated(Data *)), StudentList, SLOT(updatestudents()));
+        connect(UD, SIGNAL(dataRemoved(Data *)), StudentList, SLOT(updatestudents()));
 
     RightLayout->setMargin(0);
     RightLayout->setSpacing(2);
@@ -100,8 +106,7 @@ void ManageStudents::goadd()
         }
         StudentForm = new FormStudents(getAllParents());
         MainLayout->insertWidget(0, StudentForm);
-        connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
-        connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
+
         StudentList->setVisible(false);
 
 
@@ -131,8 +136,7 @@ if (StudentList->StudentList->selectedItems().count() == 1)
 {
     StudentForm = new FormStudents(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     MainLayout->insertWidget(0, StudentForm);
-    connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
-    connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
+
     StudentList->setVisible(false);
 
 	ok->setVisible(true);
@@ -230,8 +234,20 @@ void ManageStudents::gosave()
             if (StudentForm->id == 0)
             newUSer = UD->createUser(StudentForm->BaseInfos->getName());
             else
+            {
             newUSer = UD->user(StudentForm->id);
+            if ((newUSer->status() != Data::UPTODATE) &&
+                (newUSer->status() != Data::UPDATED) &&
+                (newUSer->status() != Data::SAVED) &&
+                (newUSer->status() != Data::CREATED) )
+            {
+                   QMessageBox msgBox;
+                   msgBox.setText(tr("Saving failed, please try later sur id :")+ QVariant(StudentForm->id).toString());
+                   msgBox.exec();
+                   return;
 
+            }
+            }
 
             //Data
             newUSer->setName(StudentForm->BaseInfos->getName());
@@ -269,7 +285,10 @@ void ManageStudents::gosave()
 
             newUSer->setEnable(true);
             if (StudentForm->id == 0)
+            {
                 newUSer->create();
+                StudentForm->id = newUSer->id();
+            }
             else
                 newUSer->save();
 
@@ -280,7 +299,7 @@ void ManageStudents::gosave()
                 uparent->setStudent(newUSer);
                 uparent->save();
             }
-
+/*
             if (StudentForm)
             {
            delete StudentForm;
@@ -288,6 +307,7 @@ void ManageStudents::gosave()
             }
             StudentForm = new FormStudents(getAllParents());
             MainLayout->insertWidget(0, StudentForm);
+            */
    //         edit->setVisible(true);
    //         addstudent->setVisible(true);
    //         save->setVisible(false);
@@ -369,6 +389,7 @@ void ManageStudents::gook()
                 //ClasseNextYear
 
 
+   // connect(UD, dataUpdated(newUSer), StudentList->updatestudents(StudentList->ClassList->selectedItems().first()));
             newUSer->setEnable(true);
             if (StudentForm->id == 0)
                 newUSer->create();
@@ -393,6 +414,7 @@ void ManageStudents::gook()
             addstudent->setVisible(true);
             save->setVisible(false);
             StudentList->setVisible(true);
+
             StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
             addstudent->setVisible(true);
             ok->setVisible(false);
