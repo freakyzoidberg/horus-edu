@@ -7,15 +7,15 @@ ManageParents::ManageParents(QWidget *parent, PluginManager *pluginManager) : QW
 	layout->setMargin(0);
 	list = new ListParents(this, pluginManager);
 	layout->addWidget(list);
-	connect(list, SIGNAL(editParent(UserData *)), this, SLOT(parentEdited(UserData *)));
+        //connect(list, SIGNAL(editParent(UserData *)), this, SLOT(parentEdited(UserData *)));
 }
 
 void		ManageParents::parentEdited(UserData *user)
 {
-	list->hide();
-	edit = new EditParent(this, _pluginManager, user);
-	layout->addWidget(edit);
-	connect(edit, SIGNAL(exit()), this, SLOT(editExited()));
+//	list->hide();
+//	edit = new EditParent(this, _pluginManager, user);
+//	layout->addWidget(edit);
+//	connect(edit, SIGNAL(exit()), this, SLOT(editExited()));
 }
 
 void		ManageParents::editExited()

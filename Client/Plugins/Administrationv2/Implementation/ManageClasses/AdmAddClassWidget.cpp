@@ -136,7 +136,6 @@ void    AdmAddClassWidget::addClass()
 
 	if (_className->text().trimmed() == "")
 		error += tr("This class must have a name.");
-
 	if (error != "")
 	{
 		errorMsg.setText(error);
