@@ -1173,33 +1173,6 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="release\Client.res"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Performing Custom Build Step"
-						CommandLine=""
-						AdditionalDependencies=""
-						Outputs=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Performing Custom Build Step"
-						CommandLine=""
-						AdditionalDependencies=""
-						Outputs=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\Client.res"
 				>
 				<FileConfiguration
@@ -1227,14 +1200,29 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_CacheManager.cpp"
+				RelativePath="release\Client.res"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
-						Name="VCCLCompilerTool"
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
 					/>
 				</FileConfiguration>
 			</File>
@@ -1251,7 +1239,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_CommSocket.cpp"
+				RelativePath="release\moc_CacheManager.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1267,6 +1255,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_CommSocket.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1299,18 +1299,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DataManager.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_DataManager.cpp"
 				>
 				<FileConfiguration
@@ -1323,7 +1311,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DataManagerClient.cpp"
+				RelativePath="release\moc_DataManager.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1339,6 +1327,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_DataManagerClient.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1371,18 +1371,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_Debugger.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_Debugger.cpp"
 				>
 				<FileConfiguration
@@ -1395,7 +1383,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DisplayablePlugin.cpp"
+				RelativePath="release\moc_Debugger.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1419,7 +1407,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_LoginDialog.cpp"
+				RelativePath="release\moc_DisplayablePlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1435,6 +1423,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_LoginDialog.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1467,18 +1467,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_MainWindow.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_MainWindow.cpp"
 				>
 				<FileConfiguration
@@ -1491,7 +1479,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_NetworkManager.cpp"
+				RelativePath="release\moc_MainWindow.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1507,6 +1495,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_NetworkManager.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1539,6 +1539,25 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="debug\moc_Notification.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="release\moc_Notification.cpp"
 				>
 				<FileConfiguration
@@ -1549,9 +1568,16 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Notification.cpp"
+				RelativePath="debug\moc_Plugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1575,7 +1601,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Plugin.cpp"
+				RelativePath="debug\moc_PluginManager.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1591,18 +1617,6 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="debug\moc_PluginManager.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1635,18 +1649,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_SettingsDialog.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_SettingsDialog.cpp"
 				>
 				<FileConfiguration
@@ -1659,7 +1661,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_UserCache.cpp"
+				RelativePath="release\moc_SettingsDialog.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1675,6 +1677,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_UserCache.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1707,18 +1721,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_UserDataPlugin.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_UserDataPlugin.cpp"
 				>
 				<FileConfiguration
@@ -1731,7 +1733,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\qrc_DockMenu.cpp"
+				RelativePath="release\moc_UserDataPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1747,6 +1749,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\qrc_DockMenu.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1779,10 +1793,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\qrc_SettingsDialog.cpp"
+				RelativePath="debug\qrc_SettingsDialog.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1791,10 +1805,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\qrc_SettingsDialog.cpp"
+				RelativePath="release\qrc_SettingsDialog.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool

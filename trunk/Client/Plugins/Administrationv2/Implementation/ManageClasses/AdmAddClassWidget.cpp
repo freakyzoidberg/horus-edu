@@ -11,81 +11,106 @@
 
 AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
 {
-    _treeplugin = treeplugin;
-    _userplugin = userplugin;
+	_treeplugin = treeplugin;
+	_userplugin = userplugin;
 
-    _mainLayout = new QHBoxLayout(this);
-    QVBoxLayout  *columnLayout;
-    QWidget      *column;
+	_mainLayout = new QHBoxLayout(this);
+	_mainLayout->setMargin(0);
+	_mainLayout->setSpacing(0);
+	QVBoxLayout  *columnLayout;
+	QWidget      *column;
 
 	this->_table = new QTableWidget(0, 7);
-    _table->setShowGrid(false);
-    _table->horizontalHeader()->setStretchLastSection(true);
+	_table->setShowGrid(false);
+	_table->horizontalHeader()->setStretchLastSection(true);
 
 	QStringList header;
-	header.insert(0, QString(tr("Class name")));
+	header.insert(0, QString(tr("Nom de la classe")));
 	header.insert(1, QString(tr("Professeur principal")));
 	header.insert(2, QString(tr("Modifier")));
 	header.insert(3, QString(tr("Supprimer")));
 	header.insert(4, QString(tr("")));
-    _table->setHorizontalHeaderLabels(header);
-    this->_mainLayout->addWidget(_table);
+	_table->setHorizontalHeaderLabels(header);
+	this->_mainLayout->addWidget(_table);
 
-    column = new QWidget();
-    columnLayout = new QVBoxLayout(column);
-    _mainLayout->addWidget(column);
-    this->_classNameLabel = new QLabel(tr("Nom de la classe:"));
-    this->_className = new QLineEdit();
-    columnLayout->addWidget(_classNameLabel);
-    columnLayout->addWidget(_className);
+	column = new QWidget();
+	columnLayout = new QVBoxLayout(column);
+	columnLayout->setSpacing(0);
+	columnLayout->setMargin(0);
 
-    this->_userReferentLabel = new QLabel(tr("Professeur principal:"));
-    this->_userReferent = new QComboBox();
-    initUserReferent();
-    columnLayout->addWidget(_userReferentLabel);
-    columnLayout->addWidget(_userReferent);
+	infoTitle = new QLabel(tr("Informations"));
+	infoTitle->setProperty("isTitle", true);
+	infoTitle->setProperty("isRound", true);
+	columnLayout->addWidget(infoTitle);
 
-    this->_save = new QPushButton(tr("Ajouter"));
-    this->_cancel = new QPushButton(tr("Abandonner"));
-    columnLayout->addWidget(_save);
-    columnLayout->addWidget(_cancel);
+	actions = new QLabel(tr("Actions"));
+	actions->setProperty("isTitle", true);
+	actions->setProperty("isRound", true);
+	columnLayout->addWidget(actions);
 
-    _mainLayout->setStretch(0, 1);
-    columnLayout->addStretch(25);
+	_mainLayout->addWidget(column);
+	this->_classNameLabel = new QLabel(tr("Nom de la classe:"));
+	this->_className = new QLineEdit();
+	columnLayout->addWidget(_classNameLabel);
+	columnLayout->addWidget(_className);
 
-    connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
-    connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
-    connect(_table, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(choosenClass(QTableWidgetItem *)));
-    connect(_table, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
-    displayClasses();
+	this->_userReferentLabel = new QLabel(tr("Professeur principal:"));
+	this->_userReferent = new QComboBox();
+	initUserReferent();
+
+	columnLayout->addWidget(_userReferentLabel);
+	columnLayout->addWidget(_userReferent);
+
+	this->_save = new QPushButton(QIcon(":/Icons/save.png"), tr("Ajouter"));
+	this->_cancel = new QPushButton(QIcon(":/Icons/reset.png"), tr("Abandonner"));
+	columnLayout->addWidget(_save);
+	columnLayout->addWidget(_cancel);
+
+	_mainLayout->setStretch(0, 1);
+	columnLayout->addStretch(25);
+
+	connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
+	connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
+	connect(_table, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(choosenClass(QTableWidgetItem *)));
+	connect(_table, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
+	displayClasses();
 }
 
 void    AdmAddClassWidget::displayClasses()
 {
-    QList<Data*> datas = _treeplugin->allDatas();
+	QList<Data*> datas = _treeplugin->allDatas();
 
-    for (int i = 0, j = 0; i < datas.size(); ++i)
-    {
-        TreeData    *tmp = qobject_cast<TreeData *>(datas.at(i));
+	for (int i = 0, j = 0; i < datas.size(); ++i)
+	{
+		TreeData    *tmp = qobject_cast<TreeData *>(datas.at(i));
 		if (tmp->type() == "GRADE")
-        {
-            QTableWidgetItem *name = new QTableWidgetItem(tmp->name());
-            name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		{
+			QTableWidgetItem *name = new QTableWidgetItem(tmp->name());
+			name->setFlags(Qt::ItemIsEnabled);
+			_table->setRowCount(j + 1);
+			this->_table->setItem(j, 0, name);
+			QTableWidgetItem *u = 	new QTableWidgetItem(tmp->user()->id() == 0 ?
+														 "Non renseigne" :
+														 tmp->user()->name() + " "
+														 + tmp->user()->surname());
 
-            _table->setRowCount(j + 1);
-            this->_table->setItem(j, 0, name);
-            this->_table->setItem(j, 1,
-								  new QTableWidgetItem(tmp->user()->id() == 0 ?
-                                                       "Non renseigne" :
-                                                        tmp->user()->name() + " "
-                                                        + tmp->user()->surname()));
-			_table->setItem(j, 2, new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), ""));
-			_table->setItem(j, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
+			this->_table->setItem(j, 1, u);
+			u->setFlags(Qt::ItemIsEnabled);
+
+			QTableWidgetItem *edit =  new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), "");
+			_table->setItem(j, 2, edit);
+			edit->setFlags(Qt::ItemIsEnabled);
+			QTableWidgetItem * del = new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), "");
+			_table->setItem(j, 3, del);
+			del->setFlags(Qt::ItemIsEnabled);
+
 			_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
 			_table->setItem(j, 6, new QTableWidgetItem(QVariant(tmp->id()).toString()));
-            j++;
-        }
-    }
+			j++;
+
+
+		}
+	}
 	_table->setColumnHidden(5, true);
 	_table->setColumnHidden(6, true);
 	_table->resizeColumnsToContents ();
@@ -93,115 +118,124 @@ void    AdmAddClassWidget::displayClasses()
 
 void    AdmAddClassWidget::initUserReferent()
 {
-     QList<Data*> datas = _userplugin->allDatas();
-     _userReferent->addItem("", 0);
-     for (int i = 0; i < datas.size(); ++i)
-     {
-        UserData    *tmp = qobject_cast<UserData *>(datas.at(i));
-        if (tmp->level() == LEVEL_TEACHER)
-            this->_userReferent->addItem(tmp->name() + " " + tmp->surname(),
-                                         QVariant(tmp->id()));
-     }
+	QList<Data*> datas = _userplugin->allDatas();
+	_userReferent->addItem("", 0);
+	for (int i = 0; i < datas.size(); ++i)
+	{
+		UserData    *tmp = qobject_cast<UserData *>(datas.at(i));
+		if (tmp->level() == LEVEL_TEACHER)
+			this->_userReferent->addItem(QIcon(":/Icons/teachers.png"), tmp->name() + " " + tmp->surname(),
+										 QVariant(tmp->id()));
+	}
 }
 
 void    AdmAddClassWidget::addClass()
 {
-    QMessageBox errorMsg;
-    QString     error = "";
+	QMessageBox errorMsg;
+	QString     error = "";
 
-    if (_className->text().trimmed() == "")
-        error += tr("This class must have a name.");
+	if (_className->text().trimmed() == "")
+		error += tr("This class must have a name.");
 
-    if (error != "")
-    {
-        errorMsg.setText(error);
-        errorMsg.exec();
-    }
-    else
-    {
-        if (_save->text() == tr("Ajouter"))
-        {
-            addClassInDatabase();
-            _userReferent->currentText().clear();
-            _className->setText("");
-            errorMsg.setText(tr("The class was successfully added."));
-            errorMsg.exec();
-        }
-        else
-        {
-            editClassInDatabase();
-            _userReferent->currentText().clear();
-            _className->setText("");
-            _save->setText(tr("Ajouter"));
-            errorMsg.setText(tr("The class was successfully edited."));
-            errorMsg.exec();
-        }
-    }
+	if (error != "")
+	{
+		errorMsg.setText(error);
+		errorMsg.exec();
+	}
+	else
+	{
+		if (_save->text() == tr("Ajouter"))
+		{
+			addClassInDatabase();
+			_userReferent->currentText().clear();
+			_className->setText("");
+			errorMsg.setText(tr("The class was successfully added."));
+			errorMsg.exec();
+		}
+		else
+		{
+			editClassInDatabase();
+			_userReferent->currentText().clear();
+			_className->setText("");
+			_save->setText(tr("Ajouter"));
+			errorMsg.setText(tr("The class was successfully edited."));
+			errorMsg.exec();
+		}
+	}
 }
 
 void    AdmAddClassWidget::editClassInDatabase()
 {
-    UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
+	UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
 
 	_table->item(this->currentrow, 0)->setText(_className->text());
 	_table->item(this->currentrow, 1)->setText(this->_userReferent->currentText());
-    selectedData->setName(_className->text());
-    selectedData->setUser(user);
-    selectedData->save();
+	selectedData->setName(_className->text());
+	selectedData->setUser(user);
+	selectedData->save();
 }
 
 void    AdmAddClassWidget::emptyField()
 {
-    _className->setText("");
-    _userReferent->setCurrentIndex(0);
-    _save->setText(tr("Ajouter"));
+	_className->setText("");
+	_userReferent->setCurrentIndex(0);
+	_save->setText(tr("Ajouter"));
 }
 
 void    AdmAddClassWidget::addClassInDatabase()
 {
-    TreeData    *newClass = this->_treeplugin->createNode();
-    int index;
+	TreeData    *newClass = this->_treeplugin->createNode();
+	int index;
 
-    newClass->setName(this->_className->text());
-    newClass->setType("GRADE");
-    newClass->setParent(this->_treeplugin->node(0));
-    newClass->setUser(this->_userplugin->nobody());
+	newClass->setName(this->_className->text());
+	newClass->setType("GRADE");
+	newClass->setParent(this->_treeplugin->node(0));
+	newClass->setUser(this->_userplugin->nobody());
 
-    _table->setRowCount(_table->rowCount() + 1);
-    QTableWidgetItem *name = new QTableWidgetItem(this->_className->text());
-    name->setFlags(Qt::ItemIsSelectable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+	_table->setRowCount(_table->rowCount() + 1);
+	QTableWidgetItem *name = new QTableWidgetItem(this->_className->text());
+	name->setFlags(Qt::ItemIsEnabled);
 
-   index = this->_userReferent->currentIndex();
-   UserData *user;
-   if (_userReferent->itemData(index).toInt() != 0)
-   {
-        user = _userplugin->user(_userReferent->itemData(index).toInt());
-        user->setStudentClass(newClass);
-		_table->setItem(_table->rowCount() - 1, 1,
-                        new QTableWidgetItem(user->name() + " " + user->surname()));
+	index = this->_userReferent->currentIndex();
+	UserData *user;
+	if (_userReferent->itemData(index).toInt() != 0)
+	{
+		user = _userplugin->user(_userReferent->itemData(index).toInt());
+		user->setStudentClass(newClass);
+
+		QTableWidgetItem *n = new QTableWidgetItem(user->name() + " " + user->surname());
+		n->setFlags(Qt::ItemIsEnabled);
+		_table->setItem(_table->rowCount() - 1, 1, n);
 		_table->setItem(_table->rowCount() - 1, 5,
 						new QTableWidgetItem(QVariant(user->id()).toString()));
-        newClass->setUser(user);
-   }
-   else
-   {
-	   user = NULL;
-	   _table->setItem(_table->rowCount() - 1, 1, new QTableWidgetItem("Non renseigne."));
-	   _table->setItem(_table->rowCount() - 1, 5,
-					   new QTableWidgetItem(QVariant(0).toString()));
-   }
+		newClass->setUser(user);
+	}
+	else
+	{
+		user = NULL;
+		QTableWidgetItem *n = new QTableWidgetItem(tr("Non renseigne."));
+		n->setFlags(Qt::ItemIsEnabled);
+		_table->setItem(_table->rowCount() - 1, 1, n);
+		_table->setItem(_table->rowCount() - 1, 5,
+						new QTableWidgetItem(QVariant(0).toString()));
+	}
 
-   _table->setItem(_table->rowCount() - 1, 0, name);
-	_table->setItem(_table->rowCount() - 1, 3, new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), ""));
-	_table->setItem(_table->rowCount() - 1, 2, new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), ""));
+	_table->setItem(_table->rowCount() - 1, 0, name);
 
+	QTableWidgetItem *edit = new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), "");
+	edit->setFlags(Qt::ItemIsEnabled);
+	_table->setItem(_table->rowCount() - 1, 3, edit);
+
+	QTableWidgetItem *del = new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), "");
+	del->setFlags(Qt::ItemIsEnabled);
+	_table->setItem(_table->rowCount() - 1, 2, del);
 	newClass->create();
 
-       save = user;
-	   classSave = newClass;
-	   connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
+	save = user;
+	classSave = newClass;
+	connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
 
-   _table->showRow(_table->rowCount());
+	_table->showRow(_table->rowCount());
 }
 
 void    AdmAddClassWidget::modifUser()
@@ -215,7 +249,7 @@ void    AdmAddClassWidget::modifUser()
 	}
 
 	_table->setItem(_table->rowCount() - 1, 6,
-					   new QTableWidgetItem(QVariant(classSave->id()).toString()));
+					new QTableWidgetItem(QVariant(classSave->id()).toString()));
 }
 
 void    AdmAddClassWidget::choosenClass(QTableWidgetItem *item)
@@ -237,29 +271,29 @@ void	AdmAddClassWidget::cellClicked(int row, int col)
 
 		if (msgBox.clickedButton() == connectButton)
 		{
-			TreeData *data = _treeplugin->node(QVariant(_table->item(row, 5)->text()).toInt());
+			TreeData *data = _treeplugin->node(QVariant(_table->item(row, 6)->text()).toInt());
 			data->remove();
 			_table->removeRow(row);
 		}
 		else if (msgBox.clickedButton() == abortButton)
-		  return ;
+			return ;
 	}
-        else if (col == 2)
-        {
-				UserData *user = _userplugin->user(QVariant(_table->item(row, 5)->text()).toInt());
-				TreeData *data = _treeplugin->node(QVariant(_table->item(row, 6)->text()).toInt());
+	else if (col == 2)
+	{
+		UserData *user = _userplugin->user(QVariant(_table->item(row, 5)->text()).toInt());
+		TreeData *data = _treeplugin->node(QVariant(_table->item(row, 6)->text()).toInt());
 
-                selectedData = data;
-				currentrow = row;
+		selectedData = data;
+		currentrow = row;
 
-				_className->setText(data->name());
-                for (int i = 0; i < _userReferent->count(); i++)
-                {
-                    if (_userReferent->itemData(i).toInt() == user->id())
-                    {
-                        _userReferent->setCurrentIndex(i);
-                    }
-                }
-                _save->setText(tr("Editer"));
-        }
+		_className->setText(data->name());
+		for (int i = 0; i < _userReferent->count(); i++)
+		{
+			if (_userReferent->itemData(i).toInt() == user->id())
+			{
+				_userReferent->setCurrentIndex(i);
+			}
+		}
+		_save->setText(tr("Editer"));
+	}
 }
