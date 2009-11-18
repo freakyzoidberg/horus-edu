@@ -23,6 +23,6 @@ public:
     //! check the integrity of the settings on the system
     void CheckSettings();
 private:
-    QSettings Gsettings;
+    QSettings *Gsettings;
 };
 #endif // SETTINGS_H

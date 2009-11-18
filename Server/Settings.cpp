@@ -2,8 +2,12 @@
 
 #include <QDebug>
 #include <QDir>
+
+#include "../Common/Defines.h"
+
 Settings::Settings()
 {
+	this->Gsettings = new QSettings(QSettings::SystemScope, ORGANIZATION_NAME, SERVER_NAME);
 }
 
 void Settings::CheckSettings()
@@ -13,13 +17,13 @@ void Settings::CheckSettings()
             qFatal("Server Configuration not found, try running with     --gen-config");
         }
     else
-        qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings.fileName() << "and will use it :)";
+        qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings->fileName() << "and will use it :)";
 }
 
 void Settings::FirstSetSettings()
 {
     int found;
-    if (this->Gsettings.status() == 0)
+    if (this->Gsettings->status() == 0)
     {
 
         QTextStream streami(stdin);
@@ -27,66 +31,66 @@ void Settings::FirstSetSettings()
         QString line;
 
 
-    this->Gsettings.clear();
-    qDebug() << "Settings::FirstSetSettings() Creating config in " <<  this->Gsettings.fileName();
+    this->Gsettings->clear();
+    qDebug() << "Settings::FirstSetSettings() Creating config in " <<  this->Gsettings->fileName();
     qDebug() << "Settings::FirstSetSettings() Default Value can be edited";
 
-    this->Gsettings.beginGroup("SQL");
+    this->Gsettings->beginGroup("SQL");
     streamo << "Please specify the folowing :\n";
     streamo << "SQL Driver [ hint : QMYSQL] : ";
     streamo.flush();
     line = streami.readLine();
     //qDebug() << line;
-     this->Gsettings.setValue("SQL_DRIVER", (line == "" ? "QMYSQL":line));
+     this->Gsettings->setValue("SQL_DRIVER", (line == "" ? "QMYSQL":line));
      streamo << "SQL HostName [ hint : localhost] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SQL_HOSTNAME", (line == "" ? "localhost":line));
+     this->Gsettings->setValue("SQL_HOSTNAME", (line == "" ? "localhost":line));
      streamo << "SQL DB Name [ hint : testhorus] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SQL_DBNAME", (line == "" ? "testhorus":line));
+     this->Gsettings->setValue("SQL_DBNAME", (line == "" ? "testhorus":line));
      streamo << "SQL UserName [ hint : horus] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SQL_USERNAME", (line == "" ? "horus":line));
+     this->Gsettings->setValue("SQL_USERNAME", (line == "" ? "horus":line));
      streamo << "SQL PassWord [ hint : horuspwd] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SQL_PASSWD", (line == "" ? "horuspwd":line));
+     this->Gsettings->setValue("SQL_PASSWD", (line == "" ? "horuspwd":line));
      streamo << "SQL Port [ hint : 3306] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SQL_PORT", (line == "" ? "3306":line));
-    this->Gsettings.endGroup();
-    this->Gsettings.beginGroup("SERVER");
+     this->Gsettings->setValue("SQL_PORT", (line == "" ? "3306":line));
+    this->Gsettings->endGroup();
+    this->Gsettings->beginGroup("SERVER");
     streamo << "Server Port [ hint : 42000] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SRV_PORT", (line == "" ? "42000":line));
+     this->Gsettings->setValue("SRV_PORT", (line == "" ? "42000":line));
      streamo << "File Server Port [ hint : 42042] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("SRV_FILE_TRANSFERT_PORT", (line == "" ? "42042":line));
-    this->Gsettings.endGroup();
-    this->Gsettings.beginGroup("SETTINGS");
-    this->Gsettings.setValue("Version", "6");
+     this->Gsettings->setValue("SRV_FILE_TRANSFERT_PORT", (line == "" ? "42042":line));
+    this->Gsettings->endGroup();
+    this->Gsettings->beginGroup("SETTINGS");
+    this->Gsettings->setValue("Version", "6");
     streamo << "Fullpath to Horus File diretory[ hint : /opt/Horus/Horus-server/Files] : ";
     streamo.flush();
     line = streami.readLine();
-        this->Gsettings.setValue("FilesDirectory", (line == "" ? "/opt/Horus/Horus-server/Files/":line+QDir::toNativeSeparators("/Plugins/")));
+        this->Gsettings->setValue("FilesDirectory", (line == "" ? "/opt/Horus/Horus-server/Files/":line+QDir::toNativeSeparators("/Plugins/")));
     streamo << "Fullpath to Horus Server diretory[ hint : /opt/Horus/Horus-server/] : ";
     streamo.flush();
     line = streami.readLine();
-	this->Gsettings.setValue("PluginsBase", (line == "" ? "/opt/Horus/Horus-server/Plugins/":line+QDir::toNativeSeparators("/Plugins/")));
-	this->Gsettings.setValue("SoftFullPath", (line == "" ? "/opt/Horus/Horus-server/":line +QDir::separator()));
-    this->Gsettings.endGroup();
+	this->Gsettings->setValue("PluginsBase", (line == "" ? "/opt/Horus/Horus-server/Plugins/":line+QDir::toNativeSeparators("/Plugins/")));
+	this->Gsettings->setValue("SoftFullPath", (line == "" ? "/opt/Horus/Horus-server/":line +QDir::separator()));
+    this->Gsettings->endGroup();
     QDir dir(line == "" ? "/opt/Horus/Horus-server/Plugins/":line+QDir::toNativeSeparators("/Plugins/"));
     if (!dir.exists())
      qWarning("Cannot find the plugin directory");
         else
         {
-            this->Gsettings.beginGroup("PLUGINS");
+            this->Gsettings->beginGroup("PLUGINS");
             dir.setFilter(QDir::Dirs| QDir::NoDotAndDotDot);
             QFileInfoList list = dir.entryInfoList();
             for (int i = 0; i < list.size(); ++i)
@@ -111,47 +115,47 @@ void Settings::FirstSetSettings()
                                 line = streami.readLine();
                                 if ((line == "y") | (line == "o") | (line == "Y") | (line == "O"))
                                 #ifdef Q_OS_WIN
-                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+filefilsInfo.fileName()));
+                                this->Gsettings->setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+filefilsInfo.fileName()));
                                 #else
-                                this->Gsettings.setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+filefilsInfo.fileName()));
+                                this->Gsettings->setValue(fileInfo.fileName(), (fileInfo.fileName()+"/"+filefilsInfo.fileName()));
                                 #endif
                              }
                              }
                         }
                     }        
 
-            this->Gsettings.endGroup();
+            this->Gsettings->endGroup();
         }
-    this->Gsettings.beginGroup("MAIL");
+    this->Gsettings->beginGroup("MAIL");
     streamo << "Mail SMTP Server Hostname :\n";
     streamo << "Mail Hostname [ hint : locahost] : ";
     streamo.flush();
     line = streami.readLine();
     //qDebug() << line;
-     this->Gsettings.setValue("MAIL_HOSTNAME", (line == "" ? "localhost":line));
+     this->Gsettings->setValue("MAIL_HOSTNAME", (line == "" ? "localhost":line));
      streamo << "Mail Domain [ hint : horus-edu.net] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("MAIL_DOMAIN", (line == "" ? "horus-edu.net":line));
+     this->Gsettings->setValue("MAIL_DOMAIN", (line == "" ? "horus-edu.net":line));
      streamo << "MAIL SMTP port [ hint : 25] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("MAIL_PORT", (line == "" ? "25":line));
+     this->Gsettings->setValue("MAIL_PORT", (line == "" ? "25":line));
      streamo << "MAIL SMTP use ssl-tls y/N [ hint : n] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings.setValue("MAIL_SSLTLS", (line == "" ? "n":line));
+     this->Gsettings->setValue("MAIL_SSLTLS", (line == "" ? "n":line));
      streamo << "Mail SMTP require login y/N [ hint : n] : ";
     streamo.flush();
     line = streami.readLine();
-    this->Gsettings.setValue("MAIL_LOGIN", (line == "" ? "n":line));
-    this->Gsettings.endGroup();
+    this->Gsettings->setValue("MAIL_LOGIN", (line == "" ? "n":line));
+    this->Gsettings->endGroup();
     }
     else
-       qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings.fileName();
+       qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings->fileName();
 }
 
 QString Settings::GetSettings(QString key, QString group)
 {
-	return (this->Gsettings.value(group + "/" + key, "").toString());
+	return (this->Gsettings->value(group + "/" + key, "").toString());
 }

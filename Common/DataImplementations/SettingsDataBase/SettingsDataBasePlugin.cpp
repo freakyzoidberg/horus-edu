@@ -52,7 +52,7 @@ void SettingsDataBasePlugin::loadData()
 {
 }
 
-QList<Data*> SettingsDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
+QList<Data*> SettingsDataBasePlugin::datasForUpdate(UserData *, QDateTime date)
 {
 	QList<Data*> list;
 //    foreach (UserData* data, users)

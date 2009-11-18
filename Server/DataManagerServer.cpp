@@ -24,7 +24,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		if (oldStatus == Data::EMPTY)
 		{
 			if ((error = data->serverRead()))
-				return sendData(user, data, Data::ERROR, error);
+				return sendData(user, data, Data::_ERROR_, error);
 			data->_status = Data::UPTODATE;
 		}
 
@@ -38,12 +38,12 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		if (oldStatus == Data::EMPTY)
 		{
 			if ((error = data->serverRead()))
-				return sendData(user, data, Data::ERROR, error);
+				return sendData(user, data, Data::_ERROR_, error);
 			data->_status = Data::UPTODATE;
 		}
 
 		if ((error = data->serverSave()))
-			return sendData(user, data, Data::ERROR, error);
+			return sendData(user, data, Data::_ERROR_, error);
 
 		data->_status = Data::UPTODATE;
 
@@ -67,7 +67,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		data->keyToStream(stream);
 
 		if ((error = data->serverCreate()))
-			return sendData(user, data, Data::ERROR, error);
+			return sendData(user, data, Data::_ERROR_, error);
 		data->_status = Data::UPTODATE;
 
 		//send to the user who saved the data CREATED
@@ -86,7 +86,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		 newStatus == Data::DELETING)
 	{
 		if ((error = data->serverRemove()))
-			return sendData(user, data, Data::ERROR, error);
+			return sendData(user, data, Data::_ERROR_, error);
 		data->_status = Data::DELETED;
 
 		//send to every users the data DELETED
@@ -162,7 +162,7 @@ void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, qui
 		status != Data::SAVED &&
 		status != Data::CREATED &&
 		status != Data::DELETED &&
-		status != Data::ERROR)
+		status != Data::_ERROR_)
 	{
 		qWarning() << "DataManagerServer try to send a data with status" << (Data::DataStatus)status << "which is not authorized.";
 		return;
@@ -178,7 +178,7 @@ void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, qui
 	if (status == Data::UPDATED)
 		data->dataToStream(stream);
 
-	else if (status == Data::ERROR)
+	else if (status == Data::_ERROR_)
 		stream << error;
 
 	ClientSocket* socket = ClientSocket::connectedUsers.value(user);
