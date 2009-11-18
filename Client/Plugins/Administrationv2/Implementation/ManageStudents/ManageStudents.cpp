@@ -189,6 +189,13 @@ void ManageStudents::goback()
     back->setVisible(false);
     refresh->setVisible(true);
 
+   if (StudentList->ClassList->selectedItems().count() > 0)
+    {
+    StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
+   }
+
+
+
 
     if (StudentList->StudentList->selectedItems().count() > 0)
     {
@@ -274,9 +281,13 @@ void ManageStudents::gosave()
                 uparent->save();
             }
 
-
-   //         delete StudentForm;
-   //         StudentForm = 0;
+            if (StudentForm)
+            {
+           delete StudentForm;
+           StudentForm = 0;
+            }
+            StudentForm = new FormStudents(getAllParents());
+            MainLayout->insertWidget(0, StudentForm);
    //         edit->setVisible(true);
    //         addstudent->setVisible(true);
    //         save->setVisible(false);
