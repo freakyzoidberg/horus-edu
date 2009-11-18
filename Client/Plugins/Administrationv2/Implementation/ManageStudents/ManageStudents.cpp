@@ -105,7 +105,12 @@ void ManageStudents::goadd()
             StudentForm = 0;
         }
         StudentForm = new FormStudents(getAllParents());
-        MainLayout->insertWidget(0, StudentForm);
+        QScrollArea *scrollArea = new QScrollArea;
+        scrollArea->setWidget(StudentForm);
+        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea->setWidgetResizable(true);
+        MainLayout->insertWidget(0, scrollArea);
 
         StudentList->setVisible(false);
 
@@ -303,12 +308,12 @@ void ManageStudents::gosave()
 
             if (StudentForm)
             {
-           delete StudentForm;
-           StudentForm = 0;
+               delete StudentForm;
+               StudentForm = 0;
             }
             StudentForm = new FormStudents(getAllParents());
             MainLayout->insertWidget(0, StudentForm);
-            */
+
    //         edit->setVisible(true);
    //         addstudent->setVisible(true);
    //         save->setVisible(false);

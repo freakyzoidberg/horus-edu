@@ -16,7 +16,8 @@ class				EditParent : public QWidget
 
 public:
 //	EditParent(QWidget *parent, PluginManager *pluginManager, UserData *user = 0);
-        EditParent(QWidget *parent, UserData *user);
+        EditParent(UserData *user);
+        EditParent();
         QString             getlastN() { return lastNameField->text(); }
         QString             getfirsN() { return firstNameField->text(); }
         QString             getmail() { return mailField->text(); }
@@ -44,7 +45,7 @@ private:
 	QComboBox		*genderField;
 	QComboBox		*relationshipField;
 	UserData		*_user;
-
+        void                    setupUi();
 //private slots:
 //	void			saved();
 //	void			exited();

@@ -2,7 +2,7 @@
 #define FORMSTUDENTS_H
 
 #include <QWidget>
-
+#include <QScrollArea>
 #include <QVBoxLayout>
 #include "../../../../../Common/UserData.h"
 #include "BasicInfos.h"
