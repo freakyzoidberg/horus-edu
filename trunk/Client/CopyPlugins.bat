@@ -6,6 +6,7 @@ copy TreeBaseClient\%BUILDCONFIG%\TreeBaseClientMetaPlugin.dll .\TreeBaseClientM
 copy UserBaseClient\%BUILDCONFIG%\UserBaseClientMetaPlugin.dll .\UserBaseClientMetaPlugin.dll
 copy EventBaseClient\%BUILDCONFIG%\EventBaseClientMetaPlugin.dll .\EventBaseClientMetaPlugin.dll
 copy Administration\%BUILDCONFIG%\Administration.dll .\Administration.dll
+copy Administrationv2\%BUILDCONFIG%\Administrationv2.dll .\Administrationv2.dll
 copy Attendance\%BUILDCONFIG%\Attendance.dll .\Attendance.dll
 copy Course\%BUILDCONFIG%\Course.dll .\Course.dll
 copy Calendar\%BUILDCONFIG%\Calendar.dll .\Calendar.dll
