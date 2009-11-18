@@ -45,7 +45,7 @@ public:
 					  SAVED,    // 8       | X    |       |
 					  CREATED,  // 9       | X  N |       |
 					  DELETED,  //10       | X    |       |  X
-					  ERROR};   //11       | X  E |       |
+					  _ERROR_}; //11       | X  E |       |
 
 	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
 

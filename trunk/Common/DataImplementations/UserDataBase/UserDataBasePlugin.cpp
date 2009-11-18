@@ -151,7 +151,7 @@ void UserDataBasePlugin::loadData()
 	}
 }
 
-QList<Data*> UserDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
+QList<Data*> UserDataBasePlugin::datasForUpdate(UserData *, QDateTime date)
 {
 	QList<Data*> list;
 	foreach (UserData* data, _users)

@@ -70,7 +70,7 @@ void TreeDataBasePlugin::loadData()
     }
 }
 
-QList<Data*> TreeDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
+QList<Data*> TreeDataBasePlugin::datasForUpdate(UserData *, QDateTime date)
 {
 	QList<Data*> list;
 	foreach (TreeData* data, _nodes)
