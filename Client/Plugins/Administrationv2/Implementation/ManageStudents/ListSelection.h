@@ -25,6 +25,7 @@ private:
 
  public slots:
      void updateall();
-    void updatestudents(QListWidgetItem* item);
+     void updatestudents(QListWidgetItem* item);
+     void updatestudents();
 };
 #endif // LISTSELECTION_H

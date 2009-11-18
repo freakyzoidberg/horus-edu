@@ -4,7 +4,7 @@
 #include <QListWidgetItem>
 #include <QLabel>
 #include <QMimeData>
-
+#include <QMessageBox>
 ListSelection::ListSelection(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
 {
     _tools = new mytools(treeplugin, userplugin);
@@ -62,9 +62,13 @@ while (i.hasNext())
 
 void ListSelection::updatestudents(QListWidgetItem *item)
 {
+
 StudentList->clear();
+
+
+
     foreach (UserData* user, _tools->getStudentfromClass(item->data(Qt::UserRole).toInt()))
-		if (user->status() == Data::UPTODATE)
+    if ((user->status() == Data::UPTODATE))
     {
         //QMimeData *mimeData = new QMimeData();
 
@@ -82,3 +86,27 @@ StudentList->clear();
 
 }
 
+void ListSelection::updatestudents()
+{
+    StudentList->clear();
+
+
+if (ClassList->selectedItems().count() > 0)
+    {
+    foreach (UserData* user, _tools->getStudentfromClass(ClassList->selectedItems().first()->data(Qt::UserRole).toInt()))
+    if ((user->status() == Data::UPTODATE))
+    {
+        //QMimeData *mimeData = new QMimeData();
+
+            QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Icons/students.png"), user->name() +" "+ user->surname());
+            tempitem->setData(Qt::UserRole, user->id());
+            //tempitem->setData(Qt::UserRole, i.key());
+
+              //  mimeData->setData("id", QVariant(user->id()).toByteArray());
+
+            StudentList->addItem(tempitem);
+
+
+    }
+    }
+}

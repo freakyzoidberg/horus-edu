@@ -10,7 +10,7 @@
 #include "Infopanel.h"
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
-
+#include "../../../../../Common/DataPlugin.h"
 class ManageStudents : public QWidget
 {
     Q_OBJECT
