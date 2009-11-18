@@ -6,7 +6,8 @@
 #include		<QLabel>
 #include		<QPushButton>
 
-EditParent::EditParent(QWidget *parent, PluginManager *pluginManager, UserData *user) : QWidget(parent), _pluginManager(pluginManager), _user(user)
+//EditParent::EditParent(QWidget *parent, PluginManager *pluginManager, UserData *user) : QWidget(parent), _pluginManager(pluginManager), _user(user)
+EditParent::EditParent(QWidget *parent, UserData *user)
 {
 	QBoxLayout	*mainLayout;
 	QBoxLayout	*leftLayout;
@@ -199,55 +200,55 @@ EditParent::EditParent(QWidget *parent, PluginManager *pluginManager, UserData *
 		occupationField->setText(user->occupation());
 	}
 }
-
-void			EditParent::saved()
-{
-	bool		editing;
-
-	editing = false;
-	if (_user)
-		editing = true;
-	else
-	{
-		_user = _pluginManager->findPlugin<UserDataPlugin *>()->createUser(firstNameField->text() + lastNameField->text()); // TODO find unused login
-		_user->setPassword(_user->login());
-	}
-	_user->setName(lastNameField->text());
-	_user->setSurname(firstNameField->text());
-	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
-	_user->setBirthDate(birthDateField->date());
-	_user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
-	_user->setAddress(addressField->document()->toPlainText());
-	_user->setMail(mailField->text());
-	_user->setPhone1(homePhoneField->text());
-	_user->setPhone2(workPhoneField->text());
-	_user->setPhone3(mobilePhoneField->text());
-	_user->setOccupation(occupationField->text());
-	_user->setProCategory(occupationalCategoryField->text());
-	_user->setLevel(LEVEL_FAMILY);
-	if (editing)
-		_user->save();
-	else
-		_user->create();
-}
-
-void			EditParent::exited()
-{
-	emit exit();
-}
-
-void			EditParent::reseted()
-{
-	firstNameField->clear();
-	lastNameField->clear();
-	genderField->setCurrentIndex(0);
-	birthDateField->setDate(QDate::currentDate());
-	relationshipField->clear();
-	addressField->clear();
-	mailField->clear();
-	homePhoneField->clear();
-	workPhoneField->clear();
-	mobilePhoneField->clear();
-	occupationalCategoryField->clear();
-	occupationField->clear();
-}
+//
+//void			EditParent::saved()
+//{
+//	bool		editing;
+//
+//	editing = false;
+//	if (_user)
+//		editing = true;
+//	else
+//	{
+//		_user = _pluginManager->findPlugin<UserDataPlugin *>()->createUser(firstNameField->text() + lastNameField->text()); // TODO find unused login
+//		_user->setPassword(_user->login());
+//	}
+//	_user->setName(lastNameField->text());
+//	_user->setSurname(firstNameField->text());
+//	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
+//	_user->setBirthDate(birthDateField->date());
+//	_user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
+//	_user->setAddress(addressField->document()->toPlainText());
+//	_user->setMail(mailField->text());
+//	_user->setPhone1(homePhoneField->text());
+//	_user->setPhone2(workPhoneField->text());
+//	_user->setPhone3(mobilePhoneField->text());
+//	_user->setOccupation(occupationField->text());
+//	_user->setProCategory(occupationalCategoryField->text());
+//	_user->setLevel(LEVEL_FAMILY);
+//	if (editing)
+//		_user->save();
+//	else
+//		_user->create();
+//}
+//
+//void			EditParent::exited()
+//{
+//	emit exit();
+//}
+//
+//void			EditParent::reseted()
+//{
+//	firstNameField->clear();
+//	lastNameField->clear();
+//	genderField->setCurrentIndex(0);
+//	birthDateField->setDate(QDate::currentDate());
+//	relationshipField->clear();
+//	addressField->clear();
+//	mailField->clear();
+//	homePhoneField->clear();
+//	workPhoneField->clear();
+//	mobilePhoneField->clear();
+//	occupationalCategoryField->clear();
+//	occupationField->clear();
+//}

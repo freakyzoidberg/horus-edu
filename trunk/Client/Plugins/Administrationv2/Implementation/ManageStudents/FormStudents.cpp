@@ -19,16 +19,16 @@ FormStudents::FormStudents(QList<UserData*> list)
 	//label = new QLabel(tr("Parent informations"), this);
 	//label->setProperty("isFormTitle", true);
 	//FormLayout->addWidget(label);
-    ParInfos = new ParentInfos();
-    ParInfos->getParent()->addItem(tr("none"), 0);
-    foreach (UserData* mud, list)
-    {
-
-        ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
-    }
-
-
-    FormLayout->addWidget(ParInfos);
+//    ParInfos = new ParentInfos();
+//    ParInfos->getParent()->addItem(tr("none"), 0);
+//    foreach (UserData* mud, list)
+//    {
+//
+//        ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+//    }
+//
+//
+//    FormLayout->addWidget(ParInfos);
 
 	label = new QLabel(tr("Social informations"), this);
 	label->setProperty("isFormTitle", true);
@@ -69,17 +69,18 @@ FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,Us
     BaseInfos = new BasicInfos(d);
     FormLayout->addWidget(BaseInfos);
 
-    ParInfos = new ParentInfos(d);
-    ParInfos->getParent()->addItem(tr("none"), 0);
-    foreach (UserData* mud, list)
-    {
-        ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
-    }
-
-
-if (parentlist.count() > 0)
-    ParInfos->getParent()->setCurrentIndex(ParInfos->getParent()->findData(parentlist.first()->id(), Qt::UserRole, Qt::MatchCaseSensitive));
-    FormLayout->addWidget(ParInfos);
+    //ParInfos = new EditParent(
+//    ParInfos = new ParentInfos(d);
+//    ParInfos->getParent()->addItem(tr("none"), 0);
+//    foreach (UserData* mud, list)
+//    {
+//        ParInfos->getParent()->addItem(mud->surname()+" "+mud->name(), mud->id());
+//    }
+//
+//
+//if (parentlist.count() > 0)
+//    ParInfos->getParent()->setCurrentIndex(ParInfos->getParent()->findData(parentlist.first()->id(), Qt::UserRole, Qt::MatchCaseSensitive));
+//    FormLayout->addWidget(ParInfos);
 
 	label = new QLabel(tr("Social informations"), this);
 	label->setProperty("isFormTitle", true);

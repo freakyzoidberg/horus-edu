@@ -292,14 +292,15 @@ void ManageStudents::gosave()
             else
                 newUSer->save();
 
+//***ParInfo
+//            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
+//            if (uparent != 0)
+//            {
+//                uparent->setStudent(newUSer);
+//                uparent->save();
+//            }
 
-            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
-            if (uparent != 0)
-            {
-                uparent->setStudent(newUSer);
-                uparent->save();
-            }
-/*
+
             if (StudentForm)
             {
            delete StudentForm;
@@ -396,16 +397,16 @@ void ManageStudents::gook()
             else
                 newUSer->save();
 
-
-            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
-            if (uparent)
-            {
-                if (uparent->name() != "Nobody")
-                {
-                uparent->setStudent(newUSer);
-                uparent->save();
-                }
-            }
+//***ParInfo
+//            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
+//            if (uparent)
+//            {
+//                if (uparent->name() != "Nobody")
+//                {
+//                uparent->setStudent(newUSer);
+//                uparent->save();
+//                }
+//            }
 
 
             delete StudentForm;

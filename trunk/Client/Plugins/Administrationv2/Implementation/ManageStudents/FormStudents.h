@@ -10,6 +10,8 @@
 #include "Schoolinfos.h"
 #include "Suiviinfos.h"
 #include "Parentinfos.h"
+#include "../ManageParents/EditParent.h"
+
 class FormStudents : public QWidget
 {
 public:
@@ -19,7 +21,8 @@ public:
     SocialInfos *SocInfos;
     SchoolInfos *SchoInfos;
     SuiviInfos *SuiInfos;
-    ParentInfos *ParInfos;
+    //ParentInfos *ParInfos;
+    EditParent *ParInfos;
     int id;
 };
 
