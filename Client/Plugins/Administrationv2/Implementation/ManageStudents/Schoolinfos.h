@@ -18,6 +18,7 @@ class SchoolInfos : public QFrame
         QString     getComment() { return comment->toPlainText(); }
         int         getNb_red() { return nb_redoublement->value(); }
         int         getStartYear() { return annee_entree->value(); }
+         int         getLeftYear() { return annee_quitte->value(); }
         //QString     getRaison() { return raisons_redoublement->text(); }
     private:
        // QLineEdit *raisons_redoublement;
@@ -26,6 +27,7 @@ class SchoolInfos : public QFrame
         QTextEdit *motif;
         QLineEdit *moyenne;
         QTextEdit *comment;
+        QSpinBox *annee_quitte;
 };
 
 #endif // SCHOOLINFOS_H

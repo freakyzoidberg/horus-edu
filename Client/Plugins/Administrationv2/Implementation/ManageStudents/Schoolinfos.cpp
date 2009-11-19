@@ -21,8 +21,9 @@ SchoolInfos::SchoolInfos()
 
     annee_entree = new QSpinBox();
     annee_entree->setMinimum(1980);
-    annee_entree->setValue(2010);
+
     annee_entree->setMaximum(3000);
+    annee_entree->setValue(2009);
     annee_entree->setMaximumWidth(100);
     label->setMinimumWidth(150);
             label = new QLabel(tr("Entry year"));
@@ -31,7 +32,28 @@ SchoolInfos::SchoolInfos()
             label->setMinimumWidth(150);
             BasicLayout->addWidget(label, 1, 0, Qt::AlignLeft);
             BasicLayout->addWidget(annee_entree, 1, 1);
-BasicLayout->setColumnMinimumWidth(0,150);
+
+
+            annee_quitte = new QSpinBox();
+            annee_quitte->setMinimum(1980);
+            annee_quitte->setMaximum(2080);
+            annee_quitte->setValue(2009);
+            label = new QLabel(tr("Annee quitte"));
+            label->setMaximumWidth(150);
+            label->setMinimumWidth(150);
+            label->setProperty("isFormLabel", true);
+            BasicLayout->addWidget(label, 1, 2);
+            BasicLayout->addWidget(annee_quitte, 1, 3);
+
+
+
+
+
+
+
+
+
+            BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
 }
 
@@ -63,12 +85,35 @@ SchoolInfos::SchoolInfos(UserData *d)
     annee_entree->setMaximum(3000);
     annee_entree->setValue(d->startYear());
 
+
                 QLabel* label2 = new QLabel(tr("Entry year"));
                 label2->setProperty("isFormLabel", true);
                 label2->setMaximumWidth(150);
                 label2->setMinimumWidth(150);
                 BasicLayout->addWidget(label2, 1, 0, Qt::AlignLeft);
                 BasicLayout->addWidget(annee_entree, 1, 1);
+
+
+
+
+                annee_quitte = new QSpinBox();
+                annee_quitte->setMinimum(1980);
+                annee_quitte->setMaximum(2080);
+                annee_quitte->setValue(d->leaveYear());
+                label = new QLabel(tr("Annee quitte"));
+                label->setMaximumWidth(150);
+                label->setMinimumWidth(150);
+                label->setProperty("isFormLabel", true);
+                BasicLayout->addWidget(label, 1, 2);
+                BasicLayout->addWidget(annee_quitte, 1, 3);
+
+
+
+
+
+
+
+
 
     BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);

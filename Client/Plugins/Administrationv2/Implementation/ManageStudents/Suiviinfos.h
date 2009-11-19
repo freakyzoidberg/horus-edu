@@ -14,11 +14,11 @@ class SuiviInfos : public QFrame
     public:
         SuiviInfos();
 		SuiviInfos(UserData *d);
-        int         getLeftYear() { return annee_quitte->value(); }
+
         QString     getSuivi() { return suivi->toPlainText(); }
         QString     getClassNextYear() { return ClasseNextYear->text(); }
     private:
-        QSpinBox *annee_quitte;
+
         QTextEdit *suivi;
         QLineEdit *ClasseNextYear;
 };
