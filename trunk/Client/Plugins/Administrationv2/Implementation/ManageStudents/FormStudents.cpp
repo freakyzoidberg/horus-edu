@@ -45,18 +45,12 @@ FormStudents::FormStudents(QList<UserData*> list)
 	FormLayout->addWidget(label);
     SchoInfos = new SchoolInfos();
     FormLayout->addWidget(SchoInfos);
-//    QScrollArea *scrollArea = new QScrollArea;
-//    scrollArea->setBackgroundRole(QPalette::Dark);
-//    scrollArea->setWidget(this);
-//    scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-//    scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-//    scrollArea->setWidgetResizable(false);
+
 	//label = new QLabel(tr("Follow up"), this);
 	//label->setProperty("isFormTitle", true);
 	//FormLayout->addWidget(label);
     SuiInfos = new SuiviInfos();
     FormLayout->addWidget(SuiInfos);
-//    this->setMinimumWidth(400);
 
     id = 0;
 }
