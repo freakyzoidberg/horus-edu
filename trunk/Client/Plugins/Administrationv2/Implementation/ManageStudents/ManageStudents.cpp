@@ -240,7 +240,12 @@ void ManageStudents::gosave()
             else
             {
                 newUSer = UD->user(scrollStudentForm->StudentForm->id);
+
+                if (UD->parentsOfStudent(newUSer).count() > 0)
                 newPapa = UD->parentsOfStudent(newUSer)[0];
+                else
+                   newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
+
                 if ((newUSer->status() != Data::UPTODATE) &&
                     (newUSer->status() != Data::UPDATED) &&
                     (newUSer->status() != Data::SAVED) &&
