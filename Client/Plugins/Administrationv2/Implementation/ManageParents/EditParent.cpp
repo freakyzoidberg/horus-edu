@@ -255,6 +255,7 @@ EditParent::EditParent()
 //		_user = _pluginManager->findPlugin<UserDataPlugin *>()->createUser(firstNameField->text() + lastNameField->text()); // TODO find unused login
 //		_user->setPassword(_user->login());
 //	}
+//	_user->setEnable(true);
 //	_user->setName(lastNameField->text());
 //	_user->setSurname(firstNameField->text());
 //	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
