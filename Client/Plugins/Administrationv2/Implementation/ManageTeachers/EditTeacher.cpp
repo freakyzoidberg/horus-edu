@@ -5,6 +5,7 @@
 #include		<QFrame>
 #include		<QLabel>
 #include		<QPushButton>
+#include		<QScrollArea>
 
 EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData *user) : QWidget(parent), _pluginManager(pluginManager), _user(user)
 {
@@ -16,6 +17,7 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 	QGridLayout	*contactBottomLayout;
 	QBoxLayout	*personnalMainLayout;
 	QBoxLayout	*contactMainLayout;
+	QScrollArea	*scrollArea;
 	QFrame		*personnalFrame;
 	QFrame		*contactFrame;
 	QFrame		*informationsFrame;
@@ -28,11 +30,17 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 	QPushButton	*okButton;
 	QPushButton	*resetButton;
 	QPushButton	*cancelButton;
+	QWidget		*scrollWidget;
 
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 	mainLayout->setSpacing(0);
 	mainLayout->setMargin(0);
-	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	scrollArea = new QScrollArea(this);
+	scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	scrollArea->setWidgetResizable(true);
+	scrollWidget = new QWidget(this);
+	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom, scrollWidget);
 	leftLayout->setSpacing(0);
 	leftLayout->setMargin(0);
 	personnalFrame = new QFrame(this);
@@ -114,7 +122,9 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 	contactBottomLayout->addWidget(mobilePhoneField, 4, 1);
 	contactMainLayout->addLayout(contactBottomLayout);
 	leftLayout->addWidget(contactFrame);
-	mainLayout->addLayout(leftLayout);
+	leftLayout->addWidget(new QWidget(scrollWidget), 1);
+	scrollArea->setWidget(scrollWidget);
+	mainLayout->addWidget(scrollArea);
 	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
     rightLayout->setMargin(0);
     rightLayout->setSpacing(2);
