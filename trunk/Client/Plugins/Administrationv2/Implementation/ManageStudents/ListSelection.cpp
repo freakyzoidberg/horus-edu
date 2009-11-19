@@ -22,7 +22,7 @@ ListSelection::ListSelection(TreeDataPlugin *treeplugin, UserDataPlugin *userplu
        ClassList->setGridSize(QSize(64, 54));
        ClassList->setWrapping(true);
        ClassList->setMaximumHeight(64);
-
+       ClassList->setSelectionRectVisible(false);
 /*
 StudentList->setSelectionMode(QAbstractItemView::SingleSelection);
 ClassList->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -41,19 +41,15 @@ ClassList->setAcceptDrops(true);
 }
 
 
-void ListSelection::updateall(TreeDataPlugin *tp)
+void ListSelection::updateall()
 {
-
-
+QMapIterator<int, QString> i(_tools->getallclass());
 
 ClassList->clear();
 StudentList->clear();
-/*
-  QMapIterator<int, QString> i(_tools->getallclass(treeplugin));
 while (i.hasNext())
     {
     i.next();
-
     QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Icons/desk.png"), i.value());
     //reeWidgetItem *tempitem = new QTreeWidgetItem(QStringList(i.value()));
 
@@ -61,21 +57,6 @@ while (i.hasNext())
     ClassList->addItem(tempitem);
     //ClassList->insertTopLevelItem(0, tempitem);
     }
-
-*/
-    foreach (Data* node, tp->allDatas())
-    {
-        if ((qobject_cast<TreeData *>(node)->type()) == "GRADE")
-        {
-            TreeData * ttp = tp->node(qobject_cast<TreeData *>(node)->id());
-
-              QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Icons/desk.png"), ttp->name());
-             tempitem->setData(Qt::UserRole, ttp->id());
-            ClassList->addItem(tempitem);
-        }
-    }
-
-
 }
 
 

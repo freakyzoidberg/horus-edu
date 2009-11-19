@@ -10,7 +10,7 @@ private:
     UserDataPlugin *_userplugin;
 public:
     mytools(TreeDataPlugin *_mtreeplugin, UserDataPlugin *_muserplugin);
-    QMap<int, QString> getallclass(TreeDataPlugin *treeplugin);
+    QMap<int, QString> getallclass();
     QList<UserData*> getStudentfromClass(int id);
 };
 
