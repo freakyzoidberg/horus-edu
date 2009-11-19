@@ -57,7 +57,7 @@ void CommPacket::debugPacket(QDebug d, const QByteArray& src)
     CommPacket packet(src);
     if (packet.packetType == CommPacket::DATA)
         d << CommData(src);
-    else if (packet.packetType == CommPacket::ERROR)
+	else if (packet.packetType == CommPacket::PACKET_ERROR)
         d << CommError(src);
     else if (packet.packetType == CommPacket::INIT)
         d << CommInit(src);

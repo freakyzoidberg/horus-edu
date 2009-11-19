@@ -18,7 +18,7 @@ public:
      * UNDEFINED is used when the type is not set yet, and for invalid value
      * __LAST__ is used to know if a value is valid. a valid value is always inferior to __LAST__. __LAST__ is never used as a value
      */
-    enum                Type { UNDEFINED, ERROR, INIT, ALIVE, LOGIN, DATA, PLUGIN, __LAST__ };
+	enum                Type { UNDEFINED, PACKET_ERROR, INIT, ALIVE, LOGIN, DATA, PLUGIN, __LAST__ };
 
     //! constuctor to send a new packet
     CommPacket(Type _type);
