@@ -33,7 +33,7 @@ FormStudents::FormStudents(QList<UserData*> list)
 //
 //    FormLayout->addWidget(ParInfos);
 
-	label = new QLabel(tr("Social informations"), this);
+	label = new QLabel(tr("Scholar informations"), this);
 	label->setProperty("isFormTitle", true);
 	FormLayout->addWidget(label);
     SocInfos = new SocialInfos();

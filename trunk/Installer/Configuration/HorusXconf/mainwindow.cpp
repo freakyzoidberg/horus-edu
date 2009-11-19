@@ -35,7 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 //        ui->scrollArea->setLayout(mylayout);
 #ifdef WIN32
-        ui->lineEdit_16->setText("C:\\Program Files\\Horus\\");
+        ui->lineEdit_16->setText("C:\\Program Files\\HorusServer\\Files\\");
+        ui->lineEdit_16->setText("C:\\Program Files\\HorusServer\\");
 #else
         ui->lineEdit_16->setText("/opt/Horus/Horus-server/");
 #endif
