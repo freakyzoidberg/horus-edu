@@ -27,6 +27,32 @@ EditParent::EditParent(UserData *father, UserData *mother)
 		occupationFatherField->setText(father->occupation());
 		occupationMotherField->setText(mother->occupation());
 	}
+        if (!father && mother)
+        {
+                firstNameMotherField->setText(mother->surname());
+                lastNameMotherField->setText(mother->name());
+                relationshipField->setCurrentIndex(relationshipField->findData(mother->relationship()));
+                addressField->document()->setPlainText(mother->address());
+                mailField->setText(mother->mail());
+                homePhoneField->setText(mother->phone1());
+                workPhoneField->setText(mother->phone2());
+                mobilePhoneField->setText(mother->phone3());
+                occupationalCategoryMotherField->setText(mother->proCategory());
+                occupationMotherField->setText(mother->occupation());
+        }
+        if (father && !mother)
+        {
+                firstNameFatherField->setText(father->surname());
+                lastNameFatherField->setText(father->name());
+                relationshipField->setCurrentIndex(relationshipField->findData(father->relationship()));
+                addressField->document()->setPlainText(father->address());
+                mailField->setText(father->mail());
+                homePhoneField->setText(father->phone1());
+                workPhoneField->setText(father->phone2());
+                mobilePhoneField->setText(father->phone3());
+                occupationalCategoryFatherField->setText(father->proCategory());
+                occupationFatherField->setText(father->occupation());
+        }
 }
 
 void        EditParent::setupUi()

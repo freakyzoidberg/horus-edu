@@ -52,7 +52,7 @@ FormStudents::FormStudents(QList<UserData*> list)
     SuiInfos = new SuiviInfos();
     FormLayout->addWidget(SuiInfos);
 
-    ParInfos = new EditParent();
+    ParInfos = new EditParent(0, 0);
      FormLayout->addWidget(ParInfos);
 
     this->setLayout(FormLayout);
@@ -66,7 +66,7 @@ FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,Us
 {
 	QLabel	*label;
 
-	QVBoxLayout *FormLayout = new QVBoxLayout(this);
+    QVBoxLayout *FormLayout = new QVBoxLayout(this);
     FormLayout->setSpacing(0);
     FormLayout->setMargin(0);
     id = d->id();
@@ -107,7 +107,21 @@ FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,Us
     FormLayout->addWidget(SuiInfos);
 
 
-    ParInfos = new EditParent(parentlist[0], parentlist[1]);
+    if (parentlist.size() > 1)
+    {
+        if (parentlist[0]->gender() == GENDER_MALE)
+            ParInfos = new EditParent(parentlist[0], parentlist[1]);
+        else
+            ParInfos = new EditParent(parentlist[1], parentlist[0]);
+    }
+    else if (parentlist.size() > 0)
+    {
+        if (parentlist[0]->gender() == GENDER_MALE)
+            ParInfos = new EditParent(parentlist[0], 0);
+        else
+           ParInfos = new EditParent(0, parentlist[0]);
+    }
+
     FormLayout->addWidget(ParInfos);
 
     this->setLayout(FormLayout);

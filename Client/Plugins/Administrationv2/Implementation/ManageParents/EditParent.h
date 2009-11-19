@@ -16,7 +16,7 @@ class				EditParent : public QWidget
 
 public:
 	//EditParent(QWidget *parent, PluginManager *pluginManager, UserData *user = 0);
-	EditParent(UserData *father = 0, UserData *mother = 0);
+        EditParent(UserData *father = 0, UserData *mother = 0);
 	QString             getlastN() { return lastNameFatherField->text(); }
 	QString             getlastN2() { return lastNameMotherField->text(); }
 	QString             getfirsN() { return firstNameFatherField->text(); }
