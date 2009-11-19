@@ -250,7 +250,6 @@ void ManageStudents::gosave()
                         {
                             newMomy = UD->parentsOfStudent(newUSer)[1];
                             flag = 2;
-                            qDebug() << "2";
                         }
                         else if (newPapa->gender() == GENDER_FEMALE)
                         {
@@ -258,14 +257,12 @@ void ManageStudents::gosave()
                             newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                             connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
                             flag = 3;
-                            qDebug() << "3";
                         }
                         else
                         {
                             newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
                             connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
                             flag = 4;
-                            qDebug() << "4";
                         }
 
                 }
@@ -457,7 +454,6 @@ void ManageStudents::gook()
                         {
                             newMomy = UD->parentsOfStudent(newUSer)[1];
                             flag = 2;
-                            qDebug() << "2";
                         }
                         else if (newPapa->gender() == GENDER_FEMALE)
                         {
@@ -465,14 +461,12 @@ void ManageStudents::gook()
                             newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                             connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
                             flag = 3;
-                            qDebug() << "3";
                         }
                         else
                         {
                             newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
                             connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
                             flag = 4;
-                            qDebug() << "4";
                         }
 
                 }
