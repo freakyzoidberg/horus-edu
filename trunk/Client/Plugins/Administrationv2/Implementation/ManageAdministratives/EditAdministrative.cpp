@@ -15,14 +15,18 @@ EditAdministrative::EditAdministrative(QWidget *parent, PluginManager *pluginMan
 	QBoxLayout	*informationsLayout;
 	QGridLayout	*personnalBottomLayout;
 	QGridLayout	*contactBottomLayout;
+	QGridLayout	*professionalBottomLayout;
 	QBoxLayout	*personnalMainLayout;
 	QBoxLayout	*contactMainLayout;
+	QBoxLayout	*professionalMainLayout;
 	QScrollArea	*scrollArea;
 	QFrame		*personnalFrame;
 	QFrame		*contactFrame;
+	QFrame		*professionalFrame;
 	QFrame		*informationsFrame;
 	QLabel		*personnalTitle;
 	QLabel		*contactTitle;
+	QLabel		*professionalTitle;
 	QLabel		*informationsTitle;
 	QLabel		*actionsTitle;
 	QLabel		*label;
@@ -43,7 +47,7 @@ EditAdministrative::EditAdministrative(QWidget *parent, PluginManager *pluginMan
 	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom, scrollWidget);
 	leftLayout->setSpacing(0);
 	leftLayout->setMargin(0);
-	personnalFrame = new QFrame(this);
+	personnalFrame = new QFrame(scrollWidget);
 	personnalFrame->setProperty("isFormFrame", true);
 	personnalMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, personnalFrame);
 	personnalMainLayout->setSpacing(0);
@@ -81,9 +85,14 @@ EditAdministrative::EditAdministrative(QWidget *parent, PluginManager *pluginMan
 	birthDateField->setCalendarPopup(true);
 	birthDateField->setDisplayFormat(tr("dd/MM/yy"));
 	personnalBottomLayout->addWidget(birthDateField, 3, 1);
+	label = new QLabel(tr("Birth place"), personnalFrame);
+    label->setProperty("isFormLabel", true);
+	personnalBottomLayout->addWidget(label, 4, 0);
+	birthPlaceField = new QLineEdit(personnalFrame);
+	personnalBottomLayout->addWidget(birthPlaceField, 4, 1);
 	personnalMainLayout->addLayout(personnalBottomLayout);
 	leftLayout->addWidget(personnalFrame);
-	contactFrame = new QFrame(this);
+	contactFrame = new QFrame(scrollWidget);
 	contactFrame->setProperty("isFormFrame", true);
 	contactMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, contactFrame);
 	contactMainLayout->setSpacing(0);
@@ -122,6 +131,35 @@ EditAdministrative::EditAdministrative(QWidget *parent, PluginManager *pluginMan
 	contactBottomLayout->addWidget(mobilePhoneField, 4, 1);
 	contactMainLayout->addLayout(contactBottomLayout);
 	leftLayout->addWidget(contactFrame);
+	professionalFrame = new QFrame(scrollWidget);
+	professionalFrame->setProperty("isFormFrame", true);
+	professionalMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, professionalFrame);
+	professionalMainLayout->setSpacing(0);
+	professionalMainLayout->setMargin(0);
+	professionalTitle = new QLabel(tr("Professional informations"), professionalFrame);
+    professionalTitle->setProperty("isFormTitle", true);
+	professionalMainLayout->addWidget(professionalTitle);
+	professionalBottomLayout = new QGridLayout();
+	professionalBottomLayout->setSpacing(4);
+	professionalBottomLayout->setMargin(8);
+	professionalBottomLayout->setColumnMinimumWidth(0, 150);
+	label = new QLabel(tr("Social insurance number"), professionalFrame);
+    label->setProperty("isFormLabel", true);
+	professionalBottomLayout->addWidget(label, 0, 0);
+	socialInsuranceNbrField = new QLineEdit(professionalFrame);
+	professionalBottomLayout->addWidget(socialInsuranceNbrField, 0, 1);
+	label = new QLabel(tr("Diplomes"), professionalFrame);
+    label->setProperty("isFormLabel", true);
+	professionalBottomLayout->addWidget(label, 1, 0);
+	diplomaField = new QTextEdit(professionalFrame);
+	professionalBottomLayout->addWidget(diplomaField, 1, 1);
+	label = new QLabel(tr("Contract"), professionalFrame);
+    label->setProperty("isFormLabel", true);
+	professionalBottomLayout->addWidget(label, 2, 0);
+	contractField = new QTextEdit(professionalFrame);
+	professionalBottomLayout->addWidget(contractField, 2, 1);
+	professionalMainLayout->addLayout(professionalBottomLayout);
+	leftLayout->addWidget(professionalFrame);
 	leftLayout->addWidget(new QWidget(scrollWidget), 1);
 	scrollArea->setWidget(scrollWidget);
 	mainLayout->addWidget(scrollArea);
@@ -163,11 +201,15 @@ EditAdministrative::EditAdministrative(QWidget *parent, PluginManager *pluginMan
 		lastNameField->setText(user->name());
 		genderField->setCurrentIndex(genderField->findData(user->gender()));
 		birthDateField->setDate(user->birthDate());
+		birthPlaceField->setText(user->bornPlace());
 		addressField->document()->setPlainText(user->address());
 		mailField->setText(user->mail());
 		homePhoneField->setText(user->phone1());
 		workPhoneField->setText(user->phone2());
 		mobilePhoneField->setText(user->phone3());
+		socialInsuranceNbrField->setText(user->socialInsuranceNbr());
+		diplomaField->document()->setPlainText(user->diploma());
+		contractField->document()->setPlainText(user->contract());
 	}
 }
 
@@ -188,12 +230,16 @@ void			EditAdministrative::saved()
 	_user->setSurname(firstNameField->text());
 	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
 	_user->setBirthDate(birthDateField->date());
+	_user->setBornPlace(birthPlaceField->text());
 	_user->setAddress(addressField->document()->toPlainText());
 	_user->setMail(mailField->text());
 	_user->setPhone1(homePhoneField->text());
 	_user->setPhone2(workPhoneField->text());
 	_user->setPhone3(mobilePhoneField->text());
 	_user->setLevel(LEVEL_ADMINISTRATOR);
+	_user->setSocialInsuranceNbr(socialInsuranceNbrField->text());
+	_user->setDiploma(diplomaField->document()->toPlainText());
+	_user->setContract(contractField->document()->toPlainText());
 	if (editing)
 		_user->save();
 	else
@@ -211,9 +257,13 @@ void			EditAdministrative::reseted()
 	lastNameField->clear();
 	genderField->setCurrentIndex(0);
 	birthDateField->setDate(QDate::currentDate());
+	birthPlaceField->clear();
 	addressField->clear();
 	mailField->clear();
 	homePhoneField->clear();
 	workPhoneField->clear();
 	mobilePhoneField->clear();
+	socialInsuranceNbrField->clear();
+	diplomaField->clear();
+	contractField->clear();
 }

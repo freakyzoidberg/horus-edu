@@ -26,8 +26,12 @@ private:
 	QLineEdit		*workPhoneField;
 	QLineEdit		*mobilePhoneField;
 	QDateEdit		*birthDateField;
+	QLineEdit		*birthPlaceField;
 	QTextEdit		*addressField;
 	QComboBox		*genderField;
+	QLineEdit		*socialInsuranceNbrField;
+	QTextEdit		*diplomaField;
+	QTextEdit		*contractField;
 	UserData		*_user;
 
 private slots:
