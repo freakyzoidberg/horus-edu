@@ -4,20 +4,11 @@
 #include <QtGui/QMainWindow>
 #include <QAbstractButton>
 #include <QSettings>
-#ifndef ORGANIZATION_NAME
-# define ORGANIZATION_NAME "Horus"
-#endif
-#ifndef ORGANIZATION_DOMAIN
-#define ORGANIZATION_DOMAIN "horus-edu.net"
-#endif
-
-#ifndef SERVER_NAME
-#define SERVER_NAME "Horus Server"
-#endif
 #include <QCompleter>
 #include <QKeyEvent>
 #include <QVBoxLayout>
 #include <QScrollArea>
+#include "../../../Common/Defines.h"
 namespace Ui
 {
     class MainWindowClass;
@@ -35,7 +26,7 @@ private:
     Ui::MainWindowClass *ui;
     void writesettings();
     void extract_files();
-    QSettings Gsettings;
+    QSettings *Gsettings;
     QCompleter *completer;
     QCompleter *completer2;
     QWidget *checkboxes;

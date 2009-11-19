@@ -43,6 +43,8 @@ void WINAPI				controlHandler(DWORD control)
 	case SERVICE_CONTROL_STOP :
 		ReportSvcStatus(SERVICE_STOP_PENDING, NO_ERROR, 0);
 		ReportSvcStatus(gSvcStatus.dwCurrentState, NO_ERROR, 0);
+		ReportSvcStatus( SERVICE_STOPPED, NO_ERROR, 0 );
+		exit(0);
 		break ;
 	case SERVICE_CONTROL_INTERROGATE :
 		break;
