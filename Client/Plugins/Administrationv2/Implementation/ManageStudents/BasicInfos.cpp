@@ -9,13 +9,15 @@ BasicInfos::BasicInfos()
     BasicLayout->setSpacing(4);
     name = new QLineEdit(this);
     surname = new QLineEdit(this);
-    bplace = new QLineEdit(this);
-    bday = new QDateEdit(this);
-    bday->setDisplayFormat(tr("dd/MM/yy"));
-	bday->setDate(QDate::currentDate());
-    bday->setCalendarPopup(true);
-    address = new QLineEdit(this);
 
+    bday = new QDateEdit(this);
+
+
+    bplace = new QLineEdit(this);
+    address = new QLineEdit(this);
+    bday->setDisplayFormat(tr("dd/MM/yy"));
+        bday->setDate(QDate::currentDate());
+    bday->setCalendarPopup(true);
     QLabel *label;
 
     label = new QLabel(tr("Last name"));
@@ -69,9 +71,10 @@ QGridLayout *BasicLayout = new QGridLayout(this);
     bday->setCalendarPopup(true);
 	bday->setDate(QDate::currentDate());
     bday->setDate(ud->birthDate());
+    bplace = new QLineEdit(this);
     address = new QLineEdit(this);
     address->setText(ud->address());
-bplace = new QLineEdit(this);
+
 
 
 

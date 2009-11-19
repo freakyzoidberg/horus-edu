@@ -22,7 +22,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     reset = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
-    refresh = new QPushButton(QIcon(":/Icons/refresh.png"),tr("Refresh"));
+
     //StudentForm = 0;
     scrollStudentForm = 0;
 
@@ -33,7 +33,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(del, SIGNAL(clicked()), this, SLOT(godel()));
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
-    connect(refresh,SIGNAL(clicked()), this, SLOT(refreshall()));
+
     connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
@@ -41,6 +41,10 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
         connect(UD, SIGNAL(dataCreated(Data *)), StudentList, SLOT(updatestudents()));
         connect(UD, SIGNAL(dataUpdated(Data *)), StudentList, SLOT(updatestudents()));
         connect(UD, SIGNAL(dataRemoved(Data *)), StudentList, SLOT(updatestudents()));
+
+        connect(treeplugin, SIGNAL(dataCreated(Data *)), this, SLOT(refreshall()));
+        connect(treeplugin, SIGNAL(dataUpdated(Data *)), this, SLOT(refreshall()));
+        connect(treeplugin, SIGNAL(dataRemoved(Data *)), this, SLOT(refreshall()));
 
     RightLayout->setMargin(0);
     RightLayout->setSpacing(2);
@@ -66,7 +70,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     RightLayout->addWidget(save);
     RightLayout->addWidget(reset);
     RightLayout->addWidget(back);
-    RightLayout->addWidget(refresh);
+
     RightLayout->addWidget(new QWidget(this), 1);
 
     MainLayout->addWidget(StudentList);
@@ -117,7 +121,7 @@ void ManageStudents::goadd()
         addstudent->setVisible(false);
         del->setVisible(false);
         edit->setVisible(false);
-        refresh->setVisible(false);
+
 
     }
     else
@@ -149,7 +153,7 @@ if (StudentList->StudentList->selectedItems().count() == 1)
     addstudent->setVisible(false);
     edit->setVisible(false);
     del->setVisible(false);
-    refresh->setVisible(false);
+
 }
 
 }
@@ -198,7 +202,7 @@ void ManageStudents::goback()
     save->setVisible(false);
 	reset->setVisible(false);
     back->setVisible(false);
-    refresh->setVisible(true);
+
 
    if (StudentList->ClassList->selectedItems().count() > 0)
     {
@@ -445,7 +449,7 @@ void ManageStudents::gook()
             edit->setEnabled(false);
             del->setVisible(true);
             del->setEnabled(false);
-            refresh->setVisible(true);
+
         }
     if (info)
         {
