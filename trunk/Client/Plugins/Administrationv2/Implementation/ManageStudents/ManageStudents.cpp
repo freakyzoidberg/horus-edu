@@ -235,17 +235,21 @@ void ManageStudents::gosave()
                 newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
                 newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                 connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
-                connect(newPapa, SIGNAL(created()), this, SLOT(userCreated(Data*)));
+                newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
+                connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
+                connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
             }
             else
             {
                 newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
                 if (UD->parentsOfStudent(newUSer).count() > 0)
-                newPapa = UD->parentsOfStudent(newUSer)[0];
-                else
+				{
+                	newPapa = UD->parentsOfStudent(newUSer)[0];
+                	newMomy = UD->parentsOfStudent(newUSer)[1];
+}                
+	else
                    newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
-
                 if ((newUSer->status() != Data::UPTODATE) &&
                     (newUSer->status() != Data::UPDATED) &&
                     (newUSer->status() != Data::SAVED) &&
@@ -282,7 +286,29 @@ void ManageStudents::gosave()
 
             //Parents info
 
+            newPapa->setEnable(true);
+            newPapa->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN());
+            newPapa->setRelationship(scrollStudentForm->StudentForm->ParInfos->getrela());
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setMail(scrollStudentForm->StudentForm->ParInfos->getmail());
+            newPapa->setPhone1(scrollStudentForm->StudentForm->ParInfos->gethomeP());
+            newPapa->setPhone2(scrollStudentForm->StudentForm->ParInfos->getworkP());
+            newPapa->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
+            newPapa->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField());
+            newPapa->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC());
+            newPapa->setLevel(LEVEL_FAMILY);
 
+            newMomy->setEnable(true);
+            newMomy->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN2());
+            newMomy->setRelationship(scrollStudentForm->StudentForm->ParInfos->getrela());
+            newMomy->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newMomy->setMail(scrollStudentForm->StudentForm->ParInfos->getmail());
+            newMomy->setPhone1(scrollStudentForm->StudentForm->ParInfos->gethomeP());
+            newMomy->setPhone2(scrollStudentForm->StudentForm->ParInfos->getworkP());
+            newMomy->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
+            newMomy->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField2());
+            newMomy->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC2());
+            newMomy->setLevel(LEVEL_FAMILY);
 
 
             //newUSer->setRelationship(QVariant(x).toString());
@@ -372,15 +398,18 @@ void ManageStudents::gook()
                 newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
                 newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                 connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
-
-                // tu ne peux pas linker un signal sans parametre a un slot avec parametre
-                //connect(newPapa, SIGNAL(created()), this, SLOT(userCreated(Data*)));
+                newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
+                connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
+                connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
             }
             else
             {
                 newUSer = UD->user(scrollStudentForm->StudentForm->id);
                 if (UD->parentsOfStudent(newUSer).count() > 0)
-                newPapa = UD->parentsOfStudent(newUSer)[0];
+                {
+                	newPapa = UD->parentsOfStudent(newUSer)[0];
+                	newMomy = UD->parentsOfStudent(newUSer)[1];
+                }
                 else
                    newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
             }
@@ -411,31 +440,30 @@ void ManageStudents::gook()
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
 
             //Parent's Infos
-
-            newPapa->setLevel(LEVEL_FAMILY);
-            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setEnable(true);
             newPapa->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN());
+            newPapa->setRelationship(scrollStudentForm->StudentForm->ParInfos->getrela());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
-            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
-            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
-            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
-            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setMail(scrollStudentForm->StudentForm->ParInfos->getmail());
+            newPapa->setPhone1(scrollStudentForm->StudentForm->ParInfos->gethomeP());
+            newPapa->setPhone2(scrollStudentForm->StudentForm->ParInfos->getworkP());
+            newPapa->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
+            newPapa->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField());
+            newPapa->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC());
+            newPapa->setLevel(LEVEL_FAMILY);
 
-//            _user->setEnable(true);
-//            _user->setName(lastNameField->text());
-//            _user->setSurname(firstNameField->text());
-//            _user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
-//            _user->setBirthDate(birthDateField->date());
-//            _user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
-//            _user->setAddress(addressField->document()->toPlainText());
-//            _user->setMail(mailField->text());
-//            _user->setPhone1(homePhoneField->text());
-//            _user->setPhone2(workPhoneField->text());
-//            _user->setPhone3(mobilePhoneField->text());
-//            _user->setOccupation(occupationField->text());
-//            _user->setProCategory(occupationalCategoryField->text());
-//            _user->setLevel(LEVEL_FAMILY);
 
+            newMomy->setEnable(true);
+            newMomy->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN2());
+            newMomy->setRelationship(scrollStudentForm->StudentForm->ParInfos->getrela());
+            newMomy->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newMomy->setMail(scrollStudentForm->StudentForm->ParInfos->getmail());
+            newMomy->setPhone1(scrollStudentForm->StudentForm->ParInfos->gethomeP());
+            newMomy->setPhone2(scrollStudentForm->StudentForm->ParInfos->getworkP());
+            newMomy->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
+            newMomy->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField2());
+            newMomy->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC2());
+            newMomy->setLevel(LEVEL_FAMILY);
             //Suivi infos
 
 
@@ -498,6 +526,8 @@ void ManageStudents::userCreated(Data *)
     disconnect(this, SLOT(userCreated(Data*)));
     newPapa->setStudent(newUSer);
     newPapa->save();
+    newMomy->setStudent(newUSer);
+    newMomy->save();
     QMessageBox msgBox;
     msgBox.setText(tr("L'utilisateur a bien ete crée"));
     msgBox.exec();
