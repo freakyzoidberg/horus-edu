@@ -9,7 +9,7 @@
 #include <QHash>
 #include <QMetaObject>
 
-void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
+void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus)
 {
 	QMutexLocker M(&data->mutex);
 
@@ -24,7 +24,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		if (oldStatus == Data::EMPTY)
 		{
 			if ((error = data->serverRead()))
-				return sendData(user, data, Data::_ERROR_, error);
+				return sendData(user, data, Data::ERROR, error);
 			data->_status = Data::UPTODATE;
 		}
 
@@ -38,12 +38,12 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		if (oldStatus == Data::EMPTY)
 		{
 			if ((error = data->serverRead()))
-				return sendData(user, data, Data::_ERROR_, error);
+				return sendData(user, data, Data::ERROR, error);
 			data->_status = Data::UPTODATE;
 		}
 
 		if ((error = data->serverSave()))
-			return sendData(user, data, Data::_ERROR_, error);
+			return sendData(user, data, Data::ERROR, error);
 
 		data->_status = Data::UPTODATE;
 
@@ -67,7 +67,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		data->keyToStream(stream);
 
 		if ((error = data->serverCreate()))
-			return sendData(user, data, Data::_ERROR_, error);
+			return sendData(user, data, Data::ERROR, error);
 		data->_status = Data::UPTODATE;
 
 		//send to the user who saved the data CREATED
@@ -86,7 +86,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 		 newStatus == Data::DELETING)
 	{
 		if ((error = data->serverRemove()))
-			return sendData(user, data, Data::_ERROR_, error);
+			return sendData(user, data, Data::ERROR, error);
 		data->_status = Data::DELETED;
 
 		//send to every users the data DELETED
@@ -102,7 +102,7 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus) const
 	qDebug() << "Data" << data << "change status from" << (Data::DataStatus)oldStatus << "to" << (Data::DataStatus)newStatus << "which is not authorized.";
 }
 
-void DataManagerServer::receiveData(UserData* user, const QByteArray& d) const
+void DataManagerServer::receiveData(UserData* user, const QByteArray& d)
 {
     QDataStream stream(d); // ReadOnly
 	quint8      status;    
@@ -162,7 +162,7 @@ void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, qui
 		status != Data::SAVED &&
 		status != Data::CREATED &&
 		status != Data::DELETED &&
-		status != Data::_ERROR_)
+		status != Data::ERROR)
 	{
 		qWarning() << "DataManagerServer try to send a data with status" << (Data::DataStatus)status << "which is not authorized.";
 		return;
@@ -178,8 +178,11 @@ void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, qui
 	if (status == Data::UPDATED)
 		data->dataToStream(stream);
 
-	else if (status == Data::_ERROR_)
+	else if (status == Data::ERROR)
+	{
 		stream << error;
+		data->dataToStream(stream);
+	}
 
 	ClientSocket* socket = ClientSocket::connectedUsers.value(user);
     if (socket)

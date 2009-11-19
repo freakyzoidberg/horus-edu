@@ -257,13 +257,13 @@ void ManageStudents::gosave()
 
             }
 
-            if ((newUSer->status() != Data::UPTODATE))
-            {
-                   QMessageBox msgBox;
-                   msgBox.setText(tr("Saving failed, please try later sur id :")+ QVariant(StudentForm->id).toString());
-                   msgBox.exec();
-                    return;
-            }
+//            if ((newUSer->status() != Data::UPTODATE))
+//            {
+//                   QMessageBox msgBox;
+//                   msgBox.setText(tr("Saving failed, please try later sur id :")+ QVariant(StudentForm->id).toString());
+//                   msgBox.exec();
+//                    return;
+//            }
 
 
             //Data
@@ -309,7 +309,6 @@ void ManageStudents::gosave()
             }
             else
                 newUSer->save();
-//                sleep(1);  // C'est quoi ces conneries ? Pas de sleep sur un thread graphique.
 //***ParInfo
 //            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
 //            if (uparent != 0)

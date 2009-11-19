@@ -126,15 +126,11 @@ quint8 TreeDataBase::serverSave()
 	query.addBindValue(((TreeDataBase*)parent())->id());
 	query.addBindValue(_id);
 
-
 	if ( ! query.exec())
 	{
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-	if ( ! query.numRowsAffected())
-		return NOT_FOUND;
-
 	return NONE;
 }
 

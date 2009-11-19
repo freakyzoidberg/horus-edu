@@ -439,9 +439,6 @@ quint8 UserDataBase::serverSave()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
     }
-	if ( ! query.numRowsAffected())
-		return NOT_FOUND;
-
 	return NONE;
 }
 

@@ -152,9 +152,6 @@ quint8 FileDataBase::serverSave()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-	if ( ! query.numRowsAffected())
-		return NOT_FOUND;
-
 	return NONE;
 }
 
