@@ -281,9 +281,10 @@ void ManageStudents::gosave()
             //Scholar infos
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
             newUSer->setStartYear(scrollStudentForm->StudentForm->SchoInfos->getStartYear());
+            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SchoInfos->getLeftYear());
             //Suivi
             newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
-            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
+
 
             //Parents info
 
@@ -431,9 +432,9 @@ void ManageStudents::gook()
             //Scholar infos
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
             newUSer->setStartYear(scrollStudentForm->StudentForm->SchoInfos->getStartYear());
+            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SchoInfos->getLeftYear());
             //Suivi infos
             newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
-            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
 
             //Parent's Infos
 	    
