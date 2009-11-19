@@ -24,7 +24,7 @@ private:
      mytools *_tools;
 
  public slots:
-     void updateall();
+     void updateall(TreeDataPlugin *treeplugin);
      void updatestudents(QListWidgetItem* item);
      void updatestudents();
 };

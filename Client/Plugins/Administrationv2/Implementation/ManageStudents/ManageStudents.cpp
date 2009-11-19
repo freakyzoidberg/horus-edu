@@ -91,7 +91,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     del->setVisible(true);
     edit->setEnabled(false);
     del->setEnabled(false);
-    StudentList->updateall();
+    StudentList->updateall(TD);
 
 
 
@@ -498,7 +498,6 @@ QList<UserData*> ManageStudents::getAllParents()
 
     foreach (UserData* user, UD->allUser())
     {
-        qDebug() <<user->id()<< " -----: " << user->level();
         if (user->level() == LEVEL_FAMILY)
         {
             mylist.append(user);
@@ -510,7 +509,8 @@ QList<UserData*> ManageStudents::getAllParents()
 
 void ManageStudents::refreshall()
 {
+
     edit->setEnabled(false);
     del->setEnabled(false);
-    StudentList->updateall();
+    StudentList->updateall(TD);
 }
