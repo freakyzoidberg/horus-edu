@@ -244,15 +244,28 @@ void ManageStudents::gosave()
 //qDebug() << "id user" << StudentForm->id;
 
             UserData* newUSer;
+            UserData* newPapa;
             if (scrollStudentForm->StudentForm->id == 0)
             {
-
-            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
-
+	            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
+                newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
+                connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
+                //connect(newPapa, SIGNAL(created()), this, SLOT(checkCreated(Data*))
             }
             else
             {
-
+                newUSer = UD->user(scrollStudentForm->StudentForm->id);
+                newPapa = UD->parentsOfStudent(newUSer)[0];
+                if ((newUSer->status() != Data::UPTODATE) &&
+                    (newUSer->status() != Data::UPDATED) &&
+                    (newUSer->status() != Data::SAVED) &&
+                    (newUSer->status() != Data::CREATED) )
+                {
+                       QMessageBox msgBox;
+                       msgBox.setText(tr("Saving failed, please try later sur id :")+ QVariant(StudentForm->id).toString());
+                       msgBox.exec();
+                       return;
+                }
             newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
             }
@@ -287,7 +300,11 @@ void ManageStudents::gosave()
             //Scholar infos
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
 
-            //Parent
+            //Parents info
+
+
+
+
             //newUSer->setRelationship(QVariant(x).toString());
             //Suivi infos
 
@@ -369,9 +386,20 @@ void ManageStudents::gook()
 //qDebug() << "id user" << StudentForm->id;
 
             UserData* newUSer;
+            UserData* newPapa;
             if (scrollStudentForm->StudentForm->id == 0)
-            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
+            {
+	            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
+                newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
+                connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
+                //connect(newPapa, SIGNAL(created()), this, SLOT(checkCreated(Data*))
+            }
             else
+            {
+                newUSer = UD->user(scrollStudentForm->StudentForm->id);
+                newPapa = UD->parentsOfStudent(newUSer)[0];
+            }
+
             newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
 
