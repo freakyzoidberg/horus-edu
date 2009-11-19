@@ -61,16 +61,21 @@ void SettingsDataBase::setValue(const QString& key, const QVariant& val)
 #ifdef HORUS_SERVER
 quint8 SettingsDataBase::serverRead()
 {
+	_values = QVariantHash();
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
 	query.prepare("SELECT value,mtime FROM settings WHERE user=? AND part=? AND scope=?;");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
-    if ( ! query.exec() || ! query.next())
-    {
-        _values = QVariantHash();
+
+	if ( ! query.exec())
+	{
+		qDebug() << query.lastError();
+		return DATABASE_ERROR;
+	}
+	if ( ! query.next())
 		return NONE;
-    }
+
     inDatabase = true;
     _values = query.value(0).toHash();
     _lastChange = query.value(1).toDateTime();
@@ -88,8 +93,12 @@ quint8 SettingsDataBase::serverCreate()
     query.addBindValue(_values);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
-    if ( ! query.exec())
+
+	if ( ! query.exec())
+	{
+		qDebug() << query.lastError();
 		return DATABASE_ERROR;
+	}
 
 	return NONE;
 }
@@ -107,9 +116,12 @@ quint8 SettingsDataBase::serverSave()
     query.addBindValue(_scope);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
-	if ( ! query.exec())
-		return DATABASE_ERROR;
 
+	if ( ! query.exec())
+	{
+		qDebug() << query.lastError();
+		return DATABASE_ERROR;
+	}
 	return NONE;
 }
 
@@ -120,8 +132,14 @@ quint8 SettingsDataBase::serverRemove()
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
+
 	if ( ! query.exec())
+	{
+		qDebug() << query.lastError();
 		return DATABASE_ERROR;
+	}
+	if ( ! query.numRowsAffected())
+		return NOT_FOUND;
 
 	return NONE;
 }

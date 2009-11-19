@@ -40,5 +40,12 @@ QDebug operator<<(QDebug d, const CommData& p)
 	quint8 status;
 	stream >> status;
 
-	return d << (CommPacket&)p << p.type << (Data::DataStatus)status;
+	d << (CommPacket&)p << p.type << (Data::DataStatus)status;
+	if (status == Data::DATA_ERROR)
+	{
+		quint8 error;
+		stream >> error;
+		d << (Data::Error)error;
+	}
+	return d;
 }

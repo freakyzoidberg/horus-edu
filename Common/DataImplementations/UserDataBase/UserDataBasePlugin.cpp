@@ -105,7 +105,7 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 void UserDataBasePlugin::loadData()
 {
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime,id FROM user;");
+	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,start_year,leave_year,follow_up,comment,born_place,nbr_brothers,social_insurance_nbr,diploma,contract,mtime,id FROM user;");
 
 	if ( ! query.exec())
 	{
@@ -114,37 +114,43 @@ void UserDataBasePlugin::loadData()
 	}
 	while (query.next())
 	{
-		UserDataBase* u = (UserDataBase*)(user(query.value(28).toUInt()));
+		UserDataBase* u = (UserDataBase*)(user(query.value(34).toUInt()));
 
-		u->_enabled    = query.value(0).toBool();
-		u->_login      = query.value(1).toString();
-		u->_level      = (UserLevel)(query.value(2).toUInt());
-		u->_password   = QByteArray::fromHex(query.value(3).toByteArray());
-		u->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
-		u->_lastLogin  = query.value(5).toDateTime();
-		u->_language   = query.value(6).toString();
-		u->_surname    = query.value(7).toString();
-		u->_name       = query.value(8).toString();
-		u->_birthDate  = query.value(9).toDate();
-		u->_picture    = query.value(10).toByteArray();
-		u->_address    = query.value(11).toString();
-		u->_phone1     = query.value(12).toString();
-		u->_phone2     = query.value(13).toString();
-		u->_phone3     = query.value(14).toString();
-		u->_country    = query.value(15).toString();
-		u->_gender     = (UserGender)(query.value(16).toUInt());
-		u->_occupation = query.value(17).toString();
-		u->_proCategory  = query.value(18).toString();
-		u->_relationship = query.value(19).toString();
-		u->_student    = pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
-		u->_mail       = query.value(21).toString();
-		u->_subscriptionReason = query.value(22).toString();
-		u->_repeatedYears = query.value(23).toUInt();
-		u->_leaveYear = query.value(24).toUInt();
-		u->_followUp = query.value(25).toString();
-		u->_comment = query.value(26).toString();
-		u->_lastChange = query.value(27).toDateTime();
-		u->_status = Data::UPTODATE;
+		u->_enabled				= query.value( 0).toBool();
+		u->_login				= query.value( 1).toString();
+		u->_level				= (UserLevel)(query.value(2).toUInt());
+		u->_password			= QByteArray::fromHex(query.value(3).toByteArray());
+		u->_studentClass		= pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
+		u->_lastLogin			= query.value( 5).toDateTime();
+		u->_language			= query.value( 6).toString();
+		u->_surname				= query.value( 7).toString();
+		u->_name				= query.value( 8).toString();
+		u->_birthDate			= query.value( 9).toDate();
+		u->_picture				= query.value(10).toByteArray();
+		u->_address				= query.value(11).toString();
+		u->_phone1				= query.value(12).toString();
+		u->_phone2				= query.value(13).toString();
+		u->_phone3				= query.value(14).toString();
+		u->_country				= query.value(15).toString();
+		u->_gender				= (UserGender)(query.value(16).toUInt());
+		u->_occupation			= query.value(17).toString();
+		u->_proCategory			= query.value(18).toString();
+		u->_relationship		= query.value(19).toString();
+		u->_student				= pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
+		u->_mail				= query.value(21).toString();
+		u->_subscriptionReason	= query.value(22).toString();
+		u->_repeatedYears		= query.value(23).toUInt();
+		u->_startYear			= query.value(24).toUInt();
+		u->_leaveYear			= query.value(25).toUInt();
+		u->_followUp			= query.value(26).toString();
+		u->_comment				= query.value(27).toString();
+		u->_bornPlace			= query.value(28).toString();
+		u->_nbrBrothers			= query.value(29).toUInt();
+		u->_socialInsuranceNbr	= query.value(30).toString();
+		u->_diploma				= query.value(32).toString();
+		u->_contract			= query.value(32).toString();
+		u->_lastChange			= query.value(33).toDateTime();
+		u->_status				= Data::UPTODATE;
 
 		disconnect(u, SLOT(studentClassRemoved()));
 		connect(u->_studentClass, SIGNAL(removed()), u, SLOT(studentClassRemoved()));

@@ -12,6 +12,7 @@ UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserDat
 	_loggedIn = false;
 	_gender = GENDER_UNKNOW;
 	_repeatedYears = 0;
+	_startYear = 0;
 	_leaveYear = 0;
 	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
@@ -55,6 +56,7 @@ void UserDataBase::dataToStream(QDataStream& s) const
 	  << _mail
 	  << _subscriptionReason
 	  << _repeatedYears
+	  << _startYear
 	  << _leaveYear
 	  << _followUp
 	  << _comment;
@@ -90,6 +92,7 @@ void UserDataBase::dataFromStream(QDataStream& s)
 	  >> _mail
 	  >> _subscriptionReason
 	  >> _repeatedYears
+	  >> _startYear
 	  >> _leaveYear
 	  >> _followUp
 	  >> _comment;
@@ -250,6 +253,12 @@ void UserDataBase::setRepeatedYears(quint8 nbYears)
 	_repeatedYears = nbYears;
 }
 
+void UserDataBase::setStartYear(quint16 startYear)
+{
+	QMutexLocker M(&mutex);
+	_startYear = startYear;
+}
+
 void UserDataBase::setLeaveYear(quint16 year)
 {
 	QMutexLocker M(&mutex);
@@ -266,6 +275,36 @@ void UserDataBase::setComment(const QString comment)
 {
 	QMutexLocker M(&mutex);
 	_comment = comment;
+}
+
+void UserDataBase::setBornPlace(const QString bornPlace)
+{
+	QMutexLocker M(&mutex);
+	_bornPlace = bornPlace;
+}
+
+void UserDataBase::setNbrBrothers(quint8 nbrBrothers)
+{
+	QMutexLocker M(&mutex);
+	_nbrBrothers = nbrBrothers;
+}
+
+void UserDataBase::setSocialInsuranceNbr(const QString socialInsuranceNbr)
+{
+	QMutexLocker M(&mutex);
+	_socialInsuranceNbr = socialInsuranceNbr;
+}
+
+void UserDataBase::setDiploma(const QString diploma)
+{
+	QMutexLocker M(&mutex);
+	_diploma = diploma;
+}
+
+void UserDataBase::setContract(const QString contract)
+{
+	QMutexLocker M(&mutex);
+	_contract = contract;
 }
 
 
@@ -301,7 +340,7 @@ QVariant UserDataBase::data(int column, int role) const
 quint8 UserDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime FROM user WHERE id=?;");
+	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,start_year,leave_year,follow_up,comment,born_place,nbr_brothers,social_insurance_nbr,diploma,contract,mtime FROM user WHERE id=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -336,10 +375,16 @@ quint8 UserDataBase::serverRead()
 	_mail			= query.value(21).toString();
 	_subscriptionReason	= query.value(22).toString();
 	_repeatedYears	= query.value(23).toUInt();
-	_leaveYear		= query.value(24).toUInt();
-	_followUp		= query.value(25).toString();
-	_comment		= query.value(26).toString();
-	_lastChange		= query.value(27).toDateTime();
+	_startYear		= query.value(24).toUInt();
+	_leaveYear		= query.value(25).toUInt();
+	_followUp		= query.value(26).toString();
+	_comment		= query.value(27).toString();
+	_bornPlace		= query.value(28).toString();
+	_nbrBrothers	= query.value(29).toUInt();
+	_socialInsuranceNbr = query.value(30).toString();
+	_diploma		= query.value(31).toString();
+	_contract		= query.value(32).toString();
+	_lastChange		= query.value(33).toDateTime();
 
 	disconnect(this, SLOT(studentClassRemoved()));
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
@@ -351,7 +396,7 @@ quint8 UserDataBase::serverRead()
 quint8 UserDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO user (enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,leave_year,follow_up,comment,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
+	query.prepare("INSERT INTO user (enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,start_year,leave_year,follow_up,comment,born_place,nbr_brothers,social_insurance_nbr,diploma,contract,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
@@ -378,15 +423,20 @@ quint8 UserDataBase::serverCreate()
 	qDebug() << _subscriptionReason;
 	query.addBindValue(_subscriptionReason);
 	query.addBindValue(_repeatedYears);
+	query.addBindValue(_startYear);
 	query.addBindValue(_leaveYear);
 	query.addBindValue(_followUp);
 	query.addBindValue(_comment);
+	query.addBindValue(_bornPlace);
+	query.addBindValue(_nbrBrothers);
+	query.addBindValue(_socialInsuranceNbr);
+	query.addBindValue(_diploma);
+	query.addBindValue(_contract);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
 
 	//passmail
 	query.addBindValue(_login);
 
-    qDebug() << query.lastQuery();
 	if ( ! query.exec())
 	{
 		qDebug() << query.lastError();
@@ -403,7 +453,7 @@ quint8 UserDataBase::serverCreate()
 quint8 UserDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE user SET enabled=?,login=?,level=?,password=?,student_class=?,last_login=?,language=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone1=?,phone2=?,phone3=?,country=?,gender=?,occupation=?,pro_category=?,relationship=?,student=?,mail=?,subscription_reason=?,repeated_years=?,leave_year=?,follow_up=?,comment=?,mtime=? WHERE id=?;");
+	query.prepare("UPDATE user SET enabled=?,login=?,level=?,password=?,student_class=?,last_login=?,language=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone1=?,phone2=?,phone3=?,country=?,gender=?,occupation=?,pro_category=?,relationship=?,student=?,mail=?,subscription_reason=?,repeated_years=?,start_year=?,leave_year=?,follow_up=?,comment=?,born_place=?,nbr_brothers=?,social_insurance_nbr=?,diploma=?,contract=?,mtime=? WHERE id=?;");
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
@@ -428,9 +478,15 @@ quint8 UserDataBase::serverSave()
 	query.addBindValue(_mail);
 	query.addBindValue(_subscriptionReason);
 	query.addBindValue(_repeatedYears);
+	query.addBindValue(_startYear);
 	query.addBindValue(_leaveYear);
 	query.addBindValue(_followUp);
 	query.addBindValue(_comment);
+	query.addBindValue(_bornPlace);
+	query.addBindValue(_nbrBrothers);
+	query.addBindValue(_socialInsuranceNbr);
+	query.addBindValue(_diploma);
+	query.addBindValue(_contract);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
     query.addBindValue(_id);
 

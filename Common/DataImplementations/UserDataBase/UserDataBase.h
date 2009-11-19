@@ -109,6 +109,9 @@ public:
 	inline quint8			repeatedYears() const { return _repeatedYears; }
 	void					setRepeatedYears(quint8 nbYears);
 
+	inline quint16			startYear() const { return _startYear; }
+	void					setStartYear(quint16);
+
 	inline quint16			leaveYear() const { return _leaveYear; }
 	void					setLeaveYear(quint16 year);
 
@@ -117,6 +120,21 @@ public:
 
 	inline const QString	comment() const { return _comment; }
 	void					setComment(const QString comment);
+
+	inline const QString	bornPlace() const { return _bornPlace; }
+	void					setBornPlace(const QString comment);
+
+	inline quint8			nbrBrothers() const {return _nbrBrothers; }
+	void					setNbrBrothers(quint8);
+
+	inline const QString	socialInsuranceNbr() const {return _socialInsuranceNbr; }
+	void					setSocialInsuranceNbr(const QString comment);
+
+	inline const QString	diploma() const {return _diploma; }
+	void					setDiploma(const QString comment);
+
+	inline const QString	contract() const {return _contract; }
+	void					setContract(const QString comment);
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
@@ -154,9 +172,15 @@ private:
 	QString				_mail;
 	QString				_subscriptionReason;
 	quint8				_repeatedYears;
+	quint16				_startYear;
 	quint16				_leaveYear;
 	QString				_followUp;
 	QString				_comment;
+	QString				_bornPlace;
+	quint8				_nbrBrothers;
+	QString				_socialInsuranceNbr;
+	QString				_diploma;
+	QString				_contract;
 #ifdef HORUS_SERVER
 	void updateLastLogin();
 #endif
