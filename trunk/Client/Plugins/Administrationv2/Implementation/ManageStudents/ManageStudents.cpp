@@ -6,6 +6,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 {
     UD = userplugin;
     TD = treeplugin;
+    newUSer = 0;
+    newPapa = 0;
     info = 0;
     MainLayout = new QHBoxLayout();
     MainLayout->setSpacing(0);
@@ -34,7 +36,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
     connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
 
-    connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
+    //connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
     connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
 
@@ -167,12 +169,13 @@ void ManageStudents::godel()
     {
         UserData* myuser = UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt());
         myuser->remove();
-StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
-if (info)
-{
-delete info;
-info = 0;
-}    }
+        StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
+        if (info)
+        {
+            delete info;
+            info = 0;
+        }
+    }
 
 }
 
@@ -243,14 +246,14 @@ void ManageStudents::gosave()
 
 //qDebug() << "id user" << StudentForm->id;
 
-            UserData* newUSer;
-            UserData* newPapa;
+//            UserData* newUSer;
+//            UserData* newPapa;
             if (scrollStudentForm->StudentForm->id == 0)
             {
-	            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
+                newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
                 newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                 connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
-                //connect(newPapa, SIGNAL(created()), this, SLOT(checkCreated(Data*))
+                connect(newPapa, SIGNAL(created()), this, SLOT(userCreated(Data*)));
             }
             else
             {
@@ -385,14 +388,14 @@ void ManageStudents::gook()
 
 //qDebug() << "id user" << StudentForm->id;
 
-            UserData* newUSer;
-            UserData* newPapa;
+//            UserData* newUSer;
+//            UserData* newPapa;
             if (scrollStudentForm->StudentForm->id == 0)
             {
-	            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
+                newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
                 newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                 connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
-                //connect(newPapa, SIGNAL(created()), this, SLOT(checkCreated(Data*))
+                connect(newPapa, SIGNAL(created()), this, SLOT(userCreated(Data*)));
             }
             else
             {
@@ -426,8 +429,13 @@ void ManageStudents::gook()
 
             //Parent's Infos
 
-
-
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN());
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
 
             //Suivi infos
 
@@ -486,11 +494,14 @@ void ManageStudents::gook()
     }
 }
 
-void ManageStudents::checkCreated(Data *)
+void ManageStudents::userCreated(Data *)
 {
-   // QMessageBox msgBox;
-   // msgBox.setText(tr("L'utilisateur a bien ete crée"));
-   // msgBox.exec();
+    disconnect(this, SLOT(userCreated(Data*)));
+    newPapa->setStudent(newUSer);
+    newPapa->save();
+    QMessageBox msgBox;
+    msgBox.setText(tr("L'utilisateur a bien ete crée"));
+    msgBox.exec();
 }
 
 void ManageStudents::seteditfalse()
