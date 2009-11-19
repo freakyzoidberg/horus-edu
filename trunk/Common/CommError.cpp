@@ -2,7 +2,7 @@
 
 #include "CommError.h"
 
-CommError::CommError(Error _type, const char* _errorMessage) : CommPacket(CommPacket::ERROR)
+CommError::CommError(Error _type, const char* _errorMessage) : CommPacket(CommPacket::PACKET_ERROR)
 {
     static const QString  typeNames[] =
     {
@@ -22,7 +22,7 @@ CommError::CommError(Error _type, const char* _errorMessage) : CommPacket(CommPa
         errorMessage = _errorMessage;
 }
 
-CommError::CommError(const QByteArray& a) : CommPacket(CommPacket::ERROR)
+CommError::CommError(const QByteArray& a) : CommPacket(CommPacket::PACKET_ERROR)
 {
     errorType = UNDEFINED;
     read(a);

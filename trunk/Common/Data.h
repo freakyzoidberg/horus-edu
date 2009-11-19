@@ -45,7 +45,7 @@ public:
 					  SAVED,    // 8       | X    |       |
 					  CREATED,  // 9       | X  N |       |
 					  DELETED,  //10       | X    |       |  X
-					  ERROR};   //11       | X EV |       |
+					  DATA_ERROR};//11     | X EV |       |
 
 	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
 
@@ -173,7 +173,7 @@ inline QDebug operator<<(QDebug debug, Data::DataStatus status) {
 		"SAVED",
 		"CREATED",
 		"DELETED",
-		"ERROR"
+		"DATA_ERROR"
 	};
 	if ((quint8)status < nbrStatus)
 		debug << txtStatus[ status ];

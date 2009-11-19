@@ -43,7 +43,7 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d)
 	quint8    status;
 	stream >> status;
 
-	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED && status != Data::ERROR)
+	if (status != Data::UPDATED && status != Data::SAVED && status != Data::CREATED && status != Data::DELETED && status != Data::DATA_ERROR)
 	{
 		//hack for forum, must decomment
 		qWarning() << tr("DataManagerClient received a status") << (Data::DataStatus)status << tr("which is not authorized.");
@@ -104,15 +104,22 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d)
 			data->save();
 		}
 	}
-	else if (status == Data::ERROR)
+	else if (status == Data::DATA_ERROR)
 	{
 		quint8 error;
 		stream >> error;
 		qWarning() << "Data: Error received:" << (Data::Error)error << data;
 		data->dataFromStream(stream);
-		data->_status = Data::UPTODATE;
+
 		emit data->error((Data::Error)error);
 		emit plugin->dataError(data, (Data::Error)error);
+
+		quint8 tmpStatus;
+		stream >> tmpStatus;
+		if (tmpStatus == Data::UPTODATE)
+		{
+			data->_status = Data::UPTODATE;
+		}
 		emit data->updated();
 		emit plugin->dataUpdated(data);
 	}
