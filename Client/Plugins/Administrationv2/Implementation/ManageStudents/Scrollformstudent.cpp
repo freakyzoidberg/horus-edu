@@ -1,8 +1,9 @@
 #include "Scrollformstudent.h"
 
-ScrollFormStudent::ScrollFormStudent(QList<UserData*> list)
+ScrollFormStudent::ScrollFormStudent(QList<UserData*> list, int idnode)
 {
     StudentForm = 0;
+    _nodeid = idnode;
     StudentForm = new FormStudents(list);
 
     this->setWidget(StudentForm);
@@ -12,9 +13,10 @@ ScrollFormStudent::ScrollFormStudent(QList<UserData*> list)
 
 }
 
-ScrollFormStudent::ScrollFormStudent(QList<UserData*> list, QList<UserData*> parentlist,UserData *d)
+ScrollFormStudent::ScrollFormStudent(QList<UserData*> list, QList<UserData*> parentlist,UserData *d, int idnode)
 {
     StudentForm = 0;
+    _nodeid = idnode;
     StudentForm = new FormStudents(list,parentlist, d);
 
     this->setWidget(StudentForm);

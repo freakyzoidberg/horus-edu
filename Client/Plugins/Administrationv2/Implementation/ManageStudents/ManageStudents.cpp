@@ -111,7 +111,7 @@ void ManageStudents::goadd()
             delete scrollStudentForm;
             scrollStudentForm = 0;
         }
-        scrollStudentForm = new ScrollFormStudent(getAllParents());
+    scrollStudentForm = new ScrollFormStudent(getAllParents(), StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt());
         MainLayout->insertWidget(0, scrollStudentForm);
         StudentList->setVisible(false);
 
@@ -139,24 +139,19 @@ void ManageStudents::goedit()
             scrollStudentForm = 0;
         }
 
-if (StudentList->StudentList->selectedItems().count() == 1)
-{
-
-    scrollStudentForm = new ScrollFormStudent(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
-
-        MainLayout->insertWidget(0, scrollStudentForm);
-
+    if ((StudentList->StudentList->selectedItems().count() == 1) &&  (StudentList->ClassList->selectedItems().count() > 0))
+    {
+    scrollStudentForm = new ScrollFormStudent(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()), StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt());
+    MainLayout->insertWidget(0, scrollStudentForm);
     StudentList->setVisible(false);
-
-	ok->setVisible(true);
+    ok->setVisible(true);
     save->setVisible(true);    
-	reset->setVisible(true);
+    reset->setVisible(true);
     back->setVisible(true);
     addstudent->setVisible(false);
     edit->setVisible(false);
     del->setVisible(false);
-
-}
+    }
 
 }
 
@@ -169,7 +164,8 @@ void ManageStudents::godel()
     {
         UserData* myuser = UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt());
         myuser->remove();
-        StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
+        if (StudentList->ClassList->selectedItems().count() > 0)
+            StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
         if (info)
         {
             delete info;
@@ -211,10 +207,6 @@ void ManageStudents::goback()
     {
     StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
    }
-
-
-
-
     if (StudentList->StudentList->selectedItems().count() > 0)
     {
 
@@ -235,19 +227,9 @@ void ManageStudents::gosave()
 
  if ((scrollStudentForm) &&  (scrollStudentForm->StudentForm))
     {
-
-
         if (!scrollStudentForm->StudentForm->BaseInfos->getName().isEmpty() &&
             !scrollStudentForm->StudentForm->BaseInfos->getSurName().isEmpty())
         {
-
-
-          //  qDebug() << StudentList->ClassList->selectedItems().first()->data(Qt::UserRole);
-
-//qDebug() << "id user" << StudentForm->id;
-
-//            UserData* newUSer;
-//            UserData* newPapa;
             if (scrollStudentForm->StudentForm->id == 0)
             {
                 newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
@@ -272,20 +254,10 @@ void ManageStudents::gosave()
             newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
             }
-
-//            if ((newUSer->status() != Data::UPTODATE))
-//            {
-//                   QMessageBox msgBox;
-//                   msgBox.setText(tr("Saving failed, please try later sur id :")+ QVariant(StudentForm->id).toString());
-//                   msgBox.exec();
-//                    return;
-//            }
-
-
             //Data
             newUSer->setName(scrollStudentForm->StudentForm->BaseInfos->getName());
             newUSer->setLevel(LEVEL_STUDENT);
-            newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+            newUSer->setStudentClass(TD->node(scrollStudentForm->getnodeid()));
             newUSer->setPassword(scrollStudentForm->StudentForm->BaseInfos->getSurName());
             //BasicInfos
             newUSer->setSurname(scrollStudentForm->StudentForm->BaseInfos->getSurName());
@@ -395,7 +367,9 @@ void ManageStudents::gook()
                 newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
                 newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                 connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
-                connect(newPapa, SIGNAL(created()), this, SLOT(userCreated(Data*)));
+
+                // tu ne peux pas linker un signal sans parametre a un slot avec parametre
+                //connect(newPapa, SIGNAL(created()), this, SLOT(userCreated(Data*)));
             }
             else
             {
