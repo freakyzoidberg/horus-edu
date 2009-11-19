@@ -18,8 +18,7 @@ FormStudents::FormStudents(QList<UserData*> list)
 
 
 
-   ParInfos = new EditParent();
-    FormLayout->addWidget(ParInfos);
+
 	//label = new QLabel(tr("Parent informations"), this);
 	//label->setProperty("isFormTitle", true);
 	//FormLayout->addWidget(label);
@@ -41,8 +40,8 @@ FormStudents::FormStudents(QList<UserData*> list)
     FormLayout->addWidget(SocInfos);
 
 
-	label = new QLabel(tr("Scholar informations"), this);
-	label->setProperty("isFormTitle", true);
+        //label = new QLabel(tr("Scholar informations"), this);
+//	label->setProperty("isFormTitle", true);
 	FormLayout->addWidget(label);
     SchoInfos = new SchoolInfos();
     FormLayout->addWidget(SchoInfos);
@@ -53,7 +52,8 @@ FormStudents::FormStudents(QList<UserData*> list)
     SuiInfos = new SuiviInfos();
     FormLayout->addWidget(SuiInfos);
 
-
+    ParInfos = new EditParent();
+     FormLayout->addWidget(ParInfos);
 
     this->setLayout(FormLayout);
 
@@ -78,9 +78,6 @@ FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,Us
 	FormLayout->addWidget(label);
     BaseInfos = new BasicInfos(d);
     FormLayout->addWidget(BaseInfos);
-
-    ParInfos = new EditParent(d);
-    FormLayout->addWidget(ParInfos);
 //    ParInfos = new ParentInfos(d);
 //    ParInfos->getParent()->addItem(tr("none"), 0);
 //    foreach (UserData* mud, list)
@@ -100,15 +97,17 @@ FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,Us
     FormLayout->addWidget(SocInfos);
 
 
-	label = new QLabel(tr("Scholar informations"), this);
-	label->setProperty("isFormTitle", true);
-	FormLayout->addWidget(label);
+        //label = new QLabel(tr("Scholar informations"), this);
+        //label->setProperty("isFormTitle", true);
+        //FormLayout->addWidget(label);
     SchoInfos = new SchoolInfos(d);
     FormLayout->addWidget(SchoInfos);
 
     SuiInfos = new SuiviInfos(d);
     FormLayout->addWidget(SuiInfos);
 
+    ParInfos = new EditParent(d);
+    FormLayout->addWidget(ParInfos);
 
     this->setLayout(FormLayout);
 }

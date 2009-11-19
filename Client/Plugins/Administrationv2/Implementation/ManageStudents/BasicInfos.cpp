@@ -9,6 +9,7 @@ BasicInfos::BasicInfos()
     BasicLayout->setSpacing(4);
     name = new QLineEdit(this);
     surname = new QLineEdit(this);
+    bplace = new QLineEdit(this);
     bday = new QDateEdit(this);
     bday->setDisplayFormat(tr("dd/MM/yy"));
 	bday->setDate(QDate::currentDate());
@@ -35,6 +36,12 @@ BasicInfos::BasicInfos()
     BasicLayout->addWidget(label, 2, 0);
     BasicLayout->addWidget(bday, 2, 1);
     //BasicLayout->addRow(tr("Date de naissance"), bday);
+
+
+    label = new QLabel(tr("lieu de naissance"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 2, 0);
+    BasicLayout->addWidget(bplace, 2, 1);
 
     label = new QLabel(tr("Address"));
     label->setProperty("isFormLabel", true);
@@ -64,7 +71,7 @@ QGridLayout *BasicLayout = new QGridLayout(this);
     bday->setDate(ud->birthDate());
     address = new QLineEdit(this);
     address->setText(ud->address());
-
+bplace = new QLineEdit(this);
 
 
 
@@ -94,6 +101,11 @@ QGridLayout *BasicLayout = new QGridLayout(this);
     BasicLayout->addWidget(label, 2, 0);
     BasicLayout->addWidget(bday, 2, 1);
     //BasicLayout->addRow(tr("Date de naissance"), bday);
+
+    label = new QLabel(tr("lieu de naissance"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 2, 0);
+    BasicLayout->addWidget(bplace, 2, 1);
 
     label = new QLabel(tr("Address"));
     label->setProperty("isFormLabel", true);
