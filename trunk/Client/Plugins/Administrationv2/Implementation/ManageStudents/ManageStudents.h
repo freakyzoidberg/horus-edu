@@ -46,6 +46,7 @@ QVBoxLayout *informationsLayout;
     TreeDataPlugin* TD;
     UserData* newUSer;
     UserData* newPapa;
+    UserData* newMomy;
 private slots:
     void goadd();
     void goedit();
