@@ -374,7 +374,10 @@ void ManageStudents::gook()
             else
             {
                 newUSer = UD->user(scrollStudentForm->StudentForm->id);
+                if (UD->parentsOfStudent(newUSer).count() > 0)
                 newPapa = UD->parentsOfStudent(newUSer)[0];
+                else
+                   newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
             }
 
 
@@ -403,6 +406,7 @@ void ManageStudents::gook()
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
 
             //Parent's Infos
+
             newPapa->setLevel(LEVEL_FAMILY);
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newPapa->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN());
@@ -411,6 +415,7 @@ void ManageStudents::gook()
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+
 //            _user->setEnable(true);
 //            _user->setName(lastNameField->text());
 //            _user->setSurname(firstNameField->text());
@@ -462,7 +467,7 @@ void ManageStudents::gook()
             addstudent->setVisible(true);
             save->setVisible(false);
             StudentList->setVisible(true);
-
+            if (StudentList->ClassList->selectedItems().count() > 0)
             StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
             addstudent->setVisible(true);
             ok->setVisible(false);
@@ -526,7 +531,7 @@ QList<UserData*> ManageStudents::getAllParents()
 
     foreach (UserData* user, UD->allUser())
     {
-        qDebug() <<user->id()<< " -----: " << user->level();
+
         if (user->level() == LEVEL_FAMILY)
         {
             mylist.append(user);
@@ -538,6 +543,7 @@ QList<UserData*> ManageStudents::getAllParents()
 
 void ManageStudents::refreshall()
 {
+    qDebug() << "Refresh all";
     edit->setEnabled(false);
     del->setEnabled(false);
     StudentList->updateall();
