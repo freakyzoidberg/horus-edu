@@ -355,7 +355,7 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
-	_password = QCryptographicHash::hash(_surname.toAscii(), QCryptographicHash::Sha1);
+//	_password = QCryptographicHash::hash(_surname.toAscii(), QCryptographicHash::Sha1);
 	query.addBindValue(_password.toHex());
 	query.addBindValue(_studentClass->id());
 	query.addBindValue(_lastLogin);
