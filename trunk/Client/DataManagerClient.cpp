@@ -117,8 +117,14 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d)
 		quint8 tmpStatus;
 		stream >> tmpStatus;
 		if (tmpStatus == Data::UPTODATE)
-		{
 			data->_status = Data::UPTODATE;
+
+		if (tmpStatus == Data::DELETED)
+		{
+			data->_status = Data::DELETED;
+			emit data->removed();
+			emit plugin->dataRemoved(data);
+			return;
 		}
 		emit data->updated();
 		emit plugin->dataUpdated(data);

@@ -91,6 +91,9 @@ public:
 	virtual quint8			repeatedYears() const = 0;
 	virtual void			setRepeatedYears(quint8) = 0;
 
+	virtual quint16			startYear() const = 0;
+	virtual void			setStartYear(quint16) = 0;
+
 	virtual quint16			leaveYear() const = 0;
 	virtual void			setLeaveYear(quint16) = 0;
 
@@ -99,6 +102,21 @@ public:
 
 	virtual const QString	comment() const = 0;
 	virtual void			setComment(const QString comment) = 0;
+
+	virtual const QString	bornPlace() const = 0;
+	virtual void			setBornPlace(const QString comment) = 0;
+
+	virtual quint8			nbrBrothers() const = 0;
+	virtual void			setNbrBrothers(quint8) = 0;
+
+	virtual const QString	socialInsuranceNbr() const = 0;
+	virtual void			setSocialInsuranceNbr(const QString comment) = 0;
+
+	virtual const QString	diploma() const = 0;
+	virtual void			setDiploma(const QString comment) = 0;
+
+	virtual const QString	contract() const = 0;
+	virtual void			setContract(const QString comment) = 0;
 
 
 #ifdef HORUS_SERVER
