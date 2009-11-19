@@ -197,19 +197,19 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 	connect(cancelButton, SIGNAL(clicked()), this, SLOT(exited()));
 	if (user)
 	{
-		firstNameField->setText(user->surname());
-		lastNameField->setText(user->name());
-		genderField->setCurrentIndex(genderField->findData(user->gender()));
-		birthDateField->setDate(user->birthDate());
-		birthPlaceField->setText(user->bornPlace());
-		addressField->document()->setPlainText(user->address());
-		mailField->setText(user->mail());
-		homePhoneField->setText(user->phone1());
-		workPhoneField->setText(user->phone2());
-		mobilePhoneField->setText(user->phone3());
-		socialInsuranceNbrField->setText(user->socialInsuranceNbr());
-		diplomaField->document()->setPlainText(user->diploma());
-		contractField->document()->setPlainText(user->contract());
+//		firstNameField->setText(user->surname());
+//		lastNameField->setText(user->name());
+//		genderField->setCurrentIndex(genderField->findData(user->gender()));
+//		birthDateField->setDate(user->birthDate());
+//		birthPlaceField->setText(user->bornPlace());
+//		addressField->document()->setPlainText(user->address());
+//		mailField->setText(user->mail());
+//		homePhoneField->setText(user->phone1());
+//		workPhoneField->setText(user->phone2());
+//		mobilePhoneField->setText(user->phone3());
+//		socialInsuranceNbrField->setText(user->socialInsuranceNbr());
+//		diplomaField->document()->setPlainText(user->diploma());
+//		contractField->document()->setPlainText(user->contract());
 	}
 }
 
@@ -225,21 +225,21 @@ void			EditTeacher::saved()
 		_user = _pluginManager->findPlugin<UserDataPlugin *>()->createUser(firstNameField->text() + lastNameField->text()); // TODO find unused login
 		_user->setPassword(_user->login());
 	}
-	_user->setEnable(true);
-	_user->setName(lastNameField->text());
-	_user->setSurname(firstNameField->text());
-	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
-	_user->setBirthDate(birthDateField->date());
-	_user->setBornPlace(birthPlaceField->text());
-	_user->setAddress(addressField->document()->toPlainText());
-	_user->setMail(mailField->text());
-	_user->setPhone1(homePhoneField->text());
-	_user->setPhone2(workPhoneField->text());
-	_user->setPhone3(mobilePhoneField->text());
-	_user->setLevel(LEVEL_TEACHER);
-	_user->setSocialInsuranceNbr(socialInsuranceNbrField->text());
-	_user->setDiploma(diplomaField->document()->toPlainText());
-	_user->setContract(contractField->document()->toPlainText());
+//	_user->setEnable(true);
+//	_user->setName(lastNameField->text());
+//	_user->setSurname(firstNameField->text());
+//	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
+//	_user->setBirthDate(birthDateField->date());
+//	_user->setBornPlace(birthPlaceField->text());
+//	_user->setAddress(addressField->document()->toPlainText());
+//	_user->setMail(mailField->text());
+//	_user->setPhone1(homePhoneField->text());
+//	_user->setPhone2(workPhoneField->text());
+//	_user->setPhone3(mobilePhoneField->text());
+//	_user->setLevel(LEVEL_TEACHER);
+//	_user->setSocialInsuranceNbr(socialInsuranceNbrField->text());
+//	_user->setDiploma(diplomaField->document()->toPlainText());
+//	_user->setContract(contractField->document()->toPlainText());
 	if (editing)
 		_user->save();
 	else
