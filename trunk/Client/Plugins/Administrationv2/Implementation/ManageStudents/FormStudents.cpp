@@ -121,6 +121,8 @@ FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,Us
         else
            ParInfos = new EditParent(0, parentlist[0]);
     }
+    else
+        ParInfos = new EditParent(0, 0);
 
     FormLayout->addWidget(ParInfos);
 
