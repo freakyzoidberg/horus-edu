@@ -268,6 +268,7 @@ void ManageStudents::gosave()
             newUSer->setLevel(LEVEL_STUDENT);
             newUSer->setStudentClass(TD->node(scrollStudentForm->getnodeid()));
             newUSer->setPassword(scrollStudentForm->StudentForm->BaseInfos->getSurName());
+            newUSer->setBornPlace(scrollStudentForm->StudentForm->BaseInfos->getBplace());
             //BasicInfos
             newUSer->setSurname(scrollStudentForm->StudentForm->BaseInfos->getSurName());
             newUSer->setAddress(scrollStudentForm->StudentForm->BaseInfos->getAddress());
@@ -417,7 +418,7 @@ void ManageStudents::gook()
             newUSer->setLevel(LEVEL_STUDENT);
             newUSer->setStudentClass(TD->node(scrollStudentForm->getnodeid()));
             newUSer->setPassword(scrollStudentForm->StudentForm->BaseInfos->getSurName());
-
+            newUSer->setBornPlace(scrollStudentForm->StudentForm->BaseInfos->getBplace());
             //BasicInfos
             newUSer->setSurname(scrollStudentForm->StudentForm->BaseInfos->getSurName());
             newUSer->setAddress(scrollStudentForm->StudentForm->BaseInfos->getAddress());
