@@ -30,4 +30,24 @@ private slots:
 	void				finish();
 };
 
+class FileTransfertQueue : public QObject
+{
+	Q_OBJECT
+
+public:
+	static FileTransfertQueue*		instance() { static FileTransfertQueue* queue = new FileTransfertQueue;	return queue; }
+	inline static const QList<FileTransfertClient*> list() { return instance()->_list; }
+	
+	inline void						append(FileTransfertClient* t) { _list.append(t); emit started(t); }
+	inline void						remove(FileTransfertClient* t) { _list.removeOne(t); }
+
+signals:
+	void							started(FileTransfert*);
+
+private:
+									FileTransfertQueue() {}
+									~FileTransfertQueue() {}
+	QList<FileTransfertClient*>		_list;
+};
+
 #endif // FILETRANSFERTCLIENT_H

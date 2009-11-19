@@ -10,8 +10,6 @@ FileTransfert::FileTransfert(FileData* file, TransfertType type)
 	_file = 0;
 	_hash = 0;
 	_progress = 0;
-
-	FileTransfertList::list().append(this);
 }
 
  void FileTransfert::socketToFile()

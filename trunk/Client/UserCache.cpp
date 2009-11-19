@@ -42,8 +42,8 @@ void UserCache::load()
 				quint8 status;
 				streamPlugin >> status;
 				Data* data = plugins.value(type)->dataWithKey(streamPlugin);
-				data->dataFromStream(streamPlugin);
 				data->_status = Data::CACHED;
+				data->dataFromStream(streamPlugin);
 				if (status != Data::UPTODATE && data->status() != Data::CACHED)
 					data->setStatus(status);
 			}

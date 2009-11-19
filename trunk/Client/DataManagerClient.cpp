@@ -88,7 +88,7 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d) const
 	{
 		quint8 error;
 		stream >> error;
-		qDebug() << "error data received:" << (Data::Error)error;
+		qDebug() << "Data: Error received:" << (Data::Error)error << data;
 		emit data->error((Data::Error)error);
 		emit plugin->dataError(data, (Data::Error)error);
 	}

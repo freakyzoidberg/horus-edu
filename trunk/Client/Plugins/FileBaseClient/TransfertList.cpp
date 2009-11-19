@@ -30,12 +30,10 @@ TransfertList::TransfertList()
 {
 	(new QVBoxLayout(this))->addStretch(1);
 
-        foreach (FileTransfert* transfert, (QHash<FileData*,FileTransfert*>&)FileTransfertList::list())
-	{
+	foreach (FileTransfert* transfert, FileTransfertQueue::list())
 		newTransfert(transfert);
-	}
 
-	connect(&FileTransfertList::list(), SIGNAL(started(FileTransfert*)),  this, SLOT(newTransfert(FileTransfert*)));
+	connect(FileTransfertQueue::instance(), SIGNAL(started(FileTransfert*)),  this, SLOT(newTransfert(FileTransfert*)));
 }
 
 void TransfertList::newTransfert(FileTransfert* transfert)
