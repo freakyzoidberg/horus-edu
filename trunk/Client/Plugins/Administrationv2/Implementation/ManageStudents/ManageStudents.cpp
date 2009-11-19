@@ -141,16 +141,16 @@ void ManageStudents::goedit()
 
     if ((StudentList->StudentList->selectedItems().count() == 1) &&  (StudentList->ClassList->selectedItems().count() > 0))
     {
-    scrollStudentForm = new ScrollFormStudent(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()), StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt());
-    MainLayout->insertWidget(0, scrollStudentForm);
-    StudentList->setVisible(false);
-    ok->setVisible(true);
-    save->setVisible(true);    
-    reset->setVisible(true);
-    back->setVisible(true);
-    addstudent->setVisible(false);
-    edit->setVisible(false);
-    del->setVisible(false);
+        scrollStudentForm = new ScrollFormStudent(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()), StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt());
+        MainLayout->insertWidget(0, scrollStudentForm);
+        StudentList->setVisible(false);
+        ok->setVisible(true);
+        save->setVisible(true);
+        reset->setVisible(true);
+        back->setVisible(true);
+        addstudent->setVisible(false);
+        edit->setVisible(false);
+        del->setVisible(false);
     }
 
 }
@@ -244,23 +244,41 @@ void ManageStudents::gosave()
                 newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
                 if (UD->parentsOfStudent(newUSer).count() > 0)
-				{
+                {
                 	newPapa = UD->parentsOfStudent(newUSer)[0];
-                	newMomy = UD->parentsOfStudent(newUSer)[1];
-}                
-	else
+                        if (UD->parentsOfStudent(newUSer).count() > 1)
+                            newMomy = UD->parentsOfStudent(newUSer)[1];
+                        else if (newPapa->gender() == GENDER_FEMALE)
+                        {
+                            newMomy = UD->parentsOfStudent(newUSer)[0];
+                            newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
+                            connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
+                        }
+                        else
+                        {
+                            newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
+                            connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                        }
+
+                }
+                else
+                {
                    newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
+                   newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
+                   connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
+                   connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                }
                 if ((newUSer->status() != Data::UPTODATE) &&
                     (newUSer->status() != Data::UPDATED) &&
                     (newUSer->status() != Data::SAVED) &&
                     (newUSer->status() != Data::CREATED) )
-                {
+                    {
                        QMessageBox msgBox;
                        msgBox.setText(tr("Saving failed, please try later sur id :")+ QVariant(StudentForm->id).toString());
                        msgBox.exec();
                        return;
-                }
-            newUSer = UD->user(scrollStudentForm->StudentForm->id);
+                    }
+                newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
             }
             //Data
@@ -298,6 +316,7 @@ void ManageStudents::gosave()
             newPapa->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
             newPapa->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField());
             newPapa->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC());
+            newPapa->setGender(GENDER_MALE);
             newPapa->setLevel(LEVEL_FAMILY);
 
             newMomy->setEnable(true);
@@ -310,6 +329,7 @@ void ManageStudents::gosave()
             newMomy->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
             newMomy->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField2());
             newMomy->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC2());
+            newMomy->setGender(GENDER_FEMALE);
             newMomy->setLevel(LEVEL_FAMILY);
 
 
@@ -331,7 +351,11 @@ void ManageStudents::gosave()
                 scrollStudentForm->StudentForm->id = newUSer->id();
             }
             else
+            {
                 newUSer->save();
+                newPapa->save();
+                newMomy->save();
+            }
 //***ParInfo
 //            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
 //            if (uparent != 0)
@@ -407,11 +431,29 @@ void ManageStudents::gook()
                 newUSer = UD->user(scrollStudentForm->StudentForm->id);
                 if (UD->parentsOfStudent(newUSer).count() > 0)
                 {
-                	newPapa = UD->parentsOfStudent(newUSer)[0];
-                	newMomy = UD->parentsOfStudent(newUSer)[1];
+                        newPapa = UD->parentsOfStudent(newUSer)[0];
+                        if (UD->parentsOfStudent(newUSer).count() > 1)
+                            newMomy = UD->parentsOfStudent(newUSer)[1];
+                        else if (newPapa->gender() == GENDER_FEMALE)
+                        {
+                            newMomy = UD->parentsOfStudent(newUSer)[0];
+                            newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
+                            connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
+                        }
+                        else
+                        {
+                            newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
+                            connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                        }
+
                 }
                 else
+                {
                    newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
+                   newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
+                   connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
+                   connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                }
             }
 
             //Data
@@ -450,6 +492,7 @@ void ManageStudents::gook()
             newPapa->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
             newPapa->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField());
             newPapa->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC());
+            newPapa->setGender(GENDER_MALE);
             newPapa->setLevel(LEVEL_FAMILY);
 
 
@@ -464,6 +507,7 @@ void ManageStudents::gook()
             newMomy->setPhone3(scrollStudentForm->StudentForm->ParInfos->getmobileP());
             newMomy->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField2());
             newMomy->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC2());
+            newMomy->setGender(GENDER_FEMALE);
             newMomy->setLevel(LEVEL_FAMILY);
 
 
@@ -479,7 +523,11 @@ void ManageStudents::gook()
             if (scrollStudentForm->StudentForm->id == 0)
                 newUSer->create();
             else
+            {
                 newUSer->save();
+                newPapa->save();
+                newMomy->save();
+            }
 
 //***ParInfo
 //            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
@@ -523,10 +571,16 @@ void ManageStudents::gook()
 void ManageStudents::userCreated()
 {
     disconnect(this, SLOT(userCreated()));
-    newPapa->setStudent(newUSer);
-    newPapa->save();
-    newMomy->setStudent(newUSer);
-    newMomy->save();
+    if (newPapa->student() == UD->nobody())
+    {
+        newPapa->setStudent(newUSer);
+        newPapa->save();
+    }
+    if (newMomy->student() == UD->nobody())
+    {
+        newMomy->setStudent(newUSer);
+        newMomy->save();
+    }
     QMessageBox msgBox;
     msgBox.setText(tr("L'utilisateur a bien ete crée"));
     msgBox.exec();
