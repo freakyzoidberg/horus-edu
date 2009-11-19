@@ -15,6 +15,8 @@ BasicInfos::BasicInfos()
 
     bplace = new QLineEdit(this);
     address = new QLineEdit(this);
+    email = new QLineEdit(this);
+    brosis = new QSpinBox(this);
     bday->setDisplayFormat(tr("dd/MM/yy"));
         bday->setDate(QDate::currentDate());
     bday->setCalendarPopup(true);
@@ -23,33 +25,44 @@ BasicInfos::BasicInfos()
     label = new QLabel(tr("Last name"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 0, 0);
-    BasicLayout->addWidget(name, 0, 1);
+    BasicLayout->addWidget(name, 0, 1,1,3);
 
     //BasicLayout->addRow(tr("Nom"), name);
 
     label = new QLabel(tr("First name"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 1, 0);
-    BasicLayout->addWidget(surname, 1, 1);
+    BasicLayout->addWidget(surname, 1, 1,1,3);
     //BasicLayout->addRow(tr("Prenom"), surname);
 
     label = new QLabel(tr("Birthday"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 2, 0);
-    BasicLayout->addWidget(bday, 2, 1);
+    BasicLayout->addWidget(bday, 2, 1,1,3);
     //BasicLayout->addRow(tr("Date de naissance"), bday);
 
 
     label = new QLabel(tr("lieu de naissance"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 2, 0);
-    BasicLayout->addWidget(bplace, 2, 1);
+    BasicLayout->addWidget(bplace, 2, 1,1,3);
 
     label = new QLabel(tr("Address"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 3, 0);
-    BasicLayout->addWidget(address, 3, 1);
+    BasicLayout->addWidget(address, 3, 1,1,3);
     //BasicLayout->addRow(tr("Adresse"), address);
+
+    label = new QLabel(tr("Email"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 4, 0);
+    BasicLayout->addWidget(email, 4, 1);
+
+    label = new QLabel(tr("Brother/Sister"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 4, 2);
+    BasicLayout->addWidget(brosis, 4, 3);
+
 
     BasicLayout->setColumnMinimumWidth(0,150);
     this->setLayout(BasicLayout);
@@ -63,20 +76,22 @@ QGridLayout *BasicLayout = new QGridLayout(this);
     BasicLayout->setMargin(8);
     BasicLayout->setSpacing(4);
     name = new QLineEdit(this);
-    name->setText(ud->name());
     surname = new QLineEdit(this);
-    surname->setText(ud->surname());
     bday = new QDateEdit(this);
     bday->setDisplayFormat(tr("dd/MM/yy"));
     bday->setCalendarPopup(true);
-	bday->setDate(QDate::currentDate());
-    bday->setDate(ud->birthDate());
     bplace = new QLineEdit(this);
     address = new QLineEdit(this);
+    email = new QLineEdit(this);
+    brosis = new QSpinBox(this);
+
+    name->setText(ud->name());
+    surname->setText(ud->surname());
     address->setText(ud->address());
-
-
-
+    bday->setDate(ud->birthDate());
+    bplace->setText(ud->bornPlace());
+    email->setText(ud->mail());
+    brosis->setValue(ud->nbrBrothers());
 
 
 
@@ -88,35 +103,43 @@ QGridLayout *BasicLayout = new QGridLayout(this);
     label = new QLabel(tr("Last name"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 0, 0);
-    BasicLayout->addWidget(name, 0, 1);
+    BasicLayout->addWidget(name, 0, 1,1,3);
 
     //BasicLayout->addRow(tr("Nom"), name);
 
     label = new QLabel(tr("First name"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 1, 0);
-    BasicLayout->addWidget(surname, 1, 1);
+    BasicLayout->addWidget(surname, 1, 1,1,3);
     //BasicLayout->addRow(tr("Prenom"), surname);
 
 
     label = new QLabel(tr("Birthday"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 2, 0);
-    BasicLayout->addWidget(bday, 2, 1);
+    BasicLayout->addWidget(bday, 2, 1,1,3);
     //BasicLayout->addRow(tr("Date de naissance"), bday);
 
     label = new QLabel(tr("lieu de naissance"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 2, 0);
-    BasicLayout->addWidget(bplace, 2, 1);
+    BasicLayout->addWidget(bplace, 2, 1,1,3);
 
     label = new QLabel(tr("Address"));
     label->setProperty("isFormLabel", true);
     BasicLayout->addWidget(label, 3, 0);
-    BasicLayout->addWidget(address, 3, 1);
+    BasicLayout->addWidget(address, 3, 1,1,3);
     //BasicLayout->addRow(tr("Adresse"), address);
 
+    label = new QLabel(tr("Email"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 4, 0);
+    BasicLayout->addWidget(email, 4, 1);
 
+    label = new QLabel(tr("Brother/Sister"));
+    label->setProperty("isFormLabel", true);
+    BasicLayout->addWidget(label, 4, 2);
+    BasicLayout->addWidget(brosis, 4, 3);
   BasicLayout->setColumnMinimumWidth(0,150);
 
     this->setLayout(BasicLayout);
