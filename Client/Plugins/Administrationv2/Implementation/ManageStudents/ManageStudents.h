@@ -44,6 +44,8 @@ QVBoxLayout *informationsLayout;
     InfoPanel *info;
     UserDataPlugin* UD;
     TreeDataPlugin* TD;
+    UserData* newUSer;
+    UserData* newPapa;
 private slots:
     void goadd();
     void goedit();
@@ -54,7 +56,7 @@ private slots:
     void godel();
     void seteditfalse();
     void setedittrue();
-    void checkCreated(Data *user);
+    void userCreated(Data *user);
     void refreshall();
 };
 
