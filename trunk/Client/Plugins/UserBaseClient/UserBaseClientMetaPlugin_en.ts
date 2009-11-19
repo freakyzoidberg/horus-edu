@@ -9,4 +9,14 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
+<context>
+    <name>UserDataBasePlugin</name>
+    <message>
+        <location filename="../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.cpp" line="21"/>
+        <location filename="../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.cpp" line="22"/>
+        <location filename="../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.cpp" line="23"/>
+        <source>Nobody</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
 </TS>

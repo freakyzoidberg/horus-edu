@@ -77,3 +77,5 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/Infopanel.h \
     Implementation/ManageStudents/Scrollformstudent.h
 RESOURCES += Implementation/Icons.qrc
+TRANSLATIONS = Administrationv2_en.ts \
+    Administrationv2_fr.ts

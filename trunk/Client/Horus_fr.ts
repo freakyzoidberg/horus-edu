@@ -4,48 +4,46 @@
 <context>
     <name>CommSocket</name>
     <message>
-        <location filename="../Common/CommSocket.cpp" line="20"/>
         <source>error</source>
-        <translation>Erreur</translation>
+        <translation type="obsolete">Erreur</translation>
     </message>
     <message>
-        <location filename="../Common/CommSocket.cpp" line="25"/>
         <source>sslError</source>
-        <translation>Erreur SSL</translation>
+        <translation type="obsolete">Erreur SSL</translation>
     </message>
 </context>
 <context>
     <name>DataManagerClient</name>
     <message>
-        <location filename="DataManagerClient.cpp" line="25"/>
-        <location filename="DataManagerClient.cpp" line="64"/>
+        <location filename="DataManagerClient.cpp" line="31"/>
+        <location filename="DataManagerClient.cpp" line="144"/>
         <source>Data</source>
         <translation>La donnée</translation>
     </message>
     <message>
-        <location filename="DataManagerClient.cpp" line="25"/>
+        <location filename="DataManagerClient.cpp" line="31"/>
         <source>try to chage status from</source>
         <translation>essaye de changer son status de</translation>
     </message>
     <message>
-        <location filename="DataManagerClient.cpp" line="25"/>
+        <location filename="DataManagerClient.cpp" line="31"/>
         <source>to</source>
         <translation>à</translation>
     </message>
     <message>
-        <location filename="DataManagerClient.cpp" line="25"/>
-        <location filename="DataManagerClient.cpp" line="41"/>
-        <location filename="DataManagerClient.cpp" line="64"/>
+        <location filename="DataManagerClient.cpp" line="31"/>
+        <location filename="DataManagerClient.cpp" line="49"/>
+        <location filename="DataManagerClient.cpp" line="144"/>
         <source>which is not authorized.</source>
         <translation>ce qui n&apos;est pas permis.</translation>
     </message>
     <message>
-        <location filename="DataManagerClient.cpp" line="41"/>
+        <location filename="DataManagerClient.cpp" line="49"/>
         <source>DataManagerClient received a status</source>
         <translation>DataManagerClient a reçu un status</translation>
     </message>
     <message>
-        <location filename="DataManagerClient.cpp" line="64"/>
+        <location filename="DataManagerClient.cpp" line="144"/>
         <source>try to be send with status</source>
         <translation>essaye d&apos;être envoyée avec le status</translation>
     </message>
@@ -89,392 +87,435 @@
 <context>
     <name>Form</name>
     <message>
-        <location filename="Ui/LoginDialog.ui" line="14"/>
         <source>Fenetre de connexion</source>
-        <translation>Horus - Connexion</translation>
+        <translation type="obsolete">Horus - Connexion</translation>
     </message>
     <message>
-        <location filename="Ui/LoginDialog.ui" line="32"/>
         <source>Connect</source>
-        <translation>Connexion</translation>
+        <translation type="obsolete">Connexion</translation>
     </message>
     <message>
-        <location filename="Ui/LoginDialog.ui" line="68"/>
         <source>Login:</source>
-        <translation>Nom d&apos;utilisateur:</translation>
+        <translation type="obsolete">Nom d&apos;utilisateur:</translation>
     </message>
     <message>
-        <location filename="Ui/LoginDialog.ui" line="81"/>
         <source>Password:</source>
-        <translation>Mot de passe:</translation>
+        <translation type="obsolete">Mot de passe:</translation>
     </message>
 </context>
 <context>
     <name>LocalSettings</name>
     <message>
-        <location filename="LocalSettings.cpp" line="25"/>
+        <location filename="LocalSettings.cpp" line="28"/>
         <source>ConfigManager: Creating Lessons User Directory.</source>
         <translation>ConfigManager: Création du dossier utilisateur des lessons.</translation>
     </message>
     <message>
-        <location filename="LocalSettings.cpp" line="27"/>
-        <location filename="LocalSettings.cpp" line="41"/>
-        <location filename="LocalSettings.cpp" line="57"/>
-        <location filename="LocalSettings.cpp" line="71"/>
+        <location filename="LocalSettings.cpp" line="30"/>
+        <location filename="LocalSettings.cpp" line="44"/>
+        <location filename="LocalSettings.cpp" line="60"/>
+        <location filename="LocalSettings.cpp" line="74"/>
         <source>ConfigManager: Unable to create directory (not the rights ?).</source>
         <translation>ConfigManager: Impossible de créer le dossier (pas les droits ?).</translation>
     </message>
     <message>
-        <location filename="LocalSettings.cpp" line="39"/>
+        <location filename="LocalSettings.cpp" line="42"/>
         <source>ConfigManager: Creating Translations User Directory.</source>
         <translation>ConfigManager: Création du dossier utilisateur des traductions.</translation>
     </message>
     <message>
-        <location filename="LocalSettings.cpp" line="55"/>
+        <location filename="LocalSettings.cpp" line="58"/>
         <source>ConfigManager: Creating Plugins User Directory.</source>
         <translation>ConfigManager: Création du dossier utilisateur des modules.</translation>
     </message>
     <message>
-        <location filename="LocalSettings.cpp" line="69"/>
+        <location filename="LocalSettings.cpp" line="72"/>
         <source>ConfigManager: Creating Plugins System Directory.</source>
         <translation>ConfigManager: Création du dossier système des modules.</translation>
     </message>
 </context>
 <context>
+    <name>LoginDialogItem</name>
+    <message>
+        <location filename="LoginDialogItem.cpp" line="36"/>
+        <source>Session:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="LoginDialogItem.cpp" line="40"/>
+        <source>Expired</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="LoginDialogItem.cpp" line="51"/>
+        <source>Sign in with a new user</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="LoginDialogItem.cpp" line="88"/>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="LoginDialogItem.cpp" line="89"/>
+        <source>Password</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="MainWindow.cpp" line="30"/>
+        <location filename="MainWindow.cpp" line="29"/>
         <source>E&amp;xit</source>
         <translation>&amp;Quitter</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="31"/>
+        <location filename="MainWindow.cpp" line="30"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="32"/>
+        <location filename="MainWindow.cpp" line="31"/>
         <source>Exit the application</source>
         <translation>Quitte l&apos;application</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="35"/>
         <source>&amp;Settings</source>
-        <translation>&amp;Paramètres</translation>
+        <translation type="obsolete">&amp;Paramètres</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="36"/>
+        <location filename="MainWindow.cpp" line="34"/>
+        <source>Se&amp;ttings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="35"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="37"/>
+        <location filename="MainWindow.cpp" line="36"/>
         <source>Edit settings of Horus</source>
         <translation>Editer les paramètres</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="43"/>
+        <location filename="MainWindow.cpp" line="39"/>
+        <source>Log &amp;Out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="40"/>
+        <source>Ctrl+D</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="41"/>
+        <source>Destroy the session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="47"/>
         <source>&amp;File</source>
         <translation>&amp;Fichier</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="44"/>
+        <location filename="MainWindow.cpp" line="48"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editer</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="48"/>
+        <location filename="MainWindow.cpp" line="52"/>
         <source>New...</source>
         <translation>Nouveau...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="49"/>
+        <location filename="MainWindow.cpp" line="53"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="51"/>
+        <location filename="MainWindow.cpp" line="55"/>
         <source>Load...</source>
         <translation>Charger...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="52"/>
+        <location filename="MainWindow.cpp" line="56"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="54"/>
+        <location filename="MainWindow.cpp" line="58"/>
         <source>Save</source>
         <translation>Sauvegarder</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="56"/>
+        <location filename="MainWindow.cpp" line="60"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="57"/>
+        <location filename="MainWindow.cpp" line="61"/>
         <source>Save As...</source>
         <translation>Sauvegarder Sous...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="59"/>
+        <location filename="MainWindow.cpp" line="63"/>
         <source>Save All</source>
         <translation>Tout Sauvegarder</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="64"/>
+        <location filename="MainWindow.cpp" line="68"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="65"/>
+        <location filename="MainWindow.cpp" line="69"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="67"/>
+        <location filename="MainWindow.cpp" line="71"/>
         <source>Close All</source>
         <translation>Tout Fermer</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="72"/>
+        <location filename="MainWindow.cpp" line="76"/>
         <source>Page Setup...</source>
         <translation>Mise en Page...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="73"/>
+        <location filename="MainWindow.cpp" line="77"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="75"/>
+        <location filename="MainWindow.cpp" line="79"/>
         <source>Print...</source>
         <translation>Imprimer...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="76"/>
+        <location filename="MainWindow.cpp" line="80"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="78"/>
+        <location filename="MainWindow.cpp" line="82"/>
         <source>Print Preview...</source>
         <translation>Aperçu Avant Impression...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="83"/>
+        <location filename="MainWindow.cpp" line="87"/>
         <source>Undo</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="84"/>
+        <location filename="MainWindow.cpp" line="88"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="86"/>
+        <location filename="MainWindow.cpp" line="90"/>
         <source>Redo</source>
         <translation>Refaire</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="87"/>
+        <location filename="MainWindow.cpp" line="91"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="92"/>
+        <location filename="MainWindow.cpp" line="96"/>
         <source>Cut</source>
         <translation>Couper</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="93"/>
+        <location filename="MainWindow.cpp" line="97"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="95"/>
+        <location filename="MainWindow.cpp" line="99"/>
         <source>Copy</source>
         <translation>Copier</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="96"/>
+        <location filename="MainWindow.cpp" line="100"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="98"/>
+        <location filename="MainWindow.cpp" line="102"/>
         <source>Paste</source>
         <translation>Coller</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="99"/>
+        <location filename="MainWindow.cpp" line="103"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="101"/>
+        <location filename="MainWindow.cpp" line="105"/>
         <source>Delete</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="106"/>
+        <location filename="MainWindow.cpp" line="110"/>
         <source>Select All</source>
         <translation>Tout Selectionner</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="107"/>
+        <location filename="MainWindow.cpp" line="111"/>
         <source>Ctrl+A</source>
         <translation>Ctrl+A</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="112"/>
+        <location filename="MainWindow.cpp" line="116"/>
         <source>Replace...</source>
         <translation>Remplacer...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="113"/>
+        <location filename="MainWindow.cpp" line="117"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="118"/>
+        <location filename="MainWindow.cpp" line="122"/>
         <source>&amp;View</source>
         <translation>&amp;Vue</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="119"/>
+        <location filename="MainWindow.cpp" line="123"/>
         <source>Main Board</source>
         <translation>Panneau Principal</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="120"/>
+        <location filename="MainWindow.cpp" line="124"/>
         <source>Alt+H</source>
         <translation>Alt+H</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="122"/>
+        <location filename="MainWindow.cpp" line="126"/>
         <source>Course</source>
         <translation>Cours</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="123"/>
+        <location filename="MainWindow.cpp" line="127"/>
         <source>Alt+C</source>
         <translation>Alt+C</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="125"/>
+        <location filename="MainWindow.cpp" line="129"/>
         <source>Marks</source>
         <translation>Notes</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="126"/>
+        <location filename="MainWindow.cpp" line="130"/>
         <source>Alt+M</source>
         <translation>Alt+M</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="128"/>
+        <location filename="MainWindow.cpp" line="132"/>
         <source>Calendar</source>
         <translation>Calendrier</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="129"/>
+        <location filename="MainWindow.cpp" line="133"/>
         <source>Alt+L</source>
         <translation>Alt+L</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="131"/>
+        <location filename="MainWindow.cpp" line="135"/>
         <source>Administration</source>
         <translation>Administration</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="132"/>
+        <location filename="MainWindow.cpp" line="136"/>
         <source>Alt+A</source>
         <translation>Alt+A</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="134"/>
+        <location filename="MainWindow.cpp" line="138"/>
         <source>&amp;Tools</source>
         <translation>Ou&amp;tils</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="135"/>
+        <location filename="MainWindow.cpp" line="139"/>
         <source>Editor</source>
         <translation>Editeur</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="137"/>
+        <location filename="MainWindow.cpp" line="141"/>
         <source>Remote</source>
         <translatorcomment>gnéé ??</translatorcomment>
         <translation>Télécommande</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="142"/>
+        <location filename="MainWindow.cpp" line="146"/>
         <source>Debugger</source>
         <translation>Debogueur</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="143"/>
+        <location filename="MainWindow.cpp" line="147"/>
         <source>Ctrl+G</source>
         <translation>Ctrl+G</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="145"/>
+        <location filename="MainWindow.cpp" line="149"/>
         <source>Console</source>
         <translation>Console</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="147"/>
+        <location filename="MainWindow.cpp" line="151"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="148"/>
+        <location filename="MainWindow.cpp" line="152"/>
         <source>Search</source>
         <translation>Chercher</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="149"/>
+        <location filename="MainWindow.cpp" line="153"/>
         <source>Ctrl+F1</source>
         <translation>Ctrl+F1</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="151"/>
+        <location filename="MainWindow.cpp" line="155"/>
         <source>Content</source>
         <translation>Contenu</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="152"/>
+        <location filename="MainWindow.cpp" line="156"/>
         <source>Ctrl+F2</source>
         <translation>Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="154"/>
+        <location filename="MainWindow.cpp" line="158"/>
         <source>Index</source>
         <translation>Index</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="155"/>
+        <location filename="MainWindow.cpp" line="159"/>
         <source>Ctrl+F3</source>
         <translation>Ctrl+F3</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="160"/>
+        <location filename="MainWindow.cpp" line="164"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="161"/>
+        <location filename="MainWindow.cpp" line="165"/>
         <source>Ctrl+?</source>
         <translation>Ctrl+?</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="163"/>
+        <location filename="MainWindow.cpp" line="167"/>
         <source>Report Bug</source>
         <translation>Rapporter un Bogue</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="168"/>
+        <location filename="MainWindow.cpp" line="172"/>
         <source>About</source>
         <translation>A Propos</translation>
     </message>
@@ -487,115 +528,138 @@
 <context>
     <name>NetworkManager</name>
     <message>
-        <location filename="NetworkManager.cpp" line="32"/>
+        <location filename="NetworkManager.cpp" line="60"/>
         <source>Server&apos;s hostname or port unspecified, please review your settings.</source>
         <translation>Le nom du serveur ou le port n&apos;est pas spécifié, merci de revoir vos paramètres.</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="58"/>
+        <location filename="NetworkManager.cpp" line="155"/>
+        <source>NetworkManager::recvLogin seconds between client and server:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="NetworkManager.cpp" line="199"/>
+        <source>NetworkManager::recvPlugin() cannot find</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="NetworkManager.cpp" line="199"/>
+        <source>plugin.</source>
+        <translation type="unfinished">module.</translation>
+    </message>
+    <message>
         <source>NetworkManager::event: Received User Event not managed ! (Event.type=</source>
-        <translation>NetworkManager::event: Reçu un évenement utilisateur non géré ! (Event.type=</translation>
+        <translation type="obsolete">NetworkManager::event: Reçu un évenement utilisateur non géré ! (Event.type=</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="58"/>
         <source>)</source>
-        <translation>)</translation>
+        <translation type="obsolete">)</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="66"/>
         <source>Disconnected from server</source>
-        <translation>Déconnecté du serveur</translation>
+        <translation type="obsolete">Déconnecté du serveur</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="74"/>
         <source>Horus is unable to connect to server (Server closed the connexion), please review your settings and certificates.</source>
-        <translation>Horus n&apos;arrive pas à se connecter au serveur (Le serveur a coupé la connexion), merci de revoir vos paramètres et certificats.</translation>
+        <translation type="obsolete">Horus n&apos;arrive pas à se connecter au serveur (Le serveur a coupé la connexion), merci de revoir vos paramètres et certificats.</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="77"/>
         <source>Horus is unable to connect to server (Server&apos;s hostname not found), please review your settings.</source>
-        <translation>Horus n&apos;arrive pas à se connecter au serveur (Le serveur n&apos;a pas été trouvé), merci de revoir vos paramètres.</translation>
+        <translation type="obsolete">Horus n&apos;arrive pas à se connecter au serveur (Le serveur n&apos;a pas été trouvé), merci de revoir vos paramètres.</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="80"/>
         <source>Horus is unable to connect to server (Server refused the connexion), please review your settings and make sure that the server is running.</source>
-        <translation>Horus n&apos;arrive pas à se connecter au serveur (Le serveur a refusé la connexion), merci de revoir vos paramètres et assurez vous que le serveur fonctionne.</translation>
+        <translation type="obsolete">Horus n&apos;arrive pas à se connecter au serveur (Le serveur a refusé la connexion), merci de revoir vos paramètres et assurez vous que le serveur fonctionne.</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="83"/>
         <source>Horus is unable to connect to server (</source>
-        <translation>Horus n&apos;arrive pas à se connecter au serveur (</translation>
+        <translation type="obsolete">Horus n&apos;arrive pas à se connecter au serveur (</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="83"/>
         <source>), please review your settings.</source>
-        <translation>), merci de revoir vos paramètres.</translation>
+        <translation type="obsolete">), merci de revoir vos paramètres.</translation>
     </message>
     <message>
-        <location filename="NetworkManager.cpp" line="96"/>
         <source>Please enter your username and password.</source>
-        <translation>Merci d&apos;entrer votre nom d&apos;utilisateur et votre mot de passe.</translation>
+        <translation type="obsolete">Merci d&apos;entrer votre nom d&apos;utilisateur et votre mot de passe.</translation>
+    </message>
+</context>
+<context>
+    <name>Notification</name>
+    <message>
+        <location filename="Notification.cpp" line="62"/>
+        <location filename="Notification.cpp" line="75"/>
+        <location filename="Notification.cpp" line="88"/>
+        <location filename="Notification.cpp" line="103"/>
+        <location filename="Notification.cpp" line="116"/>
+        <source>Horus</source>
+        <translation type="unfinished">Horus</translation>
+    </message>
+    <message>
+        <location filename="Notification.cpp" line="63"/>
+        <source>A non critical error occured:</source>
+        <translation type="unfinished">Une erreur non critique s&apos;est produite:</translation>
+    </message>
+    <message>
+        <location filename="Notification.cpp" line="76"/>
+        <source>A critical error occured:</source>
+        <translation type="unfinished">Une erreur critique s&apos;est produite:</translation>
+    </message>
+    <message>
+        <location filename="Notification.cpp" line="89"/>
+        <source>A fatal error occured:</source>
+        <translation type="unfinished">Une erreur fatale s&apos;est produite:</translation>
+    </message>
+    <message>
+        <location filename="Notification.cpp" line="91"/>
+        <source>This critical error is fatal and unrecoverable. You can put your computer in the trash and buy a new one.</source>
+        <translation type="unfinished">Cette erreur est fatale et non récupérable. Vous pouvez jeter votre ordinateur dans la poubelle et en acheter un nouveau.</translation>
     </message>
 </context>
 <context>
     <name>NotificationClient</name>
     <message>
-        <location filename="NotificationClient.cpp" line="118"/>
-        <location filename="NotificationClient.cpp" line="131"/>
-        <location filename="NotificationClient.cpp" line="144"/>
-        <location filename="NotificationClient.cpp" line="159"/>
-        <location filename="NotificationClient.cpp" line="172"/>
         <source>Horus</source>
-        <translation>Horus</translation>
+        <translation type="obsolete">Horus</translation>
     </message>
     <message>
-        <location filename="NotificationClient.cpp" line="119"/>
         <source>A non critical error occured:</source>
-        <translation>Une erreur non critique s&apos;est produite:</translation>
+        <translation type="obsolete">Une erreur non critique s&apos;est produite:</translation>
     </message>
     <message>
-        <location filename="NotificationClient.cpp" line="132"/>
         <source>A critical error occured:</source>
-        <translation>Une erreur critique s&apos;est produite:</translation>
+        <translation type="obsolete">Une erreur critique s&apos;est produite:</translation>
     </message>
     <message>
-        <location filename="NotificationClient.cpp" line="145"/>
         <source>A fatal error occured:</source>
-        <translation>Une erreur fatale s&apos;est produite:</translation>
+        <translation type="obsolete">Une erreur fatale s&apos;est produite:</translation>
     </message>
     <message>
-        <location filename="NotificationClient.cpp" line="147"/>
         <source>This critical error is fatal and unrecoverable. You can put your computer in the trash and buy a new one.</source>
-        <translation>Cette erreur est fatale et non récupérable. Vous pouvez jeter votre ordinateur dans la poubelle et en acheter un nouveau.</translation>
+        <translation type="obsolete">Cette erreur est fatale et non récupérable. Vous pouvez jeter votre ordinateur dans la poubelle et en acheter un nouveau.</translation>
     </message>
 </context>
 <context>
     <name>PacketManager</name>
     <message>
-        <location filename="PacketManager.cpp" line="100"/>
         <source>PacketManager::PacketLogin seconds between client and server:</source>
-        <translation>PacketManager::PacketLogin secondes entre le client et le serveur:</translation>
+        <translation type="obsolete">PacketManager::PacketLogin secondes entre le client et le serveur:</translation>
     </message>
     <message>
-        <location filename="PacketManager.cpp" line="101"/>
         <source>PacketManager::PacketLogin end of session:</source>
-        <translation>PacketManager::PacketLogin fin de la session:</translation>
+        <translation type="obsolete">PacketManager::PacketLogin fin de la session:</translation>
     </message>
     <message>
-        <location filename="PacketManager.cpp" line="135"/>
         <source>PacketManager::PacketData() cannot find</source>
-        <translation>PacketManager::PacketData() n&apos;arrive pas a trouver</translation>
+        <translation type="obsolete">PacketManager::PacketData() n&apos;arrive pas a trouver</translation>
     </message>
     <message>
-        <location filename="PacketManager.cpp" line="135"/>
-        <location filename="PacketManager.cpp" line="145"/>
         <source>plugin.</source>
-        <translation>module.</translation>
+        <translation type="obsolete">module.</translation>
     </message>
     <message>
-        <location filename="PacketManager.cpp" line="145"/>
         <source>PacketManager::PacketPlugin() cannot find</source>
-        <translation>PacketManager::PacketPlugin() n&apos;arrive pas a trouver</translation>
+        <translation type="obsolete">PacketManager::PacketPlugin() n&apos;arrive pas a trouver</translation>
     </message>
 </context>
 <context>
@@ -609,37 +673,39 @@
 <context>
     <name>PluginManagerClient</name>
     <message>
-        <location filename="PluginManagerClient.cpp" line="49"/>
+        <location filename="PluginManagerClient.cpp" line="43"/>
         <source>No Plugin paths available.</source>
         <translation>Aucun dossier de modules disponible.</translation>
     </message>
     <message>
-        <location filename="PluginManagerClient.cpp" line="53"/>
+        <location filename="PluginManagerClient.cpp" line="45"/>
         <source>User plugin path doesn&apos;t exist, please review your settings.</source>
         <translation>Le dossier utilisateur des modules n&apos;existe pas, merci de revoir vos paramètres.</translation>
     </message>
     <message>
-        <location filename="PluginManagerClient.cpp" line="55"/>
+        <location filename="PluginManagerClient.cpp" line="47"/>
         <source>System plugin path doesn&apos;t exist, please review your settings.</source>
         <translation>Le dossier système des modules n&apos;existe pas, merci de revoir vos paramètres.</translation>
+    </message>
+    <message>
+        <location filename="PluginManagerClient.cpp" line="116"/>
+        <source>Horus Client cannot launch. You need at least a User Data Plugin and a TreeDataPlugin</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="ManagerFactory.cpp" line="15"/>
         <source>ManagerFactory::getManager: Manager </source>
-        <translation>ManagerFactory::getManager: Le gestionnaire </translation>
+        <translation type="obsolete">ManagerFactory::getManager: Le gestionnaire </translation>
     </message>
     <message>
-        <location filename="ManagerFactory.cpp" line="15"/>
         <source> not found.</source>
-        <translation> n&apos;a pas été trouvé.</translation>
+        <translation type="obsolete"> n&apos;a pas été trouvé.</translation>
     </message>
     <message>
-        <location filename="../Common/CommData.cpp" line="39"/>
         <source>lenght:</source>
-        <translation>longueur:</translation>
+        <translation type="obsolete">longueur:</translation>
     </message>
     <message>
         <location filename="../Common/CommError.cpp" line="9"/>
@@ -725,27 +791,26 @@
 <context>
     <name>SettingsDialog</name>
     <message>
-        <location filename="SettingsDialog.cpp" line="87"/>
+        <location filename="SettingsDialog.cpp" line="82"/>
         <source>General</source>
         <translation>Général</translation>
     </message>
     <message>
-        <location filename="SettingsDialog.cpp" line="88"/>
         <source>Session</source>
-        <translation>Session</translation>
+        <translation type="obsolete">Session</translation>
     </message>
     <message>
-        <location filename="SettingsDialog.cpp" line="104"/>
+        <location filename="SettingsDialog.cpp" line="96"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="SettingsDialog.cpp" line="110"/>
+        <location filename="SettingsDialog.cpp" line="102"/>
         <source>Port</source>
         <translation>Port</translation>
     </message>
     <message>
-        <location filename="SettingsDialog.cpp" line="116"/>
+        <location filename="SettingsDialog.cpp" line="108"/>
         <source>PortTransfert</source>
         <translation>Port de transfert</translation>
     </message>
@@ -753,9 +818,8 @@
 <context>
     <name>Window</name>
     <message>
-        <location filename="Ui/Loader.ui" line="35"/>
         <source>Horus - Loading</source>
-        <translation>Horus - Chargement</translation>
+        <translation type="obsolete">Horus - Chargement</translation>
     </message>
 </context>
 <context>
