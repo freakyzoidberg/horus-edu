@@ -150,6 +150,7 @@ void Settings::FirstSetSettings()
     line = streami.readLine();
     this->Gsettings->setValue("MAIL_LOGIN", (line == "" ? "n":line));
     this->Gsettings->endGroup();
+    this->Gsettings->sync();
     }
     else
        qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings->fileName();
