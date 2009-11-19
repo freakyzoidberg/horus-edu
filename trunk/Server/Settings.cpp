@@ -12,12 +12,14 @@ Settings::Settings()
 
 void Settings::CheckSettings()
 {
-    if (GetSettings("Version", "SETTINGS").toInt() != 6)
-    {
-            qFatal("Server Configuration not found, try running with     --gen-config");
-        }
-    else
-        qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings->fileName() << "and will use it :)";
+	if (GetSettings("Version", "SETTINGS").toInt() != 6)
+		qFatal("Server Configuration not found, try running with     --gen-config");
+	else
+		qDebug() << "Settings::Settings() Config Found in " <<  this->Gsettings->fileName() << "and will use it :)";
+
+	if ( ! QFile::exists(GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("/ssl/Horus.crt")) ||
+		 ! QFile::exists(GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("/ssl/Horus.key")))
+		qFatal("Ssl certificates not found, please review your config: $SoftFullPath/ssl/Horus[.crt|.key]");
 }
 
 void Settings::FirstSetSettings()
