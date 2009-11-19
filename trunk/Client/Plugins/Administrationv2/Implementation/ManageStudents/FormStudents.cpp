@@ -106,7 +106,8 @@ FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,Us
     SuiInfos = new SuiviInfos(d);
     FormLayout->addWidget(SuiInfos);
 
-    ParInfos = new EditParent(d);
+
+    ParInfos = new EditParent(parentlist[0], parentlist[1]);
     FormLayout->addWidget(ParInfos);
 
     this->setLayout(FormLayout);

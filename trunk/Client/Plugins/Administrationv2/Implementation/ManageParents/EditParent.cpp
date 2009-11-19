@@ -10,38 +10,6 @@
 EditParent::EditParent(UserData *father, UserData *mother)
 {
 	setupUi();
-	//rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-	//rightLayout->setMargin(0);
-	//rightLayout->setSpacing(2);
-	//informationsFrame = new QFrame(this);
-	//informationsLayout = new QBoxLayout(QBoxLayout::TopToBottom, informationsFrame);
-	//informationsLayout->setSpacing(0);
-	//informationsLayout->setMargin(0);
-	//informationsFrame->setMinimumWidth(200);
-	//informationsTitle = new QLabel(tr("Informations:"), informationsFrame);
-	//informationsTitle->setProperty("isTitle", true);
-	//informationsTitle->setProperty("isRound", true);
-	//informationsLayout->addWidget(informationsTitle);
-	//rightLayout->addWidget(informationsFrame);
-	//actionsTitle = new QLabel(tr("Actions:"), this);
-	//actionsTitle->setProperty("isTitle", true);
-	//actionsTitle->setProperty("isRound", true);
-	//rightLayout->addWidget(actionsTitle);
-	//okButton = new QPushButton(QIcon(":/Icons/ok.png"), tr("OK"), this);
-	//rightLayout->addWidget(okButton);
-	//applyButton = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"), this);
-	//rightLayout->addWidget(applyButton);
-	//resetButton = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"), this);
-	//rightLayout->addWidget(resetButton);
-	//cancelButton = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"), this);
-	//rightLayout->addWidget(cancelButton);
-	//rightLayout->addWidget(new QWidget(this), 1);
-	//mainLayout->addLayout(rightLayout);
-	//connect(okButton, SIGNAL(clicked()), this, SLOT(saved()));
-	//connect(okButton, SIGNAL(clicked()), this, SLOT(exited()));
-	//connect(applyButton, SIGNAL(clicked()), this, SLOT(saved()));
-	//connect(resetButton, SIGNAL(clicked()), this, SLOT(reseted()));
-	//connect(cancelButton, SIGNAL(clicked()), this, SLOT(exited()));
 	if (father && mother)
 	{
 		firstNameFatherField->setText(father->surname());

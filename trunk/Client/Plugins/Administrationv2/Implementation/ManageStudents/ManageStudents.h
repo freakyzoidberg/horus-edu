@@ -57,7 +57,7 @@ private slots:
     void godel();
     void seteditfalse();
     void setedittrue();
-    void userCreated(Data *user);
+    void userCreated();
     void refreshall();
 };
 
