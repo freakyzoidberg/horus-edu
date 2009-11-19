@@ -4,6 +4,7 @@
 #include "../../NetworkPlugin.h"
 
 class FileDataBasePlugin;
+class FileTransfertServer;
 class FileNetworkPlugin : public NetworkPlugin
 {
   Q_OBJECT
@@ -22,6 +23,7 @@ public slots:
 
 public:
     inline FileNetworkPlugin(FileDataBasePlugin* dataPlugin) { _dataPlugin = dataPlugin; }
+	void	transfertCanStart(FileTransfertServer* transfert);
 private:
     FileDataBasePlugin* _dataPlugin;
 };

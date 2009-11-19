@@ -21,6 +21,7 @@ public:
 	enum TransfertType { DOWNLOAD, UPLOAD };
 	inline FileData*	file() const { return _fileData; }
 	inline const QByteArray& key() const { return _key; }
+	inline TransfertType type() const { return _type; }
 	//! return the progress value (for a down/up-load)
 	inline int			progress() const { return _progress; }
 
@@ -50,23 +51,6 @@ signals:
 protected slots:
     void socketToFile();
     void fileToSocket(qint64);
-};
-
-class FileTransfertList : public QObject, public QHash<FileData*,FileTransfert*>
-{
-	Q_OBJECT
-
-public:
-	inline static FileTransfertList& list() { static FileTransfertList _list; return _list; }
-        inline void						append(FileTransfert* t) { if (contains(t->file())) return; QHash<FileData*,FileTransfert*>::insert(t->file(), t); emit started(t); }
-        inline void						remove(FileTransfert* t) { QHash<FileData*,FileTransfert*>::remove(t->file()); }
-
-signals:
-	void							started(FileTransfert*);
-
-private:
-									FileTransfertList() {}
-									~FileTransfertList() {}
 };
 
 #endif // FILETRANSFERT_H

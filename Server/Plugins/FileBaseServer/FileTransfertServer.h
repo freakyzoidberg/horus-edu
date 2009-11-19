@@ -3,23 +3,36 @@
 
 #include "../../../Common/DataImplementations/FileDataBase/FileTransfert.h"
 
+class UserData;
+class FileNetworkPlugin;
 class FileTransfertServer : public FileTransfert
 {
   Q_OBJECT
 public:
-	FileTransfertServer(FileData* file, TransfertType type);
+	FileTransfertServer(FileData* file, UserData* user, TransfertType type, FileNetworkPlugin* plugin);
 	~FileTransfertServer();
-    void clientConnected(QSslSocket* socket);
+	inline UserData*					user() const { return _user; }
 
 private:
-    QTimer*             _timer;
+	QTimer*								_timer;
+	UserData*							_user;
+	FileNetworkPlugin*					_networkPlugin;
 
 private slots:
-    void init();
-	void finish();
+	void								init();
+private:
+	void								start(QSslSocket* socket);
+	void								checkQueue();
 
+
+	//STATIC: QUEUE MANAGEMENT
 public:
-    static void registerSocket(const QByteArray& key, QSslSocket* socket);
+	static void							registerSocket(const QByteArray& key, QSslSocket* socket);
+
+private:
+	static QList<FileTransfertServer*>	_transferts;
+	static QList<FileTransfertServer*>	_queue;
+	static QByteArray					generateUniqueKey();
 };
 
 #endif // FILETRANSFERTSERVER_H

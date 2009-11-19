@@ -19,7 +19,12 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 {
     _id = fileId;
 #ifdef HORUS_CLIENT
-    _isDownloaded = false;
+	QFile* f = file();
+	if (f->size() == _size)
+		_isDownloaded = true;
+	else
+		_isDownloaded = false;
+	delete f;
 	_name = "Empty";
 	_hash = "";
 	_mimeType = "";
@@ -62,8 +67,8 @@ void FileDataBase::dataFromStream(QDataStream& s)
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
 #ifdef HORUS_CLIENT
 	//auto download
-    if (hash.isEmpty() || _hash.isEmpty() || hash != _hash)
-        download();
+	if (_status != CACHED && ( ! _isDownloaded || hash != _hash))
+		download();
 #endif
     _hash = hash;
 }

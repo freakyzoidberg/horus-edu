@@ -16,6 +16,7 @@ FileTransfertClient::FileTransfertClient(FileData* file, TransfertType type, con
 	_isFinished = false;
 	_speedTimer.setInterval(1000);
 	_speedTimer.start();
+	FileTransfertQueue::instance()->append(this);
 	connect(&_speedTimer, SIGNAL(timeout()), this, SLOT(calcSpeed()));
 	connectToServer();
 	connect(_socket, SIGNAL(disconnected()), this, SLOT(finish()), Qt::QueuedConnection);
@@ -77,9 +78,10 @@ void FileTransfertClient::finish()
 	else
 		_speed = 0;
 
+	((FileDataBase*)(_fileData))->_isDownloaded = true;
 
-	emit finished();
 	_isFinished = true;
+	emit finished();
 
 //	if (_socket)
 //		_socket->deleteLater();;

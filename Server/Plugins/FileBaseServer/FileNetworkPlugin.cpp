@@ -10,23 +10,24 @@ void FileNetworkPlugin::receivePacket(UserData* user, const PluginPacket packet)
         return;
 
 	FileData* file = _dataPlugin->pluginManager->findPlugin<FileDataBasePlugin*>()->file( packet.data.toUInt() );
-    QVariantHash data;
-    data["file"] = file->id();
+	if ( ! file)
+		return;
 
-    FileTransfert::TransfertType type;
-    QString response;
-    if (packet.request == "askForDownload")
-    {
-        type = FileTransfert::DOWNLOAD;
-        response = "downloadAuthorized";
-    }
-    else
-    {
-        type = FileTransfert::UPLOAD;
-        response = "uploadAuthorized";
-    }
+	if (packet.request == "askForDownload")
+		new FileTransfertServer(file, user, FileTransfert::DOWNLOAD, this);
+	else
+		new FileTransfertServer(file, user, FileTransfert::UPLOAD, this);
 
-	data["key"] = (new FileTransfertServer(file, type))->key();
+}
 
-    emit sendPacket(user, PluginPacket(packet.sourcePlugin, response, data));
+void FileNetworkPlugin::transfertCanStart(FileTransfertServer* transfert)
+{
+	QVariantHash data;
+	data["file"] = transfert->file()->id();
+	data["key"] = transfert->key();
+
+	if (transfert->type() == FileTransfert::DOWNLOAD)
+		emit sendPacket(transfert->user(), PluginPacket("File Network Plugin", "downloadAuthorized", data));
+	else
+		emit sendPacket(transfert->user(), PluginPacket("File Network Plugin", "uploadAuthorized"  , data));
 }
