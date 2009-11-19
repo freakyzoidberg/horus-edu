@@ -439,6 +439,7 @@ void ManageStudents::gook()
 	    
             newPapa->setEnable(true);
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+            newPapa->setName(scrollStudentForm->StudentForm->ParInfos->getlastN());
             newPapa->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN());
             newPapa->setRelationship(scrollStudentForm->StudentForm->ParInfos->getrela());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
@@ -453,6 +454,7 @@ void ManageStudents::gook()
 
             newMomy->setEnable(true);
             newMomy->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN2());
+            newMomy->setName(scrollStudentForm->StudentForm->ParInfos->getlastN2());
             newMomy->setRelationship(scrollStudentForm->StudentForm->ParInfos->getrela());
             newMomy->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newMomy->setMail(scrollStudentForm->StudentForm->ParInfos->getmail());
@@ -519,7 +521,7 @@ void ManageStudents::gook()
 
 void ManageStudents::userCreated()
 {
-    disconnect(this, SLOT(userCreated(Data*)));
+    disconnect(this, SLOT(userCreated()));
     newPapa->setStudent(newUSer);
     newPapa->save();
     newMomy->setStudent(newUSer);
