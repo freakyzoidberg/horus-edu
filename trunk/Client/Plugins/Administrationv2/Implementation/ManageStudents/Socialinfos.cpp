@@ -47,7 +47,7 @@ SocialInfos::SocialInfos(UserData *d)
 
 
     QStringList tmp = d->comment().split("|:/:|:/|");
-    if (tmp.count() >= 3)
+    if (tmp.count() >= 2)
     {
     referent->setText(tmp.at(0));
     aides->setText(tmp.at(1));
