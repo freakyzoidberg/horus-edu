@@ -6,7 +6,7 @@ TARGET = Administrationv2
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/Administration.cpp \
-	Implementation/ManageParents/ManageParents.cpp \
+    Implementation/ManageParents/ManageParents.cpp \
     Implementation/ManageParents/ListParents.cpp \
     Implementation/ManageParents/DisplayParent.cpp \
     Implementation/ManageParents/EditParent.cpp \
@@ -33,7 +33,8 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageStudents/Schoolinfos.cpp \
     Implementation/ManageStudents/Suiviinfos.cpp \
     Implementation/ManageStudents/Parentinfos.cpp \
-    Implementation/ManageStudents/Infopanel.cpp
+    Implementation/ManageStudents/Infopanel.cpp \
+    Implementation/ManageStudents/Scrollformstudent.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -73,5 +74,6 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/Schoolinfos.h \
     Implementation/ManageStudents/Suiviinfos.h \
     Implementation/ManageStudents/Parentinfos.h \
-    Implementation/ManageStudents/Infopanel.h
+    Implementation/ManageStudents/Infopanel.h \
+    Implementation/ManageStudents/Scrollformstudent.h
 RESOURCES += Implementation/Icons.qrc

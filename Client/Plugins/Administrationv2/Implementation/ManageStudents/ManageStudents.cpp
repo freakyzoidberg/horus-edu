@@ -23,7 +23,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
     refresh = new QPushButton(QIcon(":/Icons/refresh.png"),tr("Refresh"));
-    StudentForm = 0;
+    //StudentForm = 0;
+    scrollStudentForm = 0;
 
     connect(addstudent, SIGNAL(clicked()), this, SLOT(goadd()));
     connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
@@ -99,20 +100,13 @@ void ManageStudents::goadd()
 
     if (StudentList->ClassList->selectedItems().count() == 1)
     {
-    if (StudentForm)
+    if (scrollStudentForm)
         {
-            delete StudentForm;
-            delete scrollArea;
-            StudentForm = 0;
+            delete scrollStudentForm;
+            scrollStudentForm = 0;
         }
-        StudentForm = new FormStudents(getAllParents());
-        scrollArea = new QScrollArea;
-        scrollArea->setWidget(StudentForm);
-        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        scrollArea->setWidgetResizable(true);
-        MainLayout->insertWidget(0, scrollArea);
-
+        scrollStudentForm = new ScrollFormStudent(getAllParents());
+        MainLayout->insertWidget(0, scrollStudentForm);
         StudentList->setVisible(false);
 
 
@@ -133,21 +127,19 @@ void ManageStudents::goadd()
 void ManageStudents::goedit()
 {
 
-if (StudentForm)
-    {
-        delete StudentForm;
-        delete scrollArea;
-        StudentForm = 0;
-    }
+    if (scrollStudentForm)
+        {
+            delete scrollStudentForm;
+            scrollStudentForm = 0;
+        }
+
 if (StudentList->StudentList->selectedItems().count() == 1)
 {
-    StudentForm = new FormStudents(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
-        scrollArea = new QScrollArea;
-        scrollArea->setWidget(StudentForm);
-        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-        scrollArea->setWidgetResizable(true);
-        MainLayout->insertWidget(0, scrollArea);
+
+    scrollStudentForm = new ScrollFormStudent(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
+
+        MainLayout->insertWidget(0, scrollStudentForm);
+
     StudentList->setVisible(false);
 
 	ok->setVisible(true);
@@ -188,16 +180,19 @@ info = 0;
 
 void ManageStudents::goback()
 {
-    if (StudentForm)
-    {
-        delete StudentForm;
-        delete scrollArea;
-        StudentForm = 0;
-        StudentList->setVisible(true);
 
-        addstudent->setVisible(true);
-        save->setVisible(false);
-    }
+    if (scrollStudentForm)
+        {
+            delete scrollStudentForm;
+            scrollStudentForm = 0;
+            StudentList->setVisible(true);
+
+            addstudent->setVisible(true);
+            save->setVisible(false);
+        }
+
+
+
     addstudent->setVisible(true);
 	ok->setVisible(false);
     save->setVisible(false);
@@ -230,11 +225,13 @@ void ManageStudents::goback()
 
 void ManageStudents::gosave()
 {
-    if (StudentForm)
+
+ if ((scrollStudentForm) &&  (scrollStudentForm->StudentForm))
     {
 
-        if (!StudentForm->BaseInfos->getName().isEmpty() &&
-            !StudentForm->BaseInfos->getSurName().isEmpty())
+
+        if (!scrollStudentForm->StudentForm->BaseInfos->getName().isEmpty() &&
+            !scrollStudentForm->StudentForm->BaseInfos->getSurName().isEmpty())
         {
 
 
@@ -243,44 +240,48 @@ void ManageStudents::gosave()
 //qDebug() << "id user" << StudentForm->id;
 
             UserData* newUSer;
-            if (StudentForm->id == 0)
-            newUSer = UD->createUser(StudentForm->BaseInfos->getName());
+            if (scrollStudentForm->StudentForm->id == 0)
+            {
+
+            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
+
+            }
             else
             {
-            newUSer = UD->user(StudentForm->id);
-            if ((newUSer->status() != Data::UPTODATE) &&
-                (newUSer->status() != Data::UPDATED) &&
-                (newUSer->status() != Data::SAVED) &&
-                (newUSer->status() != Data::CREATED) )
+
+            newUSer = UD->user(scrollStudentForm->StudentForm->id);
+
+            }
+
+            if ((newUSer->status() != Data::UPTODATE))
             {
                    QMessageBox msgBox;
                    msgBox.setText(tr("Saving failed, please try later sur id :")+ QVariant(StudentForm->id).toString());
                    msgBox.exec();
-                   return;
+                    return;
+            }
 
-            }
-            }
 
             //Data
-            newUSer->setName(StudentForm->BaseInfos->getName());
+            newUSer->setName(scrollStudentForm->StudentForm->BaseInfos->getName());
             newUSer->setLevel(LEVEL_STUDENT);
             newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
-            newUSer->setPassword(StudentForm->BaseInfos->getSurName());
+            newUSer->setPassword(scrollStudentForm->StudentForm->BaseInfos->getSurName());
             //BasicInfos
-            newUSer->setSurname(StudentForm->BaseInfos->getSurName());
-            newUSer->setAddress(StudentForm->BaseInfos->getAddress());
-            newUSer->setBirthDate(StudentForm->BaseInfos->getBday());
+            newUSer->setSurname(scrollStudentForm->StudentForm->BaseInfos->getSurName());
+            newUSer->setAddress(scrollStudentForm->StudentForm->BaseInfos->getAddress());
+            newUSer->setBirthDate(scrollStudentForm->StudentForm->BaseInfos->getBday());
 
 
             //Social Infos
-            newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
+            newUSer->setSubscriptionReason(scrollStudentForm->StudentForm->SocInfos->getMotif());
 
             // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
-            newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison()+"|:/:|:/|");
+            newUSer->setComment(scrollStudentForm->StudentForm->SocInfos->getReferent()+"|:/:|:/|"+scrollStudentForm->StudentForm->SocInfos->getAides()+"|:/:|:/|");
 
             newUSer->setMail("test debug");
             //Scholar infos
-            newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
+            newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
 
             //Parent
             //newUSer->setRelationship(QVariant(x).toString());
@@ -290,20 +291,21 @@ void ManageStudents::gosave()
 
 
 
-            newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
-            newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
+            newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
+            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
                 //ClasseNextYear
 
 
             newUSer->setEnable(true);
-            if (StudentForm->id == 0)
+
+            if (scrollStudentForm->StudentForm->id == 0)
             {
                 newUSer->create();
-                StudentForm->id = newUSer->id();
+                scrollStudentForm->StudentForm->id = newUSer->id();
             }
             else
                 newUSer->save();
-
+                sleep(1);
 //***ParInfo
 //            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
 //            if (uparent != 0)
@@ -312,15 +314,17 @@ void ManageStudents::gosave()
 //                uparent->save();
 //            }
 
+/* On detruis pas sur le apply
+            if (scrollStudentForm)
+                {
+                    delete scrollStudentForm;
+                    scrollStudentForm = 0;
+                }
 
-            if (StudentForm)
-            {
-               delete StudentForm;
-               StudentForm = 0;
-            }
-            StudentForm = new FormStudents(getAllParents());
-            MainLayout->insertWidget(0, StudentForm);
 
+            scrollStudentForm = new ScrollFormStudent(getAllParents());
+            MainLayout->insertWidget(0, scrollStudentForm);
+*/
    //         edit->setVisible(true);
    //         addstudent->setVisible(true);
    //         save->setVisible(false);
@@ -349,11 +353,11 @@ void ManageStudents::goreset()
 }
 void ManageStudents::gook()
 {
-    if (StudentForm)
+    if ((scrollStudentForm) &&  (scrollStudentForm->StudentForm))
     {
 
-        if (!StudentForm->BaseInfos->getName().isEmpty() &&
-            !StudentForm->BaseInfos->getSurName().isEmpty())
+        if (!scrollStudentForm->StudentForm->BaseInfos->getName().isEmpty() &&
+            !scrollStudentForm->StudentForm->BaseInfos->getSurName().isEmpty())
         {
 
 
@@ -362,32 +366,32 @@ void ManageStudents::gook()
 //qDebug() << "id user" << StudentForm->id;
 
             UserData* newUSer;
-            if (StudentForm->id == 0)
-            newUSer = UD->createUser(StudentForm->BaseInfos->getName());
+            if (scrollStudentForm->StudentForm->id == 0)
+            newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
             else
-            newUSer = UD->user(StudentForm->id);
+            newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
 
             //Data
-            newUSer->setName(StudentForm->BaseInfos->getName());
+            newUSer->setName(scrollStudentForm->StudentForm->BaseInfos->getName());
             newUSer->setLevel(LEVEL_STUDENT);
             newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
-            newUSer->setPassword(StudentForm->BaseInfos->getSurName());
+            newUSer->setPassword(scrollStudentForm->StudentForm->BaseInfos->getSurName());
             //BasicInfos
-            newUSer->setSurname(StudentForm->BaseInfos->getSurName());
-            newUSer->setAddress(StudentForm->BaseInfos->getAddress());
-            newUSer->setBirthDate(StudentForm->BaseInfos->getBday());
+            newUSer->setSurname(scrollStudentForm->StudentForm->BaseInfos->getSurName());
+            newUSer->setAddress(scrollStudentForm->StudentForm->BaseInfos->getAddress());
+            newUSer->setBirthDate(scrollStudentForm->StudentForm->BaseInfos->getBday());
 
 
             //Social Infos
-            newUSer->setSubscriptionReason(StudentForm->SocInfos->getMotif());
+            newUSer->setSubscriptionReason(scrollStudentForm->StudentForm->SocInfos->getMotif());
 
             // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
-            newUSer->setComment(StudentForm->SocInfos->getReferent()+"|:/:|:/|"+StudentForm->SocInfos->getAides()+"|:/:|:/|"+StudentForm->SchoInfos->getRaison()+"|:/:|:/|");
+            newUSer->setComment(scrollStudentForm->StudentForm->SocInfos->getReferent()+"|:/:|:/|"+scrollStudentForm->StudentForm->SocInfos->getAides()+"|:/:|:/|");
 
             newUSer->setMail("test debug");
             //Scholar infos
-            newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
+            newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
 
             //Parent's Infos
 
@@ -400,14 +404,14 @@ void ManageStudents::gook()
 
 
 
-            newUSer->setFollowUp(StudentForm->SuiInfos->getSuivi());
-            newUSer->setLeaveYear(StudentForm->SuiInfos->getLeftYear());
+            newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
+            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
                 //ClasseNextYear
 
 
    // connect(UD, dataUpdated(newUSer), StudentList->updatestudents(StudentList->ClassList->selectedItems().first()));
             newUSer->setEnable(true);
-            if (StudentForm->id == 0)
+            if (scrollStudentForm->StudentForm->id == 0)
                 newUSer->create();
             else
                 newUSer->save();
@@ -424,8 +428,8 @@ void ManageStudents::gook()
 //            }
 
 
-            delete StudentForm;
-            StudentForm = 0;
+            delete scrollStudentForm;
+            scrollStudentForm = 0;
             edit->setVisible(true);
             addstudent->setVisible(true);
             save->setVisible(false);

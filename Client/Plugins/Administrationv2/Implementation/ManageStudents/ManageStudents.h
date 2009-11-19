@@ -8,6 +8,7 @@
 #include "FormStudents.h"
 #include "ListSelection.h"
 #include "Infopanel.h"
+#include "Scrollformstudent.h"
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
 #include "../../../../../Common/DataPlugin.h"
@@ -38,6 +39,7 @@ QFrame *informationsFrame;
 QVBoxLayout *informationsLayout;
     QList<UserData*> getAllParents();
     FormStudents *StudentForm;
+    ScrollFormStudent *scrollStudentForm;
     ListSelection *StudentList;
     InfoPanel *info;
     UserDataPlugin* UD;

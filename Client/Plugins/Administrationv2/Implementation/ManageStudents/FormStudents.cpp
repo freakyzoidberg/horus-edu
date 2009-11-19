@@ -4,6 +4,7 @@
 
 FormStudents::FormStudents(QList<UserData*> list)
 {
+
     QVBoxLayout *FormLayout = new QVBoxLayout(this);
     QLabel	*label;
     FormLayout->setSpacing(0);
@@ -52,7 +53,13 @@ FormStudents::FormStudents(QList<UserData*> list)
     SuiInfos = new SuiviInfos();
     FormLayout->addWidget(SuiInfos);
 
+
+
+    this->setLayout(FormLayout);
+
     id = 0;
+
+
 }
 
 FormStudents::FormStudents(QList<UserData*> list, QList<UserData*> parentlist,UserData *d)
