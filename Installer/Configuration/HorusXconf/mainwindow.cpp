@@ -12,11 +12,12 @@
 #include <QSizePolicy>
 #include <Qt>
 #include <QProgressBar>
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
     ui->setupUi(this);
-
+	this->Gsettings = new QSettings(QSettings::SystemScope, ORGANIZATION_NAME, SERVER_NAME);
         checkboxes = new QWidget;
 
         //area = new QScrollArea(0);
@@ -334,36 +335,36 @@ else if (ui->sqldriver->currentText() == "PostgreSQL")
 else
     driver = "QMYSQL";
 
-    if (this->Gsettings.status() == 0)
+    if (this->Gsettings->status() == 0)
     {
-    this->Gsettings.clear();
-    this->Gsettings.beginGroup("SQL");
-    this->Gsettings.setValue("SQL_DRIVER", (driver));
-    this->Gsettings.setValue("SQL_HOSTNAME", (host));
-    this->Gsettings.setValue("SQL_DBNAME", (dbname));
-    this->Gsettings.setValue("SQL_USERNAME", (login));
-    this->Gsettings.setValue("SQL_PASSWD", (pass));
-    this->Gsettings.setValue("SQL_PORT", (port));
-    this->Gsettings.endGroup();
-    this->Gsettings.beginGroup("SERVER");
-    this->Gsettings.setValue("SRV_PORT", (servport));
-    this->Gsettings.setValue("SRV_FILE_TRANSFERT_PORT", (servfileport));
-    this->Gsettings.endGroup();
-    this->Gsettings.beginGroup("SETTINGS");
-    this->Gsettings.setValue("Version", "6");
-    this->Gsettings.setValue("PluginsBase", ( path+"/Plugins/"));
-    this->Gsettings.setValue("SoftFullPath", (path+"/"));
-    this->Gsettings.setValue("FilesDirectory",servfilepath);
-    this->Gsettings.endGroup();
-    this->Gsettings.beginGroup("PLUGINS");;
-    qDebug() << this->Gsettings.fileName();
+    this->Gsettings->clear();
+    this->Gsettings->beginGroup("SQL");
+    this->Gsettings->setValue("SQL_DRIVER", (driver));
+    this->Gsettings->setValue("SQL_HOSTNAME", (host));
+    this->Gsettings->setValue("SQL_DBNAME", (dbname));
+    this->Gsettings->setValue("SQL_USERNAME", (login));
+    this->Gsettings->setValue("SQL_PASSWD", (pass));
+    this->Gsettings->setValue("SQL_PORT", (port));
+    this->Gsettings->endGroup();
+    this->Gsettings->beginGroup("SERVER");
+    this->Gsettings->setValue("SRV_PORT", (servport));
+    this->Gsettings->setValue("SRV_FILE_TRANSFERT_PORT", (servfileport));
+    this->Gsettings->endGroup();
+    this->Gsettings->beginGroup("SETTINGS");
+    this->Gsettings->setValue("Version", "6");
+    this->Gsettings->setValue("PluginsBase", ( path+"/Plugins/"));
+    this->Gsettings->setValue("SoftFullPath", (path+"/"));
+    this->Gsettings->setValue("FilesDirectory",servfilepath);
+    this->Gsettings->endGroup();
+    this->Gsettings->beginGroup("PLUGINS");;
+    qDebug() << this->Gsettings->fileName();
     for (int i = 0; (i < ui->scrollArea->widget()->layout()->count()); i++)
     {
 
         if (((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->isChecked())
         {
 
-        this->Gsettings.setValue(((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->text().split("/").first(),
+        this->Gsettings->setValue(((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->text().split("/").first(),
 
                                  #ifdef WIN32
                                 (((QCheckBox *)(ui->scrollArea->widget()->layout()->itemAt(i)->widget()))->text()));
@@ -373,16 +374,16 @@ else
         }
 
     }
-    this->Gsettings.endGroup();
-    this->Gsettings.beginGroup("MAIL");
-    this->Gsettings.setValue("MAIL_HOSTNAME", (mailhost));
-    this->Gsettings.setValue("MAIL_DOMAIN", (maildmn));
-    this->Gsettings.setValue("MAIL_PORT", (mailport));
-    this->Gsettings.setValue("MAIL_SSLTLS", (mailssl));
-    this->Gsettings.setValue("MAIL_LOGIN", (maillogin));
-    this->Gsettings.endGroup();
+    this->Gsettings->endGroup();
+    this->Gsettings->beginGroup("MAIL");
+    this->Gsettings->setValue("MAIL_HOSTNAME", (mailhost));
+    this->Gsettings->setValue("MAIL_DOMAIN", (maildmn));
+    this->Gsettings->setValue("MAIL_PORT", (mailport));
+    this->Gsettings->setValue("MAIL_SSLTLS", (mailssl));
+    this->Gsettings->setValue("MAIL_LOGIN", (maillogin));
+    this->Gsettings->endGroup();
 
-    this->Gsettings.sync();
+    this->Gsettings->sync();
 
                     QPalette Pal(ui->label_6->palette());
                     Pal.setColor(QPalette::Foreground, Qt::green);

@@ -13,8 +13,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TreeBaseClientMetaPlugin", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UserBaseClientMetaPlugin", "Client\Plugins\UserBaseClient\UserBaseClient.vcproj", "{37E1DC7E-E545-3A6E-BCF1-BEFBD5B31B76}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HorusXconf", "Installer\Configuration\HorusXconf\HorusXconf.vcproj", "{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus_Server", "Server\Horus_Server.vcproj", "{6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus_Client", "Client\Horus_Client.vcproj", "{8C64C7C9-BDE0-3BA6-8F20-6B60567310CC}"
@@ -35,12 +33,13 @@ Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "HorusServerInstaller", "..\
 		{B6134D38-243C-3280-BD22-C4CDEA409A0D} = {B6134D38-243C-3280-BD22-C4CDEA409A0D}
 		{6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2} = {6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2}
 		{6AF4FF5E-CEF7-3C40-A547-4AB800F82234} = {6AF4FF5E-CEF7-3C40-A547-4AB800F82234}
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19} = {F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Administrationv2", "Client\Plugins\Administrationv2\administrationv2.vcproj", "{BCB69144-277A-3A08-9AED-E527BF576EA5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "News", "Client\Plugins\News\News.vcproj", "{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HorusXconf", "Installer\Configuration\HorusXconf\HorusXconf.vcproj", "{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,16 +111,6 @@ Global
 		{37E1DC7E-E545-3A6E-BCF1-BEFBD5B31B76}.Release|Win32.ActiveCfg = Release|Win32
 		{37E1DC7E-E545-3A6E-BCF1-BEFBD5B31B76}.Release|Win32.Build.0 = Release|Win32
 		{37E1DC7E-E545-3A6E-BCF1-BEFBD5B31B76}.Release|x86.ActiveCfg = Release|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Debug|Mixed Platforms.Build.0 = Debug|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Debug|Win32.Build.0 = Debug|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Debug|x86.ActiveCfg = Debug|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|Mixed Platforms.ActiveCfg = Release|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|Mixed Platforms.Build.0 = Release|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|Win32.ActiveCfg = Release|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|Win32.Build.0 = Release|Win32
-		{F4EA33DB-FC7C-32A2-9CB5-ED96FD431E19}.Release|x86.ActiveCfg = Release|Win32
 		{6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
 		{6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2}.Debug|Mixed Platforms.Build.0 = Debug|Win32
 		{6AECEB4F-86FF-3D1B-AA1E-D3316F1E5AD2}.Debug|Win32.ActiveCfg = Debug|Win32
@@ -180,6 +169,16 @@ Global
 		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|Win32.ActiveCfg = Release|Win32
 		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|Win32.Build.0 = Release|Win32
 		{CBAD534B-A675-3504-9AD5-1224D1A5CEDE}.Release|x86.ActiveCfg = Release|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Debug|Win32.Build.0 = Debug|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Debug|x86.ActiveCfg = Debug|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Release|Win32.ActiveCfg = Release|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Release|Win32.Build.0 = Release|Win32
+		{EBB38DB2-A5ED-301B-AD8A-EF7DFDAD2E30}.Release|x86.ActiveCfg = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
