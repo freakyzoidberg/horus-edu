@@ -50,7 +50,7 @@ class TreeDataBase : public TreeData
   void                recursRemove();
   void                moveTo(TreeData* father);
 
-  inline const QString name() const { return objectName(); }
+  inline const QString name() const { return _name; }
   void                setName(const QString name);
 
   inline UserData*    user() const { return _user; }
