@@ -402,7 +402,7 @@ void ManageStudents::gook()
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
 
             //Parent's Infos
-
+            newPapa->setLevel(LEVEL_FAMILY);
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newPapa->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
@@ -410,6 +410,20 @@ void ManageStudents::gook()
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
+//            _user->setEnable(true);
+//            _user->setName(lastNameField->text());
+//            _user->setSurname(firstNameField->text());
+//            _user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
+//            _user->setBirthDate(birthDateField->date());
+//            _user->setRelationship(relationshipField->itemData(relationshipField->currentIndex()).toString());
+//            _user->setAddress(addressField->document()->toPlainText());
+//            _user->setMail(mailField->text());
+//            _user->setPhone1(homePhoneField->text());
+//            _user->setPhone2(workPhoneField->text());
+//            _user->setPhone3(mobilePhoneField->text());
+//            _user->setOccupation(occupationField->text());
+//            _user->setProCategory(occupationalCategoryField->text());
+//            _user->setLevel(LEVEL_FAMILY);
 
             //Suivi infos
 
