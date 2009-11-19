@@ -151,6 +151,11 @@ void Settings::FirstSetSettings()
     this->Gsettings->setValue("MAIL_LOGIN", (line == "" ? "n":line));
     this->Gsettings->endGroup();
     this->Gsettings->sync();
+
+        if (this->Gsettings->status() != 0)
+        {
+            qDebug() << "Error while writting conf, check permissions";
+        }
     }
     else
        qDebug() << "Settings::FirstSetSettings() Error writing/reading" <<  this->Gsettings->fileName();
