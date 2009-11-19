@@ -521,7 +521,7 @@ void ManageStudents::gook()
     }
 }
 
-void ManageStudents::userCreated(Data *)
+void ManageStudents::userCreated()
 {
     disconnect(this, SLOT(userCreated(Data*)));
     newPapa->setStudent(newUSer);
