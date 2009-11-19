@@ -6,15 +6,15 @@ mytools::mytools(TreeDataPlugin *_mtreeplugin, UserDataPlugin *_muserplugin)
     _userplugin = _muserplugin;
 }
 
-QMap<int, QString> mytools::getallclass()
+QMap<int, QString> mytools::getallclass(TreeDataPlugin *treeplugin)
 {
 QMap<int, QString> allclass;
-for (int i = 0; i < _treeplugin->allDatas().size(); ++i)
+for (int i = 0; i < treeplugin->allDatas().size(); ++i)
 {
-    TreeData    *data = qobject_cast<TreeData *>(_treeplugin->allDatas().at(i));
+    TreeData    *data = qobject_cast<TreeData *>(treeplugin->allDatas().at(i));
     if ((data->type()) == "GRADE")
     {
-        qDebug() << data->name();
+
         allclass.insert(data->id(), data->name());
     }
 }
@@ -30,7 +30,7 @@ QList<UserData*> mytools::getStudentfromClass(int id)
                 //qDebug() << "item child : " << user->studentClass()->id() << " - " << id;
         if ((user->studentClass()->id() == id) && (user->level() == LEVEL_STUDENT))
         {
-            qDebug() << id;
+
             mylist.append(user);
         }
     }
