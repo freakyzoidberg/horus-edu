@@ -12,7 +12,7 @@
 #include <QSizePolicy>
 #include <Qt>
 #include <QProgressBar>
-
+#include <QMessageBox>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindowClass)
 {
@@ -202,8 +202,7 @@ else
 		}
 
  if (ui->sqldriver->currentText() == "MySQL")
-					 query.prepare("INSERT INTO `user` (`enabled`, `login`, `level`, `password`, `surname`, `name`) VALUES "\
-																				  "(        1,       ?,       0,          ?,  'Father',  'God')");
+query.prepare("INSERT INTO user (`enabled`, `login`, `level`, `password`, `surname`, `name`) VALUES (        1,       ?,       0,          ?,  'Father',  'God')");
  else if (ui->sqldriver->currentText() == "PostgreSQL")
 	query.prepare("INSERT INTO user (id, enabled, login, level, password, surname, name) VALUES (       1, 1,       ?,       0,          ?,  'Father',  'God')");
 else
@@ -212,6 +211,7 @@ query.prepare("INSERT INTO 'user' ('enabled', 'login', 'level', 'password', 'sur
 
 		query.addBindValue(ui->lineEdit_14->text());
 		query.addBindValue(QCryptographicHash::hash(QVariant(ui->lineEdit_15->text()).toByteArray(), QCryptographicHash::Sha1).toHex());
+
 		if ( ! query.exec())
 		{
 			qDebug() << query.lastError().text();
@@ -385,10 +385,21 @@ else
 
     this->Gsettings->sync();
 
+
+    if (this->Gsettings->status() == 0)
+    {
                     QPalette Pal(ui->label_6->palette());
                     Pal.setColor(QPalette::Foreground, Qt::green);
                    ui->label_6->setPalette(Pal);
                    ui->label_6->setText("Configuration saved");
+               }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setText("need sudo");
+        msgBox.exec();
+    }
+
     }
 
 }
@@ -396,6 +407,7 @@ else
 void MainWindow::on_buttonBox_clicked(QAbstractButton* button)
 {
         if (this->ui->buttonBox->buttonRole(button) == QDialogButtonBox::AcceptRole)
+
 	    writesettings();
 }
 
