@@ -224,8 +224,8 @@ void ManageStudents::goback()
 
 void ManageStudents::gosave()
 {
-
- if ((scrollStudentForm) &&  (scrollStudentForm->StudentForm))
+    int flag = 0;
+    if ((scrollStudentForm) &&  (scrollStudentForm->StudentForm))
     {
         if (!scrollStudentForm->StudentForm->BaseInfos->getName().isEmpty() &&
             !scrollStudentForm->StudentForm->BaseInfos->getSurName().isEmpty())
@@ -247,17 +247,25 @@ void ManageStudents::gosave()
                 {
                 	newPapa = UD->parentsOfStudent(newUSer)[0];
                         if (UD->parentsOfStudent(newUSer).count() > 1)
+                        {
                             newMomy = UD->parentsOfStudent(newUSer)[1];
+                            flag = 2;
+                            qDebug() << "2";
+                        }
                         else if (newPapa->gender() == GENDER_FEMALE)
                         {
                             newMomy = UD->parentsOfStudent(newUSer)[0];
                             newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                             connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
+                            flag = 3;
+                            qDebug() << "3";
                         }
                         else
                         {
                             newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
                             connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                            flag = 4;
+                            qDebug() << "4";
                         }
 
                 }
@@ -267,6 +275,7 @@ void ManageStudents::gosave()
                    newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
                    connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
                    connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                   flag = 5;
                 }
                 if ((newUSer->status() != Data::UPTODATE) &&
                     (newUSer->status() != Data::UPDATED) &&
@@ -318,6 +327,8 @@ void ManageStudents::gosave()
             newPapa->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC());
             newPapa->setGender(GENDER_MALE);
             newPapa->setLevel(LEVEL_FAMILY);
+            if (flag == 3 || flag == 5)
+                newPapa->create();
 
             newMomy->setEnable(true);
             newMomy->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN2());
@@ -331,6 +342,8 @@ void ManageStudents::gosave()
             newMomy->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC2());
             newMomy->setGender(GENDER_FEMALE);
             newMomy->setLevel(LEVEL_FAMILY);
+            if (flag == 4 || flag == 5)
+                newMomy->create();
 
 
             //newUSer->setRelationship(QVariant(x).toString());
@@ -353,8 +366,15 @@ void ManageStudents::gosave()
             else
             {
                 newUSer->save();
-                newPapa->save();
-                newMomy->save();
+                if (flag == 2)
+                {
+                    newPapa->save();
+                    newMomy->save();
+                }
+                else if (flag == 3)
+                    newMomy->save();
+                else if (flag == 4)
+                    newPapa->save();
             }
 //***ParInfo
 //            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
@@ -403,6 +423,7 @@ void ManageStudents::goreset()
 }
 void ManageStudents::gook()
 {
+    int flag = 0;
     if ((scrollStudentForm) &&  (scrollStudentForm->StudentForm))
     {
 
@@ -433,17 +454,25 @@ void ManageStudents::gook()
                 {
                         newPapa = UD->parentsOfStudent(newUSer)[0];
                         if (UD->parentsOfStudent(newUSer).count() > 1)
+                        {
                             newMomy = UD->parentsOfStudent(newUSer)[1];
+                            flag = 2;
+                            qDebug() << "2";
+                        }
                         else if (newPapa->gender() == GENDER_FEMALE)
                         {
                             newMomy = UD->parentsOfStudent(newUSer)[0];
                             newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                             connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
+                            flag = 3;
+                            qDebug() << "3";
                         }
                         else
                         {
                             newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
                             connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                            flag = 4;
+                            qDebug() << "4";
                         }
 
                 }
@@ -453,6 +482,7 @@ void ManageStudents::gook()
                    newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
                    connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
                    connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                   flag = 5;
                 }
             }
 
@@ -494,7 +524,8 @@ void ManageStudents::gook()
             newPapa->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC());
             newPapa->setGender(GENDER_MALE);
             newPapa->setLevel(LEVEL_FAMILY);
-
+            if (flag == 3 || flag == 5)
+                newPapa->create();
 
             newMomy->setEnable(true);
             newMomy->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN2());
@@ -509,7 +540,8 @@ void ManageStudents::gook()
             newMomy->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC2());
             newMomy->setGender(GENDER_FEMALE);
             newMomy->setLevel(LEVEL_FAMILY);
-
+            if (flag == 4 || flag == 5)
+                newMomy->create();
 
 
 
@@ -525,8 +557,15 @@ void ManageStudents::gook()
             else
             {
                 newUSer->save();
-                newPapa->save();
-                newMomy->save();
+                if (flag == 2)
+                {
+                    newPapa->save();
+                    newMomy->save();
+                }
+                else if (flag == 3)
+                    newMomy->save();
+                else if (flag == 4)
+                    newPapa->save();
             }
 
 //***ParInfo
@@ -581,9 +620,9 @@ void ManageStudents::userCreated()
         newMomy->setStudent(newUSer);
         newMomy->save();
     }
-    QMessageBox msgBox;
-    msgBox.setText(tr("L'utilisateur a bien ete crée"));
-    msgBox.exec();
+//    QMessageBox msgBox;
+//    msgBox.setText(tr("L'utilisateur a bien"));
+//    msgBox.exec();
 }
 
 void ManageStudents::seteditfalse()
