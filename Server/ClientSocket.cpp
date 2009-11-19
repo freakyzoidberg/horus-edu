@@ -31,8 +31,9 @@ ClientSocket::ClientSocket(int _socket, QObject* parent)
     connect(this,  SIGNAL(encrypted()),                         this, SLOT(ready()));
     connect(this,  SIGNAL(disconnected()),                      this, SLOT(tryToDelete()));
     Settings config;
-    setLocalCertificate(config.GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("./ssl/Horus.crt"));
-    setPrivateKey(config.GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("./ssl/Horus.key"));
+
+	setLocalCertificate(config.GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("/ssl/Horus.crt"));
+	setPrivateKey(config.GetSettings("SoftFullPath","SETTINGS") + QDir::toNativeSeparators("/ssl/Horus.key"));
     setSocketDescriptor(_socket);
     startServerEncryption();
 }
