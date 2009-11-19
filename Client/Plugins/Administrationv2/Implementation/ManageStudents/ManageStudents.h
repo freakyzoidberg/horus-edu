@@ -33,6 +33,7 @@ private:
     QPushButton *reset;
     QPushButton *refresh;
     QFrame* sidebar;
+    QScrollArea *scrollArea;
 QFrame *informationsFrame;
 QVBoxLayout *informationsLayout;
     QList<UserData*> getAllParents();

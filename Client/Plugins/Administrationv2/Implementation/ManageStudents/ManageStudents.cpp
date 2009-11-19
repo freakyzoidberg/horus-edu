@@ -102,10 +102,11 @@ void ManageStudents::goadd()
     if (StudentForm)
         {
             delete StudentForm;
+            delete scrollArea;
             StudentForm = 0;
         }
         StudentForm = new FormStudents(getAllParents());
-        QScrollArea *scrollArea = new QScrollArea;
+        scrollArea = new QScrollArea;
         scrollArea->setWidget(StudentForm);
         scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
         scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
@@ -135,13 +136,18 @@ void ManageStudents::goedit()
 if (StudentForm)
     {
         delete StudentForm;
+        delete scrollArea;
         StudentForm = 0;
     }
 if (StudentList->StudentList->selectedItems().count() == 1)
 {
     StudentForm = new FormStudents(getAllParents(),UD->parentsOfStudent(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt())), UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
-    MainLayout->insertWidget(0, StudentForm);
-
+        scrollArea = new QScrollArea;
+        scrollArea->setWidget(StudentForm);
+        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        scrollArea->setWidgetResizable(true);
+        MainLayout->insertWidget(0, scrollArea);
     StudentList->setVisible(false);
 
 	ok->setVisible(true);
@@ -185,6 +191,7 @@ void ManageStudents::goback()
     if (StudentForm)
     {
         delete StudentForm;
+        delete scrollArea;
         StudentForm = 0;
         StudentList->setVisible(true);
 
@@ -382,8 +389,11 @@ void ManageStudents::gook()
             //Scholar infos
             newUSer->setRepeatedYears(StudentForm->SchoInfos->getNb_red());
 
-            //Parent
-            //newUSer->setRelationship(QVariant(x).toString());
+            //Parent's Infos
+
+
+
+
             //Suivi infos
 
 
