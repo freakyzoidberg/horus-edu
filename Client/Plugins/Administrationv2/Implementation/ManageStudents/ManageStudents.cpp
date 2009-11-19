@@ -272,17 +272,17 @@ void ManageStudents::gosave()
             newUSer->setSurname(scrollStudentForm->StudentForm->BaseInfos->getSurName());
             newUSer->setAddress(scrollStudentForm->StudentForm->BaseInfos->getAddress());
             newUSer->setBirthDate(scrollStudentForm->StudentForm->BaseInfos->getBday());
-
-
+            newUSer->setNbrBrothers(scrollStudentForm->StudentForm->BaseInfos->getbrocount());
+            newUSer->setMail(scrollStudentForm->StudentForm->BaseInfos->getEmail());
             //Social Infos
             newUSer->setSubscriptionReason(scrollStudentForm->StudentForm->SocInfos->getMotif());
-
-            // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
             newUSer->setComment(scrollStudentForm->StudentForm->SocInfos->getReferent()+"|:/:|:/|"+scrollStudentForm->StudentForm->SocInfos->getAides()+"|:/:|:/|");
-
-            newUSer->setMail("test debug");
             //Scholar infos
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
+            newUSer->setStartYear(scrollStudentForm->StudentForm->SchoInfos->getStartYear());
+            //Suivi
+            newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
+            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
 
             //Parents info
 
@@ -312,15 +312,13 @@ void ManageStudents::gosave()
 
 
             //newUSer->setRelationship(QVariant(x).toString());
-            //Suivi infos
 
 
 
 
 
-            newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
-            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
-                //ClasseNextYear
+
+
 
 
             newUSer->setEnable(true);
@@ -414,33 +412,32 @@ void ManageStudents::gook()
                    newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
             }
 
-
-            //newUSer = UD->user(scrollStudentForm->StudentForm->id);
-
-
             //Data
             newUSer->setName(scrollStudentForm->StudentForm->BaseInfos->getName());
             newUSer->setLevel(LEVEL_STUDENT);
-            newUSer->setStudentClass(TD->node(StudentList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+            newUSer->setStudentClass(TD->node(scrollStudentForm->getnodeid()));
             newUSer->setPassword(scrollStudentForm->StudentForm->BaseInfos->getSurName());
+
             //BasicInfos
             newUSer->setSurname(scrollStudentForm->StudentForm->BaseInfos->getSurName());
             newUSer->setAddress(scrollStudentForm->StudentForm->BaseInfos->getAddress());
             newUSer->setBirthDate(scrollStudentForm->StudentForm->BaseInfos->getBday());
-
-
+            newUSer->setNbrBrothers(scrollStudentForm->StudentForm->BaseInfos->getbrocount());
+            newUSer->setMail(scrollStudentForm->StudentForm->BaseInfos->getEmail());
             //Social Infos
             newUSer->setSubscriptionReason(scrollStudentForm->StudentForm->SocInfos->getMotif());
-
-            // Referenr +"|:/:|:/|"+ aides +"|:/:|:/|"+  raisons redoublement
             newUSer->setComment(scrollStudentForm->StudentForm->SocInfos->getReferent()+"|:/:|:/|"+scrollStudentForm->StudentForm->SocInfos->getAides()+"|:/:|:/|");
-
-            newUSer->setMail("test debug");
             //Scholar infos
             newUSer->setRepeatedYears(scrollStudentForm->StudentForm->SchoInfos->getNb_red());
+            newUSer->setStartYear(scrollStudentForm->StudentForm->SchoInfos->getStartYear());
+            //Suivi infos
+            newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
+            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
 
             //Parent's Infos
+	    
             newPapa->setEnable(true);
+            newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
             newPapa->setSurname(scrollStudentForm->StudentForm->ParInfos->getfirsN());
             newPapa->setRelationship(scrollStudentForm->StudentForm->ParInfos->getrela());
             newPapa->setAddress(scrollStudentForm->StudentForm->ParInfos->getaddr());
@@ -464,14 +461,12 @@ void ManageStudents::gook()
             newMomy->setOccupation(scrollStudentForm->StudentForm->ParInfos->getoccuField2());
             newMomy->setProCategory(scrollStudentForm->StudentForm->ParInfos->getoccuC2());
             newMomy->setLevel(LEVEL_FAMILY);
-            //Suivi infos
 
 
 
 
 
-            newUSer->setFollowUp(scrollStudentForm->StudentForm->SuiInfos->getSuivi());
-            newUSer->setLeaveYear(scrollStudentForm->StudentForm->SuiInfos->getLeftYear());
+
                 //ClasseNextYear
 
 
@@ -578,7 +573,7 @@ QList<UserData*> ManageStudents::getAllParents()
 
 void ManageStudents::refreshall()
 {
-    qDebug() << "Refresh all";
+
     edit->setEnabled(false);
     del->setEnabled(false);
     StudentList->updateall();

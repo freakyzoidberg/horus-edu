@@ -30,7 +30,6 @@ QList<UserData*> mytools::getStudentfromClass(int id)
                 //qDebug() << "item child : " << user->studentClass()->id() << " - " << id;
         if ((user->studentClass()->id() == id) && (user->level() == LEVEL_STUDENT))
         {
-
             mylist.append(user);
         }
     }

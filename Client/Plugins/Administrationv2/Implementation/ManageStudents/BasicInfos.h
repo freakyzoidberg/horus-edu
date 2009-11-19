@@ -7,6 +7,7 @@
 #include <QLineEdit>
 #include <QDateEdit>
 #include "../../../../../Common/UserData.h"
+#include <QSpinBox>
 class BasicInfos : public QFrame
 {
 public:
@@ -17,12 +18,16 @@ public:
     QString getBplace() { return bplace->text();}
     QDate   getBday() { return bday->date(); }
     QString getAddress() { return address->text();}
+    QString getEmail() { return email->text();}
+    int getbrocount() { return brosis->value();}
 private:
     QLineEdit *name;
     QLineEdit *surname;
     QDateEdit *bday;
     QLineEdit *bplace;
     QLineEdit *address;
+    QLineEdit *email;
+    QSpinBox *brosis;
 };
 
 

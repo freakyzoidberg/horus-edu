@@ -17,6 +17,7 @@ class SchoolInfos : public QFrame
         QString     getMoyenne() { return moyenne->text(); }
         QString     getComment() { return comment->toPlainText(); }
         int         getNb_red() { return nb_redoublement->value(); }
+        int         getStartYear() { return annee_entree->value(); }
         //QString     getRaison() { return raisons_redoublement->text(); }
     private:
        // QLineEdit *raisons_redoublement;
