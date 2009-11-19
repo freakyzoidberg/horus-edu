@@ -2,6 +2,14 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>News</name>
+    <message>
+        <location filename="Implementation/News.cpp" line="21"/>
+        <source>Navigator</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Plugin</name>
     <message>
         <location filename="../../../Common/Plugin.h" line="46"/>
