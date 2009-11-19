@@ -21,6 +21,7 @@ class SchoolInfos : public QFrame
     private:
        // QLineEdit *raisons_redoublement;
         QSpinBox *nb_redoublement;
+         QSpinBox *annee_entree;
         QTextEdit *motif;
         QLineEdit *moyenne;
         QTextEdit *comment;

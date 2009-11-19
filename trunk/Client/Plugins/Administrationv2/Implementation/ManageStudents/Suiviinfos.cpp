@@ -44,7 +44,7 @@ SuiviInfos::SuiviInfos(UserData *d)
     annee_quitte->setValue(d->leaveYear());
     suivi = new QTextEdit();
     suivi->setPlainText(d->followUp());
-    qDebug() << d->followUp();
+
 
     //ClasseNextYear = new QLineEdit();
     //BasicLayout->addWidget(new QLabel(tr("class next year")), 0, 0);
