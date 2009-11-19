@@ -39,7 +39,7 @@ void Notification::notify(NotificationType type, const char *message)
 
 void	Notification::debug(const QString message)
 {
-//	Debugger::instance()->addDebugMessage(message);
+	Debugger::instance()->addDebugMessage(message);
 }
 
 void	Notification::message(const QString message)
