@@ -312,6 +312,10 @@
 				>
 			</File>
 			<File
+				RelativePath="Implementation\ManageStudents\Scrollformstudent.cpp"
+				>
+			</File>
+			<File
 				RelativePath="Implementation\ManageStudents\Socialinfos.cpp"
 				>
 			</File>
@@ -1141,6 +1145,32 @@
 			</File>
 			<File
 				RelativePath="Implementation\ManageStudents\Schoolinfos.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Performing Custom Build Step"
+						CommandLine=""
+						AdditionalDependencies=""
+						Outputs=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="Implementation\ManageStudents\Scrollformstudent.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2587,21 +2617,6 @@
 						Outputs="release\qrc_Icons.cpp"
 					/>
 				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="Translation Files"
-			Filter="ts"
-			UniqueIdentifier="{639EADAA-A684-42e4-A9AD-28FC9BCB8F7C}"
-			ParseFiles="false"
-			>
-			<File
-				RelativePath=".\administrationv2_en.ts"
-				>
-			</File>
-			<File
-				RelativePath=".\Administrationv2_fr.ts"
-				>
 			</File>
 		</Filter>
 	</Files>

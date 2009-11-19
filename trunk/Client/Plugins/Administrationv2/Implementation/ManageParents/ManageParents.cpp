@@ -10,7 +10,7 @@ ManageParents::ManageParents(QWidget *parent, PluginManager *pluginManager) : QW
         //connect(list, SIGNAL(editParent(UserData *)), this, SLOT(parentEdited(UserData *)));
 }
 
-void		ManageParents::parentEdited(UserData *user)
+void		ManageParents::parentEdited(UserData *)
 {
 //	list->hide();
 //	edit = new EditParent(this, _pluginManager, user);

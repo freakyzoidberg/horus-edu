@@ -443,9 +443,6 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 
 void MainWindow::on_lineEdit_10_textChanged(QString )
 {
-int found;
-
-QLayoutItem *child;
 QPalette Pal(ui->label_9->palette());
 
 

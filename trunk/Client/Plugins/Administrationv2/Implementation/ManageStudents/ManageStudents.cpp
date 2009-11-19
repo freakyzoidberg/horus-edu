@@ -305,7 +305,7 @@ void ManageStudents::gosave()
             }
             else
                 newUSer->save();
-                sleep(1);
+//                sleep(1);  // C'est quoi ces conneries ? Pas de sleep sur un thread graphique.
 //***ParInfo
 //            UserData *uparent = UD->user(UD->user(StudentForm->ParInfos->getParent()->itemData(StudentForm->ParInfos->getParent()->currentIndex(), Qt::UserRole).toInt())->id());
 //            if (uparent != 0)
