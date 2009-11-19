@@ -15,37 +15,42 @@ class				EditParent : public QWidget
 	Q_OBJECT
 
 public:
-//	EditParent(QWidget *parent, PluginManager *pluginManager, UserData *user = 0);
-        EditParent(UserData *user);
-        EditParent();
-        QString             getlastN() { return lastNameField->text(); }
-        QString             getfirsN() { return firstNameField->text(); }
-        QString             getmail() { return mailField->text(); }
-        QString             gethomeP() { return homePhoneField->text(); }
-        QString             getworkP() { return workPhoneField->text(); }
-        QString             getmobileP() { return mobilePhoneField->text(); }
-        QString             getoccuC() { return occupationalCategoryField->text(); }
-        QString             getoccuField() { return occupationField->text(); }
-        QDate               getbirthD() { return birthDateField->date(); }
-        QString             getaddr() { return addressField->toPlainText(); }
-        int                 getgender() { return genderField->itemData(genderField->currentIndex()).toInt(); }
-        QString             getrela() { return relationshipField->itemData(relationshipField->currentIndex()).toString(); }
+	//EditParent(QWidget *parent, PluginManager *pluginManager, UserData *user = 0);
+	EditParent(UserData *father = 0, UserData *mother = 0);
+	QString             getlastN() { return lastNameFatherField->text(); }
+	QString             getlastN2() { return lastNameMotherField->text(); }
+	QString             getfirsN() { return firstNameFatherField->text(); }
+	QString             getfirsN2() { return firstNameMotherField->text(); }
+	QString             getmail() { return mailField->text(); }
+	QString             gethomeP() { return homePhoneField->text(); }
+	QString             getworkP() { return workPhoneField->text(); }
+	QString             getmobileP() { return mobilePhoneField->text(); }
+	QString             getoccuC() { return occupationalCategoryFatherField->text(); }
+	QString             getoccuC2() { return occupationalCategoryMotherField->text(); }
+	QString             getoccuField() { return occupationFatherField->text(); }
+	QString             getoccuField2() { return occupationMotherField->text(); }
+	QString             getaddr() { return addressField->toPlainText(); }
+	QString             getrela() { return relationshipField->itemData(relationshipField->currentIndex()).toString(); }
+
 private:
-//	PluginManager	*_pluginManager;
-	QLineEdit		*lastNameField;
-	QLineEdit		*firstNameField;
+	//PluginManager	*_pluginManager;
+	QLineEdit		*lastNameFatherField;
+	QLineEdit		*lastNameMotherField;
+	QLineEdit		*firstNameFatherField;
+	QLineEdit		*firstNameMotherField;
 	QLineEdit		*mailField;
 	QLineEdit		*homePhoneField;
 	QLineEdit		*workPhoneField;
 	QLineEdit		*mobilePhoneField;
-	QLineEdit		*occupationalCategoryField;
-	QLineEdit		*occupationField;
-	QDateEdit		*birthDateField;
+	QLineEdit		*occupationalCategoryFatherField;
+	QLineEdit		*occupationalCategoryMotherField;
+	QLineEdit		*occupationFatherField;
+	QLineEdit		*occupationMotherField;
 	QTextEdit		*addressField;
-	QComboBox		*genderField;
 	QComboBox		*relationshipField;
 	UserData		*_user;
-        void                    setupUi();
+	void                    setupUi();
+
 //private slots:
 //	void			saved();
 //	void			exited();
