@@ -377,7 +377,8 @@ void ManageStudents::gook()
                 newPapa = UD->parentsOfStudent(newUSer)[0];
             }
 
-            newUSer = UD->user(scrollStudentForm->StudentForm->id);
+
+            //newUSer = UD->user(scrollStudentForm->StudentForm->id);
 
 
             //Data
