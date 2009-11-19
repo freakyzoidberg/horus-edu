@@ -62,7 +62,7 @@ void SettingsDataBase::setValue(const QString& key, const QVariant& val)
 quint8 SettingsDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT value,mtime FROM settings WHERE user=? AND plugin=? AND scope=?;");
+	query.prepare("SELECT value,mtime FROM settings WHERE user=? AND part=? AND scope=?;");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
@@ -100,15 +100,15 @@ quint8 SettingsDataBase::serverSave()
 	if ( ! inDatabase)
 		return serverCreate();
 
-    query.prepare("UPDATE settings SET value=?,mtime=? WHERE user=? AND plugin=? AND scope=?;");
+	query.prepare("UPDATE settings SET value=?,mtime=? WHERE user=? AND part=? AND scope=?;");
     query.addBindValue(_values);
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
     _lastChange = QDateTime::currentDateTime();
     query.addBindValue(_lastChange);
-    if ( ! query.exec() || ! query.next())
-		return NOT_FOUND;
+	if ( ! query.exec())
+		return DATABASE_ERROR;
 
 	return NONE;
 }
@@ -116,12 +116,12 @@ quint8 SettingsDataBase::serverSave()
 quint8 SettingsDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM settings WHERE user=? AND plugin=? AND scope=?;");
+	query.prepare("DELETE FROM settings WHERE user=? AND part=? AND scope=?;");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
-    if ( ! query.exec() || ! query.next())
-		return NOT_FOUND;
+	if ( ! query.exec())
+		return DATABASE_ERROR;
 
 	return NONE;
 }

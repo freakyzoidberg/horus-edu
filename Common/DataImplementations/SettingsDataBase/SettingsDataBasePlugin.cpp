@@ -50,14 +50,32 @@ QList<Data*> SettingsDataBasePlugin::allDatas() const
 #ifdef HORUS_SERVER
 void SettingsDataBasePlugin::loadData()
 {
+	QSqlQuery query = pluginManager->sqlQuery();
+	query.prepare("SELECT user,part,scope,value,mtime FROM settings;");
+
+	if ( ! query.exec())
+	{
+		qDebug() << query.lastError();
+		return;
+	}
+	UserDataPlugin* userPlugin = pluginManager->findPlugin<UserDataPlugin*>();
+	while (query.next())
+	{
+		SettingsDataBase* s = (SettingsDataBase*)(settings( query.value(1).toString(), //plugin
+															query.value(2).toUInt(),	// scope
+															userPlugin->user(query.value(0).toUInt()))); //user
+		s->_values = query.value(3).toHash();
+		s->_lastChange = query.value(4).toDateTime();
+		s->_status = Data::UPTODATE;
+	}
 }
 
-QList<Data*> SettingsDataBasePlugin::datasForUpdate(UserData *, QDateTime date)
+QList<Data*> SettingsDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
 {
 	QList<Data*> list;
-//    foreach (UserData* data, users)
-//        if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-//			list.append(data);
+	foreach (SettingsData* data, _settings)
+		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
+			list.append(data);
 	return list;
 }
 #endif

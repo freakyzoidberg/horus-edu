@@ -45,7 +45,7 @@ public:
 					  SAVED,    // 8       | X    |       |
 					  CREATED,  // 9       | X  N |       |
 					  DELETED,  //10       | X    |       |  X
-					  _ERROR_}; //11       | X  E |       |
+					  ERROR};   //11       | X EV |       |
 
 	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
 
@@ -70,10 +70,16 @@ public:
 
     //! Return the current status of this data.
     inline quint8           status() const { return (quint8)_status; }
-    //! Change the current status and tell the coresponding plugin the data just changed.
-	inline void             setStatus(quint8 status) { QMutexLocker M(&mutex); _plugin->dataManager->dataStatusChange(this, status); }
-
-    inline const QDateTime lastChange() { return _lastChange; }
+	//! Change the current status and tell the coresponding plugin the data just changed.
+	inline void             setStatus(quint8 status) {
+#ifdef HORUS_CLIENT
+		QMetaObject::invokeMethod(_plugin->dataManager, "dataStatusChange", Qt::QueuedConnection, Q_ARG(Data*, this), Q_ARG(quint8, status));
+#endif
+#ifdef HORUS_SERVER
+		_plugin->dataManager->dataStatusChange(this, status);
+#endif
+	}
+	inline const QDateTime lastChange() { return _lastChange; }
 
 #ifdef HORUS_CLIENT
 	inline bool canAccess() { return canAccess(_plugin->pluginManager->currentUser()); }

@@ -92,9 +92,9 @@ void PluginManagerClient::loadPlugins()
 	// DataPlugin
 	foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
 	{
-		plugin->dataManager = new DataManagerClient(plugin);
 		//DataPlugins are also moved to the network thread, is it necessary to have a dedicated thread for them ?
 		plugin->moveToThread(secondaryThread);
+		plugin->dataManager = new DataManagerClient(plugin);
 	}
 	// every Plugins
     i = 0;

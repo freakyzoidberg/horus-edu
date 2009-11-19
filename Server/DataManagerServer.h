@@ -2,27 +2,27 @@
 #define DATAMANAGERSERVER_H
 
 #include "../Common/DataManager.h"
+#include <QMetaType>
 
 class DataPlugin;
 class DataManagerServer : public DataManager
 {
 	Q_OBJECT
 public:
-     inline DataManagerServer(DataPlugin* _plugin) : DataManager(_plugin) { plugin=_plugin; }
+	 inline DataManagerServer(DataPlugin* _plugin) { plugin=_plugin; qRegisterMetaType<Data*>("Data*"); }
 
 	 // DataManager Interface
-    //! Called by the data when its status change.
+public slots:
+	//! Called by the data when its status change.
     /*!
      *  Have differents implementation on the Client and the Server.
      *  Can be overloaded if:
      *  - More status are supported (ex: a file can be [up/down]loading)
      *  - To check permitions (also on the client side but can be less restrictive)
      */
-	void			dataStatusChange(Data* data, quint8 newStatus) const;
+	void			dataStatusChange(Data* data, quint8 newStatus);
 	void			sendData(UserData* user, Data* data) const;
-
-public slots:
-	void			receiveData(UserData *, const QByteArray& packet) const;
+	void			receiveData(UserData *, const QByteArray& packet);
 
 
 private:
