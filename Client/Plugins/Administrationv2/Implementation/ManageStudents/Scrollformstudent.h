@@ -4,6 +4,8 @@
 #include "FormStudents.h"
 class ScrollFormStudent : public QScrollArea
 {
+	Q_OBJECT
+
 public:
     ScrollFormStudent(QList<UserData*> list, int idnode);
     FormStudents *StudentForm;

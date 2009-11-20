@@ -10,7 +10,9 @@
 #include "../../../../../Common/UserData.h"
 class SchoolInfos : public QFrame
 {
-    public:
+	Q_OBJECT
+
+public:
         SchoolInfos();
 		SchoolInfos(UserData *d);
         QString     getMotif() { return motif->toPlainText(); }

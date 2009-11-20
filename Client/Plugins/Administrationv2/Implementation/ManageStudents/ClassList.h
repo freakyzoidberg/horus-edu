@@ -5,6 +5,8 @@
 #include "ListSelection.h"
 class CClassList : public QListWidget
 {
+	Q_OBJECT
+
 public:
     CClassList();
 

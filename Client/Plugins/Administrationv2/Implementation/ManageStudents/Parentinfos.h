@@ -6,6 +6,8 @@
 #include "../../../../../Common/UserData.h"
 class ParentInfos : public QFrame
 {
+	Q_OBJECT
+
 public:
     ParentInfos();
     ParentInfos(UserData *d);

@@ -14,6 +14,8 @@
 
 class FormStudents : public QWidget
 {
+	Q_OBJECT
+
 public:
     FormStudents(QList<UserData*> list);
     FormStudents(QList<UserData*> list, QList<UserData*> parentlist,UserData *user);
