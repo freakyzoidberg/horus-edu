@@ -6,6 +6,7 @@
 # include			<QListView>
 # include			<QPushButton>
 # include			<QBoxLayout>
+# include			<QSortFilterProxyModel>
 
 # include			"../../../../../Common/PluginManager.h"
 # include			"../../../../../Common/UserData.h"
@@ -23,6 +24,7 @@ private:
 	DisplayTeacher	*displayer;
 	QPushButton		*editButton;
 	QPushButton		*deleteButton;
+	QSortFilterProxyModel	*filter;
 	QBoxLayout		*informationsLayout;
 	PluginManager	*_pluginManager;
 

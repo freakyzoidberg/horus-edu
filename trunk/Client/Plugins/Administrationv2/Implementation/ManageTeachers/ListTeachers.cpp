@@ -4,8 +4,6 @@
 #include				<QLabel>
 #include				<QMessageBox>
 
-#include				"TeachersModel.h"
-
 ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWidget(parent), _pluginManager(pluginManager)
 {
 	QBoxLayout			*mainLayout;
@@ -27,9 +25,13 @@ ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWid
 	listTitle = new QLabel(tr("Select a teacher to view or edit it."));
 	listTitle->setProperty("isTitle", true);
 	leftLayout->addWidget(listTitle);
+	filter = new QSortFilterProxyModel(this);
+	filter->setSourceModel(pluginManager->findPlugin<UserDataPlugin*>()->model());
+	filter->setFilterRole(Data::FILTER_ROLE);
+	filter->setFilterKeyColumn(0);
+	filter->setFilterFixedString("TEACHER");
 	listView = new QListView(this);
-	teachersModel = new TeachersModel(pluginManager->findPlugin<UserDataPlugin *>()->allUser(), this);
-	listView->setModel(teachersModel);
+	listView->setModel(filter);
 	leftLayout->addWidget(listView);
 	mainLayout->addLayout(leftLayout);
 	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
@@ -78,7 +80,7 @@ void					ListTeachers::TeacherSelected(const QModelIndex &current, const QModelI
 		editButton->setDisabled(false);
 		deleteButton->setDisabled(false);
 		delete displayer;
-		displayer = new DisplayTeacher(this, _pluginManager->findPlugin<UserDataPlugin *>()->user(current.data(Qt::UserRole).toUInt()));
+		displayer = new DisplayTeacher(this, (UserData*)(filter->mapToSource(current).internalPointer()));
 		informationsLayout->addWidget(displayer);
 	}
 }
@@ -90,7 +92,7 @@ void					ListTeachers::TeacherAdded()
 
 void					ListTeachers::TeacherEdited()
 {
-	emit editTeacher(_pluginManager->findPlugin<UserDataPlugin *>()->user(listView->selectionModel()->currentIndex().data(Qt::UserRole).toUInt()));
+	emit editTeacher((UserData*)(filter->mapToSource(listView->selectionModel()->currentIndex()).internalPointer()));
 }
 
 void					ListTeachers::TeacherDeleted()
@@ -101,7 +103,7 @@ void					ListTeachers::TeacherDeleted()
 	confirm = new QMessageBox(QMessageBox::Question, tr("Confirmation"), tr("Do you really want to delete ") + listView->selectionModel()->currentIndex().data().toString() + tr(" ?"), QMessageBox::Yes | QMessageBox::No, this);
 	ret = confirm->exec();
 	if (ret == QMessageBox::Yes)
-		_pluginManager->findPlugin<UserDataPlugin *>()->user(listView->selectionModel()->currentIndex().data(Qt::UserRole).toUInt())->remove();
+		((UserData*)(filter->mapToSource(listView->selectionModel()->currentIndex()).internalPointer()))->remove();
 }
 
 void					ListTeachers::TeacherUpdated(Data *)

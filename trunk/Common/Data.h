@@ -48,6 +48,7 @@ public:
 					  DATA_ERROR};//11     | X EV |       |
 
 	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
+	enum Role { FILTER_ROLE=Qt::UserRole+1, SORT_ROLE=Qt::UserRole+2 };
 
 	inline const QString    dataType() const { return _plugin->dataType(); }
 
@@ -105,8 +106,10 @@ signals:
 		void                updated();
 	//! Signal emmited when the data is removed.
 	void                    removed();
-	//! Signal emmited when an error append on this data
+	//! Signal emmited when an error occur on this data.
 	void                    error(quint8 error);
+	//! Signal emmited each time the status is changed.
+	void					statusChanged();
 
 public:
     //! Usefull for debuging. Not mandatory but important.

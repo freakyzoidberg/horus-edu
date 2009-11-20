@@ -4,8 +4,6 @@
 #include				<QLabel>
 #include				<QMessageBox>
 
-#include				"AdministrativesModel.h"
-
 ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginManager) : QWidget(parent), _pluginManager(pluginManager)
 {
 	QBoxLayout			*mainLayout;
@@ -16,7 +14,6 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
 	QLabel				*actionsTitle;
 	QLabel				*listTitle;
 	QPushButton			*addButton;
-	QAbstractListModel	*administrativesModel;
 
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     mainLayout->setSpacing(0);
@@ -27,9 +24,13 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
 	listTitle = new QLabel(tr("Select a administrative to view or edit it."));
 	listTitle->setProperty("isTitle", true);
 	leftLayout->addWidget(listTitle);
+	filter = new QSortFilterProxyModel(this);
+	filter->setSourceModel(pluginManager->findPlugin<UserDataPlugin*>()->model());
+	filter->setFilterRole(Data::FILTER_ROLE);
+	filter->setFilterKeyColumn(0);
+	filter->setFilterFixedString("ADMINISTRATOR");
 	listView = new QListView(this);
-	administrativesModel = new AdministrativesModel(pluginManager->findPlugin<UserDataPlugin *>()->allUser(), this);
-	listView->setModel(administrativesModel);
+	listView->setModel(filter);
 	leftLayout->addWidget(listView);
 	mainLayout->addLayout(leftLayout);
 	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
@@ -75,7 +76,7 @@ void					ListAdministratives::AdministrativeSelected(const QModelIndex &current,
 	editButton->setDisabled(false);
 	deleteButton->setDisabled(false);
 	delete displayer;
-	displayer = new DisplayAdministrative(this, _pluginManager->findPlugin<UserDataPlugin *>()->user(current.data(Qt::UserRole).toUInt()));
+	displayer = new DisplayAdministrative(this, (UserData*)(filter->mapToSource(current).internalPointer()));
 	informationsLayout->addWidget(displayer);
 }
 
@@ -86,7 +87,7 @@ void					ListAdministratives::AdministrativeAdded()
 
 void					ListAdministratives::AdministrativeEdited()
 {
-	emit editAdministrative(_pluginManager->findPlugin<UserDataPlugin *>()->user(listView->selectionModel()->currentIndex().data(Qt::UserRole).toUInt()));
+	emit editAdministrative((UserData*)(filter->mapToSource(listView->selectionModel()->currentIndex()).internalPointer()));
 }
 
 void					ListAdministratives::AdministrativeDeleted()
@@ -97,7 +98,7 @@ void					ListAdministratives::AdministrativeDeleted()
 	confirm = new QMessageBox(QMessageBox::Question, tr("Confirmation"), tr("Do you really want to delete ") + listView->selectionModel()->currentIndex().data().toString() + tr(" ?"), QMessageBox::Yes | QMessageBox::No, this);
 	ret = confirm->exec();
 	if (ret == QMessageBox::Yes)
-		_pluginManager->findPlugin<UserDataPlugin *>()->user(listView->selectionModel()->currentIndex().data(Qt::UserRole).toUInt())->remove();
+		((UserData*)(filter->mapToSource(listView->selectionModel()->currentIndex()).internalPointer()))->remove();
 }
 
 void					ListAdministratives::AdministrativeUpdated(Data *)

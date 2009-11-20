@@ -41,6 +41,7 @@ public:
 
 	//DataPlugin
 public:
+	void					load();
 	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
 	void					dataHaveNewKey(Data*d, QDataStream& s);

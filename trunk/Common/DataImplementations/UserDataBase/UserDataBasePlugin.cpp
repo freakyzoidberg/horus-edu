@@ -5,10 +5,21 @@
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
+#ifdef HORUS_CLIENT
+#include "../../../Client/Plugins/UserBaseClient/UserDataModel.h"
+#endif
 
 UserDataBasePlugin::UserDataBasePlugin()
 {
 	_nobody = 0;
+}
+
+void UserDataBasePlugin::load()
+{
+#ifdef HORUS_CLIENT
+	_model = new UserDataModel(this);
+	connect(this, SIGNAL(dataStatusChanged(Data*)), _model, SLOT(dataStatusChanged(Data*)));
+#endif
 }
 
 UserData* UserDataBasePlugin::nobody()
@@ -21,6 +32,7 @@ UserData* UserDataBasePlugin::nobody()
 		_nobody->_name = tr("Nobody");
 		_nobody->_surname = tr("Nobody");
 		_nobody->_login = tr("Nobody");
+		_nobody->_status = Data::EMPTY;
 	}
 	return _nobody;
 }

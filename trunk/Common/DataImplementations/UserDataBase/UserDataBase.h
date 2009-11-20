@@ -184,6 +184,7 @@ private:
 #ifdef HORUS_SERVER
 	void updateLastLogin();
 #endif
+	static const char* levelStrings[];
 private slots:
 	void		studentClassRemoved();
 };

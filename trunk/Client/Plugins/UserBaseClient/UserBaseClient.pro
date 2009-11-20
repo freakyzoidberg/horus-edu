@@ -6,7 +6,8 @@ DEFINES += HORUS_CLIENT
 TEMPLATE = lib
 TARGET = UserBaseClientMetaPlugin
 SOURCES += ../../../Common/DataImplementations/UserDataBase/UserDataBase.cpp \
-	../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.cpp
+    ../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.cpp \
+    UserDataModel.cpp
 HEADERS += ../../../Common/DataImplementations/UserDataBase/UserDataBase.h \
     ../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.h \
     ../../../Common/Plugin.h \
@@ -17,7 +18,8 @@ HEADERS += ../../../Common/DataImplementations/UserDataBase/UserDataBase.h \
     ../../../Common/UserData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserDataPlugin.h \
-	UserBaseClientMetaPlugin.h
+    UserBaseClientMetaPlugin.h \
+    UserDataModel.h
 RESOURCES += Images.qrc
 TRANSLATIONS = UserBaseClientMetaPlugin_en.ts \
     UserBaseClientMetaPlugin_fr.ts
