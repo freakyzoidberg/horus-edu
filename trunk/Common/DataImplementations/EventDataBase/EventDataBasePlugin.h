@@ -19,14 +19,14 @@ class EventDataBasePlugin : public EventDataPlugin
 public:
 							EventDataBasePlugin() {}
 
-        EventData*			newEvent(TreeData* parent, QString name, UserData* user = 0);
-        EventData*			nodeEvent(quint32 nodeId);
-        EventData*			nodeEvent(TreeData* node);
+	EventData*				newEvent(TreeData* parent, QString name, UserData* user = 0);
+	EventData*				nodeEvent(quint32 nodeId);
+	EventData*				nodeEvent(TreeData* node);
 	QList<EventData*>		nodeEvents(TreeData* node, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
 	QList<EventData*>		userEvents(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
 
 private:
-        void				recursiveTreeSearch(QList<EventData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to);
+	void					recursiveTreeSearch(QList<EventData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to);
 
 	QList<Data*>			_allEvents;
 
