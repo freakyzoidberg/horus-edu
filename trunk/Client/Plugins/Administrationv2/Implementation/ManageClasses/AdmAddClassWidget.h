@@ -29,7 +29,7 @@ public slots:
     void            emptyField();
     void            modifUser();
     void            cellClicked(int, int);
-	void            choosenClass();
+	void            choosenClass(QListWidgetItem *);
 
 private:
     void            initUserReferent(void);
