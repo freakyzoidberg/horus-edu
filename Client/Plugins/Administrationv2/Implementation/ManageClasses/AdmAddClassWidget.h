@@ -8,9 +8,11 @@
 #include <QLineEdit>
 #include <QVBoxLayout>
 #include <QTableWidget>
+#include <QListWidget>
 
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
+#include "classlist.h"
 
 class AdmAddClassWidget : public QWidget
 {
@@ -27,7 +29,7 @@ public slots:
     void            emptyField();
     void            modifUser();
     void            cellClicked(int, int);
-    void            choosenClass(QTableWidgetItem *item);
+	void            choosenClass();
 
 private:
     void            initUserReferent(void);
@@ -35,6 +37,8 @@ private:
     
     TreeDataPlugin  *_treeplugin;
     UserDataPlugin  *_userplugin;
+
+	ClassList		*_classList;
 
     QLabel          *_classNameLabel;
     QLineEdit       *_className;
@@ -46,7 +50,7 @@ private:
     QPushButton     *_cancel;
 
     QHBoxLayout     *_mainLayout;
-    QTableWidget    *_table;
+   // QTableWidget    *_table;
 
 	QLabel			*infoTitle;
 	QLabel			*actions;
