@@ -85,7 +85,6 @@ void    AdmAddClassWidget::displayClasses(int id)
 				_classList->classList()->addItem(item);
 				_classList->classList()->addItem(QVariant(tmp->id()).toString());
 				_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
-				//std::cout << "nb:" << this->_classList->classList()->count() - 1 << std::endl;
 				j++;
 			}
 		}
@@ -179,29 +178,13 @@ void    AdmAddClassWidget::addClassInDatabase()
 	else
 	{
 		user = NULL;
-	//	QTableWidgetItem *n = new QTableWidgetItem(tr("Non renseigne."));
-	//	n->setFlags(Qt::ItemIsEnabled);
-	//_table->setItem(_table->rowCount() - 1, 1, n);
-	//_table->setItem(_table->rowCount() - 1, 5,
-	//new QTableWidgetItem(QVariant(0).toString()));
 	}
 
-	//_table->setItem(_table->rowCount() - 1, 0, name);
-
-	// QTableWidgetItem *edit = new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), "");
-	// edit->setFlags(Qt::ItemIsEnabled);
-	//_table->setItem(_table->rowCount() - 1, 3, edit);
-
-	// QTableWidgetItem *del = new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), "");
-	// del->setFlags(Qt::ItemIsEnabled);
-	//_table->setItem(_table->rowCount() - 1, 2, del);
 	newClass->create();
 
 	save = user;
 	classSave = newClass;
 	connect(newClass, SIGNAL(created()), this, SLOT(modifUser()));
-
-	//_table->showRow(_table->rowCount());
 }
 
 void    AdmAddClassWidget::modifUser()
@@ -240,6 +223,7 @@ void	AdmAddClassWidget::deleteClass()
 		connect(this->_treeplugin, SIGNAL(dataRemoved(Data *)), this, SLOT(refreshList(Data *)));
 		del->hide();
 		data->remove();
+		emptyField();
 	}
 	else if (msgBox.clickedButton() == abortButton)
 		return ;
