@@ -21,23 +21,8 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	_mainLayout->setMargin(0);
 	_mainLayout->setSpacing(0);
 	QVBoxLayout  *columnLayout;
-	//QWidget      *column;
-
-	// QVBoxLayout *RightLayout = new QVBoxLayout();
-
-	//StudentList = new ListSelection(treeplugin, userplugin);
-	addstudent = new QPushButton(QIcon(":/Icons/add-students.png"), tr("Add a student"));
-	del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete class"));
-	edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
-	ok = new QPushButton(QIcon(":/Icons/ok.png"), tr("Ok"));
-//	save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
-	reset = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
-	back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
-	back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
 
 	_mainLayout->addWidget(_classList);
-
-//	column = new QWidget();
 	columnLayout = new QVBoxLayout();
 	_mainLayout->addLayout(columnLayout);
 	columnLayout->setSpacing(0);
@@ -53,7 +38,6 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	actions->setProperty("isRound", true);
 	columnLayout->addWidget(actions);
 
-	//_mainLayout->addWidget(column);
 	this->_classNameLabel = new QLabel(tr("Nom de la classe:"));
 	this->_className = new QLineEdit();
 	columnLayout->addWidget(_classNameLabel);
@@ -68,6 +52,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 
 	this->_save = new QPushButton(QIcon(":/Icons/save.png"), tr("Ajouter"));
 	this->_cancel = new QPushButton(QIcon(":/Icons/reset.png"), tr("Abandonner"));
+	del = new QPushButton(QIcon(":/Icons/remove-desk.png"), tr("Supprimer"));
 	columnLayout->addWidget(_save);
 	columnLayout->addWidget(_cancel);
 	columnLayout->addWidget(del);
@@ -144,12 +129,14 @@ void    AdmAddClassWidget::addClass()
 		}
 		else
 		{
-			editClassInDatabase();
+			errorMsg.setText("Sorry the edition is not available for now.");
+			errorMsg.exec();
+		/*	editClassInDatabase();
 			_userReferent->currentText().clear();
 			_className->setText("");
 			_save->setText(tr("Ajouter"));
 			errorMsg.setText(tr("The class was successfully edited."));
-			errorMsg.exec();
+			errorMsg.exec(); */
 		}
 	}
 }
@@ -157,9 +144,6 @@ void    AdmAddClassWidget::addClass()
 void    AdmAddClassWidget::editClassInDatabase()
 {
 	UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
-
-	//_table->item(this->currentrow, 0)->setText(_className->text());
-	//_table->item(this->currentrow, 1)->setText(this->_userReferent->currentText());
 	selectedData->setName(_className->text());
 	selectedData->setUser(user);
 	selectedData->save();
@@ -196,9 +180,9 @@ void    AdmAddClassWidget::addClassInDatabase()
 		user = NULL;
 	//	QTableWidgetItem *n = new QTableWidgetItem(tr("Non renseigne."));
 	//	n->setFlags(Qt::ItemIsEnabled);
-		//_table->setItem(_table->rowCount() - 1, 1, n);
-		//_table->setItem(_table->rowCount() - 1, 5,
-		//				new QTableWidgetItem(QVariant(0).toString()));
+	//_table->setItem(_table->rowCount() - 1, 1, n);
+	//_table->setItem(_table->rowCount() - 1, 5,
+	//new QTableWidgetItem(QVariant(0).toString()));
 	}
 
 	//_table->setItem(_table->rowCount() - 1, 0, name);
@@ -252,6 +236,7 @@ void	AdmAddClassWidget::deleteClass()
 		id = _classList->classList()->item(_classList->classList()->currentRow() + 1)->text().toInt();
 		TreeData *data = _treeplugin->node(id);
 		connect(this->_treeplugin, SIGNAL(dataRemoved(Data *)), this, SLOT(refreshList(Data *)));
+		del->hide();
 		data->remove();
 	}
 	else if (msgBox.clickedButton() == abortButton)
