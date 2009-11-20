@@ -28,7 +28,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				Description="Copying $(TargetFileName) to C:\Users\val\.Horus\Plugins\&#x0D;&#x0A;"
+				Description="Copying $(TargetFileName) to C:\Users\val\.Horus\Plugins\"
 				CommandLine="copy /Y &quot;$(TargetPath)&quot; C:\Users\val\.Horus\Plugins\&#x0D;&#x0A;"
 				Outputs="C:\Users\val\.Horus\Plugins\$(TargetFileName)&#x0D;&#x0A;"
 			/>
@@ -121,7 +121,7 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				Description="Copying $(TargetFileName) to C:\Users\val\.Horus\Plugins\&#x0D;&#x0A;"
+				Description="Copying $(TargetFileName) to C:\Users\val\.Horus\Plugins\"
 				CommandLine="copy /Y &quot;$(TargetPath)&quot; C:\Users\val\.Horus\Plugins\&#x0D;&#x0A;"
 				Outputs="C:\Users\val\.Horus\Plugins\$(TargetFileName)&#x0D;&#x0A;"
 			/>

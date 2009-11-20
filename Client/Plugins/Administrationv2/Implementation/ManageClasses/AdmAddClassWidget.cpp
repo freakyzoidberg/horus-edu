@@ -16,7 +16,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	_treeplugin = treeplugin;
 	_userplugin = userplugin;
 
-	_classList = new ClassList();
+	_classList = new ClassListClass;
 	_mainLayout = new QHBoxLayout(this);
 	_mainLayout->setMargin(0);
 	_mainLayout->setSpacing(0);
