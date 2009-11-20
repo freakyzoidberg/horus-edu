@@ -16,7 +16,7 @@
     <name>DataManagerClient</name>
     <message>
         <location filename="DataManagerClient.cpp" line="31"/>
-        <location filename="DataManagerClient.cpp" line="144"/>
+        <location filename="DataManagerClient.cpp" line="155"/>
         <source>Data</source>
         <translation>Data</translation>
     </message>
@@ -32,18 +32,18 @@
     </message>
     <message>
         <location filename="DataManagerClient.cpp" line="31"/>
-        <location filename="DataManagerClient.cpp" line="49"/>
-        <location filename="DataManagerClient.cpp" line="144"/>
+        <location filename="DataManagerClient.cpp" line="50"/>
+        <location filename="DataManagerClient.cpp" line="155"/>
         <source>which is not authorized.</source>
         <translation>which is not authorized.</translation>
     </message>
     <message>
-        <location filename="DataManagerClient.cpp" line="49"/>
+        <location filename="DataManagerClient.cpp" line="50"/>
         <source>DataManagerClient received a status</source>
         <translation>DataManagerClient received a status</translation>
     </message>
     <message>
-        <location filename="DataManagerClient.cpp" line="144"/>
+        <location filename="DataManagerClient.cpp" line="155"/>
         <source>try to be send with status</source>
         <translation>try to be send with status</translation>
     </message>

@@ -7,6 +7,8 @@
 #include <QLabel>
 class InfoPanel : public QWidget
 {
+	Q_OBJECT
+
 public:
     InfoPanel(UserData *it);
 };

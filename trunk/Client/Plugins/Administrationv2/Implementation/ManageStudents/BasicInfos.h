@@ -10,6 +10,8 @@
 #include <QSpinBox>
 class BasicInfos : public QFrame
 {
+	Q_OBJECT
+
 public:
     BasicInfos();
     BasicInfos(UserData* ud);

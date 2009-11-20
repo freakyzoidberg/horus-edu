@@ -7,6 +7,8 @@
 
 class ClassListClass : public QWidget
 {
+	Q_OBJECT
+
 public:
     ClassListClass();
 	QVBoxLayout		*listLayout()	{ return _listLayout; }

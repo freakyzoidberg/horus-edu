@@ -9,7 +9,9 @@
 #include "../../../../../Common/UserData.h"
 class SocialInfos : public QFrame
 {
-    public:
+	Q_OBJECT
+
+public:
         SocialInfos();
 		SocialInfos(UserData *d);
         QString     getMotif() { return motif->toPlainText(); }

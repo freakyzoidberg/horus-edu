@@ -7,6 +7,8 @@
 
 class MainView : public QTabWidget
 {
+	Q_OBJECT
+
 public:
     MainView(PluginManager *pluginManager);
 };

@@ -4,80 +4,64 @@
 <context>
     <name>AdmAddClassWidget</name>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="30"/>
-        <source>Nom de la classe</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="31"/>
-        <source>Professeur principal</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="32"/>
-        <source>Modifier</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="33"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="55"/>
         <source>Supprimer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="43"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="31"/>
         <source>Informations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="48"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="36"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="54"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="41"/>
         <source>Nom de la classe:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="59"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="46"/>
         <source>Professeur principal:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="66"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="149"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="162"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="184"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="53"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="122"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="157"/>
         <source>Ajouter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="67"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="54"/>
         <source>Abandonner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="141"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="114"/>
         <source>This class must have a name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="154"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="127"/>
         <source>The class was successfully added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="163"/>
-        <source>The class was successfully edited.</source>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="218"/>
+        <source>Editer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="268"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="226"/>
         <source>Voulez-vous vraiment supprimer cette classe?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="269"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="228"/>
         <source>Confirmer.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -130,6 +114,14 @@
         <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="61"/>
         <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="139"/>
         <source>Brother/Sister</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ClassListClass</name>
+    <message>
+        <location filename="Implementation/ManageClasses/ClassListClass.cpp" line="15"/>
+        <source>Select a class to view informations.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -706,47 +698,47 @@
 <context>
     <name>ListAdministratives</name>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="27"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="24"/>
         <source>Select a administrative to view or edit it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="43"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="44"/>
         <source>Informations:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="50"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="51"/>
         <source>Actions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="54"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="55"/>
         <source>Add a administrative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="56"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="57"/>
         <source>Edit this administrative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="59"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="60"/>
         <source>Delete this administrative</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="97"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="98"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="97"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="98"/>
         <source>Do you really want to delete </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="97"/>
+        <location filename="Implementation/ManageAdministratives/ListAdministratives.cpp" line="98"/>
         <source> ?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -810,47 +802,47 @@
 <context>
     <name>ListTeachers</name>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="27"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="25"/>
         <source>Select a teacher to view or edit it.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="43"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="45"/>
         <source>Informations:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="50"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="52"/>
         <source>Actions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="54"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="56"/>
         <source>Add a teacher</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="56"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="58"/>
         <source>Edit this teacher</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="59"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="61"/>
         <source>Delete this teacher</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="101"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="103"/>
         <source>Confirmation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="101"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="103"/>
         <source>Do you really want to delete </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="101"/>
+        <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="103"/>
         <source> ?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -869,16 +861,11 @@
     </message>
     <message>
         <location filename="Implementation/MainView.cpp" line="12"/>
-        <source>Parents</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/MainView.cpp" line="13"/>
         <source>Teachers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/MainView.cpp" line="14"/>
+        <location filename="Implementation/MainView.cpp" line="13"/>
         <source>Administratives</source>
         <translation type="unfinished"></translation>
     </message>

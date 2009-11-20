@@ -11,7 +11,9 @@
 #include "../../../../../Common/UserData.h"
 class SuiviInfos : public QFrame
 {
-    public:
+	Q_OBJECT
+
+public:
         SuiviInfos();
 		SuiviInfos(UserData *d);
 
