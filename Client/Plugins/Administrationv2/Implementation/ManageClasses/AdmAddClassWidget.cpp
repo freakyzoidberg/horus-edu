@@ -83,8 +83,9 @@ void    AdmAddClassWidget::displayClasses(int id)
 			{
 				QListWidgetItem *item = new QListWidgetItem(QIcon(":/Icons/desk.png"), tmp->name());
 				_classList->classList()->addItem(item);
-//				_classList->classList()->addItem(QVariant(tmp->id()).toString());
-				//_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
+				_classList->classList()->addItem(QVariant(tmp->id()).toString());
+				_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
+				//std::cout << "nb:" << this->_classList->classList()->count() - 1 << std::endl;
 				j++;
 			}
 		}
@@ -209,6 +210,7 @@ void    AdmAddClassWidget::modifUser()
 		save->save();
 	_classList->classList()->addItem(new QListWidgetItem(QIcon(":/Icons/desk.png"), classSave->name()));
 	_classList->classList()->addItem(QVariant(classSave->id()).toString());
+	_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
 	disconnect(classSave, SIGNAL(created()), this, SLOT(modifUser()));
 }
 
