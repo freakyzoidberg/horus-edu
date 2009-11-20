@@ -5,6 +5,16 @@
 #include "../../TreeDataPlugin.h"
 #include <QCryptographicHash>
 
+const char* UserDataBase::levelStrings[] = {
+	"ROOT",
+	"ADMINISTRATOR",
+	"TEACHER",
+	"STUDENT",
+	"FAMILY",
+	"GUEST",
+	"NOBODY"
+};
+
 UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, plugin)
 {
 	_level = __LAST_LEVEL__;
@@ -324,16 +334,10 @@ QVariant UserDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 1)
-            return _id;
         if (column == 0)
-            return _login;
-        if (column == 2)
-            return _name;
-        if (column == 3)
-            return _surname;
-        if (column == 4)
-            return _lastLogin;
+			return _surname + ' ' + _name;
+		if (column == 1)
+			return _login;
     }
     else if (role == Qt::DecorationRole && column == 0)
     {
@@ -342,7 +346,10 @@ QVariant UserDataBase::data(int column, int role) const
         else
             return QIcon(":/user.ico");
     }
-    return QVariant();
+	else if (role == FILTER_ROLE && column == 0)
+		return levelStrings[_level];
+
+	return QVariant();
 }
 #endif
 

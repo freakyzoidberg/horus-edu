@@ -5,6 +5,10 @@
 #include "Plugin.h"
 #include "MetaPlugin.h"
 
+#ifdef HORUS_CLIENT
+#include <QAbstractItemModel>
+#endif
+
 class Data;
 class UserData;
 class DataManager;
@@ -17,10 +21,13 @@ class DataPlugin : public Plugin
 {
   Q_OBJECT
   Q_INTERFACES(Plugin)
+	friend class Data;
 	friend class MetaPlugin;
 	friend class DataManagerClient;
 
 public:
+	DataManager*				dataManager;
+
 	virtual const QString		dataType() const = 0;
 
     //! Return the pointer to the Data with a his unique key read in the stream
@@ -29,25 +36,33 @@ public:
 	virtual inline QList<Data*>	allDatas() const { return QList<Data*>(); }
 
 #ifdef HORUS_CLIENT
-    //! On the client, when creating a new data, the key can change. So this function have to update the data with the new key in the stream
+public:
+	//! On the client, when creating a new data, the key can change. So this function have to update the data with the new key in the stream
 	virtual inline void			dataHaveNewKey(Data*, QDataStream&) {}
+	inline QAbstractItemModel*	model() { return _model; }
+protected:
+	QAbstractItemModel*			_model;
 #endif
 #ifdef HORUS_SERVER
-    //! On the server, the module may want to check if the database is ok
+public:
+	//! On the server, the module may want to check if the database is ok
 	virtual inline void			loadData() { }
 	virtual inline QList<Data*>	datasForUpdate(UserData*, QDateTime) { return QList<Data*>(); }
 #endif
-
-	DataManager*				dataManager;
 
 signals:
 	void						dataCreated(Data* data);
 	void						dataUpdated(Data* data);
 	void						dataRemoved(Data* data);
 	void						dataError  (Data* data, quint8 error);
+	void						dataStatusChanged(Data* data);
 
 protected:
-	inline						DataPlugin() {}
+	inline						DataPlugin() {
+#ifdef HORUS_CLIENT
+		_model=0;
+#endif
+	}
 	inline						~DataPlugin() {}
 };
 

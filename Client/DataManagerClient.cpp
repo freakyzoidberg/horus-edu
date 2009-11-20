@@ -32,7 +32,8 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus)
 		return;
 	}
 
-
+	emit data->statusChanged();
+	emit plugin->dataStatusChanged(data);
 	data->_status = newStatus;
 	sendData(0, data);
 }
@@ -67,12 +68,12 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d)
 	{
 		plugin->dataHaveNewKey(data, stream);
 		data->_status = Data::UPTODATE;
+		emit data->statusChanged();
+		emit plugin->dataStatusChanged(data);
 		emit data->created();
 		emit plugin->dataCreated(data);
-
 		emit data->updated();
 		emit plugin->dataUpdated(data);
-
 		if (_needSaveAgain.contains(data))
 		{
 			_needSaveAgain.removeOne(data);
@@ -83,18 +84,24 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d)
 	{
 		data->dataFromStream(stream);
 		data->_status = Data::UPTODATE;
+		emit data->statusChanged();
+		emit plugin->dataStatusChanged(data);
 		emit data->updated();
 		emit plugin->dataUpdated(data);
 	}
 	else if (status == Data::DELETED)
 	{
 		data->_status = Data::DELETED;
+		emit data->statusChanged();
+		emit plugin->dataStatusChanged(data);
 		emit data->removed();
 		emit plugin->dataRemoved(data);
 	}
 	else if (status == Data::SAVED)
 	{
 		data->_status = Data::UPTODATE;
+		emit data->statusChanged();
+		emit plugin->dataStatusChanged(data);
 		emit data->updated();
 		emit plugin->dataUpdated(data);
 
@@ -122,10 +129,14 @@ void DataManagerClient::receiveData(UserData*, const QByteArray& d)
 		if (tmpStatus == Data::DELETED)
 		{
 			data->_status = Data::DELETED;
+			emit data->statusChanged();
+			emit plugin->dataStatusChanged(data);
 			emit data->removed();
 			emit plugin->dataRemoved(data);
 			return;
 		}
+		emit data->statusChanged();
+		emit plugin->dataStatusChanged(data);
 		emit data->updated();
 		emit plugin->dataUpdated(data);
 	}
