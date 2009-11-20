@@ -83,7 +83,7 @@ void    AdmAddClassWidget::displayClasses(int id)
 			{
 				QListWidgetItem *item = new QListWidgetItem(QIcon(":/Icons/desk.png"), tmp->name());
 				_classList->classList()->addItem(item);
-				_classList->classList()->addItem(QVariant(tmp->id()).toString());
+//				_classList->classList()->addItem(QVariant(tmp->id()).toString());
 				//_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
 				j++;
 			}
