@@ -5,6 +5,7 @@
 #include <QStringList>
 #include <QHeaderView>
 #include <QListWidget>
+#include <iostream>
 
 #include "../../../../../Common/Data.h"
 #include "../../../../../Common/TreeData.h"
@@ -77,7 +78,8 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 
 	connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
 	connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
-	//connect(_table, SIGNAL(itemClicked(QTableWidgetItem *)), this, SLOT(choosenClass(QTableWidgetItem *)));
+	connect(this->_classList->classList(), SIGNAL(itemClicked( QListWidgetItem * )),
+			this, SLOT(choosenClass(QListWidgetItem *)));
 	//connect(_table, SIGNAL(cellClicked(int, int)), this, SLOT(cellClicked(int, int)));
 	displayClasses();
 }
@@ -93,6 +95,8 @@ void    AdmAddClassWidget::displayClasses()
 		{
 			QListWidgetItem *item = new QListWidgetItem(QIcon(":/Icons/desk.png"), tmp->name());
 			this->_classList->classList()->addItem(item);
+			this->_classList->classList()->addItem(QVariant(tmp->id()).toString());
+			//this->_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
 			//			this->_classList->addItem();
 			//QTableWidgetItem *name = new QTableWidgetItem(tmp->name());
 	//		name->setFlags(Qt::ItemIsEnabled);
@@ -258,10 +262,12 @@ void    AdmAddClassWidget::modifUser()
 		//			new QTableWidgetItem(QVariant(classSave->id()).toString()));
 }
 
-void    AdmAddClassWidget::choosenClass()
+void    AdmAddClassWidget::choosenClass(QListWidgetItem *item)
 {
+	qDebug() << "jai ete selectionne"
+			<< this->_classList->classList()->item(this->_classList->classList()->currentRow() + 1)->text();
 
-
+	_save->setText(tr("Editer"));
 }
 
 void	AdmAddClassWidget::cellClicked(int row, int col)
