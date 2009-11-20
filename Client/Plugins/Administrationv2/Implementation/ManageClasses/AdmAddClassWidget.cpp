@@ -20,23 +20,25 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	_mainLayout->setMargin(0);
 	_mainLayout->setSpacing(0);
 	QVBoxLayout  *columnLayout;
-	QWidget      *column;
+	//QWidget      *column;
 
-//	_table = new QTableWidget(0, 7);
-//	_table->setShowGrid(false);
-//	_table->horizontalHeader()->setStretchLastSection(true);
+	// QVBoxLayout *RightLayout = new QVBoxLayout();
 
-	QStringList header;
-	header.insert(0, QString(tr("Nom de la classe")));
-	header.insert(1, QString(tr("Professeur principal")));
-	header.insert(2, QString(tr("Modifier")));
-	header.insert(3, QString(tr("Supprimer")));
-	header.insert(4, QString(tr("")));
-//	_table->setHorizontalHeaderLabels(header);
+	//StudentList = new ListSelection(treeplugin, userplugin);
+	addstudent = new QPushButton(QIcon(":/Icons/add-students.png"), tr("Add a student"));
+	del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete this student"));
+	edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
+	ok = new QPushButton(QIcon(":/Icons/ok.png"), tr("Ok"));
+//	save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
+	reset = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
+	back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
+	back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
+
 	_mainLayout->addWidget(_classList);
 
-	column = new QWidget();
-	columnLayout = new QVBoxLayout(column);
+//	column = new QWidget();
+	columnLayout = new QVBoxLayout();
+	_mainLayout->addLayout(columnLayout);
 	columnLayout->setSpacing(0);
 	columnLayout->setMargin(0);
 
@@ -50,7 +52,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	actions->setProperty("isRound", true);
 	columnLayout->addWidget(actions);
 
-	_mainLayout->addWidget(column);
+	//_mainLayout->addWidget(column);
 	this->_classNameLabel = new QLabel(tr("Nom de la classe:"));
 	this->_className = new QLineEdit();
 	columnLayout->addWidget(_classNameLabel);
@@ -68,8 +70,10 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	columnLayout->addWidget(_save);
 	columnLayout->addWidget(_cancel);
 
+
+
 	_mainLayout->setStretch(0, 1);
-	columnLayout->addStretch(25);
+	columnLayout->addStretch(1);
 
 	connect(_save, SIGNAL(clicked()), this, SLOT(addClass()));
 	connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));

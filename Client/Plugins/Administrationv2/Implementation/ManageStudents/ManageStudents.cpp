@@ -7,7 +7,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     UD = userplugin;
     TD = treeplugin;
     newUSer = 0;
-    newPapa = 0;
+	newPapa = 0; //lol
     info = 0;
     MainLayout = new QHBoxLayout();
     MainLayout->setSpacing(0);
@@ -20,7 +20,7 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete this student"));
     edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
     ok = new QPushButton(QIcon(":/Icons/ok.png"), tr("Ok"));
-    save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
+	save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
     reset = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"));
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));
     back = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"));

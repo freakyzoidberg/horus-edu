@@ -49,6 +49,17 @@ private:
     QPushButton     *_save;
     QPushButton     *_cancel;
 
+	//pompage
+	QPushButton *addstudent;
+	QPushButton *editstudent;
+	QPushButton *back;
+	QPushButton *edit;
+	//QPushButton *save;
+	QPushButton *del;
+	QPushButton *ok;
+	QPushButton *reset;
+	QPushButton *refresh;
+
     QHBoxLayout     *_mainLayout;
    // QTableWidget    *_table;
 
