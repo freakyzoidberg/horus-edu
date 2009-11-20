@@ -28,8 +28,9 @@ public slots:
     void            addClass();
     void            emptyField();
     void            modifUser();
-    void            cellClicked(int, int);
+  //  void            cellClicked(int, int);
 	void            choosenClass(QListWidgetItem *);
+	void			deleteClass();
 
 private:
     void            initUserReferent(void);

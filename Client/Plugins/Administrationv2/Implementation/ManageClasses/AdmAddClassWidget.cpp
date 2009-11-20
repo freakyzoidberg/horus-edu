@@ -27,7 +27,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 
 	//StudentList = new ListSelection(treeplugin, userplugin);
 	addstudent = new QPushButton(QIcon(":/Icons/add-students.png"), tr("Add a student"));
-	del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete this student"));
+	del = new QPushButton(QIcon(":/Icons/remove-students.png"), tr("Delete class"));
 	edit = new QPushButton(QIcon(":/Icons/edit-students.png"), tr("Edit this student"));
 	ok = new QPushButton(QIcon(":/Icons/ok.png"), tr("Ok"));
 //	save = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"));
@@ -70,8 +70,9 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	this->_cancel = new QPushButton(QIcon(":/Icons/reset.png"), tr("Abandonner"));
 	columnLayout->addWidget(_save);
 	columnLayout->addWidget(_cancel);
+	columnLayout->addWidget(del);
 
-
+	del->hide();
 
 	_mainLayout->setStretch(0, 1);
 	columnLayout->addStretch(1);
@@ -80,6 +81,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	connect(_cancel, SIGNAL(clicked()), this, SLOT(emptyField()));
 	connect(this->_classList->classList(), SIGNAL(itemClicked( QListWidgetItem * )),
 			this, SLOT(choosenClass(QListWidgetItem *)));
+	connect(del, SIGNAL(clicked()), this, SLOT(deleteClass()));
 	displayClasses();
 }
 
@@ -95,35 +97,11 @@ void    AdmAddClassWidget::displayClasses()
 			QListWidgetItem *item = new QListWidgetItem(QIcon(":/Icons/desk.png"), tmp->name());
 			_classList->classList()->addItem(item);
 			_classList->classList()->addItem(QVariant(tmp->id()).toString());
-			_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
-			//			this->_classList->addItem();
-			//QTableWidgetItem *name = new QTableWidgetItem(tmp->name());
-	//		name->setFlags(Qt::ItemIsEnabled);
-		//	_table->setRowCount(j + 1);
-			//this->_table->setItem(j, 0, name);
-			/*QTableWidgetItem *u = 	new QTableWidgetItem(tmp->user()->id() == 0 ?
-														 "Non renseigne" :
-														 tmp->user()->name() + " "
-														 + tmp->user()->surname()); */
-
-			//this->_table->setItem(j, 1, u);
-		//	u->setFlags(Qt::ItemIsEnabled);
-
-			//QTableWidgetItem *edit =  new QTableWidgetItem(QIcon(":/Icons/edit-desk.png"), "");
-			//_table->setItem(j, 2, edit);
-			//edit->setFlags(Qt::ItemIsEnabled);
-			//QTableWidgetItem * del = new QTableWidgetItem(QIcon(":/Icons/remove-desk.png"), "");
-			//_table->setItem(j, 3, del);
-			//del->setFlags(Qt::ItemIsEnabled);
-
-			//_table->setItem(j, 5, new QTableWidgetItem(QVariant(tmp->user()->id()).toString()));
-			//_table->setItem(j, 6, new QTableWidgetItem(QVariant(tmp->id()).toString()));
+			//_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
 			j++;
 		}
 	}
-	//_table->setColumnHidden(5, true);
-	//_table->setColumnHidden(6, true);
-	//_table->resizeColumnsToContents ();
+
 }
 
 void    AdmAddClassWidget::initUserReferent()
@@ -188,6 +166,7 @@ void    AdmAddClassWidget::emptyField()
 {
 	_className->setText("");
 	_userReferent->setCurrentIndex(0);
+	del->hide();
 	_save->setText(tr("Ajouter"));
 }
 
@@ -258,55 +237,40 @@ void    AdmAddClassWidget::modifUser()
 	}
 	_classList->classList()->addItem(new QListWidgetItem(QIcon(":/Icons/desk.png"), classSave->name()));
 	_classList->classList()->addItem(QVariant(classSave->id()).toString());
-	_classList->classList()->setRowHidden(_classList->classList()->count() - 1, true);
+	//_classList->classList()->setRowHidden(_classList->classList()->count() - 1, true);
 	//_table->setItem(_table->rowCount() - 1, 6,
 		//			new QTableWidgetItem(QVariant(classSave->id()).toString()));
 }
 
 void    AdmAddClassWidget::choosenClass(QListWidgetItem *item)
 {
-	qDebug() << "jai ete selectionne"
-			<< this->_classList->classList()->item(this->_classList->classList()->currentRow() + 1)->text();
 	this->_className->setText(_classList->classList()->item(this->_classList->classList()->currentRow())->text());
 	_save->setText(tr("Editer"));
+	del->show();
 }
 
-void	AdmAddClassWidget::cellClicked(int row, int col)
+void	AdmAddClassWidget::deleteClass()
 {
-	if (col == 3)
+	QMessageBox msgBox;
+
+	msgBox.setText(tr("Voulez-vous vraiment supprimer cette classe?"));
+
+	QPushButton *connectButton = msgBox.addButton(tr("Confirmer."), QMessageBox::ActionRole);
+	QPushButton *abortButton = msgBox.addButton(QMessageBox::Abort);
+
+	msgBox.exec();
+
+	if (msgBox.clickedButton() == connectButton)
 	{
-		QMessageBox msgBox;
-		msgBox.setText(tr("Voulez-vous vraiment supprimer cette classe?"));
-		QPushButton *connectButton = msgBox.addButton(tr("Confirmer."), QMessageBox::ActionRole);
-		QPushButton *abortButton = msgBox.addButton(QMessageBox::Abort);
-
-		msgBox.exec();
-
-		if (msgBox.clickedButton() == connectButton)
-		{
-			//TreeData *data = _treeplugin->node(QVariant(_table->item(row, 6)->text()).toInt());
-			//data->remove();
-			//_table->removeRow(row);
-		}
-		else if (msgBox.clickedButton() == abortButton)
-			return ;
+		int	id;
+		id = _classList->classList()->item(_classList->classList()->currentRow() + 1)->text().toInt();
+		TreeData *data = _treeplugin->node(id);
+		data->remove();
+		_classList->classList()->clear();
+		/*_classList->classList()->removeItemWidget(_classList->classList()->item);
+		_classList->classList()->removeItemWidget(_classList->classList()->item(_classList->classList()->currentRow())); */
 	}
-	else if (col == 2)
-	{
-		/*UserData *user = _userplugin->user(QVariant(_table->item(row, 5)->text()).toInt());
-		TreeData *data = _treeplugin->node(QVariant(_table->item(row, 6)->text()).toInt());
-
-		selectedData = data;
-		currentrow = row;
-
-		_className->setText(data->name());
-		for (int i = 0; i < _userReferent->count(); i++)
-		{
-			if (_userReferent->itemData(i).toInt() == user->id())
-			{
-				_userReferent->setCurrentIndex(i);
-			}
-		}
-		_save->setText(tr("Editer")); */
-	}
+	else if (msgBox.clickedButton() == abortButton)
+		return ;
 }
+
