@@ -85,7 +85,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	displayClasses();
 }
 
-void    AdmAddClassWidget::displayClasses()
+void    AdmAddClassWidget::displayClasses(int id)
 {
 	QList<Data*> datas = _treeplugin->allDatas();
 
@@ -94,11 +94,14 @@ void    AdmAddClassWidget::displayClasses()
 		TreeData    *tmp = qobject_cast<TreeData *>(datas.at(i));
 		if (tmp->type() == "GRADE")
 		{
-			QListWidgetItem *item = new QListWidgetItem(QIcon(":/Icons/desk.png"), tmp->name());
-			_classList->classList()->addItem(item);
-			_classList->classList()->addItem(QVariant(tmp->id()).toString());
-			//_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
-			j++;
+			if (id == -1 || id != tmp->id())
+			{
+				QListWidgetItem *item = new QListWidgetItem(QIcon(":/Icons/desk.png"), tmp->name());
+				_classList->classList()->addItem(item);
+				_classList->classList()->addItem(QVariant(tmp->id()).toString());
+				//_classList->classList()->setRowHidden(this->_classList->classList()->count() - 1, true);
+				j++;
+			}
 		}
 	}
 
@@ -180,22 +183,12 @@ void    AdmAddClassWidget::addClassInDatabase()
 	newClass->setParent(this->_treeplugin->node(0));
 	newClass->setUser(this->_userplugin->nobody());
 
-	//_table->setRowCount(_table->rowCount() + 1);
-//	QTableWidgetItem *name = new QTableWidgetItem(this->_className->text());
-//	name->setFlags(Qt::ItemIsEnabled);
-
 	index = this->_userReferent->currentIndex();
 	UserData *user;
 	if (_userReferent->itemData(index).toInt() != 0)
 	{
 		user = _userplugin->user(_userReferent->itemData(index).toInt());
 		user->setStudentClass(newClass);
-
-	//	QTableWidgetItem *n = new QTableWidgetItem(user->name() + " " + user->surname());
-	//	n->setFlags(Qt::ItemIsEnabled);
-		//_table->setItem(_table->rowCount() - 1, 1, n);
-		//_table->setItem(_table->rowCount() - 1, 5,
-			//			new QTableWidgetItem(QVariant(user->id()).toString()));
 		newClass->setUser(user);
 	}
 	else
@@ -228,18 +221,11 @@ void    AdmAddClassWidget::addClassInDatabase()
 
 void    AdmAddClassWidget::modifUser()
 {
-
 	if (save && save->id() != 0)
-	{
-		//_table->setItem(_table->rowCount() - 1, 5,
-			//				new QTableWidgetItem(QVariant(save->id()).toString()));
 		save->save();
-	}
 	_classList->classList()->addItem(new QListWidgetItem(QIcon(":/Icons/desk.png"), classSave->name()));
 	_classList->classList()->addItem(QVariant(classSave->id()).toString());
-	//_classList->classList()->setRowHidden(_classList->classList()->count() - 1, true);
-	//_table->setItem(_table->rowCount() - 1, 6,
-		//			new QTableWidgetItem(QVariant(classSave->id()).toString()));
+	disconnect(classSave, SIGNAL(created()), this, SLOT(modifUser()));
 }
 
 void    AdmAddClassWidget::choosenClass(QListWidgetItem *item)
@@ -265,12 +251,18 @@ void	AdmAddClassWidget::deleteClass()
 		int	id;
 		id = _classList->classList()->item(_classList->classList()->currentRow() + 1)->text().toInt();
 		TreeData *data = _treeplugin->node(id);
+		connect(this->_treeplugin, SIGNAL(dataRemoved(Data *)), this, SLOT(refreshList(Data *)));
 		data->remove();
-		_classList->classList()->clear();
-		/*_classList->classList()->removeItemWidget(_classList->classList()->item);
-		_classList->classList()->removeItemWidget(_classList->classList()->item(_classList->classList()->currentRow())); */
 	}
 	else if (msgBox.clickedButton() == abortButton)
 		return ;
+}
+
+void	AdmAddClassWidget::refreshList(Data *data)
+{
+	TreeData	*tmp = qobject_cast<TreeData *>(data);
+	disconnect(this->_treeplugin, SIGNAL(dataRemoved(Data *)), this, SLOT(refreshList(Data *)));
+	_classList->classList()->clear();
+	displayClasses(tmp->id());
 }
 
