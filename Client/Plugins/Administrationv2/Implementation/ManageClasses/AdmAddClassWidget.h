@@ -22,7 +22,7 @@ public:
                     AdmAddClassWidget(TreeDataPlugin *treeplugin,
                                       UserDataPlugin *userplugin);
     void            addClassInDatabase();
-    void            displayClasses();
+	void            displayClasses(int id = -1);
 
 public slots:
     void            addClass();
@@ -31,6 +31,7 @@ public slots:
   //  void            cellClicked(int, int);
 	void            choosenClass(QListWidgetItem *);
 	void			deleteClass();
+	void			refreshList(Data *);
 
 private:
     void            initUserReferent(void);
