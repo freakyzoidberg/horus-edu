@@ -98,7 +98,7 @@
         <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="18"/>
         <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="70"/>
         <source>dd/MM/yy</source>
-        <translation>jj/mm/yy</translation>
+        <translation>jj/mm/aa</translation>
     </message>
     <message>
         <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="23"/>
@@ -400,12 +400,12 @@
     <message>
         <location filename="Implementation/ManageAdministratives/EditAdministrative.cpp" line="174"/>
         <source>Informations:</source>
-        <translation>Informations</translation>
+        <translation>Informations :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageAdministratives/EditAdministrative.cpp" line="179"/>
         <source>Actions:</source>
-        <translation>Actions</translation>
+        <translation>Actions :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageAdministratives/EditAdministrative.cpp" line="183"/>
@@ -631,17 +631,17 @@
     <message>
         <location filename="Implementation/ManageTeachers/EditTeacher.cpp" line="156"/>
         <source>Contract</source>
-        <translation>Contract</translation>
+        <translation>Contrat</translation>
     </message>
     <message>
         <location filename="Implementation/ManageTeachers/EditTeacher.cpp" line="174"/>
         <source>Informations:</source>
-        <translation>Informations</translation>
+        <translation>Informations :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageTeachers/EditTeacher.cpp" line="179"/>
         <source>Actions:</source>
-        <translation>Actions</translation>
+        <translation>Actions :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageTeachers/EditTeacher.cpp" line="183"/>
@@ -802,7 +802,7 @@
     <message>
         <location filename="Implementation/ManageStudents/ListSelection.cpp" line="33"/>
         <source>Select a class to view, add or edit students.</source>
-        <translation>Selectionnez une classe pour la visualiser, ajouter ou editer des étudiants</translation>
+        <translation>Selectionnez une classe pour la visualiser, ajouter ou editer des étudiants.</translation>
     </message>
 </context>
 <context>
@@ -810,17 +810,17 @@
     <message>
         <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="27"/>
         <source>Select a teacher to view or edit it.</source>
-        <translation>Selectionner un professeur pour le visualiser ou l&apos;éditer</translation>
+        <translation>Selectionner un professeur pour le visualiser ou l&apos;éditer.</translation>
     </message>
     <message>
         <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="43"/>
         <source>Informations:</source>
-        <translation>Informations</translation>
+        <translation>Informations :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="50"/>
         <source>Actions:</source>
-        <translation>Actions</translation>
+        <translation>Actions :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageTeachers/ListTeachers.cpp" line="54"/>
@@ -922,7 +922,7 @@
     <message>
         <location filename="Implementation/ManageStudents/ManageStudents.cpp" line="268"/>
         <source>Saving failed, please try later sur id :</source>
-        <translation>Sauvegarde échouée, essayer plus tard sur id svp</translation>
+        <translation>Sauvegarde échouée, essayer plus tard sur id svp :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageStudents/ManageStudents.cpp" line="503"/>
@@ -932,12 +932,12 @@
     <message>
         <location filename="Implementation/ManageStudents/ManageStudents.cpp" line="53"/>
         <source>Informations:</source>
-        <translation>Informations</translation>
+        <translation>Informations :</translation>
     </message>
     <message>
         <location filename="Implementation/ManageStudents/ManageStudents.cpp" line="64"/>
         <source>Actions:</source>
-        <translation>Actions</translation>
+        <translation>Actions :</translation>
     </message>
 </context>
 <context>
