@@ -33,7 +33,7 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageStudents/Parentinfos.cpp \
     Implementation/ManageStudents/Infopanel.cpp \
     Implementation/ManageStudents/Scrollformstudent.cpp \
-    Implementation/ManageClasses/classlist.cpp
+    Implementation/ManageClasses/ClassListClass.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -73,7 +73,7 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/Parentinfos.h \
     Implementation/ManageStudents/Infopanel.h \
     Implementation/ManageStudents/Scrollformstudent.h \
-    Implementation/ManageClasses/classlist.h
+    Implementation/ManageClasses/ClassListClass.h
 RESOURCES += Implementation/Icons.qrc
 TRANSLATIONS = Administrationv2_en.ts \
     Administrationv2_fr.ts

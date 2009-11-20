@@ -4,130 +4,132 @@
 <context>
     <name>AdmAddClassWidget</name>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="28"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="30"/>
         <source>Nom de la classe</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="29"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="31"/>
         <source>Professeur principal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="30"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="32"/>
         <source>Modifier</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="31"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="33"/>
         <source>Supprimer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="41"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="43"/>
         <source>Informations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="46"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="48"/>
         <source>Actions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="52"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="54"/>
         <source>Nom de la classe:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="57"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="59"/>
         <source>Professeur principal:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="64"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="146"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="159"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="181"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="66"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="149"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="162"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="184"/>
         <source>Ajouter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="65"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="67"/>
         <source>Abandonner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="138"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="141"/>
         <source>This class must have a name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="151"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="154"/>
         <source>The class was successfully added.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="160"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="163"/>
         <source>The class was successfully edited.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="215"/>
-        <source>Non renseigne.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="265"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="268"/>
         <source>Voulez-vous vraiment supprimer cette classe?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="266"/>
+        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="269"/>
         <source>Confirmer.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="296"/>
-        <source>Editer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>BasicInfos</name>
     <message>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="18"/>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="70"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="20"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="81"/>
         <source>dd/MM/yy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="23"/>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="88"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="25"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="103"/>
         <source>Last name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="30"/>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="95"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="32"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="110"/>
         <source>First name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="36"/>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="102"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="38"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="117"/>
         <source>Birthday</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="43"/>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="108"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="45"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="123"/>
         <source>lieu de naissance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="48"/>
-        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="113"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="50"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="128"/>
         <source>Address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="56"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="134"/>
+        <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="61"/>
+        <location filename="Implementation/ManageStudents/BasicInfos.cpp" line="139"/>
+        <source>Brother/Sister</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -431,102 +433,102 @@
 <context>
     <name>EditParent</name>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="135"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="129"/>
         <source>Unknow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="129"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="123"/>
         <source>Relationship</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="133"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="127"/>
         <source>Parent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="134"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="128"/>
         <source>Tutor</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="102"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="96"/>
         <source>Parents informations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="109"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="103"/>
         <source>Father last name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="114"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="108"/>
         <source>Mother last name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="119"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="113"/>
         <source>Father first name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="124"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="118"/>
         <source>Mother first name</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="144"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="138"/>
         <source>Parent contact informations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="151"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="145"/>
         <source>Address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="156"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="150"/>
         <source>Email</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="161"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="155"/>
         <source>Home phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="166"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="160"/>
         <source>Work phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="171"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="165"/>
         <source>Mobile phone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="183"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="177"/>
         <source>Parent occupation informations</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="190"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="184"/>
         <source>Father occupational category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="195"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="189"/>
         <source>Mother occupational category</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="200"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="194"/>
         <source>Father occupation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageParents/EditParent.cpp" line="205"/>
+        <location filename="Implementation/ManageParents/EditParent.cpp" line="199"/>
         <source>Mother occupation</source>
         <translation type="unfinished"></translation>
     </message>
@@ -920,13 +922,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStudents/ManageStudents.cpp" line="268"/>
+        <location filename="Implementation/ManageStudents/ManageStudents.cpp" line="283"/>
         <source>Saving failed, please try later sur id :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/ManageStudents/ManageStudents.cpp" line="503"/>
-        <source>L&apos;utilisateur a bien ete crée</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -960,15 +957,21 @@
 <context>
     <name>SchoolInfos</name>
     <message>
-        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="16"/>
-        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="78"/>
+        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="14"/>
+        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="75"/>
         <source>Redoublement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="30"/>
-        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="91"/>
+        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="29"/>
+        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="89"/>
         <source>Entry year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="41"/>
+        <location filename="Implementation/ManageStudents/Schoolinfos.cpp" line="103"/>
+        <source>Annee quitte</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -996,14 +999,8 @@
 <context>
     <name>SuiviInfos</name>
     <message>
-        <location filename="Implementation/ManageStudents/Suiviinfos.cpp" line="20"/>
-        <location filename="Implementation/ManageStudents/Suiviinfos.cpp" line="53"/>
-        <source>Annee quitte</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/ManageStudents/Suiviinfos.cpp" line="25"/>
-        <location filename="Implementation/ManageStudents/Suiviinfos.cpp" line="58"/>
+        <location filename="Implementation/ManageStudents/Suiviinfos.cpp" line="14"/>
+        <location filename="Implementation/ManageStudents/Suiviinfos.cpp" line="34"/>
         <source>Suivi post ecoline</source>
         <translation type="unfinished"></translation>
     </message>

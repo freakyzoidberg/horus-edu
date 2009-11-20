@@ -5,10 +5,10 @@
 #include <QVBoxLayout>
 #include <QListWidget>
 
-class ClassList : public QWidget
+class ClassListClass : public QWidget
 {
 public:
-    ClassList();
+    ClassListClass();
 	QVBoxLayout		*listLayout()	{ return _listLayout; }
 	QListWidget		*classList()	{ return _classList; }
 

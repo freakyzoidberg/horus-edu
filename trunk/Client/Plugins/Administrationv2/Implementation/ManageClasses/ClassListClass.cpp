@@ -1,9 +1,9 @@
 #include <QLabel>
 #include <QVariant>
 
-#include "classlist.h"
+#include "ClassListClass.h"
 
-ClassList::ClassList()
+ClassListClass::ClassListClass()
 {
 	  _listLayout = new QVBoxLayout(this);
 

@@ -12,7 +12,7 @@
 
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
-#include "classlist.h"
+#include "ClassListClass.h"
 
 class AdmAddClassWidget : public QWidget
 {
@@ -40,7 +40,7 @@ private:
     TreeDataPlugin  *_treeplugin;
     UserDataPlugin  *_userplugin;
 
-	ClassList		*_classList;
+	ClassListClass	*_classList;
 
     QLabel          *_classNameLabel;
     QLineEdit       *_className;
