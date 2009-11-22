@@ -159,10 +159,17 @@ void ManageStudents::goedit()
 
 void ManageStudents::godel()
 {
+QMessageBox *box;
+int res;
 
     if (StudentList->StudentList->selectedItems().count() > 0)
     {
         UserData* myuser = UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt());
+  box = new QMessageBox(QMessageBox::Question, tr("Confirmation"), tr("Do you really want to delete ") + StudentList->StudentList->selectedItems().first()->text() + tr(" ?"), QMessageBox::Yes | QMessageBox::No, this);
+  res = box->exec();
+   if (res == QMessageBox::Yes)
+  {
+
         myuser->remove();
         if (StudentList->ClassList->selectedItems().count() > 0)
             StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
@@ -171,6 +178,7 @@ void ManageStudents::godel()
             delete info;
             info = 0;
         }
+    }
     }
 
 }
