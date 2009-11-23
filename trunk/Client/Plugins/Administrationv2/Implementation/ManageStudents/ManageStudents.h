@@ -59,6 +59,7 @@ private slots:
     void setedittrue();
     void userCreated();
     void refreshall();
+    void checkedit();
 };
 
 #endif // MANAGESTUDENTS_H
