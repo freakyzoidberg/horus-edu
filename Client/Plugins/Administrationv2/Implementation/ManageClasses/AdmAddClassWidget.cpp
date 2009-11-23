@@ -124,29 +124,27 @@ void    AdmAddClassWidget::addClass()
 			addClassInDatabase();
 			_userReferent->currentText().clear();
 			_className->setText("");
-			errorMsg.setText(tr("The class was successfully added."));
-			errorMsg.exec();
 		}
 		else
 		{
-			errorMsg.setText("Sorry the edition is not available for now.");
-			errorMsg.exec();
-		/*	editClassInDatabase();
+			editClassInDatabase();
 			_userReferent->currentText().clear();
 			_className->setText("");
 			_save->setText(tr("Ajouter"));
-			errorMsg.setText(tr("The class was successfully edited."));
-			errorMsg.exec(); */
 		}
 	}
 }
 
 void    AdmAddClassWidget::editClassInDatabase()
 {
-	UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
+	quint32 id = _classList->classList()->item(_classList->classList()->currentRow() + 1)->text().toInt();
+//	UserData *user = _userplugin->user(_userReferent->itemData(_userReferent->currentIndex()).toInt());
+	selectedData = _treeplugin->node(id);
 	selectedData->setName(_className->text());
-	selectedData->setUser(user);
+//	selectedData->setUser(user);
 	selectedData->save();
+	_classList->classList()->item(_classList->classList()->currentRow())->setText(_className->text());
+
 }
 
 void    AdmAddClassWidget::emptyField()
