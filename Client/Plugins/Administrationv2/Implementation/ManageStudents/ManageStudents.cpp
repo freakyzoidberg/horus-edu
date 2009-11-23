@@ -34,7 +34,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
     connect(del, SIGNAL(clicked()), this, SLOT(godel()));
     connect(StudentList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(seteditfalse()));
-    connect(StudentList->StudentList, SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(setedittrue()));
+    connect(StudentList->StudentList, SIGNAL(itemSelectionChanged ()), this, SLOT(checkedit()));
+
 
     //connect(UD, SIGNAL(dataCreated(Data*)), this, SLOT(checkCreated(Data*)));
     connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
@@ -171,6 +172,7 @@ int res;
   {
 
         myuser->remove();
+        seteditfalse();
         if (StudentList->ClassList->selectedItems().count() > 0)
             StudentList->updatestudents(StudentList->ClassList->selectedItems().first());
         if (info)
@@ -649,10 +651,39 @@ void ManageStudents::setedittrue()
         delete info;
         info = 0;
     }
+    if (StudentList->StudentList->selectedItems().count() > 0)
+    {
+    info = new InfoPanel(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
+    informationsLayout->addWidget(info);
+    }
+}
+
+void ManageStudents::checkedit()
+{
+if (StudentList->StudentList->selectedItems().count() > 0)
+    {
+     edit->setEnabled(true);
+     del->setEnabled(true);
+
+    if (info)
+     {
+        delete info;
+        info = 0;
+    }
     info = new InfoPanel(UD->user(StudentList->StudentList->selectedItems().first()->data(Qt::UserRole).toInt()));
     informationsLayout->addWidget(info);
 }
-
+else
+{
+      if (info)
+    {
+        delete info;
+        info = 0;
+    }
+     edit->setEnabled(false);
+     del->setEnabled(false);
+}
+}
 
 QList<UserData*> ManageStudents::getAllParents()
 {
