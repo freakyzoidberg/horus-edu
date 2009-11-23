@@ -2,12 +2,12 @@
 
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/TreeDataPlugin.h"
-
+#include "../../../Common/SettingsDataPlugin.h"
 #include "MainFrameWidget.h"
 
 bool MainFrame::canLoad() const
 {
-	if (pluginManager->findPlugin<TreeDataPlugin*>())
+        if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<SettingsDataPlugin*>())
 		return (true);
 	return (false);
 }
