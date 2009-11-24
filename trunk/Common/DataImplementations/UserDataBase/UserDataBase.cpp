@@ -17,6 +17,7 @@ const char* UserDataBase::levelStrings[] = {
 
 UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserData(userId, plugin)
 {
+	moveToThread(plugin->thread());
 	_level = __LAST_LEVEL__;
 	_enabled = false;
 	_loggedIn = false;
@@ -24,8 +25,6 @@ UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserDat
 	_repeatedYears = 0;
 	_startYear = 0;
 	_leaveYear = 0;
-	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
-	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 }
 
 void UserDataBase::studentClassRemoved()
@@ -35,7 +34,7 @@ void UserDataBase::studentClassRemoved()
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 }
 
-void UserDataBase::keyToStream(QDataStream& s)
+void UserDataBase::keyToStream(QDataStream& s) const
 {
     s << _id;
 }
@@ -122,9 +121,27 @@ void UserDataBase::dataFromStream(QDataStream& s)
 	connect(_student, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 
 	_gender = (UserGender)gender;
+
+	disconnect(_student, SIGNAL(removed()), this, SLOT(remove()));
 	_student = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(studentId);
+	connect(_student, SIGNAL(removed()), this, SLOT(remove()));
 
     Data::dataFromStream(s);
+}
+
+bool UserDataBase::canChange(UserData* user) const
+{
+	if (user->level() <= LEVEL_ADMINISTRATOR || user == _plugin->pluginManager->currentUser())
+		return true;
+	return false;
+}
+
+bool UserDataBase::canAccess(UserData*) const
+{
+//	if (user->level() <= LEVEL_ADMINISTRATOR || user == _plugin->pluginManager->currentUser())
+//		return true;
+//	return false;
+	return true;
 }
 
 QDebug UserDataBase::operator<<(QDebug debug) const
@@ -132,10 +149,17 @@ QDebug UserDataBase::operator<<(QDebug debug) const
     return debug << dataType()
                  << status()
                  << _id
-                 << _level
+				 << (UserLevel)_level
                  << _login
                  << _lastLogin
                  ;
+}
+
+const QList<Data*> UserDataBase::dependsOfCreatedData() const
+{
+	QList<Data*> list;
+	list.append(_studentClass);
+	return list;
 }
 
 void UserDataBase::setName(const QString name)
@@ -171,7 +195,6 @@ void UserDataBase::setEnable(bool enabled)
 void UserDataBase::setStudentClass(TreeData* node)
 {
 	QMutexLocker M(&mutex);
-
 	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass = node;
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
@@ -252,7 +275,9 @@ void UserDataBase::setRelationship(const QString relationship)
 void UserDataBase::setStudent(UserData* student)
 {
 	QMutexLocker M(&mutex);
+	disconnect(_student, SIGNAL(removed()), this, SLOT(removed()));
 	_student = student;
+	connect(_student, SIGNAL(removed()), this, SLOT(removed()));
 }
 
 void UserDataBase::setMail(const QString mail)
@@ -327,7 +352,6 @@ void UserDataBase::setContract(const QString contract)
 	_contract = contract;
 }
 
-
 #ifdef HORUS_CLIENT
 #include <QIcon>
 QVariant UserDataBase::data(int column, int role) const
@@ -357,7 +381,7 @@ QVariant UserDataBase::data(int column, int role) const
 quint8 UserDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,start_year,leave_year,follow_up,comment,born_place,nbr_brothers,social_insurance_nbr,diploma,contract,mtime FROM user WHERE id=?;");
+	query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`FROM`user`WHERE`id`=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -413,11 +437,10 @@ quint8 UserDataBase::serverRead()
 quint8 UserDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO user (enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,start_year,leave_year,follow_up,comment,born_place,nbr_brothers,social_insurance_nbr,diploma,contract,mtime,passmail) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
+	query.prepare("INSERT INTO`user`(`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`passmail`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
-//	_password = QCryptographicHash::hash(_surname.toAscii(), QCryptographicHash::Sha1);
 	query.addBindValue(_password.toHex());
 	query.addBindValue(_studentClass->id());
 	query.addBindValue(_lastLogin);
@@ -437,7 +460,6 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_relationship);
 	query.addBindValue(_student->id());
 	query.addBindValue(_mail);
-	qDebug() << _subscriptionReason;
 	query.addBindValue(_subscriptionReason);
 	query.addBindValue(_repeatedYears);
 	query.addBindValue(_startYear);
@@ -450,9 +472,7 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_diploma);
 	query.addBindValue(_contract);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
-
-	//passmail
-	query.addBindValue(_login);
+	query.addBindValue(_login);//passmail
 
 	if ( ! query.exec())
 	{
@@ -460,9 +480,7 @@ quint8 UserDataBase::serverCreate()
 		return DATABASE_ERROR;
 	}
 
-	((UserDataBasePlugin*)_plugin)->_users.remove(_id);
 	_id = query.lastInsertId().toUInt();
-	((UserDataBasePlugin*)_plugin)->_users.insert(_id, this);
 
 	return NONE;
 }
@@ -470,7 +488,7 @@ quint8 UserDataBase::serverCreate()
 quint8 UserDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE user SET enabled=?,login=?,level=?,password=?,student_class=?,last_login=?,language=?,surname=?,name=?,birth_date=?,picture=?,address=?,phone1=?,phone2=?,phone3=?,country=?,gender=?,occupation=?,pro_category=?,relationship=?,student=?,mail=?,subscription_reason=?,repeated_years=?,start_year=?,leave_year=?,follow_up=?,comment=?,born_place=?,nbr_brothers=?,social_insurance_nbr=?,diploma=?,contract=?,mtime=? WHERE id=?;");
+	query.prepare("UPDATE`user`SET`enabled`=?,`login`=?,`level`=?,`password`=?,`student_class`=?,`last_login`=?,`language`=?,`surname`=?,`name`=?,`birth_date`=?,`picture`=?,`address`=?,`phone1`=?,`phone2`=?,`phone3`=?,`country`=?,`gender`=?,`occupation`=?,`pro_category`=?,`relationship`=?,`student`=?,`mail`=?,`subscription_reason`=?,`repeated_years`=?,`start_year`=?,`leave_year`=?,`follow_up`=?,`comment`=?,`born_place`=?,`nbr_brothers`=?,`social_insurance_nbr`=?,`diploma`=?,`contract`=?,`mtime`=? WHERE`id`=?;");
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
@@ -518,7 +536,7 @@ quint8 UserDataBase::serverSave()
 quint8 UserDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM user WHERE id=?;");
+	query.prepare("DELETE FROM`user`WHERE`id`=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -541,7 +559,7 @@ QByteArray UserDataBase::newSession(const QDateTime& end)
     for (int i = 0; i < SESSION_WORD_SIZE; i++)
         session[i] = qrand();
 
-	query.prepare("UPDATE user SET session_key=?, session_end=? WHERE id=?;");
+	query.prepare("UPDATE`user`SET`session_key`=?,`session_end`=? WHERE`id`=?;");
     query.addBindValue(session.toHex());
     query.addBindValue(end);
     query.addBindValue(_id);
@@ -561,7 +579,7 @@ void UserDataBase::destroySession()
 {
 	QMutexLocker M(&mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE user SET session_key='', session_end='' WHERE id=?;");
+	query.prepare("UPDATE`user`SET`session_key`='',`session_end`=''WHERE`id`=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -571,7 +589,7 @@ void UserDataBase::destroySession()
 void UserDataBase::updateLastLogin()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE user SET last_login=? WHERE id=?;");
+	query.prepare("UPDATE`user`SET`last_login`=? WHERE`id`=?;");
     query.addBindValue(QDateTime::currentDateTime());
     query.addBindValue(_id);
 

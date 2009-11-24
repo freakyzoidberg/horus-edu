@@ -32,18 +32,16 @@ QHash<quint32, TreeData *>  *CalendarCore::getNodeOfType(QString type)
    return classes;
 }
 
- QHash<quint32, UserData*> *CalendarCore::usersName(const QString & groupName)
+ QList<UserData*> CalendarCore::usersName(const QString & groupName)
  {
-    QHash<quint32, UserData *>  *userList = new QHash<quint32, UserData *>;
-
-    for (int i = 0; i < users->allUser().size(); ++i)
-    {
-       UserData    *tmp = qobject_cast<UserData *>(users->allUser().value(i));
-       if (tmp && (tmp->status() != UserData::EMPTY) && (groupName == "ALL"
-            || tmp->studentClass()->name() == groupName))
-            userList->insert(tmp->id(), tmp);
+	QList<UserData *>  list;
+	foreach (Data* data, users->allDatas())
+	{
+		UserData* user = (UserData*)data;
+		if (IS_VALID_DATA_STATUS(user->status()) && (groupName == "ALL" || user->studentClass()->name() == groupName))
+			list.append(user);
     }
-   return userList;
+   return list;
  }
 
 

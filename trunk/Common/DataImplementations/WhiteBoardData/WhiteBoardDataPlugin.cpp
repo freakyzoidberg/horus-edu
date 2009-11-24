@@ -6,17 +6,22 @@
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
 
+WhiteBoardDataPlugin::WhiteBoardDataPlugin()
+{
+}
+
 WhiteBoardData* WhiteBoardDataPlugin::whiteBoard(TreeData* node)
 {
-	foreach (WhiteBoardData* wb, _whiteBoards)
-		if (qobject_cast<TreeData *>(wb->node()) == node)
+	foreach (Data* d, _allDatas)
+	{
+		WhiteBoardData* wb = (WhiteBoardData*)d;
+		if (wb->node() == node)
 			return wb;
+	}
 
 	WhiteBoardData* wb = new WhiteBoardData(node, this);
-#ifdef HORUS_CLIENT
-	wb->moveToThread(this->thread());
-#endif
-	_whiteBoards.append(wb);
+	wb->moveToThread(thread());
+	_allDatas.append(wb);
 	return wb;
 }
 
@@ -32,20 +37,11 @@ Data* WhiteBoardDataPlugin::dataWithKey(QDataStream& s)
 	return whiteBoard(nodeId);
 }
 
-QList<Data*> WhiteBoardDataPlugin::allDatas() const
+void WhiteBoardDataPlugin::load()
 {
-	QList<Data*> list;
-	foreach (Data* data, _whiteBoards)
-		if (data->status() != Data::EMPTY)
-			list.append(data);
-
-	return list;
-}
 #ifdef HORUS_SERVER
-void WhiteBoardDataPlugin::loadData()
-{
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id_tree,mode,items,mtime FROM white_board;");
+	query.prepare("SELECT`id_tree`,`mode`,`items`,`mtime`FROM`white_board`;");
 	if ( ! query.exec())
 	{
 		qDebug() << query.lastError();
@@ -59,14 +55,39 @@ void WhiteBoardDataPlugin::loadData()
 		wb->_lastChange		= query.value(3).toDateTime();
 		wb->_status			= Data::UPTODATE;
 	}
+#endif
 }
 
-QList<Data*> WhiteBoardDataPlugin::datasForUpdate(UserData* user, QDateTime date)
+void WhiteBoardDataPlugin::unload()
 {
-	QList<Data*> list;
-	foreach (WhiteBoardData* data, _whiteBoards)
-		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-			list.append(data);
-	return list;
+	foreach (Data* d, _allDatas)
+		delete (WhiteBoardData*)d;
+	_allDatas.clear();
+	DataPlugin::unload();
 }
+
+bool WhiteBoardDataPlugin::canLoad() const
+{
+	TreeDataPlugin* tree = pluginManager->findPlugin<TreeDataPlugin*>();
+	if ( ! tree || ! tree->canLoad())
+		return false;
+
+#ifdef HORUS_SERVER
+	QSqlQuery query = pluginManager->sqlQuery();
+	if ( ! query.exec("CREATE TABLE IF NOT EXISTS`white_board` (\
+						`id_tree`int(11) NOT NULL,\
+						`mode`int(1) NOT NULL,\
+						`items`blob,\
+						`mtime`timestamp NOT NULL,\
+						PRIMARY KEY(`id_tree`)\
+					);")
+		||
+		 ! query.exec("SELECT`id_tree`,`mode`,`items`,`mtime`FROM`white_board`WHERE`id_tree`=-1;")
+		)
+	{
+		qDebug() << "WhiteBoardDataPlugin::canLoad()" << query.lastError();
+		return false;
+	}
 #endif
+	return DataPlugin::canLoad();
+}

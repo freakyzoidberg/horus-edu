@@ -46,7 +46,7 @@ NetworkManager::NetworkManager()
 
 	connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(recvPacket(QByteArray)), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
-        connect(PluginManagerClient::instance(), SIGNAL(sendPacket(QByteArray)), this, SLOT(sendPacket(QByteArray)));
+	connect(PluginManagerClient::instance(), SIGNAL(sendPacket(QByteArray)), this, SLOT(sendPacket(QByteArray)));
 }
 
 void NetworkManager::tryToConnect()
@@ -171,10 +171,7 @@ void NetworkManager::recvData()
 	foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
 		if (plugin->dataType() == data.type)
 		{
-			QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData",
-									  Q_ARG(UserData*, PluginManagerClient::instance()->currentUser()),
-									  Q_ARG(const QByteArray, data.data)
-									  );
+			QMetaObject::invokeMethod((QObject*)plugin->dataManager, "receiveData", Q_ARG(const QByteArray, data.data));
 			break;
 		}
 	if (_nbrDatasForUpdate)

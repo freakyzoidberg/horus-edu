@@ -6,6 +6,10 @@
 #include "../../TreeData.h"
 #include "../../UserData.h"
 
+EventDataBasePlugin::EventDataBasePlugin()
+{
+}
+
 EventData* EventDataBasePlugin::newEvent(TreeData* parent, QString name, UserData* user)
 {
 	if ( ! user)
@@ -14,7 +18,7 @@ EventData* EventDataBasePlugin::newEvent(TreeData* parent, QString name, UserDat
 	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNode();
 	node->setParent(parent);
 	node->setUser(user);
-        node->setName(name);
+	node->setName(name);
 	node->setType("EVENT");
 	node->create();
 	return nodeEvent(node);
@@ -27,7 +31,7 @@ EventData* EventDataBasePlugin::nodeEvent(TreeData* node)
 	{
 		event = new EventDataBase(node, this);
 		event->moveToThread(this->thread());
-		_allEvents.append(event);
+		_allDatas.append(event);
 	}
 	return event;
 }
@@ -78,27 +82,74 @@ Data* EventDataBasePlugin::dataWithKey(QDataStream& s)
 	return nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->node(tmpId));
 }
 
-#ifdef HORUS_SERVER
-void EventDataBasePlugin::loadData()
+bool EventDataBasePlugin::canLoad() const
 {
+	TreeDataPlugin* tree = pluginManager->findPlugin<TreeDataPlugin*>();
+	if ( ! tree || ! tree->canLoad())
+		return false;
+
+#ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id,start_time,end_time FROM event;");
-    query.exec();
-    while (query.next())
-    {
-		EventDataBase* event = (EventDataBase*)(nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
-		event->_startTime = query.value(1).toDateTime();
-		event->_endTime   = query.value(1).toDateTime();
-		event->_status = Data::UPTODATE;
-    }
+	if ( ! query.exec("CREATE TABLE IF NOT EXISTS `event`(\
+						`id_tree` int(11) NOT NULL,\
+						`start_time` timestamp NOT NULL,\
+						`end_time` timestamp NOT NULL,\
+						`comment` text NULL,\
+						`mtime` timestamp NOT NULL,\
+						PRIMARY KEY (`id_tree`)\
+					);")
+		||
+		 ! query.exec("SELECT`id_tree`,`start_time`,`end_time`,`mtime`FROM`event`WHERE`id_tree`=-1;")
+		)
+	{
+		qDebug() << "EventDataBasePlugin::canLoad()" << query.lastError();
+		return false;
+	}
+#endif
+	return Plugin::canLoad();
 }
 
-QList<Data*> EventDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
+void  EventDataBasePlugin::load()
+{
+#ifdef HORUS_SERVER
+	QSqlQuery query = pluginManager->sqlQuery();
+	query.prepare("SELECT`id_tree`,`start_time`,`end_time`,`comment`,`mtime`FROM`event`;");
+	query.exec();
+	while (query.next())
+	{
+		EventDataBase* event = (EventDataBase*)(nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
+		event->_startTime = query.value(1).toDateTime();
+		event->_endTime   = query.value(2).toDateTime();
+		event->_lastChange= query.value(3).toDateTime();
+		event->_status = Data::UPTODATE;
+	}
+#endif
+	Plugin::load();
+}
+
+void  EventDataBasePlugin::unload()
+{
+	foreach (Data* d, _allDatas)
+		delete (EventDataBase*)d;
+	_allDatas.clear();
+	Plugin::unload();
+}
+
+#ifdef HORUS_SERVER
+QList<Data*> EventDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
 {
 	QList<Data*> list;
-	foreach (Data* data, _allEvents)
+	foreach (Data* data, _allDatas)
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 			list.append(data);
 	return list;
+}
+#endif
+#ifdef HORUS_CLIENT
+#include "../../../Client/DataListModel.cpp"
+QAbstractListModel* EventDataBasePlugin::listModel() const
+{
+	static DataListModel* _model = new DataListModel(this);
+	return _model;
 }
 #endif

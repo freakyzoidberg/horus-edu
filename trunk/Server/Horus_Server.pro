@@ -54,7 +54,7 @@ HEADERS = Sql.h \
     ../Common/UserDataPlugin.h \
     ../Common/TreeData.h \
     ../Common/TreeDataPlugin.h \
-    ../Common/DataManager.h \
-    NetworkPlugin.h \
-    DataManagerServer.h \
-    ../Common/Notification.h
+	../Common/DataManager.h \
+	../Common/Notification.h \
+	NetworkPlugin.h \
+	DataManagerServer.h

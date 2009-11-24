@@ -210,19 +210,9 @@ QIcon   Calendar::getIcon() const
     _controls->userList()->clear();
 
     //recup all users, search them where node == group_id
-    QHash<quint32, UserData *>  *users = CalendarCore::CalendarCoreInstance()->usersName("ALL");
-    QHashIterator<quint32, UserData *> i(*users);
-
-    while (i.hasNext())
-    {
-        i.next();
-        if ((i.value()->status() != Data::EMPTY)
-            && ((i.value()->studentClass()->id() == group_id)
-                || (group_id == -1)))
-            _controls->userList()->addItem(i.value()->name() + " "
-                               + i.value()->surname(), QVariant(i.value()->id()));
-    }
-    delete users;
+	foreach (UserData* user, CalendarCore::CalendarCoreInstance()->usersName("ALL"))
+		if (user->studentClass()->id() == group_id || group_id == -1)
+			_controls->userList()->addItem(user->name() + " " + user->surname(), QVariant(user->id()));
   }
 
 void    Calendar::selectUser(int index)

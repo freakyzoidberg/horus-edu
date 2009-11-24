@@ -27,18 +27,24 @@ class UserDataBase : public UserData
 
 public:
     // Data Interface
-    void keyToStream(QDataStream& s);
-	void dataToStream(QDataStream& s) const;
-    void dataFromStream(QDataStream& s);
-    QDebug operator<<(QDebug debug) const;
+	void					keyToStream(QDataStream& s) const;
+	void					dataToStream(QDataStream& s) const;
+	void					dataFromStream(QDataStream& s);
+
+	bool					canChange(UserData* user) const;
+	bool					canAccess(UserData* user) const;
+
+	const QList<Data*>		dependsOfCreatedData() const;
+
+	QDebug					operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
-    QVariant data(int column, int role = Qt::DisplayRole) const;
+	QVariant				data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
-	quint8     serverRead();
-	quint8     serverCreate();
-	quint8     serverSave();
-	quint8     serverRemove();
+	quint8					serverRead();
+	quint8					serverCreate();
+	quint8					serverSave();
+	quint8					serverRemove();
 #endif
 
     //UserData Interface
@@ -147,46 +153,46 @@ private:
 	UserDataBase(quint32 userId, UserDataBasePlugin* plugin);
 	~UserDataBase() {}
 
-	quint8				_level;
-	bool				_enabled;
-	bool				_loggedIn;
-	QString				_login;
-	QByteArray			_password;
-	TreeData*			_studentClass;
-	QString				_name;
-	QString				_surname;
-	QDateTime			_lastLogin;
-	QString				_language;
-	QDate				_birthDate;
-	QVariant			_picture;
-	QString				_address;
-	QString				_phone1;
-	QString				_phone2;
-	QString				_phone3;
-	QString				_country;
-	UserGender			_gender;
-	QString				_occupation;
-	QString				_proCategory;
-	QString				_relationship;
-	UserData*			_student;
-	QString				_mail;
-	QString				_subscriptionReason;
-	quint8				_repeatedYears;
-	quint16				_startYear;
-	quint16				_leaveYear;
-	QString				_followUp;
-	QString				_comment;
-	QString				_bornPlace;
-	quint8				_nbrBrothers;
-	QString				_socialInsuranceNbr;
-	QString				_diploma;
-	QString				_contract;
+	quint8					_level;
+	bool					_enabled;
+	bool					_loggedIn;
+	QString					_login;
+	QByteArray				_password;
+	TreeData*				_studentClass;
+	QString					_name;
+	QString					_surname;
+	QDateTime				_lastLogin;
+	QString					_language;
+	QDate					_birthDate;
+	QVariant				_picture;
+	QString					_address;
+	QString					_phone1;
+	QString					_phone2;
+	QString					_phone3;
+	QString					_country;
+	UserGender				_gender;
+	QString					_occupation;
+	QString					_proCategory;
+	QString					_relationship;
+	UserData*				_student;
+	QString					_mail;
+	QString					_subscriptionReason;
+	quint8					_repeatedYears;
+	quint16					_startYear;
+	quint16					_leaveYear;
+	QString					_followUp;
+	QString					_comment;
+	QString					_bornPlace;
+	quint8					_nbrBrothers;
+	QString					_socialInsuranceNbr;
+	QString					_diploma;
+	QString					_contract;
 #ifdef HORUS_SERVER
-	void updateLastLogin();
+	void					updateLastLogin();
 #endif
-	static const char* levelStrings[];
+	static const char*		levelStrings[];
 private slots:
-	void		studentClassRemoved();
+	void					studentClassRemoved();
 };
 
 #endif // USERDATABASE_H

@@ -3,7 +3,7 @@
 #include "../../PluginManager.h"
 
 
-void MailData::keyToStream(QDataStream& s)
+void MailData::keyToStream(QDataStream& s) const
 {
 	s << _id;
 }

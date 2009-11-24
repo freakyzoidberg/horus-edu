@@ -12,7 +12,7 @@ QMap<int, QString> allclass;
 for (int i = 0; i < _treeplugin->allDatas().size(); ++i)
 {
     TreeData    *data = qobject_cast<TreeData *>(_treeplugin->allDatas().at(i));
-    if ((data->type() == "GRADE") && (data->status() != Data::EMPTY) && (data->status() != Data::DELETING) && (data->status() != Data::DELETED))
+	if ((data->type() == "GRADE") && IS_VALID_DATA_STATUS(data->status()))
     {
 
         allclass.insert(data->id(), data->name());
@@ -25,10 +25,11 @@ return allclass;
 QList<UserData*> mytools::getStudentfromClass(int id)
 {
     QList<UserData*> mylist;
-    foreach (UserData* user, _userplugin->allUser())
+	foreach (Data* data, _userplugin->allDatas())
     {
+		UserData* user = (UserData*)data;
                 //qDebug() << "item child : " << user->studentClass()->id() << " - " << id;
-        if ((user->studentClass()->id() == id) && (user->level() == LEVEL_STUDENT) && (user->status() != Data::EMPTY) && (user->status() != Data::DELETING) && (user->status() != Data::DELETED))
+		if ((user->studentClass()->id() == id) && (user->level() == LEVEL_STUDENT) && IS_VALID_DATA_STATUS(user->status()))
         {
             mylist.append(user);
         }

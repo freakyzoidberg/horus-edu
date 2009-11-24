@@ -17,15 +17,17 @@ SettingsData* SettingsDataBasePlugin::settings(QString part, quint8 scope, UserD
     else if (user == 0)
         user = pluginManager->currentUser();
 
-	foreach (SettingsData* setting, _settings)
-        if (setting->part() == part && setting->scope() == scope && setting->owner() == user)
-            return setting;
+	foreach (Data* d, _allDatas)
+	{
+		SettingsDataBase* s = (SettingsDataBase*)d;
+		if (s->part() == part && s->scope() == scope && s->owner() == user)
+			return s;
+	}
 
-    //not found
-    SettingsDataBase* set = new SettingsDataBase(this, part, scope, user);
-	set->moveToThread(this->thread());
-	_settings.append(set);
-    return set;
+	SettingsDataBase* s = new SettingsDataBase(this, part, scope, user);
+	s->moveToThread(thread());
+	_allDatas.append(s);
+	return s;
 }
 
 Data* SettingsDataBasePlugin::dataWithKey(QDataStream& s)
@@ -38,20 +40,11 @@ Data* SettingsDataBasePlugin::dataWithKey(QDataStream& s)
 	return settings(part, scope, pluginManager->findPlugin<UserDataPlugin*>()->user(ownerId));
 }
 
-QList<Data*> SettingsDataBasePlugin::allDatas() const
+void SettingsDataBasePlugin::load()
 {
-	QList<Data*> list;
-	foreach (Data* data, _settings)
-		if (data->status() != Data::EMPTY)
-			list.append(data);
-
-	return list;
-}
 #ifdef HORUS_SERVER
-void SettingsDataBasePlugin::loadData()
-{
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT user,part,scope,value,mtime FROM settings;");
+	query.prepare("SELECT`user`,`part`,`scope`,`value`,`mtime`FROM`setting`;");
 
 	if ( ! query.exec())
 	{
@@ -68,14 +61,39 @@ void SettingsDataBasePlugin::loadData()
 		s->_lastChange = query.value(4).toDateTime();
 		s->_status = Data::UPTODATE;
 	}
+#endif
 }
 
-QList<Data*> SettingsDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
+void SettingsDataBasePlugin::unload()
 {
-	QList<Data*> list;
-	foreach (SettingsData* data, _settings)
-		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-			list.append(data);
-	return list;
+	foreach (Data* d, _allDatas)
+		delete (SettingsDataBase*)d;
+	_allDatas.clear();
+	DataPlugin::unload();
 }
+
+bool SettingsDataBasePlugin::canLoad() const
+{
+#ifdef HORUS_SERVER
+	QSqlQuery query = pluginManager->sqlQuery();
+	if ( ! query.exec("CREATE TABLE IF NOT EXISTS`setting`(\
+						`user`int(11) NOT NULL,\
+						`part`varchar(255) NOT NULL,\
+						`scope`int(1) NOT NULL,\
+						`value`blob,\
+						`mtime`timestamp NOT NULL,\
+						KEY`user`(`user`),\
+						KEY`part`(`part`),\
+						KEY`scope`(`scope`),\
+						KEY`mtime`(`mtime`)\
+					);")
+		||
+		 ! query.exec("SELECT`user`,`part`,`scope`,`value`,`mtime`FROM`setting`WHERE`user`=-1;")
+		)
+	{
+		qDebug() << "SettingsDataBasePlugin::canLoad()" << query.lastError();
+		return false;
+	}
 #endif
+	return DataPlugin::canLoad();
+}

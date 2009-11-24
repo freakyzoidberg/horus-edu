@@ -4,7 +4,7 @@
 #include				<QLabel>
 #include				<QMessageBox>
 
-#include				"ParentsModel.h"
+//#include				"ParentsModel.h"
 
 ListParents::ListParents(QWidget *parent, PluginManager *pluginManager) : QWidget(parent), _pluginManager(pluginManager)
 {
@@ -28,7 +28,7 @@ ListParents::ListParents(QWidget *parent, PluginManager *pluginManager) : QWidge
 	listTitle->setProperty("isTitle", true);
 	leftLayout->addWidget(listTitle);
 	listView = new QListView(this);
-	parentsModel = new ParentsModel(pluginManager->findPlugin<UserDataPlugin *>()->allUser(), this);
+//	parentsModel = new ParentsModel(pluginManager->findPlugin<UserDataPlugin *>()->allUser(), this);
 	listView->setModel(parentsModel);
 	leftLayout->addWidget(listView);
 	mainLayout->addLayout(leftLayout);

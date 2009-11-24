@@ -17,12 +17,14 @@ class SettingsData : public Data
 #endif
 
 public:
-    inline SettingsData(SettingsDataPlugin* plugin) : Data(plugin) {}
-    virtual QVariant  value(const QString& key, QVariant defaultValue = QVariant()) const = 0;
-    virtual void      setValue(const QString& key, const QVariant& val) = 0;
-    virtual QString   part() const = 0;
-    virtual UserData* owner() const = 0;
-    virtual quint8    scope() const = 0;
+	virtual QVariant	value(const QString& key, QVariant defaultValue = QVariant()) const = 0;
+	virtual void		setValue(const QString& key, const QVariant& val) = 0;
+	virtual QString		part() const = 0;
+	virtual UserData*	owner() const = 0;
+	virtual quint8		scope() const = 0;
+protected:
+	inline				SettingsData(SettingsDataPlugin* plugin) : Data(plugin) {}
+	virtual inline		~SettingsData() {}
 };
 
 #ifdef HORUS_SERVER

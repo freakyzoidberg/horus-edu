@@ -11,19 +11,20 @@ SettingsDataBase::SettingsDataBase(SettingsDataBasePlugin* plugin, QString part,
     _scope = scope;
     if IS_SYSTEM_SCOPE(scope)
 		_owner = plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
-    else if (owner == 0)
-        _owner = plugin->pluginManager->currentUser();
-    else
-        _owner = owner;
-
-    qDebug() << "user nobody:" << _owner;
-
+	else
+	{
+		if (owner == 0)
+			_owner = plugin->pluginManager->currentUser();
+		else
+			_owner = owner;
+		connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
+	}
 #ifdef HORUS_SERVER
     inDatabase = false;
 #endif
 }
 
-void SettingsDataBase::keyToStream(QDataStream& s)
+void SettingsDataBase::keyToStream(QDataStream& s) const
 {
     s << _part
       << _scope
@@ -42,6 +43,26 @@ void SettingsDataBase::dataFromStream(QDataStream& s)
 	Data::dataFromStream(s);
 }
 
+bool SettingsDataBase::canChange(UserData* user) const
+{
+	if (user->level() <= LEVEL_ADMINISTRATOR)
+		return true;
+	if (IS_USER_SCOPE(_scope) && _owner == user)
+		return true;
+	return false;
+}
+
+bool SettingsDataBase::canAccess(UserData* user) const
+{
+	if (user->level() <= LEVEL_ADMINISTRATOR)
+		return true;
+	if (IS_SYSTEM_SCOPE(_scope))
+		return true;
+	if (IS_USER_SCOPE(_scope) && _owner == user)
+		return true;
+	return false;
+}
+
 QDebug SettingsDataBase::operator<<(QDebug debug) const
 {
     return debug << _part
@@ -50,12 +71,17 @@ QDebug SettingsDataBase::operator<<(QDebug debug) const
                  << _values;
 }
 
+const QList<Data*> SettingsDataBase::dependsOfCreatedData() const
+{
+	QList<Data*> list;
+	list.append(_owner);
+	return list;
+}
+
 void SettingsDataBase::setValue(const QString& key, const QVariant& val)
 {
-    if (_values[key] == val)
-        return;
-
-    _values[key] = val;
+	QMutexLocker M(&mutex);
+	_values[key] = val;
 }
 
 #ifdef HORUS_SERVER
@@ -63,7 +89,7 @@ quint8 SettingsDataBase::serverRead()
 {
 	_values = QVariantHash();
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT value,mtime FROM settings WHERE user=? AND part=? AND scope=?;");
+	query.prepare("SELECT`value`,`mtime`FROM`setting`WHERE`user`=? AND`part`=? AND`scope`=?;");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
@@ -86,7 +112,7 @@ quint8 SettingsDataBase::serverRead()
 quint8 SettingsDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO settings (user,part,scope,value,mtime) VALUES (?,?,?,?,?);");
+	query.prepare("INSERT INTO`setting`(`user`,`part`,`scope`,`value`,`mtime`)VALUES(?,?,?,?,?);");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);
@@ -109,7 +135,7 @@ quint8 SettingsDataBase::serverSave()
 	if ( ! inDatabase)
 		return serverCreate();
 
-	query.prepare("UPDATE settings SET value=?,mtime=? WHERE user=? AND part=? AND scope=?;");
+	query.prepare("UPDATE`setting`SET`value`=?,`mtime`=? WHERE`user`=? AND`part`=? AND`scope`=?;");
     query.addBindValue(_values);
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
@@ -128,7 +154,7 @@ quint8 SettingsDataBase::serverSave()
 quint8 SettingsDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM settings WHERE user=? AND part=? AND scope=?;");
+	query.prepare("DELETE FROM`setting`WHERE`user`=? AND`part`=? AND`scope`=?;");
     query.addBindValue(_owner->id());
     query.addBindValue(_part);
     query.addBindValue(_scope);

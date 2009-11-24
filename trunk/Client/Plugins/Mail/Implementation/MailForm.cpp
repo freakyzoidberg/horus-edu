@@ -77,12 +77,10 @@ MailForm::~MailForm()
 
 void MailForm::mysendmail()
 {
-
-     int i;
-    QRegExp mailregexp("^([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+$");
-QRegExp exmailregexp("^\\s*(\\w*\\s*)*(<\\s*)([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+(\\s*>)\\s*$");
-    QStringList lto;
-    QString tmp;
+	QRegExp mailregexp("^([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+$");
+	QRegExp exmailregexp("^\\s*(\\w*\\s*)*(<\\s*)([a-zA-Z0-9_(\\.)(\\-)(\\+)])+\\@(([a-zA-Z0-9\\-])+(\\.))+([a-zA-Z0-9]{2,4})+(\\s*>)\\s*$");
+	QStringList lto;
+	QString tmp;
       if (!to_value->text().isEmpty())
         lto = to_value->text().split(",");
 /*

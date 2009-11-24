@@ -6,100 +6,80 @@
 #include "ClientSocket.h"
 #include "PluginManagerServer.h"
 
-#include <QHash>
 #include <QMetaObject>
+#include <QMetaType>
+
+DataManagerServer::DataManagerServer(DataPlugin* plugin)
+{
+	_plugin = plugin;
+	qRegisterMetaType<Data*>("Data*");
+}
 
 void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus)
 {
 	QMutexLocker M(&data->mutex);
-
 	UserData* user = PluginManagerServer::instance()->currentUser();
 	quint8 error = 0;
-    quint8 oldStatus = data->status();
-
-	// if a client whant an update of a data
-	if ((oldStatus == Data::EMPTY || oldStatus == Data::UPTODATE) &&
-		 newStatus == Data::UPDATING)
-	{
-		if (oldStatus == Data::EMPTY)
-		{
-			if ((error = data->serverRead()))
-				return sendData(user, data, Data::DATA_ERROR, error);
-			data->_status = Data::UPTODATE;
-		}
-
-		return sendData(user, data);
-	}
-
-	// if a client save a new value of the data
-	if ((oldStatus == Data::EMPTY || oldStatus == Data::UPTODATE) &&
-		 newStatus == Data::SAVING)
-	{
-		if (oldStatus == Data::EMPTY)
-		{
-			if ((error = data->serverRead()))
-				return sendData(user, data, Data::DATA_ERROR, error);
-			data->_status = Data::UPTODATE;
-		}
-
-		if ((error = data->serverSave()))
-			return sendData(user, data, Data::DATA_ERROR, error);
-
-		data->_status = Data::UPTODATE;
-
-		//send to the user who saved the data SAVED
-		sendData(user, data, Data::SAVED);
-
-		//send to the other user the data UPTODATE
-		foreach (UserData* u, ClientSocket::connectedUsers.keys())
-			if (u != user)
-				sendData(u, data);
-
-		return;
-	}
 
 	// if a client want to create a new data
-	if (oldStatus == Data::EMPTY &&
-		newStatus == Data::CREATING)
+	if (data->_status == Data::EMPTY && newStatus == Data::CREATING)
 	{
 		QByteArray oldKey;
 		QDataStream stream(&oldKey, QIODevice::ReadWrite);
+		// save the temporary key
 		data->keyToStream(stream);
 
 		if ((error = data->serverCreate()))
 			return sendData(user, data, Data::DATA_ERROR, error);
 		data->_status = Data::UPTODATE;
 
-		//send to the user who saved the data CREATED
+		//send to the user who saved, the data CREATED
 		sendData(user, data, Data::CREATED, 0, oldKey);
-
-		//send to the other user the data UPTODATE
+		//send to the other user the data UPDATED
 		foreach (UserData* u, ClientSocket::connectedUsers.keys())
-			if (u != user)
+			if (u != user && data->canAccess(u))
 				sendData(u, data);
+		return;
+	}
 
+	if (data->_status != Data::UPTODATE && data->_status != Data::EMPTY)
+	{
+		qDebug() << "Should not happen:" << data << "status change from" << (Data::Status)data->_status << "to" << (Data::Status)newStatus << "nothing done.";
+		return;
+	}
+
+	// if a client save a new value of the data
+	if (newStatus == Data::SAVING)
+	{
+		if ((error = data->serverSave()))
+			return sendData(user, data, Data::DATA_ERROR, error);
+		data->_status = Data::UPTODATE;
+
+		//send to the user who saved the data SAVED
+		sendData(user, data, Data::SAVED);
+		//send to the other user the data UPDATED
+		foreach (UserData* u, ClientSocket::connectedUsers.keys())
+			if (u != user && data->canAccess(u))
+				sendData(u, data);
 		return;
 	}
 
 	// if a client delete a data
-	if ((oldStatus == Data::EMPTY || oldStatus == Data::UPTODATE) &&
-		 newStatus == Data::DELETING)
+	if (newStatus == Data::REMOVING)
 	{
 		if ((error = data->serverRemove()))
 			return sendData(user, data, Data::DATA_ERROR, error);
-		data->_status = Data::DELETED;
+		data->_status = Data::REMOVED;
 
 		//send to every users the data DELETED
 		foreach (UserData* u, ClientSocket::connectedUsers.keys())
-			sendData(u, data, Data::DELETED);
-
-		//TODO: test with this 2 lines
-		//		M.unlock();
-		//		delete data;
+			if (data->canAccess(u))
+				sendData(u, data);
+		//TODO: save every DELETED data somewhere, to be able to say to not-connected clients witch data is removed
 		return;
 	}
 
-	qDebug() << "Data" << data << "change status from" << (Data::DataStatus)oldStatus << "to" << (Data::DataStatus)newStatus << "which is not authorized.";
+	qDebug() << "Should not happen:" << data << "status change from" << (Data::Status)data->_status << "to" << (Data::Status)newStatus << "nothing done.";
 }
 
 void DataManagerServer::receiveData(UserData* user, const QByteArray& d)
@@ -107,63 +87,60 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d)
     QDataStream stream(d); // ReadOnly
 	quint8      status;    
 	stream  >>  status;
+	Data* data = _plugin->dataWithKey(stream);
+	QMutexLocker(&data->mutex);
 
-	if (status != Data::UPDATING && status != Data::DELETING && status != Data::CREATING && status != Data::SAVING)
+	if (status != Data::REMOVING && status != Data::CREATING && status != Data::SAVING)
 	{
-		qWarning() << "DataManagerServer received a data with status" << status << "which is not authorized.";
+		qDebug() << "Should not happen:" << data << "received status" << (Data::Status)data->_status << "nothing done.";
 		return;
 	}
-
-	Data* data = plugin->dataWithKey(stream);
-	QMutexLocker(&data->mutex);
 
 	if ( ! data->canAccess(user))
 	{
-		qWarning() << "User" << user->login() << "try to access to a data" << data << "without authorization.";
-		return;
-	}
-
-	if (status == Data::UPDATING)
-	{
-		data->setStatus(Data::UPDATING);
+		qWarning() << user->login() << "try to access to" << data << "without permitions.";
 		return;
 	}
 
 	if ( ! data->canChange(user))
 	{
 		if (status == Data::CREATING)
-			qWarning() << "User" << user->login() << "try to create a data" << data << "without authorization.";
+			qWarning() << user->login() << "try to create" << data << "without permitions.";
 		else if (status == Data::SAVING)
-			qWarning() << "User" << user->login() << "try to save a data" << data << "without authorization.";
-		else if (status == Data::DELETING)
-			qWarning() << "User" << user->login() << "try to delete a data" << data << "without authorization.";
+			qWarning() << user->login() << "try to save" << data << "without permitions.";
+		else if (status == Data::REMOVING)
+			qWarning() << user->login() << "try to delete" << data << "without permitions.";
 		return;
 	}
 
-	if (status != Data::DELETING)
+	if (status != Data::REMOVING)
 		data->dataFromStream(stream);
 
-	data->setStatus(status);
+	dataStatusChange(data, status);
 }
 
-void DataManagerServer::sendData(UserData* user, Data* data) const
+void DataManagerServer::sendData(UserData* user, Data* data)
 {
-	sendData(user, data, Data::UPDATED);
+	sendData(user, data, data->_status);
 }
 
-void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, quint8 error, const QByteArray& oldKey) const
+void DataManagerServer::sendData(UserData* user, Data* data, quint8 status, quint8 error, const QByteArray& oldKey)
 {
+	//if status UPTODATE, send UPDATED to the client
+	if (status == Data::UPTODATE)
+		status = Data::UPDATED;
+
 	QMutexLocker(&data->mutex);
-	CommData packet(plugin->dataType());
+	CommData packet(_plugin->dataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
 
 	if (status != Data::UPDATED &&
 		status != Data::SAVED &&
 		status != Data::CREATED &&
-		status != Data::DELETED &&
+		status != Data::REMOVED &&
 		status != Data::DATA_ERROR)
 	{
-		qWarning() << "DataManagerServer try to send a data with status" << (Data::DataStatus)status << "which is not authorized.";
+		qDebug() << "Should not happen:" << data << "is send with status" << (Data::Status)status << "nothing done.";
 		return;
 	}
 
@@ -182,12 +159,13 @@ void DataManagerServer::sendData( UserData* user, Data* data, quint8 status, qui
 		stream << error;
 		stream << data->status();
 		if (data->status() == Data::UPTODATE)
+			//send the current value if UPTODATE
 			data->dataToStream(stream);
 	}
 
 	ClientSocket* socket = ClientSocket::connectedUsers.value(user);
-    if (socket)
-       QMetaObject::invokeMethod(socket, "sendPacket", Qt::QueuedConnection, Q_ARG(QByteArray, packet.getPacket()));
-    else
-        qWarning() << "DataManagerServer::sendData: user not connected";
+	if ( ! socket)
+		qDebug() << "Should not happen:" << data << "is send to" << user << "whi is not connected.";
+
+	QMetaObject::invokeMethod(socket, "sendPacket", Qt::QueuedConnection, Q_ARG(QByteArray, packet.getPacket()));
 }

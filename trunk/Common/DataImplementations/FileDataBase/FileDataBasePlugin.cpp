@@ -7,48 +7,50 @@
 #include "../../../Common/UserDataPlugin.h"
 #include "../../../Common/UserData.h"
 #include "../../../Common/TreeData.h"
+#ifdef HORUS_SERVER
+#include "../../../Server/Plugins/FileBaseServer/FileServer.h"
+#endif
+
+FileDataBasePlugin::FileDataBasePlugin()
+{
+}
 
 FileData* FileDataBasePlugin::file(quint32 fileId)
 {
-	if ( ! _files.contains(fileId))
+	foreach (Data* d, _allDatas)
 	{
-		FileData* f = new FileDataBase(fileId, this);
-		f->moveToThread(this->thread());
-		_files.insert(fileId, f);
+		FileDataBase* f = (FileDataBase*)d;
+		if (f->_id == fileId)
+			return f;
 	}
 
-	return _files.value(fileId);
-}
-
-QList<FileData*> FileDataBasePlugin::filesInNode(quint32 nodeId) const
-{
-	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
-	return filesInNode(node);
+	FileData* f = new FileDataBase(fileId, this);
+	f->moveToThread(thread());
+	_allDatas.append(f);
+	return f;
 }
 
 QList<FileData*> FileDataBasePlugin::filesInNode(const TreeData *node) const
 {
 	QList<FileData*> res;
-	foreach (FileData* f, _files)
-		if (f->node() == node)
+	foreach (Data* d, _allDatas)
+	{
+		FileDataBase* f = (FileDataBase*)d;
+		if (f->_node == node)
 			res.append(f);
+	}
 	return res;
-}
-
-QList<FileData*> FileDataBasePlugin::filesInNodeAndUser(quint32 nodeId, quint32 userId) const
-{
-	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
-	UserData* user = pluginManager->findPlugin<UserDataPlugin*>()->user(userId);
-	QList<FileData*> res;
-	return filesInNodeAndUser(node, user);
 }
 
 QList<FileData*> FileDataBasePlugin::filesInNodeAndUser(const TreeData *node, const UserData* user) const
 {
 	QList<FileData*> res;
-	foreach (FileData* f, _files)
+	foreach (Data* d, _allDatas)
+	{
+		FileDataBase* f = (FileDataBase*)d;
 		if (f->node() == node && f->owner() == user)
 			res.append(f);
+	}
 	return res;
 }
 
@@ -69,47 +71,31 @@ Data* FileDataBasePlugin::dataWithKey(QDataStream& s)
     s >> tmpId;
 	return file(tmpId);
 }
-
-QList<Data*> FileDataBasePlugin::allDatas() const
-{
-	QList<Data*> list;
-	foreach (Data* data, _files)
-		if (data->status() != Data::EMPTY)
-			list.append(data);
-
-	return list;
-}
 #ifdef HORUS_CLIENT
-void FileDataBasePlugin::load()
-{
-    Plugin::load();
-}
-
 void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	FileDataBase* f = ((FileDataBase*)(d));
-	_files.remove(f->_id);
 	s >> f->_id;
-	_files.insert(f->_id, f);
 	qDebug() << "File data Have a New Key" << f->_id;
 }
-#endif
-#ifdef HORUS_SERVER
-#include "../../../Server/Plugins/FileBaseServer/FileServer.h"
 
+#include "../../../Client/DataListModel.cpp"
+QAbstractListModel* FileDataBasePlugin::listModel() const
+{
+	static DataListModel* _model = new DataListModel(this);
+	return _model;
+}
+#endif
 void FileDataBasePlugin::load()
 {
+#ifdef HORUS_SERVER
 	_server = FileServer::instance();
-    Plugin::load();
-}
 
-void FileDataBasePlugin::loadData()
-{
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id,name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files;");
-    query.exec();
-    while (query.next())
-    {
+	query.prepare("SELECT`id`,`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`FROM`file`;");
+	query.exec();
+	while (query.next())
+	{
 		FileDataBase* f	= (FileDataBase*)(file(query.value(0).toUInt()));
 		f->_name		= query.value(1).toString();
 		f->_mimeType	= query.value(2).toString();
@@ -122,15 +108,48 @@ void FileDataBasePlugin::loadData()
 		f->_lastChange	= query.value(7).toDateTime();
 
 		f->_status		= Data::UPTODATE;
-    }
+	}
+#endif
+	Plugin::load();
 }
 
-QList<Data*> FileDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
+void FileDataBasePlugin::unload()
 {
-	QList<Data*> list;
-	foreach (FileData* data, _files)
-		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-			list.append(data);
-	return list;
+	foreach (Data* d, _allDatas)
+		delete (FileDataBase*)d;
+	_allDatas.clear();
+	DataPlugin::unload();
 }
+
+bool FileDataBasePlugin::canLoad() const
+{
+	TreeDataPlugin* tree = pluginManager->findPlugin<TreeDataPlugin*>();
+	UserDataPlugin* user = pluginManager->findPlugin<UserDataPlugin*>();
+	if ( ! tree || ! tree->canLoad() || ! user || ! user->canLoad())
+		return false;
+
+#ifdef HORUS_SERVER
+	QSqlQuery query = pluginManager->sqlQuery();
+	if ( ! query.exec("CREATE TABLE IF NOT EXISTS`file` (\
+						`id` int(11) NOT NULL auto_increment,\
+						`name` varchar(255) NOT NULL,\
+						`mime` varchar(64) NOT NULL,\
+						`size` int(11) NOT NULL,\
+						`id_tree` int(11) NOT NULL,\
+						`id_owner` int(11) NOT NULL,\
+						`hash_sha1` varchar(40) NOT NULL,\
+						`mtime` timestamp NOT NULL,\
+						PRIMARY KEY (`id`),\
+						KEY`id_owner`(`id_owner`),\
+						KEY`id_tree`(`id_tree`)\
+					);")
+		||
+		 ! query.exec("SELECT`id`,`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`FROM`file`WHERE`id`=-1;")
+		)
+	{
+		qDebug() << "FileDataBasePlugin::canLoad()" << query.lastError();
+		return false;
+	}
 #endif
+	return DataPlugin::canLoad();
+}

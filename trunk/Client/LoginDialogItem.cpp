@@ -112,19 +112,25 @@ void LoginDialogItem::keyPressEvent(QKeyEvent *event)
 void LoginDialogItem::login()
 {
 	PluginManagerClient* pluginManager = PluginManagerClient::instance();
+	disconnect(this, SLOT(login()));
 	if ( ! pluginManager->isLoaded())
 	{
+		//if plugins are not loaded yet
+		//call login again when loaded
 		connect(pluginManager, SIGNAL(loaded()), this, SLOT(login()));
 		return;
 	}
 
 	if (_cache)
 	{
+		//if cache exist (a user already loggedin on this computer)
+		//load cache and call cache loaded when finished
 		connect(_cache, SIGNAL(loadProgressChange(int)), _dialog->loadBar, SLOT(setValue(int)));
 		connect(_cache, SIGNAL(loaded()), this, SLOT(cacheLoaded()));
 		QMetaObject::invokeMethod(_cache, "load", Qt::QueuedConnection);
 	}
 	else
+		//if no cache, directly call cache loaded
 		cacheLoaded();
 }
 
@@ -132,7 +138,6 @@ void LoginDialogItem::cacheLoaded()
 {
 	NetworkManager* net = NetworkManager::instance();
 
-	//case no network
 	if (net->status() == NetworkManager::ESTABLISHED)
 	{
 		connect(net, SIGNAL(updateProgressChange(int)), _dialog->loadBar, SLOT(setValue(int)));
@@ -149,6 +154,7 @@ void LoginDialogItem::cacheLoaded()
 
 	}
 	else if (net->status() == NetworkManager::DISCONNECTED)
+		//case no network
 		_dialog->accept();
 }
 
@@ -176,5 +182,5 @@ void LoginDialogItem::networkStatusChanged(NetworkManager::Status status)
 		}
 	}
 	else if (status == NetworkManager::LOGGED_IN)
-		_dialog->accept();
+		connect(NetworkManager::instance(), SIGNAL(updateFinished()), _dialog, SLOT(accept()));
 }

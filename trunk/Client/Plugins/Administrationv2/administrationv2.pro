@@ -10,7 +10,6 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageParents/ListParents.cpp \
     Implementation/ManageParents/DisplayParent.cpp \
     Implementation/ManageParents/EditParent.cpp \
-    Implementation/ManageParents/ParentsModel.cpp \
     Implementation/ManageTeachers/ManageTeachers.cpp \
     Implementation/ManageTeachers/ListTeachers.cpp \
     Implementation/ManageTeachers/DisplayTeacher.cpp \
@@ -58,7 +57,6 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageParents/ListParents.h \
     Implementation/ManageParents/DisplayParent.h \
     Implementation/ManageParents/EditParent.h \
-    Implementation/ManageParents/ParentsModel.h \
     Implementation/ManageStudents/ManageStudents.h \
     Implementation/MainView.h \
     Implementation/ManageClasses/AdmAddClassWidget.h \

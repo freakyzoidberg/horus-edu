@@ -116,7 +116,9 @@ void ThreadPacket::PacketLogin()
 	// get every data the user need to be up to date
 	QList<Data*> list;
 	foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
-		list.append(p->datasForUpdate(user, QDateTime()));
+		foreach (Data* d, p->allDatas())
+			if (d->status() != Data::EMPTY && d->canAccess(user)) //TODO && lastChange > last time user is upto date
+				list.append(d);
 
     CommLogin resp(CommLogin::ACCEPTED);
     resp.serverDateTime = QDateTime::currentDateTime();

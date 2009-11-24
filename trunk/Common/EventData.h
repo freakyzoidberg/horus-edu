@@ -19,13 +19,11 @@ public:
 	virtual void			setStartTime(const QDateTime& time) = 0;
 	virtual QDateTime		endTime() const = 0;
 	virtual void			setEndTime(const QDateTime& time) = 0;
-	virtual QDateTime		duration() const = 0;
-	virtual void			setDuration(const QDateTime& time) = 0;
 	virtual TreeData*		node() const = 0;
 
 protected:
-        inline				EventData(EventDataPlugin* plugin) : Data(plugin) { }
-        inline				~EventData() {}
+	inline					EventData(EventDataPlugin* plugin) : Data(plugin) { }
+	virtual inline			~EventData() {}
 };
 
 #ifdef HORUS_SERVER

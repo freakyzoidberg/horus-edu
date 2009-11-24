@@ -14,7 +14,7 @@ public:
     static  CalendarCore        *CalendarCoreInstance(TreeDataPlugin *tree = NULL,
                                                       UserDataPlugin *user = NULL);
     QHash<quint32, TreeData *>  *getNodeOfType(QString type);
-    QHash<quint32, UserData *>  *usersName(const QString & groupName);
+	QList<UserData *>           usersName(const QString & groupName);
 
 private:
                                 CalendarCore(TreeDataPlugin *, UserDataPlugin *);

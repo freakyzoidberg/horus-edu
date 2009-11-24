@@ -25,15 +25,14 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 	else
 		_isDownloaded = false;
 	delete f;
-	_name = "Empty";
-	_hash = "";
-	_mimeType = "";
-	_owner = 0;
-	_node = 0;
-    QSettings settings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat);
 #endif
+	_owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
+	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
+	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
 }
-void FileDataBase::keyToStream(QDataStream& s)
+
+void FileDataBase::keyToStream(QDataStream& s) const
 {
     s << _id;
 }
@@ -63,8 +62,12 @@ void FileDataBase::dataFromStream(QDataStream& s)
 	  >> _size
       >> hash;
 
+	disconnect(_owner, SIGNAL(removed()), this, SLOT(remove()));
 	_owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(ownerId);
+	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
+	disconnect(_node, SIGNAL(removed()), this, SLOT(remove()));
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
+	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
 #ifdef HORUS_CLIENT
 	//auto download
 	if (_status != CACHED && ( ! _isDownloaded || hash != _hash))
@@ -73,21 +76,40 @@ void FileDataBase::dataFromStream(QDataStream& s)
     _hash = hash;
 }
 
+bool FileDataBase::canChange(UserData* user) const
+{
+	if (user->level() <= LEVEL_ADMINISTRATOR || user == _owner)
+		return true;
+	return _node->canChange(user);
+}
+
+bool FileDataBase::canAccess(UserData* user) const
+{
+	if (user->level() <= LEVEL_ADMINISTRATOR || user == _owner)
+		return true;
+	return _node->canAccess(user);
+}
+
 QDebug FileDataBase::operator<<(QDebug debug) const
 {
     return debug
       << _id
 	  << _name;
-	  //<< _owner->id()
-	  //<< _node->id()
-	  //<< _mimeType;
+}
+
+const QList<Data*> FileDataBase::dependsOfCreatedData() const
+{
+	QList<Data*> list;
+	list.append(_owner);
+	list.append(_node);
+	return list;
 }
 
 #ifdef HORUS_SERVER
 quint8 FileDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT name,mime,size,id_tree,id_owner,hash_sha1,mtime FROM files WHERE id=?;");
+	query.prepare("SELECT`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`FROM`file`WHERE`id`=?;");
 	query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -112,7 +134,7 @@ quint8 FileDataBase::serverRead()
 quint8 FileDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO files (name,mime,size,id_tree,id_owner,hash_sha1,mtime) VALUES (?,?,?,?,?,?,?);");
+	query.prepare("INSERT INTO`file`(`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`)VALUES(?,?,?,?,?,?,?);");
 	query.addBindValue(_name);
 	query.addBindValue(_mimeType);
 	query.addBindValue(_size);
@@ -127,9 +149,7 @@ quint8 FileDataBase::serverCreate()
 		return DATABASE_ERROR;
 	}
 
-	((FileDataBasePlugin*)_plugin)->_files.remove(_id);
 	_id = query.lastInsertId().toUInt();
-	((FileDataBasePlugin*)_plugin)->_files.insert(_id, this);
 
 	return NONE;
 }
@@ -137,7 +157,7 @@ quint8 FileDataBase::serverCreate()
 quint8 FileDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE files SET name=?,mime=?,size=?,id_tree=?,id_owner=?,hash_sha1=?,mtime=? WHERE id=?;");
+	query.prepare("UPDATE`file`SET`name`=?,`mime`=?,`size`=?,`id_tree`=?,`id_owner`=?,`hash_sha1`=?,`mtime`=? WHERE`id`=?;");
     query.addBindValue(_name);
     query.addBindValue(_mimeType);
     query.addBindValue(_size);
@@ -158,7 +178,7 @@ quint8 FileDataBase::serverSave()
 quint8 FileDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM File WHERE id=?;");
+	query.prepare("DELETE FROM`file`WHERE`id`=?;");
 	query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -216,26 +236,22 @@ QVariant FileDataBase::data(int column, int role) const
 
 void FileDataBase::setName(const QString name)
 {
-    if (_name == name)
-        return;
-
-    _name = name;
+	QMutexLocker M(&mutex);
+	_name = name;
 }
 
 void FileDataBase::setMimeType(const QString type)
 {
-	if (_mimeType == type)
-		return;
-
+	QMutexLocker M(&mutex);
 	_mimeType = type;
 }
 
 void FileDataBase::moveTo(TreeData* node)
 {
-    if ( ! node || _node == node)
-        return;
-
-    _node = node;
+	QMutexLocker M(&mutex);
+	disconnect(_node, SIGNAL(removed()), this, SLOT(remove()));
+	_node = node;
+	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
 }
 
 #ifdef HORUS_CLIENT

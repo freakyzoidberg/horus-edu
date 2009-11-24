@@ -85,7 +85,6 @@ emailList->horizontalHeader()->setStretchLastSection(true);
     total->addWidget(emailList);
     emailList->resizeColumnsToContents();
 
-/*
   this->addColumn( "Mail id" );
   this->addColumn( "From" );
   this->addColumn( "Subject" );
@@ -198,7 +197,6 @@ connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
 
     QVBoxLayout *maildisplay = new QVBoxLayout();
     QGridLayout *proxyLayout = new QGridLayout();
-    MailData *md = _MailPlugin->createMail();
 
      proxyModel = new QSortFilterProxyModel();
      proxyView = new QTreeView();
@@ -207,10 +205,6 @@ connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
     mailview->setReadOnly(true);
     mailview->setOpenExternalLinks(true);
     connect(proxyView, SIGNAL(doubleClicked(QModelIndex)),this, SLOT(rowDoubleClicked(QModelIndex)));
-
-    //connect(mailview, SIGNAL(linkClicked(QString)),this, SLOT(linkclick(QString&)));
-    list = _MailPlugin->getAllMail();
-
 
      proxyModel->setDynamicSortFilter(true);
 
@@ -237,11 +231,11 @@ expanded = false;
 
      proxyView->hideColumn(0);
 
-    foreach (MailData* data, list)
-    {
+	foreach (Data* d, _MailPlugin->allDatas())
+	{
+		MailData* data = (MailData*)d;
         addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId(), data);
-    }
-
+	}
 }
 
 void MailList::setmailvisible(bool state)

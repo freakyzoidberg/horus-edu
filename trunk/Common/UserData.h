@@ -127,9 +127,9 @@ public:
 #endif
 
 protected:
-    inline UserData(quint32 id, UserDataPlugin* plugin) : Data(plugin) { _id = id; }
-    ~UserData() {}
-    quint32 _id;
+	inline					UserData(quint32 id, UserDataPlugin* plugin) : Data(plugin) { _id = id; }
+	virtual inline			~UserData() {}
+	quint32					_id;
 };
 
 #ifdef HORUS_SERVER

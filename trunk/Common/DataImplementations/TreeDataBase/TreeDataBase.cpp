@@ -6,24 +6,25 @@
 TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData((TreeDataPlugin*)plugin)
 {
 	moveToThread(plugin->thread());
-
 	_id = nodeId;
 	_parent = 0;
-	if (nodeId)
-	{
-		_user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
-		connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
-	}
+	connect(this, SIGNAL(removed()), this, SLOT(thisRemoved()), Qt::DirectConnection);
 }
 
 void TreeDataBase::userRemoved()
 {
-	disconnect(this, SLOT(userRemoved()));
+	disconnect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 	_user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
 	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 }
 
-void TreeDataBase::keyToStream(QDataStream& s)
+void TreeDataBase::thisRemoved()
+{
+	//remove from the tree
+	setParent(0);
+}
+
+void TreeDataBase::keyToStream(QDataStream& s) const
 {
 	s << _id;
 }
@@ -52,11 +53,31 @@ void TreeDataBase::dataFromStream(QDataStream& s)
     else
 		setParent(0);
 
-	disconnect(this, SLOT(userRemoved()));
+	disconnect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 	_user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( userId );
 	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 
     setObjectName(_name);
+}
+
+bool TreeDataBase::canChange(UserData* user) const
+{	//canChange if admin or if user referent of this node or a parent
+	if (user->level() <= LEVEL_ADMINISTRATOR || _user == user)
+		return true;
+	if (_parent)
+		return _parent->canChange(user);
+	return false;
+}
+
+bool TreeDataBase::canAccess(UserData* user) const
+{//canAccess if canChange or has class one of the parents
+	if (canChange(user) || user->studentClass() == this)
+		return true;
+	for (TreeData* pos = user->studentClass(); pos->parent(); pos = pos->parent())
+		if (pos->canAccess(user))
+			return true;
+
+	return false;
 }
 
 QDebug TreeDataBase::operator<<(QDebug debug) const
@@ -69,11 +90,19 @@ QDebug TreeDataBase::operator<<(QDebug debug) const
     return debug << _type << _name;
 }
 
+const QList<Data*> TreeDataBase::dependsOfCreatedData() const
+{
+	QList<Data*> list;
+	list.append(_user);
+	list.append(_parent);
+	return list;
+}
+
 #ifdef HORUS_SERVER
 quint8 TreeDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT typeofnode,name,user_ref,id_parent FROM tree WHERE id=?;");
+	query.prepare("SELECT`typeofnode`,`name`,`user_ref`,`id_parent`,`mtime`FROM`tree`WHERE`id`=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -90,6 +119,7 @@ quint8 TreeDataBase::serverRead()
 	_user	= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(2).toUInt() );
 	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 	setParent( ((TreeDataPlugin*)_plugin)->node(query.value(3).toUInt()) );
+	_lastChange = query.value(4).toDateTime();
 
 	return NONE;
 }
@@ -97,7 +127,7 @@ quint8 TreeDataBase::serverRead()
 quint8 TreeDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO tree (typeofnode,name,user_ref,id_parent) VALUES (?,?,?,?);");
+	query.prepare("INSERT INTO`tree`(`typeofnode`,`name`,`user_ref`,`id_parent`)VALUES(?,?,?,?);");
     query.addBindValue(_type);
     query.addBindValue(_name);
 	query.addBindValue(_user->id());
@@ -109,9 +139,7 @@ quint8 TreeDataBase::serverCreate()
 		return DATABASE_ERROR;
 	}
 
-	((TreeDataBasePlugin*)_plugin)->_nodes.remove(_id);
 	_id = query.lastInsertId().toUInt();
-	((TreeDataBasePlugin*)_plugin)->_nodes.insert(_id, this);
 
 	return NONE;
 }
@@ -119,7 +147,7 @@ quint8 TreeDataBase::serverCreate()
 quint8 TreeDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE tree SET typeofnode=?,name=?,user_ref=?,id_parent=? WHERE id=?;");
+	query.prepare("UPDATE`tree`SET`typeofnode`=?,`name`=?,`user_ref`=?,`id_parent`=? WHERE`id`=?;");
     query.addBindValue(_type);
     query.addBindValue(_name);
 	query.addBindValue(_user->id());
@@ -137,7 +165,7 @@ quint8 TreeDataBase::serverSave()
 quint8 TreeDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM tree WHERE id=?;");
+	query.prepare("DELETE FROM`tree`WHERE`id`=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -198,38 +226,16 @@ TreeData* TreeDataBase::createChild(const QString name, const QString type, User
 	return node;
 }
 
-void TreeDataBase::recursRemove()
-{
-	QMutexLocker M(&mutex);
-	//todo
-	remove();
-}
-
-void TreeDataBase::moveTo(TreeData* par)
-{
-	QMutexLocker M(&mutex);
-	if ( ! par || parent() == par)
-        return;
-
-    setParent(par);
-}
-
 void TreeDataBase::setName(QString name)
 {
 	QMutexLocker M(&mutex);
-	if (_name == name)
-        return;
-
     _name = name;
 }
 
 void TreeDataBase::setUser(UserData* user)
 {
 	QMutexLocker M(&mutex);
-	if ( ! user || _user == user)
-        return;
-
-	disconnect(this, SLOT(userRemoved()));
+	disconnect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 	_user = user;
 	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 }
@@ -237,21 +243,25 @@ void TreeDataBase::setUser(UserData* user)
 void TreeDataBase::setType(const QString type)
 {
 	QMutexLocker M(&mutex);
-	if (_type == type)
-        return;
-
     _type = type;
 }
 
 void TreeDataBase::setParent(TreeData* p)
 {
 	QMutexLocker M(&mutex);
+
 	if (_parent)
+	{
 		_parent->_children.removeOne(this);
+		disconnect(_parent, SIGNAL(removed()), this, SLOT(remove()));
+	}
 
 	_parent = ((TreeDataBase*)p);
 	if (_parent)
+	{
 		_parent->_children.append(this);
+		connect(_user, SIGNAL(removed()), this, SLOT(remove()));
+	}
 }
 
 bool TreeDataBase::isDescendantOf(TreeData* parent)

@@ -34,17 +34,11 @@ public:
     virtual const QString   pluginVersion() const = 0;
 
     //! Return true if the module can be loaded (true by default).
-    virtual inline bool     canLoad()       const { return true; }
+	virtual inline bool     canLoad()       const { return true; }
     //! Return true if the module is loaded.
     virtual inline bool     isLoaded()      const { return loaded; }
     //! Called to start the plugin, after canLoad and if isLoaded() == false.
-    /*
-    #ifdef HORUS_SERVER
-    virtual inline void     load()                { loaded = true;     logs::addlog(LOGINFO, "Plugin loaded : "+ pluginName());}
-    #else
-    */
-    virtual inline void     load()                { loaded = true;     qDebug() <<  tr("Plugin loaded : ")+ pluginName();}
-    //#endif
+    virtual inline void     load()                { loaded = true;     qDebug() <<  tr("Plugin loaded : ") + pluginName();}
     //! Called to stop the plugin and free memory.
     virtual inline void     unload()              { loaded = false; }
 
