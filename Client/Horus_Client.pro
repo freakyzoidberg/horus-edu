@@ -15,16 +15,16 @@ SOURCES += main.cpp \
     ../Common/CommData.cpp \
     ../Common/CommPlugin.cpp \
     ../Common/PluginPacket.cpp \
-    DataManagerClient.cpp \
+	DataManagerClient.cpp \
     NetworkManager.cpp \
     HorusStyle.cpp \
-	LocalSettings.cpp \
+    LocalSettings.cpp \
     MainWindow.cpp \
     PluginManagerClient.cpp \
     LoginDialog.cpp \
     SettingsDialog.cpp \
     UserInfo.cpp \
-	Notification.cpp \
+    Notification.cpp \
     Debugger.cpp \
     CacheManager.cpp \
     UserCache.cpp \
@@ -47,22 +47,22 @@ HEADERS += NetworkManager.h \
     ../Common/DataPlugin.h \
     ../Common/UserData.h \
     ../Common/UserDataPlugin.h \
-	../Common/LocalSettings.h \
-	NetworkPlugin.h \
+    ../Common/LocalSettings.h \
+    NetworkPlugin.h \
     DisplayablePlugin.h \
-    DataManagerClient.h \
+	DataManagerClient.h \
     HorusStyle.h \
     MainWindow.h \
     LoginDialog.h \
     SettingsDialog.h \
     UserInfo.h \
-	Notification.h \
+    Notification.h \
     PluginManagerClient.h \
     Debugger.h \
     CacheManager.h \
     UserCache.h \
     LoginDialogItem.h \
-    SecondaryThread.h
+	SecondaryThread.h
 FORMS += Ui/MainWindow.ui \
     Ui/SettingsDialog.ui \
     Ui/DockMenu.ui
@@ -73,7 +73,6 @@ RC_FILE = Client.rc
 TRANSLATIONS = Horus_en.ts \
     Horus_fr.ts
 QMAKE_EXTRA_TARGETS += plugintarget
-
 POST_TARGETDEPS += .plugins
 plugintarget.target = .plugins
 win32:plugintarget.commands = CopyPlugins.bat

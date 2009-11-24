@@ -25,7 +25,7 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
 	listTitle->setProperty("isTitle", true);
 	leftLayout->addWidget(listTitle);
 	filter = new QSortFilterProxyModel(this);
-	filter->setSourceModel(pluginManager->findPlugin<UserDataPlugin*>()->model());
+	filter->setSourceModel(pluginManager->findPlugin<UserDataPlugin*>()->listModel());
 	filter->setFilterRole(Data::FILTER_ROLE);
 	filter->setFilterKeyColumn(0);
 	filter->setFilterFixedString("ADMINISTRATOR");

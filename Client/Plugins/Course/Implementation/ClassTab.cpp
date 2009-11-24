@@ -116,7 +116,7 @@ void    ClassTab::deleteWhiteboard()
     WhiteBoardData* wbdata = _wbListModel->getWhiteboard(_wbList->currentIndex());
     if (wbdata)
     {
-        wbdata->setStatus(Data::DELETING);
+		wbdata->remove();
     }
 }
 

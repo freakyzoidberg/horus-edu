@@ -5,119 +5,25 @@
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
-#ifdef HORUS_CLIENT
-#include "../../../Client/Plugins/UserBaseClient/UserDataModel.h"
-#endif
 
 UserDataBasePlugin::UserDataBasePlugin()
 {
-	_nobody = 0;
+	_nobody = new UserDataBase(0, this);
 }
 
 void UserDataBasePlugin::load()
 {
-#ifdef HORUS_CLIENT
-	_model = new UserDataModel(this);
-	connect(this, SIGNAL(dataStatusChanged(Data*)), _model, SLOT(dataStatusChanged(Data*)));
-#endif
-}
-
-UserData* UserDataBasePlugin::nobody()
-{
-	if ( ! _nobody)
-	{
-		_nobody = new UserDataBase(0, this);
-		_nobody->_student = _nobody;
-		_nobody->_level = __LAST_LEVEL__;
-		_nobody->_name = tr("Nobody");
-		_nobody->_surname = tr("Nobody");
-		_nobody->_login = tr("Nobody");
-		_nobody->_status = Data::EMPTY;
-	}
-	return _nobody;
-}
-
-QList<UserData*> UserDataBasePlugin::parentsOfStudent(UserData* student) const
-{
-	QList<UserData*> list;
-	foreach (UserData* user, _users)
-		if (user->student() == student)
-			list.append(user);
-	return list;
-}
-
-UserData* UserDataBasePlugin::user(quint32 userId)
-{
-	if (userId == 0)
-		return nobody();
-
-	if ( ! _users.contains(userId))
-	{
-		UserDataBase* user = new UserDataBase(userId, this);
-		user->_student = nobody();
-		user->moveToThread(this->thread());
-		_users.insert(userId, user);
-	}
-	return _users[userId];
-}
-
-UserData* UserDataBasePlugin::user(const QString login)
-{
-	foreach (UserData* u, _users)
-		if (u->login() == login)
-			return u;
-	return 0;
-}
-
-const QHash<quint32, UserData*>&     UserDataBasePlugin::allUser()
-{
-	return _users;
-}
-
-Data* UserDataBasePlugin::dataWithKey(QDataStream& s)
-{
-    quint32 tmpId;
-    s >> tmpId;
-	return user(tmpId);
-}
-
-UserData* UserDataBasePlugin::createUser(const QString &login)
-{
-	static quint32 tmpId = 0;
-	tmpId--;
-
-	UserDataBase* u = ((UserDataBase*)( user(tmpId)) );
-	u->_login = login;
-	u->setName("New user");
-	u->setSurname("New user");
-    return u;
-}
-
-QList<Data*> UserDataBasePlugin::allDatas() const
-{
-	QList<Data*> list;
-	foreach (Data* data, _users)
-		if (data->status() != Data::EMPTY)
-			list.append(data);
-
-	return list;
-}
-
-#ifdef HORUS_CLIENT
-void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
-{
-	UserDataBase* user = ((UserDataBase*)(d));
-	_users.remove(user->_id);
-	s >> user->_id;
-	_users.insert(user->_id, user);
-	qDebug() << "User data Have a New Key" << user->_id;
-}
-#endif
+	UserDataBase* n = ((UserDataBase*)(_nobody));
+	n->_student = _nobody;
+	n->_level = __LAST_LEVEL__;
+	n->_name = tr("Nobody");
+	n->_surname = tr("Nobody");
+	n->_login = tr("Nobody");
+	n->_status = Data::EMPTY;
+	n->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 #ifdef HORUS_SERVER
-void UserDataBasePlugin::loadData()
-{
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT enabled,login,level,password,student_class,last_login,language,surname,name,birth_date,picture,address,phone1,phone2,phone3,country,gender,occupation,pro_category,relationship,student,mail,subscription_reason,repeated_years,start_year,leave_year,follow_up,comment,born_place,nbr_brothers,social_insurance_nbr,diploma,contract,mtime,id FROM user;");
+	query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`id`FROM`user`;");
 
 	if ( ! query.exec())
 	{
@@ -167,17 +73,161 @@ void UserDataBasePlugin::loadData()
 		disconnect(u, SLOT(studentClassRemoved()));
 		connect(u->_studentClass, SIGNAL(removed()), u, SLOT(studentClassRemoved()));
 	}
+#endif
+	Plugin::load();
 }
 
-QList<Data*> UserDataBasePlugin::datasForUpdate(UserData *, QDateTime date)
+void UserDataBasePlugin::unload()
 {
-	QList<Data*> list;
-	foreach (UserData* data, _users)
-		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-			list.append(data);
+	foreach (Data* d, _allDatas)
+		delete (UserDataBase*)d;
+	_allDatas.clear();
+	DataPlugin::unload();
+}
+
+bool UserDataBasePlugin::canLoad() const
+{
+#ifdef HORUS_SERVER
+	QSqlQuery query = pluginManager->sqlQuery();
+	if ( ! query.exec("CREATE TABLE IF NOT EXISTS`user`(\
+						`id`int(11) NOT NULL auto_increment,\
+						`enabled`tinyint(1) NOT NULL,\
+						`login`varchar(32) NOT NULL,\
+						`level`tinyint(1) NOT NULL,\
+						`password`char(40) NOT NULL,\
+						`student_class`int(11) default NULL,\
+						`session_key`char(64) default NULL,\
+						`session_end`timestamp NULL default NULL,\
+						`last_login`timestamp NULL default NULL,\
+						`language`varchar(32) default NULL,\
+						`surname`varchar(255) default NULL,\
+						`name`varchar(255) default NULL,\
+						`birth_date`timestamp NULL default NULL,\
+						`picture`blob,\
+						`address`varchar(255) default NULL,\
+						`phone1`varchar(32) default NULL,\
+						`phone2`varchar(32) default NULL,\
+						`phone3`varchar(32) default NULL,\
+						`country`varchar(32) default NULL,\
+						`gender`tinyint(1) default NULL,\
+						`occupation`varchar(32) default NULL,\
+						`pro_category`varchar(32) default NULL,\
+						`relationship`varchar(32) default NULL,\
+						`student`int(11) default NULL,\
+						`mail`varchar(32) default NULL,\
+						`subscription_reason`varchar(32) default NULL,\
+						`repeated_years`int(11) default NULL,\
+						`start_year`int(11) default NULL,\
+						`leave_year`int(11) default NULL,\
+						`follow_up`text default NULL,\
+						`comment`text default NULL,\
+						`born_place`varchar(32) default NULL,\
+						`nbr_brothers`int(11) default NULL,\
+						`social_insurance_nbr`varchar(32) default NULL,\
+						`diploma`varchar(255) default NULL,\
+						`contract`varchar(255) default NULL,\
+						`passmail`varchar(40) default NULL,\
+						`mtime`timestamp NOT NULL,\
+						PRIMARY KEY(`id`),\
+						KEY`level`(`level`),\
+						KEY`login`(`login`),\
+						KEY`enabled`(`enabled`),\
+						KEY`student_class`(`student_class`),\
+						KEY`student`(`student`)\
+					);")
+		||
+		 ! query.exec("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`id`FROM`user`WHERE`id`=-1;")
+		)
+	{
+		qDebug() << "UserDataBasePlugin::canLoad()" << query.lastError();
+		return false;
+	}
+#endif
+	return DataPlugin::canLoad();
+}
+
+QList<UserData*> UserDataBasePlugin::parentsOfStudent(const UserData* student) const
+{
+	QList<UserData*> list;
+	foreach (Data* d, _allDatas)
+	{
+		UserDataBase* u = (UserDataBase*)d;
+		if (u->_student == student)
+			list.append(u);
+	}
 	return list;
 }
 
+UserData* UserDataBasePlugin::user(quint32 userId)
+{
+	if (userId == 0)
+		return nobody();
+
+	foreach (Data* d, _allDatas)
+	{
+		UserDataBase* u = (UserDataBase*)d;
+		if (u->_id == userId)
+			return u;
+	}
+
+	UserDataBase* u = new UserDataBase(userId, this);
+
+	u->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+	u->connect(u->_studentClass, SIGNAL(removed()), u, SLOT(studentClassRemoved()));
+
+	u->_student = _nobody;
+	u->connect(u->_student, SIGNAL(removed()), u, SLOT(remove()));
+
+	_allDatas.append(u);
+	return u;
+}
+
+UserData* UserDataBasePlugin::user(const QString login)
+{
+	foreach (Data* d, _allDatas)
+	{
+		UserDataBase* u = (UserDataBase*)d;
+		if (u->_login == login)
+			return u;
+	}
+	return 0;
+}
+
+Data* UserDataBasePlugin::dataWithKey(QDataStream& s)
+{
+    quint32 tmpId;
+    s >> tmpId;
+	return user(tmpId);
+}
+
+UserData* UserDataBasePlugin::createUser(const QString &login)
+{
+	static quint32 tmpId = 0;
+	tmpId--;
+
+	UserDataBase* u = ((UserDataBase*)( user(tmpId)) );
+	u->_login = login;
+	u->setName("New user");
+	u->setSurname("New user");
+    return u;
+}
+
+#ifdef HORUS_CLIENT
+void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
+{
+	UserDataBase* u = ((UserDataBase*)(d));
+	s >> u->_id;
+	qDebug() << "User data Have a New Key" << u->_id;
+}
+
+#include "../../../Client/DataListModel.cpp"
+QAbstractListModel* UserDataBasePlugin::listModel() const
+{
+	static DataListModel* _model = new DataListModel(this);
+	return _model;
+}
+#endif
+#ifdef HORUS_SERVER
 void UserDataBasePlugin::userDisconnected(UserData*)
 {
 }
@@ -191,7 +241,7 @@ UserData* UserDataBasePlugin::authenticatePassword(const QString& login, const Q
     }
 
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id FROM user WHERE enabled=1 AND login=? AND password=?;");
+	query.prepare("SELECT`id`FROM`user`WHERE`enabled`=1 AND`login`=? AND`password`=?;");
     query.addBindValue(login);
     query.addBindValue(password.toHex());
     if ( ! query.exec() || ! query.next())
@@ -214,7 +264,7 @@ UserData* UserDataBasePlugin::authenticateSession(const QString& login, const QB
     }
 
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id FROM user WHERE enabled=1 AND login=? AND session_key=?;");
+	query.prepare("SELECT`id`FROM`user`WHERE`enabled`=1 AND`login`=? AND`session_key`=?;");
     query.addBindValue(login);
     query.addBindValue(session.toHex());
     if ( ! query.exec() || ! query.next())

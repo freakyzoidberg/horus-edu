@@ -15,8 +15,6 @@
 
 const QHash<QString, Plugin*>& PluginManagerServer::plugins() const { return _plugins; }
 
-PluginManagerServer::PluginManagerServer() { }
-
 UserData* PluginManagerServer::currentUser() const { return _users[ QThread::currentThreadId() ]; }
 
 void PluginManagerServer::setCurrentUser(UserData* user) { _users[ QThread::currentThreadId() ] = user; }
@@ -46,10 +44,16 @@ void PluginManagerServer::load()
     }
     s.endGroup();
 
-    // every Plugins
+	// DataPlugin
+	foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
+		plugin->dataManager = new DataManagerServer(plugin);
+
+	// every Plugins
+	foreach (Plugin* plugin, _plugins)
+		plugin->pluginManager = this;
+
+	// every Plugins
     foreach (Plugin* plugin, _plugins)
-    {
-        plugin->pluginManager = this;
         if ( ! plugin->canLoad())
         {
             _plugins.remove(plugin->pluginName());
@@ -57,14 +61,6 @@ void PluginManagerServer::load()
         }
         else
             plugin->load();
-    }
-
-    // DataPlugin
-    foreach (DataPlugin* plugin, findPlugins<DataPlugin*>())
-    {
-        plugin->dataManager = new DataManagerServer(plugin);
-		plugin->loadData();
-    }
 
     // NetworkPlugin
     qRegisterMetaType<PluginPacket>("PluginPacket");

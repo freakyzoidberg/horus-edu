@@ -18,20 +18,14 @@ class WhiteBoardDataPlugin : public DataPlugin
 #endif	
 
 public:
+	WhiteBoardDataPlugin();
 	WhiteBoardData*			whiteBoard(TreeData* node);
 	WhiteBoardData*			whiteBoard(quint32 nodeId);
-private:
-	QList<WhiteBoardData*>	_whiteBoards;
 
 
 	//DataPlugin
 public:
 	inline const QString	dataType()   const { return "WhiteBoardData"; }
-	QList<Data*>			allDatas() const;
-#ifdef HORUS_SERVER
-	void					loadData();
-	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
-#endif
 private:
     //! Return the pointer to the Data with a his unique key read in the stream
 	Data*					dataWithKey(QDataStream& s);
@@ -41,7 +35,9 @@ private:
 public:
 	inline const QString	pluginName()    const { return "WhiteBoard Data Plugin"; }
 	inline const QString	pluginVersion() const { return "0.1"; }
-
+	void					load();
+	void					unload();
+	bool					canLoad() const;
 };
 
 #endif // WHITEBOARDDATAPLUGIN_H

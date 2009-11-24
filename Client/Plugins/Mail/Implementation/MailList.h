@@ -37,7 +37,6 @@ private:
     bool expanded;
     QString current;
     MailPanel *_panel;
-    QList<MailData*> list;
     TextBrowser *mailview;
     QLabel *to_edit;
     QLabel *cc_edit;

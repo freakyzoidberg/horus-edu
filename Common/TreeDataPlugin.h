@@ -3,6 +3,10 @@
 
 #include "DataPlugin.h"
 
+#ifdef HORUS_CLIENT
+#include <QAbstractItemModel>
+#endif
+
 class TreeData;
 class TreeDataPlugin : public DataPlugin
 {
@@ -15,9 +19,12 @@ class TreeDataPlugin : public DataPlugin
 #endif
 
 public:
-	virtual TreeData*	rootNode() = 0;
+	virtual TreeData*	rootNode() const = 0;
 	virtual TreeData*	node(quint32 id) = 0;
 	virtual TreeData*	createNode() = 0;
+#ifdef HORUS_CLIENT
+	virtual QAbstractItemModel* treeModel() const = 0;
+#endif
 };
 
 #ifdef HORUS_SERVER

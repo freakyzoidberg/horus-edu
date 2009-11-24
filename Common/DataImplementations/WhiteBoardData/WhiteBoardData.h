@@ -26,21 +26,27 @@ class WhiteBoardData : public Data
   friend class WhiteBoardDataPlugin;
 
 public:
-	enum SyncMode { NO_SYNC, SEMI_SYNC, FULL_SYNC };
+	enum						SyncMode { NO_SYNC, SEMI_SYNC, FULL_SYNC };
 
     // Data Interface
-    void keyToStream(QDataStream& s);
-	void dataToStream(QDataStream& s) const;
-    void dataFromStream(QDataStream& s);
-    QDebug operator<<(QDebug debug) const;
+	void						keyToStream(QDataStream& s) const;
+	void						dataToStream(QDataStream& s) const;
+	void						dataFromStream(QDataStream& s);
+
+	bool						canChange(UserData* user) const;
+	bool						canAccess(UserData* user) const;
+
+	const QList<Data*>			dependsOfCreatedData() const;
+
+	QDebug						operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
-    QVariant data(int column, int role = Qt::DisplayRole) const;
+	QVariant					data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
-	quint8     serverRead();
-	quint8     serverCreate();
-	quint8     serverSave();
-	quint8     serverRemove();
+	quint8						serverRead();
+	quint8						serverCreate();
+	quint8						serverSave();
+	quint8						serverRemove();
 #endif
 
 
@@ -48,22 +54,22 @@ public:
 #ifdef HORUS_CLIENT
 	inline WhiteBoardItemList&	items() { return _items; }
 #endif
-	inline SyncMode				syncMode() const { return (SyncMode)_syncMode; }
-	inline void					setSyncMode(SyncMode mode) { _syncMode = (quint8)mode; }
+	inline SyncMode				syncMode() const { return _syncMode; }
+	inline void					setSyncMode(SyncMode mode) { QMutexLocker M(&mutex); _syncMode = mode; }
 
 private:
-	inline WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin) { _node = node; }
+	WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin);
 	inline ~WhiteBoardData() {}
 
 #ifdef HORUS_CLIENT
-	WhiteBoardItemList _items;
+	WhiteBoardItemList			_items;
 #endif
 #ifdef HORUS_SERVER
 	// on the server, do not de-serialize, keep binary to put it in database
-	QByteArray		   _items;
+	QByteArray					_items;
 #endif
-	TreeData*		   _node;
-	quint8			   _syncMode;
+	TreeData*					_node;
+	SyncMode					_syncMode;
 };
 
 #endif // WHITEBOARDDATA_H

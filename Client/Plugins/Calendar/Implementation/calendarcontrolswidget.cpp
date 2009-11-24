@@ -59,37 +59,29 @@ void CalendarControlsWidget::setMonth(int month)
     selectedDate = QDate(selectedDate.year(), month + 1, selectedDate.day());
 }
 
- void CalendarControlsWidget::setYear(QDate date)
+void CalendarControlsWidget::setYear(QDate date)
 {
     selectedDate = QDate(date.year(), selectedDate.month(), selectedDate.day());
 }
 
-
- void   CalendarControlsWidget::initGroupList()
- {
-    QHash<quint32, TreeData *> *groups = CalendarCore::CalendarCoreInstance()->getNodeOfType("GROUP");
-    QHashIterator<quint32, TreeData *> i(*groups);
-    _groupList->addItem(tr("All users."), QVariant(-1));
-    while (i.hasNext())
-    {
-        i.next();
-        _groupList->addItem(i.value()->name(), QVariant(i.value()->id()));
-    }
-    delete groups;
+void CalendarControlsWidget::initGroupList()
+{
+	QHash<quint32, TreeData *> *groups = CalendarCore::CalendarCoreInstance()->getNodeOfType("GROUP");
+	QHashIterator<quint32, TreeData *> i(*groups);
+	_groupList->addItem(tr("All users."), QVariant(-1));
+	while (i.hasNext())
+	{
+		i.next();
+		_groupList->addItem(i.value()->name(), QVariant(i.value()->id()));
+	}
+	delete groups;
 }
 
- void   CalendarControlsWidget::initUserList(const QString & groupName)
- {
-    QHash<quint32, UserData *>  *users = CalendarCore::CalendarCoreInstance()->usersName(groupName);
-    QHashIterator<quint32, UserData *> i(*users);
-
-    while (i.hasNext())
-    {
-        i.next();
-        _userList->addItem(i.value()->name() + " " + i.value()->surname(), QVariant(i.value()->id()));
-    }
-    delete users;
- }
+void CalendarControlsWidget::initUserList(const QString & groupName)
+{
+	foreach (UserData* user, CalendarCore::CalendarCoreInstance()->usersName(groupName))
+		_userList->addItem(user->name() + " " + user->surname(), QVariant(user->id()));
+}
 
 
 

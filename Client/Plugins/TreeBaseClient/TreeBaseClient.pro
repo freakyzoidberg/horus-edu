@@ -7,10 +7,14 @@ TEMPLATE = lib
 TARGET = TreeBaseClientMetaPlugin
 SOURCES += \
 	../../../Common/DataImplementations/TreeDataBase/TreeDataBase.cpp \
-	../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.cpp
+	../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.cpp \
+	../../DataListModel.cpp \
+	TreeModel.cpp
 HEADERS += \
 	../../../Common/DataImplementations/TreeDataBase/TreeDataBase.h \
 	../../../Common/DataImplementations/TreeDataBase/TreeDataBasePlugin.h \
+	../../DataListModel.h \
+	TreeModel.h \
 	../../../Common/TreeData.h \
 	../../../Common/TreeDataPlugin.h \
 	../../../Common/MetaPlugin.h \

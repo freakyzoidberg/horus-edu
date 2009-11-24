@@ -9,11 +9,10 @@
 
 QWidget             *Administration::getWidget()
 {
-    UserData* u = pluginManager->currentUser();
-    if (u != 0)
-		if (u->level() > LEVEL_ADMINISTRATOR)
-			return NULL;
-    return new AdminMainFrame(treePlugin, userPlugin, eventPlugin);
+	qDebug() << pluginManager->currentUser();
+	if (pluginManager->currentUser()->level() > LEVEL_ADMINISTRATOR)
+		return NULL;
+	return new AdminMainFrame(treePlugin, userPlugin, eventPlugin);
 }
 
 const QString   Administration::pluginName() const

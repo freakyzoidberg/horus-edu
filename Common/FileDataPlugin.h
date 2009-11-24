@@ -1,7 +1,6 @@
 #ifndef FILEDATAPLUGIN_H
 #define FILEDATAPLUGIN_H
 
-#include <QHash>
 #include "DataPlugin.h"
 
 class Data;
@@ -22,11 +21,8 @@ class FileDataPlugin : public DataPlugin
 public:
 	inline const QString					dataType() const { return "File"; }
 	virtual FileData*						file(quint32 fileId) = 0;
-	virtual QList<FileData*>				filesInNode(quint32 nodeId) const = 0;
 	virtual QList<FileData*>				filesInNode(const TreeData *node) const = 0;
-	virtual QList<FileData*>				filesInNodeAndUser(quint32 nodeId, quint32 userId) const = 0;
 	virtual QList<FileData*>				filesInNodeAndUser(const TreeData *node, const UserData* user) const = 0;
-	virtual const QHash<quint32,FileData*>&	allFiles() const = 0;
 	virtual FileData*						createFile(TreeData*) = 0;
 };
 

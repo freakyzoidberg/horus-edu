@@ -36,7 +36,7 @@ private slots:
     void sendPluginPacket(UserData* user, const PluginPacket packet);
 
 private:
-    PluginManagerServer();
+	PluginManagerServer() {}
 	QHash<QString,Plugin*>		_plugins;
 	QHash<Qt::HANDLE,UserData*> _users;
 	QHash<Qt::HANDLE,Sql*>		_sqlConnexions;

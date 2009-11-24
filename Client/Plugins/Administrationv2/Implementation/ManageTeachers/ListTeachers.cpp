@@ -14,7 +14,6 @@ ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWid
 	QLabel				*actionsTitle;
 	QLabel				*listTitle;
 	QPushButton			*addButton;
-	QAbstractListModel	*teachersModel;
 
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     mainLayout->setSpacing(0);
@@ -26,7 +25,7 @@ ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWid
 	listTitle->setProperty("isTitle", true);
 	leftLayout->addWidget(listTitle);
 	filter = new QSortFilterProxyModel(this);
-	filter->setSourceModel(pluginManager->findPlugin<UserDataPlugin*>()->model());
+	filter->setSourceModel(pluginManager->findPlugin<UserDataPlugin*>()->listModel());
 	filter->setFilterRole(Data::FILTER_ROLE);
 	filter->setFilterKeyColumn(0);
 	filter->setFilterFixedString("TEACHER");

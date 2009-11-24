@@ -28,7 +28,7 @@ class MailData : public Data
 
 public:
     // Data Interface
-    void keyToStream(QDataStream& s);
+	void keyToStream(QDataStream& s) const;
     void dataToStream(QDataStream& s) const;
     void dataFromStream(QDataStream& s);
     QDebug operator<<(QDebug debug) const;
@@ -68,7 +68,7 @@ public :
         inline void                     setBcc(QStringList b)   { _bcc = b; }
         inline void			setContent(QString Con) { _content = Con; }
         inline void                     setSubject(QString Sub) {_subject = Sub; }
-        inline void                     sendMail() { Data::setStatus(SAVING); }
+		inline void                     sendMail() { Data::save(); }
 
         inline QString			getContent() const { return _content; }
          inline QString                    getSubject() {return _subject; }

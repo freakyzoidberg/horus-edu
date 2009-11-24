@@ -17,6 +17,8 @@
 #include "DataManager.h"
 #include "PluginManager.h"
 
+#define IS_VALID_DATA_STATUS(s) ((s != Data::EMPTY && s != Data::REMOVED && s != Data::REMOVING))
+
 class UserData;
 class Data : public QObject
 {
@@ -31,121 +33,101 @@ class Data : public QObject
 
 public:
 	// Data streamed between Client and Server:    V->value     N->new key     E->error
-	//                          //   Client|Server|Client |Server
-	//                          //     to  |  to  |-Memory|-Memory
-	//                          //   Server|Client|-Cache |
-	enum DataStatus { EMPTY,    // 0       |      |   X   |  X
-					  CACHED,   // 1       |      |   X   |
-					  UPTODATE, // 2       |      |   X   |  X
-					  UPDATING, // 3  X    |      |   X   |
-					  SAVING,   // 4  X  V |      |   X   |
-					  CREATING, // 5  X  V |      |   X   |
-					  DELETING, // 6  X    |      |   X   |
-					  UPDATED,  // 7       | X  V |       |
-					  SAVED,    // 8       | X    |       |
-					  CREATED,  // 9       | X  N |       |
-					  DELETED,  //10       | X    |       |  X
-					  DATA_ERROR};//11     | X EV |       |
+	//                      //   Client|Server|Client |Server
+	//                      //     to  |  to  |-Memory|-Memory
+	//                      //   Server|Client|-Cache |
+	enum Status { EMPTY,    // 0       |      |   X   |  X
+				  CACHED,   // 1       |      |   X   |
+				  UPTODATE, // 2       |      |   X   |  X
 
-	enum Error { NONE, PERMITION_DENIED, NOT_FOUND, DATABASE_ERROR, DATA_ALREADY_CHANGED, INTERNAL_SERVER_ERROR, __LAST_ERROR__ };
-	enum Role { FILTER_ROLE=Qt::UserRole+1, SORT_ROLE=Qt::UserRole+2 };
+				  SAVING,   // 3  X  V |      |   X   |
+				  CREATING, // 4  X  V |      |   X   |
+				  REMOVING, // 5  X    |      |   X   |
 
-	inline const QString    dataType() const { return _plugin->dataType(); }
+				  UPDATED,  // 6       | X  V |       |
+				  SAVED,    // 7       | X    |       |
+				  CREATED,  // 8       | X  N |       |
+				  REMOVED,  // 9       | X    |       |  X
 
+				  DATA_ERROR,//10      | X EV |       |
+				  __LAST_STATUS__};
+
+	enum Error { NONE,
+				 PERMITION_DENIED,
+				 NOT_FOUND,
+				 DATABASE_ERROR,
+				 DATA_ALREADY_CHANGED,
+				 INTERNAL_SERVER_ERROR,
+				 __LAST_ERROR__ };
 
     //! Have to write his key into the stream to be able to identify this data with the server and the cache.
-    virtual void            keyToStream(QDataStream& s) = 0;
+	virtual void			keyToStream(QDataStream& s) const = 0;
     //! Have to write his data into the stream.
     /*! Called to:
      *  - Transfert this data between client and server.
      *  - Write to a local cache file.
      *  - Compare two data.
      */
-	virtual inline void     dataToStream(QDataStream& s) const { s << _lastChange; }
+	virtual inline void		dataToStream(QDataStream& s) const { s << _lastChange; }
     //! Have to read his data from the stream.
     /*! Called to:
      *  - Transfert this data between client and server.
      *  - Read from a local cache file.
      */
-    virtual inline void     dataFromStream(QDataStream& s) { s >> _lastChange; }
+	virtual inline void		dataFromStream(QDataStream& s) { s >> _lastChange; }
 
     //! Return the current status of this data.
-    inline quint8           status() const { return (quint8)_status; }
-	//! Change the current status and tell the coresponding plugin the data just changed.
-	inline void             setStatus(quint8 status) {
-#ifdef HORUS_CLIENT
-		QMetaObject::invokeMethod(_plugin->dataManager, "dataStatusChange", Qt::QueuedConnection, Q_ARG(Data*, this), Q_ARG(quint8, status));
-#endif
-#ifdef HORUS_SERVER
-		_plugin->dataManager->dataStatusChange(this, status);
-#endif
-	}
-	inline const QDateTime lastChange() { return _lastChange; }
+	inline quint8			status() const { return (quint8)_status; }
+	inline const QDateTime	lastChange() const { return _lastChange; }
 
 #ifdef HORUS_CLIENT
-	inline bool canAccess() { return canAccess(_plugin->pluginManager->currentUser()); }
-	inline bool canChange() { return canChange(_plugin->pluginManager->currentUser()); }
+	inline bool				canAccess() { return canAccess(_plugin->pluginManager->currentUser()); }
+	inline bool				canChange() { return canChange(_plugin->pluginManager->currentUser()); }
 #endif
-	virtual inline bool canChange(UserData*) { return true; }
-	virtual inline bool canAccess(UserData*) { return true; }
+	virtual inline bool		canAccess(UserData*) const { return true; }
+	virtual inline bool		canChange(UserData*) const { return true; }
+
+	//! The data need that other dependants data being created to be saved or created.
+	virtual inline const QList<Data*> dependsOfCreatedData() const { return QList<Data*>(); }
+
+	inline const QString    dataType() const { return _plugin->dataType(); }
 
 public slots:
 	//! Function to create the value of the data
-	virtual inline void		create() { setStatus(CREATING); }
-
+	inline void				create() { setStatus(CREATING); }
 	//! Function to save the value of the data
-	virtual inline void		save() { setStatus(SAVING); }
-
+	inline void				save() { setStatus(SAVING); }
 	//! Function to delete the value of the data
-	virtual inline void		remove() { setStatus(DELETING); }
+	inline void				remove() { setStatus(REMOVING); }
 
 signals:
-	//! Signal emmited when the data is created.
-	void                    created();
 	//! Signal emmited when the data is updated.
-		void                updated();
+	void		            updated();
 	//! Signal emmited when the data is removed.
 	void                    removed();
-	//! Signal emmited when an error occur on this data.
-	void                    error(quint8 error);
 	//! Signal emmited each time the status is changed.
 	void					statusChanged();
+	//! Signal emmited when an error occur on this data.
+	void                    error(quint8 error);
 
 public:
     //! Usefull for debuging. Not mandatory but important.
 	virtual inline QDebug   operator<<(QDebug debug) const { return debug << dataType(); }
 #ifdef HORUS_CLIENT
-    virtual inline QVariant data(int, int role = Qt::DisplayRole) const
-    {
-        if (role == Qt::BackgroundColorRole)
-        {
-            if (status() == UPTODATE)
-                return QColor(210, 255, 210);//green : uptodate
-            if (status() == SAVING || status() == CREATING)
-                return QColor(210, 210, 255);//blue : saving & creating
-            if (status() == DELETING)
-                return QColor(255, 210, 210);//red : deleting
-
-            return QColor(220, 220, 220);//gray : cached, updating, ...
-        }
-        return QVariant();
-    }
-
-    //! Function just set the UPDATING status if not already uptodate or updating
-    inline void             update()
-        { if (_status == EMPTY || _status == UPTODATE || _status == CACHED) setStatus(UPDATING); }
+	enum Role { FILTER_ROLE=Qt::UserRole+1, SORT_ROLE=Qt::UserRole+2 };
+	virtual inline QVariant	data(int, int = Qt::DisplayRole) const { return QVariant(); }
 #endif
 #ifdef HORUS_SERVER
 	//! Fill the current data with a defined key from the database.
-	virtual inline quint8     serverRead() { return NOT_FOUND; }
+	virtual quint8		serverRead() = 0;
     //! Create this data into the database, and update the key.
-	virtual        quint8     serverCreate() = 0;
+	virtual quint8		serverCreate() = 0;
     //! Save the current data into the database.
-	virtual        quint8     serverSave() = 0;
+	virtual quint8		serverSave() = 0;
     //! Delete the current data from the database.
-	virtual        quint8     serverRemove() = 0;
+	virtual quint8		serverRemove() = 0;
 	//! send this data to a user
-	inline void				  sendToUser(UserData* user) { _plugin->dataManager->sendData(user, this); }
+	inline void			sendToUser(UserData* user) { _plugin->dataManager->sendData(user, this); }
 #endif
 
 protected:
@@ -158,17 +140,25 @@ protected:
 
 public:
 	QMutex                  mutex;
+private:
+	//! Change the current status and tell the coresponding plugin the data just changed.
+	inline void             setStatus(quint8 status) {
+#ifdef HORUS_CLIENT
+		QMetaObject::invokeMethod(_plugin->dataManager, "dataStatusChange", Qt::QueuedConnection, Q_ARG(Data*, this), Q_ARG(quint8, status));
+#endif
+#ifdef HORUS_SERVER
+		_plugin->dataManager->dataStatusChange(this, status);
+#endif
+	}
 };
 
 inline QDebug operator<<(QDebug debug, const Data& data) { return data << debug; }
 inline QDebug operator<<(QDebug debug, const Data* data) { if (data) return (*data) << debug; else return debug << "null"; }
-inline QDebug operator<<(QDebug debug, Data::DataStatus status) {
-	static const quint8 nbrStatus = 12;
-	static const char*  txtStatus[] = {
+inline QDebug operator<<(QDebug debug, Data::Status status) {
+	const char* txtStatus[] = {
 		"EMPTY",
 		"CACHED",
 		"UPTODATE",
-		"UPDATING",
 		"SAVING",
 		"CREATING",
 		"DELETING",
@@ -178,14 +168,13 @@ inline QDebug operator<<(QDebug debug, Data::DataStatus status) {
 		"DELETED",
 		"DATA_ERROR"
 	};
-	if ((quint8)status < nbrStatus)
+	if ((quint8)status < Data::__LAST_STATUS__)
 		debug << txtStatus[ status ];
 	return debug;
  }
 
 inline QDebug operator<<(QDebug debug, Data::Error error) {
-	static const quint8 nbrErrors = 12;
-	static const char*  txtErrors[] = {
+	const char* txtErrors[] = {
 		"NONE",
 		"PERMITION_DENIED",
 		"NOT_FOUND",
@@ -193,7 +182,7 @@ inline QDebug operator<<(QDebug debug, Data::Error error) {
 		"DATA_ALREADY_CHANGED",
 		"INTERNAL_SERVER_ERROR"
 	};
-	if ((quint8)error < nbrErrors)
+	if ((quint8)error < Data::__LAST_ERROR__)
 		debug << txtErrors[ error ];
 	return debug;
  }

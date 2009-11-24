@@ -9,19 +9,29 @@ EventDataBase::EventDataBase(TreeData* node, EventDataBasePlugin* plugin) : Even
 	_node->registerData(this);
 }
 
-void EventDataBase::keyToStream(QDataStream& s)
+void EventDataBase::keyToStream(QDataStream& s) const
 {
 	s << _node->id();
 }
 
 void EventDataBase::dataToStream(QDataStream& s) const
 {
-	s << _startTime << _endTime;
+	s << _startTime << _endTime << _comment;
 }
 
 void EventDataBase::dataFromStream(QDataStream& s)
 {
-	s >> _startTime >> _endTime;
+	s >> _startTime >> _endTime >> _comment;
+}
+
+bool EventDataBase::canChange(UserData* user) const
+{
+	return _node->canChange(user);
+}
+
+bool EventDataBase::canAccess(UserData* user) const
+{
+	return _node->canAccess(user);
 }
 
 QDebug EventDataBase::operator<<(QDebug debug) const
@@ -29,11 +39,18 @@ QDebug EventDataBase::operator<<(QDebug debug) const
 	return debug << dataType() << _node->id() << _startTime << _endTime;
 }
 
+const QList<Data*> EventDataBase::dependsOfCreatedData() const
+{
+	QList<Data*> list;
+	list.append(_node);
+	return list;
+}
+
 #ifdef HORUS_SERVER
 quint8 EventDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT start_time,end_time FROM event WHERE id_tree=?;");
+	query.prepare("SELECT`start_time`,`end_time`,`comment`FROM`event`WHERE`id_tree`=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
@@ -44,8 +61,9 @@ quint8 EventDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-	_startTime = query.value(0).toDateTime();
-	_endTime   = query.value(1).toDateTime();
+	_startTime	= query.value(0).toDateTime();
+	_endTime	= query.value(1).toDateTime();
+	_comment	= query.value(2).toString();
 
 	return NONE;
 }
@@ -54,10 +72,11 @@ quint8 EventDataBase::serverCreate()
 {
 	QMutexLocker M(&_node->mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO event (id_tree,start_time,end_time) VALUES (?,?,?);");
+	query.prepare("INSERT INTO`event`(`id_tree`,`start_time`,`end_time`,`comment`)VALUES(?,?,?);");
 	query.addBindValue(_node->id());
 	query.addBindValue(_startTime);
 	query.addBindValue(_endTime);
+	query.addBindValue(_comment);
 
 	if ( ! query.exec())
 	{
@@ -71,10 +90,11 @@ quint8 EventDataBase::serverCreate()
 quint8 EventDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE event SET start_time=?,end_time=? WHERE id_tree=?;");
+	query.prepare("UPDATE`event`SET`start_time`=?,`end_time`=?,`comment`=? WHERE`id_tree`=?;");
 	query.addBindValue(_startTime);
 	query.addBindValue(_endTime);
 	query.addBindValue(_node->id());
+	query.addBindValue(_comment);
 
 	if ( ! query.exec())
 	{
@@ -87,7 +107,7 @@ quint8 EventDataBase::serverSave()
 quint8 EventDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM event WHERE id_tree=?;");
+	query.prepare("DELETE FROM`event`WHERE`id_tree`=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
@@ -102,46 +122,19 @@ quint8 EventDataBase::serverRemove()
 }
 #endif
 #ifdef HORUS_CLIENT
-void EventDataBase::create()
-{
-	disconnect(this, SLOT(create()));
-	if (_node->status() == CREATING || _node->status() == EMPTY)
-		connect(_node, SIGNAL(created()), this, SLOT(create()));
-	else
-		Data::create();
-}
-
-
-//#include <QIcon>
 QVariant EventDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 0)
-			return _node->id();
-        if (column == 1)
+		if (column == 0)
 			return _node->name();
-        if (column == 2)
+		if (column == 1)
 			return _startTime;
-		if (column == 3)
+		if (column == 2)
 			return _endTime;
-    }
-//    else if (role == Qt::DecorationRole && column == 0)
-//    {
-//        static QMap<QString,QIcon> icons;
-//        if ( ! icons.count())
-//        {
-//            icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
-//			icons["LESSON"]  = QIcon(":/Icons/LessonIcon.png");
-//            icons["SUBJECT"] = QIcon(":/Icons/SubjectIcon.png");
-//			icons["GRADE"]   = QIcon(":/Icons/GradeIcon.png");
-//			icons["GROUP"]   = QIcon(":/Icons/GroupIcon.png");
-//			icons["ROOT"]    = QIcon(":/Icons/RootIcon.png");
-//        }
-//        if (icons.contains( _type ))
-//            return icons[ _type ];
-//        return icons["DEFAULT"];
-//    }
+		if (column == 3)
+			return _comment;
+	}
    return Data::data(column, role);
 }
 #endif

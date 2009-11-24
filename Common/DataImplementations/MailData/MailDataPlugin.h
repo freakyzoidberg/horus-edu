@@ -21,32 +21,25 @@ class MailDataPlugin : public DataPlugin
 #endif
 
 public:
-        inline const QString pluginName()    const { return "MailDataPlugin"; }
+	inline const QString pluginName()    const { return "MailDataPlugin"; }
 	inline const QString pluginVersion() const { return "0.1"; }
-		inline const QString dataType()   const { return "MailData"; }
+	inline const QString dataType()   const { return "MailData"; }
 
 
-        MailData*      getMail(QString i);
-        QList<MailData*>      getAllMail() const;
+		MailData* mail(QString i);
+		MailData* createMail();
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 #ifdef HORUS_SERVER
-		QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
-
 public slots:
-        void SendMailToClient(Mail*);
-
+	void SendMailToClient(Mail*);
+public:
+	void userConnected(UserData* user);
 #endif
 private:
     //! Return the pointer to the Data with a his unique key read in the stream
 	Data*                dataWithKey(QDataStream& s);
-
-
-        QList<MailData*> Mails;
-
-        public:
-        MailData* createMail();
 };
 
 #endif // MAILDATAPLUGIN_H

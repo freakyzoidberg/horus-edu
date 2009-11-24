@@ -18,7 +18,7 @@ Notification *Notification::instance()
 
 void Notification::notify(QtMsgType type, const char *message)
 {
-	//notify((NotificationType)type, message);
+	notify((NotificationType)type, message);
 }
 
 void Notification::notify(NotificationType type, const char *message)

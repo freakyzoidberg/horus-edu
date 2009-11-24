@@ -20,7 +20,7 @@ class FileData : public Data
 
 protected:
     inline FileData(FileDataPlugin* plugin) : Data(plugin) { }
-    inline ~FileData() {}
+	virtual inline ~FileData() {}
 
 public:
     virtual quint32     id() const = 0;

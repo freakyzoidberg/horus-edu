@@ -1,9 +1,8 @@
 #include "LibraryWidget.h"
 
-#include "LibraryModel.h"
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/FileData.h"
-#include "../../../Common/TreeDataPlugin.h"
+#include "../../../Common/TreeData.h"
 
 #include <QListView>
 #include <QTreeView>
@@ -18,17 +17,16 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	QGridLayout* layout = new QGridLayout(this);
 
 	QTreeView* tree = new QTreeView(this);
-	TreeModel* treeModel = new TreeModel(pluginManager->findPlugin<TreeDataPlugin*>());
-	tree->setModel(treeModel);
-	tree->expandAll();
+	tree->setModel(pluginManager->findPlugin<TreeDataPlugin*>()->treeModel());
+//	tree->expandAll();
 	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	tree->selectAll();
+//	tree->selectAll();
 	tree->setHeaderHidden(true);
 	_treeSelection = tree->selectionModel();
 	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
 
-	_filter = new LibrarySortFilter(treeModel, this);
-	_filter->setSourceModel(new LibraryModel(pluginManager->findPlugin<FileDataPlugin*>()));
+	_filter = new QSortFilterProxyModel(this);
+	_filter->setSourceModel(pluginManager->findPlugin<FileDataPlugin*>()->listModel());
 	_filter->setSortCaseSensitivity(Qt::CaseInsensitive);
 	_filter->setFilterCaseSensitivity(Qt::CaseInsensitive);
 	_filter->sort(0, Qt::AscendingOrder);
@@ -57,10 +55,10 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	layout->addWidget(new QLabel(tr("Detail")), 0, 2);
 	layout->addLayout(_detailLayout, 1, 2);
 
-	_detailLayout->addRow("Id", new QLabel);
-	_detailLayout->addRow("Name", new QLabel);
-	_detailLayout->addRow("Size", new QLabel);
-	_detailLayout->addRow("MimeType", new QLabel);
+	_detailLayout->addRow("Id:", new QLabel);
+	_detailLayout->addRow("Name:", new QLabel);
+	_detailLayout->addRow("Size:", new QLabel);
+	_detailLayout->addRow("MimeType:", new QLabel);
 }
 
 void LibraryWidget::treeSelectionChange(const QItemSelection& selected, const QItemSelection&)

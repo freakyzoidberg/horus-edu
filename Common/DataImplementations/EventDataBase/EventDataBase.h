@@ -26,37 +26,41 @@ class EventDataBase : public EventData
   friend class			EventDataBasePlugin;
 
 private:
-						EventDataBase(TreeData* node, EventDataBasePlugin* plugin);
-	inline				~EventDataBase() {}
+	EventDataBase(TreeData* node, EventDataBasePlugin* plugin);
+	~EventDataBase() {}
 
 	QDateTime			_startTime;
 	QDateTime			_endTime;
+	QString				_comment;
 	TreeData*			_node;
 
 
 	// INTERFACE EventData
 public:
-	inline QDateTime	startTime() const { return _startTime; }
-	inline void			setStartTime(const QDateTime& time) { _startTime = time; }
-	inline QDateTime	endTime() const { return _endTime; }
-	inline void			setEndTime(const QDateTime& time) { _endTime = time; }
-	inline QDateTime	duration() const { return QDateTime::fromTime_t(_endTime.toTime_t() - _startTime.toTime_t()); }
-	inline void			setDuration(const QDateTime& time) { _endTime = QDateTime::fromTime_t(_startTime.toTime_t() + time.toTime_t()); }
-	inline TreeData*	node() const { return _node; }
+	inline QDateTime	startTime() const					{ return _startTime; }
+	inline void			setStartTime(const QDateTime& time)	{ QMutexLocker M(&mutex); _startTime = time; }
+	inline QDateTime	endTime() const						{ return _endTime; }
+	inline void			setEndTime(const QDateTime& time)	{ QMutexLocker M(&mutex); _endTime = time; }
+	inline QString		comment() const						{ return _comment; }
+	inline void			setComment(const QString& comment)	{ QMutexLocker M(&mutex); _comment = comment; }
+	inline TreeData*	node() const						{ return _node; }
 
 
 	//INTERFACE Data
 public:
-	void				keyToStream(QDataStream& s);
+	void				keyToStream(QDataStream& s) const;
 	void				dataToStream(QDataStream& s) const;
 	void				dataFromStream(QDataStream& s);
+
+	bool				canChange(UserData* user) const;
+	bool				canAccess(UserData* user) const;
+
+	const QList<Data*>	dependsOfCreatedData() const;
 
 	QDebug				operator<<(QDebug debug) const;
 
 #ifdef HORUS_CLIENT
 	QVariant			data(int column, int role = Qt::DisplayRole) const;
-public slots:
-	void				create();
 #endif
 #ifdef HORUS_SERVER
 public:

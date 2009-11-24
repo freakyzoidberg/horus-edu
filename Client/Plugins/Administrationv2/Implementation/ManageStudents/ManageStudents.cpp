@@ -689,9 +689,9 @@ QList<UserData*> ManageStudents::getAllParents()
 {
     QList<UserData*> mylist;
 
-    foreach (UserData* user, UD->allUser())
+	foreach (Data* data, UD->allDatas())
     {
-
+		UserData* user = (UserData*)data;
         if (user->level() == LEVEL_FAMILY)
         {
             mylist.append(user);

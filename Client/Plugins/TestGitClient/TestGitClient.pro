@@ -6,7 +6,7 @@ TARGET = TestGitClient
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/TestGitWidget.cpp \
-    Implementation/TestNetworkPlugin.cpp
+	Implementation/TestNetworkPlugin.cpp
 HEADERS += Implementation/TestGit.h \
     Implementation/TestGitWidget.h \
     Implementation/TestGitMetaPlugin.h \

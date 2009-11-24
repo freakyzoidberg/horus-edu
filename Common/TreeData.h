@@ -29,17 +29,6 @@ public:
       \return the inserted node
     */
     virtual TreeData* createChild(const QString name, const QString type, UserData* user) = 0;
-    //! delete node
-    /*!
-      delete current node node and attache sons to the  father's current node
-    */
-    virtual void                recursRemove() = 0;
-    //! move node to new father
-    /*!
-      \param idmove node to move
-      \param idfather node id of new father
-    */
-    virtual void    moveTo(TreeData* parent) = 0;
 
 
     //! Get name of node
@@ -98,7 +87,7 @@ public:
     virtual bool    isDescendantOf(TreeData* parent) = 0;
 
     
-	inline void		registerData(Data* data) { _registeredData.append(data); }
+	inline void		registerData(Data* data) { _registeredData.append(data); connect(this, SIGNAL(removed()), data, SLOT(remove())); }
 template <typename T>
 	inline T		registeredData() const
 	{
@@ -111,8 +100,8 @@ private:
 	QList<Data*>	_registeredData;
 
 protected:
-    inline TreeData(TreeDataPlugin* plugin) : Data(plugin) { }
-    inline ~TreeData() {}
+	inline			TreeData(TreeDataPlugin* plugin) : Data(plugin) { }
+	virtual inline	~TreeData() {}
 };
 
 #ifdef HORUS_SERVER

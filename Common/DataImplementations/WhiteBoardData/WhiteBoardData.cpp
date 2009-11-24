@@ -2,15 +2,22 @@
 #include "WhiteBoardDataPlugin.h"
 #include "../../PluginManager.h"
 #include "../../TreeData.h"
+#include "../../UserData.h"
 
-void WhiteBoardData::keyToStream(QDataStream& s)
+WhiteBoardData::WhiteBoardData(TreeData* node, WhiteBoardDataPlugin* plugin) : Data(plugin)
+{
+	_node = node;
+	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
+}
+
+void WhiteBoardData::keyToStream(QDataStream& s) const
 {
 	s << _node->id();
 }
 
 void WhiteBoardData::dataToStream(QDataStream& s) const
 {
-	s << _syncMode;
+	s << (quint8)_syncMode;
 #ifdef HORUS_CLIENT
 	QByteArray bufItems;
 	QDataStream ds(&bufItems, QIODevice::WriteOnly);
@@ -30,7 +37,9 @@ void WhiteBoardData::dataFromStream(QDataStream& s)
 {
 	_items.clear();
 
-	s >> _syncMode;
+	quint8 sm;
+	s >> sm;
+	_syncMode = (SyncMode)sm;
 
 #ifdef HORUS_CLIENT
 	QByteArray bufItems;
@@ -47,9 +56,30 @@ void WhiteBoardData::dataFromStream(QDataStream& s)
 	Data::dataFromStream(s);
 }
 
+bool WhiteBoardData::canChange(UserData* user) const
+{
+	if (user->level() <= LEVEL_ADMINISTRATOR)
+		return true;
+	return _node->canChange(user);
+}
+
+bool WhiteBoardData::canAccess(UserData* user) const
+{
+	if (user->level() <= LEVEL_ADMINISTRATOR)
+		return true;
+	return _node->canAccess(user);
+}
+
 QDebug WhiteBoardData::operator<<(QDebug debug) const
 {
 	return debug << tr("WhiteBoardData::") << _node->id();
+}
+
+const QList<Data*> WhiteBoardData::dependsOfCreatedData() const
+{
+	QList<Data*> list;
+	list.append(_node);
+	return list;
 }
 
 #ifdef HORUS_CLIENT
@@ -75,7 +105,7 @@ QVariant WhiteBoardData::data(int column, int role) const
 quint8 WhiteBoardData::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT mode,items,mtime FROM white_board WHERE id_tree=?;");
+	query.prepare("SELECT`mode`,`items`,`mtime`FROM`white_board`WHERE`id_tree`=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
@@ -95,7 +125,7 @@ quint8 WhiteBoardData::serverRead()
 quint8 WhiteBoardData::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO white_board (id_tree,mode,items,mtime)VALUES(?,?,?,?);");
+	query.prepare("INSERT INTO`white_board`(`id_tree`,`mode`,`items`,`mtime`)VALUES(?,?,?,?);");
 	query.addBindValue(_node->id());
 	query.addBindValue(_syncMode);
 	query.addBindValue(_items);
@@ -112,7 +142,7 @@ quint8 WhiteBoardData::serverCreate()
 quint8 WhiteBoardData::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE white_board SET mode=?,items=?,mtime=? WHERE id_tree=?;");
+	query.prepare("UPDATE`white_board`SET`mode`=?,`items`=?,`mtime`=? WHERE`id_tree`=?;");
 	query.addBindValue(_syncMode);
 	query.addBindValue(_items);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
@@ -129,7 +159,7 @@ quint8 WhiteBoardData::serverSave()
 quint8 WhiteBoardData::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM white_board WHERE id_tree=?;");
+	query.prepare("DELETE FROM`white_board`WHERE`id_tree`=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())

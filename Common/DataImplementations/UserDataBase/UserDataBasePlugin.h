@@ -21,17 +21,16 @@ class UserDataBasePlugin : public UserDataPlugin
 public:
 	UserDataBasePlugin();
 private:
-	QHash<quint32,UserData*>	_users;
-	UserDataBase*				_nobody;
+	UserData*				_nobody;
+
 
 	//UserDataPlugin
 public:
-	UserData*				nobody();
+	inline UserData*		nobody() const { return _nobody; }
 	UserData*				user(quint32 userId);
 	UserData*				user(const QString login);
-	const QHash<quint32,UserData*>&	allUser();
 	UserData*				createUser(const QString &login);
-	QList<UserData*>		parentsOfStudent(UserData* student) const;
+	QList<UserData*>		parentsOfStudent(const UserData* student) const;
 #ifdef HORUS_SERVER
 	void					userDisconnected(UserData* user);
 	UserData*				authenticatePassword(const QString& login, const QByteArray& password);
@@ -42,13 +41,12 @@ public:
 	//DataPlugin
 public:
 	void					load();
+	void					unload();
+	bool					canLoad() const;
 	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
 	void					dataHaveNewKey(Data*d, QDataStream& s);
-#endif
-#ifdef HORUS_SERVER
-	void					loadData();
-	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
+	QAbstractListModel*		listModel() const;
 #endif
 protected:
 	//! Return the pointer to the Data with a his unique key read in the stream
