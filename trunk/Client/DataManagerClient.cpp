@@ -26,6 +26,8 @@ void DataManagerClient::dataStatusChange(Data* data, quint8 newStatus)
 			_needSaveAgain.append(data);
 		return;
 	}
+	if (newStatus == Data::REMOVING && oldStatus == Data::REMOVING)
+		return;
 
 	// data must be EMPTY, UPTODATE or CACHED before
 	// and must being set to CREATING, SAVING or DELETING
@@ -161,12 +163,14 @@ void DataManagerClient::receiveData(const QByteArray& d)
 void DataManagerClient::sendData(Data* data)
 {
 	QMutexLocker(&data->mutex);
-	foreach (Data* dep, data->dependsOfCreatedData())
-		if (dep->status() == Data::EMPTY || dep->status() == Data::CREATING)
-		{
-			_dependantDatas.insert(dep, data);
-			return;
-		}
+	if (data->status() == Data::SAVING || data->status() == Data::CREATING)
+		foreach (Data* dep, data->dependsOfCreatedData())
+			if (dep->status() == Data::EMPTY || dep->status() == Data::CREATING)
+			{
+				qDebug() << data << "is waiting dependance" << dep << "being created";
+				_dependantDatas.insert(dep, data);
+				return;
+			}
 
 	CommData packet(data->dataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);

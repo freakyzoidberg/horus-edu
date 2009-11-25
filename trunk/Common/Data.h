@@ -1,10 +1,6 @@
 #ifndef DATA_H
 #define DATA_H
 
-#ifdef HORUS_CLIENT
-  #include <QColor>
-#endif
-
 #include <QMutex>
 #include <QMutexLocker>
 #include <QDataStream>
@@ -12,23 +8,27 @@
 #include <QDebug>
 #include <QVariant>
 #include <QDateTime>
+#ifdef HORUS_CLIENT
+#  include <QColor>
+#  include <QMimeData>
+#endif
 
 #include "DataPlugin.h"
 #include "DataManager.h"
 #include "PluginManager.h"
+class UserData;
 
 #define IS_VALID_DATA_STATUS(s) ((s != Data::EMPTY && s != Data::REMOVED && s != Data::REMOVING))
 
-class UserData;
 class Data : public QObject
 {
-  Q_OBJECT
-#ifdef HORUS_SERVER
-  friend class DataManagerServer;
-#endif
+	Q_OBJECT
 #ifdef HORUS_CLIENT
-  friend class DataManagerClient;
-  friend class UserCache;
+	friend class DataManagerClient;
+	friend class UserCache;
+#endif
+#ifdef HORUS_SERVER
+	friend class DataManagerServer;
 #endif
 
 public:
@@ -116,6 +116,8 @@ public:
 #ifdef HORUS_CLIENT
 	enum Role { FILTER_ROLE=Qt::UserRole+1, SORT_ROLE=Qt::UserRole+2 };
 	virtual inline QVariant	data(int, int = Qt::DisplayRole) const { return QVariant(); }
+	virtual inline QMimeData* mimeData() const { return 0; }
+	virtual inline bool		dropMimeData(const QMimeData *, Qt::DropAction) const { return false; }
 #endif
 #ifdef HORUS_SERVER
 	//! Fill the current data with a defined key from the database.
@@ -161,11 +163,11 @@ inline QDebug operator<<(QDebug debug, Data::Status status) {
 		"UPTODATE",
 		"SAVING",
 		"CREATING",
-		"DELETING",
+		"REMOVING",
 		"UPDATED",
 		"SAVED",
 		"CREATED",
-		"DELETED",
+		"REMOVED",
 		"DATA_ERROR"
 	};
 	if ((quint8)status < Data::__LAST_STATUS__)

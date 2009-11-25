@@ -220,6 +220,7 @@ void	AdmAddClassWidget::deleteClass()
 		TreeData *data = _treeplugin->node(id);
 		connect(this->_treeplugin, SIGNAL(dataRemoved(Data *)), this, SLOT(refreshList(Data *)));
 		del->hide();
+		qDebug() << "removing" << data;
 		data->remove();
 		emptyField();
 	}

@@ -30,6 +30,10 @@ ListTeachers::ListTeachers(QWidget *parent, PluginManager *pluginManager) : QWid
 	filter->setFilterKeyColumn(0);
 	filter->setFilterFixedString("TEACHER");
 	listView = new QListView(this);
+	listView->setSelectionMode(QAbstractItemView::SingleSelection);
+	listView->setDragEnabled(true);
+	listView->setAcceptDrops(true);
+	listView->setDropIndicatorShown(true);	listView->setModel(filter);
 	listView->setModel(filter);
 	leftLayout->addWidget(listView);
 	mainLayout->addLayout(leftLayout);

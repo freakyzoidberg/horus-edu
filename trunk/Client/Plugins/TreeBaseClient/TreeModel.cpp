@@ -7,7 +7,7 @@ TreeModel::TreeModel(const TreeDataPlugin* plugin)
 	foreach (Data* d, _plugin->allDatas())
 		if IS_VALID_DATA_STATUS(d->status())
 		{
-			TreeData* node = (TreeData*)d;
+			TreeData* node = static_cast<TreeData*>(d);
 			_data.insertMulti(node->parent(), node);
 		}
 	//DirectConnexion because a REMOVED data is deleted just after the signal
@@ -19,7 +19,7 @@ int TreeModel::rowCount(const QModelIndex & parent) const
 	if ( ! parent.isValid())
 		return 1;
 
-	return _data.count((TreeData*)(parent.internalPointer()));
+	return _data.count(static_cast<TreeData*>(parent.internalPointer()));
 }
 
 int TreeModel::columnCount(const QModelIndex &) const
@@ -29,7 +29,7 @@ int TreeModel::columnCount(const QModelIndex &) const
 
 QModelIndex TreeModel::parent(const QModelIndex &child) const
 {
-	Data* data = (Data*)(child.internalPointer());
+	Data* data = static_cast<Data*>(child.internalPointer());
 	if (data == _plugin->rootNode())
 		return QModelIndex();
 
@@ -45,12 +45,12 @@ QModelIndex TreeModel::index(int row, int, const QModelIndex & parent) const
 	if ( ! parent.isValid())
 		return createIndex(0, 0, _plugin->rootNode());
 
-	return createIndex(row, 0, _data.values((TreeData*)(parent.internalPointer())).at(row));
+	return createIndex(row, 0, _data.values(static_cast<TreeData*>(parent.internalPointer())).at(row));
 }
 
 QVariant TreeModel::data(const QModelIndex &index, int role) const
 {
-	return ((Data*)(index.internalPointer()))->data(index.column(), role);
+	return (static_cast<Data*>(index.internalPointer()))->data(index.column(), role);
 }
 
 void TreeModel::dataStatusChanged(Data* data)
@@ -67,10 +67,10 @@ void TreeModel::dataStatusChanged(Data* data)
 
 	if (parent)
 		//if the parent has change
-		if (parent != ((TreeData*)data)->parent())
+		if (parent != (static_cast<TreeData*>(data))->parent())
 			removeData(parent, data);
 
-	parent = ((TreeData*)data)->parent();
+	parent = (static_cast<TreeData*>(data))->parent();
 
 	//if the node is not in the model
 	if ( ! _data.contains(parent, data))
@@ -83,22 +83,22 @@ void TreeModel::dataStatusChanged(Data* data)
 //		}
 }
 
-void TreeModel::inserData(TreeData* parent, Data* data)
+void TreeModel::inserData(TreeData* parentNode, Data* data)
 {
-	int pos = _data.count(parent);
+	int pos = _data.count(parentNode);
 	int row = 1;
-	if (parent != _plugin->rootNode())
-		row = _data.values(_data.key(parent)).indexOf(parent);
+	if (parentNode != _plugin->rootNode())
+		row = _data.values(_data.key(parentNode)).indexOf(parentNode);
 
 	beginInsertRows(createIndex(row, 0, data), pos, pos);
-	_data.insertMulti(parent, data);
+	_data.insertMulti(parentNode, data);
 	endInsertRows();
 }
 
-void TreeModel::removeData(TreeData* parent, Data* data)
+void TreeModel::removeData(TreeData* parentNode, Data* data)
 {
-	int pos = _data.values(parent).indexOf(data);
-	beginRemoveRows(createIndex(_data.values(parent).indexOf(data), 0, data), pos, pos);
-	_data.remove(parent, data);
+	int pos = _data.values(parentNode).indexOf(data);
+	beginRemoveRows(parent(createIndex(pos, 0, data)), pos, pos);
+	_data.remove(parentNode, data);
 	endRemoveRows();
 }
