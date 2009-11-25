@@ -57,7 +57,7 @@ case $me in
 		    echo -e "$NORMAL"
 		    ;;
 		'noredir')
-		    qmake && make
+		    qmake && make -j3
 		    if [ -d ./Plugins ]
 		    then
 			cd Plugins
@@ -67,7 +67,7 @@ case $me in
 			    then
 				cd $fichier
 				echo -e "$BLEU" "      ----Building Client Plugins" "$fichier"  "$NORMAL"
-				qmake && make
+				qmake && make -j3
 				echo -e "$BLEU" "      ---Finished Building Client Plugins " "$fichier"  "$NORMAL"
 				cd ..
 			    fi
@@ -78,7 +78,7 @@ case $me in
 		    ;;
 		*)
 		    echo -e "$ROUGE"
-		    qmake && make > $REDIR
+		    qmake && make -j3 > $REDIR
 		    echo -e "$NORMAL"
 		    if [ -d ./Plugins ]
 		    then
@@ -90,7 +90,7 @@ case $me in
 				cd $fichier
 				echo -e "$BLEU" "      ----Building Client Plugins" "$fichier"  "$NORMAL"
 				echo -e "$ROUGE"
-				qmake && make > $REDIR
+				qmake && make -j3 > $REDIR
 				echo -e "$NORMAL"
 				echo -e "$BLEU" "      ---Finished Building Client Plugins " "$fichier"  "$NORMAL"
 				cd ..
@@ -130,7 +130,7 @@ case $me in
 		    echo -e "$NORMAL"
 		    ;;
 		'noredir')
-		    qmake && make
+		    qmake && make -j3
 		    if [ -d ./Plugins ]
 		    then
 			cd Plugins
@@ -140,7 +140,7 @@ case $me in
 			    then
 				cd $fichier
 				echo -e "$BLEU" "      ----Building Server Plugins" "$fichier"  "$NORMAL"
-				qmake && make
+				qmake && make -j3
 				echo -e "$BLEU" "      ---Finished Building Server Plugins " "$fichier" "$NORMAL"
 				cd ..
 			    fi
@@ -150,7 +150,7 @@ case $me in
 		    ;;
 		*)
 		    echo -e "$ROUGE"
-		    qmake && make > $REDIR
+		    qmake && make -j3 > $REDIR
 		    echo -e "$NORMAL"
 		    if [ -d ./Plugins ]
 		    then
@@ -162,7 +162,7 @@ case $me in
 				cd $fichier
 				echo -e "$BLEU" "      ----Building Server Plugins" "$fichier"  "$NORMAL"
 				echo -e "$ROUGE"
-				qmake && make > $REDIR
+				qmake && make -j3 > $REDIR
 				echo -e "$NORMAL"
 				echo -e "$BLEU" "      ---Finished Building Server Plugins " "$fichier" "$NORMAL"
 				cd ..
