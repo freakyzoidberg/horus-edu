@@ -19,7 +19,7 @@ void UserDataBasePlugin::load()
 	n->_name = tr("Nobody");
 	n->_surname = tr("Nobody");
 	n->_login = tr("Nobody");
-	n->_status = Data::EMPTY;
+	n->_status = Data::UPTODATE;
 	n->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
