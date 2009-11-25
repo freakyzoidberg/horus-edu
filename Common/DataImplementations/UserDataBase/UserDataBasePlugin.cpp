@@ -220,7 +220,7 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 	qDebug() << "User data Have a New Key" << u->_id;
 }
 
-#include "../../../Client/DataListModel.cpp"
+#include "../../DataListModel.h"
 QAbstractListModel* UserDataBasePlugin::listModel() const
 {
 	static DataListModel* _model = new DataListModel(this);

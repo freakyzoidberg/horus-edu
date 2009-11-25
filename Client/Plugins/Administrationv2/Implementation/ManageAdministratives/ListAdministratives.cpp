@@ -30,7 +30,10 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
 	filter->setFilterKeyColumn(0);
 	filter->setFilterFixedString("ADMINISTRATOR");
 	listView = new QListView(this);
-	listView->setModel(filter);
+	listView->setSelectionMode(QAbstractItemView::SingleSelection);
+	listView->setDragEnabled(true);
+	listView->setAcceptDrops(true);
+	listView->setDropIndicatorShown(true);	listView->setModel(filter);
 	leftLayout->addWidget(listView);
 	mainLayout->addLayout(leftLayout);
 	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
