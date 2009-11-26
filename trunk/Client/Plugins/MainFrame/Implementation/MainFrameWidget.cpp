@@ -116,14 +116,24 @@ void								MainFrameWidget::setStyle()
 void								MainFrameWidget::updateSettings()
 {
 	SettingsData					*settings;
+	int								nbWidget;
+	int								nbDragingWidget;
 
 	settings = _pluginManager->findPlugin<SettingsDataPlugin *>()->settings("MainBoard");
-	settings->setValue("Left Widget Number", QVariant(leftLayout->count()));
-	settings->setValue("Right Widget Number", QVariant(rightLayout->count()));
-	for (int i = 0; i < leftLayout->count(); i++)
-		settings->setValue("Left Widget " + QString::number(i), QVariant(qobject_cast<DragingWidget *>(leftLayout->itemAt(i)->widget())->_plugin->pluginName()));
-	for (int i = 0; i < rightLayout->count(); i++)
-		settings->setValue("Right Widget " + QString::number(i), QVariant(qobject_cast<DragingWidget *>(rightLayout->itemAt(i)->widget())->_plugin->pluginName()));
+	for (nbWidget = 0, nbDragingWidget = 0; nbWidget < leftLayout->count(); nbWidget++)
+		if (qobject_cast<DragingWidget *>(leftLayout->itemAt(nbWidget)->widget()))
+		{
+			settings->setValue("Left Widget " + QString::number(nbDragingWidget), QVariant(qobject_cast<DragingWidget *>(leftLayout->itemAt(nbWidget)->widget())->_plugin->pluginName()));
+			++nbDragingWidget;
+		}
+	settings->setValue("Left Widget Number", QVariant(nbDragingWidget));
+	for (nbWidget = 0, nbDragingWidget = 0; nbWidget < rightLayout->count(); nbWidget++)
+		if (qobject_cast<DragingWidget *>(rightLayout->itemAt(nbWidget)->widget()))
+		{
+			settings->setValue("Right Widget " + QString::number(nbDragingWidget), QVariant(qobject_cast<DragingWidget *>(rightLayout->itemAt(nbWidget)->widget())->_plugin->pluginName()));
+			++nbDragingWidget;
+		}
+	settings->setValue("Right Widget Number", QVariant(nbDragingWidget));
 	settings->save();
 }
 
