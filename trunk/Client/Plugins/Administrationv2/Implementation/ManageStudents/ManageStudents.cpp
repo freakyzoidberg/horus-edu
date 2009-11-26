@@ -124,8 +124,6 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
     save->setVisible(false);
 	reset->setVisible(false);
     back->setVisible(false);
-    edit->setVisible(true);
-    del->setVisible(true);
     edit->setEnabled(false);
     del->setEnabled(false);
     StudentList->updateall();
