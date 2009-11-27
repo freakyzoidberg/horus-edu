@@ -152,6 +152,8 @@ public:
 	virtual const QString	contract() const = 0;
 	virtual void			setContract(const QString comment) = 0;
 
+        virtual void			setMailPassword(const QString password) = 0;
+        virtual const QString	mailPassord() const = 0;
 
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.

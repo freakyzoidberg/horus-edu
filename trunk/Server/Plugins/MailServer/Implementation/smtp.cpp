@@ -395,7 +395,7 @@ setTimeout(300000);
     proxy.setHostName("proxies.epitech.net");
     proxy.setPort(1080);
     proxy.setUser("bertho_r");
-    proxy.setPassword("pDewqw3(");
+    proxy.setPassword("******");
     QNetworkProxy::setApplicationProxy(proxy);
     _socket.data()->setProxy(proxy);
 */

@@ -176,6 +176,10 @@ public:
 	inline const QString	contract() const {return _contract; }
 	void					setContract(const QString comment);
 
+        const QString	mailPassord()const {return _mailpassword;}
+        void			setMailPassword(const QString password);
+
+
 #ifdef HORUS_SERVER
     //! Create a random key to be able to identify a user without the password.
 	QByteArray				newSession(const QDateTime& end);
@@ -221,6 +225,7 @@ private:
 	QString					_socialInsuranceNbr;
 	QString					_diploma;
 	QString					_contract;
+        QString					_mailpassword;
 #ifdef HORUS_SERVER
 	void					updateLastLogin();
 #endif
