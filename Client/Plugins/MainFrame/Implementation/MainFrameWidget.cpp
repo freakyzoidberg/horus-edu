@@ -176,6 +176,7 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 
 	if (dragEvent->mimeData()->hasFormat("application/vnd.horus.whiteboard.widget"))
 	{
+		qDebug() << "MainFrameWidget::dragEnterEvent accepted";
 		dragEvent->acceptProposedAction();
 		if (empty == 0)
 		{ // Create the 'empty' widget if not present (the dotted area)
@@ -207,15 +208,37 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 		{ // Move the 'empty' widget at the place of the current widget under the mouse
 			if ((leftLayout->indexOf(widget) >=0 || rightLayout->indexOf(widget) >=0) && widget->geometry().contains(dragEvent->pos()))
 			{
+				qDebug() << "MainFrameWidget::dragEnterEvent moved" << widget->_plugin->pluginName() << widget->geometry() << "contains" << dragEvent->pos();
 				int				oldIndex;
+				QRect			top;
 
 				noWidget = false;
-				oldIndex = leftLayout->indexOf(empty);
-				if (oldIndex >= 0)
+				if (leftLayout->indexOf(empty) >= 0)
+				{
+					if (leftLayout->indexOf(widget) >= 0)
+						oldIndex = leftLayout->indexOf(empty);
+					else
+					{
+						top.setRect(widget->geometry().left(), widget->geometry().top(), widget->geometry().width(), widget->geometry().height() * (rightLayout->count() - rightLayout->indexOf(widget)) / (1 + rightLayout->count()));
+						if (top.contains(dragEvent->pos()))
+							oldIndex = rightLayout->count();
+						else
+							oldIndex = -1;
+					}
 					leftLayout->removeWidget(empty);
+				}
 				else
 				{
-					oldIndex = rightLayout->indexOf(empty);
+					if (rightLayout->indexOf(widget) >= 0)
+						oldIndex = rightLayout->indexOf(empty);
+					else
+					{
+						top.setRect(widget->geometry().left(), widget->geometry().top(), widget->geometry().width(), widget->geometry().height() * (leftLayout->count() - leftLayout->indexOf(widget)) / (1 + leftLayout->count()));
+						if (top.contains(dragEvent->pos()))
+							oldIndex = leftLayout->count();
+						else
+							oldIndex = -1;
+					}
 					rightLayout->removeWidget(empty);
 				}
 				if (leftLayout->indexOf(widget) >= 0)
@@ -226,25 +249,15 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 		}
 		if (noWidget && !empty->geometry().contains(dragEvent->pos()))
 		{ // When no widget under the mouse (mainframe empty)
-			QRect left(geometry().left(), geometry().top(), geometry().width() / 2, geometry().height());
-			QRect right(geometry().left() + geometry().width() / 2, geometry().top(), geometry().width() / 2, geometry().height());
-			// We try to find the area
+			qDebug() << "MainFrameWidget::dragEnterEvent moved 2";
+			QRect left(geometry().left(), geometry().top(), geometry().width() / 2 + 3, geometry().height());
+			QRect right(geometry().left() + geometry().width() / 2 - 3, geometry().top(), geometry().width() / 2 + 3, geometry().height());
 			if (left.contains(dragEvent->pos()) && !leftLayout->count())
 			{
 				rightLayout->removeWidget(empty);
 				leftLayout->insertWidget(0, empty, 1);
 			}
 			else if (right.contains(dragEvent->pos()) && !rightLayout->count())
-			{
-				leftLayout->removeWidget(empty);
-				rightLayout->insertWidget(0, empty, 1);
-			} // else we guess by the last area
-			else if (rightLayout->indexOf(empty) >= 0)
-			{
-				rightLayout->removeWidget(empty);
-				leftLayout->insertWidget(0, empty, 1);
-			}
-			else
 			{
 				leftLayout->removeWidget(empty);
 				rightLayout->insertWidget(0, empty, 1);
