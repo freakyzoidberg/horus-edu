@@ -57,7 +57,7 @@ void UserDataBasePlugin::load()
 	n->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`id`FROM`user`;");
+        query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`id` FROM`user`;");
 
 	if ( ! query.exec())
 	{

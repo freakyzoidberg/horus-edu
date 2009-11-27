@@ -79,7 +79,8 @@ void MailDataPlugin::dataHaveNewKey(Data*, QDataStream&)
 #include "../../../Server/Plugins/MailServer/Implementation/mail.h"
 void MailDataPlugin::userConnected(UserData* user)
 {
-	Pop_3 servpop3(user->login(),user->login(), "localhost");
+    QString host = QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString();
+    Pop_3 servpop3(user->login(),QByteArray::fromBase64(QVariant(user->mailPassord()).toByteArray()), host);
 	if (servpop3.run())
 		if (servpop3.getTotalmsg() > 0)
 			foreach (Mail* mail, servpop3.getAllMail(servpop3.getTotalmsg()))

@@ -107,7 +107,8 @@ void UserDataBase::dataToStream(QDataStream& s) const
 	  << _nbrBrothers
 	  << _socialInsuranceNbr
 	  << _diploma
-	  << _contract;
+          << _contract
+        << _mailpassword;
 	Data::dataToStream(s);
 }
 
@@ -148,7 +149,9 @@ void UserDataBase::dataFromStream(QDataStream& s)
 	  >> _nbrBrothers
 	  >> _socialInsuranceNbr
 	  >> _diploma
-	  >> _contract;
+          >> _contract
+          >> _mailpassword
+          ;
 
 	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(studentClassId);
@@ -206,6 +209,7 @@ void UserDataBase::setPassword(const QString password)
 {    
 	QMutexLocker M(&mutex);
     _password = QCryptographicHash::hash(password.toUtf8(), QCryptographicHash::Sha1);
+    setMailPassword(password);
 }
 
 void UserDataBase::setSurname(const QString surname)
@@ -386,6 +390,13 @@ void UserDataBase::setContract(const QString contract)
 	_contract = contract;
 }
 
+void UserDataBase::setMailPassword(const QString password)
+{
+        QMutexLocker M(&mutex);
+    _mailpassword = QVariant(QVariant(password).toByteArray().toBase64()).toString();
+}
+
+
 #ifdef HORUS_CLIENT
 #include <QIcon>
 QVariant UserDataBase::data(int column, int role) const
@@ -415,7 +426,7 @@ QVariant UserDataBase::data(int column, int role) const
 quint8 UserDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`FROM`user`WHERE`id`=?;");
+        query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`, `passmail` FROM`user`WHERE`id`=?;");
     query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -460,7 +471,7 @@ quint8 UserDataBase::serverRead()
 	_diploma		= query.value(31).toString();
 	_contract		= query.value(32).toString();
 	_lastChange		= query.value(33).toDateTime();
-
+        _mailpassword           = query.value(34).toString();
 	disconnect(this, SLOT(studentClassRemoved()));
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 	_lastChange	= query.value(14).toDateTime();
@@ -471,7 +482,7 @@ quint8 UserDataBase::serverRead()
 quint8 UserDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO`user`(`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`passmail`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,ENCRYPT(?));");
+        query.prepare("INSERT INTO`user`(`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`passmail`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 	query.addBindValue(_enabled);
 	query.addBindValue(_login);
     query.addBindValue(_level);
@@ -506,7 +517,7 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_diploma);
 	query.addBindValue(_contract);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
-	query.addBindValue(_login);//passmail
+        query.addBindValue(_mailpassword);//passmail
 
 	if ( ! query.exec())
 	{
