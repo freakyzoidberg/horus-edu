@@ -178,7 +178,7 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 	{
 		dragEvent->acceptProposedAction();
 		if (empty == 0)
-		{
+		{ // Create the 'empty' widget if not present (the dotted area)
 			foreach (DragingWidget *widget, findChildren<DragingWidget *>())
 			{
 				if ((leftLayout->indexOf(widget) >=0 || rightLayout->indexOf(widget) >=0) && _pluginManager->findPlugin<SmallDisplayablePlugin *>(dragEvent->mimeData()->data("application/vnd.horus.whiteboard.widget")) == widget->_plugin)
@@ -204,7 +204,7 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 		}
 		noWidget = true;
 		foreach (DragingWidget *widget, findChildren<DragingWidget *>())
-		{
+		{ // Move the 'empty' widget at the place of the current widget under the mouse
 			if ((leftLayout->indexOf(widget) >=0 || rightLayout->indexOf(widget) >=0) && widget->geometry().contains(dragEvent->pos()))
 			{
 				int				oldIndex;
@@ -225,15 +225,26 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 			}
 		}
 		if (noWidget && !empty->geometry().contains(dragEvent->pos()))
-		{
+		{ // When no widget under the mouse (mainframe empty)
 			QRect left(geometry().left(), geometry().top(), geometry().width() / 2, geometry().height());
 			QRect right(geometry().left() + geometry().width() / 2, geometry().top(), geometry().width() / 2, geometry().height());
+			// We try to find the area
 			if (left.contains(dragEvent->pos()) && !leftLayout->count())
 			{
 				rightLayout->removeWidget(empty);
 				leftLayout->insertWidget(0, empty, 1);
 			}
 			else if (right.contains(dragEvent->pos()) && !rightLayout->count())
+			{
+				leftLayout->removeWidget(empty);
+				rightLayout->insertWidget(0, empty, 1);
+			} // else we guess by the last area
+			else if (rightLayout->indexOf(empty) >= 0)
+			{
+				rightLayout->removeWidget(empty);
+				leftLayout->insertWidget(0, empty, 1);
+			}
+			else
 			{
 				leftLayout->removeWidget(empty);
 				rightLayout->insertWidget(0, empty, 1);
@@ -261,7 +272,7 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 		}
 		empty->hide();
 		inserted->show();
-		//delete empty;
+		delete empty;
 		empty = 0;
 		updateSettings();
 	}
@@ -276,16 +287,16 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	}
 	if (toDelete)
 	{
-		//delete toDelete;
+		delete toDelete;
 		toDelete = 0;
 	}
-	//foreach (DragingWidget *widget, findChildren<DragingWidget *>())
-	//	if (!widget->isVisible())
-	//		delete widget;
+	foreach (DragingWidget *widget, findChildren<DragingWidget *>())
+		if (!widget->isVisible())
+			delete widget;
 	if (empty)
 	{
 		empty->hide();
-		//delete empty;
+		delete empty;
 		empty = 0;
 		repopulateStuff();
 	}
