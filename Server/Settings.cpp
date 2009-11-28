@@ -72,7 +72,7 @@ void Settings::FirstSetSettings()
     qDebug() << "Settings::FirstSetSettings() Default Value can be edited";
 
     this->Gsettings->beginGroup("SQL");
-    streamo << "Please specify the folowing :\n";
+    streamo << "SQL Settings :\n";
     streamo << "SQL Driver [ hint : QMYSQL] : ";
     streamo.flush();
     line = streami.readLine();
@@ -100,6 +100,7 @@ void Settings::FirstSetSettings()
      this->Gsettings->setValue("SQL_PORT", (line == "" ? "3306":line));
     this->Gsettings->endGroup();
     this->Gsettings->beginGroup("SERVER");
+    streamo << "Server Settings :\n";
     streamo << "Server Port [ hint : 42000] : ";
     streamo.flush();
     line = streami.readLine();
@@ -163,7 +164,7 @@ void Settings::FirstSetSettings()
             this->Gsettings->endGroup();
         }
     this->Gsettings->beginGroup("MAIL");
-    streamo << "Mail SMTP Server Hostname :\n";
+    streamo << "Mail Settings :\n";
     streamo << "Mail Hostname [ hint : locahost] : ";
     streamo.flush();
     line = streami.readLine();
