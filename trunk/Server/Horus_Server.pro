@@ -57,4 +57,5 @@ HEADERS = Sql.h \
 	../Common/DataManager.h \
 	../Common/Notification.h \
 	NetworkPlugin.h \
-	DataManagerServer.h
+	DataManagerServer.h \
+	AuthenticationPlugin.h

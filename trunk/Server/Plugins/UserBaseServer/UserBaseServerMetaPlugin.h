@@ -38,6 +38,7 @@
 #include "../../../Common/MetaPlugin.h"
 
 #include "../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.h"
+#include "AuthenticationBasePlugin.h"
 
 class UserBaseServerMetaPlugin : public MetaPlugin
 {
@@ -46,7 +47,9 @@ class UserBaseServerMetaPlugin : public MetaPlugin
 
 public:
     inline UserBaseServerMetaPlugin() {
-      pluginList.append(new UserDataBasePlugin);
+	  UserDataBasePlugin* userDataPlugin = new UserDataBasePlugin;
+	  pluginList.append(userDataPlugin);
+	  pluginList.append(new AuthenticationBasePlugin(userDataPlugin));
   }
 };
 

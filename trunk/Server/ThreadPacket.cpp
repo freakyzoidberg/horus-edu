@@ -42,7 +42,7 @@
 #include "../Common/CommData.h"
 #include "../Common/CommLogin.h"
 #include "../Common/CommPlugin.h"
-#include "NetworkPlugin.h"
+#include "AuthenticationPlugin.h"
 
 ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 {
@@ -52,8 +52,8 @@ ThreadPacket::ThreadPacket(ClientSocket* cs, const QByteArray& pac)
 
 void ThreadPacket::run()
 {
-    PluginManagerServer::instance()->setCurrentUser(socket->user);
-    CommPacket pac(packet);
+	PluginManagerServer::instance()->setCurrentUser(socket->user);
+	CommPacket pac(packet);
     // redirect to the good method
     (this->*packetDirections[ pac.packetType ])();
 	PluginManagerServer::instance()->threadFinnished();
@@ -108,9 +108,9 @@ void ThreadPacket::PacketLogin()
     if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION && login.method != CommLogin::LOGOUT)
         return sendError(CommError::PROTOCOL_ERROR);
 
-    UserDataPlugin* plugin = PluginManagerServer::instance()->findPlugin<UserDataPlugin*>();
+	AuthenticationPlugin* plugin = PluginManagerServer::instance()->findPlugin<AuthenticationPlugin*>();
     if ( ! plugin)
-        return sendError(CommError::INTERNAL_ERROR, "No UserDataPlugin found. Cannot authenticate the user.");
+		return sendError(CommError::INTERNAL_ERROR, "No AuthenticationPlugin found. Cannot authenticate the user.");
 
     UserData* user = 0;
     if (login.method == CommLogin::LOGIN_SESSION)
@@ -122,7 +122,7 @@ void ThreadPacket::PacketLogin()
     else if (socket->user)
     {
         ClientSocket::connectedUsers.remove(socket->user);
-		socket->user->destroySession();
+		plugin->destroySession(socket->user);
         socket->user = 0;
         CommLogin resp(CommLogin::DISCONNECTED);
         emit sendPacket(resp.getPacket());
@@ -157,7 +157,7 @@ void ThreadPacket::PacketLogin()
     CommLogin resp(CommLogin::ACCEPTED);
     resp.serverDateTime = QDateTime::currentDateTime();
     resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
-	resp.sessionString = socket->user->newSession(resp.sessionEnd);
+	resp.sessionString = plugin->createSession(user, resp.sessionEnd);
     resp.user = user;
 	resp.nbrDataForUpdate = list.count();
     emit sendPacket(resp.getPacket());
@@ -172,7 +172,12 @@ void ThreadPacket::PacketLogin()
 
 void ThreadPacket::PacketData()
 {
-    CommData data(packet);
+	if (socket->status != ClientSocket::CONNECTED)
+		return sendError(CommError::NOT_INITIALIZED);
+	if ( ! socket->user)
+		return sendError(CommError::NOT_AUTHENTICATED);
+
+	CommData data(packet);
     foreach (DataPlugin* plugin, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
 		if (plugin->dataType() == data.type)
             plugin->dataManager->receiveData(socket->user, data.data);
@@ -180,14 +185,13 @@ void ThreadPacket::PacketData()
 
 void ThreadPacket::PacketPlugin()
 {
-    CommPlugin mod(packet);
-
     if (socket->status != ClientSocket::CONNECTED)
         return sendError(CommError::NOT_INITIALIZED);
     if ( ! socket->user)
         return sendError(CommError::NOT_AUTHENTICATED);
 
-    QString target = mod.packet.targetPlugin;
+	CommPlugin mod(packet);
+	QString target = mod.packet.targetPlugin;
 
     NetworkPlugin* plugin = PluginManagerServer::instance()->findPlugin<NetworkPlugin*>(target);
     mod.packet.user = socket->user;

@@ -7,7 +7,8 @@ DEFINES += HORUS_SERVER
 TEMPLATE = lib
 TARGET = UserBaseServerMetaPlugin
 SOURCES += ../../../Common/DataImplementations/UserDataBase/UserDataBase.cpp \
-    ../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.cpp
+    ../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.cpp \
+    AuthenticationBasePlugin.cpp
 HEADERS += ../../../Common/DataImplementations/UserDataBase/UserDataBase.h \
     ../../../Common/DataImplementations/UserDataBase/UserDataBasePlugin.h \
     ../../../Common/Plugin.h \
@@ -18,4 +19,7 @@ HEADERS += ../../../Common/DataImplementations/UserDataBase/UserDataBase.h \
     ../../../Common/UserData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserDataPlugin.h \
-    UserBaseServerMetaPlugin.h
+    UserBaseServerMetaPlugin.h \
+	../../AuthenticationPlugin.h \
+	../../NetworkPlugin.h \
+    AuthenticationBasePlugin.h
