@@ -226,60 +226,29 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="label_15">
         <property name="text">
-         <string>SMTP Port: </string>
+         <string>Mail Server</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_7">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>60</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>25</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>SMTP Use SSL/TLS</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QCheckBox" name="checkBox_2">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_16">
-        <property name="text">
-         <string>SMTP Require Login</string>
-        </property>
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>None</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Courier - Postfix</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>hMailServer</string>
+         </property>
+        </item>
        </widget>
       </item>
      </layout>
@@ -390,7 +359,7 @@
          <x>0</x>
          <y>0</y>
          <width>592</width>
-         <height>177</height>
+         <height>238</height>
         </rect>
        </property>
       </widget>
@@ -429,7 +398,7 @@
      <x>0</x>
      <y>0</y>
      <width>630</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
