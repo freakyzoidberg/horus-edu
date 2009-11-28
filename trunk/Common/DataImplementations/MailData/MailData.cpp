@@ -99,16 +99,11 @@ QVariant MailData::data(int column, int role) const
 #include "../../../Server/Plugins/MailServer/Implementation/mail.h"
 quint8 MailData::serverSave()
 {
-    qDebug() << "rentre dans le save";
     QString host = QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString();
     QString domain = QSettings().value("MAIL/MAIL_DOMAIN", ".").toString();
-    QString port = QSettings().value("MAIL/MAIL_PORT", ".").toString();
 
 
-    QString qssl = QSettings().value("MAIL/MAIL_SSLTLS", ".").toString();
-    QString qlogin = QSettings().value("MAIL/MAIL_LOGIN", ".").toString();
-qDebug() << "Je vais creer un smpt";
-qDebug() << this->_content;
+
      smtp *test1 = new smtp(host, _plugin->pluginManager->currentUser()->login(),this->_to , this->_subject, this->_content);
 
      if (_cc.count() > 0)
@@ -118,11 +113,11 @@ qDebug() << this->_content;
                 test1->setPriority(smtp::high);
                 //test1->setSmtpServer("localhost");
                 //test1->setLogin("login", "pass");
-                test1->setPort(QVariant(port).toInt());
+                test1->setPort(25);
                 //test1->setSsl(true);
 
                 test1->send();
-                qDebug() << "MailSend : "<< test1->lastError();
+
                 delete test1;
 	return NONE;
 }

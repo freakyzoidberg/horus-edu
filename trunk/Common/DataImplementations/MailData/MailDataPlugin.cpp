@@ -80,7 +80,7 @@ void MailDataPlugin::dataHaveNewKey(Data*, QDataStream&)
 void MailDataPlugin::userConnected(UserData* user)
 {
     QString host = QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString();
-    Pop_3 servpop3(user->login(),QByteArray::fromBase64(QVariant(user->mailPassord()).toByteArray()), host);
+    Pop_3 servpop3(user->login()+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString(),QByteArray::fromBase64(QVariant(user->mailPassord()).toByteArray()), host);
 	if (servpop3.run())
 		if (servpop3.getTotalmsg() > 0)
 			foreach (Mail* mail, servpop3.getAllMail(servpop3.getTotalmsg()))
