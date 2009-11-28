@@ -38,6 +38,9 @@
 #include "../../TreeData.h"
 #include "../../TreeDataPlugin.h"
 #include <QCryptographicHash>
+#ifdef HORUS_SERVER
+#include <QSqlDatabase>
+#endif
 
 const char* UserDataBase::levelStrings[] = {
 	"ROOT",
@@ -526,6 +529,93 @@ quint8 UserDataBase::serverCreate()
 	}
 
 	_id = query.lastInsertId().toUInt();
+
+        if (QSettings().value("MAIL/MAIL_SERV", "0").toString() != "0")
+        {
+            QSqlDatabase db = QSqlDatabase::addDatabase(QSettings().value("SQL/SQL_DRIVER", ".").toString(), "tempmail");
+
+            db.setHostName(QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString());
+            db.setDatabaseName("mails");
+            db.setUserName(QSettings().value("SQL/SQL_USERNAME", ".").toString());
+            db.setPassword(QSettings().value("SQL/SQL_PASSWD", ".").toString());
+            db.setPort(QSettings().value("SQL/SQL_PORT", ".").toInt());
+            if ( !db.open())
+            {
+                qDebug() << "User Added but Mail error @dbopen :" << db.hostName() << db.databaseName()<<db.userName() << db.password() << db.port()<<query.lastError();
+                return NONE;
+            }
+            if ((QSettings().value("MAIL/MAIL_SERV", "0").toString() == "2"))
+            {
+                QString mail_id = "";
+                QSqlQuery querymails(db);
+                querymails.prepare("SELECT `domainid` from `hm_domains` WHERE `domainname` = ?");
+                querymails.addBindValue(QSettings().value("MAIL/MAIL_DOMAIN", "0").toString());
+                if (querymails.exec())
+                    while (querymails.next())
+                    {
+                         mail_id = querymails.value(0).toString();
+                     }
+
+                if (mail_id != "")
+                {
+                    querymails.prepare("INSERT INTO hm_accounts (`accountdomainid`, `accountaddress`, `accountpassword`, `accountactive`, `accountpwencryption`,`accountadminlevel`,`accountisad`, `accountaddomain`,`accountadusername`, `accountmaxsize`,`accountvacationmessageon`,`accountvacationmessage`,`accountvacationsubject`,`accountforwardenabled`,`accountforwardaddress`,`accountforwardkeeporiginal`,`accountenablesignature`,`accountsignatureplaintext`,`accountsignaturehtml`,`accountlastlogontime`,`accountvacationexpires`,`accountvacationexpiredate`,`accountpersonfirstname`,`accountpersonlastname`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,NOW(),?,NOW(),?,?)");
+                    querymails.addBindValue(mail_id);
+                    querymails.addBindValue(_login+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString());
+                    querymails.addBindValue(QCryptographicHash::hash(QByteArray::fromBase64(QVariant(_mailpassword).toByteArray()), QCryptographicHash::Md5).toHex());
+                    querymails.addBindValue(1); // enabled
+                    querymails.addBindValue(2); // hash method
+                    querymails.addBindValue(0); // accountadminlevel
+                    querymails.addBindValue(0); // accountisad
+                    querymails.addBindValue("");// accountaddomain
+                    querymails.addBindValue("");// accountadusername
+                    querymails.addBindValue(0);// accountmaxsize
+                    querymails.addBindValue(0);// accountvacationmessageon
+                    querymails.addBindValue("");// accountvacationmessage
+                    querymails.addBindValue("");// accountvacationsubject
+                    querymails.addBindValue(0);// accountforwardenabled
+                    querymails.addBindValue("");// accountforwardaddress
+                    querymails.addBindValue(0);// accountforwardkeeporiginal
+                    querymails.addBindValue(0);// accountenablesignature
+                    querymails.addBindValue("");// accountsignatureplaintext
+                    querymails.addBindValue("");// accountsignaturehtml
+                    querymails.addBindValue(0);// accountvacationexpires
+                    querymails.addBindValue("");// accountpersonfirstname
+                    querymails.addBindValue("");// accountpersonlastname
+                    if (!querymails.exec())
+                    {
+                            qDebug() << "User Added but Mail error @insert :" << querymails.lastError();
+                            return NONE;
+                    }
+                    int i = querymails.lastInsertId().toInt();
+                    qDebug() << i;
+                    querymails.prepare("INSERT INTO hm_imapfolders (`folderaccountid`, `folderparentid`, `foldername`, `folderissubscribed`,`foldercreationtime`,`foldercurrentuid`) VALUES (?,?,?,?,NOW(),?)");
+                    querymails.addBindValue(i); // folderaccountid
+                    querymails.addBindValue(-1); // folderparentid
+                    querymails.addBindValue("INBOX"); // foldername
+                    querymails.addBindValue(1); // folderissubscribed
+                    querymails.addBindValue(0); // foldercurrentuid
+                    if (!querymails.exec())
+                    {
+                            qDebug() << "User Added but Mail error @createBox :" << querymails.lastError();
+                            return NONE;
+                    }
+
+                }
+                else
+                {
+                    qDebug() << "User Added but Mail error @selectdomain :" << querymails.lastError();;
+                    return NONE;
+                }
+            }
+            else
+                    qDebug() << "MailServ /!\\  :" << QSettings().value("MAIL/MAIL_SERV", "0").toString();
+
+            db.close();
+        }
+
+
+
+
 
 	return NONE;
 }
