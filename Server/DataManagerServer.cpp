@@ -141,7 +141,7 @@ void DataManagerServer::receiveData(UserData* user, const QByteArray& d)
 		if (status == Data::CREATING)
 			qWarning() << user->login() << "try to create" << data << "without permitions.";
 		else if (status == Data::SAVING)
-			qWarning() << user->login() << "try to save" << data << "without permitions.";
+			qWarning() << user->login() << "try to save"   << data << "without permitions.";
 		else if (status == Data::REMOVING)
 			qWarning() << user->login() << "try to delete" << data << "without permitions.";
 		return;

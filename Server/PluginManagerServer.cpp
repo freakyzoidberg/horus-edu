@@ -115,15 +115,12 @@ void PluginManagerServer::sendPluginPacket(UserData* user, const PluginPacket pa
 QSqlQuery PluginManagerServer::sqlQuery()
 {
 	Qt::HANDLE thread = QThread::currentThreadId();
-	Sql* conn;
-
-	if ( ! _sqlConnexions.contains(thread))
+	Sql* conn = _sqlConnexions.value(thread);
+	if ( ! conn)
 	{
 		conn = new Sql;
 		_sqlConnexions.insert(thread, conn);
 	}
-	else
-		conn = _sqlConnexions.value(thread);
 
 	return QSqlQuery(QSqlDatabase::database(*conn));
 }
@@ -131,11 +128,9 @@ QSqlQuery PluginManagerServer::sqlQuery()
 void PluginManagerServer::threadFinnished()
 {
 	Qt::HANDLE thread = QThread::currentThreadId();
-	if (_sqlConnexions.contains(thread))
-	{
-		delete _sqlConnexions.value(thread);
-		_sqlConnexions.remove(thread);
-	}
-	if (_users.contains(thread))
-		_users.remove(thread);
+	Sql* sql = _sqlConnexions.take(thread);
+	if (sql)
+		delete sql;
+
+	_users.remove(thread);
 }

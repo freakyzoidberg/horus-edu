@@ -155,13 +155,6 @@ public:
         virtual void			setMailPassword(const QString password) = 0;
         virtual const QString	mailPassord() const = 0;
 
-#ifdef HORUS_SERVER
-    //! Create a random key to be able to identify a user without the password.
-	virtual QByteArray newSession(const QDateTime& end) = 0;
-    //! Destroy the session generated to allow only password authentication.
-	virtual void destroySession() = 0;
-#endif
-
 protected:
 	inline					UserData(quint32 id, UserDataPlugin* plugin) : Data(plugin) { _id = id; }
 	virtual inline			~UserData() {}

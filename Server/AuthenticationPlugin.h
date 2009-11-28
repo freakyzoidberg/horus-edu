@@ -32,59 +32,32 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef USERDATABASEPLUGIN_H
-#define USERDATABASEPLUGIN_H
+#ifndef AUTHENTICATIONPLUGIN_H
+#define AUTHENTICATIONPLUGIN_H
 
-#include <QHash>
-#include "../../UserDataPlugin.h"
-
-class Data;
+#include "NetworkPlugin.h"
 class UserData;
-class UserDataBase;
-class UserDataBasePlugin : public UserDataPlugin
+
+class AuthenticationPlugin : public NetworkPlugin
 {
 	Q_OBJECT
-#ifdef HORUS_SERVER
-	Q_INTERFACES(ServerUserDataPlugin)
-#endif
-#ifdef HORUS_CLIENT
-	Q_INTERFACES(ClientUserDataPlugin)
-#endif
-	friend class UserDataBase;
-
-public:
-	UserDataBasePlugin();
-private:
-	UserData*				_nobody;
-
-
-	//UserDataPlugin
-public:
-	inline UserData*		nobody() const { return _nobody; }
-	UserData*				user(quint32 userId);
-	UserData*				user(const QString login);
-	UserData*				createUser(const QString &login);
-	QList<UserData*>		parentsOfStudent(const UserData* student) const;
-
-
-	//DataPlugin
-public:
-	void					load();
-	void					unload();
-	bool					canLoad() const;
-	QList<Data*>			allDatas() const;
-#ifdef HORUS_CLIENT
-	void					dataHaveNewKey(Data*d, QDataStream& s);
-	QAbstractListModel*		listModel() const;
-#endif
-protected:
-	//! Return the pointer to the Data with a his unique key read in the stream
-	Data*					dataWithKey(QDataStream& s);
-
+	Q_INTERFACES(NetworkPluginServer)
 
 	//Plugin
 public:
-	inline const QString	pluginVersion() const { return "0.1"; }
+	inline const QString	pluginName() const { return "AuthenticationPlugin"; }
+
+
+	virtual UserData*		authenticatePassword(const QString& login, const QByteArray& password) = 0;
+	virtual UserData*		authenticateSession (const QString& login, const QByteArray& sesion) = 0;
+	virtual void			userDisconnected(UserData* user) = 0;
+
+	//! Create a random key to be able to identify a user without the password.
+	virtual QByteArray		createSession(UserData* user, const QDateTime& end) = 0;
+	//! Destroy the session generated to allow only password authentication.
+	virtual void			destroySession(UserData* user) = 0;
 };
 
-#endif // USERDATABASEPLUGIN_H
+Q_DECLARE_INTERFACE(AuthenticationPlugin, "net.horus.AuthenticationPlugin/1.0");
+
+#endif // AUTHENTICATIONPLUGIN_H
