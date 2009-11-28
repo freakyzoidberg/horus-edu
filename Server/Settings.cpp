@@ -173,18 +173,10 @@ void Settings::FirstSetSettings()
     streamo.flush();
     line = streami.readLine();
      this->Gsettings->setValue("MAIL_DOMAIN", (line == "" ? "horus-edu.net":line));
-     streamo << "MAIL SMTP port [ hint : 25] : ";
+     streamo << "MAIL Server 0:none 1:Courier/Postfix 2:hMailServer [ hint : 0] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings->setValue("MAIL_PORT", (line == "" ? "25":line));
-     streamo << "MAIL SMTP use ssl-tls y/N [ hint : n] : ";
-    streamo.flush();
-    line = streami.readLine();
-     this->Gsettings->setValue("MAIL_SSLTLS", (line == "" ? "n":line));
-     streamo << "Mail SMTP require login y/N [ hint : n] : ";
-    streamo.flush();
-    line = streami.readLine();
-    this->Gsettings->setValue("MAIL_LOGIN", (line == "" ? "n":line));
+     this->Gsettings->setValue("MAIL_SERV", (line == "" ? "0":line));
     this->Gsettings->endGroup();
     this->Gsettings->sync();
 

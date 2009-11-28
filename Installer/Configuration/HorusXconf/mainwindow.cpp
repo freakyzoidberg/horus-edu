@@ -355,10 +355,12 @@ void MainWindow::writesettings()
 
     QString mailhost = ui->lineEdit_5->text();
     QString maildmn = ui->lineEdit_6->text();
+/*
     QString mailport = ui->lineEdit_7->text();
-
     QString mailssl = (ui->checkBox->isChecked() ? "y" : "n");
     QString maillogin = (ui->checkBox_2->isChecked() ? "y" : "n");
+    */
+    QString mailserv = ui->comboBox->currentText();
     QString servfileport = ui->lineEdit_8->text();
     QString servfilepath = ui->lineEdit_10->text();
 
@@ -413,9 +415,18 @@ else
     this->Gsettings->beginGroup("MAIL");
     this->Gsettings->setValue("MAIL_HOSTNAME", (mailhost));
     this->Gsettings->setValue("MAIL_DOMAIN", (maildmn));
+
+    if( mailserv == "Courier - Postfix")
+      this->Gsettings->setValue("MAIL_SERV", "1");
+    else if( mailserv == "hMailServer")
+        this->Gsettings->setValue("MAIL_SERV", "2");
+    else
+        this->Gsettings->setValue("MAIL_SERV", "0");
+    /*
     this->Gsettings->setValue("MAIL_PORT", (mailport));
     this->Gsettings->setValue("MAIL_SSLTLS", (mailssl));
     this->Gsettings->setValue("MAIL_LOGIN", (maillogin));
+    */
     this->Gsettings->endGroup();
 
     this->Gsettings->sync();
