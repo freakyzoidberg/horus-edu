@@ -12,7 +12,7 @@ CREATE TABLE `file` (
   KEY `id_ower` (`id_owner`),
   KEY `id_tree` (`id_tree`)
 );
-INSERT INTO `file` VALUES (1,'Histoire de la Chine','x-horus/x-lesson',0,241,1,'','2009-10-01 08:48:14'),(2,'Histoire de costume','x-horus/x-lesson',0,241,1,'','2009-10-01 08:48:14'),(3,'Tectonique des plaques','x-horus/x-lesson',0,243,1,'','2009-10-01 08:48:14'),(4,'Reglement interieur.pdf','application/pdf',0,258,1,'','2009-10-01 08:48:14'),(5,'Chine.pdf','application/pdf',0,0,1,'','2009-10-01 08:48:14'),(6,'Decharge de responsabilitee.pdf','application/pdf',0,256,1,'','2009-10-01 08:48:14'),(7,'Fiche descriptive.pdf','application/pdf',0,257,1,'','2009-10-01 08:48:14'),(16,'','x-horus/x-lesson',0,241,1,'','2009-10-01 08:49:52'),(15,'','',0,0,0,'','2009-10-01 10:05:33');
+
 
 
 DROP TABLE IF EXISTS `setting`;
@@ -38,7 +38,10 @@ CREATE TABLE `tree` (
   `mtime` timestamp NOT NULL,
   PRIMARY KEY  (`id`)
 );
-INSERT INTO `tree` VALUES (0,'ROOT','College Vauban',0,0,'2009-10-01 08:39:47'),(1,'CLASSES','Classes',0,0,'2009-08-20 10:07:48'),(2,'GROUP','Professeurs',0,0,'2009-08-20 10:07:48'),(3,'GRADE','6eme',0,1,'2009-08-20 10:07:48'),(237,'GRADE','5eme',0,1,'2009-08-20 10:07:48'),(238,'GRADE','4eme',0,1,'2009-08-20 10:07:48'),(239,'GRADE','3eme',0,1,'2009-08-20 10:07:48'),(240,'SUBJECT','Maths',0,3,'2009-08-20 10:07:48'),(241,'SUBJECT','Histoire',0,245,'2009-08-20 10:07:48'),(242,'SUBJECT','Physique',0,3,'2009-08-20 10:07:48'),(243,'SUBJECT','Geographie',0,245,'2009-08-20 10:07:48'),(244,'SUBJECT','Francais',0,3,'2009-08-20 10:07:48'),(245,'SUBJECT','Histoire / Geo',0,3,'2009-08-20 10:07:48'),(247,'GROUP','Eleves',0,0,'2009-08-20 10:07:48'),(248,'SUBJECT','SVT',0,237,'2009-08-20 10:07:48'),(249,'SUBJECT','Sport',0,237,'2009-08-20 10:07:48'),(250,'SUBJECT','Histoire / Geo',0,237,'2009-08-20 10:07:48'),(251,'SUBJECT','Francais',0,237,'2009-08-20 10:07:48'),(252,'SUBJECT','Histoire',0,250,'2009-08-20 10:07:48'),(253,'SUBJECT','Geographie',0,250,'2009-08-20 10:07:48'),(254,'GROUP','Administration',0,0,'2009-08-20 10:07:48'),(255,'GROUP','Groups',0,0,'2009-08-20 10:07:48'),(256,'GROUP','Sortie Pedagogiques',0,255,'2009-08-20 10:07:48'),(257,'GROUP','Citee de l\'espace Avril 2009',0,256,'2009-08-20 10:07:48'),(258,'','Documents generaux',0,0,'2009-08-20 10:07:48');
+INSERT INTO `tree` VALUES (0,'ROOT','College Vauban',0,0,'2009-10-01 08:39:47');
+UPDATE `tree` set id = 0 where id = 1;
+ALTER TABLE `tree` AUTO_INCREMENT=0;
+INSERT INTO `tree` VALUES (1,'CLASSES','Classes',0,0,'2009-08-20 10:07:48'),(2,'GROUP','Professeurs',0,0,'2009-08-20 10:07:48'),(3,'GRADE','6eme',0,1,'2009-08-20 10:07:48'),(237,'GRADE','5eme',0,1,'2009-08-20 10:07:48'),(238,'GRADE','4eme',0,1,'2009-08-20 10:07:48'),(239,'GRADE','3eme',0,1,'2009-08-20 10:07:48'),(240,'SUBJECT','Maths',0,3,'2009-08-20 10:07:48'),(241,'SUBJECT','Histoire',0,245,'2009-08-20 10:07:48'),(242,'SUBJECT','Physique',0,3,'2009-08-20 10:07:48'),(243,'SUBJECT','Geographie',0,245,'2009-08-20 10:07:48'),(244,'SUBJECT','Francais',0,3,'2009-08-20 10:07:48'),(245,'SUBJECT','Histoire / Geo',0,3,'2009-08-20 10:07:48'),(247,'GROUP','Eleves',0,0,'2009-08-20 10:07:48'),(248,'SUBJECT','SVT',0,237,'2009-08-20 10:07:48'),(249,'SUBJECT','Sport',0,237,'2009-08-20 10:07:48'),(250,'SUBJECT','Histoire / Geo',0,237,'2009-08-20 10:07:48'),(251,'SUBJECT','Francais',0,237,'2009-08-20 10:07:48'),(252,'SUBJECT','Histoire',0,250,'2009-08-20 10:07:48'),(253,'SUBJECT','Geographie',0,250,'2009-08-20 10:07:48'),(254,'GROUP','Administration',0,0,'2009-08-20 10:07:48'),(255,'GROUP','Groups',0,0,'2009-08-20 10:07:48'),(256,'GROUP','Sortie Pedagogiques',0,255,'2009-08-20 10:07:48'),(257,'GROUP','Citee de l\'espace Avril 2009',0,256,'2009-08-20 10:07:48'),(258,'','Documents generaux',0,0,'2009-08-20 10:07:48');
 
 
 DROP TABLE IF EXISTS `user`;
@@ -98,7 +101,7 @@ CREATE TABLE `white_board` (
   `mtime` timestamp NOT NULL,
   PRIMARY KEY  (`id_tree`)
 );
-INSERT INTO `white_board` VALUES (245,1,NULL,'2009-10-01 08:47:46'),(243,40,NULL,'2009-10-01 09:48:23'),(253,0,'\0\0\0\0\0\0Ö\0\0\0Æ\0\0\0Ö\0\0\0)\0','2009-10-01 10:06:35'),(239,40,NULL,'2009-10-01 08:52:35'),(252,0,NULL,'2009-10-01 10:11:33'),(250,40,NULL,'2009-10-01 09:25:47'),(251,0,NULL,'2009-10-01 10:01:01'),(249,0,NULL,'2009-10-01 10:13:36'),(3,0,NULL,'2009-10-01 11:01:22'),(240,0,NULL,'2009-10-01 11:05:23');
+
 
 
 DROP TABLE IF EXISTS `event`;
