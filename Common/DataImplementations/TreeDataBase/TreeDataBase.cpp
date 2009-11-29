@@ -152,7 +152,12 @@ quint8 TreeDataBase::serverRead()
 	disconnect(this, SLOT(userRemoved()));
 	_user	= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(2).toUInt() );
 	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
-	setParent( ((TreeDataPlugin*)_plugin)->node(query.value(3).toUInt()) );
+
+	quint32 parentId= query.value(3).toUInt();
+	if (parentId == _id)
+		setParent(0);
+	else
+		setParent( ((TreeDataPlugin*)_plugin)->node(parentId) );
 	_lastChange = query.value(4).toDateTime();
 
 	return NONE;

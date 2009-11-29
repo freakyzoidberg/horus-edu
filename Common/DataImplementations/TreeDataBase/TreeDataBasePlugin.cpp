@@ -60,7 +60,11 @@ void TreeDataBasePlugin::load()
 		n->_type		= query.value(1).toString();
 		n->_name		= query.value(2).toString();
 		n->_user		= pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(3).toUInt() );
-		n->setParent( node(query.value(4).toUInt()) );
+		quint32 parentId= query.value(4).toUInt();
+		if (parentId == n->_id)
+			n->setParent(0);
+		else
+			n->setParent( node(parentId) );
 		n->_lastChange	= query.value(5).toDateTime();
 		n->_status		= Data::UPTODATE;
 	}
