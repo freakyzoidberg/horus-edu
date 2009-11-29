@@ -104,7 +104,7 @@ quint8 MailData::serverSave()
 
 
 
-     smtp *test1 = new smtp(host, _plugin->pluginManager->currentUser()->login(),this->_to , this->_subject, this->_content);
+     smtp *test1 = new smtp(host, _plugin->pluginManager->currentUser()->login()+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString(),this->_to , this->_subject, this->_content);
 
      if (_cc.count() > 0)
          test1->setCc(_cc);
@@ -112,7 +112,8 @@ quint8 MailData::serverSave()
          test1->setBcc(_bcc);
                 test1->setPriority(smtp::high);
                 //test1->setSmtpServer("localhost");
-                //test1->setLogin("login", "pass");
+                if (QSettings().value("MAIL/MAIL_SERV", "0") == 2)
+                test1->setLogin(_plugin->pluginManager->currentUser()->login()+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString(), QByteArray::fromBase64(QVariant(_plugin->pluginManager->currentUser()->mailPassord()).toByteArray()));
                 test1->setPort(25);
                 //test1->setSsl(true);
 
