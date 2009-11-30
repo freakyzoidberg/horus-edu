@@ -146,4 +146,14 @@ void					ListTeachers::TeacherDeleted()
 void					ListTeachers::TeacherUpdated(Data *)
 {
 	listView->update();
+	if (!listView->model()->rowCount())
+	{
+		editButton->setDisabled(true);
+		deleteButton->setDisabled(true);
+	}
+	else
+	{
+		editButton->setDisabled(false);
+		deleteButton->setDisabled(false);
+	}
 }

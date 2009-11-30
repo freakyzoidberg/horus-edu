@@ -141,4 +141,14 @@ void					ListAdministratives::AdministrativeDeleted()
 void					ListAdministratives::AdministrativeUpdated(Data *)
 {
 	listView->update();
+	if (!listView->model()->rowCount())
+	{
+		editButton->setDisabled(true);
+		deleteButton->setDisabled(true);
+	}
+	else
+	{
+		editButton->setDisabled(false);
+		deleteButton->setDisabled(false);
+	}
 }
