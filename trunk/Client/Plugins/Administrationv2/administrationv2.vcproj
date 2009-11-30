@@ -256,6 +256,10 @@
 				>
 			</File>
 			<File
+				RelativePath="Implementation\ManageEDT\EdtScene.cpp"
+				>
+			</File>
+			<File
 				RelativePath="Implementation\ManageStudents\FormStudents.cpp"
 				>
 			</File>
@@ -285,6 +289,10 @@
 			</File>
 			<File
 				RelativePath="Implementation\ManageAdministratives\ManageAdministratives.cpp"
+				>
+			</File>
+			<File
+				RelativePath="Implementation\ManageEDT\ManageEDT.cpp"
 				>
 			</File>
 			<File
@@ -720,6 +728,32 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="Implementation\ManageEDT\EdtScene.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC Implementation\ManageEDT\EdtScene.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_CLIENT -DQT_DLL -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtXml\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;Implementation\ManageEDT\EdtScene.h&quot; -o &quot;debug\moc_EdtScene.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="Implementation\ManageEDT\EdtScene.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_EdtScene.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC Implementation\ManageEDT\EdtScene.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_CLIENT -DQT_DLL -DQT_NO_DEBUG -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtXml\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;Implementation\ManageEDT\EdtScene.h&quot; -o &quot;release\moc_EdtScene.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="Implementation\ManageEDT\EdtScene.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_EdtScene.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath="Implementation\ManageStudents\FormStudents.h"
 				>
 				<FileConfiguration
@@ -924,6 +958,32 @@
 						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_CLIENT -DQT_DLL -DQT_NO_DEBUG -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtXml\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;Implementation\ManageAdministratives\ManageAdministratives.h&quot; -o &quot;release\moc_ManageAdministratives.cpp&quot;&#x0D;&#x0A;"
 						AdditionalDependencies="Implementation\ManageAdministratives\ManageAdministratives.h;$(QTDIR)\bin\moc.exe"
 						Outputs="release\moc_ManageAdministratives.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="Implementation\ManageEDT\ManageEDT.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC Implementation\ManageEDT\ManageEDT.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_CLIENT -DQT_DLL -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtXml\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;Implementation\ManageEDT\ManageEDT.h&quot; -o &quot;debug\moc_ManageEDT.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="Implementation\ManageEDT\ManageEDT.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_ManageEDT.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC Implementation\ManageEDT\ManageEDT.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_CLIENT -DQT_DLL -DQT_NO_DEBUG -DQT_XML_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtGui\.&quot; -I&quot;$(QTDIR)\include\QtXml\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;Implementation\ManageEDT\ManageEDT.h&quot; -o &quot;release\moc_ManageEDT.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="Implementation\ManageEDT\ManageEDT.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_ManageEDT.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -1350,18 +1410,6 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="debug\moc_AdmAddClassWidget.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="release\moc_AdmAddClassWidget.cpp"
 				>
 				<FileConfiguration
@@ -1374,7 +1422,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Administration.cpp"
+				RelativePath="debug\moc_AdmAddClassWidget.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1390,6 +1438,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_Administration.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1518,10 +1578,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_DataPlugin.cpp"
+				RelativePath="release\moc_DataPlugin.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1530,10 +1590,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DataPlugin.cpp"
+				RelativePath="debug\moc_DataPlugin.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1566,18 +1626,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_DisplayAdministrative.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="release\moc_DisplayAdministrative.cpp"
 				>
 				<FileConfiguration
@@ -1590,7 +1638,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_DisplayParent.cpp"
+				RelativePath="debug\moc_DisplayAdministrative.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1606,6 +1654,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_DisplayParent.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1638,18 +1698,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_EditAdministrative.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="release\moc_EditAdministrative.cpp"
 				>
 				<FileConfiguration
@@ -1662,7 +1710,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_EditParent.cpp"
+				RelativePath="debug\moc_EditAdministrative.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1678,6 +1726,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_EditParent.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1710,10 +1770,22 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_FormStudents.cpp"
+				RelativePath="release\moc_EdtScene.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_EdtScene.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1734,10 +1806,10 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Infopanel.cpp"
+				RelativePath="release\moc_FormStudents.cpp"
 				>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1758,7 +1830,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_ListAdministratives.cpp"
+				RelativePath="debug\moc_Infopanel.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1782,7 +1854,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_ListParents.cpp"
+				RelativePath="debug\moc_ListAdministratives.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1798,6 +1870,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_ListParents.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -1830,18 +1914,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_ListTeachers.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="release\moc_ListTeachers.cpp"
 				>
 				<FileConfiguration
@@ -1854,15 +1926,8 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_MainView.cpp"
+				RelativePath="debug\moc_ListTeachers.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
@@ -1883,8 +1948,13 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_MainView.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -1916,7 +1986,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_ManageParents.cpp"
+				RelativePath="release\moc_ManageEDT.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_ManageEDT.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -1940,15 +2022,20 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_ManageStudents.cpp"
+				RelativePath="debug\moc_ManageParents.cpp"
 				>
 				<FileConfiguration
-					Name="Debug|Win32"
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_ManageStudents.cpp"
+				>
 				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
@@ -1969,25 +2056,6 @@
 						Name="VCCLCompilerTool"
 					/>
 				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="debug\moc_ManageTeachers.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="release\moc_ManageTeachers.cpp"
@@ -2002,7 +2070,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_MetaPlugin.cpp"
+				RelativePath="debug\moc_ManageTeachers.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2026,7 +2094,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Parentinfos.cpp"
+				RelativePath="debug\moc_MetaPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2050,7 +2118,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Plugin.cpp"
+				RelativePath="debug\moc_Parentinfos.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2066,6 +2134,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_Plugin.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -2098,18 +2178,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Schoolinfos.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="release\moc_Schoolinfos.cpp"
 				>
 				<FileConfiguration
@@ -2122,7 +2190,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Scrollformstudent.cpp"
+				RelativePath="debug\moc_Schoolinfos.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2146,7 +2214,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Socialinfos.cpp"
+				RelativePath="debug\moc_Scrollformstudent.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2170,7 +2238,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_Suiviinfos.cpp"
+				RelativePath="debug\moc_Socialinfos.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2186,6 +2254,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_Suiviinfos.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -2218,18 +2298,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_TreeDataPlugin.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="release\moc_TreeDataPlugin.cpp"
 				>
 				<FileConfiguration
@@ -2242,7 +2310,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_UserData.cpp"
+				RelativePath="debug\moc_TreeDataPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2266,7 +2334,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\moc_UserDataPlugin.cpp"
+				RelativePath="debug\moc_UserData.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2290,7 +2358,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="debug\qrc_Icons.cpp"
+				RelativePath="debug\moc_UserDataPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -2306,6 +2374,18 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\qrc_Icons.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool

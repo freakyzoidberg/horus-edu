@@ -48,7 +48,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
 				Optimization="4"
-				AdditionalIncludeDirectories="$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql;$(QTDIR)\include;$(QTDIR)\include\ActiveQt;.\debug;$(QTDIR)\mkspecs\win32-msvc2008;$(ConfigurationName)"
+				AdditionalIncludeDirectories="&quot;$(QTDIR)\include\QtCore&quot;,&quot;$(QTDIR)\include\QtSql&quot;,&quot;$(QTDIR)\include&quot;,&quot;$(QTDIR)\include\ActiveQt&quot;,&quot;debug&quot;,$(QTDIR)\mkspecs\win32-msvc2008"
 				PreprocessorDefinitions="_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,HORUS_SERVER,QT_DLL,QT_SQL_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
@@ -141,7 +141,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="-Zm200 -w34100 -w34189 -w34100 -w34189"
 				Optimization="2"
-				AdditionalIncludeDirectories="$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql;$(QTDIR)\include;$(QTDIR)\include\ActiveQt;.\release;$(QTDIR)\mkspecs\win32-msvc2008;$(ConfigurationName)"
+				AdditionalIncludeDirectories="&quot;$(QTDIR)\include\QtCore&quot;,&quot;$(QTDIR)\include\QtSql&quot;,&quot;$(QTDIR)\include&quot;,&quot;$(QTDIR)\include\ActiveQt&quot;,&quot;release&quot;,$(QTDIR)\mkspecs\win32-msvc2008"
 				PreprocessorDefinitions="QT_NO_DEBUG,NDEBUG,_WINDOWS,UNICODE,WIN32,QT_LARGEFILE_SUPPORT,HORUS_SERVER,QT_DLL,QT_NO_DEBUG,QT_SQL_LIB,QT_CORE_LIB,QT_THREAD_SUPPORT,NDEBUG"
 				GeneratePreprocessedFile="0"
 				ExceptionHandling="1"
@@ -212,6 +212,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="AuthenticationBasePlugin.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.cpp"
 				>
 			</File>
@@ -226,17 +230,17 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\Common\Data.h"
+				RelativePath="AuthenticationBasePlugin.h"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC AuthenticationBasePlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;AuthenticationBasePlugin.h&quot; -o &quot;debug\moc_AuthenticationBasePlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="AuthenticationBasePlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_AuthenticationBasePlugin.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -244,10 +248,62 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\Data.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC AuthenticationBasePlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;AuthenticationBasePlugin.h&quot; -o &quot;release\moc_AuthenticationBasePlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="AuthenticationBasePlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_AuthenticationBasePlugin.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\AuthenticationPlugin.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC ..\..\AuthenticationPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\AuthenticationPlugin.h&quot; -o &quot;debug\moc_AuthenticationPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\AuthenticationPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_AuthenticationPlugin.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC ..\..\AuthenticationPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\AuthenticationPlugin.h&quot; -o &quot;release\moc_AuthenticationPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\AuthenticationPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_AuthenticationPlugin.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\Common\Data.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC ..\..\..\Common\Data.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\Data.h&quot; -o &quot;debug\moc_Data.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\Data.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_Data.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC ..\..\..\Common\Data.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\Data.h&quot; -o &quot;release\moc_Data.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\Data.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_Data.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -259,10 +315,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataManager.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataManager.h&quot; -o &quot;debug\moc_DataManager.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataManager.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_DataManager.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -270,10 +326,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\DataManager.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataManager.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataManager.h&quot; -o &quot;release\moc_DataManager.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataManager.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_DataManager.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -285,10 +341,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataPlugin.h&quot; -o &quot;debug\moc_DataPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_DataPlugin.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -296,10 +352,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\DataPlugin.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataPlugin.h&quot; -o &quot;release\moc_DataPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_DataPlugin.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -311,10 +367,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\MetaPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\MetaPlugin.h&quot; -o &quot;debug\moc_MetaPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\MetaPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_MetaPlugin.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -322,10 +378,36 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\MetaPlugin.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\MetaPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\MetaPlugin.h&quot; -o &quot;release\moc_MetaPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\MetaPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_MetaPlugin.cpp"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\NetworkPlugin.h"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC ..\..\NetworkPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\NetworkPlugin.h&quot; -o &quot;debug\moc_NetworkPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\NetworkPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_NetworkPlugin.cpp"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="MOC ..\..\NetworkPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\NetworkPlugin.h&quot; -o &quot;release\moc_NetworkPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\NetworkPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_NetworkPlugin.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -337,10 +419,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\Plugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\Plugin.h&quot; -o &quot;debug\moc_Plugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\Plugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_Plugin.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -348,10 +430,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\Plugin.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\Plugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\Plugin.h&quot; -o &quot;release\moc_Plugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\Plugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_Plugin.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -363,10 +445,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\PluginManager.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\PluginManager.h&quot; -o &quot;debug\moc_PluginManager.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\PluginManager.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_PluginManager.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -374,10 +456,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\PluginManager.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\PluginManager.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\PluginManager.h&quot; -o &quot;release\moc_PluginManager.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\PluginManager.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_PluginManager.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -389,10 +471,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC UserBaseServerMetaPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;UserBaseServerMetaPlugin.h&quot; -o &quot;debug\moc_UserBaseServerMetaPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="UserBaseServerMetaPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_UserBaseServerMetaPlugin.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -400,10 +482,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;UserBaseServerMetaPlugin.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC UserBaseServerMetaPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;UserBaseServerMetaPlugin.h&quot; -o &quot;release\moc_UserBaseServerMetaPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="UserBaseServerMetaPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_UserBaseServerMetaPlugin.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -415,10 +497,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\UserData.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\UserData.h&quot; -o &quot;debug\moc_UserData.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\UserData.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_UserData.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -426,10 +508,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\UserData.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\UserData.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\UserData.h&quot; -o &quot;release\moc_UserData.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\UserData.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_UserData.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -441,10 +523,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.h&quot; -o &quot;debug\moc_UserDataBase.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_UserDataBase.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -452,10 +534,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.h&quot; -o &quot;release\moc_UserDataBase.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataImplementations\UserDataBase\UserDataBase.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_UserDataBase.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -467,10 +549,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataImplementations\UserDataBase\UserDataBasePlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataImplementations\UserDataBase\UserDataBasePlugin.h&quot; -o &quot;debug\moc_UserDataBasePlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataImplementations\UserDataBase\UserDataBasePlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_UserDataBasePlugin.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -478,10 +560,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\DataImplementations\UserDataBase\UserDataBasePlugin.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\DataImplementations\UserDataBase\UserDataBasePlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\DataImplementations\UserDataBase\UserDataBasePlugin.h&quot; -o &quot;release\moc_UserDataBasePlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\DataImplementations\UserDataBase\UserDataBasePlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_UserDataBasePlugin.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -493,10 +575,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;  &quot;$(InputPath)&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot; -D_WINDLL -D_WINDOWS -DHORUS_SERVER -DQT_CORE_LIB -DQT_DLL -DQT_LARGEFILE_SUPPORT -DQT_SQL_LIB -DQT_THREAD_SUPPORT -DUNICODE -DWIN32 -I&quot;$(ConfigurationName)\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;.\debug\.&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\UserDataPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\debug\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\UserDataPlugin.h&quot; -o &quot;debug\moc_UserDataPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\UserDataPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="debug\moc_UserDataPlugin.cpp"
 					/>
 				</FileConfiguration>
 				<FileConfiguration
@@ -504,10 +586,10 @@
 					>
 					<Tool
 						Name="VCCustomBuildTool"
-						Description="Moc&apos;ing $(InputFileName)..."
-						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; -I&quot;$(ConfigurationName)\.&quot; &quot;..\..\..\Common\UserDataPlugin.h&quot; -o &quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;&#x0D;&#x0A;"
-						AdditionalDependencies="&quot;$(QTDIR)\bin\moc.exe&quot;;$(InputPath)"
-						Outputs="&quot;$(ConfigurationName)\moc_$(InputName).cpp&quot;"
+						Description="MOC ..\..\..\Common\UserDataPlugin.h"
+						CommandLine="&quot;$(QTDIR)\bin\moc.exe&quot;   -DQT_NO_DEBUG -DNDEBUG -D_WINDOWS -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DHORUS_SERVER -DQT_DLL -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_CORE_LIB -DQT_THREAD_SUPPORT -DNDEBUG -D_WINDLL  -I&quot;$(QTDIR)\include\QtCore\.&quot; -I&quot;$(QTDIR)\include\QtSql\.&quot; -I&quot;$(QTDIR)\include\.&quot; -I&quot;$(QTDIR)\include\ActiveQt\.&quot; -I&quot;.\release\.&quot; -I&quot;$(QTDIR)\mkspecs\win32-msvc2008\.&quot; &quot;..\..\..\Common\UserDataPlugin.h&quot; -o &quot;release\moc_UserDataPlugin.cpp&quot;&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\..\Common\UserDataPlugin.h;$(QTDIR)\bin\moc.exe"
+						Outputs="release\moc_UserDataPlugin.cpp"
 					/>
 				</FileConfiguration>
 			</File>
@@ -518,7 +600,7 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath=".\Release\moc_Data.cpp"
+				RelativePath="release\moc_AuthenticationBasePlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -530,7 +612,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Debug\moc_Data.cpp"
+				RelativePath="debug\moc_AuthenticationBasePlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -542,7 +624,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_DataManager.cpp"
+				RelativePath="release\moc_AuthenticationPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -554,7 +636,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Debug\moc_DataManager.cpp"
+				RelativePath="debug\moc_AuthenticationPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -566,7 +648,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Debug\moc_DataPlugin.cpp"
+				RelativePath="release\moc_Data.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_Data.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -578,31 +672,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_DataPlugin.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Release\moc_MetaPlugin.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Debug\moc_MetaPlugin.cpp"
+				RelativePath="debug\moc_DataManager.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -614,7 +684,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_Plugin.cpp"
+				RelativePath="release\moc_DataManager.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -626,7 +696,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Debug\moc_Plugin.cpp"
+				RelativePath="release\moc_DataPlugin.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_DataPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -638,7 +720,19 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Debug\moc_PluginManager.cpp"
+				RelativePath="release\moc_MetaPlugin.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_MetaPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -650,7 +744,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_PluginManager.cpp"
+				RelativePath="release\moc_NetworkPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -662,19 +756,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_UserBaseServerMetaPlugin.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Debug\moc_UserBaseServerMetaPlugin.cpp"
+				RelativePath="debug\moc_NetworkPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -686,19 +768,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_UserData.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Debug\moc_UserData.cpp"
+				RelativePath="debug\moc_Plugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -710,7 +780,31 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Debug\moc_UserDataBase.cpp"
+				RelativePath="release\moc_Plugin.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_PluginManager.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_PluginManager.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"
@@ -722,7 +816,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_UserDataBase.cpp"
+				RelativePath="release\moc_UserBaseServerMetaPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -734,34 +828,8 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_UserDataBasePlugin.cpp"
+				RelativePath="debug\moc_UserBaseServerMetaPlugin.cpp"
 				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\Debug\moc_UserDataBasePlugin.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
@@ -772,7 +840,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Release\moc_UserDataPlugin.cpp"
+				RelativePath="release\moc_UserData.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -784,7 +852,79 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\Debug\moc_UserDataPlugin.cpp"
+				RelativePath="debug\moc_UserData.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_UserDataBase.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_UserDataBase.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_UserDataBasePlugin.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_UserDataBasePlugin.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_UserDataPlugin.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="debug\moc_UserDataPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"

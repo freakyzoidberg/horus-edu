@@ -630,18 +630,6 @@
 			UniqueIdentifier="{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}"
 			>
 			<File
-				RelativePath="release\moc_Data.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_Data.cpp"
 				>
 				<FileConfiguration
@@ -654,7 +642,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DataPlugin.cpp"
+				RelativePath="release\moc_Data.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -678,7 +666,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DisplayablePlugin.cpp"
+				RelativePath="release\moc_DataPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -702,7 +690,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_DragingWidget.cpp"
+				RelativePath="release\moc_DisplayablePlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -718,6 +706,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_DragingWidget.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -750,18 +750,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_MainFrame.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_MainFrame.cpp"
 				>
 				<FileConfiguration
@@ -774,7 +762,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_MainFrameMetaPlugin.cpp"
+				RelativePath="release\moc_MainFrame.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -798,18 +786,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_MainFrameWidget.cpp"
+				RelativePath="release\moc_MainFrameMetaPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
 					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -829,6 +810,25 @@
 				<FileConfiguration
 					Name="Release|Win32"
 					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_MainFrameWidget.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -860,18 +860,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_Plugin.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_Plugin.cpp"
 				>
 				<FileConfiguration
@@ -884,7 +872,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_PluginManager.cpp"
+				RelativePath="release\moc_Plugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -908,7 +896,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_SmallDisplayablePlugin.cpp"
+				RelativePath="release\moc_PluginManager.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -924,6 +912,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\moc_SmallDisplayablePlugin.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
@@ -956,18 +956,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_UserData.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="debug\moc_UserData.cpp"
 				>
 				<FileConfiguration
@@ -980,7 +968,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\moc_UserDataPlugin.cpp"
+				RelativePath="release\moc_UserData.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1004,7 +992,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="release\qrc_MainFrameWidget.cpp"
+				RelativePath="release\moc_UserDataPlugin.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1020,6 +1008,18 @@
 				>
 				<FileConfiguration
 					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="release\qrc_MainFrameWidget.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
 					ExcludedFromBuild="true"
 					>
 					<Tool
