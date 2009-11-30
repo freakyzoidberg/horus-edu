@@ -32,7 +32,9 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageStudents/Parentinfos.cpp \
     Implementation/ManageStudents/Infopanel.cpp \
     Implementation/ManageStudents/Scrollformstudent.cpp \
-    Implementation/ManageClasses/ClassListClass.cpp
+    Implementation/ManageClasses/ClassListClass.cpp \
+    Implementation/ManageEDT/ManageEDT.cpp \
+    Implementation/ManageEDT/EdtScene.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -71,7 +73,9 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/Parentinfos.h \
     Implementation/ManageStudents/Infopanel.h \
     Implementation/ManageStudents/Scrollformstudent.h \
-    Implementation/ManageClasses/ClassListClass.h
+    Implementation/ManageClasses/ClassListClass.h \
+    Implementation/ManageEDT/ManageEDT.h \
+    Implementation/ManageEDT/EdtScene.h
 RESOURCES += Implementation/Icons.qrc
 TRANSLATIONS = Administrationv2_en.ts \
     Administrationv2_fr.ts
