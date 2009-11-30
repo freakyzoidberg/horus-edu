@@ -38,11 +38,12 @@
 #include	"ManageTeachers/ManageTeachers.h"
 #include	"ManageAdministratives/ManageAdministratives.h"
 #include	"ManageStudents/ManageStudents.h"
-
+#include	"ManageEDT/ManageEDT.h"
 MainView::MainView(PluginManager *pluginManager)
 {
 	this->addTab(new AdmAddClassWidget(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/desk.png"), tr("Classes"));
 	this->addTab(new ManageStudents(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/students.png"), tr("Students"));
 	this->addTab(new ManageTeachers(this, pluginManager), QIcon(":/Icons/teachers.png"), tr("Teachers"));
 	this->addTab(new ManageAdministratives(this, pluginManager), QIcon(":/Icons/administrator.png"), tr("Administratives"));
+        this->addTab(new ManageEDT(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/students.png"), tr("dev:EDT"));
 }
