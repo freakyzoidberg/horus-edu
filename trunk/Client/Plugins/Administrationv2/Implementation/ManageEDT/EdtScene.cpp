@@ -29,5 +29,6 @@ void EDTScene::addFullDayBGtoScene(int pos,int wid)
 void EDTScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
 {
 qDebug() << "clicked < ";
+if (this->items(e->scenePos().toPoint()).count() > 0)
 ((QGraphicsRectItem*)this->items(e->scenePos().toPoint()).first())->setBrush(QBrush(QColor(Qt::red)));
 }
