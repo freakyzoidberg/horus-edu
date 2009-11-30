@@ -194,7 +194,7 @@ public:
 	Mail (const Mail &copyMe);
 
 	~Mail();
-	
+
 	/**
 	 * @return Text representing message body
 	 */
@@ -205,7 +205,7 @@ public:
 	 * Sets message body
 	 */
 	void setMessageBody(const QString& body);
-	
+
 	/**
 	 * @return encoding of mail or mail part (like ISO-8859-2)
 	 */

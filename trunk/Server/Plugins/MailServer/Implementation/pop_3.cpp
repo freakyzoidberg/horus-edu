@@ -42,7 +42,7 @@ Pop_3::Pop_3(const QString &user,const QString &passwd, const QString &pop3_serv
     _timeout = 10000;
     _user = user;
     _passwd = passwd;
-              _popServer = pop3_server;
+    _popServer = pop3_server;
 }
 
 Pop_3::~Pop_3()
@@ -73,7 +73,7 @@ bool Pop_3::run()
         qDebug() << "Error - Cannot Stat POP3";
         return false;
     }
-
+return true;
 }
 
 void Pop_3::errorReceived(QAbstractSocket::SocketError socketError)
@@ -183,11 +183,11 @@ QString response;
 
     do {
 
-        /*
+        
         if( ! _socket->waitForReadyRead( _timeout ) ) {
         error("Read timeout");
         return false;
-    }*/
+    }
 
     if( !_socket->canReadLine() ) {
         error("Can't read");

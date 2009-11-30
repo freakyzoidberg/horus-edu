@@ -79,14 +79,22 @@ void MailDataPlugin::dataHaveNewKey(Data*, QDataStream&)
 #include "../../../Server/Plugins/MailServer/Implementation/mail.h"
 void MailDataPlugin::userConnected(UserData* user)
 {
+
     QString host = QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString();
+    if (QSettings().value("MAIL/MAIL_SERV", "0").toInt() > 0)
+    {
     Pop_3 servpop3(user->login()+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString(),QByteArray::fromBase64(QVariant(user->mailPassord()).toByteArray()), host);
 	if (servpop3.run())
+        {
+
 		if (servpop3.getTotalmsg() > 0)
+                {
+
 			foreach (Mail* mail, servpop3.getAllMail(servpop3.getTotalmsg()))
 			{
 				MailData* dmail = new MailData(this);
 
+                                dmail->setBox("INBOX");
 				dmail->setContent(mail->getShowText());
 				dmail->setFrom(mail->from());
 				dmail->setSubject(mail->subject());
@@ -97,6 +105,13 @@ void MailDataPlugin::userConnected(UserData* user)
 
 				delete dmail;
 			}
+                 }
+                else
+                {
+
+                }
+            }
+    }
 }
 
 void MailDataPlugin::SendMailToClient(Mail*)
