@@ -110,11 +110,14 @@ ListAdministratives::ListAdministratives(QWidget *parent, PluginManager *pluginM
 
 void					ListAdministratives::AdministrativeSelected(const QModelIndex &current, const QModelIndex &)
 {
-	editButton->setDisabled(false);
-	deleteButton->setDisabled(false);
-	delete displayer;
-	displayer = new DisplayAdministrative(this, (UserData*)(filter->mapToSource(current).internalPointer()));
-	informationsLayout->addWidget(displayer);
+	if (current.isValid() && current == listView->currentIndex())
+	{
+		editButton->setDisabled(false);
+		deleteButton->setDisabled(false);
+		delete displayer;
+		displayer = new DisplayAdministrative(this, (UserData*)(filter->mapToSource(current).internalPointer()));
+		informationsLayout->addWidget(displayer);
+	}
 }
 
 void					ListAdministratives::AdministrativeAdded()

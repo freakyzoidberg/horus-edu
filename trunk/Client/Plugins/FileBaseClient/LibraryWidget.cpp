@@ -33,6 +33,7 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "LibraryWidget.h"
+#include "LibraryFilter.h"
 
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/FileData.h"
@@ -40,7 +41,6 @@
 
 #include <QListView>
 #include <QTreeView>
-#include <QSortFilterProxyModel>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QLabel>
@@ -50,20 +50,21 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 {
 	QGridLayout* layout = new QGridLayout(this);
 
+	_filter = new LibraryFilter(pluginManager->findPlugin<FileDataPlugin*>()->listModel(), this);
+
 	QTreeView* tree = new QTreeView(this);
 	tree->setModel(pluginManager->findPlugin<TreeDataPlugin*>()->treeModel());
-//	tree->expandAll();
-	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-//	tree->selectAll();
 	tree->setHeaderHidden(true);
-	_treeSelection = tree->selectionModel();
-	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
+	tree->expandAll();
+	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
+	tree->setAcceptDrops(true);
+	tree->viewport()->setAcceptDrops(true);
+	tree->setDropIndicatorShown(true);
+	tree->setDragDropMode(QAbstractItemView::DropOnly);
 
-	_filter = new QSortFilterProxyModel(this);
-	_filter->setSourceModel(pluginManager->findPlugin<FileDataPlugin*>()->listModel());
-	_filter->setSortCaseSensitivity(Qt::CaseInsensitive);
-	_filter->setFilterCaseSensitivity(Qt::CaseInsensitive);
-	_filter->sort(0, Qt::AscendingOrder);
+	_treeSelection = tree->selectionModel();
+	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), _filter, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
+	tree->selectAll();
 
 	QListView* list = new QListView(this);
 	list->setModel(_filter);
@@ -95,29 +96,21 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	_detailLayout->addRow("MimeType:", new QLabel);
 }
 
-void LibraryWidget::treeSelectionChange(const QItemSelection& selected, const QItemSelection&)
-{
-//	foreach (QModelIndex index, selected.indexes())
-//		for (int i=0; i < index.model()->rowCount(index); i++)
-//			_treeSelection->select(index.child(i, 0), QItemSelectionModel::Select);
-}
-
 void LibraryWidget::fileSelectionChange(const QItemSelection& selected, const QItemSelection&)
 {
 	if ( ! selected.count())
 	{
-		((QLabel*)(_detailLayout->itemAt(0, QFormLayout::FieldRole)->widget()))->setText("");
-		((QLabel*)(_detailLayout->itemAt(1, QFormLayout::FieldRole)->widget()))->setText("");
-		((QLabel*)(_detailLayout->itemAt(2, QFormLayout::FieldRole)->widget()))->setText("");
-		((QLabel*)(_detailLayout->itemAt(3, QFormLayout::FieldRole)->widget()))->setText("");
+		static_cast<QLabel*>(_detailLayout->itemAt(0, QFormLayout::FieldRole)->widget())->setText("");
+		static_cast<QLabel*>(_detailLayout->itemAt(1, QFormLayout::FieldRole)->widget())->setText("");
+		static_cast<QLabel*>(_detailLayout->itemAt(2, QFormLayout::FieldRole)->widget())->setText("");
+		static_cast<QLabel*>(_detailLayout->itemAt(3, QFormLayout::FieldRole)->widget())->setText("");
 		return;
 	}
 
 	FileData* file = (FileData*)(_filter->mapToSource(selected.first().topLeft()).internalPointer());
-	qDebug() << file;
 
-	((QLabel*)(_detailLayout->itemAt(0, QFormLayout::FieldRole)->widget()))->setText(QVariant(file->id()).toString());
-	((QLabel*)(_detailLayout->itemAt(1, QFormLayout::FieldRole)->widget()))->setText(file->name());
-	((QLabel*)(_detailLayout->itemAt(2, QFormLayout::FieldRole)->widget()))->setText(QVariant(file->size()).toString());
-	((QLabel*)(_detailLayout->itemAt(3, QFormLayout::FieldRole)->widget()))->setText(file->mimeType());
+	static_cast<QLabel*>(_detailLayout->itemAt(0, QFormLayout::FieldRole)->widget())->setText(QVariant(file->id()).toString());
+	static_cast<QLabel*>(_detailLayout->itemAt(1, QFormLayout::FieldRole)->widget())->setText(file->name());
+	static_cast<QLabel*>(_detailLayout->itemAt(2, QFormLayout::FieldRole)->widget())->setText(QVariant(file->size()).toString());
+	static_cast<QLabel*>(_detailLayout->itemAt(3, QFormLayout::FieldRole)->widget())->setText(file->mimeType());
 }
