@@ -51,7 +51,8 @@ void MailData::dataToStream(QDataStream& s) const
     << _subject
     << _content
     << _from
-    << _date;
+    << _date
+    << _box;
 	Data::dataToStream(s);
 }
 
@@ -65,7 +66,8 @@ void MailData::dataFromStream(QDataStream& s)
 	_subject >>
         _content >>
         _from >>
-        _date;
+        _date >>
+        _box;
 	Data::dataFromStream(s);
 }
 

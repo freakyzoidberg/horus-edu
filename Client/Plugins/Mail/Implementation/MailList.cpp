@@ -268,6 +268,7 @@ expanded = false;
 	foreach (Data* d, _MailPlugin->allDatas())
 	{
 		MailData* data = (MailData*)d;
+         if (data->getBox() == "INBOX")
         addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId(), data);
 	}
 }

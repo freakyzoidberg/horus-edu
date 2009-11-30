@@ -36,8 +36,9 @@
 #include "../../../../Common/DataImplementations/MailData/MailData.h"
 MailForm::MailForm(MailDataPlugin *MailPlugin)
 {
-    ;
+
     _MailPlugin = MailPlugin;
+
     QVBoxLayout *total = new QVBoxLayout();
     QHBoxLayout *ligne1 = new QHBoxLayout();
     QHBoxLayout *ligne1_1 = new QHBoxLayout();
@@ -169,6 +170,7 @@ void MailForm::mysendmail()
     md->setBcc(lbcc);
     md->setSubject(subject_value->text());
     md->setContent(content_value->toHtml());
+    md->setBox("SENTBOX");
     //qDebug() << ;
 
     QString nid = QTime::currentTime().toString("hh:mm:ss.zzz");

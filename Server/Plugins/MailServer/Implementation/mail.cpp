@@ -677,12 +677,15 @@ QString Mail::getShowText()
 		//ret+="<meta http-equiv=\"content-type\" content=\"text/html; charset=" + encoding() +"\" /> \n";
 		uint pc = getPartCount();
                 qDebug() << "PART COUNT : " << pc;
-		for (uint i=0; i<pc; i++)
+                for (uint i=0; i< (pc - 1); i++)
 		{
                     qDebug() << "AT : " << i;
 			Mail* mp = getPart(i);
+
 			ret+= mp->getShowText();
-                        qDebug() << mp->getShowText();
+
+
+
 		}
 	}
 
@@ -754,10 +757,10 @@ void Mail::parseBody(QByteArray cstr_body)
 				start++;
 			if (body_data[start] == '\n')
 				start++;
-                        qDebug() << body_data.mid(start);
+                      //  qDebug() << body_data.mid(start);
     //                    qDebug() << start << "value" << body_data[start] << body_data[start + 1];
 			end = body_data.indexOf(bound, start);
-                        qDebug() << end;
+                       // qDebug() << end;
 
 			
 			Mail* mp = new Mail(this);
@@ -898,7 +901,7 @@ void Mail::parseHeaderLine(QString line)
 
 uint Mail::getPartCount()
 {
-	return d->mail_parts.count();
+        return d->mail_parts.count();
 }
 
 Mail* Mail::getPart(uint index)

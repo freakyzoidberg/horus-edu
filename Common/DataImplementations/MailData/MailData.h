@@ -93,9 +93,11 @@ private:
         QString                         _subject;
         QString                         _date;
         QString                         _from;
+        QString                         _box;
 public :
         inline void			setId(QString i)     { _id = i; }
         inline void			setFrom(QString i)     { _from = i; }
+        inline void			setBox(QString i)     { _box = i; }
         inline void			setMDate(QString i)     { _date = i; }
         inline void			setTo(QStringList t) { _to = t; }
         inline void			setCc(QStringList c)     { _cc = c; }
@@ -110,6 +112,7 @@ public :
          inline QString                    getFrom() {return _from; }
          inline QString                    getId() {return _id; }
          inline QStringList                    getCc() {return _cc; }
+         inline QString                    getBox() {return _box; }
 
 
 };
