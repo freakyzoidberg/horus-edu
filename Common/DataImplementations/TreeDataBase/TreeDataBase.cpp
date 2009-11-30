@@ -251,6 +251,13 @@ QVariant TreeDataBase::data(int column, int role) const
     }
    return Data::data(column, role);
 }
+
+bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction action) const
+{
+//		if mim
+	qDebug() << mimeData;
+	return false;
+}
 #endif
 
 TreeData* TreeDataBase::createChild(const QString name, const QString type, UserData* user)

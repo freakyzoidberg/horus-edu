@@ -92,7 +92,7 @@ void DataListModel::dataStatusChanged(Data* data)
 
 Qt::DropActions DataListModel::supportedDropActions() const
 {
-	return Qt::MoveAction;
+	return Qt::CopyAction | Qt::MoveAction;
 }
 
 QMimeData* DataListModel::mimeData(const QModelIndexList &indexes) const

@@ -9,18 +9,19 @@ TARGET = FileBaseClientMetaPlugin
 SOURCES += ../../../Common/DataImplementations/FileDataBase/FileDataBase.cpp \
     ../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.cpp \
     ../../../Common/DataImplementations/FileDataBase/FileTransfert.cpp \
-	../../DataListModel.cpp \
+    ../../DataListModel.cpp \
     FileNetworkPlugin.cpp \
     FileTransfertClient.cpp \
     LibraryWidget.cpp \
     LibrarySmallDisplayable.cpp \
     DownloadSmallDisplayable.cpp \
-    TransfertList.cpp
+    TransfertList.cpp \
+    LibraryFilter.cpp
 HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h \
     ../../../Common/DataImplementations/FileDataBase/FileTransfert.h \
-	../../DataListModel.h \
-	../../../Common/Plugin.h \
+    ../../DataListModel.h \
+    ../../../Common/Plugin.h \
     ../../../Common/PluginManager.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Data.h \
@@ -41,7 +42,8 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     FileTransfertClient.h \
     TransfertList.h \
     TransfertPlugin.h \
-    ../MainFrame/SmallDisplayablePlugin.h
+    ../MainFrame/SmallDisplayablePlugin.h \
+    LibraryFilter.h
 TRANSLATIONS = FileBaseClientMetaPlugin_en.ts \
     FileBaseClientMetaPlugin_fr.ts
 RESOURCES += Icons/Icons.qrc
