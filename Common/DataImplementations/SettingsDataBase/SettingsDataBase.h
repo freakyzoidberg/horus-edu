@@ -85,7 +85,9 @@ public:
 	quint8				serverCreate();
 	quint8				serverSave();
 	quint8				serverRemove();
-	bool				inDatabase;
+
+private:
+	bool				_inDatabase;
 #endif
 
 private:

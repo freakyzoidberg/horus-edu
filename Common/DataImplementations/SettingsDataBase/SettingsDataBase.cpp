@@ -54,7 +54,7 @@ SettingsDataBase::SettingsDataBase(SettingsDataBasePlugin* plugin, QString part,
 		connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
 	}
 #ifdef HORUS_SERVER
-    inDatabase = false;
+	_inDatabase = false;
 #endif
 }
 
@@ -136,7 +136,7 @@ quint8 SettingsDataBase::serverRead()
 	if ( ! query.next())
 		return NONE;
 
-    inDatabase = true;
+	_inDatabase = true;
     _values = query.value(0).toHash();
     _lastChange = query.value(1).toDateTime();
 
@@ -160,13 +160,14 @@ quint8 SettingsDataBase::serverCreate()
 		return DATABASE_ERROR;
 	}
 
+	_inDatabase = true;
 	return NONE;
 }
 
 quint8 SettingsDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	if ( ! inDatabase)
+	if ( ! _inDatabase)
 		return serverCreate();
 
 	query.prepare("UPDATE`setting`SET`value`=?,`mtime`=? WHERE`user`=? AND`part`=? AND`scope`=?;");
@@ -200,6 +201,7 @@ quint8 SettingsDataBase::serverRemove()
 	}
 	if ( ! query.numRowsAffected())
 		return NOT_FOUND;
+	_inDatabase = false;
 
 	return NONE;
 }
