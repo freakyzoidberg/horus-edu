@@ -91,7 +91,6 @@ public:
 	void				keyToStream(QDataStream& s) const;
 	void				dataToStream(QDataStream& s) const;
 	void				dataFromStream(QDataStream& s);
-
 	bool				canChange(UserData* user) const;
 	bool				canAccess(UserData* user) const;
 

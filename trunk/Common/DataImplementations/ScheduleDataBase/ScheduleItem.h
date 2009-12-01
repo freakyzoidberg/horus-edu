@@ -4,17 +4,33 @@
 #include <QObject>
 #include <QDate>
 
-struct ScheduleException
+class ScheduleException
 {
-    QDate   dateStart;
-    QDate   dateEnd;
+    public:
+        inline ScheduleException(QDate ds, QDate de)
+        {
+            dateStart = ds;
+            dateEnd = de;
+        }
+        inline ScheduleException(QDataStream& s) { *this << s; }
+        inline QDataStream& operator>>(QDataStream& s) const
+        {
+            return s << dateStart << dateEnd;
+        }
+        inline QDataStream& operator<<(QDataStream& s)
+        {
+            return s >> dateStart >> dateEnd;
+        }
+        QDate   dateStart;
+        QDate   dateEnd;
 };
 
 class ScheduleItem
 {
     public:
-        inline ScheduleItem(int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, int f, bool m, int t)
+        inline ScheduleItem(int id, int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, int f, bool m, int t)
         {
+            _id = id;
             _idSchedule = is;
             _jWeek = j;
             _name = name;
@@ -84,7 +100,7 @@ class ScheduleItem
           >> _forceShow
           >> _teacher
          ;}
-//    private:
+    private:
         int     _id;
         int     _idSchedule;
         int     _jWeek;
