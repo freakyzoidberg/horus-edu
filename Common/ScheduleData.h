@@ -50,14 +50,17 @@ class ScheduleData : public Data
 #endif
 
 public:
-        virtual QDate                   startDate() const = 0;
-        virtual void			setStartDate(const QDate& date) = 0;
-        virtual QDate                   endDate() const = 0;
-        virtual void			setEndDate(const QDate& date) = 0;
-        virtual QList<ScheduleItem* >    scheduleEvents() const = 0;
-        virtual void			addEvent(ScheduleItem* event) = 0;
-        virtual void			removeEvent(ScheduleItem* event) = 0;
-	virtual TreeData*		node() const = 0;
+        virtual QDate                       startDate() const = 0;
+        virtual void                        setStartDate(const QDate& date) = 0;
+        virtual QDate                       endDate() const = 0;
+        virtual void                        setEndDate(const QDate& date) = 0;
+        virtual QList<ScheduleItem* >       scheduleEvents() const = 0;
+        virtual QList<ScheduleException* >  scheduleException() const = 0;
+        virtual void                        addException(ScheduleException* excp) = 0;
+        virtual void                        removeException(ScheduleException* excp) = 0;
+        virtual void                        addEvent(ScheduleItem* event) = 0;
+        virtual void                        removeEvent(ScheduleItem* event) = 0;
+        virtual TreeData*                   node() const = 0;
 
 protected:
         inline					ScheduleData(ScheduleDataPlugin* plugin) : Data(plugin) { }
