@@ -51,71 +51,26 @@ void ScheduleDataBase::keyToStream(QDataStream& s) const
 void ScheduleDataBase::dataToStream(QDataStream& s) const
 {
         s << _startDate << _endDate ;
-        s << _sEvents.count();
-        foreach(ScheduleItem* event, _sEvents)
-        {
-            s << event;
-        }
-        s << _sException.count();
-        foreach(ScheduleException* excp, _sException)
-        {
-            s << excp;
-        }
+        s << _sEvents;
+        s << _sException;
 }
 
 void ScheduleDataBase::dataFromStream(QDataStream& s)
 {
-    int nb;
     s >> _startDate >> _endDate ;
-    s >> nb;
-//    _sEvents.clear();
-//    ScheduleItem *event;
-//    for(int i = 0; i < nb; i++)
-//    {
-//         s >> event;
-//        _sEvents.append(event);
-//    }
-//    s >> nbExcp;
-//    _sException.clear();
-//    ScheduleException* *excp;
-//    for(int i = 0; i < nb; i++)
-//    {
-//        s >> excp;
-//        _sException.append(excp);
-//    }
+    QByteArray bufItems;
+    s >> bufItems;
+    _sEvents.clear();
+    QDataStream ds(bufItems);
+    while ( ! ds.atEnd())
+        _sEvents.append(new ScheduleItem(ds) );
+    s >> bufItems;
+    _sException.clear();
+    QDataStream ds2(bufItems);
+    while ( ! ds2.atEnd())
+        _sException.append(new ScheduleException(ds2) );
 }
 
-QDataStream& operator<<(QDataStream& d, const ScheduleItem *event)
-{ return d
-    << event->_id
-    << event->_idSchedule
-    << event->_jWeek
-    << event->_name
-    << event->_hStart
-    << event->_hEnd
-    << event->_details
-    << event->_dateStart
-    << event->_dateEnd
-    << event->_modulo
-    << event->_forceShow
-    << event->_teacher
-; }
-
-QDataStream& operator>>(QDataStream& d, ScheduleItem *event)
-{ return d
-          >> event->_id
-          >> event->_idSchedule
-          >> event->_jWeek
-          >> event->_name
-          >> event->_hStart
-          >> event->_hEnd
-          >> event->_details
-          >> event->_dateStart
-          >> event->_dateEnd
-          >> event->_modulo
-          >> event->_forceShow
-          >> event->_teacher
-; }
 
 bool ScheduleDataBase::canChange(UserData* user) const
 {
@@ -155,14 +110,29 @@ quint8 ScheduleDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-        _startDate	= query.value(0).toDate();
-        _endDate	= query.value(1).toDate();
-
+        int  id         = query.value(0).toInt();
+        _startDate	= query.value(1).toDate();
+        _endDate	= query.value(2).toDate();
         query = _plugin->pluginManager->sqlQuery();
-        query.prepare("SELECT`start_date`,`end_date`,`comment`FROM`schedule`WHERE`id_tree`=?;");
-        query.addBindValue(_node->id());
+        query.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` FROM `schedule_event` WHERE `id_schedule`=?;");
+        query.addBindValue(id);
+        _sEvents.clear();
+        while (query.next())
+        {
+            _sEvents.append(new ScheduleItem(query.value(0).toInt(),
+                                             query.value(1).toInt(),
+                                             query.value(2).toInt(),
+                                             query.value(5).toString(),
+                                             query.value(3).toTime(),
+                                             query.value(4).toTime(),
+                                             query.value(6).toString(),
+                                             query.value(7).toDate(),
+                                             query.value(8).toDate(),
+                                             query.value(9).toInt(),
+                                             query.value(10).toBool(),
+                                             query.value(10).toInt());
 
-
+        }
 	return NONE;
 }
 

@@ -141,6 +141,7 @@ void  ScheduleDataBasePlugin::load()
                 //add exception
                 Schedule->_lastChange= query.value(3).toDateTime();
                 Schedule->_status = Data::UPTODATE;
+
 	}
 #endif
 	Plugin::load();
