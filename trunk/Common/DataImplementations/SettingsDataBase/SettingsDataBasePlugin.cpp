@@ -93,6 +93,7 @@ void SettingsDataBasePlugin::load()
 															userPlugin->user(query.value(0).toUInt()))); //user
 		s->_values = query.value(3).toHash();
 		s->_lastChange = query.value(4).toDateTime();
+		s->_inDatabase = true;
 		s->_status = Data::UPTODATE;
 	}
 #endif
