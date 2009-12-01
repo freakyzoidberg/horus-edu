@@ -130,7 +130,7 @@ quint8 ScheduleDataBase::serverRead()
                                              query.value(8).toDate(),
                                              query.value(9).toInt(),
                                              query.value(10).toBool(),
-                                             query.value(10).toInt());
+                                             query.value(10).toInt()));
 
         }
 	return NONE;
