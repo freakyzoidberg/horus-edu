@@ -65,19 +65,57 @@ void ScheduleDataBase::dataToStream(QDataStream& s) const
 
 void ScheduleDataBase::dataFromStream(QDataStream& s)
 {
-    int i;
-        s >> _startDate >> _endDate ;
-        s >> i;
-//        foreach(ScheduleItem* event, _sEvents)
-//        {
-//            s << event;
-//        }
-//        s << _sException.count();
-//        foreach(ScheduleException* excp, _sException)
-//        {
-//            s << excp;
-//        }
+    int nb;
+    s >> _startDate >> _endDate ;
+    s >> nb;
+//    _sEvents.clear();
+//    ScheduleItem *event;
+//    for(int i = 0; i < nb; i++)
+//    {
+//         s >> event;
+//        _sEvents.append(event);
+//    }
+//    s >> nbExcp;
+//    _sException.clear();
+//    ScheduleException* *excp;
+//    for(int i = 0; i < nb; i++)
+//    {
+//        s >> excp;
+//        _sException.append(excp);
+//    }
 }
+
+QDataStream& operator<<(QDataStream& d, const ScheduleItem *event)
+{ return d
+    << event->_id
+    << event->_idSchedule
+    << event->_jWeek
+    << event->_name
+    << event->_hStart
+    << event->_hEnd
+    << event->_details
+    << event->_dateStart
+    << event->_dateEnd
+    << event->_modulo
+    << event->_forceShow
+    << event->_teacher
+; }
+
+QDataStream& operator>>(QDataStream& d, ScheduleItem *event)
+{ return d
+          >> event->_id
+          >> event->_idSchedule
+          >> event->_jWeek
+          >> event->_name
+          >> event->_hStart
+          >> event->_hEnd
+          >> event->_details
+          >> event->_dateStart
+          >> event->_dateEnd
+          >> event->_modulo
+          >> event->_forceShow
+          >> event->_teacher
+; }
 
 bool ScheduleDataBase::canChange(UserData* user) const
 {
@@ -88,6 +126,7 @@ bool ScheduleDataBase::canAccess(UserData* user) const
 {
 	return _node->canAccess(user);
 }
+
 
 QDebug ScheduleDataBase::operator<<(QDebug debug) const
 {
@@ -141,7 +180,6 @@ quint8 ScheduleDataBase::serverCreate()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-
 	return NONE;
 }
 
