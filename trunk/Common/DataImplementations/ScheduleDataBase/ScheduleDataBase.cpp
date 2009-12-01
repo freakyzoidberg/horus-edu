@@ -113,24 +113,24 @@ quint8 ScheduleDataBase::serverRead()
         int  id         = query.value(0).toInt();
         _startDate	= query.value(1).toDate();
         _endDate	= query.value(2).toDate();
-        query = _plugin->pluginManager->sqlQuery();
-        query.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` FROM `schedule_event` WHERE `id_schedule`=?;");
-        query.addBindValue(id);
+        query2 = _plugin->pluginManager->sqlQuery();
+        query2.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` FROM `schedule_event` WHERE `id_schedule`=?;");
+        query2.addBindValue(id);
         _sEvents.clear();
-        while (query.next())
+        while (query2.next())
         {
-            _sEvents.append(new ScheduleItem(query.value(0).toInt(),
-                                             query.value(1).toInt(),
-                                             query.value(2).toInt(),
-                                             query.value(5).toString(),
-                                             query.value(3).toTime(),
-                                             query.value(4).toTime(),
-                                             query.value(6).toString(),
-                                             query.value(7).toDate(),
-                                             query.value(8).toDate(),
-                                             query.value(9).toInt(),
-                                             query.value(10).toBool(),
-                                             query.value(10).toInt()));
+            _sEvents.append(new ScheduleItem(query2.value(0).toInt(),
+                                             query2.value(1).toInt(),
+                                             query2.value(2).toInt(),
+                                             query2.value(5).toString(),
+                                             query2.value(3).toTime(),
+                                             query2.value(4).toTime(),
+                                             query2.value(6).toString(),
+                                             query2.value(7).toDate(),
+                                             query2.value(8).toDate(),
+                                             query2.value(9).toInt(),
+                                             query2.value(10).toBool(),
+                                             query2.value(10).toInt()));
 
         }
 	return NONE;
@@ -144,13 +144,31 @@ quint8 ScheduleDataBase::serverCreate()
 	query.addBindValue(_node->id());
         query.addBindValue(_startDate);
         query.addBindValue(_endDate);
-//add exception
+//        query.addBindValue(_sException);
+
 	if ( ! query.exec())
 	{
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-	return NONE;
+        int id = query.lastInsertId().toUInt();
+        for(int i = 0; i < _sEvents.count(); i++)
+        {
+            QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
+            query2.prepare("INSERT INTO`schedule_event`(`id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`)VALUES(?,?,?,?,?,?,?,?,?,?);");
+            query2.addBindValue(id);
+            query2.addBindValue(_sEvents.at(i)->getJWeek());
+            query2.addBindValue(_sEvents.at(i)->getHStart())
+            query2.addBindValue(_sEvents.at(i)->getHEnd());
+            query2.addBindValue(_sEvents.at(i)->getName());
+            query2.addBindValue(_sEvents.at(i)->getDetails());
+            query2.addBindValue(_sEvents.at(i)->getSDate());
+            query2.addBindValue(_sEvents.at(i)->getEDate());
+            query2.addBindValue(_sEvents.at(i)->getModulo());
+            query2.addBindValue(_sEvents.at(i)->getForce());
+            query2.addBindValue(_sEvents.at(i)->getTeacher());
+        }
+        return NONE;
 }
 
 quint8 ScheduleDataBase::serverSave()
