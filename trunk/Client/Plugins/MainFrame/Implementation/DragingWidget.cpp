@@ -50,6 +50,7 @@ DragingWidget::DragingWidget(QWidget *parent, SmallDisplayablePlugin *plugin) : 
 	QWidget		*content;
 
 	_plugin = plugin;
+	setAcceptDrops(true);
 	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	mainLayout->addLayout(topLayout, 0);
