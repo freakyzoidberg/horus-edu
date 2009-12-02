@@ -70,7 +70,7 @@ void								MainFrameWidget::fillWidgets()
 	empty->setObjectName("Empty");
 	empty->hide();
 	hasEmpty = false;
-	toDelete = 0;
+
 	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
 	bottomLayout = new QBoxLayout(QBoxLayout::LeftToRight);
@@ -176,12 +176,10 @@ void								MainFrameWidget::addedStuff(int index)
 
 void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 {
-	qDebug() << "BEGIN MainFrameWidget::dragEnterEvent";
 	bool							noWidget;
 
 	if (dragEvent->mimeData()->hasFormat("application/vnd.horus.whiteboard.widget"))
 	{
-		qDebug() << "MainFrameWidget::dragEnterEvent accepted";
 		dragEvent->acceptProposedAction();
 		if (!hasEmpty)
 		{ // Create the 'empty' widget if not present (the dotted area)
@@ -199,7 +197,7 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 						rightLayout->insertWidget(rightLayout->indexOf(widget), empty, 1);
 						rightLayout->removeWidget(widget);
 					}
-					toDelete = widget;
+
 					widget->hide();
 					empty->show();
 					hasEmpty = true;
@@ -212,7 +210,6 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 		{ // Move the 'empty' widget at the place of the current widget under the mouse
 			if ((leftLayout->indexOf(widget) >=0 || rightLayout->indexOf(widget) >=0) && widget->geometry().contains(dragEvent->pos()))
 			{
-				qDebug() << "MainFrameWidget::dragEnterEvent moved" << widget->_plugin->pluginName() << widget->geometry() << "contains" << dragEvent->pos();
 				int				oldIndex;
 				QRect			top;
 
@@ -253,7 +250,6 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 		}
 		if (noWidget && !empty->geometry().contains(dragEvent->pos()))
 		{ // When no widget under the mouse (mainframe empty)
-			qDebug() << "MainFrameWidget::dragEnterEvent moved 2";
 			QRect left(geometry().left(), geometry().top(), geometry().width() / 2 + 3, geometry().height());
 			QRect right(geometry().left() + geometry().width() / 2 - 3, geometry().top(), geometry().width() / 2 + 3, geometry().height());
 			if (left.contains(dragEvent->pos()) && !leftLayout->count())
@@ -268,12 +264,10 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 			}
 		}
 	}
-	qDebug() << "END   MainFrameWidget::dragEnterEvent";
 }
 
 void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 {
-	qDebug() << "BEGIN MainFrameWidget::dropEvent";
 	QWidget							*inserted;
 
 	if (hasEmpty)
@@ -289,25 +283,18 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 		hasEmpty = false;
 		updateSettings();
 	}
-	qDebug() << "END   MainFrameWidget::dropEvent";
 }
 
 void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 {
-	qDebug() << "BEGIN MainFrameWidget::mouseMoveEvent";
 	if (mouseEvent->buttons())
 	{
 		mouseEvent->ignore();
 		return ;
 	}
-	if (toDelete)
-	{
-		delete toDelete;
-		toDelete = 0;
-	}
 	foreach (DragingWidget *widget, findChildren<DragingWidget *>())
 		if (!widget->isVisible())
-			delete widget;
+			widget->deleteLater();
 	if (hasEmpty)
 	{
 		empty->hide();
@@ -315,7 +302,6 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 		repopulateStuff();
 	}
 	mouseEvent->ignore();
-	qDebug() << "END   MainFrameWidget::mouseMoveEvent";
 }
 
 void							MainFrameWidget::repopulateStuff()

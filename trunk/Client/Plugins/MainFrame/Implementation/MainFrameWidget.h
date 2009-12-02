@@ -60,7 +60,6 @@ private:
     QLabel*			lastLogin;
 	QWidget			*empty;
 	bool			hasEmpty;
-	QWidget			*toDelete;
 	PluginManager	*_pluginManager;
 	void			fillWidgets();
 	void			setStyle();

@@ -50,6 +50,7 @@ DragingWidget::DragingWidget(QWidget *parent, SmallDisplayablePlugin *plugin) : 
 	QWidget		*content;
 
 	_plugin = plugin;
+	isDraging = false;
 	setAcceptDrops(true);
 	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
@@ -71,6 +72,7 @@ void			DragingWidget::mousePressEvent(QMouseEvent *mouseEvent)
 {
 	if (mouseEvent->button() == Qt::LeftButton )
 		startDragPosition = mouseEvent->pos();
+	isDraging = true;
 }
 
 void			DragingWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
@@ -81,6 +83,8 @@ void			DragingWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	if (!mouseEvent->buttons() & Qt::LeftButton )
 		return ;
 	if ((mouseEvent->pos() - startDragPosition).manhattanLength() < QApplication::startDragDistance())
+		return ;
+	if (!isDraging)
 		return ;
 	mimeData = new QMimeData;
 	mimeData->setData("application/vnd.horus.whiteboard.widget", QByteArray(_plugin->pluginName().toAscii()));
