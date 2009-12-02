@@ -88,6 +88,7 @@ void ScheduleDataBase::dataFromStream(QDataStream& s)
 		_sException.append(new ScheduleException(ds) );
 
 	Data::dataFromStream(s);
+    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
 }
 
 

@@ -105,7 +105,7 @@ bool ScheduleDataBasePlugin::canLoad() const
                                                 `exception` blob NOT NULL,\
 					);")
 		||
-                 ! query.exec("SELECT`id`,`id_node`,`date_start`,`date_end`,`exception`FROM`schedule`WHERE`id_node`=-1;")
+                 ! query.exec("SELECT`id`,`id_node`,`date_start`,`date_end`,`exception`FROM`schedule`WHERE`id`=-1;")
 		)
 	{
                 qDebug() << "ScheduleDataBasePlugin::canLoad()" << query.lastError();
