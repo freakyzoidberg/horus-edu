@@ -52,6 +52,7 @@ public:
 
 private:
 	QPoint					startDragPosition;
+	bool					isDraging;
 };
 
 #endif
