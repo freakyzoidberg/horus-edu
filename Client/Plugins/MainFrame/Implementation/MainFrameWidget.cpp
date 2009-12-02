@@ -66,6 +66,7 @@ void								MainFrameWidget::fillWidgets()
 	plugins = _pluginManager->findPlugins<SmallDisplayablePlugin *>();
 	settings = _pluginManager->findPlugin<SettingsDataPlugin *>()->settings("MainBoard");
 	empty = new QFrame(this);
+	empty->setAcceptDrops(true);
 	empty->setObjectName("Empty");
 	empty->hide();
 	hasEmpty = false;
