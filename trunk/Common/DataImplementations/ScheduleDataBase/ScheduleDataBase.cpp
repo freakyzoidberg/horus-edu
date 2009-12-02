@@ -37,27 +37,29 @@
 
 #include "../../TreeData.h"
 
-ScheduleDataBase::ScheduleDataBase(TreeData* node, ScheduleDataBasePlugin* plugin) : ScheduleData(plugin)
+ScheduleDataBase::ScheduleDataBase(quint32 id, ScheduleDataBasePlugin* plugin) :  ScheduleData(id, plugin)
 {
-	_node = node;
-	_node->registerData(this);
+
 }
 
 void ScheduleDataBase::keyToStream(QDataStream& s) const
 {
-	s << _node->id();
+        s << _id;
 }
 
 void ScheduleDataBase::dataToStream(QDataStream& s) const
 {
         s << _startDate << _endDate ;
+        s << _node->id();
         s << _sEvents;
         s << _sException;
 }
 
 void ScheduleDataBase::dataFromStream(QDataStream& s)
 {
+    quint32 nodeId;
     s >> _startDate >> _endDate ;
+    s >> nodeId;
     QByteArray bufItems;
     s >> bufItems;
     _sEvents.clear();
@@ -110,7 +112,7 @@ quint8 ScheduleDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-        int  id         = query.value(0).toInt();
+        _id             = query.value(0).toInt();
         _startDate	= query.value(1).toDate();
         _endDate	= query.value(2).toDate();
         query2 = _plugin->pluginManager->sqlQuery();
@@ -151,7 +153,7 @@ quint8 ScheduleDataBase::serverCreate()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-        int id = query.lastInsertId().toUInt();
+        _id = query.lastInsertId().toUInt();
         for(int i = 0; i < _sEvents.count(); i++)
         {
             QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
@@ -191,8 +193,8 @@ quint8 ScheduleDataBase::serverSave()
 quint8 ScheduleDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("DELETE FROM`schedule`WHERE`id_node`=?;");
-	query.addBindValue(_node->id());
+        query.prepare("DELETE FROM`schedule`WHERE`id`=?;");
+        query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
@@ -201,7 +203,14 @@ quint8 ScheduleDataBase::serverRemove()
 	}
 	if ( ! query.numRowsAffected())
 		return NOT_FOUND;
-
+        QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
+        query2.prepare("DELETE * FROM`schedule_event`WHERE`id_schedule`=?;");
+        query2.addBindValue(_id);
+        if ( ! query.exec())
+        {
+                qDebug() << query.lastError();
+                return DATABASE_ERROR;
+        }
 	return NONE;
 }
 #endif

@@ -37,9 +37,9 @@
 #include <QMessageBox>
 #include "EdtScene.h"
 #include <QGraphicsView>
-ManageEDT::ManageEDT(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin)
+ManageEDT::ManageEDT(TreeDataPlugin *treeplugin, ScheduleDataPlugin *scheduleplugin)
 {
-    UD = userplugin;
+    SD = scheduleplugin;
     TD = treeplugin;
     MainLayout = new QHBoxLayout();
     MainLayout->setSpacing(0);

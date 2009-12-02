@@ -42,19 +42,20 @@
 #include "../../../../../Common/TreeData.h"
 #include "../../../../../Common/UserData.h"
 #include "../../../../../Common/DataPlugin.h"
+#include "../../../../../Common/ScheduleData.h"
 class ManageEDT : public QWidget
 {
     Q_OBJECT
 
 public:
-    ManageEDT(TreeDataPlugin *treeplugin, UserDataPlugin *userplugin);
+    ManageEDT(TreeDataPlugin *treeplugin, ScheduleDataPlugin *scheduleplugin);
 
 
 
 private:
     QHBoxLayout *MainLayout;
-    UserDataPlugin* UD;
-    TreeDataPlugin* TD;
+    ScheduleDataPlugin* SD;
+    TreeDataPlugin*     TD;
 };
 
 #endif // MANAGEEDT_H

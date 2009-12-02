@@ -44,62 +44,50 @@ ScheduleDataBasePlugin::ScheduleDataBasePlugin()
 {
 }
 
-ScheduleData* ScheduleDataBasePlugin::newSchedule(TreeData* parent/*, QString name, UserData* user*/)
+ScheduleData* ScheduleDataBasePlugin::newSchedule(TreeData* parent)
 {
-//	if ( ! user)
-//		user = pluginManager->currentUser();
+        static quint32 tmpId = 0;
+        tmpId--;
 
-	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNode();
-	node->setParent(parent);
-//	node->setUser(user);
-//	node->setName(name);
-        node->setType("SCHEDULE");
-	node->create();
-        return nodeSchedule(node);
+        ScheduleDataBase* s = ((ScheduleDataBase*)( schedule(tmpId)) );
+        return s;
 }
 
-ScheduleData* ScheduleDataBasePlugin::nodeSchedule(TreeData* node)
+ScheduleData* ScheduleDataBasePlugin::schedule(quint32 scheduleId)
 {
-        ScheduleData* Schedule = node->registeredData<ScheduleData*>();
-        if ( ! Schedule)
-	{
-                Schedule = new ScheduleDataBase(node, this);
-                Schedule->moveToThread(this->thread());
-                _allDatas.append(Schedule);
-	}
-        return Schedule;
+//        if (userId == 0)
+//                return nobody();
+
+        foreach (Data* d, _allDatas)
+        {
+                ScheduleDataBase* s = (ScheduleDataBase*)d;
+                if (s->_id == scheduleId)
+                        return s;
+        }
+
+        ScheduleDataBase* s = new ScheduleDataBase(scheduleId, this);
+
+        s->_node = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+        _allDatas.append(s);
+        return s;
 }
 
-ScheduleData* ScheduleDataBasePlugin::nodeSchedule(quint32 nodeId)
+ScheduleData* ScheduleDataBasePlugin::schedule(TreeData* node)
 {
-        return nodeSchedule(pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId));
+        foreach (Data* d, _allDatas)
+        {
+                ScheduleDataBase* s = (ScheduleDataBase*)d;
+                if (s->_node->id() == node->id())
+                        return s;
+        }
 }
 
-
-QList<ScheduleData*> ScheduleDataBasePlugin::nodeSchedules(TreeData* node, const QDate from, const QDate to)
-{
-        QList<ScheduleData*> list;
-	//recursively look in every children nodes
-	recursiveTreeSearch(list, node, from, to);
-
-	return list;
-}
-
-void ScheduleDataBasePlugin::recursiveTreeSearch(QList<ScheduleData*>& list, TreeData* node, const QDate& from, const QDate& to)
-{
-        ScheduleData* Schedule;
-        if ((Schedule = node->registeredData<ScheduleData*>()) && Schedule->startDate() < to && Schedule->endDate() > from)
-                list.append(Schedule);
-
-	foreach (TreeData* child, node->children())
-		recursiveTreeSearch(list, child, from, to);
-}
 
 Data* ScheduleDataBasePlugin::dataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-        return nodeSchedule(pluginManager->findPlugin<TreeDataPlugin*>()->node(tmpId));
+        return schedule(tmpId);
 }
 
 bool ScheduleDataBasePlugin::canLoad() const
@@ -165,4 +153,11 @@ QList<Data*> ScheduleDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
 	return list;
 }
 #endif
-
+#ifdef HORUS_CLIENT
+void ScheduleDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
+{
+        ScheduleDataBase* sch = ((ScheduleDataBase*)(d));
+        s >> sch->_id;
+        qDebug() << "Schedule data Have a New Key" << sch->_id;
+}
+#endif

@@ -51,16 +51,17 @@ class ScheduleDataBasePlugin : public ScheduleDataPlugin
   friend class ScheduleDataBase;
 
 public:
-                                                        ScheduleDataBasePlugin();
-
+        ScheduleDataBasePlugin();
+        ScheduleData*                           schedule(quint32 scheduleId);
+        ScheduleData*                           schedule(TreeData *node);
         ScheduleData*				newSchedule(TreeData* parent/*, QString name, UserData* user = 0*/);
-        ScheduleData*				nodeSchedule(quint32 nodeId);
-        ScheduleData*				nodeSchedule(TreeData* node);
-        QList<ScheduleData*>                    nodeSchedules(TreeData* node, const QDate from = QDate(), const QDate to = QDate());
-//      QList<ScheduleData*>                    userSchedules(UserData* user, const QDate from = QDate(), const QDate to = QDate());
+//        ScheduleData*				nodeSchedule(quint32 nodeId);
+//        ScheduleData*				nodeSchedule(TreeData* node);
+//        QList<ScheduleData*>                    nodeSchedules(TreeData* node, const QDate from = QDate(), const QDate to = QDate());
+//        QList<ScheduleData*>                    userSchedules(UserData* user, const QDate from = QDate(), const QDate to = QDate());
 
-private:
-        void					recursiveTreeSearch(QList<ScheduleData*>& list, TreeData* node, const QDate& from, const QDate& to);
+//private:
+//        void					recursiveTreeSearch(QList<ScheduleData*>& list, TreeData* node, const QDate& from, const QDate& to);
 
 
 	//Plugin
@@ -75,6 +76,9 @@ public:
 	//DataPlugin
 public:
         inline const QString	dataType() const { return "Schedule"; }
+#ifdef HORUS_CLIENT
+        void                            dataHaveNewKey(Data*d, QDataStream& s);
+#endif
 #ifdef HORUS_SERVER
 	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
 #endif

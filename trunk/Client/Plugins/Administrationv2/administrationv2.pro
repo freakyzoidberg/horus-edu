@@ -34,7 +34,8 @@ SOURCES += Implementation/Administration.cpp \
     Implementation/ManageStudents/Scrollformstudent.cpp \
     Implementation/ManageClasses/ClassListClass.cpp \
     Implementation/ManageEDT/ManageEDT.cpp \
-    Implementation/ManageEDT/EdtScene.cpp
+    Implementation/ManageEDT/EdtScene.cpp \
+    Implementation/ScheduleManager.cpp
 HEADERS += Implementation/Administration.h \
     AdministrationMetaPlugin.h \
     ../../../Common/MetaPlugin.h \
@@ -75,7 +76,10 @@ HEADERS += Implementation/Administration.h \
     Implementation/ManageStudents/Scrollformstudent.h \
     Implementation/ManageClasses/ClassListClass.h \
     Implementation/ManageEDT/ManageEDT.h \
-    Implementation/ManageEDT/EdtScene.h
+    Implementation/ManageEDT/EdtScene.h \
+    ../../../Common/ScheduleDataPlugin.h \
+    ../../../Common/ScheduleData.h \
+    Implementation/ScheduleManager.h
 RESOURCES += Implementation/Icons.qrc
 TRANSLATIONS = Administrationv2_en.ts \
     Administrationv2_fr.ts

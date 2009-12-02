@@ -61,9 +61,8 @@ class ScheduleDataBase : public ScheduleData
   friend class			ScheduleDataBasePlugin;
 
 private:
-        ScheduleDataBase(TreeData* node, ScheduleDataBasePlugin* plugin);
+        ScheduleDataBase(quint32 id, ScheduleDataBasePlugin* plugin);
         ~ScheduleDataBase() {}
-
         QDate                           _startDate;
         QDate                           _endDate;
         QList<ScheduleItem* >           _sEvents;
@@ -73,6 +72,7 @@ private:
 
         // INTERFACE ScheduleData
 public:
+        inline quint32                      id() const { return _id; }
         inline QDate                        startDate() const					{ return _startDate; }
         inline void                         setStartDate(const QDate& date)	{ QMutexLocker M(&mutex); _startDate = date; }
         inline QDate                        endDate() const						{ return _endDate; }
