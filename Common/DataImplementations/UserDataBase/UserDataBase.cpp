@@ -86,10 +86,10 @@ void UserDataBase::dataToStream(QDataStream& s) const
 	  << _lastLogin
 	  << _language
 	  << _surname
-      << _name
-      << _birthDate
-      << _picture
-      << _address
+          << _name
+          << _birthDate
+          << _picture
+          << _address
 	  << _phone1
 	  << _phone2
 	  << _phone3

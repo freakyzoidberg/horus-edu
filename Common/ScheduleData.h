@@ -50,6 +50,7 @@ class ScheduleData : public Data
 #endif
 
 public:
+        virtual quint32                     id() const = 0;
         virtual QDate                       startDate() const = 0;
         virtual void                        setStartDate(const QDate& date) = 0;
         virtual QDate                       endDate() const = 0;
@@ -63,8 +64,9 @@ public:
         virtual TreeData*                   node() const = 0;
 
 protected:
-        inline					ScheduleData(ScheduleDataPlugin* plugin) : Data(plugin) { }
-        virtual inline			~ScheduleData() {}
+        inline                              ScheduleData(quint32 id, ScheduleDataPlugin* plugin) : Data(plugin) { _id = id; }
+        virtual inline                      ~ScheduleData() {}
+        quint32					_id;
 };
 
 #ifdef HORUS_SERVER

@@ -51,10 +51,12 @@ class ScheduleDataPlugin : public DataPlugin
 #endif
 
 public:
+        virtual ScheduleData*     schedule(quint32 scheduleId) = 0;
+        virtual ScheduleData*     schedule(TreeData *node) = 0;
         virtual ScheduleData*	  newSchedule(TreeData* parent/*, QString name, UserData* user = 0*/) = 0;
-        virtual ScheduleData*	  nodeSchedule(quint32 nodeId) = 0;
-        virtual ScheduleData*	  nodeSchedule(TreeData* node) = 0;
-        virtual QList<ScheduleData*> nodeSchedules(TreeData* node, const QDate from = QDate(), const QDate to = QDate()) = 0;
+//        virtual ScheduleData*	  nodeSchedule(quint32 nodeId) = 0;
+//        virtual ScheduleData*	  nodeSchedule(TreeData* node) = 0;
+//        virtual QList<ScheduleData*> nodeSchedules(TreeData* node, const QDate from = QDate(), const QDate to = QDate()) = 0;
         //virtual QList<ScheduleData*> userSchedules(UserData* user, const QDate from = QDate(), const QDate to = QDate()) = 0;
 };
 
