@@ -37,7 +37,7 @@
 
 #include "Data.h"
 #include "ScheduleDataPlugin.h"
-#include "DataImplementations\ScheduleDataBase\ScheduleItem.h"
+#include "DataImplementations/ScheduleDataBase/ScheduleItem.h"
 
 class ScheduleData : public Data
 {

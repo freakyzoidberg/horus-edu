@@ -113,7 +113,7 @@ void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 	qDebug() << "File data Have a New Key" << f->_id;
 }
 
-#include "../../../Client/DataListModel.cpp"
+#include "../../../Client/DataListModel.h"
 QAbstractListModel* FileDataBasePlugin::listModel() const
 {
 	static DataListModel* _model = new DataListModel(this);

@@ -92,6 +92,11 @@ Qt::DropActions TreeModel::supportedDropActions() const
 	return Qt::CopyAction | Qt::MoveAction;
 }
 
+QStringList TreeModel::mimeTypes() const
+{
+	return QStringList("application/pdf");
+}
+
 QMimeData* TreeModel::mimeData(const QModelIndexList &indexes) const
 {
 	return static_cast<Data*>(indexes.first().internalPointer())->mimeData();

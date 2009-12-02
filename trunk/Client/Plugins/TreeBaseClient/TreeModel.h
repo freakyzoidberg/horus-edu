@@ -54,6 +54,7 @@ public:
 	QMimeData*					mimeData(const QModelIndexList &indexes) const;
 	Qt::ItemFlags				flags(const QModelIndex &index) const;
 	bool						dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	QStringList					mimeTypes () const;
 
 private slots:
 	void						dataStatusChanged(Data* data);

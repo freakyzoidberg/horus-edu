@@ -39,38 +39,55 @@
 
 ScheduleDataBase::ScheduleDataBase(quint32 id, ScheduleDataBasePlugin* plugin) :  ScheduleData(id, plugin)
 {
-
 }
 
 void ScheduleDataBase::keyToStream(QDataStream& s) const
 {
-        s << _id;
+	s << _id;
 }
 
 void ScheduleDataBase::dataToStream(QDataStream& s) const
 {
-        s << _startDate << _endDate ;
-        s << _node->id();
-        s << _sEvents;
-        s << _sException;
+	s << _startDate << _endDate << _node->id();
+
+	QByteArray bufItems;
+	QDataStream ds(&bufItems, QIODevice::WriteOnly);
+
+	foreach (ScheduleItem* item, _sEvents)
+		*item >> ds;
+	s << bufItems;
+
+	foreach (ScheduleException* item, _sException)
+		*item >> ds;
+	s << bufItems;
+
+	Data::dataToStream(s);
 }
 
 void ScheduleDataBase::dataFromStream(QDataStream& s)
 {
-    quint32 nodeId;
-    s >> _startDate >> _endDate ;
-    s >> nodeId;
-    QByteArray bufItems;
-    s >> bufItems;
-    _sEvents.clear();
-    QDataStream ds(bufItems);
-    while ( ! ds.atEnd())
-        _sEvents.append(new ScheduleItem(ds) );
-    s >> bufItems;
-    _sException.clear();
-    QDataStream ds2(bufItems);
-    while ( ! ds2.atEnd())
-        _sException.append(new ScheduleException(ds2) );
+	quint32 nodeId;
+	s >> _startDate >> _endDate >> nodeId;
+	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
+
+	QByteArray bufItems;
+	QDataStream ds(bufItems);
+
+	s >> bufItems;
+	ScheduleItem* event;
+	while ((event = _sEvents.takeFirst()))
+		delete event;
+	while ( ! ds.atEnd())
+		_sEvents.append( new ScheduleItem(ds) );
+
+	s >> bufItems;
+	ScheduleException* exeption;
+	while ((exeption = _sException.takeFirst()))
+		delete exeption;
+	while ( ! ds.atEnd())
+		_sException.append(new ScheduleException(ds) );
+
+	Data::dataFromStream(s);
 }
 
 

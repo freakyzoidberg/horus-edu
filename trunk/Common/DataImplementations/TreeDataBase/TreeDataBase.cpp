@@ -255,7 +255,7 @@ QVariant TreeDataBase::data(int column, int role) const
 bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction action) const
 {
 //		if mim
-	qDebug() << mimeData;
+	qDebug() << mimeData << action;
 	return false;
 }
 #endif
