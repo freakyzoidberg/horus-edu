@@ -172,6 +172,7 @@ void								MainFrameWidget::addedStuff(int index)
 
 void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 {
+	qDebug() << "BEGIN MainFrameWidget::dragEnterEvent";
 	bool							noWidget;
 
 	if (dragEvent->mimeData()->hasFormat("application/vnd.horus.whiteboard.widget"))
@@ -264,10 +265,12 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 			}
 		}
 	}
+	qDebug() << "END   MainFrameWidget::dragEnterEvent";
 }
 
 void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 {
+	qDebug() << "BEGIN MainFrameWidget::dropEvent";
 	QWidget							*inserted;
 
 	if (empty)
@@ -289,10 +292,12 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 		empty = 0;
 		updateSettings();
 	}
+	qDebug() << "END   MainFrameWidget::dropEvent";
 }
 
 void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 {
+	qDebug() << "BEGIN MainFrameWidget::mouseMoveEvent";
 	if (mouseEvent->buttons())
 	{
 		mouseEvent->ignore();
@@ -314,6 +319,7 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 		repopulateStuff();
 	}
 	mouseEvent->ignore();
+	qDebug() << "END   MainFrameWidget::mouseMoveEvent";
 }
 
 void							MainFrameWidget::repopulateStuff()
