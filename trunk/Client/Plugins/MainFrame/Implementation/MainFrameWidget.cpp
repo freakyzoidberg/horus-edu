@@ -65,7 +65,10 @@ void								MainFrameWidget::fillWidgets()
 
 	plugins = _pluginManager->findPlugins<SmallDisplayablePlugin *>();
 	settings = _pluginManager->findPlugin<SettingsDataPlugin *>()->settings("MainBoard");
-	empty = 0;
+	empty = new QFrame(this);
+	empty->setObjectName("Empty");
+	empty->hide();
+	hasEmpty = false;
 	toDelete = 0;
 	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
 	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
@@ -179,14 +182,12 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 	{
 		qDebug() << "MainFrameWidget::dragEnterEvent accepted";
 		dragEvent->acceptProposedAction();
-		if (empty == 0)
+		if (!hasEmpty)
 		{ // Create the 'empty' widget if not present (the dotted area)
 			foreach (DragingWidget *widget, findChildren<DragingWidget *>())
 			{
 				if ((leftLayout->indexOf(widget) >=0 || rightLayout->indexOf(widget) >=0) && _pluginManager->findPlugin<SmallDisplayablePlugin *>(dragEvent->mimeData()->data("application/vnd.horus.whiteboard.widget")) == widget->_plugin)
 				{
-					empty = new QFrame(this);
-					empty->setObjectName("Empty");
 					if (leftLayout->indexOf(widget) >= 0)
 					{
 						leftLayout->insertWidget(leftLayout->indexOf(widget), empty, 1);
@@ -200,6 +201,7 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 					toDelete = widget;
 					widget->hide();
 					empty->show();
+					hasEmpty = true;
 					break ;
 				}
 			}
@@ -273,7 +275,7 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 	qDebug() << "BEGIN MainFrameWidget::dropEvent";
 	QWidget							*inserted;
 
-	if (empty)
+	if (hasEmpty)
 	{
 		inserted = new DragingWidget(this, _pluginManager->findPlugin<SmallDisplayablePlugin *>(dropEvent->mimeData()->data("application/vnd.horus.whiteboard.widget")));
 		if (leftLayout->indexOf(empty) >= 0)
@@ -287,9 +289,8 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 			rightLayout->removeWidget(empty);
 		}
 		empty->hide();
+		hasEmpty = false;
 		inserted->show();
-		delete empty;
-		empty = 0;
 		updateSettings();
 	}
 	qDebug() << "END   MainFrameWidget::dropEvent";
@@ -311,11 +312,10 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	foreach (DragingWidget *widget, findChildren<DragingWidget *>())
 		if (!widget->isVisible())
 			delete widget;
-	if (empty)
+	if (hasEmpty)
 	{
 		empty->hide();
-		delete empty;
-		empty = 0;
+		hasEmpty = false;
 		repopulateStuff();
 	}
 	mouseEvent->ignore();
