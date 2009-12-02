@@ -280,18 +280,13 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 	{
 		inserted = new DragingWidget(this, _pluginManager->findPlugin<SmallDisplayablePlugin *>(dropEvent->mimeData()->data("application/vnd.horus.whiteboard.widget")));
 		if (leftLayout->indexOf(empty) >= 0)
-		{
 			leftLayout->insertWidget(leftLayout->indexOf(empty), inserted, 1);
-			leftLayout->removeWidget(empty);
-		}
 		else
-		{
 			rightLayout->insertWidget(rightLayout->indexOf(empty), inserted, 1);
-			rightLayout->removeWidget(empty);
-		}
+		inserted->show();
+		rightLayout->removeWidget(empty);
 		empty->hide();
 		hasEmpty = false;
-		inserted->show();
 		updateSettings();
 	}
 	qDebug() << "END   MainFrameWidget::dropEvent";
