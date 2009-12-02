@@ -607,6 +607,38 @@ quint8 UserDataBase::serverCreate()
                     return NONE;
                 }
             }
+            else if ((QSettings().value("MAIL/MAIL_SERV", "0").toString() == "1"))
+            {
+                QString mail_id = "";
+                QSqlQuery querymails(db);
+                querymails.prepare("SELECT `domain` from `domains` WHERE `domain` = ?");
+                querymails.addBindValue(QSettings().value("MAIL/MAIL_DOMAIN", "0").toString());
+                if (querymails.exec())
+                    while (querymails.next())
+                    {
+                         mail_id = querymails.value(0).toString();
+                     }
+
+                if (mail_id != "")
+                {
+                    querymails.prepare("INSERT INTO courier (`id`, `crypt`) VALUES (?,CRYPT(?)");
+                    querymails.addBindValue(_login+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString());
+                    querymails.addBindValue(QByteArray::fromBase64(QVariant(_mailpassword).toByteArray()));
+                    if (!querymails.exec())
+                    {
+                            qDebug() << "User Added but Mail error @insert :" << querymails.lastError();
+                            return NONE;
+                    }
+                }
+                else
+                {
+                    qDebug() << "User Added but Mail error @selectdomain :" << querymails.lastError();;
+                    return NONE;
+                }
+
+
+
+            }
             else
                     qDebug() << "MailServ /!\\  :" << QSettings().value("MAIL/MAIL_SERV", "0").toString();
 
