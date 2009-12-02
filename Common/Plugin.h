@@ -72,7 +72,7 @@ public:
     //! Return true if the module is loaded.
     virtual inline bool     isLoaded()      const { return loaded; }
     //! Called to start the plugin, after canLoad and if isLoaded() == false.
-    virtual inline void     load()                { loaded = true;     qDebug() <<  tr("Plugin loaded : ") + pluginName();}
+	virtual inline void     load()                { loaded = true; qDebug() <<  tr("Plugin loaded : ") + pluginName(); }
     //! Called to stop the plugin and free memory.
     virtual inline void     unload()              { loaded = false; }
 
