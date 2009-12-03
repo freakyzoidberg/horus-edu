@@ -59,6 +59,8 @@ DragingWidget::DragingWidget(QWidget *parent, SmallDisplayablePlugin *plugin) : 
 	content = new QFrame(this);
 	content->setObjectName("Content");
 	contentLayout = new QBoxLayout(QBoxLayout::TopToBottom, content);
+	contentLayout->setMargin(0);
+	contentLayout->setSpacing(0);
 	contentLayout->addWidget(plugin->getWidget(), 1);
 	mainLayout->addWidget(content, 1);
 	picture = new QLabel(this);

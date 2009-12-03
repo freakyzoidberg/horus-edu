@@ -77,21 +77,21 @@ QDebug MailData::operator<<(QDebug debug) const
 }
 
 #ifdef HORUS_CLIENT
+
 #include <QIcon>
-QVariant MailData::data(int column, int role) const
+
+QVariant	MailData::data(int column, int role) const
 {
-    if (role == Qt::DisplayRole)
-    {
-       // if (column == 0)
-        //		return ((TreeData*)parent())->id();
-        if (column == 1)
-                        return tr("Mail");
+	if (role == Data::FILTER_ROLE)
+		return (_box);
+	if (role == Qt::DisplayRole)
+	{
+		if (column == 0)
+			return (_subject + " From" + _from);
+		if (column == 1)
+			return (tr("Mail"));
     }
-//    else if (role == Qt::DecorationRole && column == 0)
-//    {
-//        return QIcon(":/user.ico");
-//    }
-    return QVariant();
+	return QVariant();
 }
 
 #endif
