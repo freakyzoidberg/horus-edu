@@ -141,7 +141,6 @@ FileTransfertServer::~FileTransfertServer()
 		fileData->_size = _file->size();
 		qDebug() << "~FileTransfert() saving size and hash" << fileData->_size << fileData->_hash.toHex();
 		fileData->save();
-        delete _hash;
     }
 
 //	if (_socket)

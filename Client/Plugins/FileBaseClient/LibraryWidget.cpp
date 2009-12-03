@@ -57,9 +57,9 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	tree->setHeaderHidden(true);
 	tree->expandAll();
 	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	tree->setAcceptDrops(true);
-	tree->viewport()->setAcceptDrops(true);
-	tree->setDropIndicatorShown(true);
+//	tree->setAcceptDrops(false);
+	tree->viewport()->setAcceptDrops(false);
+	//tree->setDropIndicatorShown(true);
 	tree->setDragDropMode(QAbstractItemView::DropOnly);
 
 	_treeSelection = tree->selectionModel();

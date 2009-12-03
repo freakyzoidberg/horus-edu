@@ -120,12 +120,13 @@ private:
 
 #ifdef HORUS_CLIENT
 public:
+	//! return true if the file is downloaded in local
+	bool				isDownloaded() const;
+public slots:
 	//! upload the file to the server.
 	void				upload();
 	//! download the file from the server.
 	void				download();
-	//! return true if the file is downloaded in local
-	bool				isDownloaded() const;
 
 private:
 	bool				_isDownloaded;
