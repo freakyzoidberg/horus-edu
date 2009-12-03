@@ -276,10 +276,10 @@ void ManageStudents::gosave()
             {
                 newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
                 newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
-                connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
+                //connect(newUSer, SIGNAL(created()), newPapa, SLOT(create())); //A Corriger ne marche plus depuis le r1649
                 newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
-                connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
-                connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                //connect(newPapa, SIGNAL(created()), newMomy, SLOT(create())); //A Corriger ne marche plus depuis le r1649
+                //connect(newMomy, SIGNAL(created()), this, SLOT(userCreated())); //A Corriger ne marche plus depuis le r1649
             }
             else
             {
@@ -297,13 +297,13 @@ void ManageStudents::gosave()
                         {
                             newMomy = UD->parentsOfStudent(newUSer)[0];
                             newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
-                            connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
+                            //connect(newPapa, SIGNAL(created()), this, SLOT(userCreated())); //A Corriger ne marche plus depuis le r1649
                             flag = 3;
                         }
                         else
                         {
                             newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
-                            connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                            //connect(newMomy, SIGNAL(created()), this, SLOT(userCreated())); //A Corriger ne marche plus depuis le r1649
                             flag = 4;
                         }
 
@@ -312,8 +312,8 @@ void ManageStudents::gosave()
                 {
                    newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                    newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
-                   connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
-                   connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+//                  connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));  A Corriger ne marche plus depuis le r1649
+                   //connect(newMomy, SIGNAL(created()), this, SLOT(userCreated())); //A Corriger ne marche plus depuis le r1649
                    flag = 5;
                 }
                 if ((newUSer->status() != Data::UPTODATE) &&
@@ -481,10 +481,10 @@ void ManageStudents::gook()
             {
                 newUSer = UD->createUser(scrollStudentForm->StudentForm->BaseInfos->getName());
                 newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
-                connect(newUSer, SIGNAL(created()), newPapa, SLOT(create()));
+              //  connect(newUSer, SIGNAL(created()), newPapa, SLOT(create())); c
                 newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
-                connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
-                connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                //connect(newPapa, SIGNAL(created()), newMomy, SLOT(create())); //A Corriger ne marche plus depuis le r1649
+                //connect(newMomy, SIGNAL(created()), this, SLOT(userCreated())); A Corriger ne marche plus depuis le r1649
             }
             else
             {
@@ -501,13 +501,13 @@ void ManageStudents::gook()
                         {
                             newMomy = UD->parentsOfStudent(newUSer)[0];
                             newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
-                            connect(newPapa, SIGNAL(created()), this, SLOT(userCreated()));
+                  //          connect(newPapa, SIGNAL(created()), this, SLOT(userCreated())); A Corriger ne marche plus depuis le r1649
                             flag = 3;
                         }
                         else
                         {
                             newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
-                            connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                    //        connect(newMomy, SIGNAL(created()), this, SLOT(userCreated())); A Corriger ne marche plus depuis le r1649
                             flag = 4;
                         }
 
@@ -516,8 +516,8 @@ void ManageStudents::gook()
                 {
                    newPapa = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN());
                    newMomy = UD->createUser(scrollStudentForm->StudentForm->ParInfos->getlastN2());
-                   connect(newPapa, SIGNAL(created()), newMomy, SLOT(create()));
-                   connect(newMomy, SIGNAL(created()), this, SLOT(userCreated()));
+                   //connect(newPapa, SIGNAL(created()), newMomy, SLOT(create())); // A Corriger ne marche plus depuis le r1649
+                   // connect(newMomy, SIGNAL(created()), this, SLOT(userCreated())); //A Corriger ne marche plus depuis le r1649
                    flag = 5;
                 }
             }
