@@ -89,12 +89,12 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 
 Qt::DropActions TreeModel::supportedDropActions() const
 {
-	return Qt::CopyAction | Qt::MoveAction;
+	return Qt::ActionMask;//Qt::CopyAction | Qt::MoveAction;
 }
 
 QStringList TreeModel::mimeTypes() const
 {
-	return QStringList("application/pdf");
+	return QStringList("text/uri-list");
 }
 
 QMimeData* TreeModel::mimeData(const QModelIndexList &indexes) const
@@ -102,18 +102,19 @@ QMimeData* TreeModel::mimeData(const QModelIndexList &indexes) const
 	return static_cast<Data*>(indexes.first().internalPointer())->mimeData();
 }
 
-
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 {
 	if (index.isValid())
 		return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
-	else
-		return Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
+
+	return QAbstractItemModel::flags(index);
 }
 
 bool TreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
-	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropMimeData(data, action);
+//	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropMimeData(data, action);
+	qDebug() << data << action << row << column << parent;
+	return static_cast<Data*>(parent.internalPointer())->dropMimeData(data, action);
 }
 
 void TreeModel::dataStatusChanged(Data* data)

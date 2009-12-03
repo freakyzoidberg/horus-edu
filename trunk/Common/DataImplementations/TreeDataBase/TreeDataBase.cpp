@@ -252,11 +252,24 @@ QVariant TreeDataBase::data(int column, int role) const
    return Data::data(column, role);
 }
 
-bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction action) const
+#include "../../FileData.h"
+#include <QUrl>
+#include <QFileInfo>
+bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction action)
 {
-//		if mim
-	qDebug() << mimeData << action;
-	return false;
+	qDebug() << mimeData->urls().first().path();
+
+	FileDataPlugin* filePlugin = _plugin->pluginManager->findPlugin<FileDataPlugin*>();
+	FileData* fileData = filePlugin->createFile(this);
+	QFileInfo local(mimeData->urls().first().path());
+	fileData->setName(local.fileName());
+
+	QFile* file = fileData->file();
+	QFile::copy(local.filePath(), file->fileName());
+	delete file;
+
+	fileData->upload();
+	return true;
 }
 #endif
 

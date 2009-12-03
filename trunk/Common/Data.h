@@ -151,7 +151,7 @@ public:
 	enum Role { FILTER_ROLE=Qt::UserRole+1, SORT_ROLE=Qt::UserRole+2 };
 	virtual inline QVariant	data(int, int = Qt::DisplayRole) const { return QVariant(); }
 	virtual inline QMimeData* mimeData() const { return 0; }
-	virtual inline bool		dropMimeData(const QMimeData *, Qt::DropAction) const { return false; }
+	virtual inline bool		dropMimeData(const QMimeData *, Qt::DropAction) { return false; }
 #endif
 #ifdef HORUS_SERVER
 	//! Fill the current data with a defined key from the database.

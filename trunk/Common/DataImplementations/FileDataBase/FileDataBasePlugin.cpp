@@ -95,6 +95,7 @@ FileData* FileDataBasePlugin::createFile(TreeData* node)
 
 	FileDataBase* f = ((FileDataBase*)( file(tmpId)) );
 	f->_node = node;
+	f->_mimeType = "unknow";
 	f->_owner = pluginManager->currentUser();
 	return f;
 }
@@ -109,7 +110,14 @@ Data* FileDataBasePlugin::dataWithKey(QDataStream& s)
 void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	FileDataBase* f = ((FileDataBase*)(d));
+	QFile* oldFile = f->file();
 	s >> f->_id;
+	QFile* newFile = f->file();
+
+	oldFile->rename(newFile->fileName());
+
+	delete oldFile;
+	delete newFile;
 	qDebug() << "File data Have a New Key" << f->_id;
 }
 

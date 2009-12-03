@@ -69,6 +69,9 @@ void FileTransfert::fileToSocket(qint64)
 		_socket->close();
 
 	qint64 len = _file->read(_buffer, TRANSFERT_BUFFER_SIZE);
+	if (len <= 0)
+		return;
+
 	_socket->write(_buffer, len);
 	_progress += len;
 	emit progressChange(_progress);

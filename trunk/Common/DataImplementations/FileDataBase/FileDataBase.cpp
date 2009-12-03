@@ -52,6 +52,7 @@
 FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileData(plugin)
 {
     _id = fileId;
+	_mimeType = "unknow";
 #ifdef HORUS_CLIENT
 	QFile* f = file();
 	if (f->size() == _size)
@@ -104,8 +105,10 @@ void FileDataBase::dataFromStream(QDataStream& s)
 	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
 #ifdef HORUS_CLIENT
 	//auto download
-	if (_status != CACHED && ( ! _isDownloaded || hash != _hash))
+	QFile* f = file();
+	if (f->size() <= 0 && _status != CACHED && ( ! _isDownloaded || hash != _hash))
 		download();
+	delete f;
 #endif
     _hash = hash;
 }
@@ -292,6 +295,16 @@ void FileDataBase::moveTo(TreeData* node)
 void FileDataBase::upload()
 {
 	qDebug() << "File::upload()";
+	disconnect(this, SLOT(upload()));
+
+	if (_status == EMPTY || _status == CREATING)
+	{
+		connect(this, SIGNAL(updated()), this, SLOT(upload()));
+		if (_status == EMPTY)
+			create();
+		return;
+	}
+
 	_plugin->pluginManager->findPlugin<FileNetworkPlugin*>()->askForTransfert(this, FileTransfert::UPLOAD);
 }
 

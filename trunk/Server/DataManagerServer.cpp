@@ -160,6 +160,9 @@ void DataManagerServer::sendData(UserData* user, Data* data)
 
 void DataManagerServer::sendData(UserData* user, Data* data, quint8 status, quint8 error, const QByteArray& oldKey)
 {
+	if ( ! user)
+		return;
+
 	//if status UPTODATE, send UPDATED to the client
 	if (status == Data::UPTODATE)
 		status = Data::UPDATED;
@@ -199,7 +202,7 @@ void DataManagerServer::sendData(UserData* user, Data* data, quint8 status, quin
 
 	ClientSocket* socket = ClientSocket::connectedUsers.value(user);
 	if ( ! socket)
-		qDebug() << "Should not happen:" << data << "is send to" << user << "whi is not connected.";
+		qDebug() << "Should not happen:" << data << "is send to" << user << "which is not connected.";
 
 	QMetaObject::invokeMethod(socket, "sendPacket", Qt::QueuedConnection, Q_ARG(QByteArray, packet.getPacket()));
 }
