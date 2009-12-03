@@ -123,11 +123,12 @@ void  ScheduleDataBasePlugin::load()
 	query.exec();
 	while (query.next())
 	{
-                ScheduleDataBase* Schedule = (ScheduleDataBase*)(nodeSchedule(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
-                Schedule->_startDate = query.value(1).toDate();
-                Schedule->_endDate   = query.value(2).toDate();
+                ScheduleDataBase* Schedule = (ScheduleDataBase*)(schedule(query.value(0).toUInt()));
+                Schedule->_node = pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(1).toUInt());
+                Schedule->_startDate = query.value(2).toDate();
+                Schedule->_endDate   = query.value(3).toDate();
                 //add exception
-                Schedule->_lastChange= query.value(3).toDateTime();
+                Schedule->_lastChange= query.value(4).toDateTime();
                 Schedule->_status = Data::UPTODATE;
 
 	}
