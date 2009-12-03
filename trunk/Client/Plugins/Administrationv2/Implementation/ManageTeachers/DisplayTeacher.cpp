@@ -49,6 +49,8 @@ DisplayTeacher::DisplayTeacher(QWidget *parent, UserData *user) : QWidget(parent
 	QString		value;
 	int			row;
 
+	if (!user)
+		return ;
 	row = 0;
 	layout = new QGridLayout(this);
 	value = user->surname();

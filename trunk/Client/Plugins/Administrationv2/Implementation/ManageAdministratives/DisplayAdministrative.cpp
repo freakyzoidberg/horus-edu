@@ -49,6 +49,8 @@ DisplayAdministrative::DisplayAdministrative(QWidget *parent, UserData *user) : 
 	QString		value;
 	int			row;
 
+	if (!user)
+		return ;
 	row = 0;
 	layout = new QGridLayout(this);
 	value = user->surname();

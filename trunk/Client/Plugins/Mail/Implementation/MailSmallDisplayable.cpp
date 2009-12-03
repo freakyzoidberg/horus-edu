@@ -36,6 +36,8 @@
 
 #include		<QLabel>
 
+#include		"MailSmallWidget.h"
+
 const QString	MailSmallDisplayable::pluginName() const
 {
 	return ("MailSmallDisplayable");
@@ -48,7 +50,7 @@ const QString	MailSmallDisplayable::pluginVersion() const
 
 QWidget			*MailSmallDisplayable::getWidget()
 {
-	return (new QLabel(tr("Fill me with the last mails !")));
+	return (new MailSmallWidget(pluginManager->findPlugin<MailDataPlugin *>()));
 }
 
 const QString	MailSmallDisplayable::getDisplayableName() const

@@ -535,7 +535,7 @@ quint8 UserDataBase::serverCreate()
             QSqlDatabase db = QSqlDatabase::addDatabase(QSettings().value("SQL/SQL_DRIVER", ".").toString(), "tempmail");
 
             db.setHostName(QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString());
-            db.setDatabaseName("mails");
+            db.setDatabaseName(QSettings().value("MAIL/MAIL_DATABASE", "mails").toString());
             db.setUserName(QSettings().value("SQL/SQL_USERNAME", ".").toString());
             db.setPassword(QSettings().value("SQL/SQL_PASSWD", ".").toString());
             db.setPort(QSettings().value("SQL/SQL_PORT", ".").toInt());
