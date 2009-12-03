@@ -32,26 +32,26 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef SCHEDULEBASECLIENTMETAPLUGIN_H
-#define SCHEDULEBASECLIENTMETAPLUGIN_H
+#ifndef SCHEDULEBASESERVERMETAPLUGIN_H
+#define SCHEDULEBASESERVERMETAPLUGIN_H
 
 #include "../../../Common/MetaPlugin.h"
 
 #include "../../../Common/DataImplementations/ScheduleDataBase/ScheduleDataBasePlugin.h"
 
-class ScheduleBaseClientMetaPlugin : public MetaPlugin
+class ScheduleBaseServerMetaPlugin : public MetaPlugin
 {
   Q_OBJECT
   Q_INTERFACES(MetaPlugin)
 
 public:
-        inline ScheduleBaseClientMetaPlugin() {
+        inline ScheduleBaseServerMetaPlugin() {
           pluginList.append(new ScheduleDataBasePlugin);
   }
 };
 
 /* maybe put this lines in a cpp if this file is include by an other file */
 // declare instance of the plugin
-Q_EXPORT_PLUGIN2(ScheduleBaseClientMetaPlugin, ScheduleBaseClientMetaPlugin);
+Q_EXPORT_PLUGIN2(ScheduleBaseServerMetaPlugin, ScheduleBaseServerMetaPlugin);
 
 #endif // SCHEDULEBASECLIENTMETAPLUGIN_H

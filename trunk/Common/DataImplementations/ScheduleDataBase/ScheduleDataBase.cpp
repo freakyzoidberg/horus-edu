@@ -88,7 +88,6 @@ void ScheduleDataBase::dataFromStream(QDataStream& s)
 		_sException.append(new ScheduleException(ds) );
 
 	Data::dataFromStream(s);
-    _node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
 }
 
 
@@ -133,9 +132,9 @@ quint8 ScheduleDataBase::serverRead()
         _id             = query.value(0).toInt();
         _startDate	= query.value(1).toDate();
         _endDate	= query.value(2).toDate();
-        query2 = _plugin->pluginManager->sqlQuery();
+        QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
         query2.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` FROM `schedule_event` WHERE `id_schedule`=?;");
-        query2.addBindValue(id);
+        query2.addBindValue(_id);
         _sEvents.clear();
         while (query2.next())
         {
@@ -176,9 +175,9 @@ quint8 ScheduleDataBase::serverCreate()
         {
             QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
             query2.prepare("INSERT INTO`schedule_event`(`id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`)VALUES(?,?,?,?,?,?,?,?,?,?);");
-            query2.addBindValue(id);
+            query2.addBindValue(_id);
             query2.addBindValue(_sEvents.at(i)->getJWeek());
-            query2.addBindValue(_sEvents.at(i)->getHStart())
+            query2.addBindValue(_sEvents.at(i)->getHStart());
             query2.addBindValue(_sEvents.at(i)->getHEnd());
             query2.addBindValue(_sEvents.at(i)->getName());
             query2.addBindValue(_sEvents.at(i)->getDetails());
