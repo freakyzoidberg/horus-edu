@@ -55,7 +55,7 @@ EDTScene::EDTScene()
 
 void EDTScene::addFullDayBGtoScene(int pos,int wid)
 {
-    for (int i = 0; i < 48; i++)
+    for (int i = 0; i < 24; i++)
         this->addRect(pos, i * 10, wid, 10, QPen(), QBrush(QColor(Qt::white)));
 }
 
