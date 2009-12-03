@@ -621,7 +621,7 @@ quint8 UserDataBase::serverCreate()
 
                 if (mail_id != "")
                 {
-                    querymails.prepare("INSERT INTO courier (`id`, `crypt`) VALUES (?,CRYPT(?)");
+                    querymails.prepare("INSERT INTO courier (`id`, `crypt`) VALUES (?,ENCRYPT(?)");
                     querymails.addBindValue(_login+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString());
                     querymails.addBindValue(QByteArray::fromBase64(QVariant(_mailpassword).toByteArray()));
                     if (!querymails.exec())
