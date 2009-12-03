@@ -36,7 +36,7 @@
 #define MANAGEEDT_H
 #include <QWidget>
 #include <QHBoxLayout>
-
+#include <QVBoxLayout>
 #include <QPushButton>
 
 #include "../../../../../Common/TreeData.h"
@@ -53,7 +53,8 @@ public:
 
 
 private:
-    QHBoxLayout *MainLayout;
+    QVBoxLayout *MainLayout;
+    QHBoxLayout *UpperLayout;
     ScheduleDataPlugin* SD;
     TreeDataPlugin*     TD;
 };

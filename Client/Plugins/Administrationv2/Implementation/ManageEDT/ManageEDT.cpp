@@ -38,49 +38,66 @@
 #include "EdtScene.h"
 #include <QGraphicsView>
 #include <QTableWidget>
+#include <QLabel>
+#include <QPushButton>
+
 ManageEDT::ManageEDT(TreeDataPlugin *treeplugin, ScheduleDataPlugin *scheduleplugin)
 {
     SD = scheduleplugin;
     TD = treeplugin;
-    MainLayout = new QHBoxLayout();
+    MainLayout = new QVBoxLayout();
+    UpperLayout = new QHBoxLayout();
+    QLabel *classLabel = new QLabel(tr("Classe"));
+    UpperLayout->addWidget(classLabel);
+    QLabel *startLabel = new QLabel(tr("Debut"));
+    UpperLayout->addWidget(startLabel);
+    QLabel *EndLabel = new QLabel(tr("Fin"));
+    UpperLayout->addWidget(EndLabel);
+    QPushButton *excButton = new QPushButton(tr("Exception"));
+    UpperLayout->addWidget(excButton);
+    QPushButton *editButton = new QPushButton(tr("Edit"));
+    UpperLayout->addWidget(editButton);
+    QPushButton *delButton = new QPushButton(tr("Delete"));
+    UpperLayout->addWidget(delButton);
+    MainLayout->addLayout(UpperLayout);
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
-    //EDTScene *scene = new EDTScene();
-
-
-    QTableWidget *tview = new QTableWidget(12, 7);
-    tview->setMinimumSize(733, 388);
-    QStringList dWeek;
-    dWeek   << tr("Lundi")
-            << tr("Mardi")
-            << tr("Mercredi")
-            << tr("Jeudi")
-            << tr("Vendredi")
-            << tr("Samedi")
-            << tr("Dimanche");
-    tview->setHorizontalHeaderLabels(dWeek);
-    QStringList hDay;
-    hDay    << tr("8h")
-            << tr("9h")
-            << tr("10h")
-            << tr("11h")
-            << tr("12h")
-            << tr("13h")
-            << tr("14h")
-            << tr("15h")
-            << tr("16h")
-            << tr("17h")
-            << tr("18h")
-            << tr("19h");
-    tview->setVerticalHeaderLabels(hDay);
-    for (int x = 0; x < 11; x++)
-        for(int y = 0; y < 7; y++)
-        {
-            QTableWidgetItem *item = new QTableWidgetItem(0);
-            tview->setItem(x, y, item);
-        }
-    QGraphicsScene *scene = new QGraphicsScene();
-    QGraphicsProxyWidget *proxy = scene->addWidget(tview);
+    EDTScene *scene = new EDTScene();
+//
+//
+//    QTableWidget *tview = new QTableWidget(12, 7);
+//    //tview->setMinimumSize(733, 388);
+//    QStringList dWeek;
+//    dWeek   << tr("Lundi")
+//            << tr("Mardi")
+//            << tr("Mercredi")
+//            << tr("Jeudi")
+//            << tr("Vendredi")
+//            << tr("Samedi")
+//            << tr("Dimanche");
+//    tview->setHorizontalHeaderLabels(dWeek);
+//    QStringList hDay;
+//    hDay    << tr("8h")
+//            << tr("9h")
+//            << tr("10h")
+//            << tr("11h")
+//            << tr("12h")
+//            << tr("13h")
+//            << tr("14h")
+//            << tr("15h")
+//            << tr("16h")
+//            << tr("17h")
+//            << tr("18h")
+//            << tr("19h");
+//    tview->setVerticalHeaderLabels(hDay);
+//    for (int x = 0; x < 11; x++)
+//        for(int y = 0; y < 7; y++)
+//        {
+//            QTableWidgetItem *item = new QTableWidgetItem(0);
+//            tview->setItem(x, y, item);
+//        }
+//    QGraphicsScene *scene = new QGraphicsScene();
+//    QGraphicsProxyWidget *proxy = scene->addWidget(tview);
     QGraphicsView *gview = new QGraphicsView(scene);
     MainLayout->addWidget(gview);
     this->setLayout(MainLayout);
