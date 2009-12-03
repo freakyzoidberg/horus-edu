@@ -46,53 +46,51 @@ ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManage
 	_selectWbWidget = new QWidget;
 	QGridLayout* sLayout = new QGridLayout(_selectWbWidget);
 	_wbList = new QListView;
-        QObject::connect(pluginManager->findPlugin<WhiteBoardDataPlugin*>(), SIGNAL(dataCreated(Data*)), this, SLOT(updateWbList(Data*)));
-        QObject::connect(pluginManager->findPlugin<WhiteBoardDataPlugin*>(), SIGNAL(dataRemoved(Data*)), this, SLOT(updateWbList(Data*)));
-	if (_user->level() == LEVEL_TEACHER)
-	{
-		_wbListModel = new WhiteBoardListModel(pluginManager, user);
-	}
-	else
-	{
-		_wbListModel = new WhiteBoardListModel(pluginManager, user);
-	}
+    QObject::connect(pluginManager->findPlugin<WhiteBoardDataPlugin*>(), SIGNAL(dataCreated(Data*)), this, SLOT(updateWbList(Data*)));
+    QObject::connect(pluginManager->findPlugin<WhiteBoardDataPlugin*>(), SIGNAL(dataRemoved(Data*)), this, SLOT(updateWbList(Data*)));
+	_wbListModel = new WhiteBoardListModel(pluginManager, user);
 	_wbList->setModel(_wbListModel);
+	//_wbList->setModel(pluginManager->findPlugin<WhiteBoardDataPlugin*>()->listModel());
 	_wbList->setSelectionMode(QAbstractItemView::SingleSelection);
-	QObject::connect(_wbList->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(wbSelectionChanged(QModelIndex,QModelIndex)));
+	QObject::connect(_wbList->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(wbSelectionChanged(QItemSelection,QItemSelection)));
 	_info = new QLabel();
-	sLayout->addWidget(_wbList, 0, 0, (_user->level() == LEVEL_TEACHER) ? 4 : 2, 1);
+	sLayout->addWidget(_wbList, 0, 0, (_user->level() == LEVEL_TEACHER) ? 5 : 3, 1);
+	QLabel *actionTitle = new QLabel(tr("Actions:"));
+	actionTitle->setProperty("isTitle", true);
+	actionTitle->setProperty("isRound", true);
+	sLayout->addWidget(actionTitle, 0, 1);
 	if (_user->level() == LEVEL_TEACHER)
 	{
-		_joinButton = new QPushButton(tr("Continue this class"));
-		_deleteButton = new QPushButton(tr("Delete this class"));
-		_createButton = new QPushButton(tr("Start a new class"));
+		_joinButton = new QPushButton(QIcon(":/Ui/desk-join.png"), tr("Continue this class"));
+		_deleteButton = new QPushButton(QIcon(":/Ui/desk-del.png"), tr("Delete this class"));
+		_createButton = new QPushButton(QIcon(":/Ui/desk-add.png"), tr("Start a new class"));
 		QObject::connect(_createButton, SIGNAL(pressed()), this, SLOT(createNewWhiteboard()));
-                QObject::connect(_deleteButton, SIGNAL(pressed()), this, SLOT(deleteWhiteboard()));
-		sLayout->addWidget(_joinButton, 0, 1);
-		sLayout->addWidget(_deleteButton, 1, 1);
-		sLayout->addWidget(_createButton, 2, 1);
-		sLayout->addWidget(_info, 3, 1);
+        QObject::connect(_deleteButton, SIGNAL(pressed()), this, SLOT(deleteWhiteboard()));
+		sLayout->addWidget(_joinButton, 1, 1);
+		sLayout->addWidget(_deleteButton, 2, 1);
+		sLayout->addWidget(_createButton, 3, 1);
+		sLayout->addWidget(_info, 4, 1);
 		_deleteButton->setEnabled(false);
 	}
 	else
 	{
-		_joinButton = new QPushButton(tr("Join this class"));
-		sLayout->addWidget(_joinButton, 0, 1);
-		sLayout->addWidget(_info, 1, 1);
+		_joinButton = new QPushButton(QIcon(":/Ui/desk-join.png"), tr("Join this class"));
+		sLayout->addWidget(_joinButton, 1, 1);
+		sLayout->addWidget(_info, 2, 1);
 	}
-        QObject::connect(_joinButton, SIGNAL(pressed()), this, SLOT(joinWhiteboard()));
+    QObject::connect(_joinButton, SIGNAL(pressed()), this, SLOT(joinWhiteboard()));
 	_joinButton->setEnabled(false);
-        sLayout->setMargin(2);
-        sLayout->setSpacing(2);
-	sLayout->setColumnStretch(0, 2);
-	sLayout->setColumnStretch(1, 1);
+	_joinButton->setMinimumWidth(200);
+    sLayout->setMargin(2);
+    sLayout->setSpacing(2);
+	sLayout->setRowStretch((_user->level() == LEVEL_TEACHER) ? 4 : 2, 100);
 
 	_layout->addWidget(_selectWbWidget, 0, 0);
 }
 
-void	ClassTab::wbSelectionChanged(QModelIndex current, QModelIndex previous)
+void	ClassTab::wbSelectionChanged(QItemSelection current, QItemSelection previous)
 {
-	if (current.isValid())
+	if (_wbList->selectionModel()->hasSelection())
 	{
 		_joinButton->setEnabled(true);
 		if (_user->level() == LEVEL_TEACHER)

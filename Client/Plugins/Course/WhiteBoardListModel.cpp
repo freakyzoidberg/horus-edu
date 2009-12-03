@@ -52,7 +52,7 @@ QVariant	WhiteBoardListModel::data(const QModelIndex& index, int role) const
 {
 	if (role == Qt::DisplayRole)
 	{		
-            return QVariant(tr("Class #") + QString::number(index.row()));
+            return QVariant(tr("Class ") + QString::number(index.row()));
 	}
         else if (role == Qt::DecorationRole)
         {
