@@ -52,7 +52,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 
 	_classList = new ClassListClass;
 	_mainLayout = new QHBoxLayout(this);
-	_mainLayout->setMargin(0);
+	_mainLayout->setMargin(2);
 	_mainLayout->setSpacing(0);
 	QVBoxLayout  *columnLayout;
 
@@ -65,6 +65,7 @@ AdmAddClassWidget::AdmAddClassWidget(TreeDataPlugin *treeplugin, UserDataPlugin 
 	infoTitle = new QLabel(tr("Informations"));
 	infoTitle->setProperty("isTitle", true);
 	infoTitle->setProperty("isRound", true);
+	infoTitle->setMinimumWidth(200);
 	columnLayout->addWidget(infoTitle);
 
 	actions = new QLabel(tr("Actions"));

@@ -72,7 +72,7 @@ EditTeacher::EditTeacher(QWidget *parent, PluginManager *pluginManager, UserData
 
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
 	mainLayout->setSpacing(0);
-	mainLayout->setMargin(0);
+	mainLayout->setMargin(2);
 	scrollArea = new QScrollArea(this);
 	scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 	scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
