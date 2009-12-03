@@ -9,5 +9,8 @@
         <file>LessonIcon.png</file>
         <file>Ui/book.png</file>
         <file>Ui/desk.png</file>
+        <file>Ui/desk-add.png</file>
+        <file>Ui/desk-del.png</file>
+        <file>Ui/desk-join.png</file>
     </qresource>
 </RCC>

@@ -102,12 +102,12 @@ QWidget             *Course::getWidget()
 	switch (this->user->level())
 	{
 	case LEVEL_STUDENT:
-                tabwidget->addTab(new LessonTabStudent(this->pluginManager), QIcon(":/Ui/book.png"), tr("Lessons"));
-                tabwidget->addTab(new ClassTab(this->pluginManager, this->user), QIcon(":/Ui/desk.png"), tr("Classes"));
+            //tabwidget->addTab(new LessonTabStudent(this->pluginManager), QIcon(":/Ui/book.png"), tr("Lessons"));
+            tabwidget->addTab(new ClassTab(this->pluginManager, this->user), QIcon(":/Ui/desk.png"), tr("Classes"));
 		break;
 	case LEVEL_TEACHER:
-		tabwidget->addTab(new LessonTabTeacher(this->pluginManager), QIcon(":/Ui/book.png"), tr("Lessons"));
-                tabwidget->addTab(new ClassTab(this->pluginManager, this->user), QIcon(":/Ui/desk.png"), tr("Classes"));
+			//tabwidget->addTab(new LessonTabTeacher(this->pluginManager), QIcon(":/Ui/book.png"), tr("Lessons"));
+            tabwidget->addTab(new ClassTab(this->pluginManager, this->user), QIcon(":/Ui/desk.png"), tr("Classes"));
 		break;
 	default:
 		return NULL;

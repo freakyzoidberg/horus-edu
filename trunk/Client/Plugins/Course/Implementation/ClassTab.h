@@ -53,7 +53,7 @@ public:
 	ClassTab(PluginManager *pluginManager, UserData* user);
 
 public slots:
-        void	wbSelectionChanged(QModelIndex current, QModelIndex previous);
+        void	wbSelectionChanged(QItemSelection current, QItemSelection previous);
         void	createNewWhiteboard();
 
         void    leaveWhiteboard();

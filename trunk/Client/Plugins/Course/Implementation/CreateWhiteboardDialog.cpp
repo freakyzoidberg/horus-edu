@@ -44,12 +44,12 @@ CreateWhiteboardDialog::CreateWhiteboardDialog(PluginManager *pluginManager) : _
 	QGridLayout* dlgLayout = new QGridLayout(this);
 
 	QTreeView* treeView = new QTreeView();
-        _model = new WhiteBoardModel(pluginManager);
-        _proxyModel = new QSortFilterProxyModel(this);
-        _proxyModel->setFilterRegExp(QRegExp("\\b(ROOT|CLASSES|GRADE|SUBJECT|WHITEBOARD)\\b", Qt::CaseSensitive, QRegExp::RegExp));
-        _proxyModel->setFilterKeyColumn(1);
-        _proxyModel->setSourceModel(_model);
-        treeView->setModel(_proxyModel);
+	_model = pluginManager->findPlugin<TreeDataPlugin *>()->treeModel();
+    _proxyModel = new QSortFilterProxyModel(this);
+    //_proxyModel->setFilterRegExp(QRegExp("\\b(ROOT|CLASSES|GRADE|SUBJECT|WHITEBOARD)\\b", Qt::CaseSensitive, QRegExp::RegExp));
+    _proxyModel->setFilterKeyColumn(1);
+    _proxyModel->setSourceModel(_model);
+    treeView->setModel(_proxyModel);
 	treeView->setAnimated(true);
 	treeView->setAutoExpandDelay(100);
 	treeView->setRootIsDecorated(false);
@@ -59,13 +59,13 @@ CreateWhiteboardDialog::CreateWhiteboardDialog(PluginManager *pluginManager) : _
 	QObject::connect(treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(selectionChanged(QModelIndex,QModelIndex)));
 
 	dlgLayout->addWidget(treeView, 0, 0, 1, 2);
-        _cancel = new QPushButton(tr("Cancel"));
-        _start = new QPushButton(tr("Start here"));
-        _start->setEnabled(false);
-        QObject::connect(_cancel, SIGNAL(pressed()), this, SLOT(cancel()));
-        QObject::connect(_start, SIGNAL(pressed()), this, SLOT(startHere()));
-        dlgLayout->addWidget(_cancel, 1, 0);
-        dlgLayout->addWidget(_start, 1, 1);
+    _cancel = new QPushButton(tr("Cancel"));
+    _start = new QPushButton(tr("Start here"));
+    _start->setEnabled(false);
+    QObject::connect(_cancel, SIGNAL(pressed()), this, SLOT(cancel()));
+    QObject::connect(_start, SIGNAL(pressed()), this, SLOT(startHere()));
+    dlgLayout->addWidget(_cancel, 1, 0);
+    dlgLayout->addWidget(_start, 1, 1);
 }
 
 void	CreateWhiteboardDialog::startHere()
