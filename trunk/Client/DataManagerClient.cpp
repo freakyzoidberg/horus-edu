@@ -109,7 +109,7 @@ void DataManagerClient::receiveData(const QByteArray& d)
 		data = _plugin->dataWithKey(stream);
 
 	QMutexLocker(&data->mutex);
-	quint8 oldStatus = data->_status;
+	//quint8 oldStatus = data->_status;
 
 	if (status == Data::CREATED)
 	{

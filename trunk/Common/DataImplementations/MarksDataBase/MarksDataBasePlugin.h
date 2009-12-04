@@ -66,7 +66,7 @@ public:
 	//DataPlugin
 public:
 	inline const QString	dataType() const { return "Event"; }
-	QList<Data*>			allDatas() const { return _allEvents; }
+	//QList<Data*>			allDatas() const { return _allEvents; }
 #ifdef HORUS_SERVER
 	void					loadData();
 	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);

@@ -37,29 +37,29 @@
 
 #include "../../TreeData.h"
 
-GradeDataBase::GradeDataBase(TreeData* node, GradeDataBasePlugin* plugin) : GradeData(plugin)
+GradeDataBase::GradeDataBase(TreeData *, GradeDataBasePlugin* plugin) : GradeData(plugin)
 {
 
 }
 
-void GradeDataBase::keyToStream(QDataStream& s)
+void GradeDataBase::keyToStream(QDataStream &)
 {
 
 }
 
-void GradeDataBase::dataToStream(QDataStream& s) const
+void GradeDataBase::dataToStream(QDataStream &) const
 {
 
 }
 
-void GradeDataBase::dataFromStream(QDataStream& s)
+void GradeDataBase::dataFromStream(QDataStream &)
 {
 
 }
 
 QDebug GradeDataBase::operator<<(QDebug debug) const
 {
-
+	return (qDebug());
 }
 
 #ifdef HORUS_SERVER

@@ -88,7 +88,7 @@ QWidget*        AudioController::createDocumentWidget(ILessonDocument *document)
 
 void    AudioController::dl()
 {
-    AudioPlayer *tmp;
+    //AudioPlayer *tmp;
 
     //this->Audio = new Phonon::AudioObject(parent);
     //Phonon::createPath(this->Audio, this->vid);
@@ -110,7 +110,7 @@ void    AudioController::reload()
 
 }
 
-QWidget   *AudioController::editDocument(QFile *metadata, ILessonDocument *doc)
+QWidget   *AudioController::editDocument(QFile *, ILessonDocument *)
 {
 	return (0);
 }

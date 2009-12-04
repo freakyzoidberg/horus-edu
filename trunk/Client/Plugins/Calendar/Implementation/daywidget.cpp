@@ -46,7 +46,7 @@ void     DayWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     int hour;
     int mousePos;
-    int hourSize;
+    //int hourSize;
 
     AddEventWindows::AddEventWindowsInstance()->setGeometry(event->globalX(),
                                                             event->globalY() - 120,

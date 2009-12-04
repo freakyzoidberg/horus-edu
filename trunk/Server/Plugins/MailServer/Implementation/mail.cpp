@@ -348,7 +348,7 @@ QString Mail::breakLongLines(const QString& in, uint max_len, QString separator)
 	QStringList strings=in.split("\r\n");
 	
 	for(int i=0;i<strings.count();i++){
-                if(strings[i].size()>max_len){
+                if(static_cast<uint>(strings[i].size()) > max_len){
 			//line is too long, strip
 			int len=max_len-1;
 			if(strings[i].at(max_len-1)=='=') len--;
@@ -493,7 +493,7 @@ QString Mail::getBodySendDataForText()
 
 /****************************************************************************/
 
-void Mail::buildSendData(Format f)
+void Mail::buildSendData(Format)
 {
 	if (isParsed() || isSendDataValid() )
 	{

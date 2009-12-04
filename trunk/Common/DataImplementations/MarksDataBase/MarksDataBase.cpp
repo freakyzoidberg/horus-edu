@@ -42,24 +42,24 @@ MarksDataBase::MarksDataBase(MarksDataBasePlugin* plugin) : MarksData(plugin)
 
 }
 
-void MarksDataBase::keyToStream(QDataStream& s)
+void MarksDataBase::keyToStream(QDataStream &)
 {
 
 }
 
-void MarksDataBase::dataToStream(QDataStream& s) const
+void MarksDataBase::dataToStream(QDataStream &) const
 {
 
 }
 
-void MarksDataBase::dataFromStream(QDataStream& s)
+void MarksDataBase::dataFromStream(QDataStream &)
 {
 
 }
 
 QDebug MarksDataBase::operator<<(QDebug debug) const
 {
-
+	return (qDebug());
 }
 
 #ifdef HORUS_SERVER
@@ -141,9 +141,9 @@ quint8 MarksDataBase::serverRemove()
 void MarksDataBase::create()
 {
 	disconnect(this, SLOT(create()));
-	if (_node->status() == CREATING || _node->status() == EMPTY)
-		connect(_node, SIGNAL(created()), this, SLOT(create()));
-	else
+	//if (_node->status() == CREATING || _node->status() == EMPTY)
+	//	connect(_node, SIGNAL(created()), this, SLOT(create()));
+	//else
 		Data::create();
 }
 
@@ -153,14 +153,14 @@ QVariant MarksDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 0)
-			return _node->id();
-        if (column == 1)
-			return _node->name();
-        if (column == 2)
-			return _startTime;
-		if (column == 3)
-			return _endTime;
+		//if (column == 0)
+		//	return _node->id();
+		//if (column == 1)
+		//	return _node->name();
+		//if (column == 2)
+		//	return _startTime;
+		//if (column == 3)
+		//	return _endTime;
     }
 
    return Data::data(column, role);

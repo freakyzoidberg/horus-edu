@@ -43,7 +43,7 @@ LessonDocument::LessonDocument(QObject *parent, int id, QString title, QString _
 	this->_id = id;
 }
 
-QVariant LessonDocument::data(int column, int role) const
+QVariant LessonDocument::data(int , int role) const
 {
     if (role == Qt::DisplayRole)
         return QVariant(tr("Document"));

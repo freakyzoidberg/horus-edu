@@ -114,7 +114,7 @@ void CourseWidget::buildCategoryTree()
     }
 }
 
-void CourseWidget::contextMenu(const QPoint &point)
+void CourseWidget::contextMenu(const QPoint &)
 {
     /*
 	if (currentIndex.isValid())

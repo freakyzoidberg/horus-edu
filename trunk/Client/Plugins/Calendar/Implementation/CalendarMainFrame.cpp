@@ -50,7 +50,7 @@
 CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
                                      UserDataPlugin  *_userPlugin,
                                      EventDataPlugin *_eventPlugin,
-                                     PluginManager *_pluginManager)
+                                     PluginManager *)
 {
     _tree  = _treePlugin;
     _users = _userPlugin;

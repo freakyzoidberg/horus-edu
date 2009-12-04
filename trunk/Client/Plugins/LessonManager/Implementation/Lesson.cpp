@@ -51,7 +51,7 @@ Lesson::Lesson(FileData *parent) : ILesson(NULL), _currentData(NULL)
 		icon = new QIcon(":/Icons/LessonIcon.png");
 }
 
-QVariant Lesson::data(int column, int role) const
+QVariant Lesson::data(int, int role) const
 {
     if (role == Qt::DisplayRole)
         return QVariant(getTitle());
@@ -60,7 +60,7 @@ QVariant Lesson::data(int column, int role) const
     return QVariant();
 }
 
-bool    Lesson::startElement(const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts)
+bool    Lesson::startElement(const QString &, const QString &, const QString &qName, const QXmlAttributes &atts)
 {
     int idx = -1;
     if (qName == "Lesson" && _currentData == NULL)
@@ -113,7 +113,7 @@ bool    Lesson::startElement(const QString &namespaceURI, const QString &localNa
     return true;
 }
 
-bool    Lesson::endElement(const QString &namespaceURI, const QString &localName, const QString &qName)
+bool    Lesson::endElement(const QString &, const QString &, const QString &)
 {
     if (_currentData)
     {

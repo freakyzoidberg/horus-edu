@@ -44,7 +44,7 @@ LessonSection::LessonSection(ILesson *parent) : ILessonSection(parent)
 {
 }
 
-QVariant LessonSection::data(int column, int role) const
+QVariant LessonSection::data(int, int role) const
 {
     if (role == Qt::DisplayRole)
         return QVariant(getTitle());

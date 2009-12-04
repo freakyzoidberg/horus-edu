@@ -43,24 +43,24 @@ AttendanceDataBase::AttendanceDataBase(QList<EventData *> events, UserData *user
 	_events = events;
 }
 
-void AttendanceDataBase::keyToStream(QDataStream& s)
+void AttendanceDataBase::keyToStream(QDataStream &)
 {
 
 }
 
-void AttendanceDataBase::dataToStream(QDataStream& s) const
+void AttendanceDataBase::dataToStream(QDataStream &) const
 {
 
 }
 
-void AttendanceDataBase::dataFromStream(QDataStream& s)
+void AttendanceDataBase::dataFromStream(QDataStream &)
 {
 
 }
 
 QDebug AttendanceDataBase::operator<<(QDebug debug) const
 {
-
+	return (qDebug());
 }
 
 #ifdef HORUS_SERVER
@@ -142,9 +142,9 @@ quint8 AttendanceDataBase::serverRemove()
 void AttendanceDataBase::create()
 {
 	disconnect(this, SLOT(create()));
-	if (_node->status() == CREATING || _node->status() == EMPTY)
-		connect(_node, SIGNAL(created()), this, SLOT(create()));
-	else
+	//if (_node->status() == CREATING || _node->status() == EMPTY)
+	//	connect(_node, SIGNAL(created()), this, SLOT(create()));
+	//else
 		Data::create();
 }
 
@@ -154,14 +154,14 @@ QVariant AttendanceDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-        if (column == 0)
-			return _node->id();
-        if (column == 1)
-			return _node->name();
-        if (column == 2)
-			return _startTime;
-		if (column == 3)
-			return _endTime;
+		//if (column == 0)
+		//	return _node->id();
+		//if (column == 1)
+		//	return _node->name();
+		//if (column == 2)
+		//	return _startTime;
+		//if (column == 3)
+		//	return _endTime;
     }
    return Data::data(column, role);
 }

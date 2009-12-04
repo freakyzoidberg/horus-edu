@@ -117,7 +117,7 @@ void    ImageController::reload()
     //delete image;
 }
 
-QWidget        *ImageController::editDocument(QFile *file, ILessonDocument *doc)
+QWidget        *ImageController::editDocument(QFile *, ILessonDocument *)
 {
     return 0;
 }

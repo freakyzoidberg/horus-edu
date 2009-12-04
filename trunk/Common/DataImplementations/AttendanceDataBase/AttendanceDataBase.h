@@ -85,9 +85,9 @@ public:
         inline void                     setType(const int type) { _type = type; }
         inline int                      type() const { return _type; }
 		inline void                     setUser(UserData *user) { _user = user; }
-		inline int                      user() const { return _user; }
+		inline UserData					*user() const { return _user; }
 		inline void                     setEvents(const QList<EventData *> events) { _events = events; }
-		inline int                      events() const { return _events; }
+		inline const QList<EventData *>	events() const { return _events; }
 
 
 	//INTERFACE Data

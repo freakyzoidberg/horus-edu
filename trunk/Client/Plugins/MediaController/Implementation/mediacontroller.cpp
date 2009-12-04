@@ -104,7 +104,7 @@ void    MediaController::reload()
 
 }
 
-QWidget    *MediaController::editDocument(QFile *metadata, ILessonDocument *)
+QWidget    *MediaController::editDocument(QFile *, ILessonDocument *)
 {
 	return (0);
 }

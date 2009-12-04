@@ -36,7 +36,7 @@
 #include "mail.h"
 #include <QVariant>
 #include <QNetworkProxy>
-Pop_3::Pop_3(const QString &user,const QString &passwd, const QString &pop3_server,QObject *parent)
+Pop_3::Pop_3(const QString &user,const QString &passwd, const QString &pop3_server,QObject *)
 {
        _port = 110;
     _timeout = 10000;
@@ -129,7 +129,7 @@ bool Pop_3::connectToPop(const QString &host)
     //connect( _socket, SIGNAL( proxyAuthenticationRequired(const QNetworkProxy & , QAuthenticator *) ), this, SLOT(proxyAuthentication(const QNetworkProxy &, QAuthenticator * ) ) );
 
     qDebug() << "connect pop";
-    bool auth = ! _user.isEmpty();
+    //bool auth = ! _user.isEmpty();
 
     _socket->connectToHost( host, _port );
 
@@ -175,7 +175,7 @@ bool Pop_3::read(const QString &waitfor)
     return isOk;
 }
 
-bool Pop_3::readMail(int size)
+bool Pop_3::readMail(int)
 {
 QString response;
     QString responseLine;
@@ -204,7 +204,7 @@ QString response;
 
 _lastResponse = response;
     //qDebug() << _lastResponse;
-
+	return (true);
 }
 
 
