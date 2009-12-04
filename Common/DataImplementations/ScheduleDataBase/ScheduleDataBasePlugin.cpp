@@ -44,7 +44,7 @@ ScheduleDataBasePlugin::ScheduleDataBasePlugin()
 {
 }
 
-ScheduleData* ScheduleDataBasePlugin::newSchedule(TreeData* parent)
+ScheduleData* ScheduleDataBasePlugin::newSchedule(TreeData *)
 {
         static quint32 tmpId = 0;
         tmpId--;
@@ -80,6 +80,7 @@ ScheduleData* ScheduleDataBasePlugin::schedule(TreeData* node)
                 if (s->_node->id() == node->id())
                         return s;
         }
+	return (0);
 }
 
 

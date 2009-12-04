@@ -44,7 +44,7 @@ LessonDocument::LessonDocument(ILesson *parent) : ILessonDocument(parent)
 {
 }
 
-QVariant LessonDocument::data(int column, int role) const
+QVariant LessonDocument::data(int, int role) const
 {
     if (role == Qt::DisplayRole)
         return QVariant(getTitle());

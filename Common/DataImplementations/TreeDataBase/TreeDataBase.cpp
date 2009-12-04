@@ -256,7 +256,7 @@ QVariant TreeDataBase::data(int column, int role) const
 #include "../../FileData.h"
 #include <QUrl>
 #include <QFileInfo>
-bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction action)
+bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction)
 {
 	qDebug() << mimeData->urls().first().path();
 

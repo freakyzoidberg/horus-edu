@@ -78,9 +78,9 @@ public:
 	QDebug				operator<<(QDebug debug) const;
 
 #ifdef HORUS_CLIENT
-	QVariant			data(int column, int role = Qt::DisplayRole) const;
-public slots:
-	void				create();
+	//QVariant			data(int column, int role = Qt::DisplayRole) const;
+//public slots:
+//	void				create();
 #endif
 #ifdef HORUS_SERVER
 public:

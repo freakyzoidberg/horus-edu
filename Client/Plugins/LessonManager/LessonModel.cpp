@@ -47,7 +47,7 @@ LessonModel::LessonModel(PluginManager* pluginManager)
 	filePlugin = pluginManager->findPlugin<FileDataPlugin*>();
 }
 
-int LessonModel::columnCount ( const QModelIndex & parent) const
+int LessonModel::columnCount ( const QModelIndex &) const
 {
     return 1;
 }

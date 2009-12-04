@@ -66,7 +66,7 @@ void EditorPdf::mousePressEvent(QMouseEvent *event)
      rubberBand->setGeometry(QRect(origin, event->pos()).normalized());
  }
 
- void EditorPdf::mouseReleaseEvent(QMouseEvent *event)
+ void EditorPdf::mouseReleaseEvent(QMouseEvent *)
  {
      rubberBand->hide();
     delete rubberBand;

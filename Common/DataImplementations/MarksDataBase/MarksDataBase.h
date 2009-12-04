@@ -81,7 +81,7 @@ public:
         inline void			setIdUser(const int user) {_idUser = user; }
         inline int                      idEvent() const { return _idEvent; }
         inline void			setIdEvent(const int event) { _idEvent = event; }
-        inline void                     setmark(const QVariant note) { _mark = mark; }
+        //inline void                     setmark(const QVariant note) { _mark = mark; }
         inline QVariant                 mark() const { return _mark; }
         inline void                     setQuote(const QVariant quote) { _quote = quote; }
         inline QVariant                 quote() const { return _quote; }

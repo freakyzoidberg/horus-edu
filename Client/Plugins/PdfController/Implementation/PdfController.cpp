@@ -96,7 +96,7 @@ const QString  PdfController::getSupportedType() const
     return ("Pdf");
 }
 
-QWidget* PdfController::createDocumentWidget(ILessonDocument *document)
+QWidget* PdfController::createDocumentWidget(ILessonDocument *)
 {
     int         x, y, w, h;
     int         fileId;
@@ -193,7 +193,7 @@ QWidget      *PdfController::editDocument(QFile *metadata, ILessonDocument *doc)
 {
     QString     fileName;
     QImage      *image;
-    EditorPdf    *pdfEdit = new EditorPdf(parent, doc);
+    //EditorPdf    *pdfEdit = new EditorPdf(parent, doc);
 
     pdf = this->pluginManager->findPlugin<IPdfRendering *>();
     if (!pdf)
@@ -215,7 +215,8 @@ QWidget      *PdfController::editDocument(QFile *metadata, ILessonDocument *doc)
 
     QPixmap pix = QPixmap::fromImage(*image);
 
-    parent->setGeometry(20, 20, 500, 500);
-    pdfEdit->setPixmap(pix);
-    return pdfEdit;
+    //parent->setGeometry(20, 20, 500, 500);
+    //pdfEdit->setPixmap(pix);
+    //return pdfEdit;
+	return (0);
 }

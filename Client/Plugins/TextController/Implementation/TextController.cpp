@@ -66,10 +66,10 @@ QWidget*            TextController::createDocumentWidget(ILessonDocument *docume
 	return (textedit);
 }
 
-QWidget             *TextController::editDocument(QFile *metadata, ILessonDocument *document)
+QWidget             *TextController::editDocument(QFile *, ILessonDocument *document)
 {
     QTextEdit           *textEditor = new QTextEdit;
-    QPushButton         *save = new QPushButton("Save");
+    //QPushButton         *save = new QPushButton("Save");
     QTextDocument       *text = new QTextDocument(document->getContent());
 
     textEditor->setDocument(text);

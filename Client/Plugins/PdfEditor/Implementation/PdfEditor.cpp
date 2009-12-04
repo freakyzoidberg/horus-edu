@@ -53,13 +53,13 @@ QWidget     *PdfEditor::getTocInWidget()
 {
     //recuperer la toc d'une facon ou d'une autre, jsais pas encore trop comment
     //QDomDocument    toc = <machin_cast>dispPdf()->getToc();
-    QDomDocument *toc;
+    //QDomDocument *toc;
 
 
     QTreeWidget *tree = new QTreeWidget();
-    TreeWidgetItem *child = new TreeWidgetItem(tree, this);
+    //TreeWidgetItem *child = new TreeWidgetItem(tree, this);
 
-    buildTocWidget(toc, child);
+    //buildTocWidget(toc, child);
     this->tree = tree;
     return tree;
 }
