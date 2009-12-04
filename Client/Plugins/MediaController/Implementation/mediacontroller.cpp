@@ -62,7 +62,7 @@ const QString   MediaController::getSupportedType() const
     return ("Media");
 }
 
-QWidget*        MediaController::createDocumentWidget(IItems *parent, ILessonDocument *document)
+QWidget*        MediaController::createDocumentWidget(ILessonDocument *document)
 {
     int         fileId;
 
@@ -78,9 +78,7 @@ QWidget*        MediaController::createDocumentWidget(IItems *parent, ILessonDoc
     //this->parent = parent;
     fileId = document->getParameters().value("name").toInt();
 	data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
-    Player *player = new Player(parent);
-    this->parent = parent;
-    parent->setMainWidget(player);
+    Player *player = new Player(NULL);
     this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
 
     //if (data->isDownloaded())
@@ -90,15 +88,15 @@ QWidget*        MediaController::createDocumentWidget(IItems *parent, ILessonDoc
 
 void    MediaController::dl()
 {
+	/*
     Player     *tmp;
-
-    tmp = dynamic_cast<Player *>(parent->getMainWidget());
 
     Phonon::MediaSource source(data->file()->fileName());
 
     tmp->getVolumeSlider()->setAudioOutput(tmp->getVidPlayer()->audioOutput());
     tmp->getSeekSlider()->setMediaObject(tmp->getMedia());
     tmp->getVidPlayer()->play(source);
+	*/
 }
 
 void    MediaController::reload()
@@ -106,23 +104,7 @@ void    MediaController::reload()
 
 }
 
-void    MediaController::clean(IItems *widget)
-{
-    Player     *tmp;
-
-    tmp = dynamic_cast<Player *>(widget->getMainWidget());
-    tmp->getMedia()->stop();
-    delete tmp;
-}
-
-void    MediaController::resizeWidget(IItems *widget)
-{
-    Player  *tmp;
-
-    tmp = dynamic_cast<Player *>(widget);
-}
-
-QWidget    *MediaController::editDocument(QFile *metadata, IItems *parent, ILessonDocument *)
+QWidget    *MediaController::editDocument(QFile *metadata, ILessonDocument *)
 {
 	return (0);
 }
