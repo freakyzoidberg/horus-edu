@@ -103,7 +103,7 @@ bool ScheduleDataBasePlugin::canLoad() const
                                                 `id_node` int(11) NOT NULL,\
                                                 `date_start` date NOT NULL,\
                                                 `date_end` date NOT NULL,\
-                                                `exception` blob NOT NULL,\
+                                                `exception` blob,\
                                                 PRIMARY KEY(`id`)\
 					);")
 		||
