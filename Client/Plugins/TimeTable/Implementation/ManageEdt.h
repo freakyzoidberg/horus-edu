@@ -2,8 +2,11 @@
 #define MANAGEEDT_H
 
 #include <QWidget>
+#include <QHBoxLayout>
 # include			"../../../../Common/PluginManager.h"
 # include			"../../../../Common/UserData.h"
+
+#include "AdmListEdt.h"
 
 class ManageEdt : public QWidget
 {
@@ -12,6 +15,8 @@ public:
 
 private:
     PluginManager	*_pluginManager;
+    QHBoxLayout *MainLayout;
+    AdmListEdt *_admEDTList;
 };
 
 #endif // MANAGEEDT_H

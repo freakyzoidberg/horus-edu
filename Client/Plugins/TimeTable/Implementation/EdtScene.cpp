@@ -4,5 +4,5 @@
 
 EDTScene::EDTScene(PluginManager *pluginManager) : _pluginManager(pluginManager)
 {
-	this->
+
 }
