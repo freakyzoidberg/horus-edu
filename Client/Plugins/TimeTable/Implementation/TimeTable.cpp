@@ -35,6 +35,10 @@
 
 #include		"TimeTable.h"
 #include "../../../../Common/PluginManager.h"
+#include "../../../../Common/TreeDataPlugin.h"
+#include "../../../../Common/UserData.h"
+#include "../../../../Common/EventData.h"
+#include "MainView.h"
 
 const QString	TimeTable::pluginName() const
 {
@@ -48,7 +52,12 @@ const QString	TimeTable::pluginVersion() const
 
 QWidget			*TimeTable::getWidget()
 {
-		return 0;
+
+    UserData* u = pluginManager->currentUser();
+    if (u != 0)
+        if (u->level() > LEVEL_ADMINISTRATOR)
+            return NULL;
+    return new MainView(pluginManager);
 }
 
 const QString       TimeTable::getDisplayableName() const
