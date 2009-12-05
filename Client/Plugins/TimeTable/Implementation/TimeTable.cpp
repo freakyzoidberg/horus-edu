@@ -38,17 +38,17 @@
 
 const QString	TimeTable::pluginName() const
 {
-	return ("TimeTable");
+	return "TimeTable";
 }
 
 const QString	TimeTable::pluginVersion() const
 {
-	return ("0.1");
+	return "0.1";
 }
 
 QWidget			*TimeTable::getWidget()
 {
-        return (0);
+		return 0;
 }
 
 const QString       TimeTable::getDisplayableName() const
@@ -58,20 +58,24 @@ const QString       TimeTable::getDisplayableName() const
 
 int           TimeTable::getOrder() const
 {
-    return (102);
+	return 102;
 }
 
 bool                TimeTable::canLoad() const
 {
-	return (true);
+	return true;
 }
 
 void                TimeTable::load()
 {
-    Plugin::load();
+	treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
+	userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
+	eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
+
+	Plugin::load();
 }
 
 QIcon TimeTable::getIcon() const
 {
-  return (QIcon());
+  return QIcon();
 }

@@ -36,6 +36,9 @@
 # define			__TIMETABLE_H__
 
 # include			"../../../DisplayablePlugin.h"
+# include			"../../../../Common/UserDataPlugin.h"
+# include			"../../../../Common/EventDataPlugin.h"
+# include			"../../../../Common/TreeDataPlugin.h"
 
 class				TimeTable : public DisplayablePlugin
 {
@@ -43,15 +46,20 @@ class				TimeTable : public DisplayablePlugin
     Q_INTERFACES(DisplayablePlugin)
 
 public:
-	const QString	pluginName() const;
-	const QString	pluginVersion() const;
-	QWidget			*getWidget();
-        const QString       getDisplayableName() const;
-                int					getOrder() const;
-        QIcon               getIcon() const;
+	const QString		pluginName() const;
+	const QString		pluginVersion() const;
+	QWidget				*getWidget();
+	const QString       getDisplayableName() const;
+	int					getOrder() const;
+	QIcon               getIcon() const;
 
-        bool                canLoad() const;
-        void                load();
+	bool                canLoad() const;
+	void                load();
+
+private:
+		TreeDataPlugin	*treePlugin;
+		UserDataPlugin	*userPlugin;
+		EventDataPlugin	*eventPlugin;
 
 };
 
