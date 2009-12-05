@@ -14,6 +14,7 @@ class EDTScene : public QGraphicsScene
 
 public:
         EDTScene(PluginManager *pluginManager, TreeData *treedata);
+        ScheduleData *getScheduleData();
 
 private:
     PluginManager	*_pluginManager;
