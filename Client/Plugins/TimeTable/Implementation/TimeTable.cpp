@@ -34,7 +34,6 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include		"TimeTable.h"
-#include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/UserData.h"
 #include "../../../../Common/EventData.h"
@@ -42,17 +41,17 @@
 
 #include "MainView.h"
 
-const QString	TimeTable::pluginName() const
+const QString		TimeTable::pluginName() const
 {
 	return "TimeTable";
 }
 
-const QString	TimeTable::pluginVersion() const
+const QString		TimeTable::pluginVersion() const
 {
 	return "0.1";
 }
 
-QWidget			*TimeTable::getWidget()
+QWidget				*TimeTable::getWidget()
 {
 
     UserData* u = pluginManager->currentUser();
@@ -66,7 +65,7 @@ const QString       TimeTable::getDisplayableName() const
     return(tr("TimeTable"));
 }
 
-int           TimeTable::getOrder() const
+int					TimeTable::getOrder() const
 {
 	return 102;
 }
@@ -85,7 +84,7 @@ void                TimeTable::load()
 	Plugin::load();
 }
 
-QIcon TimeTable::getIcon() const
+QIcon				TimeTable::getIcon() const
 {
   return QIcon();
 }
