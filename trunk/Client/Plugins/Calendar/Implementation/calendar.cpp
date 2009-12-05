@@ -158,12 +158,12 @@ QWidget *Calendar::getWidget()
 
 void Calendar::load()
 {
-    treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
-    userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
-    eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
+	treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
+	userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
+	eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
 
-    Plugin::load();
-    CalendarCore::CalendarCoreInstance(treePlugin, userPlugin);
+	Plugin::load();
+	CalendarCore::CalendarCoreInstance(treePlugin, userPlugin);
 }
 
 QIcon   Calendar::getIcon() const

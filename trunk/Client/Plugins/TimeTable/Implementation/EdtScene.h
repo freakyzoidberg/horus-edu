@@ -6,10 +6,12 @@
 # include			"../../../../Common/PluginManager.h"
 # include			"../../../../Common/UserData.h"
 
-class EDTScene : public QGraphicsScene, QWidget
+class EDTScene : public QGraphicsScene
 {
+	Q_OBJECT
+
 public:
-    EDTScene(QWidget *parent, PluginManager *pluginManager);
+	EDTScene(PluginManager *pluginManager);
 
 private:
     PluginManager	*_pluginManager;

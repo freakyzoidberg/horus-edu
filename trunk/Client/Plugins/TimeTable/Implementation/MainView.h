@@ -1,11 +1,11 @@
 #ifndef MAINVIEW_H
 #define MAINVIEW_H
 
-#include <QWidget>
+#include <QTabWidget>
 
 # include	"../../../../Common/PluginManager.h"
 
-class MainView : public QWidget
+class MainView : public QTabWidget
 {
 public:
     MainView(PluginManager *pluginManager);
