@@ -19,6 +19,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	infoTitle->setProperty("isRound", true);
 	informationsFrame = new QFrame(this);
 	informationsFrame->setMinimumWidth(200);
+
 	informationsLayout = new QVBoxLayout(informationsFrame);
 	informationsLayout->setSpacing(0);
 	informationsLayout->setMargin(0);
@@ -28,7 +29,11 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	QLabel *actionTitle = new QLabel(tr("Actions:"));
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
-	RightLayout->addWidget(actionTitle);
 
+	RightLayout->addWidget(actionTitle);
+	RightLayout->addWidget(new QWidget(this), 1);
+	MainLayout->addLayout(RightLayout);
+	//MainLayout->setColumnMinimumWidth(0,150);
+	MainLayout->setStretch(0, 1);
 	this->setLayout(MainLayout);
 }
