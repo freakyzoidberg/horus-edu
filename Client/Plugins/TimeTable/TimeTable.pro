@@ -10,7 +10,8 @@ SOURCES += Implementation/TimeTable.cpp \
     Implementation/AdmListEdt.cpp \
     Implementation/ManageEdt.cpp \
     Implementation/edtplanning.cpp \
-    Implementation/EdtSceneProxyWidget.cpp
+    Implementation/EdtSceneProxyWidget.cpp \
+    Implementation/EdtWidget.cpp
 HEADERS += Implementation/TimeTable.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
@@ -21,4 +22,5 @@ HEADERS += Implementation/TimeTable.h \
     Implementation/ManageEdt.h \
     Implementation/edtplanning.h \
     Implementation/EdtSceneProxyWidget.h \
-    TimeTableMetaPlugin.h
+    TimeTableMetaPlugin.h \
+    Implementation/EdtWidget.h

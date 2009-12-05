@@ -1,12 +1,12 @@
 #include <QIcon>
 
 #include "MainView.h"
-#include "EdtSceneProxyWidget.h"
+#include "EdtWidget.h"
 #include "edtplanning.h"
 
 MainView::MainView(PluginManager *pluginManager)
 {
-        this->addTab(new EdtSceneProxyWidget(pluginManager), QIcon(":/Icons/desk.png"), tr("Weekly view"));
+        this->addTab(new EdtWidget(pluginManager), QIcon(":/Icons/desk.png"), tr("Weekly view"));
 
 	/*pluginManager->findPlugin<TreeDataPlugin *>(),
 								pluginManager->findPlugin<UserDataPlugin *>(),
