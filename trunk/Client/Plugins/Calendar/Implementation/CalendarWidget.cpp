@@ -97,7 +97,7 @@
         days->value(i)->setAutoFillBackground(true);
 
        QList<EventData*> eventList =  _events->userEvents(user, QDateTime(date, QTime(0, 0, 0, 0)),
-                                              QDateTime(date, QTime(23, 59, 0, 0)));
+														QDateTime(date, QTime(23, 59, 0, 0)));
         mainLayout->addWidget(days->value(i), 0, i + 1);
 
        DayWidget *tmpWidget = new DayWidget(date, this->currentStartHour);

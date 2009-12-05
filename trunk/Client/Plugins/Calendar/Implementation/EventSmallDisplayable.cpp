@@ -37,7 +37,11 @@
 #include		<QLabel>
 #include		<QWidget>
 #include		<QFrame>
+#include		<QList>
 #include		<QBoxLayout>
+
+#include "../../../../Common/EventDataPlugin.h"
+#include "../../../../Common/EventData.h"
 
 const QString	EventSmallDisplayable::pluginName() const
 {
@@ -51,7 +55,7 @@ const QString	EventSmallDisplayable::pluginVersion() const
 
 QWidget			*EventSmallDisplayable::getWidget()
 {// FAKE
-	QWidget		*widget;
+	/*QWidget		*widget;
 	QBoxLayout	*layout;
 	QWidget		*subWidget;
 
@@ -66,8 +70,34 @@ QWidget			*EventSmallDisplayable::getWidget()
 	subWidget = new QFrame(widget);
 	new QLabel("Tuesday 25/11  10h00 : MATHEMATICS", subWidget);
 	layout->addWidget(subWidget);
-	return (widget);
-}// FIN FAKE
+	return (widget); */
+	// FIN FAKE
+
+	//not fake
+
+	QWidget		*widget = new QWidget();
+	QVBoxLayout	*layout = new QVBoxLayout(widget);
+	QLabel	*text;
+	QList<EventData*>	*userEvents;
+
+	text = new QLabel(tr("Trucs a faire:"));
+	//usersEvent = _events->userEvents(user, QDateTime(date, QTime(0, 0, 0, 0)),
+		//							QDateTime(date, QTime(23, 59, 0, 0)));
+	layout->addWidget(text);
+	for (int i = 0; i < userEvents->size(); ++i)
+	{
+		text = new QLabel(userEvents->at(i)->node()->name());
+
+
+		layout->addWidget(text);
+
+	}
+	//(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime())
+
+
+	return widget;
+	//fin not fake
+}
 
 const QString	EventSmallDisplayable::getDisplayableName() const
 {

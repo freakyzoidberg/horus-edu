@@ -55,7 +55,7 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
     _tree  = _treePlugin;
     _users = _userPlugin;
     _event = _eventPlugin;
-    this->_calendarPlugin = _calendarPlugin;
+	_calendarPlugin = _calendarPlugin;
     _created = false;
 
 
@@ -83,7 +83,7 @@ CalendarMainFrame::CalendarMainFrame(TreeDataPlugin  *_treePlugin,
 
 
  /*  connect(_controls->addEvent(), SIGNAL(clicked()), this, SLOT(addEvent()));
-    connect(_controls->daily(), SIGNAL(clicked()), this, SLOT(calendarDailyDisplay()));
+	connect(_controls->daily(), SIGNAL(clicked()), thzis, SLOT(calendarDailyDisplay()));
     connect(_controls->monthly(), SIGNAL(clicked()), this, SLOT(calendarMonthlyDisplay()));
     connect(_controls->weekly(), SIGNAL(clicked()), this, SLOT(calendarWeeklyDisplay()));
     connect(_controls->planning(), SIGNAL(clicked()), this, SLOT(calendarPlanningDisplay())); */

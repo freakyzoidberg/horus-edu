@@ -190,6 +190,10 @@ case $me in
 	cd /home/romain/Documents/pfe/franceHorus/trunk
 	cp Client/Plugins/*/*.so Client/Plugins
 	;;
+    'pwet')
+	cd /home/pwet/eipall/trunk
+	cp Client/Plugins/*/*.so Client/Plugins
+	;;
     *)
 	echo -e "$JAUNE" " ... Edit the buildall to set where to copy your files after L151..." "$NORMAL"
 	;;
