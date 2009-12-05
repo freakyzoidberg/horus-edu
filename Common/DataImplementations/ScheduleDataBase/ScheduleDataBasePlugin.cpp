@@ -104,6 +104,7 @@ bool ScheduleDataBasePlugin::canLoad() const
                                                 `date_start` date NOT NULL,\
                                                 `date_end` date NOT NULL,\
                                                 `exception` blob NOT NULL,\
+                                                PRIMARY KEY(`id`)\
 					);")
 		||
                  ! query.exec("SELECT`id`,`id_node`,`date_start`,`date_end`,`exception`FROM`schedule`WHERE`id`=-1;")
