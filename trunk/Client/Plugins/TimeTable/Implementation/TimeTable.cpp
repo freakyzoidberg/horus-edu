@@ -34,10 +34,14 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include		"TimeTable.h"
-#include "../../../../Common/TreeDataPlugin.h"
+/*#include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/UserData.h"
-#include "../../../../Common/EventData.h"
-#include "../../../../Common/ScheduleData.h"
+#include "../../../../Common/EventData.h" */
+//#include "../../../../Common/ScheduleData.h"
+
+/* */
+
+ /* */
 
 #include "MainView.h"
 
@@ -54,10 +58,11 @@ const QString		TimeTable::pluginVersion() const
 QWidget				*TimeTable::getWidget()
 {
 
-    UserData* u = pluginManager->currentUser();
-    if (u != 0)
-        return new MainView(pluginManager);
-    return NULL;
+   currentUser = pluginManager->currentUser();
+ //   if (u != 0)
+   //     return new MainView(pluginManager);
+   // return NULL;
+	return new MainView(pluginManager);
 }
 
 const QString       TimeTable::getDisplayableName() const
@@ -77,10 +82,10 @@ bool                TimeTable::canLoad() const
 
 void                TimeTable::load()
 {
-	treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
+/*	treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
 	userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
 	eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
-        schedulePlugin = pluginManager->findPlugin<ScheduleDataPlugin*>();
+	//    schedulePlugin = pluginManager->findPlugin<ScheduleDataPlugin*>(); */
 	Plugin::load();
 }
 

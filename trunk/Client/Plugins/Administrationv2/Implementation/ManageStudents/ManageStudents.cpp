@@ -40,8 +40,8 @@ ManageStudents::ManageStudents(TreeDataPlugin *treeplugin, UserDataPlugin *userp
 {
     UD = userplugin;
     TD = treeplugin;
-    newUSer = 0;
-	newPapa = 0; //lol
+	newUSer = NULL;
+	newPapa = NULL; //lol
     info = 0;
     MainLayout = new QHBoxLayout();
     MainLayout->setSpacing(0);

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
+#include <QFrame>
 # include			"../../../../Common/PluginManager.h"
 # include			"../../../../Common/UserData.h"
 
@@ -11,12 +12,15 @@
 class ManageEdt : public QWidget
 {
 public:
-    ManageEdt(QWidget *parent, PluginManager *pluginManager);
+	ManageEdt(PluginManager *pluginManager);
 
 private:
     PluginManager	*_pluginManager;
-    QHBoxLayout *MainLayout;
-    AdmListEdt *_admEDTList;
+	QHBoxLayout		*MainLayout;
+	AdmListEdt		*_admEDTList;
+	QFrame			*informationsFrame;
+	QVBoxLayout		*informationsLayout;
+
 };
 
 #endif // MANAGEEDT_H

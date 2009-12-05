@@ -1,26 +1,20 @@
 #include <QIcon>
 
 #include "MainView.h"
-#include "EdtWidget.h"
 #include "edtplanning.h"
 
 MainView::MainView(PluginManager *pluginManager)
 {
-        this->addTab(new EdtWidget(pluginManager), QIcon(":/Icons/desk.png"), tr("Weekly view"));
+	EdtManager = new ManageEdt(pluginManager);
+	EdtSceneView = new EdtWidget(pluginManager);
 
-	/*pluginManager->findPlugin<TreeDataPlugin *>(),
-								pluginManager->findPlugin<UserDataPlugin *>(),
-								pluginManager->findPlugin<ScheduleDataPlugin *>(),
-								   QIcon(":/Icons/desk.png"),
-								   tr("Classes")) */
+	this->addTab(EdtSceneView, QIcon(":/Icons/desk.png"), tr("Weekly view"));
+	this->addTab(new EdtPlanning(), QIcon(":/Icons/desk.png"), tr("View planning"));
 
-	//this->addTab(new ManageEdt(), QIcon(":/Icons/desk.png"), tr("Manage EDT"));
-
-	//this->addTab(new EDTPlanning());
-
-	/*pluginManager->findPlugin<TreeDataPlugin *>(),
-								 pluginManager->findPlugin<UserDataPlugin *>()),
-								QIcon(":/Icons/students.png"), tr("Students")*/
-	/*this->addTab(new ManageTeachers(this, pluginManager), QIcon(":/Icons/teachers.png"), tr("Teachers"));
-	this->addTab(new ManageAdministratives(this, pluginManager), QIcon(":/Icons/administrator.png"), tr("Administratives")); */
+	if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
+	{
+		this->addTab(EdtManager, QIcon(":/Icons/desk.png"), tr("Manage EDT"));
+		this->setTabEnabled(0, false);
+		this->setTabEnabled(1, false);
+	}
 }
