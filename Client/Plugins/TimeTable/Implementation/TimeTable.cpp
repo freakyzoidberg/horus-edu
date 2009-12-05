@@ -55,9 +55,7 @@ QWidget			*TimeTable::getWidget()
 
     UserData* u = pluginManager->currentUser();
     if (u != 0)
-        if (u->level() > LEVEL_ADMINISTRATOR)
-            return NULL;
-    return new MainView(pluginManager);
+        return new MainView(pluginManager);
 }
 
 const QString       TimeTable::getDisplayableName() const
