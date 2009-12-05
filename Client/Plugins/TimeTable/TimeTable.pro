@@ -20,4 +20,5 @@ HEADERS += Implementation/TimeTable.h \
     Implementation/AdmListEdt.h \
     Implementation/ManageEdt.h \
     Implementation/edtplanning.h \
-    Implementation/EdtSceneProxyWidget.h
+    Implementation/EdtSceneProxyWidget.h \
+    TimeTableMetaPlugin.h
