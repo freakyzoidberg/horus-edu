@@ -38,6 +38,8 @@
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/UserData.h"
 #include "../../../../Common/EventData.h"
+#include "../../../../Common/ScheduleData.h"
+
 #include "MainView.h"
 
 const QString	TimeTable::pluginName() const
@@ -56,6 +58,7 @@ QWidget			*TimeTable::getWidget()
     UserData* u = pluginManager->currentUser();
     if (u != 0)
         return new MainView(pluginManager);
+    return NULL;
 }
 
 const QString       TimeTable::getDisplayableName() const
@@ -78,7 +81,7 @@ void                TimeTable::load()
 	treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
 	userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
 	eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
-
+        schedulePlugin = pluginManager->findPlugin<ScheduleDataPlugin*>();
 	Plugin::load();
 }
 

@@ -5,9 +5,11 @@ TARGET = TimeTable
 TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 SOURCES += Implementation/TimeTable.cpp \
-    Implementation/MainView.cpp
+    Implementation/MainView.cpp \
+    Implementation/EdtScene.cpp
 HEADERS += Implementation/TimeTable.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     ../../DisplayablePlugin.h \
-    Implementation/MainView.h
+    Implementation/MainView.h \
+    Implementation/EdtScene.h
