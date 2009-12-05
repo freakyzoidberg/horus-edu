@@ -39,6 +39,7 @@
 # include			"../../../../Common/UserDataPlugin.h"
 # include			"../../../../Common/EventDataPlugin.h"
 # include			"../../../../Common/TreeDataPlugin.h"
+# include			"../../../../Common/ScheduleDataPlugin.h"
 
 class				TimeTable : public DisplayablePlugin
 {
@@ -60,6 +61,7 @@ private:
 		TreeDataPlugin	*treePlugin;
 		UserDataPlugin	*userPlugin;
 		EventDataPlugin	*eventPlugin;
+                ScheduleDataPlugin *schedulePlugin;
 
 };
 
