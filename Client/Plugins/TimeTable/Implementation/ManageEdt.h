@@ -43,6 +43,7 @@
 #include <QMap>
 #include <QString>
 #include <QListWidgetItem>
+#include <QTabWidget>
 
 # include "../../../../Common/PluginManager.h"
 # include "../../../../Common/UserData.h"
@@ -56,13 +57,14 @@ class ManageEdt : public QWidget
 	Q_OBJECT
 
 public:
-							ManageEdt(PluginManager *pluginManager);
+							ManageEdt(PluginManager *pluginManager, QTabWidget *parent);
 	QListWidget				*StudentList;
 
 public slots:
 		void				classSelected(QListWidgetItem *);
 
 private:
+	QTabWidget				*parent;
 	PluginManager			*_pluginManager;
 	QHBoxLayout				*MainLayout;
 	AdmListEdt				*_admEDTList;

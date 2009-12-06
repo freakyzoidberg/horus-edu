@@ -38,10 +38,11 @@
 
 #include "ManageEdt.h"
 
-ManageEdt::ManageEdt(PluginManager *pluginManager)
+ManageEdt::ManageEdt(PluginManager *pluginManager, QTabWidget *parent)
 {
 	infos = NULL;
 
+	this->parent = parent;
 	MainLayout = new QHBoxLayout();
 	MainLayout->setSpacing(0);
 	MainLayout->setMargin(2);
@@ -82,6 +83,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	RightLayout->addWidget(save);
 	RightLayout->addWidget(reset);
 	RightLayout->addWidget(back);
+	RightLayout->addWidget(add);
 	RightLayout->addWidget(new QWidget(this), 1);
 
 	MainLayout->addWidget(AdmClassList);
@@ -90,6 +92,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 
 	ok->setVisible(false);
 	save->setVisible(false);
+	add->setVisible(false);
 	reset->setVisible(false);
 	back->setVisible(false);
 	edit->setVisible(false);
@@ -118,13 +121,15 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 	}
 		//edt is defined? TODO
 	infos = new InfoPanel(NULL);
-	if (true)
+	if (false)
 	{
 		edit->show();
 		del->show();
 	}
 	else
 	{
+		parent->setTabEnabled(0, true);
+		parent->setTabEnabled(1, true);
 		add->show();
 	}
 	this->informationsLayout->addWidget(infos);

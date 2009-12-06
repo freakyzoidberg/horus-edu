@@ -39,7 +39,7 @@
 
 MainView::MainView(PluginManager *pluginManager)
 {
-	EdtManager = new ManageEdt(pluginManager);
+	EdtManager = new ManageEdt(pluginManager, this);
 	EdtSceneView = new EdtWidget(pluginManager);
 
 	this->addTab(EdtSceneView, QIcon(":/Icons/desk.png"), tr("Weekly view"));
