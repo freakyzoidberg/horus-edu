@@ -47,7 +47,6 @@
 # include               "../../../../Common/UserData.h"
 
 # include				"WhiteBoard.h"
-# include				"Items.h"
 
 class                   CourseWidget : public QWidget
 {

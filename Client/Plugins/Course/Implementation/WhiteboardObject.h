@@ -32,18 +32,52 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef IITEMS_H
-#define IITEMS_H
+#ifndef WHITEBOARDOBJECT_H
+#define WHITEBOARDOBJECT_H
 
-#include <QSizeGrip>
+#include <QFrame>
 #include <QGridLayout>
+#include <QAction>
 
-class   IItems : public QSizeGrip
+#include "WhiteBoard.h"
+#include "../../LessonManager/IDocumentController.h"
+#include "../../LessonManager/ILesson.h"
+#include "../../../../Common/UserData.h"
+
+class WhiteboardObject : public QFrame
 {
+    Q_OBJECT
 public:
-    IItems(QWidget *papyrus) : QSizeGrip(papyrus) {}
-    virtual void            setMainWidget(QWidget *) = 0;
-    virtual QWidget         *getMainWidget() = 0;
+    WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocument *document, IDocumentController *controller, UserData *user);
+    ~WhiteboardObject();
+
+    bool				isDocked();
+	ILessonDocument*	getDocument();
+	ILesson*			getLesson();
+
+public slots:
+    void            switchDockMode();
+
+protected:
+    void            mousePressEvent(QMouseEvent *event);
+    void            mouseMoveEvent(QMouseEvent *event);
+    void            mouseReleaseEvent(QMouseEvent *event);
+	void			resizeEvent(QResizeEvent *event);
+
+private:
+    WhiteBoard*     _board;
+    QWidget*        _mainWidget;
+    QAction*		_dockAction;
+	QAction*		_closeAction;
+    bool            _isDocked;
+	bool			_isMoving;
+    QGridLayout*	_layout;
+	QPoint			_savedPos;
+
+	ILessonDocument*		_document;
+	ILesson*				_lesson;
+	IDocumentController*	_controller;
+	UserData*				_user;
 };
 
-#endif // IITEMS_H
+#endif // WHITEBOARDOBJECT_H

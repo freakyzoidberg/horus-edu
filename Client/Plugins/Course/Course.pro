@@ -10,7 +10,7 @@ SOURCES += ../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp
     Implementation/LessonDocument.cpp \
     Implementation/CourseWidget.cpp \
     Implementation/WhiteBoard.cpp \
-    Implementation/Items.cpp \
+    Implementation/WhiteboardObject.cpp \
     Implementation/WhiteBoardModel.cpp \
     Implementation/Course.cpp \
     Implementation/LessonTabTeacher.cpp \
@@ -39,7 +39,7 @@ HEADERS += ../../../Common/MetaPlugin.h \
     Implementation/CourseWidget.h \
     Implementation/CourseMetaPlugin.h \
     Implementation/LessonDocument.h \
-    Implementation/Items.h \
+    Implementation/WhiteboardObject.h \
     Implementation/WhiteBoard.h \
     Implementation/WhiteBoardModel.h \
     Implementation/Course.h \
