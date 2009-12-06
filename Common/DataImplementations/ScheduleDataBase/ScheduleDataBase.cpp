@@ -286,11 +286,9 @@ quint8 ScheduleDataBase::serverSave()
 
 quint8 ScheduleDataBase::serverRemove()
 {
-    qDebug() << _id;
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
         query.prepare("DELETE FROM`schedule`WHERE`id`=?;");
         query.addBindValue(_id);
-
 	if ( ! query.exec())
 	{
 		qDebug() << query.lastError();
@@ -298,16 +296,13 @@ quint8 ScheduleDataBase::serverRemove()
 	}
         if ( ! query.numRowsAffected())
                 return NOT_FOUND;
-        if (_sEvents.count() > 0)
+        QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
+        query2.prepare("DELETE FROM`schedule_event`WHERE`id_schedule`=?;");
+        query2.addBindValue(_id);
+        if ( ! query2.exec())
         {
-            QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-            query2.prepare("DELETE * FROM`schedule_event`WHERE`id_schedule`=?;");
-            query2.addBindValue(_id);
-            if ( ! query.exec())
-            {
                     qDebug() << query.lastError();
                     return DATABASE_ERROR;
-            }
         }
 	return NONE;
 }
