@@ -120,7 +120,7 @@ const QList<Data*> ScheduleDataBase::dependsOfCreatedData() const
 quint8 ScheduleDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("SELECT`date_start`,`date_end`,`id`FROM`schedule`WHERE`id_tree`=?;");
+        query.prepare("SELECT`date_start`,`date_end`,`id`FROM`schedule`WHERE`id_node`=?;");
 	query.addBindValue(_node->id());
 
 	if ( ! query.exec())
@@ -286,6 +286,7 @@ quint8 ScheduleDataBase::serverSave()
 
 quint8 ScheduleDataBase::serverRemove()
 {
+    qDebug() << _id;
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
         query.prepare("DELETE FROM`schedule`WHERE`id`=?;");
         query.addBindValue(_id);
@@ -295,15 +296,18 @@ quint8 ScheduleDataBase::serverRemove()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-	if ( ! query.numRowsAffected())
-		return NOT_FOUND;
-        QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-        query2.prepare("DELETE * FROM`schedule_event`WHERE`id_schedule`=?;");
-        query2.addBindValue(_id);
-        if ( ! query.exec())
+        if ( ! query.numRowsAffected())
+                return NOT_FOUND;
+        if (_sEvents.count() > 0)
         {
-                qDebug() << query.lastError();
-                return DATABASE_ERROR;
+            QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
+            query2.prepare("DELETE * FROM`schedule_event`WHERE`id_schedule`=?;");
+            query2.addBindValue(_id);
+            if ( ! query.exec())
+            {
+                    qDebug() << query.lastError();
+                    return DATABASE_ERROR;
+            }
         }
 	return NONE;
 }
