@@ -64,9 +64,8 @@ ManageEDT::ManageEDT(TreeDataPlugin *treeplugin, ScheduleDataPlugin *scheduleplu
     MainLayout->setMargin(2);
     EDTScene *scene = new EDTScene();
 
-    qDebug() << SD->allDatas();
+    //qDebug() << SD->allDatas();
     ScheduleData *test = SD->newSchedule(TD->node(239));
-    test->remove();
     //    test->setStartDate(QDate(2009, 12, 21));
 //    test->setEndDate(QDate(2009, 12, 25));
 //    test->addEvent(new ScheduleItem(-1,
