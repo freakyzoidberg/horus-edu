@@ -32,44 +32,31 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MANAGEEDT_H
-#define MANAGEEDT_H
+
+#ifndef ADMCLASSLISTSELECTION_H
+#define ADMCLASSLISTSELECTION_H
 
 #include <QWidget>
-#include <QHBoxLayout>
-#include <QFrame>
 #include <QListWidget>
 #include <QMap>
 #include <QString>
-#include <QListWidgetItem>
 
-# include "../../../../Common/PluginManager.h"
-# include "../../../../Common/UserData.h"
-#include "admclasslistselection.h"
-#include "infopanel.h"
+# include	"../../../../Common/TreeDataPlugin.h"
+# include	"../../../../Common/PluginManager.h"
 
-#include "AdmListEdt.h"
-
-class ManageEdt : public QWidget
+class AdmClassListSelection : public QWidget
 {
 	Q_OBJECT
 
 public:
-							ManageEdt(PluginManager *pluginManager);
-	QListWidget				*StudentList;
+		AdmClassListSelection(PluginManager *);
 
-public slots:
-		void				classSelected(QListWidgetItem *);
+	QMap<int, QString>	getallclass();
+	void	fillClassList();
+	QListWidget *ClassList;
 
 private:
-	PluginManager			*_pluginManager;
-	QHBoxLayout				*MainLayout;
-	AdmListEdt				*_admEDTList;
-	QFrame					*informationsFrame;
-	QVBoxLayout				*informationsLayout;
-	InfoPanel				*infos;
-
-	AdmClassListSelection	*AdmClassList;
+	TreeDataPlugin *treePlugin;
 };
 
-#endif // MANAGEEDT_H
+#endif // ADMCLASSLISTSELECTION_H

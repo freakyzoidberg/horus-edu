@@ -40,6 +40,8 @@
 
 ManageEdt::ManageEdt(PluginManager *pluginManager)
 {
+	infos = NULL;
+
 	MainLayout = new QHBoxLayout();
 	MainLayout->setSpacing(0);
 	MainLayout->setMargin(2);
@@ -70,6 +72,21 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	MainLayout->addWidget(AdmClassList);
 	MainLayout->addLayout(RightLayout);
 	MainLayout->setStretch(0, 1);
+
+	connect(this->AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
+			this, SLOT(classSelected(QListWidgetItem *)));
+
 	this->setLayout(MainLayout);
 }
 
+void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
+{
+	if (infos)
+	{
+		delete infos;
+		infos = NULL;
+	}
+		//edt is defined? TODO
+	infos = new InfoPanel(NULL);
+	//this->informationsLayout->addWidget(QLabel("test info"));
+}

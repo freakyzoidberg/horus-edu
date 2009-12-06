@@ -32,44 +32,19 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MANAGEEDT_H
-#define MANAGEEDT_H
+
+#ifndef INFOPANEL_H
+#define INFOPANEL_H
 
 #include <QWidget>
-#include <QHBoxLayout>
-#include <QFrame>
-#include <QListWidget>
-#include <QMap>
-#include <QString>
-#include <QListWidgetItem>
+#include "../../../../Common/TreeData.h"
+#include <QGridLayout>
+#include <QLabel>
 
-# include "../../../../Common/PluginManager.h"
-# include "../../../../Common/UserData.h"
-#include "admclasslistselection.h"
-#include "infopanel.h"
-
-#include "AdmListEdt.h"
-
-class ManageEdt : public QWidget
+class InfoPanel : public QWidget
 {
-	Q_OBJECT
-
 public:
-							ManageEdt(PluginManager *pluginManager);
-	QListWidget				*StudentList;
-
-public slots:
-		void				classSelected(QListWidgetItem *);
-
-private:
-	PluginManager			*_pluginManager;
-	QHBoxLayout				*MainLayout;
-	AdmListEdt				*_admEDTList;
-	QFrame					*informationsFrame;
-	QVBoxLayout				*informationsLayout;
-	InfoPanel				*infos;
-
-	AdmClassListSelection	*AdmClassList;
+	InfoPanel(TreeData *);
 };
 
-#endif // MANAGEEDT_H
+#endif // INFOPANEL_H

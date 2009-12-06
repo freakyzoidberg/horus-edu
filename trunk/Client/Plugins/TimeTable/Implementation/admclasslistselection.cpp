@@ -32,44 +32,61 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MANAGEEDT_H
-#define MANAGEEDT_H
 
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QFrame>
-#include <QListWidget>
-#include <QMap>
-#include <QString>
-#include <QListWidgetItem>
+#include <QVBoxLayout>
+#include <QLabel>
 
-# include "../../../../Common/PluginManager.h"
-# include "../../../../Common/UserData.h"
+#include "../../../../Common/TreeData.h"
 #include "admclasslistselection.h"
-#include "infopanel.h"
 
-#include "AdmListEdt.h"
-
-class ManageEdt : public QWidget
+AdmClassListSelection::AdmClassListSelection(PluginManager *pluginManager)
+							: QWidget()
 {
-	Q_OBJECT
+	this->treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
+	QVBoxLayout *ListLayout = new QVBoxLayout();
 
-public:
-							ManageEdt(PluginManager *pluginManager);
-	QListWidget				*StudentList;
+	ListLayout->setMargin(0);
+	ListLayout->setSpacing(0);
 
-public slots:
-		void				classSelected(QListWidgetItem *);
+	ClassList = new QListWidget(this);
+	ClassList->setSelectionRectVisible(false);
 
-private:
-	PluginManager			*_pluginManager;
-	QHBoxLayout				*MainLayout;
-	AdmListEdt				*_admEDTList;
-	QFrame					*informationsFrame;
-	QVBoxLayout				*informationsLayout;
-	InfoPanel				*infos;
+	QLabel *title = new QLabel(tr("Select a class to view, add or edit its time table."));
+	   title->setProperty("isTitle", true);
+	   ListLayout->addWidget(title);
 
-	AdmClassListSelection	*AdmClassList;
-};
+	   ListLayout->addWidget(ClassList);
 
-#endif // MANAGEEDT_H
+	   //connect(ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
+				//this, SLOT(updatestudents(QListWidgetItem *)));
+	   this->setLayout(ListLayout);
+
+	   fillClassList();
+}
+
+QMap<int, QString> AdmClassListSelection::getallclass()
+{
+	QMap<int, QString> allclass;
+
+	for (int i = 0; i < treePlugin->allDatas().size(); ++i)
+	{
+		TreeData    *data = qobject_cast<TreeData *>(treePlugin->allDatas().at(i));
+		if ((data->type() == "GRADE") && IS_VALID_DATA_STATUS(data->status()))
+			allclass.insert(data->id(), data->name());
+	}
+	return allclass;
+}
+
+void	AdmClassListSelection::fillClassList()
+{
+	QMapIterator<int, QString> i(getallclass());
+	ClassList->clear();
+
+	while (i.hasNext())
+	{
+		i.next();
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+		tempitem->setData(Qt::UserRole, i.key());
+		ClassList->addItem(tempitem);
+	}
+}
