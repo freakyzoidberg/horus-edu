@@ -35,12 +35,14 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QVariant>
 
 #include "ManageEdt.h"
 
-ManageEdt::ManageEdt(PluginManager *pluginManager, QTabWidget *parent)
+ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 {
 	infos = NULL;
+	_pluginManager = pluginManager;
 
 	this->parent = parent;
 	MainLayout = new QHBoxLayout();
@@ -106,6 +108,11 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, QTabWidget *parent)
 
 void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 {
+	QVariant	datas = selectedItem->data(Qt::UserRole);
+	int			classId = datas.toInt();
+	TreeData	*node = _pluginManager->findPlugin<TreeDataPlugin *>()->node(classId);
+	bool	edt = false;
+
 	ok->setVisible(false);
 	save->setVisible(false);
 	reset->setVisible(false);
@@ -114,17 +121,23 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 	del->setVisible(false);
 	add->hide();
 
+
+
 	if (infos)
 	{
 		delete infos;
 		infos = NULL;
 	}
-		//edt is defined? TODO
+		//edt is defined? TODO parce que c pas fini
 	infos = new InfoPanel(NULL);
-	if (false)
+	parent->getEdt()->createScene(node);
+	if (edt)
 	{
+
 		edit->show();
 		del->show();
+		;
+
 	}
 	else
 	{

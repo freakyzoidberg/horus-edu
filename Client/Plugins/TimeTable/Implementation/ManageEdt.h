@@ -49,6 +49,7 @@
 # include "../../../../Common/UserData.h"
 #include "admclasslistselection.h"
 #include "infopanel.h"
+#include "MainView.h"
 
 #include "AdmListEdt.h"
 
@@ -57,14 +58,14 @@ class ManageEdt : public QWidget
 	Q_OBJECT
 
 public:
-							ManageEdt(PluginManager *pluginManager, QTabWidget *parent);
+							ManageEdt(PluginManager *pluginManager, MainView *parent);
 	QListWidget				*StudentList;
 
 public slots:
 		void				classSelected(QListWidgetItem *);
 
 private:
-	QTabWidget				*parent;
+	MainView				*parent;
 	PluginManager			*_pluginManager;
 	QHBoxLayout				*MainLayout;
 	AdmListEdt				*_admEDTList;

@@ -46,9 +46,11 @@
 class EdtSceneProxyWidget : public QGraphicsView
 {
 public:
-    EdtSceneProxyWidget(PluginManager *pluginManager, TreeData *treedata);
+	EdtSceneProxyWidget(PluginManager *pluginMenager, TreeData *treedata);
     ~EdtSceneProxyWidget();
     ScheduleData *getScheduleData();
+
+	EDTScene	*scene()	{ return _scene; }
 
 private:
     PluginManager	*_pluginManager;
