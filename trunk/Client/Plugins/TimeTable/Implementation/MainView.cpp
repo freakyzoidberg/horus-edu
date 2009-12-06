@@ -34,12 +34,13 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include <QIcon>
 
+#include "ManageEdt.h"
 #include "MainView.h"
 #include "edtplanning.h"
 
 MainView::MainView(PluginManager *pluginManager)
 {
-	EdtManager = new ManageEdt(pluginManager, this);
+	ManageEdt *EdtManager = new ManageEdt(pluginManager, this);
 	EdtSceneView = new EdtWidget(pluginManager);
 
 	this->addTab(EdtSceneView, QIcon(":/Icons/desk.png"), tr("Weekly view"));

@@ -37,10 +37,12 @@
 
 #include <QGraphicsScene>
 #include <QWidget>
+#include <QDebug>
+
 # include			"../../../../Common/PluginManager.h"
 # include			"../../../../Common/UserData.h"
 # include			"../../../../Common/TreeData.h"
-# include                        "../../../../Common/ScheduleData.h"
+# include           "../../../../Common/ScheduleData.h"
 
 class EDTScene : public QGraphicsScene
 {
