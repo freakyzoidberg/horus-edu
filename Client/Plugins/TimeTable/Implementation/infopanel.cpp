@@ -32,44 +32,34 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MANAGEEDT_H
-#define MANAGEEDT_H
 
-#include <QWidget>
-#include <QHBoxLayout>
-#include <QFrame>
-#include <QListWidget>
-#include <QMap>
-#include <QString>
-#include <QListWidgetItem>
-
-# include "../../../../Common/PluginManager.h"
-# include "../../../../Common/UserData.h"
-#include "admclasslistselection.h"
 #include "infopanel.h"
-
-#include "AdmListEdt.h"
-
-class ManageEdt : public QWidget
+InfoPanel::InfoPanel(TreeData *node)
 {
-	Q_OBJECT
+	QGridLayout *layout = new QGridLayout();
 
-public:
-							ManageEdt(PluginManager *pluginManager);
-	QListWidget				*StudentList;
+	if (!node)
+	{
+		//layout->addWidget(new );
 
-public slots:
-		void				classSelected(QListWidgetItem *);
 
-private:
-	PluginManager			*_pluginManager;
-	QHBoxLayout				*MainLayout;
-	AdmListEdt				*_admEDTList;
-	QFrame					*informationsFrame;
-	QVBoxLayout				*informationsLayout;
-	InfoPanel				*infos;
+	}
+	/*if (it != 0)
+	{
+		layout->addWidget(new QLabel(tr("name :")), 0,0);
+		layout->addWidget(new QLabel(tr("birthday :")),1,0);
+		layout->addWidget(new QLabel(tr("address :")),2,0);
 
-	AdmClassListSelection	*AdmClassList;
-};
+		QLabel *na = new QLabel(it->surname()+ " " + it->name());
+		na->setWordWrap(true);
+		layout->addWidget(na, 0,1);
 
-#endif // MANAGEEDT_H
+		QLabel *bd = new QLabel(it->birthDate().toString());
+		bd->setWordWrap(true);
+		layout->addWidget(bd, 1,1);
+		QLabel *add = new QLabel(it->address());
+		add->setWordWrap(true);
+		layout->addWidget(add, 2,1);
+	} */
+	setLayout(layout);
+}
