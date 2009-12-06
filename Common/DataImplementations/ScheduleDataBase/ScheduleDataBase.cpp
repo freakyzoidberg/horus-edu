@@ -71,12 +71,14 @@ void ScheduleDataBase::dataFromStream(QDataStream& s)
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
 
 	QByteArray bufItems;
-	QDataStream ds(bufItems);
+
 
 	s >> bufItems;
-	ScheduleItem* event;
+        QDataStream ds(bufItems);
+        ScheduleItem* event;
         while ((_sEvents.count() > 0) && (event = _sEvents.takeFirst()))
 		delete event;
+
 	while ( ! ds.atEnd())
 		_sEvents.append( new ScheduleItem(ds) );
 
@@ -172,14 +174,13 @@ quint8 ScheduleDataBase::serverCreate()
 		return DATABASE_ERROR;
 	}
         _id = query.lastInsertId().toUInt();
-        qDebug() << _sEvents.count();
+        qDebug() << _id;
         if (_sEvents.count() > 0)
         {
             for(int i = 0; i < _sEvents.count(); i++)
             {
-                qDebug() << "here";
                 QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-                query2.prepare("INSERT INTO`schedule_event`(`id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`)VALUES(?,?,?,?,?,?,?,?,?,?);");
+                query2.prepare("INSERT INTO`schedule_event`(`id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`)VALUES(?,?,?,?,?,?,?,?,?,?,?);");
                 query2.addBindValue(_id);
                 query2.addBindValue(_sEvents.at(i)->getJWeek());
                 query2.addBindValue(_sEvents.at(i)->getHStart());
