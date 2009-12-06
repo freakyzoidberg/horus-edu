@@ -75,14 +75,14 @@ void ScheduleDataBase::dataFromStream(QDataStream& s)
 
 	s >> bufItems;
 	ScheduleItem* event;
-	while ((event = _sEvents.takeFirst()))
+        while ((_sEvents.count() > 0) && (event = _sEvents.takeFirst()))
 		delete event;
 	while ( ! ds.atEnd())
 		_sEvents.append( new ScheduleItem(ds) );
 
 	s >> bufItems;
 	ScheduleException* exeption;
-	while ((exeption = _sException.takeFirst()))
+        while ((_sException.count() > 0) &&  (exeption = _sException.takeFirst()))
 		delete exeption;
 	while ( ! ds.atEnd())
 		_sException.append(new ScheduleException(ds) );
