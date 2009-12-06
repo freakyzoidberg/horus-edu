@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `schedule` (
   `id_node` int(11) NOT NULL,
   `date_start` date NOT NULL,
   `date_end` date NOT NULL,
-  `exception` blob NOT NULL,
+  `exception` blob,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
