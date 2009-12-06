@@ -33,16 +33,32 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include <QIcon>
+#include <QLabel>
+#include <QDebug>
+
 #include "infopanel.h"
 InfoPanel::InfoPanel(TreeData *node)
 {
 	QGridLayout *layout = new QGridLayout();
 
-	if (!node)
+	if (node)
+	{//ajoiter une icone
+		layout->addWidget(new QLabel(tr("Error.")), 0, 0);
+	}
+	else if (false)
 	{
-		//layout->addWidget(new );
-
-
+		QLabel	*label = new QLabel();
+		label->setPixmap(QPixmap(":/error.png"));
+		layout->addWidget(label, 0, 0);
+		layout->addWidget(new QLabel(tr("No time table found.")), 0, 1);
+	}
+	else
+	{
+		QLabel	*label = new QLabel();
+		label->setPixmap(QPixmap(":/TimeTableOK.gif"));
+		layout->addWidget(label, 0, 0);
+		layout->addWidget(new QLabel(tr("time table found.")), 0, 1);
 	}
 	/*if (it != 0)
 	{

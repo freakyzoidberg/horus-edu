@@ -88,5 +88,6 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 	}
 		//edt is defined? TODO
 	infos = new InfoPanel(NULL);
-	//this->informationsLayout->addWidget(QLabel("test info"));
+
+	this->informationsLayout->addWidget(infos);
 }
