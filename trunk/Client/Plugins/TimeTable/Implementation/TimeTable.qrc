@@ -11,5 +11,6 @@
         <file>ok.png</file>
         <file>reset.png</file>
         <file>TimeTableOK.gif</file>
+        <file>AddTimeTable.png</file>
     </qresource>
 </RCC>

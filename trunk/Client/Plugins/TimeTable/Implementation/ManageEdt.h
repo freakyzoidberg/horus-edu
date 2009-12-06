@@ -76,6 +76,7 @@ private:
 	QPushButton				*save;
 	QPushButton				*reset;
 	QPushButton				*back;
+	QPushButton				*add;
 
 	AdmClassListSelection	*AdmClassList;
 };
