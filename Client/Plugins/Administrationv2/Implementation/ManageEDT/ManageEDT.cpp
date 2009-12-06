@@ -63,6 +63,10 @@ ManageEDT::ManageEDT(TreeDataPlugin *treeplugin, ScheduleDataPlugin *scheduleplu
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
     EDTScene *scene = new EDTScene();
+    ScheduleData *test = SD->newSchedule(TD->node(237));
+    test->setStartDate(QDate(2009, 12, 8));
+    test->setEndDate(QDate(2009, 12, 18));
+    test->create();
 //
 //
 //    QTableWidget *tview = new QTableWidget(12, 7);

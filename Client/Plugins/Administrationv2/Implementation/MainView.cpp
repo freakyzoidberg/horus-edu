@@ -45,5 +45,5 @@ MainView::MainView(PluginManager *pluginManager)
 	this->addTab(new ManageStudents(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/students.png"), tr("Students"));
 	this->addTab(new ManageTeachers(this, pluginManager), QIcon(":/Icons/teachers.png"), tr("Teachers"));
 	this->addTab(new ManageAdministratives(this, pluginManager), QIcon(":/Icons/administrator.png"), tr("Administratives"));
-        //this->addTab(new ManageEDT(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<ScheduleDataPlugin *>()), QIcon(":/Icons/students.png"), tr("EDT"));
+        this->addTab(new ManageEDT(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<ScheduleDataPlugin *>()), QIcon(":/Icons/students.png"), tr("EDT"));
 }
