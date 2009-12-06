@@ -72,3 +72,4 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	MainLayout->setStretch(0, 1);
 	this->setLayout(MainLayout);
 }
+
