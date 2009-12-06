@@ -39,6 +39,8 @@
 #include <QHBoxLayout>
 #include <QFrame>
 #include <QListWidget>
+#include <QMap>
+#include <QString>
 
 # include "../../../../Common/PluginManager.h"
 # include "../../../../Common/UserData.h"
@@ -51,17 +53,17 @@ class ManageEdt : public QWidget
 	Q_OBJECT
 
 public:
-					ManageEdt(PluginManager *pluginManager);
-	QListWidget		*StudentList;
+							ManageEdt(PluginManager *pluginManager);
+	QListWidget				*StudentList;
 
 private:
-    PluginManager	*_pluginManager;
-	QHBoxLayout		*MainLayout;
-	AdmListEdt		*_admEDTList;
-	QFrame			*informationsFrame;
-	QVBoxLayout		*informationsLayout;
+	PluginManager			*_pluginManager;
+	QHBoxLayout				*MainLayout;
+	AdmListEdt				*_admEDTList;
+	QFrame					*informationsFrame;
+	QVBoxLayout				*informationsLayout;
 
-	AdmClassListSelection *AdmClassList;
+	AdmClassListSelection	*AdmClassList;
 
 };
 

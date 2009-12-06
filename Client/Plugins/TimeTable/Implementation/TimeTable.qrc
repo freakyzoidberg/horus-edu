@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/" >
         <file>TimeTable.png</file>
+        <file>desk.png</file>
     </qresource>
 </RCC>
