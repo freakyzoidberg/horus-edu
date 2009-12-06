@@ -387,20 +387,16 @@ void ManageStudents::gosave()
 
             //newUSer->setRelationship(QVariant(x).toString());
 
-
-
-
-
-
-
-
-
             newUSer->setEnable(true);
 
             if (scrollStudentForm->StudentForm->id == 0)
             {
                 newUSer->create();
                 scrollStudentForm->StudentForm->id = newUSer->id();
+                newPapa->create();
+                newMomy->create();
+                newPapa->setStudent(newUSer);
+                newMomy->setStudent(newUSer);
             }
             else
             {
@@ -589,7 +585,14 @@ void ManageStudents::gook()
    // connect(UD, dataUpdated(newUSer), StudentList->updatestudents(StudentList->ClassList->selectedItems().first()));
             newUSer->setEnable(true);
             if (scrollStudentForm->StudentForm->id == 0)
+            {
                 newUSer->create();
+                scrollStudentForm->StudentForm->id = newUSer->id();
+                newPapa->create();            
+                newMomy->create();
+                newPapa->setStudent(newUSer);
+                newMomy->setStudent(newUSer);
+            }
             else
             {
                 newUSer->save();
