@@ -2,5 +2,9 @@
     <qresource prefix="/" >
         <file>TimeTable.png</file>
         <file>desk.png</file>
+        <file>warning.png</file>
+        <file>DelTimeTable.png</file>
+        <file>error.png</file>
+        <file>TimeTableOK.gif</file>
     </qresource>
 </RCC>
