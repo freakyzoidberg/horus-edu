@@ -35,6 +35,7 @@
 #ifndef MANAGEEDT_H
 #define MANAGEEDT_H
 
+#include <QPushButton>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QFrame>
@@ -68,6 +69,13 @@ private:
 	QFrame					*informationsFrame;
 	QVBoxLayout				*informationsLayout;
 	InfoPanel				*infos;
+
+	QPushButton				*del;
+	QPushButton				*edit;
+	QPushButton				*ok;
+	QPushButton				*save;
+	QPushButton				*reset;
+	QPushButton				*back;
 
 	AdmClassListSelection	*AdmClassList;
 };
