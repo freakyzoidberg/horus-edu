@@ -79,10 +79,10 @@ public:
         inline void                         setEndDate(const QDate& date) { QMutexLocker M(&mutex); _endDate = date; }
         inline QList<ScheduleException* >   scheduleException() const						{ return _sException; }
         inline void                         addException(ScheduleException* excp) { QMutexLocker M(&mutex); _sException.append(excp); }
-        inline void                         removeException(ScheduleException* excp) { QMutexLocker M(&mutex); _sException.removeOne(excp); }
+        inline void                         removeException(ScheduleException* excp) { QMutexLocker M(&mutex); _sException.removeOne(excp);}
         inline QList<ScheduleItem* >        scheduleEvents() const						{ return _sEvents; }
         inline void                         addEvent(ScheduleItem* event) { QMutexLocker M(&mutex); _sEvents.append(event); }
-        inline void                         removeEvent(ScheduleItem* event) { QMutexLocker M(&mutex); _sEvents.removeOne(event); }
+        inline void                         removeEvent(ScheduleItem* event) { QMutexLocker M(&mutex); eventsToDelete.append(event->getId()); _sEvents.removeOne(event); }
         inline TreeData*                    node() const						{ return _node; }
 
 
@@ -93,7 +93,7 @@ public:
 	void				dataFromStream(QDataStream& s);
 	bool				canChange(UserData* user) const;
 	bool				canAccess(UserData* user) const;
-
+        QList<int>                      eventsToDelete;
         const QList<Data*>              dependsOfCreatedData() const;
 
 	QDebug				operator<<(QDebug debug) const;

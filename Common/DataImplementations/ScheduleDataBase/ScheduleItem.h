@@ -28,7 +28,7 @@ class ScheduleException
 class ScheduleItem
 {
     public:
-        inline ScheduleItem(int id, int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, int f, bool m, int t)
+        inline ScheduleItem(int id, int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, bool f, int m, int t)
         {
             _id = id;
             _idSchedule = is;

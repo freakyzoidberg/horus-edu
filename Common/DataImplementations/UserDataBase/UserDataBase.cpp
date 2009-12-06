@@ -199,6 +199,7 @@ const QList<Data*> UserDataBase::dependsOfCreatedData() const
 {
 	QList<Data*> list;
 	list.append(_studentClass);
+        list.append(_student);
 	return list;
 }
 
