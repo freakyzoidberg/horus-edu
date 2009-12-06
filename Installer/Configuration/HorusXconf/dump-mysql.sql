@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `schedule` (
   `date_end` date NOT NULL,
   `exception` blob,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 
 

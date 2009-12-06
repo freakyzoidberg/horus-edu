@@ -66,33 +66,34 @@ ManageEDT::ManageEDT(TreeDataPlugin *treeplugin, ScheduleDataPlugin *scheduleplu
 
     qDebug() << SD->allDatas();
     ScheduleData *test = SD->newSchedule(TD->node(239));
-    test->setStartDate(QDate(2009, 12, 21));
-    test->setEndDate(QDate(2009, 12, 25));
-    test->addEvent(new ScheduleItem(-1,
-                                3,
-                                2,
-                                "Math",
-                                QTime(10, 20, 20, 20),
-                                QTime(11, 10,10, 10),
-                                "Math",
-                                QDate(2009, 12, 8),
-                                QDate(2010, 10, 9),
-                                false,
-                                1,
-                                1));
-    test->addEvent(new ScheduleItem(-1,
-                                3,
-                                2,
-                                "Math",
-                                QTime(10, 20, 20, 20),
-                                QTime(11, 10,10, 10),
-                                "Math",
-                                QDate(2009, 12, 8),
-                                QDate(2010, 10, 9),
-                                false,
-                                1,
-                                1));
-    test->create();
+    test->remove();
+    //    test->setStartDate(QDate(2009, 12, 21));
+//    test->setEndDate(QDate(2009, 12, 25));
+//    test->addEvent(new ScheduleItem(-1,
+//                                3,
+//                                2,
+//                                "Math",
+//                                QTime(10, 20, 20, 20),
+//                                QTime(11, 10,10, 10),
+//                                "Math",
+//                                QDate(2009, 12, 8),
+//                                QDate(2010, 10, 9),
+//                                false,
+//                                1,
+//                                1));
+//    test->addEvent(new ScheduleItem(-1,
+//                                3,
+//                                2,
+//                                "Math",
+//                                QTime(10, 20, 20, 20),
+//                                QTime(11, 10,10, 10),
+//                                "Math",
+//                                QDate(2009, 12, 8),
+//                                QDate(2010, 10, 9),
+//                                false,
+//                                1,
+//                                1));
+//    test->create();
 //
 //
 //    QTableWidget *tview = new QTableWidget(12, 7);
