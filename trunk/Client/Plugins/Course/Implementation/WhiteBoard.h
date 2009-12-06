@@ -52,43 +52,35 @@
 #include "../../../../Common/UserData.h"
 #include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.h"
 
-class Items;
+class WhiteboardItem;
 
 class WhiteBoard : public QWidget
 {
     Q_OBJECT
 
 public:
-    WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *> controllers, LessonModel *model, UserData *user);
-     void   setTmp(Items *);
-     Items  *getTmp();
-     void   setPosInDoc(int posInDoc);
-     int    getPosInDoc();
-     QToolBar *dock;
-     QVector<QPushButton *>   button;
-     QHash<QString, IDocumentController *>  getControllers();
+    WhiteBoard(WhiteBoardData* wb, QHash<QString, IDocumentController *>& controllers, LessonModel *model, UserData *user);
+
+	QToolBar*	getDock();
 
 protected:
      void dragEnterEvent(QDragEnterEvent *event);
      void dragMoveEvent(QDragMoveEvent *event);
      void dropEvent(QDropEvent *event);
-     QHash<QString, IDocumentController *> _controllers;
 
 public slots:
 	void	update();
-
-private:
-	ILessonDocument		*findDocument(int lessonId, int documentId);
-    void                fillList(QObject* data, WhiteBoardItemList&);
+	void	notifyChange();
 
  private:
-    Items           *tmp;
-    int             posInDoc;
-    WhiteBoardData* wbdata;
-	QGridLayout     *layout;
-	QWidget			*displayArea;
-	LessonModel		*model;
-        UserData*               _user;
+    WhiteBoardData*							_wbdata;
+	QGridLayout*							_layout;
+	QWidget*								_displayArea;
+	LessonModel*							_model;
+    UserData*								_user;
+	QToolBar*								_dock;
+    QVector<QPushButton *>					_button;
+    QHash<QString, IDocumentController *>	_controllers;
 };
 
 #endif // WHITEBOARD_H

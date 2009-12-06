@@ -36,57 +36,46 @@
 
 #include <QDebug>
 #include <QPushButton>
+#include <QLabel>
 
 #include "LessonDocument.h"
-#include "Items.h"
+#include "WhiteboardObject.h"
 
 #include "../LessonManager/Implementation/Lesson.h"
 
-WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *> controllers, LessonModel *model, UserData *user)
-        : _controllers(controllers), model(model), _user(user)
+WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *>& controllers, LessonModel *model, UserData *user)
+        : _controllers(controllers), _model(model), _user(user), _wbdata(wbd)
 {
-    wbdata = wbd;
     setAutoFillBackground(true);
 	setAcceptDrops(true);
-	layout = new QGridLayout(this);
-	layout->setMargin(0);
-	layout->setSpacing(0);
 
-    this->dock = new QToolBar(this);
-	layout->addWidget(this->dock, 0, 0);
-	displayArea = new QFrame(this);
-	displayArea->setProperty("whiteboard", QVariant(true));
+	_layout = new QGridLayout(this);
+	_layout->setMargin(0);
+	_layout->setSpacing(0);
+
+    _dock = new QToolBar(this);
+	_dock->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+	if (_user->level() == LEVEL_TEACHER)
+	{
+		_dock->setStyleSheet("font-family: \"Tohoma\"; font-size: 10px; font-weight: bold; color: white;");
+	}
+	else
+	{
+		_dock->setStyleSheet("QToolBar { background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.318182 rgba(127, 127, 127, 255), stop:0.380682 rgba(100, 100, 100, 255)); spacing: 0px; margin: 0px; border: 0px; max-height: 20px; min-height: 20px; } ");
+		QLabel* title = new QLabel("  History class, 6eme (Adrien Grandemange)");
+		title->setStyleSheet("QLabel {font-family: \"Tohoma\"; font-size: 10px; font-weight: bold; color: white; }");
+		_dock->addWidget(title);
+	}
+	_layout->addWidget(_dock, 0, 0);
+	_displayArea = new QFrame(this);
+	_displayArea->setProperty("whiteboard", QVariant(true));
 	setStyleSheet("QFrame[whiteboard=\"true\"] { border: 0px; background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); } ");
-	layout->addWidget(displayArea, 1, 0);
-    this->posInDoc = 0;
+	_layout->addWidget(_displayArea, 1, 0);
 
-    QPalette p(this->palette());
-    p.setColor(QPalette::Background, Qt::white);
-    this->setPalette(p);
+	notifyChange();
 
-    qDebug() << "connect";
     if (_user->level() == LEVEL_STUDENT)
-        QObject::connect(wbdata, SIGNAL(updated()), this, SLOT(update()));
-}
-
-void   WhiteBoard::setTmp(Items *item)
-{
-    tmp = item;
-}
-
-Items  *WhiteBoard::getTmp()
-{
-    return tmp;
-}
-
-void    WhiteBoard::setPosInDoc(int posInDoc)
-{
-    this->posInDoc = posInDoc;
-}
-
-int     WhiteBoard::getPosInDoc()
-{
-    return this->posInDoc;
+        QObject::connect(_wbdata, SIGNAL(updated()), this, SLOT(update()));
 }
 
 void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
@@ -99,6 +88,11 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
  {
     event->accept();
  }
+
+QToolBar*	WhiteBoard::getDock()
+{
+	return _dock;
+}
 
  void WhiteBoard::dropEvent(QDropEvent *event)
  {
@@ -125,146 +119,126 @@ void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
                     stream >> key >> value;
                     parameters[key] = value;
             }
-            ILesson *lesson = model->getLesson(lessonid);
-            ILessonDocument *doc = model->getLessonDocument(lessonid, id);
+            ILessonDocument *doc = _model->getLessonDocument(lessonid, id);
+			WhiteboardObject *wbObject;
             if (this->_controllers.contains(type))
             {
-                    Items *item = new Items(displayArea, this, lesson, id, type, title);
+					wbObject = new WhiteboardObject(_displayArea, this, doc, this->_controllers[type], _user);
 
-                    QWidget *docWidget;
-                    docWidget = this->_controllers[type]->createDocumentWidget(doc);
-                    QPoint offset(0, dock->height());
-                    item->move(event->pos() - offset);
-                    if (docWidget)
+                    QPoint offset(0, _dock->height());
+                    wbObject->move(event->pos() - offset);
+                    if (event->pos().y() < _dock->size().height())
                     {
-                            docWidget->lower();
-                            item->show();
-                            item->setMainWidget(docWidget);
-                            item->resize(QSize(200, 200));
+						wbObject->switchDockMode();
                     }
-                    if (event->pos().y() < dock->size().height())
-                    {
-                            item->moveToDock();
-                    }
-                    fillList(displayArea, wbdata->items());
-                    wbdata->save();
+                    notifyChange();
             }
             else
-                    qWarning()<< tr("WhiteBoard::dropEvent: unable to find a controller for") << type << tr("type.");
+			{
+                    qDebug() << "WhiteBoard::dropEvent: unable to find a controller for " << type << " type.";
+					wbObject = new WhiteboardObject(_displayArea, this, doc, NULL, _user);
+			}
+			connect(wbObject, SIGNAL(destroyed()), this, SLOT(notifyChange()));
         }
-    }
-    else
-    {
-        QString text;
-        QPoint offset(event->mimeData()->property("hotspot").toPoint());
-        offset.setY(offset.y() + dock->height());
-        tmp->move(event->pos() - offset);
-        tmp->show();
-        tmp->parentWidget()->repaint();
-        event->acceptProposedAction();
-        fillList(displayArea, wbdata->items());
-        wbdata->save();
     }
  }
 
  void	WhiteBoard::update()
  {
-        const QObjectList& itemList = displayArea->children();
-	WhiteBoardItemList& list = wbdata->items();
-	WhiteBoardItemList::const_iterator it;
-	QObjectList::const_iterator it2;
-        qDebug() << "wbdata update: " << list.count();
-	for (it = list.begin(); it != list.end(); it++)
-	{
-		bool found = false;
-		for (it2 = itemList.begin(); it2 != itemList.end(); it2++)
-		{
-			Items* item = qobject_cast<Items *>(*it2);
-			if (item && item->getId() == it->idSection() && item->getLesson()->getId() == it->idLesson())
-			{
-				item->setGeometry(it->left(), it->top(), it->width(), it->height());
-//				if (it->docked())
-//					item->moveToDock();
-//				else
-//					item->restore();
-                                qDebug() << "found widget !!";
-				found = true;
-				break;
-			}
-		}
-		if (!found)
-		{
-			qDebug() << "new widget in whiteboard";
-			ILessonDocument* document = findDocument(it->idLesson(), it->idSection());
-			if (document)
-			{
-				qDebug() << "found document";
-				if (this->_controllers.contains(document->getType()))
-				{
-                                        Items *item = new Items(displayArea, this, model->getLesson(it->idLesson()), document->getId(),
-											document->getParameters().value("type").toString(),
-											document->getParameters().value("title").toString());
-					qDebug() << "creating item";
-					QWidget *docWidget;
-                                        docWidget = this->_controllers[document->getType()]->createDocumentWidget(document);
-                                        item->move(it->left(), it->top());
-                                        item->resize(QSize(it->width(), it->height()));
-					if (docWidget)
-					{
-						docWidget->lower();
-                                                item->setMainWidget(docWidget);
-                                                item->show();
-						item->repaint();
-					}
-				}
-				else
-					qWarning()<< tr("WhiteBoard::dropEvent: unable to find a controller for") << document->getType() << tr("type.");
-			}
-		}
-	}
-	for (it2 = itemList.begin(); it2 != itemList.end(); it2++)
-	{
-		Items* item = qobject_cast<Items *>(*it2);
-		if (item)
-		{
-			bool found = false;
-			for (it = list.begin(); it != list.end(); it++)
-			{
-				if (item->getLesson()->getId() == it->idLesson() && item->getId() == it->idSection())
-				{
-					found = true;
-					break;
-				}
-			}
-			if (!found)
-				item->close();
-		}
-	}
- }
-
- ILessonDocument*	WhiteBoard::findDocument(int lessonId, int documentId)
- {
-	return model->getLessonDocument(lessonId, documentId);
- }
-
-void	WhiteBoard::fillList(QObject* data, WhiteBoardItemList& list)
-{
-	list.clear();
-	if (data)
+	 const QObjectList& wbObjectList = _displayArea->children();
+	 WhiteBoardItemList list = _wbdata->items();
+	 WhiteBoardItemList::const_iterator it;
+	 QObjectList::const_iterator it2;
+	 qDebug() << "wbdata update: " << list.count();
+	 for (it = list.begin(); it != list.end(); it++)
 	 {
+		 bool found = false;
+		 for (it2 = wbObjectList.begin(); it2 != wbObjectList.end(); it2++)
+		 {
+			 WhiteboardObject* wbObject = qobject_cast<WhiteboardObject *>(*it2);
+			 if (wbObject && wbObject->getLesson()->getId() == it->idLesson() && wbObject->getDocument()->getId() == it->idSection())
+			 {
+				 wbObject->setGeometry(it->left(), it->top(), it->width(), it->height());
+				 qDebug() << "found widget !!";
+				 if (it->docked())
+				 {
+					 wbObject->hide();
+				 }
+				 else
+				 {
+					 wbObject->show();
+				 }
+				 found = true;
+				 break;
+			 }
+		 }
+		 if (!found)
+		 {
+			 qDebug() << "new widget in whiteboard";
+			 ILessonDocument* document = _model->getLessonDocument(it->idLesson(), it->idSection());
+			 if (document)
+			 {
+				 qDebug() << "found document";
+				 WhiteboardObject *wbObject;
+				 if (this->_controllers.contains(document->getType()))
+				 {
+					 wbObject = new WhiteboardObject(_displayArea, this, document, _controllers[document->getType()], _user);
+					 qDebug() << "creating wbObject";
+					 wbObject->setGeometry(it->left(), it->top(), it->width(), it->height());
+				 }
+				 else
+				 {
+					 qDebug() << "WhiteBoard::dropEvent: unable to find a controller for " << document->getType() << " type.";
+					 wbObject = new WhiteboardObject(_displayArea, this, document, NULL, _user);
+				 }
+				 if (it->docked())
+				 {
+					 wbObject->hide();
+				 }
+				 else
+				 {
+					 wbObject->show();
+				 }
+			 }
+		 }
+	 }
+	 for (it2 = wbObjectList.begin(); it2 != wbObjectList.end(); it2++)
+	 {
+		 WhiteboardObject* wbObject = qobject_cast<WhiteboardObject *>(*it2);
+		 if (wbObject)
+		 {
+			 bool found = false;
+			 for (it = list.begin(); it != list.end(); it++)
+			 {
+				 if (wbObject->getLesson()->getId() == it->idLesson() && wbObject->getDocument()->getId() == it->idSection())
+				 {
+					 found = true;
+					 break;
+				 }
+			 }
+			 if (!found)
+			 {
+				 wbObject->close();
+			 }
+		 }
+	 }
+ }
+
+void	WhiteBoard::notifyChange()
+{
+	if (_user->level() == LEVEL_TEACHER)
+	{
+		WhiteBoardItemList& list = _wbdata->items();
+		list.clear();
 		QObjectList::const_iterator it;
-		for (it = data->children().begin(); it != data->children().end(); it++)
+		for (it = _displayArea->children().begin(); it != _displayArea->children().end(); it++)
 		{
-			if (qobject_cast<Items *>(*it))
+			if (qobject_cast<WhiteboardObject *>(*it))
 			{
-				Items* item = qobject_cast<Items *>(*it);
-				list.append(WhiteBoardItem(item->getLesson()->getId(), item->getId(), item->x(), item->y(), item->width(), item->height(), false));
+				WhiteboardObject* wbObject = qobject_cast<WhiteboardObject *>(*it);
+				list.append(WhiteBoardItem(wbObject->getLesson()->getId(), wbObject->getDocument()->getId(), wbObject->x(), wbObject->y(), wbObject->width(), wbObject->height(), wbObject->isDocked()));
 			}
 		}
+		_wbdata->save();
 	}
-}
-
-QHash<QString, IDocumentController *>  WhiteBoard::getControllers()
-{
-    return this->_controllers;
 }
