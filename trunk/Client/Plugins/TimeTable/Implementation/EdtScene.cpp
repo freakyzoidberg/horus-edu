@@ -35,6 +35,7 @@
 #include "EdtScene.h"
 
 #define SCENE_WIDTH 700
+#include <QGraphicsRectItem>
 
 EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginManager(pluginManager)
 {
@@ -44,6 +45,9 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
     {
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene from " << _SD->startDate() << " to " << _SD->endDate();
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene with " << _SD->scheduleEvents().count() << " Events";
+    //QGraphicsRectItem *test = new QGraphicsRectItem(10,10,100,100,0,this);
+    //test->setBrush(QBrush(QColor(Qt::red)));
+    this->addRect(0,0,100,100,QPen(), QBrush(QColor(Qt::white)));
     }
     else
         qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene _SD == NULL";

@@ -36,13 +36,20 @@
 # include <QDebug>
 EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManager)
 {
-    if (pluginManager->currentUser()->level() == LEVEL_STUDENT)
-    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, pluginManager->currentUser()->studentClass());
-        else
-    _sceneWidget = NULL;
     MainLayout = new QHBoxLayout();
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
+
+    if (pluginManager->currentUser()->level() == LEVEL_STUDENT)
+    {
+    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, pluginManager->currentUser()->studentClass());    
+    MainLayout->addWidget(_sceneWidget);
+    }
+        else
+    {
+    _sceneWidget = NULL;
+    }
+    this->setLayout(MainLayout);
 }
 
 
@@ -52,5 +59,5 @@ void EdtWidget::createScene(TreeData *td)
     if (_sceneWidget)
         delete _sceneWidget;
     _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td);
-
+    MainLayout->addWidget(_sceneWidget);
 }
