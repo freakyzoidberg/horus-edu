@@ -62,6 +62,8 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 	else
 	{
 		_dock->setStyleSheet("QToolBar { background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.318182 rgba(127, 127, 127, 255), stop:0.380682 rgba(100, 100, 100, 255)); spacing: 0px; margin: 0px; border: 0px; max-height: 20px; min-height: 20px; } ");
+		QAction* closeAction = new QAction(QIcon(":/close.png"), "", _dock);
+		_dock->addAction(closeAction);
 		QLabel* title = new QLabel("  History class, 6eme (Adrien Grandemange)");
 		title->setStyleSheet("QLabel {font-family: \"Tohoma\"; font-size: 10px; font-weight: bold; color: white; }");
 		_dock->addWidget(title);
@@ -72,10 +74,12 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 	setStyleSheet("QFrame[whiteboard=\"true\"] { border: 0px; background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); } ");
 	_layout->addWidget(_displayArea, 1, 0);
 
-	notifyChange();
+	update();
 
     if (_user->level() == LEVEL_STUDENT)
+	{
         QObject::connect(_wbdata, SIGNAL(updated()), this, SLOT(update()));
+	}
 }
 
 void WhiteBoard::dragEnterEvent(QDragEnterEvent *event)
@@ -124,20 +128,18 @@ QToolBar*	WhiteBoard::getDock()
             if (this->_controllers.contains(type))
             {
 					wbObject = new WhiteboardObject(_displayArea, this, doc, this->_controllers[type], _user);
-
-                    QPoint offset(0, _dock->height());
-                    wbObject->move(event->pos() - offset);
-                    if (event->pos().y() < _dock->size().height())
-                    {
-						wbObject->switchDockMode();
-                    }
-                    notifyChange();
             }
             else
 			{
-                    qDebug() << "WhiteBoard::dropEvent: unable to find a controller for " << type << " type.";
-					wbObject = new WhiteboardObject(_displayArea, this, doc, NULL, _user);
+                    wbObject = new WhiteboardObject(_displayArea, this, doc, NULL, _user);
 			}
+			QPoint offset(0, _dock->height());
+            wbObject->move(event->pos() - offset);
+            if (event->pos().y() < _dock->size().height())
+            {
+				wbObject->switchDockMode();
+            }
+            notifyChange();
 			connect(wbObject, SIGNAL(destroyed()), this, SLOT(notifyChange()));
         }
     }
@@ -183,14 +185,12 @@ QToolBar*	WhiteBoard::getDock()
 				 if (this->_controllers.contains(document->getType()))
 				 {
 					 wbObject = new WhiteboardObject(_displayArea, this, document, _controllers[document->getType()], _user);
-					 qDebug() << "creating wbObject";
-					 wbObject->setGeometry(it->left(), it->top(), it->width(), it->height());
 				 }
 				 else
 				 {
-					 qDebug() << "WhiteBoard::dropEvent: unable to find a controller for " << document->getType() << " type.";
 					 wbObject = new WhiteboardObject(_displayArea, this, document, NULL, _user);
 				 }
+				 wbObject->setGeometry(it->left(), it->top(), it->width(), it->height());
 				 if (it->docked())
 				 {
 					 wbObject->hide();

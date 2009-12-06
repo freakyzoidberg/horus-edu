@@ -91,6 +91,10 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
         documentIcon = new QIcon(":/DocumentIcon.png");
 }
 
+WhiteBoard*	CourseWidget::getWhiteboard()
+{
+	return pageWidget;
+}
 
 void CourseWidget::buildCategoryTree()
 {

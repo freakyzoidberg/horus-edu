@@ -55,6 +55,8 @@ class                   CourseWidget : public QWidget
 public:
     CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager, UserData* user);
 
+	WhiteBoard*			getWhiteboard();
+
 private:
     void                buildCategoryTree();
 

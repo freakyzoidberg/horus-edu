@@ -32,6 +32,8 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+#include <QAction>
+
 #include "ClassTab.h"
 #include "CreateWhiteboardDialog.h"
 #include "CourseWidget.h"
@@ -125,13 +127,16 @@ void    ClassTab::doJoinWhiteboard(WhiteBoardData *wbd)
     QGridLayout* wbLayout = new QGridLayout(_wbWidget);
     wbLayout->setMargin(0);
     wbLayout->setSpacing(0);
-    CourseWidget* widget = new CourseWidget(this, wbd, _pluginManager, _user);
-    QPushButton* back = new QPushButton(tr("Leave this class"));
-    wbLayout->addWidget(widget);
-    wbLayout->addWidget(back);
-    widget->show();
-    back->show();
-    connect(back, SIGNAL(clicked()), this, SLOT(leaveWhiteboard()));
+    CourseWidget* cWidget = new CourseWidget(this, wbd, _pluginManager, _user);
+    wbLayout->addWidget(cWidget);
+	if (_user->level() == LEVEL_STUDENT)
+	{
+		connect(cWidget->getWhiteboard()->getDock()->actions()[0], SIGNAL(triggered()), this, SLOT(leaveWhiteboard()));
+	}
+    cWidget->show();
+    //QPushButton* back = new QPushButton(tr("Leave this class"));
+	//wbLayout->addWidget(back);
+	//back->show();
     _layout->addWidget(_wbWidget, 0, 0);
 }
 
