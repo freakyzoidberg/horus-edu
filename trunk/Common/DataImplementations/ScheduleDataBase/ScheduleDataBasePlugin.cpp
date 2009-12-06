@@ -44,12 +44,13 @@ ScheduleDataBasePlugin::ScheduleDataBasePlugin()
 {
 }
 
-ScheduleData* ScheduleDataBasePlugin::newSchedule(TreeData *)
+ScheduleData* ScheduleDataBasePlugin::newSchedule(TreeData *node)
 {
         static quint32 tmpId = 0;
         tmpId--;
 
         ScheduleDataBase* s = ((ScheduleDataBase*)( schedule(tmpId)) );
+        s->_node = node;
         return s;
 }
 
