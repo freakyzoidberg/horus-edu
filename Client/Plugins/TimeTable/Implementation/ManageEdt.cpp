@@ -73,7 +73,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
 	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
 	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
-
+	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(edit);
@@ -87,13 +87,13 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	MainLayout->addWidget(AdmClassList);
 	MainLayout->addLayout(RightLayout);
 	MainLayout->setStretch(0, 1);
-/*
+
 	ok->setVisible(false);
 	save->setVisible(false);
 	reset->setVisible(false);
 	back->setVisible(false);
-	edit->setEnabled(false);
-	del->setEnabled(false); */
+	edit->setVisible(false);
+	del->setVisible(false);
 
 	connect(this->AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 			this, SLOT(classSelected(QListWidgetItem *)));
@@ -103,6 +103,14 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 
 void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 {
+	ok->setVisible(false);
+	save->setVisible(false);
+	reset->setVisible(false);
+	back->setVisible(false);
+	edit->setVisible(false);
+	del->setVisible(false);
+	add->hide();
+
 	if (infos)
 	{
 		delete infos;
@@ -112,9 +120,12 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 	infos = new InfoPanel(NULL);
 	if (true)
 	{
-
-
-
+		edit->show();
+		del->show();
+	}
+	else
+	{
+		add->show();
 	}
 	this->informationsLayout->addWidget(infos);
 }
