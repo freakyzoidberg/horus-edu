@@ -79,7 +79,9 @@ ScheduleData* ScheduleDataBasePlugin::schedule(TreeData* node)
         {
                 ScheduleDataBase* s = (ScheduleDataBase*)d;
                 if (s->_node->id() == node->id())
-                        return s;
+                {
+                    return s;
+                }
         }
 	return (0);
 }
@@ -130,6 +132,27 @@ void  ScheduleDataBasePlugin::load()
                 Schedule->_node = pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(1).toUInt());
                 Schedule->_startDate = query.value(2).toDate();
                 Schedule->_endDate   = query.value(3).toDate();
+                QSqlQuery query2 = pluginManager->sqlQuery();
+                query2.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` FROM `schedule_event` WHERE `id_schedule`=?;");
+                query2.addBindValue(Schedule->_id);
+
+                query2.exec();
+                Schedule->_sEvents.clear();
+                while (query2.next())
+                {
+                    Schedule->_sEvents.append(new ScheduleItem(query2.value(0).toInt(),
+                                                     query2.value(1).toInt(),
+                                                     query2.value(2).toInt(),
+                                                     query2.value(5).toString(),
+                                                     query2.value(3).toTime(),
+                                                     query2.value(4).toTime(),
+                                                     query2.value(6).toString(),
+                                                     query2.value(7).toDate(),
+                                                     query2.value(8).toDate(),
+                                                     query2.value(9).toInt(),
+                                                     query2.value(10).toBool(),
+                                                     query2.value(11).toInt()));
+                }
                 //add exception
                 //Schedule->_lastChange= query.value(4).toDateTime();
                 Schedule->_status = Data::UPTODATE;
