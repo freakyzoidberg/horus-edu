@@ -91,5 +91,5 @@ void                TimeTable::load()
 
 QIcon				TimeTable::getIcon() const
 {
-  return QIcon();
+  return QIcon(":/TimeTable.png");
 }

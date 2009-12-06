@@ -77,4 +77,3 @@ QWidget             *TextController::editDocument(QFile *, ILessonDocument *docu
     //connect(save, SIGNAL(clicked()), this, SLOT(saveModifs()));
     return textEditor;
 }
-

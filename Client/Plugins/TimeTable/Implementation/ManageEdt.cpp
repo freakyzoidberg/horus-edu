@@ -46,7 +46,8 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 
 	QVBoxLayout *RightLayout = new QVBoxLayout();
 	RightLayout->setSpacing(2);
-	MainLayout->addWidget(new QWidget());
+
+	AdmClassList = new AdmClassListSelection(pluginManager);
 
 	QLabel *infoTitle = new QLabel(tr("Informations:"));
 	infoTitle->setProperty("isTitle", true);
@@ -66,8 +67,8 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(new QWidget(this), 1);
+	MainLayout->addWidget(AdmClassList);
 	MainLayout->addLayout(RightLayout);
-	//MainLayout->setColumnMinimumWidth(0,150);
 	MainLayout->setStretch(0, 1);
 	this->setLayout(MainLayout);
 }
