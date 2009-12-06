@@ -54,9 +54,9 @@ class ImageController : public Plugin, public IDocumentController
 public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
-        const QString		getSupportedType() const;
-        QWidget*		createDocumentWidget(ILessonDocument *document);
-        QWidget                 *editDocument(QFile *metadata, ILessonDocument *);
+	const QString		getSupportedType() const;
+	QWidget*			createDocumentWidget(ILessonDocument *document);
+	QWidget*			editDocument(QFile *metadata, ILessonDocument *);
 
  private slots:
         void                    dl();
