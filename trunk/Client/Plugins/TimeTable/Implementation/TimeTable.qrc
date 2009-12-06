@@ -5,6 +5,11 @@
         <file>warning.png</file>
         <file>DelTimeTable.png</file>
         <file>error.png</file>
+        <file>EditTimeTable.png</file>
+        <file>save.png</file>
+        <file>back.png</file>
+        <file>ok.png</file>
+        <file>reset.png</file>
         <file>TimeTableOK.gif</file>
     </qresource>
 </RCC>

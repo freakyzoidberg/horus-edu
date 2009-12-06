@@ -67,11 +67,33 @@ ManageEdt::ManageEdt(PluginManager *pluginManager)
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
 
+	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Delete this edt"));
+	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit this edt"));
+	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
+	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
+	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
+	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
+
+
 	RightLayout->addWidget(actionTitle);
+	RightLayout->addWidget(edit);
+	RightLayout->addWidget(del);
+	RightLayout->addWidget(ok);
+	RightLayout->addWidget(save);
+	RightLayout->addWidget(reset);
+	RightLayout->addWidget(back);
 	RightLayout->addWidget(new QWidget(this), 1);
+
 	MainLayout->addWidget(AdmClassList);
 	MainLayout->addLayout(RightLayout);
 	MainLayout->setStretch(0, 1);
+/*
+	ok->setVisible(false);
+	save->setVisible(false);
+	reset->setVisible(false);
+	back->setVisible(false);
+	edit->setEnabled(false);
+	del->setEnabled(false); */
 
 	connect(this->AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 			this, SLOT(classSelected(QListWidgetItem *)));
@@ -88,6 +110,11 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 	}
 		//edt is defined? TODO
 	infos = new InfoPanel(NULL);
+	if (true)
+	{
 
+
+
+	}
 	this->informationsLayout->addWidget(infos);
 }
