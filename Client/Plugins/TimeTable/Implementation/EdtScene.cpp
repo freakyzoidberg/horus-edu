@@ -40,7 +40,12 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
 {
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene constructor called for node " << treedata->id();
     _SD = pluginManager->findPlugin<ScheduleDataPlugin*>()->schedule(treedata);
-
-
+    if (_SD != NULL)
+    {
+    qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene from " << _SD->startDate() << " to " << _SD->endDate();
+    qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene with " << _SD->scheduleEvents().count() << " Events";
+    }
+    else
+        qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene _SD == NULL";
 
 }
