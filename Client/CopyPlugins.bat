@@ -22,4 +22,5 @@ copy SettingsBaseClient\%BUILDCONFIG%\SettingsBaseClientMetaPlugin.dll .\Setting
 copy TextController\%BUILDCONFIG%\TextController.dll .\TextController.dll
 copy ImageController\%BUILDCONFIG%\ImageController.dll .\ImageController.dll
 copy ScheduleBaseClient\%BUILDCONFIG%\ScheduleBaseClientMetaPlugin.dll .\ScheduleBaseClientMetaPlugin.dll
+copy TimeTable\%BUILDCONFIG%\TimeTable.dll .\TimeTable.dll
 cd ..

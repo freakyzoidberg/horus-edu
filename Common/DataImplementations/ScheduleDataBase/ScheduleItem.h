@@ -28,7 +28,7 @@ class ScheduleException
 class ScheduleItem
 {
     public:
-        inline ScheduleItem(int id, int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, bool f, int m, int t)
+        inline ScheduleItem(int id, int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, bool f, int m, int t, QString c)
         {
             _id = id;
             _idSchedule = is;
@@ -42,6 +42,7 @@ class ScheduleItem
             _forceShow = f;
             _modulo = m;
             _teacher = t;
+            _color = c;
         }
         inline ScheduleItem(QDataStream& s) { *this << s; }
 
@@ -69,6 +70,8 @@ class ScheduleItem
         inline void    setModulo(bool m) { _modulo = m; }
         inline int     getTeacher() { return _teacher; }
         inline void    setTeacher(int t) { _teacher = t; }
+        inline QString getColor() { return _color; }
+        inline void    setColor(QString c) { _color = c; }
 
         inline QDataStream& operator>>(QDataStream& s) const
         { return s
@@ -84,6 +87,7 @@ class ScheduleItem
           << _modulo
           << _forceShow
           << _teacher
+          << _color
         ;}
         inline QDataStream& operator<<(QDataStream& s)
         { return s
@@ -99,6 +103,7 @@ class ScheduleItem
           >> _modulo
           >> _forceShow
           >> _teacher
+          >> _color
          ;}
     private:
         int     _id;
@@ -114,7 +119,7 @@ class ScheduleItem
         QList<ScheduleException *> _exception;
         bool    _forceShow;
         int     _teacher;
-
+        QString _color;
 };
 
 #endif // SCHEDULEITEM_H

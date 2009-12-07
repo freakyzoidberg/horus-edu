@@ -6,6 +6,9 @@
 #include <QCalendarWidget>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QPushButton>
+#include <QFrame>
+#include <QLabel>
 #include "EditException.h"
 #include "../../../../Common/ScheduleData.h"
 #include "../../../../Common/TreeData.h"
@@ -20,11 +23,12 @@ class EditSchedule : public QWidget
         QCalendarWidget             *_startDate;
         QCalendarWidget             *_endDate;
         QVBoxLayout                 *vLayout;
+        QHBoxLayout                 *titleLayout;
         QHBoxLayout                 *hLayout;
+        QHBoxLayout                 *hLayout2;
         QList<EditException *>      *_excpList;
-
-
-
+        QPushButton                 *_addException;
+        QFrame                      *line;
         void                        fillClasses(TreeDataPlugin *treeData);
 
 };
