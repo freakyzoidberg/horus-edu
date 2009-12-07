@@ -7,22 +7,24 @@
 class ScheduleException
 {
     public:
-        inline ScheduleException(QDate ds, QDate de)
+        inline ScheduleException(QDate ds, QDate de, QString name)
         {
             dateStart = ds;
             dateEnd = de;
+            name = n;
         }
         inline ScheduleException(QDataStream& s) { *this << s; }
         inline QDataStream& operator>>(QDataStream& s) const
         {
-            return s << dateStart << dateEnd;
+            return s << dateStart << dateEnd << name;
         }
         inline QDataStream& operator<<(QDataStream& s)
         {
-            return s >> dateStart >> dateEnd;
+            return s >> dateStart >> dateEnd >> name;
         }
         QDate   dateStart;
         QDate   dateEnd;
+        QString name;
 };
 
 class ScheduleItem
