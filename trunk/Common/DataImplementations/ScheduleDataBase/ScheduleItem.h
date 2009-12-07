@@ -115,7 +115,7 @@ class ScheduleItem
             s >> bufItems;
             QDataStream ds(bufItems);
             ScheduleException* exeption;
-            while ((_exception.count() > 0) &&  (exeption = exception.takeFirst()))
+            while ((_exception.count() > 0) &&  (exeption = _exception.takeFirst()))
                 delete exeption;
             while ( ! ds.atEnd())
                 _exception.append(new ScheduleException(ds) );

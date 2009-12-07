@@ -152,7 +152,23 @@ void  ScheduleDataBasePlugin::load()
                                                                  query2.value(11).toInt(),
                                                                  query2.value(12).toString()));
                 }
-                //add exception
+                QSqlQuery query3 = pluginManager->sqlQuery();
+                query3.prepare("SELECT`id_event`, `id_schedule`, `date_start`,`date_end`,`name`, `type` FROM `schedule`WHERE`id_schedule`=?;");
+                query3.addBindValue(Schedule->_id);
+                query3.exec();
+                Schedule->_sException.clear();
+                while(query3.next())
+                {
+                    if (query3.value(5).toInt() == 1)
+                    {
+                        Schedule->_sException.append(new ScheduleException(query3.value(2).toDate(), query3.value(3).toDate(), query3.value(4).toString()));
+                    }
+                    else if (query3.value(5).toInt() == 2)
+                    {
+                        Schedule->_sEvents.at(query3.value(0).toInt())->addExcp(new ScheduleException(query3.value(2).toDate(), query3.value(3).toDate(), query3.value(4).toString()));
+                    }
+
+                }
                 //Schedule->_lastChange= query.value(4).toDateTime();
                 Schedule->_status = Data::UPTODATE;
 
