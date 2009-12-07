@@ -127,5 +127,5 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
 
 
 
-    group->setPos(getWPosforDay(1), dow * VOFFSET + total);
+    group->setPos(getWPosforDay(dow), VOFFSET + total);
 }
