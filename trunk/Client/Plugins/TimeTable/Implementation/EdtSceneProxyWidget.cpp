@@ -40,7 +40,7 @@ EdtSceneProxyWidget::EdtSceneProxyWidget(PluginManager *pluginManager, TreeData 
     _scene = new EDTScene(pluginManager, treedata);
 
     _scene->setBackgroundBrush(QPixmap(":/background.png"));
-    //_scene->setSceneRect(- (width/2),, width,height);
+    _scene->setSceneRect(0,0, width,height);
 
     this->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     this->setScene(_scene);

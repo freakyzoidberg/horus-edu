@@ -72,8 +72,8 @@ void EdtWidget::createScene(TreeData *td)
     qDebug() << __FILE__ <<":" << __LINE__ << "slot:createScene() called";
     if (_sceneWidget)
         delete _sceneWidget;
-    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td,750,550);
+    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td,760,560);
     _sceneWidget->setMinimumSize(760,580);
-      this->setMaximumSize(760,560);
+    this->setMaximumSize(760,560);
     MainLayout->addWidget(_sceneWidget,1,0,1,2,Qt::AlignLeft);
 }
