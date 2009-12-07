@@ -166,6 +166,7 @@ CREATE TABLE IF NOT EXISTS `schedule_event` (
   `exception` blob,
   `force` int(11) DEFAULT NULL,
   `id_teacher` int(11) DEFAULT NULL,
+  `color` text DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
