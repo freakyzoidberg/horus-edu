@@ -36,7 +36,7 @@
 
 #include "ManageEdt.h"
 #include "MainView.h"
-#include "edtplanning.h"
+#include "EdtPlanning.h"
 
 MainView::MainView(PluginManager *pluginManager)
 {

@@ -37,7 +37,8 @@
 #include <QLabel>
 #include <QDebug>
 
-#include "infopanel.h"
+#include "InfoPanel.h"
+
 InfoPanel::InfoPanel(TreeData *node)
 {
 	QGridLayout *layout = new QGridLayout();

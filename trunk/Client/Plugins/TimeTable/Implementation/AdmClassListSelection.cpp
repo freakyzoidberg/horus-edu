@@ -37,7 +37,7 @@
 #include <QLabel>
 
 #include "../../../../Common/TreeData.h"
-#include "admclasslistselection.h"
+#include "AdmClassListSelection.h"
 
 AdmClassListSelection::AdmClassListSelection(PluginManager *pluginManager)
 							: QWidget()

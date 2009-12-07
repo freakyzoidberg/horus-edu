@@ -42,8 +42,9 @@
 ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 {
 	infos = NULL;
+        sd = pluginManager->findPlugin<ScheduleDataPlugin *>();
+        td = pluginManager->findPlugin<TreeDataPlugin *>();
         scheduleForm = 0;
-	_pluginManager = pluginManager;
 
 	this->parent = parent;
 	MainLayout = new QHBoxLayout();
@@ -105,6 +106,9 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
         connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
         connect(del, SIGNAL(clicked()), this, SLOT(godelete()));
 
+        connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
+        connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
+
         connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 			this, SLOT(classSelected(QListWidgetItem *)));
 
@@ -113,32 +117,29 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 
 void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 {
-	QVariant	datas = selectedItem->data(Qt::UserRole);
-        int		classId = datas.toInt();
-	TreeData	*node = _pluginManager->findPlugin<TreeDataPlugin *>()->node(classId);
+        TreeData	*node = td->node(selectedItem->data(Qt::UserRole).toInt());
         bool            edt = false;
 
         updateVisible(4);
 
-
-
-	if (infos)
-	{
-		delete infos;
-		infos = NULL;
-	}
-		//edt is defined? TODO parce que c pas fini
-	infos = new InfoPanel(NULL);
-	parent->getEdt()->createScene(node);
-	if (edt)
+        if (infos)
+        {
+                delete infos;
+                infos = NULL;
+        }
+        if (sd->schedule(node) != 0)
+            edt = true;
+        infos = new InfoPanel(NULL);
+        parent->getEdt()->createScene(node);
+        if (edt == false)
             updateVisible(2);
-	else
-	{
-		parent->setTabEnabled(0, true);
-		parent->setTabEnabled(1, true);
-		add->show();
-	}
-	this->informationsLayout->addWidget(infos);
+        else
+        {
+                parent->setTabEnabled(0, true);
+                parent->setTabEnabled(1, true);
+                updateVisible(1);
+        }
+        this->informationsLayout->addWidget(infos);
 }
 
 void ManageEdt::goadd()
@@ -151,11 +152,68 @@ void ManageEdt::goadd()
             delete scheduleForm;
             scheduleForm = 0;
         }
-        scheduleForm = new EditSchedule(_pluginManager, 0, 0);
+        scheduleForm = new EditSchedule(sd, td, 0, 0);
+        MainLayout->insertWidget(0, scheduleForm);
+        AdmClassList->setVisible(false);
+        updateVisible(0);
+    }
+}
+
+void ManageEdt::goreset()
+{
+
+
+
+
+}
+
+void ManageEdt::gook()
+{
+    if (scheduleForm)
+    {
+        ScheduleData *edt = sd->newSchedule(td->node(AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+        edt->setStartDate(scheduleForm->getStart());
+        edt->setEndDate(scheduleForm->getStart());
+        edt->create();
+    }
+
+    delete scheduleForm;
+    scheduleForm = 0;
+    updateClasses();
+    updateVisible(1);
+}
+
+void ManageEdt::godelete()
+{
+    updateVisible(2);
+}
+
+void ManageEdt::goedit()
+{
+    updateVisible(5);
+    if (AdmClassList->ClassList->selectedItems().count() == 1)
+    {
+        if (scheduleForm)
+        {
+            delete scheduleForm;
+            scheduleForm = 0;
+        }
+        scheduleForm = new EditSchedule(sd, td,AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt(), 1);
         MainLayout->insertWidget(0, scheduleForm);
         AdmClassList->setVisible(false);
     }
+
+    delete scheduleForm;
+    scheduleForm = 0;
+    updateClasses();
+    updateVisible(1);
 }
+
+void ManageEdt::updateClasses()
+{
+    AdmClassList->setVisible(true);
+}
+
 
 void ManageEdt::updateVisible(int type)
 {
@@ -171,6 +229,7 @@ void ManageEdt::updateVisible(int type)
     else if (type == 1)
     {
         ok->setVisible(false);
+        save->setVisible(false);
         del->setVisible(true);
         edit->setVisible(true);
         add->setVisible(false);
@@ -181,6 +240,7 @@ void ManageEdt::updateVisible(int type)
     {
         ok->setVisible(false);
         del->setVisible(false);
+        save->setVisible(false);
         edit->setVisible(false);
         add->setVisible(true);
         back->setVisible(false);
@@ -189,6 +249,7 @@ void ManageEdt::updateVisible(int type)
     else if (type == 3)
     {
         ok->setVisible(false);
+        save->setVisible(false);
         del->setVisible(false);
         edit->setVisible(false);
         add->setVisible(false);
@@ -198,47 +259,12 @@ void ManageEdt::updateVisible(int type)
     else if (type == 4)
     {
         ok->setVisible(false);
-        save->setVisible(false);
-        reset->setVisible(false);
-        back->setVisible(false);
-        edit->setVisible(false);
+        save->setVisible(true);
         del->setVisible(false);
+        edit->setVisible(false);
+        add->setVisible(false);
+        back->setVisible(true);
+        reset->setVisible(true);
     }
-}
 
-void ManageEdt::goreset()
-{
-
-
-
-
-}
-
-void ManageEdt::gook()
-{
-
-
-
-    delete scheduleForm;
-    scheduleForm = 0;s
-    updateClasses();
-    updateVisible(1);
-}
-
-void ManageEdt::godelete()
-{
-    updateVisible(2);
-}
-
-void ManageEdt::goedit()
-{
-    delete scheduleForm;
-    scheduleForm = 0;
-    updateClasses();
-    updateVisible(1);
-}
-
-void ManageEdt::updateClasses()
-{
-    AdmClassList->setVisible(true);
 }

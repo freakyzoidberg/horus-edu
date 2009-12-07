@@ -135,14 +135,13 @@ quint8 ScheduleDataBase::serverRead()
         _startDate	= query.value(0).toDate();
         _endDate	= query.value(1).toDate();
         QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-        query2.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` `color` FROM `schedule_event` WHERE `id_schedule`=?;");
+        query2.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` `color` FROM `schedule_event` WHERE `id_schedule`=? ORDER BY `id`;");
         query2.addBindValue(_id);
         _sEvents.clear();
         eventsToDelete.clear();
         while (query2.next())
         {
-            _sEvents.append(new ScheduleItem(query2.value(0).toInt(),
-                                             query2.value(1).toInt(),
+            _sEvents.append(new ScheduleItem(query2.value(1).toInt(),
                                              query2.value(2).toInt(),
                                              query2.value(5).toString(),
                                              query2.value(3).toTime(),
@@ -181,7 +180,8 @@ quint8 ScheduleDataBase::serverCreate()
             for(int i = 0; i < _sEvents.count(); i++)
             {
                 QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-                query2.prepare("INSERT INTO`schedule_event`(`id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`, `color`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
+                query2.prepare("INSERT INTO`schedule_event`(`id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`, `color`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
+                query2.addBindValue(i);
                 query2.addBindValue(_id);
                 query2.addBindValue(_sEvents.at(i)->getJWeek());
                 query2.addBindValue(_sEvents.at(i)->getHStart());
@@ -218,29 +218,22 @@ quint8 ScheduleDataBase::serverSave()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-//        if (eventsToDelete.count() > 0)
-//        {
-//            for(int i = 0; i < eventsToDelete.count(); i++)
-//            {
-//               QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-//               query2.prepare("DELETE FROM`schedule_event`WHERE`id`=?;");
-//               query2.addBindValue(eventsToDelete.at(i));
-//               if ( ! query2.exec())
-//               {
-//                   qDebug() << query.lastError();
-//                   return DATABASE_ERROR;
-//               }
-//            }
-//            eventsToDelete.clear();
-//        }
+        QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
+        query2.prepare("DELETE FROM`schedule_event`WHERE`id_schedule`=?;");
+        query2.addBindValue(_id);
+        if ( ! query2.exec())
+        {
+                    qDebug() << query.lastError();
+                    return DATABASE_ERROR;
+        }
         if (_sEvents.count() > 0)
         {
             for(int i = 0; i < _sEvents.count(); i++)
             {
-                if (_sEvents.at(i)->getId() == -1)
-                {
+
                     QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-                    query2.prepare("INSERT INTO`schedule_event`(`id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`, `color`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
+                    query2.prepare("INSERT INTO`schedule_event`(`id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`, `color`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
+                    query2.addBindValue(i);
                     query2.addBindValue(_id);
                     query2.addBindValue(_sEvents.at(i)->getJWeek());
                     query2.addBindValue(_sEvents.at(i)->getHStart());
@@ -258,33 +251,9 @@ quint8 ScheduleDataBase::serverSave()
                         qDebug() << query.lastError();
                         return DATABASE_ERROR;
                     }
-                }
-                else
-                {
-                    QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-                    query2.prepare("UPDATE `schedule_event`SET`id_schedule`=?, `day`=?, `time_start`=?, `time_end`=?, `name`=?, `detail`=?, `date_start`=?, `date_end`=?, `modulo`=?, `force`=?, `id_teacher`=?, `color`=?");
-                    query2.addBindValue(_id);
-                    query2.addBindValue(_sEvents.at(i)->getJWeek());
-                    query2.addBindValue(_sEvents.at(i)->getHStart());
-                    query2.addBindValue(_sEvents.at(i)->getHEnd());
-                    query2.addBindValue(_sEvents.at(i)->getName());
-                    query2.addBindValue(_sEvents.at(i)->getDetails());
-                    query2.addBindValue(_sEvents.at(i)->getSDate());
-                    query2.addBindValue(_sEvents.at(i)->getEDate());
-                    query2.addBindValue(_sEvents.at(i)->getModulo());
-                    query2.addBindValue(_sEvents.at(i)->getForce());
-                    query2.addBindValue(_sEvents.at(i)->getTeacher());
-                    query2.addBindValue(_sEvents.at(i)->getColor());
-                    if ( ! query2.exec())
-                    {
-                        qDebug() << query.lastError();
-                        return DATABASE_ERROR;
-                    }
-                }
+                    this->save();
             }
         }
-
-
 	return NONE;
 }
 
