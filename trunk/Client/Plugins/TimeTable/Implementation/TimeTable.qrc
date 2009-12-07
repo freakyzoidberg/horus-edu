@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>TimeTable.png</file>
         <file>desk.png</file>
         <file>warning.png</file>
@@ -12,5 +12,6 @@
         <file>reset.png</file>
         <file>TimeTableOK.gif</file>
         <file>AddTimeTable.png</file>
+        <file>background.png</file>
     </qresource>
 </RCC>

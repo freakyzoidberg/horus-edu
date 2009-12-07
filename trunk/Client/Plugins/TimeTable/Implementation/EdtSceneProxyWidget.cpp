@@ -34,10 +34,15 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "EdtSceneProxyWidget.h"
 
-EdtSceneProxyWidget::EdtSceneProxyWidget(PluginManager *pluginManager, TreeData *treedata) : _pluginManager(pluginManager)
+EdtSceneProxyWidget::EdtSceneProxyWidget(PluginManager *pluginManager, TreeData *treedata, qint8 width, qint8 height) : _pluginManager(pluginManager)
 {
 
     _scene = new EDTScene(pluginManager, treedata);
+
+    _scene->setBackgroundBrush(QPixmap(":/background.png"));
+    //_scene->setSceneRect(- (width/2),, width,height);
+
+    this->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     this->setScene(_scene);
 }
 
