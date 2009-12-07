@@ -55,6 +55,7 @@ public:
 private:
     PluginManager	*_pluginManager;
     ScheduleData        *_SD;
+    int                 getWPosforDay(int day);
 
 };
 

@@ -36,6 +36,11 @@
 
 #define SCENE_WIDTH 700
 #include <QGraphicsRectItem>
+#include <QGraphicsItemGroup>
+#include <QGraphicsTextItem>
+#define VOFFSET 40
+#define HOFFSET 50
+#define CWIDTH 100
 
 EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginManager(pluginManager)
 {
@@ -46,12 +51,53 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
     {
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene from " << _SD->startDate() << " to " << _SD->endDate();
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene with " << _SD->scheduleEvents().count() << " Events";
-    //QGraphicsRectItem *test = new QGraphicsRectItem(10,10,100,100,0,this);
-    //test->setBrush(QBrush(QColor(Qt::red)));
+
+
+    QGraphicsItemGroup *group = new QGraphicsItemGroup(0,this);
+    QGraphicsRectItem *rect = new QGraphicsRectItem(0,0,CWIDTH,100);
+    QGraphicsTextItem *text = new QGraphicsTextItem("Mathematiques");
+    QGraphicsTextItem *time = new QGraphicsTextItem("08:00 - 10:00");
+
+    rect->setGroup(group);
+    rect->setZValue(1);
+    rect->setBrush(QBrush(QColor(Qt::red)));
+    text->setParentItem(group);
+    text->setTextWidth(100);
+    text->setFont(QFont("arial",8,1,false));
+    text->setZValue(100);
+    time->setPos(5,10);
+    time->setParentItem(group);
+    time->setTextWidth(100);
+    time->setZValue(101);
+    //text->setPos(5,10);
+
+    group->setPos(getWPosforDay(1), 1 * VOFFSET);
+    //(getWPosforDay(1), 1 * VOFFSET,CWIDTH,100,QPen(), QBrush(QColor(Qt::red)))
+
    // this->addRect(0,0,100,100,QPen(), QBrush(QColor(Qt::white)));
-   // this->addRect(200,200,100,100,QPen(), QBrush(QColor(Qt::white)));
+
+
+
+    //this->addRect(getWPosforDay(1), 1 * VOFFSET,CWIDTH,100,QPen(), QBrush(QColor(Qt::red)));
+    //this->addRect(getWPosforDay(2), 1 * VOFFSET + 100,CWIDTH,200,QPen(), QBrush(QColor(Qt::red)));
+    //this->addRect(getWPosforDay(3), 1 * VOFFSET + 100,CWIDTH,200,QPen(), QBrush(QColor(Qt::red)));
+    //this->addRect(getWPosforDay(4), 1 * VOFFSET + 100,CWIDTH,200,QPen(), QBrush(QColor(Qt::red)));
+    //this->addRect(getWPosforDay(5), 1 * VOFFSET + 100,CWIDTH,200,QPen(), QBrush(QColor(Qt::red)));
+
     }
     else
         qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene _SD == NULL";
 
 }
+
+int                 EDTScene::getWPosforDay(int day)
+{
+    if ((day > 0) && (day <= 7))
+    {
+
+    return(day * HOFFSET + ((day - 1) * HOFFSET) + 1);
+    }
+
+    return 0;
+}
+
