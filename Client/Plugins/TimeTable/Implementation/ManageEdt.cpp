@@ -42,6 +42,7 @@
 ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 {
 	infos = NULL;
+        scheduleForm = 0;
 	_pluginManager = pluginManager;
 
 	this->parent = parent;
@@ -100,7 +101,11 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 	edit->setVisible(false);
 	del->setVisible(false);
 
-	connect(this->AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
+        connect(add, SIGNAL(clicked()), this, SLOT(goadd()));
+        connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
+        connect(del, SIGNAL(clicked()), this, SLOT(godelete()));
+
+        connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 			this, SLOT(classSelected(QListWidgetItem *)));
 
 	this->setLayout(MainLayout);
@@ -109,17 +114,11 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 {
 	QVariant	datas = selectedItem->data(Qt::UserRole);
-	int			classId = datas.toInt();
+        int		classId = datas.toInt();
 	TreeData	*node = _pluginManager->findPlugin<TreeDataPlugin *>()->node(classId);
-	bool	edt = false;
+        bool            edt = false;
 
-	ok->setVisible(false);
-	save->setVisible(false);
-	reset->setVisible(false);
-	back->setVisible(false);
-	edit->setVisible(false);
-	del->setVisible(false);
-	add->hide();
+        updateVisible(4);
 
 
 
@@ -132,13 +131,7 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 	infos = new InfoPanel(NULL);
 	parent->getEdt()->createScene(node);
 	if (edt)
-	{
-
-		edit->show();
-		del->show();
-		;
-
-	}
+            updateVisible(2);
 	else
 	{
 		parent->setTabEnabled(0, true);
@@ -146,4 +139,106 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 		add->show();
 	}
 	this->informationsLayout->addWidget(infos);
+}
+
+void ManageEdt::goadd()
+{
+
+    if (AdmClassList->ClassList->selectedItems().count() == 1)
+    {
+        if (scheduleForm)
+        {
+            delete scheduleForm;
+            scheduleForm = 0;
+        }
+        scheduleForm = new EditSchedule(_pluginManager, 0, 0);
+        MainLayout->insertWidget(0, scheduleForm);
+        AdmClassList->setVisible(false);
+    }
+}
+
+void ManageEdt::updateVisible(int type)
+{
+    if (type == 0)
+    {
+        ok->setVisible(true);
+        del->setVisible(false);
+        edit->setVisible(false);
+        add->setVisible(false);
+        back->setVisible(true);
+        reset->setVisible(true);
+    }
+    else if (type == 1)
+    {
+        ok->setVisible(false);
+        del->setVisible(true);
+        edit->setVisible(true);
+        add->setVisible(false);
+        back->setVisible(false);
+        reset->setVisible(false);
+    }
+    else if (type == 2)
+    {
+        ok->setVisible(false);
+        del->setVisible(false);
+        edit->setVisible(false);
+        add->setVisible(true);
+        back->setVisible(false);
+        reset->setVisible(false);
+    }
+    else if (type == 3)
+    {
+        ok->setVisible(false);
+        del->setVisible(false);
+        edit->setVisible(false);
+        add->setVisible(false);
+        back->setVisible(false);
+        reset->setVisible(false);
+    }
+    else if (type == 4)
+    {
+        ok->setVisible(false);
+        save->setVisible(false);
+        reset->setVisible(false);
+        back->setVisible(false);
+        edit->setVisible(false);
+        del->setVisible(false);
+    }
+}
+
+void ManageEdt::goreset()
+{
+
+
+
+
+}
+
+void ManageEdt::gook()
+{
+
+
+
+    delete scheduleForm;
+    scheduleForm = 0;s
+    updateClasses();
+    updateVisible(1);
+}
+
+void ManageEdt::godelete()
+{
+    updateVisible(2);
+}
+
+void ManageEdt::goedit()
+{
+    delete scheduleForm;
+    scheduleForm = 0;
+    updateClasses();
+    updateVisible(1);
+}
+
+void ManageEdt::updateClasses()
+{
+    AdmClassList->setVisible(true);
 }

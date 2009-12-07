@@ -1,12 +1,14 @@
 #include "EditSchedule.h"
+#include "../../../../Common/ScheduleDataPlugin.h"
 
-EditSchedule::EditSchedule(PluginManager *pluginManager)
+EditSchedule::EditSchedule(PluginManager *pluginManager, int id, int type)
 {
+    _pManager = pluginManager;
     vLayout = new QVBoxLayout(this);
     _classList = new QComboBox();
     vLayout->addWidget(_classList);
     titleLayout = new QHBoxLayout();
-    QLabel *lStart = new QLabel(tr("Début"));
+    QLabel *lStart = new QLabel(tr("Debut"));
     QLabel *lEnd = new QLabel(tr("Fin"));
     titleLayout->addWidget(lStart);
     titleLayout->addWidget(lEnd);
@@ -27,7 +29,17 @@ EditSchedule::EditSchedule(PluginManager *pluginManager)
     _addException = new QPushButton("+");
     _addException->setFlat(true);
     hLayout2->addWidget(_addException, 1);
-    fillClasses(pluginManager->findPlugin<TreeDataPlugin*>());
+    if (type == 1)
+        fillForm(id);
+    vLayout->addLayout(hLayout2);
+    fillClasses(_pManager->findPlugin<TreeDataPlugin*>());
+}
+
+void    EditSchedule::fillForm(int id)
+{
+    ScheduleData *sd = (_pManager->findPlugin<ScheduleDataPlugin*>())->schedule(id);
+    _startDate->setSelectedDate(sd->startDate());
+    _endDate->setSelectedDate(sd->endDate());
 }
 
 void    EditSchedule::fillClasses(TreeDataPlugin *treePlugin)

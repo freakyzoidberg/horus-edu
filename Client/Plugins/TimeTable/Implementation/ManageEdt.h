@@ -50,29 +50,33 @@
 #include "admclasslistselection.h"
 #include "infopanel.h"
 #include "MainView.h"
-
+#include "EditSchedule.h"
 #include "AdmListEdt.h"
 
 class ManageEdt : public QWidget
 {
 	Q_OBJECT
 
-public:
-							ManageEdt(PluginManager *pluginManager, MainView *parent);
+    public:
+                                                ManageEdt(PluginManager *pluginManager, MainView *parent);
 	QListWidget				*StudentList;
 
-public slots:
-		void				classSelected(QListWidgetItem *);
-
-private:
-	MainView				*parent;
-	PluginManager			*_pluginManager;
+    public slots:
+        void                                    classSelected(QListWidgetItem *);
+        void                                    goadd();
+        void                                    godelete();
+        void                                    goedit();
+        void                                    goreset();
+        void                                    gook();
+    private:
+        MainView				*parent;
+        PluginManager                           *_pluginManager;
 	QHBoxLayout				*MainLayout;
 	AdmListEdt				*_admEDTList;
 	QFrame					*informationsFrame;
 	QVBoxLayout				*informationsLayout;
 	InfoPanel				*infos;
-
+        EditSchedule                            *scheduleForm;
 	QPushButton				*del;
 	QPushButton				*edit;
 	QPushButton				*ok;
@@ -81,7 +85,9 @@ private:
 	QPushButton				*back;
 	QPushButton				*add;
 
-	AdmClassListSelection	*AdmClassList;
+        void                                    updateClasses();
+        void                                    updateVisible(int type);
+        AdmClassListSelection                   *AdmClassList;
 };
 
 #endif // MANAGEEDT_H
