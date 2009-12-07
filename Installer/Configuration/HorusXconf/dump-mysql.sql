@@ -170,3 +170,12 @@ CREATE TABLE IF NOT EXISTS `schedule_event` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+
+DROP TABLE IF EXISTS `schedule_exception`;
+CREATE TABLE IF NOT EXISTS `schedule_exception` (
+  `id_schedule` int(11) NOT NULL,
+  `date_start` date NOT NULL,
+  `date_end` date NOT NULL,
+  `name` text NOT NULL,
+  `type` int(11) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
