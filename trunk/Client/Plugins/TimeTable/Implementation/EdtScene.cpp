@@ -52,26 +52,11 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene from " << _SD->startDate() << " to " << _SD->endDate();
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene with " << _SD->scheduleEvents().count() << " Events";
 
+    for (int i = 0; i < _SD->scheduleEvents().size(); ++i) {
 
-    QGraphicsItemGroup *group = new QGraphicsItemGroup(0,this);
-    QGraphicsRectItem *rect = new QGraphicsRectItem(0,0,CWIDTH,100);
-    QGraphicsTextItem *text = new QGraphicsTextItem("Mathematiques");
-    QGraphicsTextItem *time = new QGraphicsTextItem("08:00 - 10:00");
+    addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red));
+    }
 
-    rect->setGroup(group);
-    rect->setZValue(1);
-    rect->setBrush(QBrush(QColor(Qt::red)));
-    text->setParentItem(group);
-    text->setTextWidth(100);
-    text->setFont(QFont("arial",8,1,false));
-    text->setZValue(100);
-    time->setPos(5,10);
-    time->setParentItem(group);
-    time->setTextWidth(100);
-    time->setZValue(101);
-    //text->setPos(5,10);
-
-    group->setPos(getWPosforDay(1), 1 * VOFFSET);
     //(getWPosforDay(1), 1 * VOFFSET,CWIDTH,100,QPen(), QBrush(QColor(Qt::red)))
 
    // this->addRect(0,0,100,100,QPen(), QBrush(QColor(Qt::white)));
@@ -101,3 +86,46 @@ int                 EDTScene::getWPosforDay(int day)
     return 0;
 }
 
+
+void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTime hend, QColor color)
+{
+
+    int offset = -1 * QTime(7,0,0,0).secsTo(QTime(0,0,0,0));
+    int start = -1 * hstart.secsTo(QTime(0,0,0,0));
+
+    int total = ((start - offset) / 60) * 0.667;
+    int duration = (hstart.secsTo(hend) / 60) * 0.667;
+
+
+    QGraphicsItemGroup *group = new QGraphicsItemGroup(0,this);
+    QGraphicsRectItem *rect = new QGraphicsRectItem(0,0,CWIDTH,duration);
+    QGraphicsTextItem *text = new QGraphicsTextItem(name);
+    QGraphicsTextItem *time = new QGraphicsTextItem(hstart.toString("hh:mm") + " " + hend.toString("hh:mm"));
+
+    rect->setGroup(group);
+    rect->setZValue(1);
+    rect->setBrush(QBrush(color));
+    text->setParentItem(group);
+    text->setTextWidth(100);
+    text->setFont(QFont("arial",8,1,false));
+    text->setZValue(100);
+    time->setPos(5,10);
+    time->setParentItem(group);
+    time->setTextWidth(100);
+    time->setZValue(101);
+    //text->setPos(5,10);
+    group->setToolTip(name + " @ "+ hstart.toString("hh:mm") + " to " + hend.toString("hh:mm"));
+
+
+
+
+
+
+
+
+
+
+
+
+    group->setPos(getWPosforDay(1), dow * VOFFSET + total);
+}

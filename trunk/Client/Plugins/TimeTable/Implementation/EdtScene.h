@@ -56,6 +56,7 @@ private:
     PluginManager	*_pluginManager;
     ScheduleData        *_SD;
     int                 getWPosforDay(int day);
+    void                addEvent(QString name, int dow,QTime hstart, QTime hend, QColor color);
 
 };
 
