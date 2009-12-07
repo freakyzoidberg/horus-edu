@@ -7,7 +7,7 @@
 class ScheduleException
 {
     public:
-        inline ScheduleException(QDate ds, QDate de, QString name)
+        inline ScheduleException(QDate ds, QDate de, QString n)
         {
             dateStart = ds;
             dateEnd = de;
@@ -71,37 +71,55 @@ class ScheduleItem
         inline void    setTeacher(int t) { _teacher = t; }
         inline QString getColor() { return _color; }
         inline void    setColor(QString c) { _color = c; }
+        inline QList<ScheduleException *> exceptions() { return _exception; }
+        inline void    addExcp(ScheduleException *excp) { _exception.append(excp); }
+        inline void    removeExcp(ScheduleException *excp) { _exception.removeOne(excp); }
 
         inline QDataStream& operator>>(QDataStream& s) const
         { return s
-          << _idSchedule
-          << _jWeek
-          << _name
-          << _hStart
-          << _hEnd
-          << _details
-          << _dateStart
-          << _dateEnd
-          << _modulo
-          << _forceShow
-          << _teacher
-          << _color
-        ;}
+                  << _idSchedule
+                  << _jWeek
+                  << _name
+                  << _hStart
+                  << _hEnd
+                  << _details
+                  << _dateStart
+                  << _dateEnd
+                  << _modulo
+                  << _forceShow
+                  << _teacher
+                  << _color;
+            QByteArray bufItems;
+            QDataStream ds(&bufItems, QIODevice::WriteOnly);
+
+            foreach (ScheduleException* item, _exception)
+                *item >> ds;
+            s << bufItems;
+        }
         inline QDataStream& operator<<(QDataStream& s)
-        { return s
-          >> _idSchedule
-          >> _jWeek
-          >> _name
-          >> _hStart
-          >> _hEnd
-          >> _details
-          >> _dateStart
-          >> _dateEnd
-          >> _modulo
-          >> _forceShow
-          >> _teacher
-          >> _color
-         ;}
+        {
+            return s
+              >> _idSchedule
+              >> _jWeek
+              >> _name
+              >> _hStart
+              >> _hEnd
+              >> _details
+              >> _dateStart
+              >> _dateEnd
+              >> _modulo
+              >> _forceShow
+              >> _teacher
+              >> _color;
+            QByteArray bufItems;
+            s >> bufItems;
+            QDataStream ds(bufItems);
+            ScheduleException* exeption;
+            while ((_exception.count() > 0) &&  (exeption = exception.takeFirst()))
+                delete exeption;
+            while ( ! ds.atEnd())
+                _exception.append(new ScheduleException(ds) );
+         }
     private:
         int     _idSchedule;
         int     _jWeek;

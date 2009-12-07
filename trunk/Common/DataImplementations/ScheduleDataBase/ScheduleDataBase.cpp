@@ -57,6 +57,7 @@ void ScheduleDataBase::dataToStream(QDataStream& s) const
 		*item >> ds;
 	s << bufItems;
 
+        bufItems.clear();
 	foreach (ScheduleException* item, _sException)
 		*item >> ds;
 	s << bufItems;
@@ -81,8 +82,9 @@ void ScheduleDataBase::dataFromStream(QDataStream& s)
 
 	while ( ! ds.atEnd())
 		_sEvents.append( new ScheduleItem(ds) );
-
+        bufItems.clear();
 	s >> bufItems;
+        QDataStream ds(bufItems);
 	ScheduleException* exeption;
         while ((_sException.count() > 0) &&  (exeption = _sException.takeFirst()))
 		delete exeption;
@@ -154,6 +156,7 @@ quint8 ScheduleDataBase::serverRead()
                                              query2.value(11).toInt(),
                                              query2.value(12).toString()));
 
+
         }
 	return NONE;
 }
@@ -194,6 +197,19 @@ quint8 ScheduleDataBase::serverCreate()
                 query2.addBindValue(_sEvents.at(i)->getForce());
                 query2.addBindValue(_sEvents.at(i)->getTeacher());
                 query2.addBindValue(_sEvents.at(i)->getColor());
+                if (_sEvents.at(i)->exceptions().count() > 0)
+                {
+                    for(int y = 0; y < _sEvents.at(i)->exceptions().count(); y++)
+                    {
+                        QSqlQuery query3 = _plugin->pluginManager->sqlQuery();
+                        query3.prepare("INSERT INTO`schedule_exception`(`id_schedule`,`date_start`,`date_end`, `name`, `type`)VALUES(?,?,?,?,?);");
+                        query3.addBindValue(_id);
+                        query3.addBindValue(_sEvents.at(i)->exceptions().at(y)->dateStart);
+                        query3.addBindValue(_sEvents.at(i)->exceptions().at(y)->dateEnd);
+                        query3.addBindValue(_sEvents.at(i)->exceptions().at(y)->name);
+                        query3.addBindValue(2);
+                    }
+                }
                 if ( ! query2.exec())
                 {
                     qDebug() << query.lastError();
@@ -246,6 +262,19 @@ quint8 ScheduleDataBase::serverSave()
                     query2.addBindValue(_sEvents.at(i)->getForce());
                     query2.addBindValue(_sEvents.at(i)->getTeacher());
                     query2.addBindValue(_sEvents.at(i)->getColor());
+                    if (_sEvents.at(i)->exceptions().count() > 0)
+                    {
+                        for(int y = 0; y < _sEvents.at(i)->exceptions().count(); y++)
+                        {
+                            QSqlQuery query3 = _plugin->pluginManager->sqlQuery();
+                            query3.prepare("INSERT INTO`schedule_exception`(`id_schedule`,`date_start`,`date_end`, `name`, `type`)VALUES(?,?,?,?,?);");
+                            query3.addBindValue(_id);
+                            query3.addBindValue(_sEvents.at(i)->exceptions().at(y)->dateStart);
+                            query3.addBindValue(_sEvents.at(i)->exceptions().at(y)->dateEnd);
+                            query3.addBindValue(_sEvents.at(i)->exceptions().at(y)->name);
+                            query3.addBindValue(2);
+                        }
+                    }
                     if ( ! query2.exec())
                     {
                         qDebug() << query.lastError();
