@@ -33,31 +33,47 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "EdtWidget.h"
+
 # include <QDebug>
 EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManager)
 {
-    MainLayout = new QHBoxLayout();
+    _currentClass = 0;
+    MainLayout = new QGridLayout();
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
 
+    MainLayout->addWidget(new QLabel(tr("Class :")),0,0,Qt::AlignLeft);
+
     if (pluginManager->currentUser()->level() == LEVEL_STUDENT)
     {
-    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, pluginManager->currentUser()->studentClass());    
-    MainLayout->addWidget(_sceneWidget);
+    MainLayout->addWidget(new QLabel(pluginManager->currentUser()->studentClass()->name()),0,1,Qt::AlignLeft);
+    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, pluginManager->currentUser()->studentClass(),760,560);
+    _sceneWidget->setMinimumSize(760,580);
+    MainLayout->addWidget(_sceneWidget,1,0,1,2,Qt::AlignLeft);
     }
         else
     {
     _sceneWidget = NULL;
     }
+    this->setMaximumSize(760,560);
     this->setLayout(MainLayout);
 }
 
 
 void EdtWidget::createScene(TreeData *td)
 {
+    //MainLayout->addWidget(new QLabel(tr("Class :")),0,0,Qt::AlignLeft);
+    //MainLayout->removeItem(MainLayout->itemAtPosition(0,1));
+    if (_currentClass)
+        delete _currentClass;
+    _currentClass = new QLabel(td->name());
+    MainLayout->addWidget(_currentClass,0,1,Qt::AlignLeft);
+
     qDebug() << __FILE__ <<":" << __LINE__ << "slot:createScene() called";
     if (_sceneWidget)
         delete _sceneWidget;
-    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td);
-    MainLayout->addWidget(_sceneWidget);
+    _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td,750,550);
+    _sceneWidget->setMinimumSize(760,580);
+      this->setMaximumSize(760,560);
+    MainLayout->addWidget(_sceneWidget,1,0,1,2,Qt::AlignLeft);
 }

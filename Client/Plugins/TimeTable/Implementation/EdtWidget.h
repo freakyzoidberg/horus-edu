@@ -36,9 +36,9 @@
 #define EDTWIDGET_H
 
 #include <QWidget>
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include "../../../../Common/ScheduleData.h"
-
+ #include <QLabel>
 #include "EdtSceneProxyWidget.h"
 
 class EdtWidget : public QWidget
@@ -54,7 +54,8 @@ public slots:
 private:
     PluginManager	*_pluginManager;
     EdtSceneProxyWidget *_sceneWidget;
-    QHBoxLayout         *MainLayout;
+    QGridLayout         *MainLayout;
+    QLabel              *_currentClass;
 };
 
 #endif // EDTWIDGET_H
