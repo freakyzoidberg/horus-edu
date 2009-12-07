@@ -16,7 +16,11 @@
 class EditSchedule : public QWidget
 {
     public:
-        EditSchedule(PluginManager *pluginManager);
+        EditSchedule(PluginManager *pluginManager, int id, int type);
+        inline QDate                getStart() {_startDate->selectedDate();}
+        inline void                 setStart(QDate date) {_startDate->setSelectedDate(date);}
+        inline QDate                getEnd() {_endDate->selectedDate();}
+        inline void                 setEnd(QDate date) {_endDate->setSelectedDate(date);}
     private:
         PluginManager               *_pManager;
         QComboBox                   *_classList;
@@ -30,7 +34,7 @@ class EditSchedule : public QWidget
         QPushButton                 *_addException;
         QFrame                      *line;
         void                        fillClasses(TreeDataPlugin *treeData);
-
+        void                        fillForm(int id);
 };
 
 #endif // EDITSCHEDULE_H
