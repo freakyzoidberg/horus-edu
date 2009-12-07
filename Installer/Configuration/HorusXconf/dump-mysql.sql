@@ -173,6 +173,7 @@ CREATE TABLE IF NOT EXISTS `schedule_event` (
 
 DROP TABLE IF EXISTS `schedule_exception`;
 CREATE TABLE IF NOT EXISTS `schedule_exception` (
+  `id_event` int(11) NOT NULL,
   `id_schedule` int(11) NOT NULL,
   `date_start` date NOT NULL,
   `date_end` date NOT NULL,
