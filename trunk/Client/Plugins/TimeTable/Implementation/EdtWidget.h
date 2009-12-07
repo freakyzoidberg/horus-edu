@@ -39,6 +39,8 @@
 #include <QGridLayout>
 #include "../../../../Common/ScheduleData.h"
  #include <QLabel>
+#include <QPushButton>
+#include <QFrame>
 #include "EdtSceneProxyWidget.h"
 
 class EdtWidget : public QWidget
@@ -54,8 +56,16 @@ public slots:
 private:
     PluginManager	*_pluginManager;
     EdtSceneProxyWidget *_sceneWidget;
+    QScrollArea         *scrollArea;
     QGridLayout         *MainLayout;
     QLabel              *_currentClass;
+    QPushButton         *_ok;
+    QPushButton         *_save;
+    QPushButton         *_reset;
+    QPushButton         *_add;
+    QPushButton         *_back;
+    QFrame              *informationsFrame;
+
 };
 
 #endif // EDTWIDGET_H

@@ -41,39 +41,82 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
     MainLayout = new QGridLayout();
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
-
-    MainLayout->addWidget(new QLabel(tr("Class :")),0,0,Qt::AlignLeft);
+    scrollArea = new QScrollArea();
 
     if (pluginManager->currentUser()->level() == LEVEL_STUDENT)
     {
-    MainLayout->addWidget(new QLabel(pluginManager->currentUser()->studentClass()->name()),0,1,Qt::AlignLeft);
     _sceneWidget = new EdtSceneProxyWidget(_pluginManager, pluginManager->currentUser()->studentClass(),760,560);
     _sceneWidget->setMinimumSize(760,580);
-    MainLayout->addWidget(_sceneWidget,1,0,1,2,Qt::AlignLeft);
+    _sceneWidget->setMaximumSize(760,580);
+    _sceneWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    scrollArea->setWidget(_sceneWidget);
+    scrollArea->setMaximumSize(765,585);
+    MainLayout->addWidget(scrollArea,0,0,Qt::AlignLeft);
+    }
+    else if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
+    {
+
+        QVBoxLayout *RightLayout = new QVBoxLayout();
+        RightLayout->setSpacing(2);
+
+        QLabel *infoTitle = new QLabel(tr("Informations:"));
+        infoTitle->setProperty("isTitle", true);
+        infoTitle->setProperty("isRound", true);
+        informationsFrame = new QFrame(this);
+        informationsFrame->setMinimumWidth(200);
+
+
+        QVBoxLayout *informationsLayout = new QVBoxLayout(informationsFrame);
+        informationsLayout->setSpacing(0);
+        informationsLayout->setMargin(0);
+        informationsLayout->addWidget(infoTitle);
+        RightLayout->addWidget(informationsFrame);
+
+        QLabel *actionTitle = new QLabel(tr("Actions:"));
+        actionTitle->setProperty("isTitle", true);
+        actionTitle->setProperty("isRound", true);
+
+        //_del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Delete this edt"));
+        //_edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit this edt"));
+        _ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
+        _save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
+        _reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
+        _back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
+        _add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
+
+        RightLayout->addWidget(actionTitle);
+        //RightLayout->addWidget(edit);
+        //RightLayout->addWidget(del);
+        RightLayout->addWidget(_ok);
+        RightLayout->addWidget(_save);
+        RightLayout->addWidget(_reset);
+        RightLayout->addWidget(_back);
+        RightLayout->addWidget(_add);
+        RightLayout->addWidget(new QWidget(this), 1);
+
+        MainLayout->addLayout(RightLayout,0,1);
+
     }
         else
     {
     _sceneWidget = NULL;
     }
-    this->setMaximumSize(760,560);
+
     this->setLayout(MainLayout);
 }
 
 
 void EdtWidget::createScene(TreeData *td)
 {
-    //MainLayout->addWidget(new QLabel(tr("Class :")),0,0,Qt::AlignLeft);
-    //MainLayout->removeItem(MainLayout->itemAtPosition(0,1));
-    if (_currentClass)
-        delete _currentClass;
-    _currentClass = new QLabel(td->name());
-    MainLayout->addWidget(_currentClass,0,1,Qt::AlignLeft);
 
-    qDebug() << __FILE__ <<":" << __LINE__ << "slot:createScene() called";
+
     if (_sceneWidget)
         delete _sceneWidget;
     _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td,760,560);
     _sceneWidget->setMinimumSize(760,580);
-    this->setMaximumSize(760,560);
-    MainLayout->addWidget(_sceneWidget,1,0,1,2,Qt::AlignLeft);
+    _sceneWidget->setMaximumSize(760,580);
+
+    scrollArea->setWidget(_sceneWidget);
+    scrollArea->setMaximumSize(765,585);
+    MainLayout->addWidget(scrollArea,0,0);
 }
