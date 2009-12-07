@@ -28,9 +28,8 @@ class ScheduleException
 class ScheduleItem
 {
     public:
-        inline ScheduleItem(int id, int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, bool f, int m, int t, QString c)
+        inline ScheduleItem(int is, int j, QString name, QTime h, QTime he, QString d, QDate s, QDate e, bool f, int m, int t, QString c)
         {
-            _id = id;
             _idSchedule = is;
             _jWeek = j;
             _name = name;
@@ -46,8 +45,6 @@ class ScheduleItem
         }
         inline ScheduleItem(QDataStream& s) { *this << s; }
 
-        inline int     getId() { return _id; }
-        inline void    setId(int id) { _id = id; }
         inline int     getIdSchedule() { return _idSchedule; }
         inline void    setIdSchedule(int is) { _idSchedule = is; }
         inline int     getJWeek() { return _jWeek; }
@@ -75,7 +72,6 @@ class ScheduleItem
 
         inline QDataStream& operator>>(QDataStream& s) const
         { return s
-          << _id
           << _idSchedule
           << _jWeek
           << _name
@@ -91,7 +87,6 @@ class ScheduleItem
         ;}
         inline QDataStream& operator<<(QDataStream& s)
         { return s
-          >> _id
           >> _idSchedule
           >> _jWeek
           >> _name
@@ -106,7 +101,6 @@ class ScheduleItem
           >> _color
          ;}
     private:
-        int     _id;
         int     _idSchedule;
         int     _jWeek;
         QString _name;

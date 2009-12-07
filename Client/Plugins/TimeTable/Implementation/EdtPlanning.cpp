@@ -32,7 +32,7 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include "edtplanning.h"
+#include "EdtPlanning.h"
 
 EdtPlanning::EdtPlanning()
 {

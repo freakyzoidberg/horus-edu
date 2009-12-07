@@ -9,14 +9,14 @@ SOURCES += Implementation/TimeTable.cpp \
     Implementation/EdtScene.cpp \
     Implementation/AdmListEdt.cpp \
     Implementation/ManageEdt.cpp \
-    Implementation/edtplanning.cpp \
+    Implementation/EdtPlanning.cpp \
     Implementation/EdtSceneProxyWidget.cpp \
     Implementation/EdtWidget.cpp \
     Implementation/EditScheduleEvent.cpp \
     Implementation/EditSchedule.cpp \
     Implementation/EditException.cpp \
-    Implementation/admclasslistselection.cpp \
-    Implementation/infopanel.cpp
+    Implementation/AdmClassListSelection.cpp \
+    Implementation/Infopanel.cpp
 HEADERS += Implementation/TimeTable.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
@@ -25,13 +25,13 @@ HEADERS += Implementation/TimeTable.h \
     Implementation/EdtScene.h \
     Implementation/AdmListEdt.h \
     Implementation/ManageEdt.h \
-    Implementation/edtplanning.h \
+    Implementation/EdtPlanning.h \
     Implementation/EdtSceneProxyWidget.h \
     TimeTableMetaPlugin.h \
     Implementation/EdtWidget.h \
     Implementation/EditScheduleEvent.h \
     Implementation/EditSchedule.h \
     Implementation/EditException.h \
-    Implementation/admclasslistselection.h \
-    Implementation/infopanel.h
+    Implementation/AdmClassListSelection.h \
+    Implementation/InfoPanel.h
 RESOURCES += Implementation/TimeTable.qrc

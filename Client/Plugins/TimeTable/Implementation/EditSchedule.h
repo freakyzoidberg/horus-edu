@@ -12,17 +12,21 @@
 #include "EditException.h"
 #include "../../../../Common/ScheduleData.h"
 #include "../../../../Common/TreeData.h"
+#include "../../../../Common/ScheduleDataPlugin.h"
 
 class EditSchedule : public QWidget
 {
+    Q_OBJECT
+
     public:
-        EditSchedule(PluginManager *pluginManager, int id, int type);
+        EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, int type);
         inline QDate                getStart() {_startDate->selectedDate();}
         inline void                 setStart(QDate date) {_startDate->setSelectedDate(date);}
         inline QDate                getEnd() {_endDate->selectedDate();}
         inline void                 setEnd(QDate date) {_endDate->setSelectedDate(date);}
     private:
-        PluginManager               *_pManager;
+        ScheduleDataPlugin          *sdp;
+        TreeDataPlugin              *tdp;
         QComboBox                   *_classList;
         QCalendarWidget             *_startDate;
         QCalendarWidget             *_endDate;
@@ -33,8 +37,10 @@ class EditSchedule : public QWidget
         QList<EditException *>      *_excpList;
         QPushButton                 *_addException;
         QFrame                      *line;
-        void                        fillClasses(TreeDataPlugin *treeData);
+        void                        fillClasses();
         void                        fillForm(int id);
+    private slots:
+        void                        addException();
 };
 
 #endif // EDITSCHEDULE_H

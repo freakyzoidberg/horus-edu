@@ -47,8 +47,8 @@
 
 # include "../../../../Common/PluginManager.h"
 # include "../../../../Common/UserData.h"
-#include "admclasslistselection.h"
-#include "infopanel.h"
+#include "AdmClassListSelection.h"
+#include "InfoPanel.h"
 #include "MainView.h"
 #include "EditSchedule.h"
 #include "AdmListEdt.h"
@@ -70,7 +70,8 @@ class ManageEdt : public QWidget
         void                                    gook();
     private:
         MainView				*parent;
-        PluginManager                           *_pluginManager;
+        TreeDataPlugin                          *td;
+        ScheduleDataPlugin                      *sd;
 	QHBoxLayout				*MainLayout;
 	AdmListEdt				*_admEDTList;
 	QFrame					*informationsFrame;

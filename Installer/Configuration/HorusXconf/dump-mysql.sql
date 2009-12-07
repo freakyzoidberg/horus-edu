@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `schedule` (
 
 DROP TABLE IF EXISTS `schedule_event`;
 CREATE TABLE IF NOT EXISTS `schedule_event` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `id_schedule` int(11) NOT NULL,
   `day` int(11) NOT NULL,
   `time_start` time NOT NULL,
