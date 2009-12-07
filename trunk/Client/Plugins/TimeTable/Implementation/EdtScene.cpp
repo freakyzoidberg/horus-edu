@@ -52,6 +52,34 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene from " << _SD->startDate() << " to " << _SD->endDate();
     qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene with " << _SD->scheduleEvents().count() << " Events";
 
+
+    QGraphicsTextItem *monday = new QGraphicsTextItem(tr("monday"));
+    QGraphicsTextItem *tuesday = new QGraphicsTextItem(tr("tuesday"));
+    QGraphicsTextItem *wednesday = new QGraphicsTextItem(tr("wednesday"));
+    QGraphicsTextItem *thursday = new QGraphicsTextItem(tr("thursday"));
+    QGraphicsTextItem *friday = new QGraphicsTextItem(tr("friday"));
+    QGraphicsTextItem *saturday = new QGraphicsTextItem(tr("saturday"));
+    QGraphicsTextItem *sunday = new QGraphicsTextItem(tr("sunday"));
+
+
+    monday->setPos(getWPosforDay(1), VOFFSET - 30);
+    tuesday->setPos(getWPosforDay(2), VOFFSET - 30);
+    wednesday->setPos(getWPosforDay(3), VOFFSET - 30);
+    thursday->setPos(getWPosforDay(4), VOFFSET - 30);
+    friday->setPos(getWPosforDay(5), VOFFSET - 30);
+    saturday->setPos(getWPosforDay(6), VOFFSET - 30);
+    sunday->setPos(getWPosforDay(7), VOFFSET - 30);
+
+    this->addItem(monday);
+    this->addItem(tuesday);
+    this->addItem(wednesday);
+    this->addItem(thursday);
+    this->addItem(friday);
+    this->addItem(saturday);
+    this->addItem(sunday);
+
+
+
     for (int i = 0; i < _SD->scheduleEvents().size(); ++i) {
 
     addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red));
@@ -115,15 +143,6 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
     time->setZValue(101);
     //text->setPos(5,10);
     group->setToolTip(name + " @ "+ hstart.toString("hh:mm") + " to " + hend.toString("hh:mm"));
-
-
-
-
-
-
-
-
-
 
 
 
