@@ -105,7 +105,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
         connect(add, SIGNAL(clicked()), this, SLOT(goadd()));
         connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
         connect(del, SIGNAL(clicked()), this, SLOT(godelete()));
-
+        //connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
         connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
         connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
 
@@ -185,6 +185,8 @@ void ManageEdt::gook()
 
 void ManageEdt::godelete()
 {
+    ScheduleData *edt = sd->schedule(td->node(AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+    edt->remove();
     updateVisible(2);
 }
 
