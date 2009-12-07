@@ -48,10 +48,10 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
     _sceneWidget = new EdtSceneProxyWidget(_pluginManager, pluginManager->currentUser()->studentClass(),760,560);
     _sceneWidget->setMinimumSize(760,580);
     _sceneWidget->setMaximumSize(760,580);
-    _sceneWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
     scrollArea->setWidget(_sceneWidget);
     scrollArea->setMaximumSize(765,585);
-    MainLayout->addWidget(scrollArea,0,0,Qt::AlignLeft);
+    MainLayout->addWidget(scrollArea,0,0);
     }
     else if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
     {
@@ -94,7 +94,7 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
         RightLayout->addWidget(_add);
         RightLayout->addWidget(new QWidget(this), 1);
 
-        MainLayout->addLayout(RightLayout,0,1);
+        MainLayout->addLayout(RightLayout,0,1, Qt::AlignRight);
 
     }
         else
