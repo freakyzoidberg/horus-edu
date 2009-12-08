@@ -33,16 +33,19 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "EdtWidget.h"
-
+#include <QVBoxLayout>
 # include <QDebug>
 EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManager)
 {
     _currentClass = 0;
-    MainLayout = new QGridLayout();
+    _sceneWidget = 0;
+    MainLayout = new QHBoxLayout();
     MainLayout->setSpacing(0);
     MainLayout->setMargin(2);
     scrollArea = new QScrollArea();
-
+    id_item_edition = -1;
+    _form = 0;
+    _TD = 0;
     if (pluginManager->currentUser()->level() == LEVEL_STUDENT)
     {
     _sceneWidget = new EdtSceneProxyWidget(_pluginManager, pluginManager->currentUser()->studentClass(),760,560);
@@ -50,8 +53,12 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
     _sceneWidget->setMaximumSize(760,580);
 
     scrollArea->setWidget(_sceneWidget);
-    scrollArea->setMaximumSize(765,585);
-    MainLayout->addWidget(scrollArea,0,0);
+
+
+    scrollArea->setAlignment(Qt::AlignCenter);
+    MainLayout->insertWidget(0,scrollArea);
+    MainLayout->setStretch(0, 10000);
+
     }
     else if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
     {
@@ -83,6 +90,8 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
         _reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
         _back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
         _add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
+        _edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit"));
+        _del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Delete"));
 
         RightLayout->addWidget(actionTitle);
         //RightLayout->addWidget(edit);
@@ -92,10 +101,27 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
         RightLayout->addWidget(_reset);
         RightLayout->addWidget(_back);
         RightLayout->addWidget(_add);
+        RightLayout->addWidget(_edit);
+        RightLayout->addWidget(_del);
         RightLayout->addWidget(new QWidget(this), 1);
+        MainLayout->insertStretch(0,1);
+        MainLayout->addLayout(RightLayout);
 
-        MainLayout->addLayout(RightLayout,0,1, Qt::AlignRight);
+        _ok->hide();
+        _save->hide();
+        _reset->hide();
+        _back->hide();
+        _edit->hide();
+        _del->hide();
 
+
+        connect(this->_add, SIGNAL(clicked()),this, SLOT(goadd()));
+        connect(this->_back, SIGNAL(clicked()),this, SLOT(goback()));
+        connect(this->_save, SIGNAL(clicked()),this, SLOT(gosave()));
+        connect(this->_ok, SIGNAL(clicked()),this, SLOT(gook()));
+        connect(this->_reset, SIGNAL(clicked()),this, SLOT(goreset()));
+        connect(this->_edit, SIGNAL(clicked()),this, SLOT(goedit()));
+         connect(this->_del, SIGNAL(clicked()),this, SLOT(godel()));
     }
         else
     {
@@ -108,15 +134,139 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
 
 void EdtWidget::createScene(TreeData *td)
 {
-
+    _TD = td;
 
     if (_sceneWidget)
         delete _sceneWidget;
+
+    if (scrollArea)
+        delete scrollArea;
+
     _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td,760,560);
     _sceneWidget->setMinimumSize(760,580);
     _sceneWidget->setMaximumSize(760,580);
 
+    connect(_sceneWidget->scene(), SIGNAL(eventItemEditionRequired(int)),this, SLOT(showItemEdition(int)));
+
+    scrollArea = new QScrollArea();
     scrollArea->setWidget(_sceneWidget);
-    scrollArea->setMaximumSize(765,585);
-    MainLayout->addWidget(scrollArea,0,0);
+    scrollArea->setAlignment(Qt::AlignCenter);
+
+    //scrollArea->setMaximumSize(765,585);
+    MainLayout->insertWidget(0,scrollArea);
+    MainLayout->setStretch(0, 10000);
+  
+}
+
+
+
+void EdtWidget::goadd()
+{
+scrollArea->hide();
+_add->hide();
+_ok->show();
+_save->show();
+_reset->show();
+_back->show();
+_edit->hide();
+_del->hide();
+if (_form)
+    delete _form;
+_form = new EditScheduleEvent(_pluginManager);
+MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
+}
+
+void EdtWidget::gosave()
+{
+    saveEDT();
+}
+
+void EdtWidget::gook()
+{
+    if (saveEDT())
+        goback();
+}
+
+void EdtWidget::goreset()
+{
+
+    // if (!_form)
+    //  return;
+    // _form->name().clear();
+    // ...
+}
+
+void EdtWidget::goback()
+{
+
+    if (_form)
+        delete _form;
+    _form = 0;
+    createScene(_TD);
+
+    _add->show();
+    _ok->hide();
+    _save->hide();
+    _reset->hide();
+    _back->hide();
+    _edit->hide();
+    _del->hide();
+}
+
+
+
+void EdtWidget::showItemEdition(int id)
+{
+    id_item_edition = id;
+    _edit->show();
+    _del->show();
+}
+
+void EdtWidget::goedit()
+{
+    scrollArea->hide();
+    _add->hide();
+    _ok->show();
+    _save->show();
+    _reset->show();
+    _back->show();
+    _edit->hide();
+    _del->hide();
+    if (_form)
+        delete _form;
+    _form = new EditScheduleEvent(_pluginManager); // devrait passer par constructeur pour edition
+    MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
+}
+
+
+void EdtWidget::godel()
+{
+
+    _add->show();
+    _ok->hide();
+    _save->hide();
+    _reset->hide();
+    _back->hide();
+    _edit->hide();
+    _del->hide();
+
+    deleteEventFromEdt(id_item_edition);
+    createScene(_TD);
+}
+
+
+bool                EdtWidget::saveEDT()
+{
+    // reccupere les infos du form
+    // cree / update le schedule event
+    // update la data
+    // save la data
+    return true;
+}
+
+bool                EdtWidget::deleteEventFromEdt(int id)
+{
+    // supprime schedule event de la data
+    // save la data
+    return true;
 }

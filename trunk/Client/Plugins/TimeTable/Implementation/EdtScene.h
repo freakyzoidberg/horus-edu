@@ -38,6 +38,8 @@
 #include <QGraphicsScene>
 #include <QWidget>
 #include <QDebug>
+#include <QGraphicsSceneMouseEvent>
+
 
 # include			"../../../../Common/PluginManager.h"
 # include			"../../../../Common/UserData.h"
@@ -51,12 +53,16 @@ class EDTScene : public QGraphicsScene
 public:
         EDTScene(PluginManager *pluginManager, TreeData *treedata);
         ScheduleData *getScheduleData();
-
+signals:
+            void eventItemEditionRequired(int id);
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent* e);
 private:
     PluginManager	*_pluginManager;
     ScheduleData        *_SD;
     int                 getWPosforDay(int day);
-    void                addEvent(QString name, int dow,QTime hstart, QTime hend, QColor color);
+    void                addEvent(QString name, int dow,QTime hstart, QTime hend, QColor color, int id);
+
 
 };
 

@@ -35,6 +35,13 @@
 
 #include "EditScheduleEvent.h"
 
+
+#include <QHBoxLayout>
+#include <QLabel>
 EditScheduleEvent::EditScheduleEvent(PluginManager *pluginManager)
 {
+    QHBoxLayout *test_layout_a_enlever = new QHBoxLayout();
+    test_layout_a_enlever->addWidget(new QLabel("from"));
+    this->setLayout(test_layout_a_enlever);
+
 }

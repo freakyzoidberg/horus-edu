@@ -36,12 +36,13 @@
 #define EDTWIDGET_H
 
 #include <QWidget>
-#include <QGridLayout>
+#include <QHBoxLayout>
 #include "../../../../Common/ScheduleData.h"
  #include <QLabel>
 #include <QPushButton>
 #include <QFrame>
 #include "EdtSceneProxyWidget.h"
+#include "EditScheduleEvent.h"
 
 class EdtWidget : public QWidget
 {
@@ -52,19 +53,35 @@ public:
 
 public slots:
     void createScene(TreeData *);
+    void goadd();
+    void gosave();
+    void goback();
+    void gook();
+    void goreset();
+    void showItemEdition(int id);
+    void goedit();
+     void godel();
 
 private:
     PluginManager	*_pluginManager;
     EdtSceneProxyWidget *_sceneWidget;
     QScrollArea         *scrollArea;
-    QGridLayout         *MainLayout;
+    QHBoxLayout         *MainLayout;
     QLabel              *_currentClass;
     QPushButton         *_ok;
     QPushButton         *_save;
     QPushButton         *_reset;
     QPushButton         *_add;
     QPushButton         *_back;
+    QPushButton         *_edit;
+    QPushButton         *_del;
     QFrame              *informationsFrame;
+    TreeData            *_TD;
+    EditScheduleEvent   *_form;
+    int                 id_item_edition;
+    bool                saveEDT();
+    bool                deleteEventFromEdt(int id);
+
 
 };
 
