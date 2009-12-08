@@ -33,7 +33,7 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "TreeModel.h"
-#include "../../../../Common/TreeData.h"
+#include "../../../Common/TreeData.h"
 
 TreeModel::TreeModel(const TreeDataPlugin* plugin)
 {
@@ -89,17 +89,32 @@ QVariant TreeModel::data(const QModelIndex &index, int role) const
 
 Qt::DropActions TreeModel::supportedDropActions() const
 {
-	return Qt::ActionMask;//Qt::CopyAction | Qt::MoveAction;
+	return Qt::CopyAction | Qt::MoveAction;
 }
 
 QStringList TreeModel::mimeTypes() const
 {
-	return QStringList("text/uri-list");
+	QStringList list;
+	list.append("text/uri-list");
+	list.append("x-horus/x-data");
+	return list;
 }
 
 QMimeData* TreeModel::mimeData(const QModelIndexList &indexes) const
 {
-	return static_cast<Data*>(indexes.first().internalPointer())->mimeData();
+	QMimeData* mimeData = new QMimeData;
+	QByteArray buf;
+	QDataStream stream(&buf, QIODevice::WriteOnly);
+
+	foreach (const QModelIndex& index, indexes)
+	{
+		Data* data = static_cast<Data*>(index.internalPointer());
+		stream << data->dataType();
+		data->keyToStream(stream);
+	}
+
+	mimeData->setData("x-horus/x-data", buf);
+	return mimeData;
 }
 
 Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
@@ -110,11 +125,33 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 	return QAbstractItemModel::flags(index);
 }
 
-bool TreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool TreeModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
-//	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropMimeData(data, action);
-	qDebug() << data << action << row << column << parent;
-	return static_cast<Data*>(parent.internalPointer())->dropMimeData(data, action);
+	QDataStream stream(mimeData->data("x-horus/x-data"));
+	QList<Data*> dropList;
+
+	while ( ! stream.atEnd())
+	{
+		QString dataType;
+		stream >> dataType;
+
+		DataPlugin* dp = 0;
+		bool found = false;
+		foreach (Plugin* plugin, _plugin->pluginManager->plugins())
+			if ((dp = qobject_cast<DataPlugin*>(plugin)) && dp->dataType() == dataType)
+			{
+				dropList.append(dp->dataWithKey(stream));
+				found = true;
+				break;
+			}
+		if ( ! found)
+		{
+			qDebug() << "DataPlugin of type" << dataType << "not found.";
+			return false;
+		}
+	}
+
+	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropData(dropList, action);
 }
 
 void TreeModel::dataStatusChanged(Data* data)

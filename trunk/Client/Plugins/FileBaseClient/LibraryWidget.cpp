@@ -33,7 +33,8 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "LibraryWidget.h"
-#include "LibraryFilter.h"
+#include "LibraryFilterProxyModel.h"
+#include "LibraryFilterWidget.h"
 
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/FileData.h"
@@ -45,26 +46,30 @@
 #include <QLineEdit>
 #include <QLabel>
 #include <QCheckBox>
+#include <QTabWidget>
 
 LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 {
 	QGridLayout* layout = new QGridLayout(this);
 
-	_filter = new LibraryFilter(pluginManager->findPlugin<FileDataPlugin*>()->listModel(), this);
+	QTabWidget* tabs = new QTabWidget(this);
+
+
+	_filter = new LibraryFilterProxyModel(pluginManager->findPlugin<FileDataPlugin*>()->listModel(), this);
 
 	QTreeView* tree = new QTreeView(this);
 	tree->setModel(pluginManager->findPlugin<TreeDataPlugin*>()->treeModel());
 	tree->setHeaderHidden(true);
-	tree->expandAll();
+	//tree->expandAll();
 	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-//	tree->setAcceptDrops(false);
+	//tree->setAcceptDrops(false);
 	tree->viewport()->setAcceptDrops(false);
 	//tree->setDropIndicatorShown(true);
 	tree->setDragDropMode(QAbstractItemView::DropOnly);
 
 	_treeSelection = tree->selectionModel();
 	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), _filter, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
-	tree->selectAll();
+//	tree->selectAll();
 
 	QListView* list = new QListView(this);
 	list->setModel(_filter);
@@ -80,8 +85,11 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	layout->setColumnStretch(1, 6);
 	layout->setColumnStretch(2, 3);
 
-	layout->addWidget(new QLabel(tr("Into Directory")), 0, 0);
-	layout->addWidget(tree, 1, 0);
+	tabs->insertTab(0, new LibraryFilterWidget(pluginManager, this), "Filter");
+	tabs->insertTab(1, tree, "Tree");
+
+//	layout->addWidget(new QLabel(tr("Filters")), 0, 0);
+	layout->addWidget(tabs, 1, 0);
 
 	layout->addWidget(matchLine, 0, 1);
 
@@ -90,10 +98,11 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	layout->addWidget(new QLabel(tr("Detail")), 0, 2);
 	layout->addLayout(_detailLayout, 1, 2);
 
-	_detailLayout->addRow("Id:", new QLabel);
-	_detailLayout->addRow("Name:", new QLabel);
-	_detailLayout->addRow("Size:", new QLabel);
-	_detailLayout->addRow("MimeType:", new QLabel);
+//	_detailLayout->addRow(tr("Id:", new QLabel);
+	_detailLayout->addRow(tr("Name:"), new QLabel);
+	_detailLayout->addRow(tr("Size:"), new QLabel);
+	_detailLayout->addRow(tr("MimeType:"), new QLabel);
+	_detailLayout->addRow(tr("KeyWords:"), new QLabel);
 }
 
 void LibraryWidget::fileSelectionChange(const QItemSelection& selected, const QItemSelection&)

@@ -39,7 +39,7 @@
 #include <QItemSelectionModel>
 #include <QFormLayout>
 class PluginManager;
-class LibraryFilter;
+class LibraryFilterProxyModel;
 
 class LibraryWidget : public QWidget
 {
@@ -48,11 +48,11 @@ class LibraryWidget : public QWidget
 public:
 	LibraryWidget(PluginManager* pluginManager);
 private:
-	QItemSelectionModel*	_treeSelection;
-	LibraryFilter*			_filter;
-	QFormLayout*			_detailLayout;
+	QItemSelectionModel*		_treeSelection;
+	LibraryFilterProxyModel*	_filter;
+	QFormLayout*				_detailLayout;
 private slots:
-	void					fileSelectionChange(const QItemSelection& selected, const QItemSelection& deselected);
+	void						fileSelectionChange(const QItemSelection& selected, const QItemSelection& deselected);
 };
 
 #endif // LIBRARYWIDGET_H

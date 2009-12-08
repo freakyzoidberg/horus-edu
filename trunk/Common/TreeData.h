@@ -37,6 +37,9 @@
 
 #include <QHash>
 #include <QString>
+#ifdef HORUS_CLIENT
+#include <QIcon>
+#endif
 
 #include "Data.h"
 #include "TreeDataPlugin.h"

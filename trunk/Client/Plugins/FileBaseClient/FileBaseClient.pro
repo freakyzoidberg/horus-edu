@@ -16,7 +16,8 @@ SOURCES += ../../../Common/DataImplementations/FileDataBase/FileDataBase.cpp \
     LibrarySmallDisplayable.cpp \
     DownloadSmallDisplayable.cpp \
     TransfertList.cpp \
-    LibraryFilter.cpp
+    LibraryFilterProxyModel.cpp \
+    LibraryFilterWidget.cpp
 HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h \
     ../../../Common/DataImplementations/FileDataBase/FileTransfert.h \
@@ -43,7 +44,8 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     TransfertList.h \
     TransfertPlugin.h \
     ../MainFrame/SmallDisplayablePlugin.h \
-    LibraryFilter.h
+    LibraryFilterProxyModel.h \
+    LibraryFilterWidget.h
 TRANSLATIONS = FileBaseClientMetaPlugin_en.ts \
     FileBaseClientMetaPlugin_fr.ts
 RESOURCES += Icons/Icons.qrc

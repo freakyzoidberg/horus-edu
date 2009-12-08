@@ -223,6 +223,7 @@ private:
 	static const char*		levelStrings[];
 private slots:
 	void					studentClassRemoved();
+	void					studentRemoved();
 };
 
 #endif // USERDATABASE_H
