@@ -37,14 +37,14 @@
 #define INFOPANEL_H
 
 #include <QWidget>
-#include "../../../../Common/TreeData.h"
+#include "../../../../Common/ScheduleData.h"
 #include <QGridLayout>
 #include <QLabel>
 
 class InfoPanel : public QWidget
 {
 public:
-	InfoPanel(TreeData *);
+	InfoPanel(bool);
 };
 
 #endif // INFOPANEL_H

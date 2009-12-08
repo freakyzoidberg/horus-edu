@@ -108,9 +108,9 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
         //connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
         connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
         connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
-
-        connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
-			this, SLOT(classSelected(QListWidgetItem *)));
+		connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
+	connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
+	this, SLOT(classSelected(QListWidgetItem *)));
 
 	this->setLayout(MainLayout);
 }
@@ -118,7 +118,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 {
         TreeData	*node = td->node(selectedItem->data(Qt::UserRole).toInt());
-        bool            edt = false;
+		bool		edt = false;
 
         updateVisible(4);
 
@@ -129,17 +129,34 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
         }
         if (sd->schedule(node) != 0)
             edt = true;
-        infos = new InfoPanel(NULL);
+		infos = new InfoPanel(edt);
         parent->getEdt()->createScene(node);
         if (edt == false)
             updateVisible(2);
         else
         {
-                parent->setTabEnabled(0, true);
-                parent->setTabEnabled(1, true);
-                updateVisible(1);
+			parent->setTabEnabled(0, true);
+			parent->setTabEnabled(1, true);
+			updateVisible(1);
         }
         this->informationsLayout->addWidget(infos);
+}
+
+void	ManageEdt::fallback()
+{
+	AdmClassList->setVisible(true);
+	if (infos)
+	{
+		delete infos;
+		infos = NULL;
+	}
+	 ok->setVisible(false);
+	del->setVisible(false);
+	edit->setVisible(false);
+	add->setVisible(false);
+	back->setVisible(false);
+	reset->setVisible(false);
+	 scheduleForm->setVisible(false);
 }
 
 void ManageEdt::goadd()
@@ -161,9 +178,6 @@ void ManageEdt::goadd()
 
 void ManageEdt::goreset()
 {
-
-
-
 
 }
 
@@ -216,7 +230,6 @@ void ManageEdt::updateClasses()
     AdmClassList->setVisible(true);
 }
 
-
 void ManageEdt::updateVisible(int type)
 {
     if (type == 0)
@@ -234,6 +247,11 @@ void ManageEdt::updateVisible(int type)
         save->setVisible(false);
         del->setVisible(true);
         edit->setVisible(true);
+		if (infos)
+			delete infos;
+		infos = new InfoPanel(true);
+		this->informationsLayout->addWidget(infos);
+		infos->setVisible(true);
         add->setVisible(false);
         back->setVisible(false);
         reset->setVisible(false);
@@ -243,6 +261,10 @@ void ManageEdt::updateVisible(int type)
         ok->setVisible(false);
         del->setVisible(false);
         save->setVisible(false);
+		if (infos)
+			delete infos;
+		infos = new InfoPanel(false);
+		this->informationsLayout->addWidget(infos);
         edit->setVisible(false);
         add->setVisible(true);
         back->setVisible(false);

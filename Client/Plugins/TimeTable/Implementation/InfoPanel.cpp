@@ -39,27 +39,23 @@
 
 #include "InfoPanel.h"
 
-InfoPanel::InfoPanel(TreeData *node)
+InfoPanel::InfoPanel(bool node)
 {
 	QGridLayout *layout = new QGridLayout();
 
 	if (node)
-	{//ajoiter une icone
-		layout->addWidget(new QLabel(tr("Error.")), 0, 0);
-	}
-	else if (false)
-	{
-		QLabel	*label = new QLabel();
-		label->setPixmap(QPixmap(":/error.png"));
-		layout->addWidget(label, 0, 0);
-		layout->addWidget(new QLabel(tr("No time table found.")), 0, 1);
-	}
-	else
 	{
 		QLabel	*label = new QLabel();
 		label->setPixmap(QPixmap(":/TimeTableOK.gif"));
 		layout->addWidget(label, 0, 0);
 		layout->addWidget(new QLabel(tr("time table found.")), 0, 1);
+	}
+	else
+	{
+		QLabel	*label = new QLabel();
+		label->setPixmap(QPixmap(":/error.png"));
+		layout->addWidget(label, 0, 0);
+		layout->addWidget(new QLabel(tr("No time table.")), 0, 1);
 	}
 	/*if (it != 0)
 	{

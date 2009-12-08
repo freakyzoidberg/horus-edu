@@ -35,7 +35,6 @@
 
 #include "EditScheduleEvent.h"
 
-
 #include <QHBoxLayout>
 #include <QLabel>
 EditScheduleEvent::EditScheduleEvent(PluginManager *pluginManager)
