@@ -35,6 +35,7 @@
 #include "CacheManager.h"
 #include "PluginManagerClient.h"
 #include "SecondaryThread.h"
+#include "../Common/LocalSettings.h"
 
 CacheManager* CacheManager::instance()
 {
@@ -50,6 +51,9 @@ CacheManager* CacheManager::instance()
 CacheManager::CacheManager()
 {
 	_autoLogin = 0;
+
+	if (LocalSettings().value("General/Cache", "Enable") == "Disable")
+		return;
 
 	QFile file(QDir::tempPath()+"/HorusCache");
 	file.open(QIODevice::ReadOnly);
@@ -84,6 +88,9 @@ UserCache* CacheManager::userCache(const QString& login)
 
 void CacheManager::save()
 {
+	if (LocalSettings().value("General/Cache", "Enable") == "Disable")
+		return;
+
 	QFile file(QDir::tempPath()+"/HorusCache");
 	file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 	QDataStream stream(&file);
