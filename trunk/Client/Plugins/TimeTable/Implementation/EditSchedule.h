@@ -55,9 +55,9 @@ class EditSchedule : public QWidget
 
     public:
         EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, int type);
-        inline QDate                getStart() {_startDate->selectedDate();}
+        inline QDate                getStart() {return(_startDate->selectedDate());}
         inline void                 setStart(QDate date) {_startDate->setSelectedDate(date);}
-        inline QDate                getEnd() {_endDate->selectedDate();}
+        inline QDate                getEnd() {return(_endDate->selectedDate());}
         inline void                 setEnd(QDate date) {_endDate->setSelectedDate(date);}
     private:
         ScheduleDataPlugin          *sdp;

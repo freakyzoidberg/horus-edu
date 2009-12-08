@@ -52,7 +52,7 @@ CacheManager::CacheManager()
 {
 	_autoLogin = 0;
 
-	if (LocalSettings().value("General/Cache", "Enable") == "Disable")
+	if (LocalSettings().value("Cache", "Enable") == "Disable")
 		return;
 
 	QFile file(QDir::tempPath()+"/HorusCache");
@@ -88,7 +88,7 @@ UserCache* CacheManager::userCache(const QString& login)
 
 void CacheManager::save()
 {
-	if (LocalSettings().value("General/Cache", "Enable") == "Disable")
+	if (LocalSettings().value("Cache", "Enable") == "Disable")
 		return;
 
 	QFile file(QDir::tempPath()+"/HorusCache");
