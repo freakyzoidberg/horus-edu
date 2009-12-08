@@ -53,9 +53,11 @@ class TreeDataPlugin : public DataPlugin
 #endif
 
 public:
-	virtual TreeData*	rootNode() const = 0;
-	virtual TreeData*	node(quint32 id) = 0;
-	virtual TreeData*	createNode() = 0;
+	virtual TreeData*		rootNode() const = 0;
+	virtual TreeData*		node(quint32 id) = 0;
+	virtual TreeData*		createNode() = 0;
+	virtual QStringList		subjects() const = 0;
+	virtual QList<TreeData*> grades() const = 0;
 #ifdef HORUS_CLIENT
 	virtual QAbstractItemModel* treeModel() const = 0;
 #endif

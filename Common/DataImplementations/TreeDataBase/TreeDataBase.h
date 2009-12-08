@@ -106,6 +106,7 @@ public:
 #ifdef HORUS_CLIENT
 	QVariant			data(int column, int role = Qt::DisplayRole) const;
 	bool				dropMimeData(const QMimeData *, Qt::DropAction);
+	const QIcon			icon() const;
 #endif
 #ifdef HORUS_SERVER
 	quint8				serverRead();

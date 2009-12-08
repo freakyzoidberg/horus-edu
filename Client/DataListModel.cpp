@@ -87,7 +87,7 @@ QVariant DataListModel::headerData(int section, Qt::Orientation orientation, int
 		if (section == 10)
 			return (tr("Occupation"));
 	}
-	return (QVariant());
+	return QVariant();
 }
 
 QVariant DataListModel::data(const QModelIndex &index, int role) const
@@ -129,9 +129,26 @@ Qt::DropActions DataListModel::supportedDropActions() const
 	return Qt::CopyAction | Qt::MoveAction;
 }
 
+QStringList	DataListModel::mimeTypes() const
+{
+	return QStringList("x-horus/x-data");
+}
+
 QMimeData* DataListModel::mimeData(const QModelIndexList &indexes) const
 {
-	return static_cast<Data*>(indexes.first().internalPointer())->mimeData();
+	QMimeData* mimeData = new QMimeData;
+	QByteArray buf;
+	QDataStream stream(&buf, QIODevice::WriteOnly);
+
+	foreach (const QModelIndex& index, indexes)
+	{
+		Data* data = static_cast<Data*>(index.internalPointer());
+		stream << data->dataType();
+		data->keyToStream(stream);
+	}
+
+	mimeData->setData("x-horus/x-data", buf);
+	return mimeData;
 }
 
 
@@ -143,7 +160,31 @@ Qt::ItemFlags DataListModel::flags(const QModelIndex &index) const
 		return Qt::ItemIsDropEnabled | QAbstractListModel::flags(index);
 }
 
-bool DataListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool DataListModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
-	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropMimeData(data, action);
+	QDataStream stream(mimeData->data("x-horus/x-data"));
+	QList<Data*> dropList;
+
+	while ( ! stream.atEnd())
+	{
+		QString dataType;
+		stream >> dataType;
+
+		DataPlugin* dp = 0;
+		bool found = false;
+		foreach (Plugin* plugin, _plugin->pluginManager->plugins())
+			if ((dp = qobject_cast<DataPlugin*>(plugin)) && dp->dataType() == dataType)
+			{
+				dropList.append(dp->dataWithKey(stream));
+				found = true;
+				break;
+			}
+		if ( ! found)
+		{
+			qDebug() << "DataPlugin of type" << dataType << "not found.";
+			return false;
+		}
+	}
+
+	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropData(dropList, action);
 }

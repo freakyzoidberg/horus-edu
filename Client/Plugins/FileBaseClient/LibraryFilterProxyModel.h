@@ -1,14 +1,14 @@
-#ifndef LIBRARYFILTER_H
-#define LIBRARYFILTER_H
+#ifndef LibraryFilterProxyModel_H
+#define LibraryFilterProxyModel_H
 
 #include <QSortFilterProxyModel>
 class TreeData;
 
-class LibraryFilter : public QSortFilterProxyModel
+class LibraryFilterProxyModel : public QSortFilterProxyModel
 {
 	Q_OBJECT
 public:
-	LibraryFilter(QAbstractListModel* model, QObject* parent = 0);
+	LibraryFilterProxyModel(QAbstractListModel* model, QObject* parent = 0);
 
 public slots:
 	void				treeSelectionChange(const QItemSelection& selected, const QItemSelection& deselected);
@@ -18,4 +18,4 @@ private:
 	QList<TreeData*>	_nodes;
 };
 
-#endif // LIBRARYFILTER_H
+#endif // LibraryFilterProxyModel_H

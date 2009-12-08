@@ -223,7 +223,12 @@ quint8 TreeDataBase::serverRemove()
 #include <QIcon>
 QVariant TreeDataBase::data(int column, int role) const
 {
-	if (role == Qt::DisplayRole)
+	if (role == FILTER_ROLE)
+	{
+		if (column == 0)
+			return _type;
+	}
+	else if (role == Qt::DisplayRole)
     {
 		if (column == -1)
             return _id;
@@ -235,17 +240,26 @@ QVariant TreeDataBase::data(int column, int role) const
 			return _user->id();
     }
     else if (role == Qt::DecorationRole && column == 0)
-    {
-        static QMap<QString,QIcon> icons;
-        if ( ! icons.count())
-        {
-			icons["GRADE"]   = QIcon(":/desk.png");
-        }
-        if (icons.contains( _type ))
-            return icons[ _type ];
-        return icons["DEFAULT"];
-    }
-   return Data::data(column, role);
+		return icon();
+
+	return QVariant();
+}
+
+const QIcon TreeDataBase::icon() const
+{
+	static QMap<QString,QIcon> icons;
+	if ( ! icons.count())
+	{
+		icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
+		icons["LESSON"]  = QIcon(":/Icons/LessonIcon.png");
+		icons["SUBJECT"] = QIcon(":/Icons/SubjectIcon.png");
+		icons["GRADE"]   = QIcon(":/desk.png");
+		icons["GROUP"]   = QIcon(":/Icons/GroupIcon.png");
+		icons["ROOT"]    = QIcon(":/Icons/RootIcon.png");
+	}
+	if (icons.contains( _type ))
+		return icons[ _type ];
+	return icons["DEFAULT"];
 }
 
 #include "../../FileData.h"

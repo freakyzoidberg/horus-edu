@@ -55,7 +55,7 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 	_mimeType = "unknow";
 #ifdef HORUS_CLIENT
 	QFile* f = file();
-	if (f->size() == _size)
+	if (f->size() == (qint64)_size)
 		_isDownloaded = true;
 	else
 		_isDownloaded = false;

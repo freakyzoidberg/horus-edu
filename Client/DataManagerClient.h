@@ -57,7 +57,7 @@ public slots:
 private:
 	DataPlugin*			_plugin;
 	QList<Data*>		_needSaveAgain;
-	QHash<Data*,Data*>	_dependantDatas;
+	QMultiHash<Data*,Data*>	_dependantDatas;
 };
 
 #endif // DATAMANAGERCLIENT_H

@@ -1,9 +1,9 @@
-#include "LibraryFilter.h"
+#include "LibraryFilterProxyModel.h"
 #include "../../../Common/FileData.h"
 #include <QItemSelection>
 #include <QDebug>
 
-LibraryFilter::LibraryFilter(QAbstractListModel* fileModel, QObject* parent) : QSortFilterProxyModel(parent)
+LibraryFilterProxyModel::LibraryFilterProxyModel(QAbstractListModel* fileModel, QObject* parent) : QSortFilterProxyModel(parent)
 {
 	setSourceModel(fileModel);
 	setSortCaseSensitivity(Qt::CaseInsensitive);
@@ -11,7 +11,7 @@ LibraryFilter::LibraryFilter(QAbstractListModel* fileModel, QObject* parent) : Q
 	sort(0, Qt::AscendingOrder);
 }
 
-void LibraryFilter::treeSelectionChange(const QItemSelection& selected, const QItemSelection& deselected)
+void LibraryFilterProxyModel::treeSelectionChange(const QItemSelection& selected, const QItemSelection& deselected)
 {
 	foreach (QModelIndex index, selected.indexes())
 		_nodes.append(static_cast<TreeData*>(index.internalPointer()));
@@ -21,7 +21,7 @@ void LibraryFilter::treeSelectionChange(const QItemSelection& selected, const QI
 	invalidateFilter();
 }
 
-bool LibraryFilter::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
+bool LibraryFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
 {
 	if ( ! _nodes.contains(static_cast<FileData*>(sourceModel()->index(source_row, 0, source_parent).internalPointer())->node()))
 		return false;

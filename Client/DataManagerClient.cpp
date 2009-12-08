@@ -187,11 +187,11 @@ void DataManagerClient::receiveData(const QByteArray& d)
 			delete data;
 		}
 	}
-	if (_dependantDatas.contains(data))
-	{
-		Data* dep = _dependantDatas.take(data);
+
+	QList<Data*> list = _dependantDatas.values(data);
+	_dependantDatas.remove(data);
+	foreach (Data* dep, list)
 		sendData(dep);
-	}
 }
 
 void DataManagerClient::sendData(Data* data)

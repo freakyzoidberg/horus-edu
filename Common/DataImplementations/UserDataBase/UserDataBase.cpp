@@ -69,6 +69,18 @@ void UserDataBase::studentClassRemoved()
 	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
+#ifdef HORUS_SERVER
+	save();
+#endif
+}
+
+void UserDataBase::studentRemoved()
+{
+	disconnect(this, SLOT(studentRemoved()));
+	_student = static_cast<UserDataPlugin*>(_plugin)->nobody();
+#ifdef HORUS_SERVER
+	save();
+#endif
 }
 
 void UserDataBase::keyToStream(QDataStream& s) const

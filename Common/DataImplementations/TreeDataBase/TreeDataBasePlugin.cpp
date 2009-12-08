@@ -75,7 +75,7 @@ void TreeDataBasePlugin::load()
 void TreeDataBasePlugin::unload()
 {
 	foreach (Data* d, _allDatas)
-		delete (TreeDataBase*)d;
+		delete static_cast<TreeDataBase*>(d);
 	_allDatas.clear();
 	DataPlugin::unload();
 }
@@ -108,7 +108,7 @@ TreeData* TreeDataBasePlugin::node(quint32 nodeId)
 {
 	foreach (Data* d, _allDatas)
 	{
-		TreeDataBase* n = (TreeDataBase*)d;
+		TreeDataBase* n = static_cast<TreeDataBase*>(d);
 		if (n->_id == nodeId)
 			return n;
 	}
@@ -126,6 +126,30 @@ TreeData* TreeDataBasePlugin::createNode()
 	static quint32 tmpId = 0;
 	tmpId--;
 	return node(tmpId);
+}
+
+QStringList TreeDataBasePlugin::subjects() const
+{
+	QStringList list;
+	foreach (Data* d, _allDatas)
+	{
+		TreeDataBase* n = static_cast<TreeDataBase*>(d);
+		if (n->type() == "SUBJECT" && ! list.contains(n->name()))
+			list.append(n->name());
+	}
+	return list;
+}
+
+QList<TreeData*> TreeDataBasePlugin::grades() const
+{
+	QList<TreeData*> list;
+	foreach (Data* d, _allDatas)
+	{
+		TreeDataBase* n = static_cast<TreeDataBase*>(d);
+		if (n->type() == "GRADE")
+			list.append(n);
+	}
+	return list;
 }
 
 Data* TreeDataBasePlugin::dataWithKey(QDataStream& s)

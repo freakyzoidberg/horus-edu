@@ -82,6 +82,8 @@ public:
 	inline TreeData*		rootNode() const { return _rootNode; }
 	TreeData*				node(quint32 nodeId);
 	TreeData*				createNode();
+	QStringList				subjects() const;
+	QList<TreeData*>		grades() const;
 #ifdef HORUS_CLIENT
 	QAbstractItemModel*		treeModel() const;
 	QAbstractListModel*		listModel() const;

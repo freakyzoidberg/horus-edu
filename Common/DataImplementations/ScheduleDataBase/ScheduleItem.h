@@ -7,7 +7,7 @@
 class ScheduleException
 {
     public:
-        inline ScheduleException(QDate ds, QDate de, QString n)
+		inline ScheduleException(QDate ds, QDate de, QString n)
         {
             dateStart = ds;
             dateEnd = de;

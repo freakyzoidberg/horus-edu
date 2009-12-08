@@ -50,6 +50,7 @@ public:
 	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
 	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 	Qt::DropActions		supportedDropActions() const;
+	QStringList			mimeTypes() const;
 	QMimeData*			mimeData(const QModelIndexList &indexes) const;
 	Qt::ItemFlags		flags(const QModelIndex &index) const;
 	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
