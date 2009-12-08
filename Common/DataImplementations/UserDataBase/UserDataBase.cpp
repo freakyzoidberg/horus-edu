@@ -317,9 +317,9 @@ void UserDataBase::setRelationship(const QString relationship)
 void UserDataBase::setStudent(UserData* student)
 {
 	QMutexLocker M(&mutex);
-	disconnect(_student, SIGNAL(removed()), this, SLOT(removed()));
+	//disconnect(_student, SIGNAL(removed()), this, SLOT(removed()));
 	_student = student;
-	connect(_student, SIGNAL(removed()), this, SLOT(removed()));
+	//connect(_student, SIGNAL(removed()), this, SLOT(removed()));
 }
 
 void UserDataBase::setMail(const QString mail)
@@ -405,22 +405,48 @@ void UserDataBase::setMailPassword(const QString password)
 #include <QIcon>
 QVariant UserDataBase::data(int column, int role) const
 {
-    if (role == Qt::DisplayRole)
+	if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         if (column == 0)
-			return _surname + ' ' + _name;
+			return _id;
 		if (column == 1)
 			return _login;
+		if (column == 2)
+			return _name;
+		if (column == 3)
+			return _surname;
+		if (column == 4)
+			return _bornPlace;
+		if (column == 5)
+			return _mail;
+		if (column == 6)
+			return _phone1;
+		if (column == 7)
+			return _phone3;
+		if (column == 8)
+			return _phone2;
+		if (column == 9)
+			return _socialInsuranceNbr;
+		if (column == 10)
+			return _occupation;
     }
     else if (role == Qt::DecorationRole && column == 0)
     {
-       if (level() == 2)
-            return QIcon(":/boss.ico");
+       if (level() == LEVEL_ADMINISTRATOR)
+            return QIcon(":/administrator.png");
+       if (level() == LEVEL_TEACHER)
+            return QIcon(":/teacher.png");
+       if (level() == LEVEL_FAMILY)
+            return QIcon(":/parent.png");
+       if (level() == LEVEL_STUDENT)
+            return QIcon(":/student.png");
         else
-            return QIcon(":/user.ico");
+            return QIcon();
     }
 	else if (role == FILTER_ROLE && column == 0)
 		return levelStrings[_level];
+	else if (role == Qt::UserRole && column == 0)
+		return QString::number(_studentClass->id());
 
 	return QVariant();
 }

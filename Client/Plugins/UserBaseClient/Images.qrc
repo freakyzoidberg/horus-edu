@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/" >
-        <file>user.ico</file>
-        <file>boss.ico</file>
-    </qresource>
-</RCC>

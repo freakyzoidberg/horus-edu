@@ -32,33 +32,52 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#include		"Administration.h"
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+#include		<QTabWidget>
 
-class DataListModel : public QAbstractListModel
+#include		"../../../../Common/TreeDataPlugin.h"
+#include		"../../../../Common/UserData.h"
+
+#include		"ManageUser.h"
+#include		"ManageClasses/AdmAddClassWidget.h"
+
+const QString	Administration::pluginName() const
 {
-	Q_OBJECT
-public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+    return ("Administration");
+}
 
-private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
-};
+const QString	Administration::pluginVersion() const
+{
+    return ("3.0");
+}
 
-#endif // DATALISTMODEL_H
+const QString	Administration::getDisplayableName() const
+{
+    return (tr("Administration"));
+}
+
+int				Administration::getOrder() const
+{
+    return (10);
+}
+QIcon			Administration::getIcon() const
+{
+    return (QIcon(":/Icons/admin.png"));
+}
+
+QWidget			*Administration::getWidget()
+{
+	UserData	*u;
+	QTabWidget	*widget;
+	
+	u = pluginManager->currentUser();
+	if (u && u->level() > LEVEL_ADMINISTRATOR)
+		return (0);
+	widget = new QTabWidget();
+	widget->addTab(new AdmAddClassWidget(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/desk.png"), tr("Classes"));
+	widget->addTab(new ManageUser(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_STUDENT), QIcon(":/Icons/students.png"), tr("Students"));
+	widget->addTab(new ManageUser(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_TEACHER), QIcon(":/Icons/teachers.png"), tr("Teachers"));
+	widget->addTab(new ManageUser(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_ADMINISTRATOR), QIcon(":/Icons/administrator.png"), tr("Administratives"));
+	return (widget);
+}

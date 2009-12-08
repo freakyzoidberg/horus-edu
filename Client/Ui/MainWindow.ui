@@ -195,6 +195,14 @@ QLabel[isFormLabel=&quot;true&quot;]
 	font-weight: bold;
 }
 
+QHeaderView
+{
+border: 0px; 
+	background-color: rgb(255, 255, 255);
+padding: 0px; 
+margin: 0px; 
+}
+
 QLabel[isFormTitle=&quot;true&quot;]
 {
 	background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0 rgba(180, 180, 180, 255), stop:1 rgba(210, 210, 210, 255));
@@ -217,6 +225,15 @@ QFrame[isFormFrame=&quot;true&quot;]
 }
 
 QListView 
+{ 
+	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
+	border: 1px solid rgba(0, 0, 0, 32);
+	border-top-color: rgba(255, 255, 255, 32);
+	border-bottom-color: rgba(0, 0, 0, 32);
+	border-right-color: rgba(255, 255, 255, 128);
+	selection-background-color: rgb(73, 150, 186); 
+} 
+QTableView 
 { 
 	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
 	border: 1px solid rgba(0, 0, 0, 32);
@@ -376,7 +393,7 @@ QFrame#Content
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>27</height>
+     <height>29</height>
     </rect>
    </property>
   </widget>

@@ -32,33 +32,89 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#ifndef				__EDITUSER_H__
+# define			__EDITUSER_H__
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+# include			<QWidget>
 
-class DataListModel : public QAbstractListModel
+# include			<QLineEdit>
+# include			<QDateEdit>
+# include			<QTextEdit>
+# include			<QSpinBox>
+# include			<QComboBox>
+
+# include			"../../../../Common/TreeData.h"
+# include			"../../../../Common/UserData.h"
+
+class				EditUser : public QWidget
 {
 	Q_OBJECT
+
 public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	EditUser(QWidget *parent, UserDataPlugin *userDataPlugin, int userLevel, TreeData *node = 0, UserData *user = 0);
+
+private:
+	UserDataPlugin	*_userDataPlugin;
+	int				_userLevel;
+	TreeData		*_node;
+	UserData		*_user;
+	UserData		*father;
+	UserData		*mother;
+
+	QWidget			*getPersonnalFrame();
+	QWidget			*getContactFrame();
+	QWidget			*getProfessionalFrame();
+	QWidget			*getStudiesFrame();
+	QWidget			*getParentFrame();
+	QWidget			*getParentContactFrame();
+
+	QLineEdit		*lastNameField;
+	QLineEdit		*firstNameField;
+	QDateEdit		*birthDateField;
+	QLineEdit		*birthPlaceField;
+	QComboBox		*genderField;
+	QSpinBox		*siblingsField;
+	QTextEdit		*addressField;
+	QLineEdit		*mailField;
+	QLineEdit		*homePhoneField;
+	QLineEdit		*mobilePhoneField;
+	QLineEdit		*workPhoneField;
+	QLineEdit		*socialInsuranceNbrField;
+	QTextEdit		*diplomaField;
+	QTextEdit		*contractField;
+	QLineEdit		*referentField;
+	QTextEdit		*motiveField;
+	QLineEdit		*financialHelpsField;
+	QSpinBox		*startYearField;
+	QSpinBox		*leaveYearField;
+	QSpinBox		*repeatedYearsField;
+	QSpinBox		*skippedYearsField;
+	QTextEdit		*followUpField;
+	QLineEdit		*fatherLastNameField;
+	QLineEdit		*motherLastNameField;
+	QLineEdit		*fatherFirstNameField;
+	QLineEdit		*motherFirstNameField;
+	QLineEdit		*fatherOccupationField;
+	QLineEdit		*motherOccupationField;
+	QComboBox		*relationshipField;
+	QTextEdit		*fatherAddressField;
+	QTextEdit		*motherAddressField;
+	QLineEdit		*fatherEmailField;
+	QLineEdit		*motherEmailField;
+	QLineEdit		*fatherHomePhoneField;
+	QLineEdit		*motherHomePhoneField;
+	QLineEdit		*fatherMobilePhoneField;
+	QLineEdit		*motherMobilePhoneField;
+	QLineEdit		*fatherWorkPhoneField;
+	QLineEdit		*motherWorkPhoneField;
 
 private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
+	void			saved();
+	void			exited();
+	void			reseted();
+
+signals:
+	void			exit();
 };
 
-#endif // DATALISTMODEL_H
+#endif

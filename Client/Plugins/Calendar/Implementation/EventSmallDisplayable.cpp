@@ -86,10 +86,10 @@ QWidget			*EventSmallDisplayable::getWidget()
 	layout->addWidget(text);
 	for (int i = 0; i < userEvents->size(); ++i)
 	{
-		text = new QLabel(userEvents->at(i)->node()->name());
+		//text = new QLabel(userEvents->at(i)->node()->name());
 
 
-		layout->addWidget(text);
+		//layout->addWidget(text);
 
 	}
 	//(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime())

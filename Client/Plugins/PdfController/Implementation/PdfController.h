@@ -45,7 +45,7 @@
 # include "../../LessonManager/ILessonManager.h"
 # include "../../LessonManager/IDocumentController.h"
 # include "../../PdfDisplayer/IPdfRendering.h"
-# include "../../Course/IItems.h"
+//# include "../../Course/IItems.h"
 
 class   PdfController : public Plugin, public IDocumentController
 {

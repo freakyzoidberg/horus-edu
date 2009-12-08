@@ -32,33 +32,26 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#ifndef ADMINISTRATIONMETAPLUGIN_H
+#define ADMINISTRATIONMETAPLUGIN_H
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+#include "../../../../Common/MetaPlugin.h"
 
-class DataListModel : public QAbstractListModel
+#include "Administration.h"
+
+class AdministrationMetaPlugin : public MetaPlugin
 {
-	Q_OBJECT
-public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+  Q_OBJECT
+  Q_INTERFACES(MetaPlugin)
 
-private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
+public:
+    inline AdministrationMetaPlugin() {
+      pluginList.append(new Administration());
+  }
 };
 
-#endif // DATALISTMODEL_H
+/* maybe put this lines in a cpp if this file is include by an other file */
+// declare instance of the plugin
+Q_EXPORT_PLUGIN2(AdministrationMetaPlugin, AdministrationMetaPlugin);
+
+#endif // ADMINISTRATIONMETAPLUGIN_H

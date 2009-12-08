@@ -32,33 +32,89 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#include		"InformationsUser.h"
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+#include		<QGridLayout>
+#include		<QLabel>
 
-class DataListModel : public QAbstractListModel
+InformationsUser::InformationsUser(QWidget *parent, UserData *user) : QWidget(parent)
 {
-	Q_OBJECT
-public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	QGridLayout	*layout;
+	QLabel		*fieldLabel;
+	QLabel		*valueLabel;
+	QString		value;
+	int			row;
 
-private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
-};
-
-#endif // DATALISTMODEL_H
+	if (!user)
+		return ;
+	row = 0;
+	layout = new QGridLayout(this);
+	value = user->surname();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("First name"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->name();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Last name"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	if (user->gender() == GENDER_UNKNOW)
+		value = tr("Unknow");
+	if (user->gender() == GENDER_FEMALE)
+		value = tr("Female");
+	if (user->gender() == GENDER_MALE)
+		value = tr("Male");
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Gender"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->mail();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Email"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone1();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Home phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone2();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Work phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone3();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Mobile phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+}
