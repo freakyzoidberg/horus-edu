@@ -795,11 +795,14 @@ void			EditUser::reseted()
 	mailField->clear();
 	homePhoneField->clear();
 	mobilePhoneField->clear();
-	workPhoneField->clear();
-	socialInsuranceNbrField->clear();
-	diplomaField->clear();
-	contractField->clear();
-	if (_userLevel == LEVEL_STUDENT)
+	if (_userLevel != LEVEL_STUDENT)
+	{
+		workPhoneField->clear();
+		socialInsuranceNbrField->clear();
+		diplomaField->clear();
+		contractField->clear();
+	}
+	else
 	{
 		siblingsField->clear();
 		referentField->clear();

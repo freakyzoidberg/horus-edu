@@ -176,7 +176,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	mainLayout->addLayout(rightLayout);
 	if (needFilter)
 	{
-		connect(classListView->selectionModel(), SIGNAL(currentChanged(const QModelIndex &, const QModelIndex &)), this, SLOT(classSelected(const QModelIndex &, const QModelIndex &)));
+		connect(classListView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT(classSelected(const QItemSelection &, const QItemSelection &)));
 		connect(treeDataPlugin, SIGNAL(dataCreated(Data *)), this, SLOT(classUpdated(Data *)));
 		connect(treeDataPlugin, SIGNAL(dataUpdated(Data *)), this, SLOT(classUpdated(Data *)));
 		connect(treeDataPlugin, SIGNAL(dataRemoved(Data *)), this, SLOT(classUpdated(Data *)));
@@ -203,24 +203,28 @@ void					ListUser::showEvent(QShowEvent *)
 	}
 }
 
-void					ListUser::classSelected(const QModelIndex &current, const QModelIndex &)
+void					ListUser::classSelected(const QItemSelection &selected, const QItemSelection &)
 {
-	userListView->resizeColumnsToContents();
-	userListView->resizeRowsToContents();
-	userListView->horizontalHeader()->setStretchLastSection(true);
-	if (current.isValid() && current == classListView->currentIndex())
+	if (selected.indexes().size() == 1)
 	{
-		classFilter->setFilterRegExp(QRegExp("\\b" + QString::number(((TreeData *)(gradeFilter->mapToSource(current).internalPointer()))->id()) + "\\b"));
-		addButton->setDisabled(false);
+		classFilter->setFilterRegExp(QRegExp("\\b" + QString::number(((TreeData *)(gradeFilter->mapToSource(selected.indexes().at(0)).internalPointer()))->id()) + "\\b"));
 		userListView->update();
+		userListView->resizeColumnsToContents();
+		userListView->resizeRowsToContents();
+		userListView->horizontalHeader()->setStretchLastSection(true);
+	}
+	else
+	{
+		classFilter->setFilterRegExp(QRegExp(".*"));
+		userListView->update();
+		userListView->resizeColumnsToContents();
+		userListView->resizeRowsToContents();
+		userListView->horizontalHeader()->setStretchLastSection(true);
 	}
 }
 
 void					ListUser::userSelected(const QModelIndex &current, const QModelIndex &)
 {
-	userListView->resizeColumnsToContents();
-	userListView->resizeRowsToContents();
-	userListView->horizontalHeader()->setStretchLastSection(true);
 	if (current.isValid() && current == userListView->currentIndex())
 	{
 		editButton->setDisabled(false);
