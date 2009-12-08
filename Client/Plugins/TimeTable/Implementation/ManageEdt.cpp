@@ -132,7 +132,11 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 		infos = new InfoPanel(edt);
         parent->getEdt()->createScene(node);
         if (edt == false)
+		{
             updateVisible(2);
+			parent->setTabEnabled(0, false);
+			parent->setTabEnabled(1, false);
+		}
         else
         {
 			parent->setTabEnabled(0, true);
@@ -150,6 +154,8 @@ void	ManageEdt::fallback()
 		delete infos;
 		infos = NULL;
 	}
+		parent->setTabEnabled(0, false);
+			parent->setTabEnabled(1, false);
 	 ok->setVisible(false);
 	del->setVisible(false);
 	edit->setVisible(false);
@@ -173,6 +179,8 @@ void ManageEdt::goadd()
         MainLayout->insertWidget(0, scheduleForm);
         AdmClassList->setVisible(false);
         updateVisible(0);
+		parent->setTabEnabled(0, true);
+		parent->setTabEnabled(1, true);
     }
 }
 
@@ -202,6 +210,8 @@ void ManageEdt::godelete()
     ScheduleData *edt = sd->schedule(td->node(AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
     edt->remove();
     updateVisible(2);
+	parent->setTabEnabled(0, false);
+	parent->setTabEnabled(1, false);
 }
 
 void ManageEdt::goedit()
