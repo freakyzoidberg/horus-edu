@@ -60,32 +60,32 @@ int DataListModel::columnCount(const QModelIndex &) const
 {
 	return (11);
 }
-QVariant DataListModel::headerData(int section, Qt::Orientation orientation, int) const
+QVariant DataListModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-	if (orientation == Qt::Horizontal)
+	if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
 	{
 		if (section == 0)
 			return (tr("Id"));
-		//if (section == 1)
-		//	return (tr("Login"));
-		//if (section == 2)
-		//	return (tr("Last name"));
+		if (section == 1)
+			return (tr("Login"));
+		if (section == 2)
+			return (tr("Last name"));
 		if (section == 3)
 			return (tr("First name"));
-	//	if (section == 4)
-	//		return (tr("Birth place"));
-	//	if (section == 5)
-	//		return (tr("Email"));
-	//	if (section == 6)
-	//		return (tr("Home phone"));
-	//	if (section == 7)
-	//		return (tr("Mobile phone"));
-	//	if (section == 8)
-	//		return (tr("Work phone"));
-	//	if (section == 9)
-	//		return (tr("Social insurance number"));
-	//	if (section == 10)
-	//		return (tr("Occupation"));
+		if (section == 4)
+			return (tr("Birth place"));
+		if (section == 5)
+			return (tr("Email"));
+		if (section == 6)
+			return (tr("Home phone"));
+		if (section == 7)
+			return (tr("Mobile phone"));
+		if (section == 8)
+			return (tr("Work phone"));
+		if (section == 9)
+			return (tr("Social insurance number"));
+		if (section == 10)
+			return (tr("Occupation"));
 	}
 	return (QVariant());
 }
