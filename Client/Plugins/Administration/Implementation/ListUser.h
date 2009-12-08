@@ -71,7 +71,7 @@ protected:
 	void					showEvent(QShowEvent *event);
 
 private slots:
-	void					classSelected(const QModelIndex &current, const QModelIndex &previous);
+	void					classSelected(const QItemSelection &selected, const QItemSelection &deselected);
 	void					userSelected(const QModelIndex &current, const QModelIndex &previous);
 	void					userAdded();
 	void					userEdited();

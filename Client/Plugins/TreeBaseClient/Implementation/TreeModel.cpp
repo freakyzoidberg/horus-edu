@@ -33,7 +33,7 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "TreeModel.h"
-#include "../../../Common/TreeData.h"
+#include "../../../../Common/TreeData.h"
 
 TreeModel::TreeModel(const TreeDataPlugin* plugin)
 {
