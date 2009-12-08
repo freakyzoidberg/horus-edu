@@ -68,6 +68,8 @@ class ManageEdt : public QWidget
         void                                    goedit();
         void                                    goreset();
         void                                    gook();
+		void									fallback();
+
     private:
         MainView				*parent;
         TreeDataPlugin                          *td;
