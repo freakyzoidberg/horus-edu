@@ -210,7 +210,7 @@ void					ListUser::classSelected(const QModelIndex &current, const QModelIndex &
 	userListView->horizontalHeader()->setStretchLastSection(true);
 	if (current.isValid() && current == classListView->currentIndex())
 	{
-		classFilter->setFilterRegExp(QRegExp("/b" + QString::number(((TreeData *)(gradeFilter->mapToSource(current).internalPointer()))->id()) + "/b"));
+		classFilter->setFilterRegExp(QRegExp("\\b" + QString::number(((TreeData *)(gradeFilter->mapToSource(current).internalPointer()))->id()) + "\\b"));
 		addButton->setDisabled(false);
 		userListView->update();
 	}
