@@ -82,7 +82,7 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
 
     for (int i = 0; i < _SD->scheduleEvents().size(); ++i) {
 
-    addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red));
+    addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red), _SD->scheduleEvents().at(i)->getIdSchedule());
     }
 
     //(getWPosforDay(1), 1 * VOFFSET,CWIDTH,100,QPen(), QBrush(QColor(Qt::red)))
@@ -115,7 +115,7 @@ int                 EDTScene::getWPosforDay(int day)
 }
 
 
-void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTime hend, QColor color)
+void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTime hend, QColor color, int id)
 {
 
     int offset = -1 * QTime(7,0,0,0).secsTo(QTime(0,0,0,0));
@@ -143,8 +143,20 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
     time->setZValue(101);
     //text->setPos(5,10);
     group->setToolTip(name + " @ "+ hstart.toString("hh:mm") + " to " + hend.toString("hh:mm"));
-
+    group->setData(0,id);
 
 
     group->setPos(getWPosforDay(dow), VOFFSET + total);
+}
+
+
+
+void EDTScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
+{
+    if (this->items(e->scenePos().toPoint()).count() > 0)
+    {
+
+        qDebug() << ((QGraphicsItemGroup*)this->items(e->scenePos().toPoint()).first())->group()->data(0);
+        emit eventItemEditionRequired(((QGraphicsItemGroup*)this->items(e->scenePos().toPoint()).first())->group()->data(0).toInt());
+    }
 }
