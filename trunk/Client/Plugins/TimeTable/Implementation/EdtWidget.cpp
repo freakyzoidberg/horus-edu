@@ -142,6 +142,20 @@ void EdtWidget::createScene(TreeData *td)
     if (scrollArea)
         delete scrollArea;
 
+    if (_form)
+        delete _form;
+    _form = 0;
+    id_item_edition = -1;
+
+
+    _ok->hide();
+    _save->hide();
+    _reset->hide();
+    _back->hide();
+    _edit->hide();
+    _del->hide();
+    _add->show();
+
     _sceneWidget = new EdtSceneProxyWidget(_pluginManager, td,760,560);
     _sceneWidget->setMinimumSize(760,580);
     _sceneWidget->setMaximumSize(760,580);
