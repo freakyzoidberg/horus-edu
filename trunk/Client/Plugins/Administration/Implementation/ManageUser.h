@@ -32,33 +32,38 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#ifndef				__MANAGEUSER_H__
+# define			__MANAGEUSER_H__
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+# include			<QWidget>
 
-class DataListModel : public QAbstractListModel
+# include			<QBoxLayout>
+
+# include			"../../../../Common/TreeData.h"
+# include			"../../../../Common/UserData.h"
+
+# include			"ListUser.h"
+# include			"EditUser.h"
+
+class				ManageUser : public QWidget
 {
 	Q_OBJECT
+
 public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	ManageUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin, int userLevel);
+	~ManageUser();
+
+private:
+	TreeDataPlugin	*_treeDataPlugin;
+	UserDataPlugin	*_userDataPlugin;
+	int				_userLevel;
+	ListUser		*list;
+	EditUser		*edit;
+	QBoxLayout		*layout;
 
 private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
+	void			userEdited(TreeData *node, UserData *user);
+	void			editExited();
 };
 
-#endif // DATALISTMODEL_H
+#endif

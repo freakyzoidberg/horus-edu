@@ -32,33 +32,26 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#ifndef USERDATAMODEL_H
+#define USERDATAMODEL_H
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+#include "../../../../Common/DataImplementations/UserDataBase/UserDataBase.h"
 
-class DataListModel : public QAbstractListModel
+class UserDataModel : public QAbstractListModel
 {
 	Q_OBJECT
 public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
+	UserDataModel(UserDataBasePlugin* plugin);
 	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
+//	QModelIndex			parent(const QModelIndex &child) const;
+	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
+	inline int			columnCount(const QModelIndex &) const { return 3; }
 	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-
+//	inline bool			hasChildren ( const QModelIndex &) const { return false; }
 private slots:
 	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
+private:
+	UserDataBasePlugin*	_plugin;
 };
 
-#endif // DATALISTMODEL_H
+#endif // USERDATAMODEL_H

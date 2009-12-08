@@ -32,33 +32,46 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#include	"ManageUser.h"
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
-
-class DataListModel : public QAbstractListModel
+ManageUser::ManageUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin, int userLevel) : QWidget(parent), _treeDataPlugin(treeDataPlugin), _userDataPlugin(userDataPlugin), _userLevel(userLevel)
 {
-	Q_OBJECT
-public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+	layout->setSpacing(0);
+	layout->setMargin(0);
+	list = new ListUser(this, treeDataPlugin, userDataPlugin, userLevel);
+	layout->addWidget(list);
+	edit = 0;
+	connect(list, SIGNAL(editUser(TreeData *, UserData *)), this, SLOT(userEdited(TreeData *, UserData *)));
+}
 
-private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
-};
+ManageUser::~ManageUser()
+{
+	if (edit)
+	{
+		disconnect(edit, SIGNAL(exit()), this, SLOT(editExited()));
+		delete edit;
+	}
+	else
+		disconnect(list, SIGNAL(editUser(TreeData *, UserData *)), this, SLOT(userEdited(TreeData *, UserData *)));
+	delete list;
+	delete layout;
+}
 
-#endif // DATALISTMODEL_H
+void		ManageUser::userEdited(TreeData *node, UserData *user)
+{
+	disconnect(list, SIGNAL(editUser(TreeData *, UserData *)), this, SLOT(userEdited(TreeData *, UserData *)));
+	list->hide();
+	edit = new EditUser(this, _userDataPlugin, _userLevel, node, user);
+	layout->addWidget(edit);
+	connect(edit, SIGNAL(exit()), this, SLOT(editExited()));
+}
+
+void		ManageUser::editExited()
+{
+	disconnect(edit, SIGNAL(exit()), this, SLOT(editExited()));
+	delete edit;
+	edit = 0;
+	list->show();
+	connect(list, SIGNAL(editUser(TreeData *, UserData *)), this, SLOT(userEdited(TreeData *, UserData *)));
+}

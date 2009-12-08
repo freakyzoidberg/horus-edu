@@ -239,12 +239,7 @@ QVariant TreeDataBase::data(int column, int role) const
         static QMap<QString,QIcon> icons;
         if ( ! icons.count())
         {
-            icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
-			icons["LESSON"]  = QIcon(":/Icons/LessonIcon.png");
-            icons["SUBJECT"] = QIcon(":/Icons/SubjectIcon.png");
-			icons["GRADE"]   = QIcon(":/Icons/GradeIcon.png");
-			icons["GROUP"]   = QIcon(":/Icons/GroupIcon.png");
-			icons["ROOT"]    = QIcon(":/Icons/RootIcon.png");
+			icons["GRADE"]   = QIcon(":/desk.png");
         }
         if (icons.contains( _type ))
             return icons[ _type ];

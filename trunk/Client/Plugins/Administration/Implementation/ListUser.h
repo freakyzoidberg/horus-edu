@@ -32,33 +32,55 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#ifndef						__LISTUSER_H__
+# define					__LISTUSER_H__
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+# include					<QWidget>
 
-class DataListModel : public QAbstractListModel
+# include					<QListView>
+# include					<QTableView>
+# include					<QPushButton>
+# include					<QBoxLayout>
+# include					<QSortFilterProxyModel>
+
+# include					"../../../../Common/TreeData.h"
+# include					"../../../../Common/UserData.h"
+
+# include					"InformationsUser.h"
+
+class						ListUser : public QWidget
 {
 	Q_OBJECT
+
 public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	ListUser(QWidget* parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin, int userLevel);
+
+private:
+	QSortFilterProxyModel	*gradeFilter;
+	QSortFilterProxyModel	*classFilter;
+	QSortFilterProxyModel	*userFilter;
+	QListView				*classListView;
+	QTableView				*userListView;
+	InformationsUser		*informations;
+	QPushButton				*addButton;
+	QPushButton				*editButton;
+	QPushButton				*deleteButton;
+	QBoxLayout				*informationsLayout;
+
+protected:
+	void					showEvent(QShowEvent *event);
 
 private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
+	void					classSelected(const QModelIndex &current, const QModelIndex &previous);
+	void					userSelected(const QModelIndex &current, const QModelIndex &previous);
+	void					userAdded();
+	void					userEdited();
+	void					userDeleted();
+	void					classUpdated(Data *data);
+	void					userUpdated(Data *data);
+
+signals:
+	void					editUser(TreeData *node, UserData *user);
 };
 
-#endif // DATALISTMODEL_H
+#endif

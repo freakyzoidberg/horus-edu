@@ -136,8 +136,8 @@ Data* TreeDataBasePlugin::dataWithKey(QDataStream& s)
 }
 
 #ifdef HORUS_CLIENT
-#include "../../../Client/DataListModel.cpp"
-#include "../../../Client/Plugins/TreeBaseClient/TreeModel.cpp"
+#include "../../../Client/DataListModel.h"
+#include "../../../Client/Plugins/TreeBaseClient/Implementation/TreeModel.h"
 QAbstractListModel* TreeDataBasePlugin::listModel() const
 {
 	static DataListModel* _model = new DataListModel(this);

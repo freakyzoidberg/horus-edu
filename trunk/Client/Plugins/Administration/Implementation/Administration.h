@@ -32,33 +32,23 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef DATALISTMODEL_H
-#define DATALISTMODEL_H
+#ifndef				__ADMINISTRATION_H__
+# define			__ADMINISTRATION_H__
 
-#include <QAbstractListModel>
-class Data;
-class DataPlugin;
+# include			"../../../DisplayablePlugin.h"
 
-class DataListModel : public QAbstractListModel
+class				Administration : public DisplayablePlugin
 {
 	Q_OBJECT
-public:
-	DataListModel(const DataPlugin* plugin);
-	int					rowCount(const QModelIndex &parent = QModelIndex()) const;
-	int					columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant			headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
-	QModelIndex			index(int row, int column, const QModelIndex &parent = QModelIndex()) const;
-	QVariant			data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-	Qt::DropActions		supportedDropActions() const;
-	QMimeData*			mimeData(const QModelIndexList &indexes) const;
-	Qt::ItemFlags		flags(const QModelIndex &index) const;
-	bool				dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+	Q_INTERFACES(DisplayablePlugin)
 
-private slots:
-	void				dataStatusChanged(Data*);
-protected:
-	const DataPlugin*	_plugin;
-	QList<Data*>		_list;
+public:
+	const QString	pluginName() const;
+	const QString	pluginVersion() const;
+	const QString	getDisplayableName() const;
+	QWidget			*getWidget();
+	int				getOrder() const;
+	QIcon			getIcon() const;
 };
 
-#endif // DATALISTMODEL_H
+#endif //			__ADMINISTRATION_H__
