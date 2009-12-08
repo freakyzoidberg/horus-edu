@@ -317,9 +317,9 @@ void UserDataBase::setRelationship(const QString relationship)
 void UserDataBase::setStudent(UserData* student)
 {
 	QMutexLocker M(&mutex);
-	//disconnect(_student, SIGNAL(removed()), this, SLOT(removed()));
+	disconnect(_student, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 	_student = student;
-	//connect(_student, SIGNAL(removed()), this, SLOT(removed()));
+	connect(_student, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 }
 
 void UserDataBase::setMail(const QString mail)
