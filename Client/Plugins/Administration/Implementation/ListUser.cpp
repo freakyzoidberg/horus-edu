@@ -205,9 +205,12 @@ void					ListUser::showEvent(QShowEvent *)
 
 void					ListUser::classSelected(const QModelIndex &current, const QModelIndex &)
 {
+	userListView->resizeColumnsToContents();
+	userListView->resizeRowsToContents();
+	userListView->horizontalHeader()->setStretchLastSection(true);
 	if (current.isValid() && current == classListView->currentIndex())
 	{
-		classFilter->setFilterFixedString(QString::number(((TreeData *)(gradeFilter->mapToSource(current).internalPointer()))->id()));
+		classFilter->setFilterRegExp(QRegExp("/b" + QString::number(((TreeData *)(gradeFilter->mapToSource(current).internalPointer()))->id()) + "/b"));
 		addButton->setDisabled(false);
 		userListView->update();
 	}
@@ -215,6 +218,9 @@ void					ListUser::classSelected(const QModelIndex &current, const QModelIndex &
 
 void					ListUser::userSelected(const QModelIndex &current, const QModelIndex &)
 {
+	userListView->resizeColumnsToContents();
+	userListView->resizeRowsToContents();
+	userListView->horizontalHeader()->setStretchLastSection(true);
 	if (current.isValid() && current == userListView->currentIndex())
 	{
 		editButton->setDisabled(false);
