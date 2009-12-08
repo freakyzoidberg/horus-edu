@@ -158,13 +158,14 @@ void UserDataBase::dataFromStream(QDataStream& s)
 
 	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(studentClassId);
-	connect(_student, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
+	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 
 	_gender = (UserGender)gender;
 
 	disconnect(_student, SIGNAL(removed()), this, SLOT(remove()));
 	_student = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(studentId);
-	connect(_student, SIGNAL(removed()), this, SLOT(remove()));
+	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
+		connect(_student, SIGNAL(removed()), this, SLOT(remove()));
 
     Data::dataFromStream(s);
 }
@@ -317,9 +318,10 @@ void UserDataBase::setRelationship(const QString relationship)
 void UserDataBase::setStudent(UserData* student)
 {
 	QMutexLocker M(&mutex);
-	disconnect(_student, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
+	disconnect(_student, SIGNAL(removed()), this, SLOT(remove()));
 	_student = student;
-	connect(_student, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
+	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
+		connect(_student, SIGNAL(removed()), this, SLOT(remove()));
 }
 
 void UserDataBase::setMail(const QString mail)
@@ -471,7 +473,9 @@ quint8 UserDataBase::serverRead()
 	_login			= query.value(1).toString();
 	_level			= (UserLevel)(query.value(2).toUInt());
 	_password		= QByteArray::fromHex(query.value(3).toByteArray());
+	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass	= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
+	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
 	_lastLogin		= query.value(5).toDateTime();
 	_language		= query.value(6).toString();
 	_surname		= query.value(7).toString();
@@ -487,7 +491,10 @@ quint8 UserDataBase::serverRead()
 	_occupation		= query.value(17).toString();
 	_proCategory	= query.value(18).toString();
 	_relationship	= query.value(19).toString();
+	disconnect(_student, SIGNAL(removed()), this, SLOT(remove()));
 	_student		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
+	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
+		connect(_student, SIGNAL(removed()), this, SLOT(remove()));
 	_mail			= query.value(21).toString();
 	_subscriptionReason	= query.value(22).toString();
 	_repeatedYears	= query.value(23).toUInt();
@@ -502,8 +509,7 @@ quint8 UserDataBase::serverRead()
 	_contract		= query.value(32).toString();
 	_lastChange		= query.value(33).toDateTime();
         _mailpassword           = query.value(34).toString();
-	disconnect(this, SLOT(studentClassRemoved()));
-	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
+
 	_lastChange	= query.value(14).toDateTime();
 
 	return NONE;
@@ -547,7 +553,7 @@ quint8 UserDataBase::serverCreate()
 	query.addBindValue(_diploma);
 	query.addBindValue(_contract);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
-        query.addBindValue(_mailpassword);//passmail
+	query.addBindValue(_mailpassword);//passmail
 
 	if ( ! query.exec())
 	{
