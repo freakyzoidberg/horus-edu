@@ -49,20 +49,17 @@ DataListModel::DataListModel(const DataPlugin* plugin)
 QModelIndex DataListModel::index(int row, int column, const QModelIndex &) const
 {
 	if (row < 0)
-		return QModelIndex();
-	//if (row < _list.count())
-	return createIndex(row, column, _list.at(row));
-	//return (createIndex(row, column));
+		return (QModelIndex());
+	if (row < _list.count())
+		return createIndex(row, column, _list.at(row));
+	return (QModelIndex());
 }
 
-int DataListModel::rowCount(const QModelIndex &) const
+int DataListModel::rowCount(const QModelIndex &index) const
 {
-	//if (!index.isValid())
-	//	return (-1);
-	//if (_list.indexOf(static_cast<Data *>(index.internalPointer())) < 0)
-	//	return (0);
-	//return (_list.count() - _list.indexOf(static_cast<Data *>(index.internalPointer())) - 1);
-	return (_list.count());
+	if (!index.isValid())
+		return (_list.count());
+	return (0);
 }
 
 int DataListModel::columnCount(const QModelIndex &) const
