@@ -80,6 +80,7 @@ public:
         inline QList<ScheduleException* >   scheduleException() const						{ return _sException; }
         inline void                         addException(ScheduleException* excp) { QMutexLocker M(&mutex); _sException.append(excp); }
         inline void                         removeException(ScheduleException* excp) { QMutexLocker M(&mutex); _sException.removeOne(excp);}
+        //inline void                         editEvent(ScheduleItem *event, int id) { QMutexLocker M(&mutex); _sEvents.at(id) = event; }
         inline QList<ScheduleItem* >        scheduleEvents() const						{ return _sEvents; }
         inline void                         addEvent(ScheduleItem* event) { QMutexLocker M(&mutex); _sEvents.append(event); }
         inline void                         removeEvent(ScheduleItem* event) { QMutexLocker M(&mutex); _sEvents.removeOne(event); }
