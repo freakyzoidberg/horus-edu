@@ -50,12 +50,19 @@ QModelIndex DataListModel::index(int row, int column, const QModelIndex &) const
 {
 	if (row < 0)
 		return QModelIndex();
+	//if (row < _list.count())
 	return createIndex(row, column, _list.at(row));
+	//return (createIndex(row, column));
 }
 
 int DataListModel::rowCount(const QModelIndex &) const
 {
-	return _list.count();
+	//if (!index.isValid())
+	//	return (-1);
+	//if (_list.indexOf(static_cast<Data *>(index.internalPointer())) < 0)
+	//	return (0);
+	//return (_list.count() - _list.indexOf(static_cast<Data *>(index.internalPointer())) - 1);
+	return (_list.count());
 }
 
 int DataListModel::columnCount(const QModelIndex &) const
@@ -162,7 +169,7 @@ Qt::ItemFlags DataListModel::flags(const QModelIndex &index) const
 	return QAbstractListModel::flags(index);
 }
 
-bool DataListModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool DataListModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int , int , const QModelIndex &parent)
 {
 	if ( ! parent.isValid())
 		return false;

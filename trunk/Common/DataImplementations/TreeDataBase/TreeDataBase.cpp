@@ -302,6 +302,7 @@ bool TreeDataBase::dropData(const QList<Data*> list, Qt::DropAction)
 			}
 		}
 	}
+	return (true);
 }
 #endif
 
