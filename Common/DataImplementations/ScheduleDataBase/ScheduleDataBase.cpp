@@ -328,7 +328,6 @@ quint8 ScheduleDataBase::serverSave()
                         qDebug() << query2.lastError();
                         return DATABASE_ERROR;
                     }
-                    this->save();
             }
         }
         if (_sException.count() > 0)
