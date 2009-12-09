@@ -231,7 +231,7 @@ void    AdmAddClassWidget::modifUser()
 //	disconnect(classSave, SIGNAL(created()), this, SLOT(modifUser()));
 }
 
-void    AdmAddClassWidget::choosenClass(QListWidgetItem *item)
+void    AdmAddClassWidget::choosenClass(QListWidgetItem *)
 {
 	this->_className->setText(_classList->classList()->item(this->_classList->classList()->currentRow())->text());
 	_save->setText(tr("Editer"));

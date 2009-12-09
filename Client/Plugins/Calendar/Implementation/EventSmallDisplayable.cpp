@@ -78,20 +78,20 @@ QWidget			*EventSmallDisplayable::getWidget()
 	QWidget		*widget = new QWidget();
 	QVBoxLayout	*layout = new QVBoxLayout(widget);
 	QLabel	*text;
-	QList<EventData*>	*userEvents;
+	//QList<EventData*>	*userEvents;
 
 	text = new QLabel(tr("Trucs a faire:"));
 	//usersEvent = _events->userEvents(user, QDateTime(date, QTime(0, 0, 0, 0)),
 		//							QDateTime(date, QTime(23, 59, 0, 0)));
 	layout->addWidget(text);
-	for (int i = 0; i < userEvents->size(); ++i)
-	{
+	//for (int i = 0; i < userEvents->size(); ++i) // commented to avoid warnings
+	//{
 		//text = new QLabel(userEvents->at(i)->node()->name());
 
 
 		//layout->addWidget(text);
 
-	}
+	//}
 	//(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime())
 
 

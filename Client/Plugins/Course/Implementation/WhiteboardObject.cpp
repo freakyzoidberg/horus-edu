@@ -116,7 +116,7 @@ ILesson*			WhiteboardObject::getLesson()
 	return _lesson;
 }
 
-void    WhiteboardObject::mouseReleaseEvent(QMouseEvent *event)
+void    WhiteboardObject::mouseReleaseEvent(QMouseEvent *)
 {
 	_isMoving = false;
 	_board->notifyChange();
