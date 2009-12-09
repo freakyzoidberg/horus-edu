@@ -42,6 +42,8 @@
 # include			<QTextEdit>
 # include			<QSpinBox>
 # include			<QComboBox>
+# include			<QList>
+# include			<QLabel>
 
 # include			"../../../../Common/TreeData.h"
 # include			"../../../../Common/UserData.h"
@@ -108,10 +110,14 @@ private:
 	QLineEdit		*fatherWorkPhoneField;
 	QLineEdit		*motherWorkPhoneField;
 
+	QList<QLabel *>	fatherLabels;
+	QList<QLabel *>	motherLabels;
+
 private slots:
 	void			saved();
 	void			exited();
 	void			reseted();
+	void			relationChanged(int index);
 
 signals:
 	void			exit();

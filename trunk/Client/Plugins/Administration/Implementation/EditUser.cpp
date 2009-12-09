@@ -37,7 +37,6 @@
 #include		<QGridLayout>
 #include		<QBoxLayout>
 #include		<QFrame>
-#include		<QLabel>
 #include		<QPushButton>
 #include		<QScrollArea>
 #include		<QCompleter>
@@ -544,6 +543,7 @@ QWidget			*EditUser::getParentFrame()
 		}
 		relationshipField->setCurrentIndex(relationshipField->findData(_user->relationship()));
 	}
+	connect(relationshipField, SIGNAL(currentIndexChanged(int)), this, SLOT(relationChanged(int)));
 	return (parentFrame);
 }
 
@@ -570,16 +570,19 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->setColumnMinimumWidth(0, 150);
 	label = new QLabel(tr("Father address"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	fatherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 0, 0);
 	fatherAddressField = new QTextEdit(parentContactFrame);
 	parentContactBottomLayout->addWidget(fatherAddressField, 0, 1);
 	label = new QLabel(tr("Mother address"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	motherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 0, 2);
 	motherAddressField = new QTextEdit(parentContactFrame);
 	parentContactBottomLayout->addWidget(motherAddressField, 0, 3);
 	label = new QLabel(tr("Father email"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	fatherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 1, 0);
 	fatherEmailField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -589,6 +592,7 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->addWidget(fatherEmailField, 1, 1);
 	label = new QLabel(tr("Mother email"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	motherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 1, 2);
 	motherEmailField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -598,6 +602,7 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->addWidget(motherEmailField, 1, 3);
 	label = new QLabel(tr("Father home phone"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	fatherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 2, 0);
 	fatherHomePhoneField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -607,6 +612,7 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->addWidget(fatherHomePhoneField, 2, 1);
 	label = new QLabel(tr("Mother home phone"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	motherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 2, 2);
 	motherHomePhoneField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -616,6 +622,7 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->addWidget(motherHomePhoneField, 2, 3);
 	label = new QLabel(tr("Father mobile phone"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	fatherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 3, 0);
 	fatherMobilePhoneField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -625,6 +632,7 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->addWidget(fatherMobilePhoneField, 3, 1);
 	label = new QLabel(tr("Mother mobile phone"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	motherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 3, 2);
 	motherMobilePhoneField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -634,6 +642,7 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->addWidget(motherMobilePhoneField, 3, 3);
 	label = new QLabel(tr("Father work phone"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	fatherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 4, 0);
 	fatherWorkPhoneField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -643,6 +652,7 @@ QWidget			*EditUser::getParentContactFrame()
 	parentContactBottomLayout->addWidget(fatherWorkPhoneField, 4, 1);
 	label = new QLabel(tr("Mother work phone"), parentContactFrame);
 	label->setProperty("isFormLabel", true);
+	motherLabels.append(label);
 	parentContactBottomLayout->addWidget(label, 4, 2);
 	motherWorkPhoneField = new QLineEdit(parentContactFrame);
 	completer = new QCompleter(_userDataPlugin->listModel(), this);
@@ -651,14 +661,21 @@ QWidget			*EditUser::getParentContactFrame()
 	motherWorkPhoneField->setCompleter(completer);
 	parentContactBottomLayout->addWidget(motherWorkPhoneField, 4, 3);
 	parentContactMainLayout->addLayout(parentContactBottomLayout);
-	//if (_user && (_user->relationship() == "Married" || _user->relationship() == "Deceaded"))
-	//{
-	//	motherAddressField->hide();
-	//	motherEmailField->hide();
-	//	motherHomePhoneField->hide();
-	//	motherMobilePhoneField->hide();
-	//	motherWorkPhoneField->hide();
-	//}
+	if (!_user || _user->relationship() == "Married" || _user->relationship() == "Deceaded")
+	{
+		fatherLabels.at(0)->setText(tr("Parents address"));
+		fatherLabels.at(1)->setText(tr("Parents email"));
+		fatherLabels.at(2)->setText(tr("Parents home phone"));
+		fatherLabels.at(3)->setText(tr("Parents mobile phone"));
+		fatherLabels.at(4)->setText(tr("Parents work phone"));
+		foreach (QWidget *widget, motherLabels)
+			widget->hide();
+		motherAddressField->hide();
+		motherEmailField->hide();
+		motherHomePhoneField->hide();
+		motherMobilePhoneField->hide();
+		motherWorkPhoneField->hide();
+	}
 	if (father)
 	{
 		fatherAddressField->document()->setPlainText(father->address());
@@ -830,5 +847,39 @@ void			EditUser::reseted()
 		motherMobilePhoneField->clear();
 		fatherWorkPhoneField->clear();
 		motherWorkPhoneField->clear();
+	}
+}
+
+void			EditUser::relationChanged(int index)
+{
+	if (relationshipField->itemData(index) == "Married" || relationshipField->itemData(index) == "Deceaded")
+	{
+		fatherLabels.at(0)->setText(tr("Parents address"));
+		fatherLabels.at(1)->setText(tr("Parents email"));
+		fatherLabels.at(2)->setText(tr("Parents home phone"));
+		fatherLabels.at(3)->setText(tr("Parents mobile phone"));
+		fatherLabels.at(4)->setText(tr("Parents work phone"));
+		foreach (QWidget *widget, motherLabels)
+			widget->hide();
+		motherAddressField->hide();
+		motherEmailField->hide();
+		motherHomePhoneField->hide();
+		motherMobilePhoneField->hide();
+		motherWorkPhoneField->hide();
+	}
+	else
+	{
+		fatherLabels.at(0)->setText(tr("Father address"));
+		fatherLabels.at(1)->setText(tr("Father email"));
+		fatherLabels.at(2)->setText(tr("Father home phone"));
+		fatherLabels.at(3)->setText(tr("Father mobile phone"));
+		fatherLabels.at(4)->setText(tr("Father work phone"));
+		foreach (QWidget *widget, motherLabels)
+			widget->show();
+		motherAddressField->show();
+		motherEmailField->show();
+		motherHomePhoneField->show();
+		motherMobilePhoneField->show();
+		motherWorkPhoneField->show();
 	}
 }
