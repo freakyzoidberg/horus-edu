@@ -222,7 +222,7 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
         }
     }
 
-    for (int i = 0; i < collisionlistGroup.size(); i++)
+    // for (int i = 0; i < collisionlistGroup.size(); i++)
     //collisionlistGroup.at(i)->setPos((i + 1)*200 , 0);
    // qDebug() << collisionlistGroup.at(i);
    // qDebug() << "nbr de group  : " << collisionlistGroup.size();
