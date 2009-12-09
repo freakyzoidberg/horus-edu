@@ -110,7 +110,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 		classListView->setWrapping(true);
 		classListView->setMaximumHeight(64);
 		classListView->setSelectionRectVisible(false);
-//		classListView->setDragEnabled(true);
+		classListView->setDragEnabled(false);
 		classListView->setAcceptDrops(true);
 		classListView->viewport()->setAcceptDrops(true);
 		classListView->setDropIndicatorShown(true);
@@ -134,7 +134,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	userListView->setShowGrid(false);
 	userListView->verticalHeader()->hide();
 	userListView->setSortingEnabled(true);
-	userListView->setSelectionMode(QAbstractItemView::SingleSelection);
+	userListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	userListView->setSelectionBehavior(QAbstractItemView::SelectRows);
 	userListView->setDragEnabled(true);
 	userListView->setAcceptDrops(false);
@@ -207,21 +207,13 @@ void					ListUser::showEvent(QShowEvent *)
 void					ListUser::classSelected(const QItemSelection &selected, const QItemSelection &)
 {
 	if (selected.indexes().size() == 1)
-	{
 		classFilter->setFilterRegExp(QRegExp("\\b" + QString::number(((TreeData *)(gradeFilter->mapToSource(selected.indexes().at(0)).internalPointer()))->id()) + "\\b"));
-		userListView->update();
-		userListView->resizeColumnsToContents();
-		userListView->resizeRowsToContents();
-		userListView->horizontalHeader()->setStretchLastSection(true);
-	}
 	else
-	{
 		classFilter->setFilterRegExp(QRegExp(".*"));
-		userListView->update();
-		userListView->resizeColumnsToContents();
-		userListView->resizeRowsToContents();
-		userListView->horizontalHeader()->setStretchLastSection(true);
-	}
+	userListView->update();
+	userListView->resizeColumnsToContents();
+	userListView->resizeRowsToContents();
+	userListView->horizontalHeader()->setStretchLastSection(true);
 }
 
 void					ListUser::userSelected(const QModelIndex &current, const QModelIndex &)
@@ -272,7 +264,17 @@ void					ListUser::classUpdated(Data *)
 
 void					ListUser::userUpdated(Data *)
 {
+	if (classListView)
+	{
+		if (classListView->selectionModel()->selectedIndexes().size() == 1)
+			classFilter->setFilterRegExp(QRegExp("\\b" + QString::number(((TreeData *)(gradeFilter->mapToSource(classListView->selectionModel()->selectedIndexes().at(0)).internalPointer()))->id()) + "\\b"));
+		else
+			classFilter->setFilterRegExp(QRegExp(".*"));
+	}
 	userListView->update();
+	userListView->resizeColumnsToContents();
+	userListView->resizeRowsToContents();
+	userListView->horizontalHeader()->setStretchLastSection(true);
 	if (!userListView->model()->rowCount())
 	{
 		editButton->setDisabled(true);
