@@ -59,7 +59,7 @@
     <message>
         <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="247"/>
         <source>Confirmer.</source>
-        <translation>Confirmer.</translation>
+        <translation>Confirmer</translation>
     </message>
 </context>
 <context>
@@ -101,252 +101,252 @@
 <context>
     <name>EditUser</name>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="95"/>
+        <location filename="Implementation/EditUser.cpp" line="94"/>
         <source>Informations:</source>
         <translation>Informations :</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="100"/>
+        <location filename="Implementation/EditUser.cpp" line="99"/>
         <source>Actions:</source>
         <translation>Actions :</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="104"/>
+        <location filename="Implementation/EditUser.cpp" line="103"/>
         <source>OK</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="106"/>
+        <location filename="Implementation/EditUser.cpp" line="105"/>
         <source>Apply</source>
         <translation>Appliquer</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="108"/>
+        <location filename="Implementation/EditUser.cpp" line="107"/>
         <source>Reset</source>
         <translation>Réinitialiser</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="110"/>
+        <location filename="Implementation/EditUser.cpp" line="109"/>
         <source>Cancel</source>
         <translation>Annuler</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="135"/>
+        <location filename="Implementation/EditUser.cpp" line="134"/>
         <source>Personnal informations</source>
         <translation>Informations personnelles</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="142"/>
+        <location filename="Implementation/EditUser.cpp" line="141"/>
         <source>Last name</source>
         <translation>Nom</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="151"/>
+        <location filename="Implementation/EditUser.cpp" line="150"/>
         <source>First name</source>
         <translation>Prénom</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="160"/>
+        <location filename="Implementation/EditUser.cpp" line="159"/>
         <source>Birth date</source>
         <translation>Date de naissance</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="166"/>
+        <location filename="Implementation/EditUser.cpp" line="165"/>
         <source>dd/MM/yy</source>
-        <translation>jj/mm/aa</translation>
+        <translation>dd/MM/yy</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="168"/>
+        <location filename="Implementation/EditUser.cpp" line="167"/>
         <source>Birth place</source>
         <translation>Lieu de naissance</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="177"/>
+        <location filename="Implementation/EditUser.cpp" line="176"/>
         <source>Gender</source>
         <translation>Sexe</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="181"/>
+        <location filename="Implementation/EditUser.cpp" line="180"/>
         <source>Unknow</source>
         <translation>Inconnu</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="182"/>
+        <location filename="Implementation/EditUser.cpp" line="181"/>
         <source>Female</source>
         <translation>Femme</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="183"/>
+        <location filename="Implementation/EditUser.cpp" line="182"/>
         <source>Male</source>
         <translation>Homme</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="189"/>
+        <location filename="Implementation/EditUser.cpp" line="188"/>
         <source>Siblings</source>
         <translation>Fratrie</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="223"/>
+        <location filename="Implementation/EditUser.cpp" line="222"/>
         <source>Contact informations</source>
         <translation>Informations du contact</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="230"/>
+        <location filename="Implementation/EditUser.cpp" line="229"/>
         <source>Address</source>
         <translation>Adresse</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="235"/>
+        <location filename="Implementation/EditUser.cpp" line="234"/>
         <source>Email</source>
         <translation>E-mail</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="244"/>
+        <location filename="Implementation/EditUser.cpp" line="243"/>
         <source>Home phone</source>
         <translation>Téléphone domicile</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="253"/>
+        <location filename="Implementation/EditUser.cpp" line="252"/>
         <source>Mobile phone</source>
         <translation>Téléphone portable</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="264"/>
+        <location filename="Implementation/EditUser.cpp" line="263"/>
         <source>Work phone</source>
         <translation>Téléphone professionnel</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="301"/>
+        <location filename="Implementation/EditUser.cpp" line="300"/>
         <source>Professional informations</source>
         <translation>Informations professionnelles</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="308"/>
+        <location filename="Implementation/EditUser.cpp" line="307"/>
         <source>Social insurance number</source>
         <translation>Numéro de sécurité sociale</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="317"/>
+        <location filename="Implementation/EditUser.cpp" line="316"/>
         <source>Diplomes</source>
         <translation>Diplômes</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="322"/>
+        <location filename="Implementation/EditUser.cpp" line="321"/>
         <source>Contract</source>
         <translation>Contract</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="350"/>
+        <location filename="Implementation/EditUser.cpp" line="349"/>
         <source>Schoolar informations</source>
         <translation>Informations scolaires</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="357"/>
+        <location filename="Implementation/EditUser.cpp" line="356"/>
         <source>Referent</source>
         <translation>Référent</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="362"/>
+        <location filename="Implementation/EditUser.cpp" line="361"/>
         <source>Motive</source>
         <translation>Motivation</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="367"/>
+        <location filename="Implementation/EditUser.cpp" line="366"/>
         <source>Financial helps</source>
         <translation>Aides financières</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="372"/>
+        <location filename="Implementation/EditUser.cpp" line="371"/>
         <source>Start year</source>
         <translation>Année de début</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="380"/>
+        <location filename="Implementation/EditUser.cpp" line="379"/>
         <source>Leave year</source>
         <translation>Année de sortie</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="388"/>
+        <location filename="Implementation/EditUser.cpp" line="387"/>
         <source>Repeated years</source>
         <translation>Année de rédoublement</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="395"/>
+        <location filename="Implementation/EditUser.cpp" line="394"/>
         <source>Skipped years</source>
         <translation>Année sautée</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="402"/>
+        <location filename="Implementation/EditUser.cpp" line="401"/>
         <source>Post school follow up</source>
         <translation>Suivi après scolaire</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="441"/>
+        <location filename="Implementation/EditUser.cpp" line="440"/>
         <source>Parents informations</source>
         <translation>Informations parentales</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="448"/>
+        <location filename="Implementation/EditUser.cpp" line="447"/>
         <source>Father last name</source>
         <translation>Nom du père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="457"/>
+        <location filename="Implementation/EditUser.cpp" line="456"/>
         <source>Mother last name</source>
         <translation>Nom de la mère</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="466"/>
+        <location filename="Implementation/EditUser.cpp" line="465"/>
         <source>Father first name</source>
         <translation>Prénom du père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="475"/>
+        <location filename="Implementation/EditUser.cpp" line="474"/>
         <source>Mother first name</source>
         <translation>Prénom de la mère</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="484"/>
+        <location filename="Implementation/EditUser.cpp" line="483"/>
         <source>Father occupation</source>
         <translation>Occupation du père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="493"/>
+        <location filename="Implementation/EditUser.cpp" line="492"/>
         <source>Mother occupation</source>
         <translation>Occupation de la mère</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="503"/>
+        <location filename="Implementation/EditUser.cpp" line="502"/>
         <source>Relationship</source>
         <translation>Relation</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="507"/>
+        <location filename="Implementation/EditUser.cpp" line="506"/>
         <source>Married</source>
         <translation>Marié</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="508"/>
+        <location filename="Implementation/EditUser.cpp" line="507"/>
         <source>Divorced</source>
         <translation>Divorcé</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="509"/>
+        <location filename="Implementation/EditUser.cpp" line="508"/>
         <source>Separated</source>
         <translation>Séparé</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="510"/>
+        <location filename="Implementation/EditUser.cpp" line="509"/>
         <source>Deceaded</source>
         <translation>Décédé</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="511"/>
+        <location filename="Implementation/EditUser.cpp" line="510"/>
         <source>Single</source>
         <translation>Célibataire</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="512"/>
+        <location filename="Implementation/EditUser.cpp" line="511"/>
         <source>Other</source>
         <translation>Autre</translation>
     </message>
@@ -357,53 +357,88 @@
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="571"/>
+        <location filename="Implementation/EditUser.cpp" line="872"/>
         <source>Father address</source>
         <translation>Adresse du père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="576"/>
+        <location filename="Implementation/EditUser.cpp" line="577"/>
         <source>Mother address</source>
         <translation>Adresse de la mère</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="581"/>
+        <location filename="Implementation/EditUser.cpp" line="583"/>
+        <location filename="Implementation/EditUser.cpp" line="873"/>
         <source>Father email</source>
         <translation>E-mail du Père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="590"/>
+        <location filename="Implementation/EditUser.cpp" line="593"/>
         <source>Mother email</source>
         <translation>E-mail de la mère</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="599"/>
+        <location filename="Implementation/EditUser.cpp" line="603"/>
+        <location filename="Implementation/EditUser.cpp" line="874"/>
         <source>Father home phone</source>
         <translation>Téléphone domicile du père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="608"/>
+        <location filename="Implementation/EditUser.cpp" line="613"/>
         <source>Mother home phone</source>
         <translation>Téléphone domicile de la mère</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="617"/>
+        <location filename="Implementation/EditUser.cpp" line="623"/>
+        <location filename="Implementation/EditUser.cpp" line="875"/>
         <source>Father mobile phone</source>
         <translation>Téléphone portable du père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="626"/>
+        <location filename="Implementation/EditUser.cpp" line="633"/>
         <source>Mother mobile phone</source>
         <translation>Téléphone portable de la mère</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="635"/>
+        <location filename="Implementation/EditUser.cpp" line="643"/>
+        <location filename="Implementation/EditUser.cpp" line="876"/>
         <source>Father work phone</source>
         <translation>Téléphone profesionnel du père</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="644"/>
+        <location filename="Implementation/EditUser.cpp" line="653"/>
         <source>Mother work phone</source>
         <translation>Téléphone profesionnel de la mère</translation>
+    </message>
+    <message>
+        <location filename="Implementation/EditUser.cpp" line="666"/>
+        <location filename="Implementation/EditUser.cpp" line="857"/>
+        <source>Parents address</source>
+        <translation>Adresse des parents</translation>
+    </message>
+    <message>
+        <location filename="Implementation/EditUser.cpp" line="667"/>
+        <location filename="Implementation/EditUser.cpp" line="858"/>
+        <source>Parents email</source>
+        <translation>E-mail des parents</translation>
+    </message>
+    <message>
+        <location filename="Implementation/EditUser.cpp" line="668"/>
+        <location filename="Implementation/EditUser.cpp" line="859"/>
+        <source>Parents home phone</source>
+        <translation>Téléphone domicile des parents</translation>
+    </message>
+    <message>
+        <location filename="Implementation/EditUser.cpp" line="669"/>
+        <location filename="Implementation/EditUser.cpp" line="860"/>
+        <source>Parents mobile phone</source>
+        <translation>Téléphone portable des parents</translation>
+    </message>
+    <message>
+        <location filename="Implementation/EditUser.cpp" line="670"/>
+        <location filename="Implementation/EditUser.cpp" line="861"/>
+        <source>Parents work phone</source>
+        <translation>Téléphone profesionnel des parents</translation>
     </message>
 </context>
 <context>
@@ -542,29 +577,29 @@
         <translation>Supprimer un utilisateur</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="159"/>
+        <location filename="Implementation/ListUser.cpp" line="160"/>
         <source>Informations:</source>
         <translation>Informations :</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="166"/>
+        <location filename="Implementation/ListUser.cpp" line="167"/>
         <source>Actions:</source>
         <translation>Actions :</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="249"/>
+        <location filename="Implementation/ListUser.cpp" line="257"/>
         <source>Confirmation</source>
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="249"/>
+        <location filename="Implementation/ListUser.cpp" line="257"/>
         <source>Do you really want to delete </source>
-        <translation>Etes vous vraiment sur de voulloir supprimer</translation>
+        <translation>Etes vous vraiment sur de voulloir supprimer </translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="249"/>
+        <location filename="Implementation/ListUser.cpp" line="257"/>
         <source> ?</source>
-        <translation>?</translation>
+        <translation> ?</translation>
     </message>
 </context>
 <context>
