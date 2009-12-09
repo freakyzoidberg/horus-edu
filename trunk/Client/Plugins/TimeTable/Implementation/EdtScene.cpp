@@ -82,7 +82,7 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
 
     for (int i = 0; i < _SD->scheduleEvents().size(); ++i) {
 
-    addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red), _SD->scheduleEvents().at(i)->getIdSchedule());
+    addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red), i);
     }
 
     //(getWPosforDay(1), 1 * VOFFSET,CWIDTH,100,QPen(), QBrush(QColor(Qt::red)))
@@ -102,6 +102,61 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
         qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene _SD == NULL";
 
 }
+
+
+EDTScene::EDTScene(PluginManager *pluginManager) : _pluginManager(pluginManager)
+{
+
+    qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene constructor called for user " << pluginManager->currentUser()->id();
+    QList<Data*> _LSD = pluginManager->findPlugin<ScheduleDataPlugin*>()->allDatas();
+
+    QGraphicsTextItem *monday = new QGraphicsTextItem(tr("monday"));
+    QGraphicsTextItem *tuesday = new QGraphicsTextItem(tr("tuesday"));
+    QGraphicsTextItem *wednesday = new QGraphicsTextItem(tr("wednesday"));
+    QGraphicsTextItem *thursday = new QGraphicsTextItem(tr("thursday"));
+    QGraphicsTextItem *friday = new QGraphicsTextItem(tr("friday"));
+    QGraphicsTextItem *saturday = new QGraphicsTextItem(tr("saturday"));
+    QGraphicsTextItem *sunday = new QGraphicsTextItem(tr("sunday"));
+
+
+    monday->setPos(getWPosforDay(1), VOFFSET - 30);
+    tuesday->setPos(getWPosforDay(2), VOFFSET - 30);
+    wednesday->setPos(getWPosforDay(3), VOFFSET - 30);
+    thursday->setPos(getWPosforDay(4), VOFFSET - 30);
+    friday->setPos(getWPosforDay(5), VOFFSET - 30);
+    saturday->setPos(getWPosforDay(6), VOFFSET - 30);
+    sunday->setPos(getWPosforDay(7), VOFFSET - 30);
+
+    this->addItem(monday);
+    this->addItem(tuesday);
+    this->addItem(wednesday);
+    this->addItem(thursday);
+    this->addItem(friday);
+    this->addItem(saturday);
+    this->addItem(sunday);
+
+
+    for (int j = 0; j < _LSD.size(); j++)
+    {
+     if (_LSD.at(j) != NULL)
+        {
+         _SD = static_cast<ScheduleData*>(_LSD.at(j));
+        for (int i = 0; i < _SD->scheduleEvents().size(); ++i)
+            {
+        if (_SD->scheduleEvents().at(i)->getTeacher() == pluginManager->currentUser()->id())
+            {
+
+        addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red), i);
+            }
+            }
+        }
+     else
+         qDebug() << __FILE__ <<":" << __LINE__ << "EDTScene _SD == NULL";
+    }
+
+
+}
+
 
 int                 EDTScene::getWPosforDay(int day)
 {
