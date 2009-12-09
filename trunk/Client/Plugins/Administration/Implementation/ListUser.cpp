@@ -210,6 +210,11 @@ void					ListUser::classSelected(const QItemSelection &selected, const QItemSele
 		classFilter->setFilterRegExp(QRegExp("\\b" + QString::number(((TreeData *)(gradeFilter->mapToSource(selected.indexes().at(0)).internalPointer()))->id()) + "\\b"));
 	else
 		classFilter->setFilterRegExp(QRegExp(".*"));
+	if (!userListView->currentIndex().isValid())
+	{
+		editButton->setDisabled(true);
+		deleteButton->setDisabled(true);
+	}
 	userListView->update();
 	userListView->resizeColumnsToContents();
 	userListView->resizeRowsToContents();
@@ -275,14 +280,14 @@ void					ListUser::userUpdated(Data *)
 	userListView->resizeColumnsToContents();
 	userListView->resizeRowsToContents();
 	userListView->horizontalHeader()->setStretchLastSection(true);
-	if (!userListView->model()->rowCount())
-	{
-		editButton->setDisabled(true);
-		deleteButton->setDisabled(true);
-	}
-	else
+	if (userListView->model()->rowCount() && userListView->currentIndex().isValid())
 	{
 		editButton->setDisabled(false);
 		deleteButton->setDisabled(false);
+	}
+	else
+	{
+		editButton->setDisabled(true);
+		deleteButton->setDisabled(true);
 	}
 }
