@@ -44,6 +44,7 @@ EdtSceneProxyWidget::EdtSceneProxyWidget(PluginManager *pluginManager, TreeData 
 
     this->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     this->setScene(_scene);
+       this->repaint();
 }
 
 EdtSceneProxyWidget::EdtSceneProxyWidget(PluginManager *pluginManager, qint8 width, qint8 height) : _pluginManager(pluginManager)
@@ -56,6 +57,7 @@ EdtSceneProxyWidget::EdtSceneProxyWidget(PluginManager *pluginManager, qint8 wid
 
     this->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     this->setScene(_scene);
+    this->repaint();
 }
 
 EdtSceneProxyWidget::~EdtSceneProxyWidget()
