@@ -290,7 +290,7 @@ quint8 ScheduleDataBase::serverSave()
             {
 
                     QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-                    query2.prepare("INSERT INTO`schedule_event`(`id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`, `color`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?);");
+                    query2.prepare("INSERT INTO`schedule_event`(`id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher`, `color`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);");
                     query2.addBindValue(i);
                     query2.addBindValue(_id);
                     query2.addBindValue(_sEvents.at(i)->getJWeek());

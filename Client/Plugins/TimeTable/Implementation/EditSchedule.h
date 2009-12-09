@@ -44,6 +44,8 @@
 #include <QPushButton>
 #include <QFrame>
 #include <QLabel>
+#include <QDateEdit>
+#include <QBoxLayout>
 #include "EditException.h"
 #include "../../../../Common/ScheduleData.h"
 #include "../../../../Common/TreeData.h"
@@ -55,27 +57,20 @@ class EditSchedule : public QWidget
 
     public:
         EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, int type);
-        inline QDate                getStart() {return(_startDate->selectedDate());}
-        inline void                 setStart(QDate date) {_startDate->setSelectedDate(date);}
-        inline QDate                getEnd() {return(_endDate->selectedDate());}
-        inline void                 setEnd(QDate date) {_endDate->setSelectedDate(date);}
+        inline QDate                getStart() {return(_startDate->date());}
+        inline void                 setStart(QDate date) {_startDate->setDate(date);}
+        inline QDate                getEnd() {return(_endDate->date());}
+        inline void                 setEnd(QDate date) {_endDate->setDate(date);}
     private:
         ScheduleDataPlugin          *sdp;
         TreeDataPlugin              *tdp;
-        QComboBox                   *_classList;
-        QCalendarWidget             *_startDate;
-        QCalendarWidget             *_endDate;
-        QVBoxLayout                 *vLayout;
-        QHBoxLayout                 *titleLayout;
-        QHBoxLayout                 *hLayout;
-        QHBoxLayout                 *hLayout2;
-        QList<EditException *>      *_excpList;
-        QPushButton                 *_addException;
-        QFrame                      *line;
+        QDateEdit                   *_startDate;
+        QDateEdit                   *_endDate;
+        QBoxLayout                  *mainLayout;
+        QGridLayout                 *datesLayout;
+        QGridLayout                 *exceptionLayout;
         void                        fillClasses();
         void                        fillForm(int id);
-    private slots:
-        void                        addException();
 };
 
 #endif // EDITSCHEDULE_H

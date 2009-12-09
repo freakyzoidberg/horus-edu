@@ -39,60 +39,51 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
 {
     sdp = sd;
     tdp = td;
-    vLayout = new QVBoxLayout(this);
-    _classList = new QComboBox();
-    vLayout->addWidget(_classList);
-    titleLayout = new QHBoxLayout();
-    QLabel *lStart = new QLabel(tr("Debut"));
-    QLabel *lEnd = new QLabel(tr("Fin"));
-    titleLayout->addWidget(lStart);
-    titleLayout->addWidget(lEnd);
-    vLayout->addLayout(titleLayout);
-    hLayout = new QHBoxLayout();
-    _startDate = new QCalendarWidget();
-    _endDate = new QCalendarWidget();
-    hLayout->addWidget(_startDate);
-    hLayout->addWidget(_endDate);
-    vLayout->addLayout(hLayout);
-    hLayout2 = new QHBoxLayout(); 
-    line = new QFrame();
-    line->setObjectName(QString::fromUtf8("line"));
-    line->setFrameShape(QFrame::HLine);
-    line->setFrameShadow(QFrame::Sunken);
-    hLayout2->addWidget(line, 14);
-    _addException = new QPushButton("+");
-    _addException->setFlat(true);
-    hLayout2->addWidget(_addException, 1);
+    mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    mainLayout->setSpacing(0);
+    mainLayout->setMargin(0);
+    QLabel *title = new QLabel(tr("Dates de l\'emploi du temps"), this);
+    title->setProperty("isFormTitle", true);
+    mainLayout->addWidget(title);
+
+    QFrame *eventFrame = new QFrame();
+    eventFrame->setProperty("isFormFrame", true);
+    QBoxLayout *eventMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, eventFrame);
+    eventMainLayout->setSpacing(0);
+    eventMainLayout->setMargin(0);
+    datesLayout = new QGridLayout();
+    datesLayout->setSpacing(4);
+    datesLayout->setMargin(8);
+    datesLayout->setColumnMinimumWidth(0, 150);
+    QLabel *startlabel = new QLabel(tr("Date de debut"), this);
+    startlabel->setProperty("isFormLabel", true);
+    datesLayout->addWidget(startlabel, 0, 0);
+    _startDate = new QDateEdit(this);
+    _startDate->setCalendarPopup(true);
+    _startDate->setDate(QDate::currentDate());
+    datesLayout->addWidget(_startDate, 0, 1);
+
+    QLabel *endlabel = new QLabel(tr("Date de fin"), this);
+    endlabel->setProperty("isFormLabel", true);
+    datesLayout->addWidget(endlabel, 1, 0);
+    _endDate = new QDateEdit(this);
+    _endDate->setCalendarPopup(true);
+    _endDate->setDate(QDate::currentDate());
+    datesLayout->addWidget(_endDate, 1, 1);
+    eventMainLayout->addLayout(datesLayout);
+    mainLayout->addWidget(eventFrame);
+
     if (type == 1)
         fillForm(id);
-    vLayout->addLayout(hLayout2);
-    connect(_addException, SIGNAL(clicked()), this, SLOT(addException()));
-    fillClasses();
+    mainLayout->addWidget(new EditException());
+
 }
 
 void    EditSchedule::fillForm(int id)
 {
     ScheduleData *sd = sdp->schedule(tdp->node(id));
-    _startDate->setSelectedDate(sd->startDate());
-    _endDate->setSelectedDate(sd->endDate());
+    _startDate->setDate(sd->startDate());
+    _endDate->setDate(sd->endDate());
 }
 
-void    EditSchedule::fillClasses()
-{
-        QList<Data*> datas = tdp->allDatas();
 
-        for (int i = 0, j = 0; i < datas.size(); ++i)
-        {
-                TreeData    *tmp = qobject_cast<TreeData *>(datas.at(i));
-                if (tmp->type() == "GRADE")
-                {
-                    _classList->addItem(tmp->name(), tmp->id());
-                }
-        }
-
-}
-
-void    EditSchedule::addException()
-{
-
-}

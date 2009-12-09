@@ -36,12 +36,26 @@
 #ifndef EDITEXCEPTION_H
 #define EDITEXCEPTION_H
 
+#include <QPushButton>
+#include <QFrame>
+#include <QLabel>
 #include <QWidget>
+#include		<QBoxLayout>
+#include "../../../../Common/ScheduleData.h"
 
 class EditException : public QWidget
 {
-public:
-    EditException();
+    Q_OBJECT
+
+    public:
+        EditException();
+    private:
+        QBoxLayout                  *mainLayout;
+        QList<ScheduleException *>  *_excpList;
+        QPushButton                 *_addException;
+        QFrame                      *line;
+    private slots:
+        void                        addException();
 };
 
 #endif // EDITEXCEPTION_H
