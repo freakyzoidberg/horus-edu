@@ -103,9 +103,6 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 		gradeFilter->setFilterFixedString("GRADE");
 		classListView = new QListView(this);
 		classListView->setSelectionMode(QAbstractItemView::SingleSelection);
-		classListView->setDragEnabled(false);
-		classListView->setAcceptDrops(false);
-		classListView->setDropIndicatorShown(false);
 		classListView->setViewMode(QListView::IconMode);
 		classListView->setMovement(QListView::Static);
 		classListView->setFlow(QListView::TopToBottom);
@@ -113,6 +110,10 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 		classListView->setWrapping(true);
 		classListView->setMaximumHeight(64);
 		classListView->setSelectionRectVisible(false);
+		classListView->setDragEnabled(true);
+		classListView->setAcceptDrops(true);
+		classListView->viewport()->setAcceptDrops(true);
+		classListView->setDropIndicatorShown(true);
 		classListView->setModel(gradeFilter);
 		leftLayout->addWidget(classListView);
 	}
@@ -133,7 +134,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	userListView->setShowGrid(false);
 	userListView->verticalHeader()->hide();
 	userListView->setSortingEnabled(true);
-	userListView->setSelectionMode(QAbstractItemView::SingleSelection);
+	userListView->setSelectionMode(QAbstractItemView::MultiSelection);
 	userListView->setSelectionBehavior(QAbstractItemView::SelectRows);
 	userListView->setDragEnabled(true);
 	userListView->setAcceptDrops(false);

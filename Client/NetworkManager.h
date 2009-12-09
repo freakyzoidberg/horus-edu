@@ -50,6 +50,7 @@ public:
 	static NetworkManager*	instance();
 	enum					Status { DISCONNECTED, CONNECTED, ESTABLISHED, LOGGED_IN };
 	inline Status			status() { return _status; }
+	inline bool				isUpdated() { return _isUpdated; }
 
 public slots:
 	void	tryToConnect();
@@ -69,6 +70,7 @@ private slots:
 
 private:
 	Status			_status;
+	bool			_isUpdated;
 	QByteArray		_recvPacket;
 	quint32			_nbrDatasForUpdate;
 	quint32			_nbrDatasForUpdateReceived;

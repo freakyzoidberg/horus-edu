@@ -66,9 +66,7 @@ UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserDat
 
 void UserDataBase::studentClassRemoved()
 {
-	disconnect(this, SLOT(studentClassRemoved()));
-	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
-	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
+	setStudentClass(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
 #ifdef HORUS_SERVER
 	save();
 #endif
@@ -76,8 +74,7 @@ void UserDataBase::studentClassRemoved()
 
 void UserDataBase::studentRemoved()
 {
-	disconnect(this, SLOT(studentRemoved()));
-	_student = static_cast<UserDataPlugin*>(_plugin)->nobody();
+	setStudent(static_cast<UserDataPlugin*>(_plugin)->nobody());
 #ifdef HORUS_SERVER
 	save();
 #endif
@@ -168,16 +165,9 @@ void UserDataBase::dataFromStream(QDataStream& s)
           >> _mailpassword
           ;
 
-	disconnect(this, SLOT(studentClassRemoved()));
-	_studentClass = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(studentClassId);
-	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
-
 	_gender = (UserGender)gender;
-
-	disconnect(_student, SIGNAL(removed()), this, SLOT(remove()));
-	_student = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(studentId);
-	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
-		connect(_student, SIGNAL(removed()), this, SLOT(remove()));
+	setStudentClass(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(studentClassId));
+	setStudent(_plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(studentId));
 
     Data::dataFromStream(s);
 }
@@ -330,10 +320,10 @@ void UserDataBase::setRelationship(const QString relationship)
 void UserDataBase::setStudent(UserData* student)
 {
 	QMutexLocker M(&mutex);
-	disconnect(_student, SIGNAL(removed()), this, SLOT(remove()));
+	disconnect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
 	_student = student;
 	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
-		connect(_student, SIGNAL(removed()), this, SLOT(remove()));
+		connect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
 }
 
 void UserDataBase::setMail(const QString mail)
@@ -503,10 +493,10 @@ quint8 UserDataBase::serverRead()
 	_occupation		= query.value(17).toString();
 	_proCategory	= query.value(18).toString();
 	_relationship	= query.value(19).toString();
-	disconnect(_student, SIGNAL(removed()), this, SLOT(remove()));
+	disconnect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
 	_student		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
 	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
-		connect(_student, SIGNAL(removed()), this, SLOT(remove()));
+		connect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
 	_mail			= query.value(21).toString();
 	_subscriptionReason	= query.value(22).toString();
 	_repeatedYears	= query.value(23).toUInt();
