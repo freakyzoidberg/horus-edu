@@ -190,16 +190,16 @@ void EdtWidget::createScene(TreeData *td)
 
 void EdtWidget::goadd()
 {
-scrollArea->hide();
-_add->hide();
-_ok->show();
-_save->show();
-_reset->show();
-_back->show();
-_edit->hide();
-_del->hide();
-if (_form)
-    delete _form;
+    scrollArea->hide();
+    _add->hide();
+    _ok->show();
+    _save->show();
+    _reset->show();
+    _back->show();
+    _edit->hide();
+    _del->hide();
+    if (_form)
+        delete _form;
 _form = new EditScheduleEvent(_pluginManager);
 MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
 }
@@ -211,6 +211,10 @@ void EdtWidget::gosave()
 
 void EdtWidget::gook()
 {
+
+    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
+    sd->addEvent(new ScheduleItem(sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White"));
+    sd->save();
     if (saveEDT())
         goback();
 }

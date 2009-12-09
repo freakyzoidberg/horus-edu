@@ -37,4 +37,29 @@
 
 EditException::EditException()
 {
+    mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    mainLayout->setSpacing(0);
+    mainLayout->setMargin(0);
+    QLabel *title = new QLabel(tr("Ajout des vacances"), this);
+    title->setProperty("isFormTitle", true);
+    mainLayout->addWidget(title);
+    QGridLayout *exceptionLayout = new QGridLayout();
+    line = new QFrame(this);
+    line->setObjectName(QString::fromUtf8("line"));
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Sunken);
+    exceptionLayout->addWidget(line, 0, 0);
+    _addException = new QPushButton("+");
+    _addException->setMaximumWidth(15);
+    _addException->setFlat(true);
+    exceptionLayout->addWidget(_addException, 0, 1);
+//    exceptionLayout->setColumnStretch(0, 20);
+//    exceptionLayout->setColumnStretch(1, 1);
+    mainLayout->addLayout(exceptionLayout);
+    connect(_addException, SIGNAL(clicked()), this, SLOT(addException()));
+}
+
+void    EditException::addException()
+{
+
 }
