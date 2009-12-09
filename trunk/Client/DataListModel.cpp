@@ -134,7 +134,7 @@ void DataListModel::dataStatusChanged(Data* data)
 
 Qt::DropActions DataListModel::supportedDropActions() const
 {
-	return Qt::CopyAction | Qt::MoveAction;
+	return Qt::MoveAction;
 }
 
 QStringList	DataListModel::mimeTypes() const
@@ -158,7 +158,7 @@ QMimeData* DataListModel::mimeData(const QModelIndexList &indexes) const
 		if (file)
 		{
 			QFile* f = file->file();
-			urls.append(QUrl(f->fileName()));
+			urls.append(QUrl("file://"+f->fileName()));
 			delete f;
 		}
 	}
