@@ -52,6 +52,7 @@ class EDTScene : public QGraphicsScene
 
 public:
         EDTScene(PluginManager *pluginManager, TreeData *treedata);
+        EDTScene(PluginManager *pluginManager);
         ScheduleData *getScheduleData();
 signals:
             void eventItemEditionRequired(int id);

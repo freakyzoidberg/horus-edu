@@ -60,6 +60,20 @@ EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManage
     MainLayout->setStretch(0, 10000);
 
     }
+    else if (pluginManager->currentUser()->level() == LEVEL_TEACHER)
+    {
+    _sceneWidget = new EdtSceneProxyWidget(_pluginManager,760,560);
+    _sceneWidget->setMinimumSize(760,580);
+    _sceneWidget->setMaximumSize(760,580);
+
+    scrollArea->setWidget(_sceneWidget);
+
+
+    scrollArea->setAlignment(Qt::AlignCenter);
+    MainLayout->insertWidget(0,scrollArea);
+    MainLayout->setStretch(0, 10000);
+
+    }
     else if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
     {
 
