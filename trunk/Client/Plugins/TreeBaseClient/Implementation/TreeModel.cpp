@@ -34,6 +34,10 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "TreeModel.h"
 #include "../../../../Common/TreeData.h"
+#include "../../../../Common/FileData.h"
+#include <QFile>
+#include <QFileInfo>
+#include <QUrl>
 
 TreeModel::TreeModel(const TreeDataPlugin* plugin)
 {
@@ -125,33 +129,55 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const
 	return QAbstractItemModel::flags(index);
 }
 
-bool TreeModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool TreeModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int, int, const QModelIndex &parent)
 {
-	QDataStream stream(mimeData->data("x-horus/x-data"));
-	QList<Data*> dropList;
-
-	while ( ! stream.atEnd())
+	if (mimeData->hasFormat("x-horus/x-data"))
 	{
-		QString dataType;
-		stream >> dataType;
+		QDataStream stream(mimeData->data("x-horus/x-data"));
+		QList<Data*> dropList;
 
-		DataPlugin* dp = 0;
-		bool found = false;
-		foreach (Plugin* plugin, _plugin->pluginManager->plugins())
-			if ((dp = qobject_cast<DataPlugin*>(plugin)) && dp->dataType() == dataType)
-			{
-				dropList.append(dp->dataWithKey(stream));
-				found = true;
-				break;
-			}
-		if ( ! found)
+		while ( ! stream.atEnd())
 		{
-			qDebug() << "DataPlugin of type" << dataType << "not found.";
-			return false;
+			QString dataType;
+			stream >> dataType;
+
+			DataPlugin* dp = 0;
+			bool found = false;
+			foreach (Plugin* plugin, _plugin->pluginManager->plugins())
+				if ((dp = qobject_cast<DataPlugin*>(plugin)) && dp->dataType() == dataType)
+				{
+					dropList.append(dp->dataWithKey(stream));
+					found = true;
+					break;
+				}
+			if ( ! found)
+			{
+				qDebug() << "DataPlugin of type" << dataType << "not found.";
+				return false;
+			}
 		}
+
+		return static_cast<Data*>(parent.internalPointer())->dropData(dropList, action);
 	}
 
-	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropData(dropList, action);
+	if (mimeData->hasUrls())
+	{
+		FileDataPlugin* filePlugin = _plugin->pluginManager->findPlugin<FileDataPlugin*>();
+		foreach (const QUrl& url, mimeData->urls())
+		{
+			FileData* fileData = filePlugin->createFile(static_cast<TreeData*>(parent.internalPointer()));
+			QFileInfo local(url.path());
+			fileData->setName(local.fileName());
+
+			QFile* file = fileData->file();
+			QFile::copy(local.filePath(), file->fileName());
+			delete file;
+
+			fileData->upload();
+		}
+		return true;
+	}
+	return false;
 }
 
 void TreeModel::dataStatusChanged(Data* data)
@@ -176,12 +202,14 @@ void TreeModel::dataStatusChanged(Data* data)
 	//if the node is not in the model
 	if ( ! _data.contains(parent, data))
 		inserData(parent, data);
-
-//		else
-//		{
-//			QModelIndex i = index(_list.indexOf(data), 0, QModelIndex());
-//			changePersistentIndex(i, i);
-//		}
+	else // if already in the model, chanve the values of index
+	{
+		int row = 0;
+		if (parent)
+			row = _data.values(parent).indexOf(data);
+		QModelIndex index = createIndex(row, 0, data);
+		changePersistentIndex(index, index);
+	}
 }
 
 void TreeModel::inserData(TreeData* parentNode, Data* data)

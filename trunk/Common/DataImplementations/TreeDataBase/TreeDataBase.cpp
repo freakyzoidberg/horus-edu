@@ -36,6 +36,7 @@
 #include "TreeDataBasePlugin.h"
 
 #include "../../UserData.h"
+#include "../../FileData.h"
 
 TreeDataBase::TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin) : TreeData((TreeDataPlugin*)plugin)
 {
@@ -266,23 +267,6 @@ const QIcon TreeDataBase::icon() const
 #include "../../UserData.h"
 #include <QUrl>
 #include <QFileInfo>
-bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction)
-{
-	qDebug() << mimeData->urls().first().path();
-
-	FileDataPlugin* filePlugin = _plugin->pluginManager->findPlugin<FileDataPlugin*>();
-	FileData* fileData = filePlugin->createFile(this);
-	QFileInfo local(mimeData->urls().first().path());
-	fileData->setName(local.fileName());
-
-	QFile* file = fileData->file();
-	QFile::copy(local.filePath(), file->fileName());
-	delete file;
-
-	fileData->upload();
-	return true;
-}
-
 bool TreeDataBase::dropData(const QList<Data*> list, Qt::DropAction)
 {
 	foreach (Data* data, list)
@@ -300,9 +284,18 @@ bool TreeDataBase::dropData(const QList<Data*> list, Qt::DropAction)
 				setUser(user);
 				save();
 			}
+			continue;
+		}
+
+		FileData* file;
+		if ((file = qobject_cast<FileData*>(data)))
+		{
+			file->moveTo(this);
+			file->save();
+			continue;
 		}
 	}
-	return (true);
+	return true;
 }
 #endif
 
