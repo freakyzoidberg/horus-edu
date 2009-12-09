@@ -33,7 +33,9 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "DataListModel.h"
-#include "../Common/Data.h"
+#include "../Common/FileData.h"
+#include <QUrl>
+#include <QMimeData>
 
 DataListModel::DataListModel(const DataPlugin* plugin)
 {
@@ -112,11 +114,11 @@ void DataListModel::dataStatusChanged(Data* data)
 			_list.append(data);
 			endInsertRows();
 		}
-//		else
-//		{
-//			QModelIndex i = index(_list.indexOf(data), 0, QModelIndex());
-//			changePersistentIndex(i, i);
-//		}
+		else
+		{
+			QModelIndex i = index(_list.indexOf(data), 0, QModelIndex());
+			changePersistentIndex(i, i);
+		}
 	}
 	else
 	{
@@ -142,18 +144,28 @@ QStringList	DataListModel::mimeTypes() const
 
 QMimeData* DataListModel::mimeData(const QModelIndexList &indexes) const
 {
-	QMimeData* mimeData = new QMimeData;
 	QByteArray buf;
 	QDataStream stream(&buf, QIODevice::WriteOnly);
+	QList<QUrl> urls;
 
 	foreach (const QModelIndex& index, indexes)
 	{
 		Data* data = static_cast<Data*>(index.internalPointer());
 		stream << data->dataType();
 		data->keyToStream(stream);
+
+		FileData* file = qobject_cast<FileData*>(data);
+		if (file)
+		{
+			QFile* f = file->file();
+			urls.append(QUrl(f->fileName()));
+			delete f;
+		}
 	}
 
+	QMimeData* mimeData = new QMimeData;
 	mimeData->setData("x-horus/x-data", buf);
+	mimeData->setUrls(urls);
 	return mimeData;
 }
 

@@ -60,7 +60,7 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	QTreeView* tree = new QTreeView(this);
 	tree->setModel(pluginManager->findPlugin<TreeDataPlugin*>()->treeModel());
 	tree->setHeaderHidden(true);
-	//tree->expandAll();
+	tree->expandAll();
 	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	//tree->setAcceptDrops(false);
 	tree->viewport()->setAcceptDrops(false);
@@ -69,11 +69,13 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 
 	_treeSelection = tree->selectionModel();
 	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), _filter, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
-//	tree->selectAll();
+	tree->selectAll();
 
 	QListView* list = new QListView(this);
 	list->setModel(_filter);
-	list->setSelectionMode(QAbstractItemView::SingleSelection);
+	list->setDragEnabled(true);
+	list->setDragDropMode(QAbstractItemView::DragOnly);
+	list->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	connect(list->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(fileSelectionChange(QItemSelection,QItemSelection)));
 
 	QLineEdit* matchLine = new QLineEdit;

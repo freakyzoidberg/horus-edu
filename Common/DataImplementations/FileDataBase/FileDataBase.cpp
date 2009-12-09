@@ -39,9 +39,9 @@
 #include "../../TreeData.h"
 #include "../../PluginManager.h"
 #include <QSettings>
+#include <QDir>
 
 #ifdef HORUS_CLIENT
-#include <QDir>
 #include <QSslSocket>
 #include "../../../Client/Plugins/FileBaseClient/FileNetworkPlugin.h"
 #endif
@@ -54,12 +54,7 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
     _id = fileId;
 	_mimeType = "unknow";
 #ifdef HORUS_CLIENT
-	QFile* f = file();
-	if (f->size() == (qint64)_size)
-		_isDownloaded = true;
-	else
-		_isDownloaded = false;
-	delete f;
+	_isDownloaded = false;
 #endif
 	_owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
 	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
@@ -233,12 +228,19 @@ quint8 FileDataBase::serverRemove()
 QFile* FileDataBase::file() const
 {
 #ifdef HORUS_SERVER
-	QString dirname = QSettings().value("SETTINGS/FilesDirectory").toString();
+	QString pathSys(QSettings().value("SETTINGS/FilesDirectory", QDir::tempPath()).toString());
 #endif
 #ifdef HORUS_CLIENT
-	QString dirname = QSettings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat).value("General/TmpDir", QDir::tempPath()).toString();
+	QString pathSys(QSettings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat).value("General/TmpDir", QDir::tempPath()).toString());
 #endif
-	return new QFile(dirname + '/' + QVariant(_id).toString());
+
+	QString pathFile = "/";
+	for (TreeData* node = _node; node; node = node->parent())
+		pathFile = '/' + node->name() + pathFile;
+
+	QDir().mkpath(pathSys + pathFile);
+
+	return new QFile(pathSys + pathFile + _name);
 }
 
 #ifdef HORUS_CLIENT
@@ -311,6 +313,20 @@ void FileDataBase::upload()
 void FileDataBase::download()
 {
 	qDebug() << "File::download()";
+	if ( ! _isDownloaded)
+	{
+		QFile* f = file();
+		if (f->size() == (qint64)_size)
+			_isDownloaded = true;
+		delete f;
+	}
+
+	if (_isDownloaded)
+	{
+		qDebug() << this << "is already downloaded." ;
+		return;
+	}
+
 	_plugin->pluginManager->findPlugin<FileNetworkPlugin*>()->askForTransfert(this, FileTransfert::DOWNLOAD);
     _isDownloaded = false;
 }

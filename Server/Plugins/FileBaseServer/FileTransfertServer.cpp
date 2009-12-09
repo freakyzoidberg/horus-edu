@@ -112,6 +112,8 @@ void FileTransfertServer::start(QSslSocket* socket)
     {
         _file = _fileData->file();
         _file->open(QIODevice::ReadOnly);
+		if ( ! _file->isOpen())
+			qDebug() << "Cannot read file" << _file->fileName() << "Please check your configuration.";
 		connect(_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)), Qt::QueuedConnection);
 		fileToSocket(0);
     }
@@ -143,8 +145,6 @@ FileTransfertServer::~FileTransfertServer()
 		fileData->save();
     }
 
-//	if (_socket)
-//		_socket->deleteLater();;
 	if (_file)
 		delete _file;
 	if (_hash)
