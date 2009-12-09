@@ -48,6 +48,8 @@ DataListModel::DataListModel(const DataPlugin* plugin)
 
 QModelIndex DataListModel::index(int row, int column, const QModelIndex &) const
 {
+	if (row < 0)
+		return QModelIndex();
 	return createIndex(row, column, _list.at(row));
 }
 
@@ -156,12 +158,15 @@ Qt::ItemFlags DataListModel::flags(const QModelIndex &index) const
 {
 	if (index.isValid())
 		return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | QAbstractListModel::flags(index);
-	else
-		return Qt::ItemIsDropEnabled | QAbstractListModel::flags(index);
+
+	return QAbstractListModel::flags(index);
 }
 
 bool DataListModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
+	if ( ! parent.isValid())
+		return false;
+
 	QDataStream stream(mimeData->data("x-horus/x-data"));
 	QList<Data*> dropList;
 
@@ -186,5 +191,5 @@ bool DataListModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction actio
 		}
 	}
 
-	return static_cast<Data*>(index(row, column, parent).internalPointer())->dropData(dropList, action);
+	return static_cast<Data*>(parent.internalPointer())->dropData(dropList, action);
 }

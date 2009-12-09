@@ -80,6 +80,7 @@ public:
 	virtual inline QAbstractListModel*	listModel() const { return 0; }
 #endif
 #ifdef HORUS_SERVER
+	friend class DataManagerServer;
 public:
 	virtual inline void					userConnected(UserData*) {}
 	virtual inline void					userDisconnected(UserData*) {}

@@ -263,6 +263,7 @@ const QIcon TreeDataBase::icon() const
 }
 
 #include "../../FileData.h"
+#include "../../UserData.h"
 #include <QUrl>
 #include <QFileInfo>
 bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction)
@@ -280,6 +281,27 @@ bool TreeDataBase::dropMimeData(const QMimeData* mimeData, Qt::DropAction)
 
 	fileData->upload();
 	return true;
+}
+
+bool TreeDataBase::dropData(const QList<Data*> list, Qt::DropAction)
+{
+	foreach (Data* data, list)
+	{
+		UserData* user;
+		if ((user = qobject_cast<UserData*>(data)))
+		{
+			if (user->level() == LEVEL_STUDENT && type() == "GRADE")
+			{
+				user->setStudentClass(this);
+				user->save();
+			}
+			else if (user->level() <= LEVEL_TEACHER)
+			{
+				setUser(user);
+				save();
+			}
+		}
+	}
 }
 #endif
 

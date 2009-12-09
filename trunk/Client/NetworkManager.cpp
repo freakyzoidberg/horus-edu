@@ -215,6 +215,7 @@ void NetworkManager::recvData()
 		if (_nbrDatasForUpdate <= _nbrDatasForUpdateReceived)
 		{
 			_nbrDatasForUpdate = 0;
+			_isUpdated = true;
 			emit updateFinished();
 		}
 	}

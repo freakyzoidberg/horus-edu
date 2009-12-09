@@ -66,6 +66,9 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus)
 		if ((error = data->serverCreate()))
 			return sendData(user, data, Data::DATA_ERROR, error);
 		data->_status = Data::UPTODATE;
+		emit _plugin->dataCreated(data);
+		emit data->statusChanged();
+		emit _plugin->dataStatusChanged(data);
 
 		//send to the user who saved, the data CREATED
 		sendData(user, data, Data::CREATED, 0, oldKey);
@@ -88,6 +91,8 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus)
 		if ((error = data->serverSave()))
 			return sendData(user, data, Data::DATA_ERROR, error);
 		data->_status = Data::UPTODATE;
+		emit data->statusChanged();
+		emit _plugin->dataStatusChanged(data);
 
 		//send to the user who saved the data SAVED
 		sendData(user, data, Data::SAVED);
@@ -104,6 +109,10 @@ void DataManagerServer::dataStatusChange(Data* data, quint8 newStatus)
 		if ((error = data->serverRemove()))
 			return sendData(user, data, Data::DATA_ERROR, error);
 		data->_status = Data::REMOVED;
+		emit data->removed();
+		emit _plugin->dataRemoved(data);
+		emit data->statusChanged();
+		emit _plugin->dataStatusChanged(data);
 
 		//send to every users the data DELETED
 		foreach (UserData* u, ClientSocket::connectedUsers.keys())
@@ -161,7 +170,10 @@ void DataManagerServer::sendData(UserData* user, Data* data)
 void DataManagerServer::sendData(UserData* user, Data* data, quint8 status, quint8 error, const QByteArray& oldKey)
 {
 	if ( ! user)
+	{
+		qDebug() << "Can be normal: invalid user to send the data";
 		return;
+	}
 
 	//if status UPTODATE, send UPDATED to the client
 	if (status == Data::UPTODATE)

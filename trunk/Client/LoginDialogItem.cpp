@@ -216,5 +216,11 @@ void LoginDialogItem::networkStatusChanged(NetworkManager::Status status)
 		}
 	}
 	else if (status == NetworkManager::LOGGED_IN)
-		connect(NetworkManager::instance(), SIGNAL(updateFinished()), _dialog, SLOT(accept()));
+	{
+		NetworkManager* net = NetworkManager::instance();
+		if(net->isUpdated())
+			return _dialog->accept();
+
+		connect(net, SIGNAL(updateFinished()), _dialog, SLOT(accept()));
+	}
 }
