@@ -206,6 +206,20 @@ MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
 
 void EdtWidget::gosave()
 {
+    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
+    sd->scheduleEvents().at(id_item_edition)->setName(_form->getName());
+    sd->scheduleEvents().at(id_item_edition)->setDetails(_form->getDetail());
+    sd->scheduleEvents().at(id_item_edition)->setForce(_form->getForce());
+    sd->scheduleEvents().at(id_item_edition)->setHStart(_form->getStart());
+    sd->scheduleEvents().at(id_item_edition)->setHEnd(_form->getEnd());
+    sd->scheduleEvents().at(id_item_edition)->setJWeek(_form->getDay());
+    sd->scheduleEvents().at(id_item_edition)->setSDate(_form->getStartDate());
+    sd->scheduleEvents().at(id_item_edition)->setEDate(_form->getEndDate());
+    sd->scheduleEvents().at(id_item_edition)->setModulo(_form->getModulo());
+    sd->scheduleEvents().at(id_item_edition)->setColor("White");
+    sd->scheduleEvents().at(id_item_edition)->setName(_form->getName());
+    //sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White");
+    sd->save();
     saveEDT();
 }
 
@@ -266,7 +280,7 @@ void EdtWidget::goedit()
     _del->hide();
     if (_form)
         delete _form;
-    _form = new EditScheduleEvent(_pluginManager); // devrait passer par constructeur pour edition
+    _form = new EditScheduleEvent(_pluginManager, _TD, id_item_edition); // devrait passer par constructeur pour edition
     MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
 }
 
@@ -274,6 +288,8 @@ void EdtWidget::goedit()
 void EdtWidget::godel()
 {
 
+    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
+    sd->removeEvent(sd->scheduleEvents().at(id_item_edition));
     _add->show();
     _ok->hide();
     _save->hide();

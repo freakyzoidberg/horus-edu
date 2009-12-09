@@ -59,6 +59,7 @@ public:
         virtual QList<ScheduleException* >  scheduleException() const = 0;
         virtual void                        addException(ScheduleException* excp) = 0;
         virtual void                        removeException(ScheduleException* excp) = 0;
+//        virtual void                        editEvent(ScheduleItem* event, int id) = 0;
         virtual void                        addEvent(ScheduleItem* event) = 0;
         virtual void                        removeEvent(ScheduleItem* event) = 0;
         virtual TreeData*                   node() const = 0;
