@@ -200,37 +200,21 @@ void EdtWidget::goadd()
     _del->hide();
     if (_form)
         delete _form;
-_form = new EditScheduleEvent(_pluginManager);
-MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
+    _form = new EditScheduleEvent(_pluginManager);
+    MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
 }
 
 void EdtWidget::gosave()
 {
-    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
-    sd->scheduleEvents().at(id_item_edition)->setName(_form->getName());
-    sd->scheduleEvents().at(id_item_edition)->setDetails(_form->getDetail());
-    sd->scheduleEvents().at(id_item_edition)->setForce(_form->getForce());
-    sd->scheduleEvents().at(id_item_edition)->setHStart(_form->getStart());
-    sd->scheduleEvents().at(id_item_edition)->setHEnd(_form->getEnd());
-    sd->scheduleEvents().at(id_item_edition)->setJWeek(_form->getDay());
-    sd->scheduleEvents().at(id_item_edition)->setSDate(_form->getStartDate());
-    sd->scheduleEvents().at(id_item_edition)->setEDate(_form->getEndDate());
-    sd->scheduleEvents().at(id_item_edition)->setModulo(_form->getModulo());
-    sd->scheduleEvents().at(id_item_edition)->setColor("White");
-    sd->scheduleEvents().at(id_item_edition)->setName(_form->getName());
-    //sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White");
-    sd->save();
-    saveEDT();
+    if(saveEDT())
+        goback();
 }
 
 void EdtWidget::gook()
 {
-
-    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
-    sd->addEvent(new ScheduleItem(sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White"));
-    sd->save();
     if (saveEDT())
         goback();
+    id_item_edition = -1;
 }
 
 void EdtWidget::goreset()
@@ -257,6 +241,8 @@ void EdtWidget::goback()
     _back->hide();
     _edit->hide();
     _del->hide();
+    id_item_edition =  - 1;
+
 }
 
 
@@ -287,9 +273,6 @@ void EdtWidget::goedit()
 
 void EdtWidget::godel()
 {
-
-    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
-    sd->removeEvent(sd->scheduleEvents().at(id_item_edition));
     _add->show();
     _ok->hide();
     _save->hide();
@@ -300,21 +283,39 @@ void EdtWidget::godel()
 
     deleteEventFromEdt(id_item_edition);
     createScene(_TD);
+    id_item_edition = -1;
 }
 
 
 bool                EdtWidget::saveEDT()
 {
-    // reccupere les infos du form
-    // cree / update le schedule event
-    // update la data
-    // save la data
+    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
+    if (id_item_edition != -1)
+    {
+        sd->scheduleEvents().at(id_item_edition)->setName(_form->getName());
+        sd->scheduleEvents().at(id_item_edition)->setDetails(_form->getDetail());
+        sd->scheduleEvents().at(id_item_edition)->setForce(_form->getForce());
+        sd->scheduleEvents().at(id_item_edition)->setHStart(_form->getStart());
+        sd->scheduleEvents().at(id_item_edition)->setHEnd(_form->getEnd());
+        sd->scheduleEvents().at(id_item_edition)->setJWeek(_form->getDay());
+        sd->scheduleEvents().at(id_item_edition)->setSDate(_form->getStartDate());
+        sd->scheduleEvents().at(id_item_edition)->setEDate(_form->getEndDate());
+        sd->scheduleEvents().at(id_item_edition)->setModulo(_form->getModulo());
+        sd->scheduleEvents().at(id_item_edition)->setColor("White");
+        sd->scheduleEvents().at(id_item_edition)->setName(_form->getName());
+    }
+    else
+    {
+        sd->addEvent(new ScheduleItem(sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White"));
+    }
+    //sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White");
+    sd->save();
     return true;
 }
 
 bool                EdtWidget::deleteEventFromEdt(int id)
 {
-    // supprime schedule event de la data
-    // save la data
+    ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
+    sd->removeEvent(sd->scheduleEvents().at(id));
     return true;
 }
