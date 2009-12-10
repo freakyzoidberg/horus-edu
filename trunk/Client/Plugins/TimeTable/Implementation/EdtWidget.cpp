@@ -322,5 +322,6 @@ bool                EdtWidget::deleteEventFromEdt(int id)
 {
     ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
     sd->removeEvent(sd->scheduleEvents().at(id));
+    sd->save();
     return true;
 }
