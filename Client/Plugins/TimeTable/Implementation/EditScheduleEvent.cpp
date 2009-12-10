@@ -197,3 +197,8 @@ void    EditScheduleEvent::setDay(int day)
 {
     dayList->setCurrentIndex(day - 1);
 }
+
+void    EditScheduleEvent::stepBy(int steps)
+{
+    startTime->time().addSecs(300);
+}

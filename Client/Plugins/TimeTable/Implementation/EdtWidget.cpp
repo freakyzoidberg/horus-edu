@@ -323,3 +323,5 @@ bool                EdtWidget::deleteEventFromEdt(int id)
     sd->save();
     return true;
 }
+
+
