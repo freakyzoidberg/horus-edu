@@ -102,13 +102,13 @@ void    EditScheduleEvent::setupUi()
     label->setProperty("isFormLabel", true);
     personnalBottomLayout->addWidget(label, 0, 0);
     startTime = new QTimeEdit(eventFrame);
-    startTime->setTime(QTime::currentTime());
+    startTime->setTime(QTime(12,0,0,0));
     personnalBottomLayout->addWidget(startTime, 0, 1);
     label = new QLabel(tr("Heure de fin :"), eventFrame);
     label->setProperty("isFormLabel", true);
     personnalBottomLayout->addWidget(label, 1, 0);
     endTime = new QTimeEdit(eventFrame);
-    endTime->setTime(QTime::currentTime());
+    endTime->setTime(QTime(12,0,0,0));
     personnalBottomLayout->addWidget(endTime, 1, 1);
 
     label = new QLabel(tr("Professeur :"), eventFrame);
