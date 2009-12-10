@@ -92,6 +92,7 @@ class EditScheduleEvent : public QWidget
         void                setupUi();
         void                fillTeacher();
         void                fillForm(TreeData *node, int id);
+        void                stepBy(int steps);
 };
 
 #endif // EDITSCHEDULEEVENT_H
