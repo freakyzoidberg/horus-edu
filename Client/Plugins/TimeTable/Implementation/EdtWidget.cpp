@@ -207,14 +207,18 @@ void EdtWidget::goadd()
 void EdtWidget::gosave()
 {
     if(saveEDT())
+    {
         goback();
+    }
 }
 
 void EdtWidget::gook()
 {
     if (saveEDT())
+    {
         goback();
-    id_item_edition = -1;
+        id_item_edition = -1;
+    }
 }
 
 void EdtWidget::goreset()
@@ -289,6 +293,7 @@ void EdtWidget::godel()
 
 bool                EdtWidget::saveEDT()
 {
+
     ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
     if (id_item_edition != -1)
     {

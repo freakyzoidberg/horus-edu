@@ -103,12 +103,14 @@ void    EditScheduleEvent::setupUi()
     personnalBottomLayout->addWidget(label, 0, 0);
     startTime = new QTimeEdit(eventFrame);
     startTime->setTime(QTime(12,0,0,0));
+    startTime->setTimeRange(QTime(7,0,0,0), QTime(19,0,0,0));
     personnalBottomLayout->addWidget(startTime, 0, 1);
     label = new QLabel(tr("Heure de fin :"), eventFrame);
     label->setProperty("isFormLabel", true);
     personnalBottomLayout->addWidget(label, 1, 0);
     endTime = new QTimeEdit(eventFrame);
     endTime->setTime(QTime(12,0,0,0));
+    endTime->setTimeRange(QTime(7,0,0,0), QTime(19,0,0,0));
     personnalBottomLayout->addWidget(endTime, 1, 1);
 
     label = new QLabel(tr("Professeur :"), eventFrame);
@@ -193,12 +195,5 @@ void    EditScheduleEvent::setTeacher(int teacher)
 
 void    EditScheduleEvent::setDay(int day)
 {
-    for (int i = 0; i < dayList->count(); i++)
-    {
-        if (teacherList->itemData(i).toInt() == day)
-        {
-            dayList->setCurrentIndex(i);
-            return;
-        }
-    }
+    dayList->setCurrentIndex(day - 1);
 }
