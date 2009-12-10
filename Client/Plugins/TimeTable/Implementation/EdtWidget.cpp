@@ -206,10 +206,8 @@ void EdtWidget::goadd()
 
 void EdtWidget::gosave()
 {
-    if(saveEDT())
-    {
-        goback();
-    }
+    saveEDT();
+
 }
 
 void EdtWidget::gook()
