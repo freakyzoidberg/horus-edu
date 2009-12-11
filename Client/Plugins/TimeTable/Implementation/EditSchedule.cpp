@@ -39,7 +39,7 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
 {
     sdp = sd;
     tdp = td;
-    mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+	mainLayout = new QVBoxLayout(this);
     mainLayout->setSpacing(0);
     mainLayout->setMargin(0);
     QLabel *title = new QLabel(tr("Dates de l\'emploi du temps"), this);
@@ -54,7 +54,7 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
     datesLayout = new QGridLayout();
     datesLayout->setSpacing(4);
     datesLayout->setMargin(8);
-    datesLayout->setColumnMinimumWidth(0, 150);
+   // datesLayout->setColumnMinimumWidth(0, 150);
     QLabel *startlabel = new QLabel(tr("Date de debut"), this);
     startlabel->setProperty("isFormLabel", true);
     datesLayout->addWidget(startlabel, 0, 0);
@@ -76,7 +76,7 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
     if (type == 1)
         fillForm(id);
     mainLayout->addWidget(new EditException());
-
+	mainLayout->addWidget(new QWidget());
 }
 
 void    EditSchedule::fillForm(int id)

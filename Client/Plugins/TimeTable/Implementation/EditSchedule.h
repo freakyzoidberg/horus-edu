@@ -66,7 +66,7 @@ class EditSchedule : public QWidget
         TreeDataPlugin              *tdp;
         QDateEdit                   *_startDate;
         QDateEdit                   *_endDate;
-        QBoxLayout                  *mainLayout;
+		QVBoxLayout                  *mainLayout;
         QGridLayout                 *datesLayout;
         QGridLayout                 *exceptionLayout;
         void                        fillClasses();
