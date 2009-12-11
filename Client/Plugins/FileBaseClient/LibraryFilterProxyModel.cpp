@@ -1,5 +1,6 @@
 #include "LibraryFilterProxyModel.h"
 #include "../../../Common/FileData.h"
+#include "../../../Common/TreeData.h"
 #include <QItemSelection>
 #include <QDebug>
 
@@ -11,13 +12,9 @@ LibraryFilterProxyModel::LibraryFilterProxyModel(QAbstractListModel* fileModel, 
 	sort(0, Qt::AscendingOrder);
 }
 
-void LibraryFilterProxyModel::treeSelectionChange(const QItemSelection& selected, const QItemSelection& deselected)
+void LibraryFilterProxyModel::nodeListChanged(const QList<Data*>& list)
 {
-	foreach (QModelIndex index, selected.indexes())
-		_nodes.append(static_cast<TreeData*>(index.internalPointer()));
-	foreach (QModelIndex index, deselected.indexes())
-		_nodes.removeOne(static_cast<TreeData*>(index.internalPointer()));
-
+	_nodes = list;
 	invalidateFilter();
 }
 

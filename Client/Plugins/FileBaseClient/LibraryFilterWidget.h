@@ -7,15 +7,16 @@ class Data;
 class PluginManager;
 class TreeDataPlugin;
 class UserDataPlugin;
+class LibraryFilterProxyModel;
 
 class LibraryFilterWidget : public QWidget
 {
 Q_OBJECT
 public:
-	LibraryFilterWidget(PluginManager* pluginManager, QWidget *parent = 0);
+	LibraryFilterWidget(PluginManager* pluginManager, LibraryFilterProxyModel* filter, QWidget *parent = 0);
 
 private slots:
-	void updateFilters(Data* = 0);
+	void			comboBoxChanged(int);
 
 public:
 	QComboBox		grades;
@@ -24,6 +25,7 @@ public:
 private:
 	TreeDataPlugin*	_treeDataPlugin;
 	UserDataPlugin*	_userDataPlugin;
+	LibraryFilterProxyModel*	_filter;
 };
 
 #endif // LIBRARYFILTERWIDGET_H

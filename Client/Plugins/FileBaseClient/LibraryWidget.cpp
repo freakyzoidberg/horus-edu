@@ -52,24 +52,24 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 {
 	QGridLayout* layout = new QGridLayout(this);
 
-	QTabWidget* tabs = new QTabWidget(this);
+//	QTabWidget* tabs = new QTabWidget(this);
 
 
 	_filter = new LibraryFilterProxyModel(pluginManager->findPlugin<FileDataPlugin*>()->listModel(), this);
 
-	QTreeView* tree = new QTreeView(this);
-	tree->setModel(pluginManager->findPlugin<TreeDataPlugin*>()->treeModel());
-	tree->setHeaderHidden(true);
-	tree->expandAll();
-	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	//tree->setAcceptDrops(false);
-	tree->viewport()->setAcceptDrops(false);
-	//tree->setDropIndicatorShown(true);
-	tree->setDragDropMode(QAbstractItemView::DropOnly);
+//	QTreeView* tree = new QTreeView(this);
+//	tree->setModel(pluginManager->findPlugin<TreeDataPlugin*>()->treeModel());
+//	tree->setHeaderHidden(true);
+//	tree->expandAll();
+//	tree->setSelectionMode(QAbstractItemView::ExtendedSelection);
+//	//tree->setAcceptDrops(false);
+//	tree->viewport()->setAcceptDrops(false);
+//	//tree->setDropIndicatorShown(true);
+//	tree->setDragDropMode(QAbstractItemView::DropOnly);
 
-	_treeSelection = tree->selectionModel();
-	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), _filter, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
-	tree->selectAll();
+//	_treeSelection = tree->selectionModel();
+//	connect(_treeSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), _filter, SLOT(treeSelectionChange(QItemSelection,QItemSelection)));
+//	tree->selectAll();
 
 	QListView* list = new QListView(this);
 	list->setModel(_filter);
@@ -87,11 +87,12 @@ LibraryWidget::LibraryWidget(PluginManager* pluginManager)
 	layout->setColumnStretch(1, 6);
 	layout->setColumnStretch(2, 3);
 
-	tabs->insertTab(0, new LibraryFilterWidget(pluginManager, this), "Filter");
-	tabs->insertTab(1, tree, "Tree");
+//	tabs->insertTab(0, new LibraryFilterWidget(pluginManager, this), "Filter");
+//	tabs->insertTab(1, tree, "Tree");
 
+	layout->addWidget(new LibraryFilterWidget(pluginManager, _filter, this), 1, 0);
 //	layout->addWidget(new QLabel(tr("Filters")), 0, 0);
-	layout->addWidget(tabs, 1, 0);
+//	layout->addWidget(tabs, 1, 0);
 
 	layout->addWidget(matchLine, 0, 1);
 
