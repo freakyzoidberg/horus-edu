@@ -312,7 +312,7 @@ QDir dir3(ui->lineEdit_16->text()+"/ssl/");
                     for (int j = 0; ((j < listfils.size()) && (found == 0)); ++j)
                         {
                         QFileInfo filefilsInfo = listfils.at(j);
-                            if ((filefilsInfo.fileName().endsWith(".so") && filefilsInfo.fileName().count(".so") == 1) || (filefilsInfo.fileName().endsWith(".dll") && filefilsInfo.fileName().count(".dll") == 1))
+                            if ((filefilsInfo.fileName().endsWith(".so") && filefilsInfo.fileName().count(".so") == 1) || (filefilsInfo.fileName().endsWith(".dll") && filefilsInfo.fileName().count(".dll") == 1) || (filefilsInfo.fileName().endsWith(".dylib") && filefilsInfo.fileName().count(".dylib") == 1))
                             {
                                 QCheckBox *pCheckBox = new QCheckBox
                                     (fileInfo.fileName()+"/"+filefilsInfo.fileName());
