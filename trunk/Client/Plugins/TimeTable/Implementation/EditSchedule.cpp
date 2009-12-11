@@ -90,7 +90,7 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
 
 	EditException *edit = new EditException();
 	mainLayout->addWidget(edit);
-	mainLayout->addWidget(new QWidget()
+	mainLayout->addWidget(new QWidget());
 }
 
 void    EditSchedule::fillForm(int id)

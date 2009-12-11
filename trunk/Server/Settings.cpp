@@ -145,7 +145,7 @@ void Settings::FirstSetSettings()
                         {
 
                         QFileInfo filefilsInfo = listfils.at(j);
-                        if ((filefilsInfo.fileName().endsWith(".so") && filefilsInfo.fileName().count(".so") == 1) || (filefilsInfo.fileName().endsWith(".dll") && filefilsInfo.fileName().count(".dll") == 1))
+                        if ((filefilsInfo.fileName().endsWith(".so") && filefilsInfo.fileName().count(".so") == 1) || (filefilsInfo.fileName().endsWith(".dll") && filefilsInfo.fileName().count(".dll") == 1) || (filefilsInfo.fileName().endsWith(".dylib") && filefilsInfo.fileName().count(".dylib") == 1))
                             {
                                 streamo << "Enable plugin "+ fileInfo.fileName() +" [y/N] : ";
                                 streamo.flush();

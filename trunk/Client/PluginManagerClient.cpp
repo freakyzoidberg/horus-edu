@@ -82,7 +82,7 @@ void PluginManagerClient::loadPlugins()
 #if defined(Q_OS_WIN)
 # define PLUGIN_FILTER  "*.dll"
 #elif defined(Q_OS_MAC)
-# define PLUGIN_FILTER  "*.so" // ??
+# define PLUGIN_FILTER  "*.dylib"
 #else
 # define PLUGIN_FILTER  "*.so"
 #endif
