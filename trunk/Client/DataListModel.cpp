@@ -134,7 +134,7 @@ void DataListModel::dataStatusChanged(Data* data)
 
 Qt::DropActions DataListModel::supportedDropActions() const
 {
-	return Qt::MoveAction;
+	return Qt::CopyAction;
 }
 
 QStringList	DataListModel::mimeTypes() const
