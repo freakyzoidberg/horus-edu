@@ -67,7 +67,6 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 	informationsLayout->setMargin(0);
 	informationsLayout->addWidget(infoTitle);
 	RightLayout->addWidget(informationsFrame);
-
 	QLabel *actionTitle = new QLabel(tr("Actions:"));
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
@@ -154,6 +153,15 @@ void	ManageEdt::fallback()
 		delete infos;
 		infos = NULL;
 	}
+	if (scheduleForm)
+	{
+		delete scheduleForm;
+		scheduleForm = NULL;
+	}
+	//MainLayout->removeWidget();
+	MainLayout->insertWidget(0, AdmClassList);
+	MainLayout->setStretch(0, 1);
+
 		parent->setTabEnabled(0, false);
 			parent->setTabEnabled(1, false);
 	 ok->setVisible(false);
@@ -162,7 +170,6 @@ void	ManageEdt::fallback()
 	add->setVisible(false);
 	back->setVisible(false);
 	reset->setVisible(false);
-	 scheduleForm->setVisible(false);
 }
 
 void ManageEdt::goadd()
@@ -173,14 +180,16 @@ void ManageEdt::goadd()
         if (scheduleForm)
         {
             delete scheduleForm;
-            scheduleForm = 0;
+			scheduleForm = 0;
         }
         scheduleForm = new EditSchedule(sd, td, 0, 0);
-        MainLayout->insertWidget(0, scheduleForm);
+		MainLayout->removeWidget(AdmClassList);
+		MainLayout->insertWidget(0, scheduleForm);
+		MainLayout->setStretch(0, 1);
         AdmClassList->setVisible(false);
         updateVisible(0);
-		parent->setTabEnabled(0, true);
-		parent->setTabEnabled(1, true);
+		parent->setTabEnabled(0, false);
+		parent->setTabEnabled(1, false);
     }
 }
 
@@ -200,6 +209,10 @@ void ManageEdt::gook()
     }
 
     delete scheduleForm;
+	scheduleForm = NULL;
+	//MainLayout->removeWidget();
+	MainLayout->insertWidget(0, AdmClassList);
+	MainLayout->setStretch(0, 1);
     scheduleForm = 0;
     updateClasses();
     updateVisible(1);
