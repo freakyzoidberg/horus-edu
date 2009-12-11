@@ -52,10 +52,10 @@ AdmClassListSelection::AdmClassListSelection(PluginManager *pluginManager)
 	ClassList->setSelectionRectVisible(false);
 
 	QLabel *title = new QLabel(tr("Select a class to view, add or edit its time table."));
-	   title->setProperty("isTitle", true);
-	   ListLayout->addWidget(title);
+	title->setProperty("isTitle", true);
+	ListLayout->addWidget(title);
 
-	   ListLayout->addWidget(ClassList);
+	  ListLayout->addWidget(ClassList);
 
 	   //connect(ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 				//this, SLOT(updatestudents(QListWidgetItem *)));
