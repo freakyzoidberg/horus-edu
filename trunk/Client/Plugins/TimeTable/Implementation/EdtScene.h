@@ -54,6 +54,7 @@ public:
         EDTScene(PluginManager *pluginManager, TreeData *treedata);
         EDTScene(PluginManager *pluginManager);
         ScheduleData *getScheduleData();
+        int                 getWPosforDay(int day);
 signals:
             void eventItemEditionRequired(int id);
 protected:
@@ -61,7 +62,7 @@ protected:
 private:
     PluginManager	*_pluginManager;
     ScheduleData        *_SD;
-    int                 getWPosforDay(int day);
+
     void                addEvent(QString name, int dow,QTime hstart, QTime hend, QColor color, int id);
 
 

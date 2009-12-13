@@ -51,11 +51,15 @@ public:
     ~EdtSceneProxyWidget();
     ScheduleData *getScheduleData();
 
+
 	EDTScene	*scene()	{ return _scene; }
 
 private:
     PluginManager	*_pluginManager;
     EDTScene            *_scene;
+    bool reDesignEvent(int day);
+    QList<QGraphicsItemGroup*> getCollidingItemGroup(QGraphicsItemGroup *group);
+    int getMaxColafterRedesign(QList<QGraphicsItemGroup*> listg);
 };
 
 #endif // EDTSCENEPROXYWIDGET_H

@@ -103,6 +103,7 @@ void    EditScheduleEvent::setupUi()
     personnalBottomLayout->addWidget(label, 0, 0);
     startTime = new QTimeEdit(eventFrame);
     startTime->setTime(QTime(12,0,0,0));
+    startTime->stepBy(60);
     startTime->setTimeRange(QTime(7,0,0,0), QTime(19,0,0,0));
     personnalBottomLayout->addWidget(startTime, 0, 1);
     label = new QLabel(tr("Heure de fin :"), eventFrame);
