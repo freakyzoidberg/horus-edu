@@ -178,19 +178,23 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
     int start = -1 * hstart.secsTo(QTime(0,0,0,0));
 
     int total = ((start - offset) / 60) * 0.666;
-    int duration = (hstart.secsTo(hend) / 60) * 0.666;
+    int duration = (hstart.secsTo(hend) / 60) * 0.666 ;
 
 
     QGraphicsItemGroup *group = new QGraphicsItemGroup(0,this);
-    QGraphicsRectItem *rect = new QGraphicsRectItem(0,0,CWIDTH - 7,duration);
+
+    QGraphicsRectItem *rect = new QGraphicsRectItem(0,0,CWIDTH - 5,duration);
     QGraphicsTextItem *text = new QGraphicsTextItem(name);
     QGraphicsTextItem *time = new QGraphicsTextItem(hstart.toString("hh:mm") + " " + hend.toString("hh:mm"));
 
     rect->setGroup(group);
     rect->setZValue(1);
     rect->setBrush(QBrush(color));
-    text->setGroup(group);
-    text->setTextWidth(CWIDTH - 7);
+
+
+    text->setTextWidth(CWIDTH - 15);
+
+    time->setTextWidth(CWIDTH - 15);
     QFont font("times", 24);
     bool metric_found = false;
     qreal pixelsNamehigh = 10;
@@ -205,7 +209,7 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
      qreal pixelsHourWide = fm.width(hstart.toString("hh:mm") + " " + hend.toString("hh:mm"));
      pixelsHourhigh = fm.height();
 
-    if ((pixelsHourWide <= (CWIDTH - 5)) && (pixelsNameWide <= (CWIDTH - 5)))
+    if ((pixelsHourWide <= (CWIDTH - 20)) && (pixelsNameWide <= (CWIDTH - 20)))
         metric_found = true;
     }
 
@@ -213,21 +217,24 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
 
     text->setFont(font);
     text->setZValue(100);
-    qDebug() << "Sum " << (pixelsHourhigh + pixelsNamehigh) << " duration " << duration;
+    //qDebug() << "Sum " << (pixelsHourhigh + pixelsNamehigh) << " duration " << duration;
     if ((pixelsHourhigh + pixelsNamehigh) <= duration)
     {
-    time->setPos(5,pixelsNamehigh);
+    time->setPos(0,pixelsNamehigh);
     time->setFont(font);
-    time->setGroup(group);
-    time->setTextWidth(CWIDTH - 7);
+
+
     time->setZValue(101);
+     time->setGroup(group);
     }
     else
         delete time;
     //text->setPos(5,10);
+    text->setGroup(group);
     group->setToolTip(name + " @ "+ hstart.toString("hh:mm") + " to " + hend.toString("hh:mm"));
     group->setData(0,id);
     group->setData(1,duration);
+
 
     group->setPos(getWPosforDay(dow), VOFFSET + total);
 
@@ -240,7 +247,9 @@ void EDTScene::mousePressEvent(QGraphicsSceneMouseEvent* e)
     if (this->items(e->scenePos().toPoint()).count() > 0)
     {
 
-        //qDebug() << ((QGraphicsItemGroup*)this->items(e->scenePos().toPoint()).first())->group()->data(0);
+
+        if (((QGraphicsItemGroup*)this->items(e->scenePos().toPoint()).first())->group() != 0)
+
         emit eventItemEditionRequired(((QGraphicsItemGroup*)this->items(e->scenePos().toPoint()).first())->group()->data(0).toInt());
     }
 }
