@@ -45,7 +45,7 @@ EdtSceneProxyWidget::EdtSceneProxyWidget(PluginManager *pluginManager, TreeData 
 
     this->setAlignment(Qt::AlignLeft | Qt::AlignTop);
     for (int i = 1; i <= 7; i++)
-        this->reDesignEvent(i);
+        !this->reDesignEvent(i);
     this->setScene(_scene);
 
 }
@@ -76,7 +76,8 @@ EdtSceneProxyWidget::~EdtSceneProxyWidget()
 bool EdtSceneProxyWidget::reDesignEvent(int day)
 {
 
-    QList<QGraphicsItem *> listItem =     _scene->items(QRectF(_scene->getWPosforDay(day),40,10,800) );
+   this->repaint();;
+    QList<QGraphicsItem *> listItem =     _scene->items(QRectF(_scene->getWPosforDay(day),50,10,800) );
 
 
     QList<QGraphicsItemGroup*> listGroup;
@@ -93,11 +94,11 @@ bool EdtSceneProxyWidget::reDesignEvent(int day)
             listGroup.append(listItem.at(i)->group());
         }
     }
-    qDebug() << "There is " << listGroup.size() << " group Item";
+
 
     for (int i = 0; i < listGroup.size(); i++)
     {
-       if ((i < listGroup.size()) && (listGroup.at(i)->data(1).toInt() < listGroup.at(i+1)->data(1).toInt()))
+       if ((i < (listGroup.size() - 1)) && (listGroup.at(i)->collidingItems().size() < listGroup.at(i+1)->collidingItems().size()))
         {
            listGroup.swap(i,i+1);
            i = 0;
@@ -107,25 +108,28 @@ bool EdtSceneProxyWidget::reDesignEvent(int day)
     if (listGroup.size() <= 0)
      return true;
 
-   // listGroup = getCollidingItemGroup(listGroup.at(0));
+    qDebug() << "There is " << listGroup.size() << " group Item";
 
-    if (listGroup.size() <= 0)
-     return true;
+    for (int j = 0; j < listGroup.size(); j++)
+    {
+    listGroup = getCollidingItemGroup(listGroup.at(j));
+
+    if (listGroup.size() > 1)
+    {
+
 
     int decalage;
+    qDebug() << "Il ya " << listGroup.size() << " Collisions";
 
     decalage = (100)/ listGroup.size();
+
     for (int i = 0; i < listGroup.size(); i++)
         {
-        listGroup.at(i)->setPos(listGroup.at(i)->x() + (i * decalage), listGroup.at(i)->y());
-        listGroup.at(i)->scale(1/(static_cast<qreal>(listGroup.size()) + 0.1),1);
-
+        listGroup.at(i)->setPos(listGroup.at(i)->x() + (i * decalage) - 2, listGroup.at(i)->y());
+        listGroup.at(i)->scale(1/(static_cast<qreal>(listGroup.size()) + 0.15),1);
         }
-
-
-
-
-
+    }
+    }
  return false;
 
     /*
@@ -165,7 +169,7 @@ bool EdtSceneProxyWidget::reDesignEvent(int day)
 
 QList<QGraphicsItemGroup*> EdtSceneProxyWidget::getCollidingItemGroup(QGraphicsItemGroup *group)
 {
-    QList<QGraphicsItem *> collisionlistItem = group->collidingItems();
+    QList<QGraphicsItem *> collisionlistItem = group->collidingItems(Qt::IntersectsItemBoundingRect);
 
     QList<QGraphicsItemGroup*> collisionlistGroup;
     bool add;
@@ -178,7 +182,10 @@ QList<QGraphicsItemGroup*> EdtSceneProxyWidget::getCollidingItemGroup(QGraphicsI
             if (collisionlistGroup.at(j) == collisionlistItem.at(i)->group())
                 add = false;
         if (add)
+        {
+         //   if (collisionlistItem.at(i)->group() != group)
             collisionlistGroup.append(collisionlistItem.at(i)->group());
+        }
         }
     }
     return collisionlistGroup;
