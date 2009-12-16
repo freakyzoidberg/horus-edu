@@ -36,7 +36,8 @@
 #define LIBRARYPLUGIN_H
 
 #include "../../DisplayablePlugin.h"
-#include "LibraryWidget.h"
+class FileData;
+class QStackedLayout;
 
 class LibraryPlugin : public DisplayablePlugin
 {
@@ -47,11 +48,19 @@ public:
 	const QString			pluginName()    const { return "Library"; }
 	const QString			pluginVersion() const { return "1"; }
 
-	inline QWidget*			getWidget()	{ return new LibraryWidget(pluginManager); }
+	QWidget*				getWidget();
 	inline const QString	getDisplayableName() const { return tr("Library"); }
 	inline QIcon getIcon() const { return (QIcon(":Icons/lib-icon.png")); }
 //	inline int getOrder() const { return (50); }
 //	inline bool operator<(DisplayablePlugin &right) const { return (this->getOrder() < right.getOrder()); }
+
+
+private slots:
+	void					editFile(FileData* file);
+	void					editFinished();
+
+private:
+	QStackedLayout*			_layout;
 };
 
 #endif // LIBRARYPLUGIN_H

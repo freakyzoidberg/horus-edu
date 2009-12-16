@@ -351,8 +351,22 @@ void TreeDataBase::setParent(TreeData* p)
 
 bool TreeDataBase::isDescendantOf(TreeData* parent)
 {
-    for (TreeDataBase* node = this; node->_id != 0; node = ((TreeDataBase*)(node->parent())))
-        if (node == parent)
-            return true;
-    return false;
+	if (this == parent)
+		return true;
+
+	if ( ! _parent)
+		return false;
+
+	return _parent->isDescendantOf(parent);
+}
+
+bool TreeDataBase::isInSubject(const QString subject)
+{
+	if (_type == "SUBJECT" && _name == subject)
+		return true;
+
+	if ( ! _parent)
+		return false;
+
+	return _parent->isInSubject(subject);
 }

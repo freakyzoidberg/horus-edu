@@ -123,6 +123,8 @@ public:
     */
     virtual bool    isDescendantOf(TreeData* parent) = 0;
 
+	virtual bool	isInSubject(const QString subject) = 0;
+
     
 	inline void		registerData(Data* data) { _registeredData.append(data); connect(this, SIGNAL(removed()), data, SLOT(remove())); }
 template <typename T>

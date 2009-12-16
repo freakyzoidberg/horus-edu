@@ -37,7 +37,7 @@
 
 # include			<QWidget>
 
-# include			<QBoxLayout>
+# include			<QHBoxLayout>
 
 # include			"../../../../Common/TreeData.h"
 # include			"../../../../Common/UserData.h"
@@ -59,7 +59,7 @@ private:
 	int				_userLevel;
 	ListUser		*list;
 	EditUser		*edit;
-	QBoxLayout		*layout;
+	QHBoxLayout		*layout;
 
 private slots:
 	void			userEdited(TreeData *node, UserData *user);

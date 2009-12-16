@@ -70,6 +70,9 @@ public:
     virtual QString     mimeType() const = 0;
 	virtual void        setMimeType(const QString name) = 0;
 
+	virtual QString     keyWords() const = 0;
+	virtual void        setKeyWords(const QString keyWords) = 0;
+
 	virtual QByteArray  hash() const = 0;
 	virtual quint64		size() const = 0;
 

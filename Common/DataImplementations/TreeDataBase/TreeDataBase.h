@@ -103,6 +103,8 @@ public:
 
 	bool				isDescendantOf(TreeData* parent);
 
+	bool				isInSubject(const QString subject);
+
 #ifdef HORUS_CLIENT
 	QVariant			data(int column, int role = Qt::DisplayRole) const;
 	bool				dropData(const QList<Data*>, Qt::DropAction);

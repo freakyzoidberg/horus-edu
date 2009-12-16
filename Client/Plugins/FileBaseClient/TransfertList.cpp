@@ -92,30 +92,23 @@ Transfert::Transfert(FileTransfert* transfert)
 		bar->setValue(_transfert->progress());
 	}
 
-	addWidget(new QLabel(QVariant(_transfert->file()->id()).toString())); //0
-	addWidget(new QLabel(_transfert->file()->name())); //1
-	addWidget(bar, 1); //2
-	addWidget(new QLabel(calcUnit(_transfert->progress()))); //3
-	addWidget(new QLabel("/" + calcUnit(_transfert->file()->size()))); //4
-	addWidget(new QLabel(calcUnit(_transfert->speed()) + "/s")); //5
+	addWidget(new QLabel(_transfert->file()->name()), 10); //0
+	addWidget(bar, 50); //1
+	addWidget(new QLabel, 10); //2
+
+	progressChange(0);
 
 	connect(_transfert, SIGNAL(progressChange(int)), this, SLOT(progressChange(int)));
-	connect(_transfert, SIGNAL(speedChange(int)), this, SLOT(speedChange(int)));
+	connect(_transfert, SIGNAL(speedChange(int)), this, SLOT(progressChange(int)));
 	connect(_transfert, SIGNAL(finished()), this, SLOT(finished()));
 }
 
 void Transfert::progressChange(int progress)
 {
-	QProgressBar* bar = ((QProgressBar*)(itemAt(2)->widget()));
-	bar->setValue(progress);
-
-	((QLabel*)(itemAt(3)->widget()))->setText(calcUnit(progress));
-}
-
-void Transfert::speedChange(int speed)
-{
-	qDebug() << speed;
-	((QLabel*)(itemAt(5)->widget()))->setText(calcUnit(speed) + "/s");
+	static_cast<QProgressBar*>(itemAt(2)->widget())->setValue(_transfert->progress());
+	static_cast<QLabel*>(itemAt(2)->widget())->setText((calcUnit(_transfert->progress()) + "/"
+											  + calcUnit(_transfert->file()->size()) + " "
+											  + calcUnit(_transfert->speed()) + "/s"));
 }
 
 void Transfert::finished()
@@ -123,6 +116,4 @@ void Transfert::finished()
 	QProgressBar* bar = ((QProgressBar*)(itemAt(2)->widget()));
 	bar->setRange(0, 100);
 	bar->setValue(100);
-
-//	((QLabel*)      (((QHBoxLayout*)layout())->itemAt(3)->widget()))->setText(QVariant(progress).toString());
 }
