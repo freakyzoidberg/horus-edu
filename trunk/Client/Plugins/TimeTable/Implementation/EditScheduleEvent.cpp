@@ -144,9 +144,15 @@ void    EditScheduleEvent::setupUi()
     couleursList->addItem(tr("Yellow"));
     couleursList->addItem(tr("Green"));
     couleursList->addItem(tr("Blue"));
-    couleursList->addItem(tr("Black"));
     couleursList->addItem(tr("White"));
     couleursList->addItem(tr("Red"));
+    couleursList->setItemData(0,Qt::yellow,Qt::BackgroundRole);
+    couleursList->setItemData(1,Qt::green,Qt::BackgroundRole);
+    couleursList->setItemData(2,Qt::blue,Qt::BackgroundRole);
+    couleursList->setItemData(3,Qt::white,Qt::BackgroundRole);
+    couleursList->setItemData(4,Qt::red,Qt::BackgroundRole);
+
+
     personnalBottomLayout->addWidget(couleursList, 4, 1, 1, 1);
     label = new QLabel(tr("Une semaine sur deux :"), eventFrame);
     label->setProperty("isFormLabel", true);
@@ -218,6 +224,7 @@ void    EditScheduleEvent::setColor(QString color)
         if (couleursList->itemText(i) == color)
         {
             couleursList->setCurrentIndex(i);
+
             return;
         }
     }
