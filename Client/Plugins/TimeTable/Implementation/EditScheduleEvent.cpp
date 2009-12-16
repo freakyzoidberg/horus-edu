@@ -61,6 +61,7 @@ void    EditScheduleEvent::fillForm(TreeData *node, int id)
     modulo->setValue(sd->scheduleEvents().at(id)->getModulo());
     startDate->setDate(sd->scheduleEvents().at(id)->getSDate());
     endDate->setDate(sd->scheduleEvents().at(id)->getEDate());
+    setColor(sd->scheduleEvents().at(id)->getColor());
 }
 
 
@@ -100,19 +101,18 @@ void    EditScheduleEvent::setupUi()
     personnalBottomLayout->setColumnMinimumWidth(0, 150);
     QLabel *label = new QLabel(tr("Heure de debut : "), eventFrame);
     label->setProperty("isFormLabel", true);
-    personnalBottomLayout->addWidget(label, 0, 0);
-    startTime = new QTimeEdit(eventFrame);
-    startTime->setTime(QTime(12,0,0,0));
-    startTime->stepBy(60);
+    personnalBottomLayout->addWidget(label, 0, 0, 1, 1);
+    startTime = new EdtTimer(eventFrame);
     startTime->setTimeRange(QTime(7,0,0,0), QTime(19,0,0,0));
-    personnalBottomLayout->addWidget(startTime, 0, 1);
+    startTime->setTime(QTime(12,0,0,0));
+    personnalBottomLayout->addWidget(startTime, 0, 1, 1, 1);
     label = new QLabel(tr("Heure de fin :"), eventFrame);
     label->setProperty("isFormLabel", true);
-    personnalBottomLayout->addWidget(label, 1, 0);
-    endTime = new QTimeEdit(eventFrame);
+    personnalBottomLayout->addWidget(label, 1, 0, 1, 1);
+    endTime = new EdtTimer(eventFrame);
     endTime->setTime(QTime(12,0,0,0));
     endTime->setTimeRange(QTime(7,0,0,0), QTime(19,0,0,0));
-    personnalBottomLayout->addWidget(endTime, 1, 1);
+    personnalBottomLayout->addWidget(endTime, 1, 1, 1, 1);
 
     label = new QLabel(tr("Professeur :"), eventFrame);
     label->setProperty("isFormLabel", true);
@@ -134,18 +134,29 @@ void    EditScheduleEvent::setupUi()
     personnalBottomLayout->addWidget(dayList, 1, 3);
     label = new QLabel(tr("Details"), eventFrame);
     label->setProperty("isFormLabel", true);
-    personnalBottomLayout->addWidget(label, 4, 0);
+    personnalBottomLayout->addWidget(label, 5, 0);
     details = new QTextEdit(eventFrame);
-    personnalBottomLayout->addWidget(details, 4, 1);
+    personnalBottomLayout->addWidget(details, 5, 1, 1, 3);
+    label = new QLabel(tr("Couleurs"), eventFrame);
+    label->setProperty("isFormLabel", true);
+    personnalBottomLayout->addWidget(label, 4, 0, 1, 1);
+    couleursList = new QComboBox(this);
+    couleursList->addItem(tr("Yellow"));
+    couleursList->addItem(tr("Green"));
+    couleursList->addItem(tr("Blue"));
+    couleursList->addItem(tr("Black"));
+    couleursList->addItem(tr("White"));
+    couleursList->addItem(tr("Red"));
+    personnalBottomLayout->addWidget(couleursList, 4, 1, 1, 1);
     label = new QLabel(tr("Une semaine sur deux :"), eventFrame);
     label->setProperty("isFormLabel", true);
     personnalBottomLayout->addWidget(label, 2, 2);
     modulo = new QSpinBox(eventFrame);
     modulo->setMinimum(1);
     modulo->setMaximum(2);
-    personnalBottomLayout->addWidget(modulo, 2, 3);
+    personnalBottomLayout->addWidget(modulo, 2, 3, 1, 1);
     force = new QCheckBox(tr("Appliquer le cour meme en cas de vacances"), eventFrame);
-    personnalBottomLayout->addWidget(force, 2, 0);
+    personnalBottomLayout->addWidget(force, 2, 0, 1, 1);
 
     QLabel *startlabel = new QLabel(tr("Date de debut"), eventFrame);
     startlabel->setProperty("isFormLabel", true);
@@ -163,6 +174,11 @@ void    EditScheduleEvent::setupUi()
     endDate->setDate(QDate::currentDate());
     personnalBottomLayout->addWidget(endDate, 3, 3);
 
+
+    personnalBottomLayout->setColumnStretch(0, 1);
+    personnalBottomLayout->setColumnStretch(1, 2);
+    personnalBottomLayout->setColumnStretch(2, 1);
+    personnalBottomLayout->setColumnStretch(3, 2);
     eventMainLayout->addLayout(personnalBottomLayout);
 
     mainLayout->addWidget(eventFrame);
@@ -194,12 +210,22 @@ void    EditScheduleEvent::setTeacher(int teacher)
     }
 }
 
+
+void    EditScheduleEvent::setColor(QString color)
+{
+    for (int i = 0; i < couleursList->count(); i++)
+    {
+        if (couleursList->itemText(i) == color)
+        {
+            couleursList->setCurrentIndex(i);
+            return;
+        }
+    }
+}
+
+
 void    EditScheduleEvent::setDay(int day)
 {
     dayList->setCurrentIndex(day - 1);
 }
 
-void    EditScheduleEvent::stepBy(int steps)
-{
-    startTime->time().addSecs(300);
-}

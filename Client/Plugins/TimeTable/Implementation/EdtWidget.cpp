@@ -292,6 +292,11 @@ void EdtWidget::godel()
 bool                EdtWidget::saveEDT()
 {
 
+    if (_form->getStart() > _form->getEnd())
+    {
+        qDebug() << "Here";
+        return false;
+    }
     ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
     if (id_item_edition != -1)
     {
@@ -304,12 +309,12 @@ bool                EdtWidget::saveEDT()
         sd->scheduleEvents().at(id_item_edition)->setSDate(_form->getStartDate());
         sd->scheduleEvents().at(id_item_edition)->setEDate(_form->getEndDate());
         sd->scheduleEvents().at(id_item_edition)->setModulo(_form->getModulo());
-        sd->scheduleEvents().at(id_item_edition)->setColor("White");
+        sd->scheduleEvents().at(id_item_edition)->setColor(_form->getColor());
         sd->scheduleEvents().at(id_item_edition)->setName(_form->getName());
     }
     else
     {
-        sd->addEvent(new ScheduleItem(sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White"));
+        sd->addEvent(new ScheduleItem(sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), _form->getColor()));
     }
     //sd->id(), _form->getDay(), _form->getName(), _form->getStart(), _form->getEnd(), _form->getDetail(), _form->getStartDate(), _form->getEndDate(), _form->getForce(), _form->getModulo(), _form->getTeacher(), "White");
     sd->save();

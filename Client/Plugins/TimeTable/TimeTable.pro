@@ -16,7 +16,8 @@ SOURCES += Implementation/TimeTable.cpp \
     Implementation/EditSchedule.cpp \
     Implementation/EditException.cpp \
     Implementation/AdmClassListSelection.cpp \
-    Implementation/Infopanel.cpp
+    Implementation/Infopanel.cpp \
+    Implementation/EdtTimer.cpp
 HEADERS += Implementation/TimeTable.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
@@ -33,5 +34,6 @@ HEADERS += Implementation/TimeTable.h \
     Implementation/EditSchedule.h \
     Implementation/EditException.h \
     Implementation/AdmClassListSelection.h \
-    Implementation/InfoPanel.h
+    Implementation/InfoPanel.h \
+    Implementation/EdtTimer.h
 RESOURCES += Implementation/TimeTable.qrc
