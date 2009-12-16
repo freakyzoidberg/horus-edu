@@ -35,6 +35,8 @@
 #include "EdtWidget.h"
 #include <QVBoxLayout>
 # include <QDebug>
+#include <QMessageBox>
+
 EdtWidget::EdtWidget(PluginManager *pluginManager) : _pluginManager(pluginManager)
 {
     _currentClass = 0;
@@ -294,7 +296,16 @@ bool                EdtWidget::saveEDT()
 
     if (_form->getStart() > _form->getEnd())
     {
-        qDebug() << "Here";
+        QMessageBox msg;
+        msg.setText(tr("L\'heure de debut doit etre inferieur a l\'heure de fin"));
+        msg.exec();
+        return false;
+    }
+    if (_form->getStartDate() > _form->getEndDate())
+    {
+        QMessageBox msg;
+        msg.setText(tr("La date de debut doit etre inferieur a la date de fin"));
+        msg.exec();
         return false;
     }
     ScheduleData *sd = _pluginManager->findPlugin<ScheduleDataPlugin* >()->schedule(_TD);
