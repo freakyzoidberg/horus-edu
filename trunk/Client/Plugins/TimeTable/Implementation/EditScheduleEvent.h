@@ -47,6 +47,7 @@
 #include <QLineEdit>
 #include <QCheckBox>
 #include <QSpinBox>
+#include "EdtTimer.h"
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/ScheduleDataPlugin.h"
 
@@ -67,21 +68,24 @@ class EditScheduleEvent : public QWidget
         inline void                 setDetail(QString detail) {details->setText(detail);}
         inline int                  getDay() {return(dayList->itemData(dayList->currentIndex()).toInt());}
         inline int                  getTeacher() {return(teacherList->itemData(teacherList->currentIndex()).toInt());}
+        inline QString              getColor() {return(couleursList->itemText(couleursList->currentIndex()));}
         inline int                  getModulo() {return(modulo->value());}
         inline bool                 getForce() {return(force->isChecked());}
         inline QDate                getStartDate() {return(startDate->date());}
         inline QDate                getEndDate() {return(endDate->date());}
         void                        setTeacher(int teacher);
         void                        setDay(int day);
+        void                        setColor(QString color);
     private:
         PluginManager       *_pM;
         QFrame              *eventFrame;
         QComboBox           *teacherList;
         QComboBox           *dayList;
+        QComboBox           *couleursList;
         QBoxLayout          *mainLayout;
         QLineEdit           *nameEdit;
-        QTimeEdit           *startTime;
-        QTimeEdit           *endTime;
+        EdtTimer            *startTime;
+        EdtTimer            *endTime;
         QDateEdit           *startDate;
         QDateEdit           *endDate;
         QTextEdit           *details;

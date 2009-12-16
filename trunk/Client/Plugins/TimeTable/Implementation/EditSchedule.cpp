@@ -41,7 +41,7 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
     tdp = td;
 	mainLayout = new QVBoxLayout(this);
    mainLayout->setSpacing(0);
-	mainLayout->setMargin(0);
+        mainLayout->setMargin(0);
 
     QLabel *title = new QLabel(tr("Dates de l\'emploi du temps"), this);
     title->setProperty("isFormTitle", true);

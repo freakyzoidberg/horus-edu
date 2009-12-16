@@ -367,7 +367,7 @@ QWidget			*EditUser::getStudiesFrame()
 	label->setProperty("isFormLabel", true);
 	studiesBottomLayout->addWidget(label, 2, 0);
 	financialHelpsField = new QLineEdit(studiesFrame);
-	studiesBottomLayout->addWidget(financialHelpsField, 2, 1, 1, 3);
+        studiesBottomLayout->addWidget(financialHelpsField, 2, 1, 1, 3);
 	label = new QLabel(tr("Start year"), studiesFrame);
 	label->setProperty("isFormLabel", true);
 	studiesBottomLayout->addWidget(label, 3, 0);
