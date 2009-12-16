@@ -12,12 +12,13 @@ SOURCES += ../../../Common/DataImplementations/FileDataBase/FileDataBase.cpp \
     ../../DataListModel.cpp \
     FileNetworkPlugin.cpp \
     FileTransfertClient.cpp \
-    LibraryWidget.cpp \
     LibrarySmallDisplayable.cpp \
     DownloadSmallDisplayable.cpp \
     TransfertList.cpp \
     LibraryFilterProxyModel.cpp \
-    LibraryFilterWidget.cpp
+    LibraryList.cpp \
+    LibraryEdit.cpp \
+    LibraryPlugin.cpp
 HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     ../../../Common/DataImplementations/FileDataBase/FileDataBasePlugin.h \
     ../../../Common/DataImplementations/FileDataBase/FileTransfert.h \
@@ -37,7 +38,6 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     FileNetworkPlugin.h \
     FileBaseClientMetaPlugin.h \
     LibraryPlugin.h \
-    LibraryWidget.h \
     LibrarySmallDisplayable.h \
     DownloadSmallDisplayable.h \
     FileTransfertClient.h \
@@ -45,7 +45,8 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     TransfertPlugin.h \
     ../MainFrame/SmallDisplayablePlugin.h \
     LibraryFilterProxyModel.h \
-    LibraryFilterWidget.h
+    LibraryList.h \
+    LibraryEdit.h
 TRANSLATIONS = FileBaseClientMetaPlugin_en.ts \
     FileBaseClientMetaPlugin_fr.ts
 RESOURCES += Icons/Icons.qrc

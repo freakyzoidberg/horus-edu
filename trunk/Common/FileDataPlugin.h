@@ -57,7 +57,7 @@ public:
 	virtual FileData*						file(quint32 fileId) = 0;
 	virtual QList<FileData*>				filesInNode(const TreeData *node) const = 0;
 	virtual QList<FileData*>				filesInNodeAndUser(const TreeData *node, const UserData* user) const = 0;
-	virtual FileData*						createFile(TreeData*) = 0;
+	virtual FileData*						createFile(TreeData* node) = 0;
 };
 
 #ifdef HORUS_SERVER

@@ -103,6 +103,9 @@ public:
 	inline QString		mimeType() const { return _mimeType; }
 	void				setMimeType(const QString name);
 
+	inline QString		keyWords() const { return _keyWords; }
+	void				setKeyWords(const QString keyWords);
+
 	inline QByteArray	hash() const { return _hash; }
 	inline quint64		size() const { return _size; }
 
@@ -113,6 +116,7 @@ private:
 	quint32				_id;
 	QString				_name;
 	QString				_mimeType;
+	QString				_keyWords;
 	quint64				_size;
 	TreeData*			_node;
 	UserData*			_owner;

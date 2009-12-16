@@ -47,7 +47,7 @@
 
 bool	LessonManager::canLoad() const
 {
-	if (pluginManager->findPlugin<TreeDataPlugin *>("Tree Data Base") && pluginManager->findPlugin<FileDataPlugin *>("File Data Base"))
+	if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<FileDataPlugin*>())
         return (true);
     return (false);
 }
@@ -55,6 +55,7 @@ bool	LessonManager::canLoad() const
 void    LessonManager::load()
 {
 	lessonModel = new LessonModel_ext(pluginManager);
+	Plugin::load();
 }
 
 void    LessonManager::unload()

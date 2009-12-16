@@ -32,27 +32,45 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef LIBRARYWIDGET_H
-#define LIBRARYWIDGET_H
+#ifndef LIBRARYLIST_H
+#define LIBRARYLIST_H
 
 #include <QWidget>
-#include <QItemSelectionModel>
-#include <QFormLayout>
+#include <QModelIndex>
 class PluginManager;
+class TreeDataPlugin;
+class UserDataPlugin;
 class LibraryFilterProxyModel;
+class FileData;
+class QComboBox;
 
-class LibraryWidget : public QWidget
+class LibraryList : public QWidget
 {
-	Q_OBJECT
-
+Q_OBJECT
 public:
-	LibraryWidget(PluginManager* pluginManager);
-private:
-	QItemSelectionModel*		_treeSelection;
-	LibraryFilterProxyModel*	_filter;
-	QFormLayout*				_detailLayout;
+	LibraryList(PluginManager* pluginManager);
+	~LibraryList();
+
 private slots:
-	void						fileSelectionChange(const QItemSelection& selected, const QItemSelection& deselected);
+	void						comboBoxChanged(int);
+	void						userBoxChanged(int);
+	void						fileClicked  (QModelIndex);
+	void						fileActivated(QModelIndex);
+	void						createButton();
+	void						editButton();
+	void						removeButton();
+
+signals:
+	void						editFile(FileData* file);
+
+private:
+	QComboBox*					grades;
+	QComboBox*					subjects;
+	QComboBox*					owners;
+	TreeDataPlugin*				_treeDataPlugin;
+	UserDataPlugin*				_userDataPlugin;
+	LibraryFilterProxyModel*	_filter;
+	FileData*					_selectedFile;
 };
 
-#endif // LIBRARYWIDGET_H
+#endif // LIBRARYLIST_H

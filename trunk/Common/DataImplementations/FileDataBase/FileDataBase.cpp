@@ -73,6 +73,7 @@ void FileDataBase::dataToStream(QDataStream& s) const
       << _name
 	  << _owner->id()
 	  << _node->id()
+	  << _keyWords
       << _mimeType
 	  << _size
       << _hash;
@@ -88,6 +89,7 @@ void FileDataBase::dataFromStream(QDataStream& s)
       >> _name
       >> ownerId
       >> nodeId
+	  >> _keyWords
       >> _mimeType
 	  >> _size
       >> hash;
@@ -275,14 +277,26 @@ QVariant FileDataBase::data(int column, int role) const
 
 void FileDataBase::setName(const QString name)
 {
-	QMutexLocker M(&mutex);
-	_name = name;
+	if (_name != name)
+	{
+		QMutexLocker M(&mutex);
+		QFile* f = file();
+		f->rename(name);
+		delete f;
+		_name = name;
+	}
 }
 
 void FileDataBase::setMimeType(const QString type)
 {
 	QMutexLocker M(&mutex);
 	_mimeType = type;
+}
+
+void FileDataBase::setKeyWords(QString keyWords)
+{
+	QMutexLocker M(&mutex);
+	_keyWords = keyWords;
 }
 
 void FileDataBase::moveTo(TreeData* node)

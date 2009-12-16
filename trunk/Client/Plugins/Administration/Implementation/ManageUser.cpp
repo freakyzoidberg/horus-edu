@@ -36,7 +36,7 @@
 
 ManageUser::ManageUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin, int userLevel) : QWidget(parent), _treeDataPlugin(treeDataPlugin), _userDataPlugin(userDataPlugin), _userLevel(userLevel)
 {
-	layout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+	layout = new QHBoxLayout(this);
 	layout->setSpacing(0);
 	layout->setMargin(0);
 	list = new ListUser(this, treeDataPlugin, userDataPlugin, userLevel);
