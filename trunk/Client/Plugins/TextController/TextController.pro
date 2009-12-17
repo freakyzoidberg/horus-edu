@@ -13,6 +13,6 @@ HEADERS += Implementation/TextController.h \
     ../LessonManager/ILessonSection.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h
-
 TRANSLATIONS = TextController_en.ts \
-			   TextController_fr.ts
+    TextController_fr.ts
+RESOURCES += Icons.qrc

@@ -38,11 +38,15 @@
 #include <QFrame>
 #include <QGridLayout>
 #include <QAction>
+#include <QImage>
+#include <QLabel>
 
 #include "WhiteBoard.h"
 #include "../../LessonManager/IDocumentController.h"
 #include "../../LessonManager/ILesson.h"
 #include "../../../../Common/UserData.h"
+
+enum WbBorderPos {TOP_LEFT, TOP, TOP_RIGHT, LEFT, RIGHT, BOTTOM_LEFT, BOTTOM, BOTTOM_RIGHT, UNDEFINED};
 
 class WhiteboardObject : public QFrame
 {
@@ -54,6 +58,9 @@ public:
     bool				isDocked();
 	ILessonDocument*	getDocument();
 	ILesson*			getLesson();
+	void				setSize(int w, int h);
+	void				setSize(const QSize& sz);
+	WhiteBoard*			getBoard();
 
 public slots:
     void            switchDockMode();
@@ -62,7 +69,6 @@ protected:
     void            mousePressEvent(QMouseEvent *event);
     void            mouseMoveEvent(QMouseEvent *event);
     void            mouseReleaseEvent(QMouseEvent *event);
-	void			resizeEvent(QResizeEvent *event);
 
 private:
     WhiteBoard*     _board;
@@ -78,6 +84,20 @@ private:
 	ILesson*				_lesson;
 	IDocumentController*	_controller;
 	UserData*				_user;
+};
+
+class LoadIcon : public QLabel
+{
+public:
+	LoadIcon();
+
+protected:
+	void	timerEvent(QTimerEvent *event);
+
+private:
+	static bool _imgLoaded;
+	static QImage	_images[8];
+	int _current;
 };
 
 #endif // WHITEBOARDOBJECT_H

@@ -61,7 +61,7 @@ bool LessonModel_ext::createLesson(QModelIndex& index)
 
 ILesson* LessonModel_ext::getLesson(int id)
 {
-	return Lesson::createLesson(filePlugin->file(id));
+	return Lesson::createLesson(filePlugin->file(id), pluginManager);
 }
 
 ILessonDocument* LessonModel_ext::getLessonDocument(int lessonId, int documentId)

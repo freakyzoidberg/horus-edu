@@ -35,7 +35,6 @@
 #include "ImageController.h"
 
 #include <QLabel>
-#include <QImage>
 #include <QPixmap>
 #include <QFileDialog>
 #include <QPushButton>
@@ -55,66 +54,11 @@ const QString      ImageController::getSupportedType() const
     return ("image");
 }
 
-QWidget*            ImageController::createDocumentWidget(ILessonDocument *document)
+QWidget*            ImageController::createDocumentWidget(ILessonDocument *document, QWidget *loadicon)
 {
-        qDebug() << "doc:" << document;
-
-
-
-
-    int fileId = 15;
-    //fileId = document->getParameters().value("id").toInt();
-    //fileId = document->getId();
-    qDebug() << "file id:" << fileId;
-
-   data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
-    this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-
-  //  if (document->getType() != this->getSupportedType())
-    {
-        qDebug() << "[Plugin ImageController] Type error:";
-   //     qDebug() << "\tThe type of your IObject is" << document->getType();
-        qDebug() << "\tThe controller ImageController handle " << this->getSupportedType() << " type.";
-    }
-
-    label = new QLabel("Loading image...");
-    //if (data->isDownloaded())
-       dl();
-    qDebug() << "label geneted";
-    return (label);
-}
-
-void        ImageController::dl()
-{
-    QString fileName;
-    fileName = data->file()->fileName();
-//fileName  = "/tmp/15";
-    QImage  *image = new QImage(fileName);
-    if (image->isNull())
-    {
-        qDebug() << "An error occured during image generation";
-        return ;
-    }
-    QPixmap pix = QPixmap::fromImage(*image);
-    label->setPixmap(pix);
-    delete image;
-}
-
-void    ImageController::reload()
-{
-    QString fileName;
-    fileName = data->file()->fileName();
-
-    qDebug() << "Image name: " << fileName;
-    QImage  *image = new QImage(fileName);
-    if (image->isNull())
-    {
-        qDebug() << "An error occured during image generation";
-        return ;
-    }
-    QPixmap pix = QPixmap::fromImage(*image);
-    label->setPixmap(pix);
-    //delete image;
+	int fileId = document->getParameters().value("id").toInt();
+	FileData* data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
+	return new ImageWidget(data, loadicon);
 }
 
 QWidget        *ImageController::editDocument(QFile *, ILessonDocument *)
@@ -122,3 +66,48 @@ QWidget        *ImageController::editDocument(QFile *, ILessonDocument *)
     return 0;
 }
 
+QIcon		ImageController::getIcon()
+{
+	return QIcon(":/image-icon.png");
+}
+
+ImageWidget::ImageWidget(FileData *fileData, QWidget* loadicon) : _fileData(fileData), _loadicon(loadicon)
+{
+	_layout = new QGridLayout();
+	_layout->setSpacing(0);
+	_layout->setMargin(0);
+	setLayout(_layout);
+	_layout->addWidget(loadicon);
+	loadicon->startTimer(100);
+	setStyleSheet("QFrame { background-color: rgb(236, 233, 216); }");
+	if (fileData->isDownloaded() || fileData->status() == Data::UPTODATE)
+	{
+		downloaded();
+	}
+	else
+	{
+		connect(fileData, SIGNAL(downloaded()), this, SLOT(downloaded())); 	
+	}
+}
+
+void	ImageWidget::downloaded()
+{
+	delete _loadicon;
+	setStyleSheet("QFrame { background-color: rgb(100, 100, 100); }");
+	_image = QImage(_fileData->file()->fileName());
+	_label = new QLabel();
+	_label->setAlignment(Qt::AlignCenter);
+	_layout->addWidget(_label);
+	if (!_image.isNull())
+	{
+		_label->setPixmap(QPixmap::fromImage(_image.scaled(size(), Qt::KeepAspectRatio)));
+	}
+}
+
+void	ImageWidget::resizeEvent(QResizeEvent* event)
+{
+	if (!_image.isNull())
+	{
+		_label->setPixmap(QPixmap::fromImage(_image.scaled(size(), Qt::KeepAspectRatio)));
+	}
+}

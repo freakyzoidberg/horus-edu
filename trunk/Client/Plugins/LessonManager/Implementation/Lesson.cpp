@@ -35,6 +35,7 @@
 #include "Lesson.h"
 #include "LessonSection.h"
 #include "LessonDocument.h"
+#include "../IDocumentController.h"
 
 Lesson::Lesson(FileData *parent) : ILesson(NULL), _currentData(NULL)
 {
@@ -90,9 +91,15 @@ bool    Lesson::startElement(const QString &, const QString &, const QString &qN
             return false;
         LessonDocument *document = qobject_cast<LessonDocument *>(_currentData);
         if ((idx = atts.index("type")) != -1)
+		{
             document->setType(atts.value(idx));
+			if (docIcons.contains(atts.value(idx)))
+				document->setIcon(docIcons[atts.value(idx)]);
+		}
 		else
+		{
 			return false;
+		}
         if ((idx = atts.index("id")) != -1)
 			document->setId(QVariant(atts.value(idx)).toInt());
 		else
@@ -133,9 +140,16 @@ bool    Lesson::characters(const QString& ch)
 }
 
 QHash<FileData *, Lesson *> Lesson::lessons;
+QHash<QString, QIcon> Lesson::docIcons;
 
-Lesson *Lesson::createLesson(FileData *data)
+Lesson *Lesson::createLesson(FileData *data, PluginManager *pluginManager)
 {
+	if (docIcons.empty())
+	{
+		QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
+		foreach (IDocumentController *controller, controllersList)
+			docIcons[controller->getSupportedType()] = controller->getIcon();
+	}
 	if (lessons.contains(data))
 		return *(lessons.find(data));
 	Lesson *res = new Lesson(data);

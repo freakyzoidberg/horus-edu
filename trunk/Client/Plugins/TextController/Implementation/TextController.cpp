@@ -53,13 +53,14 @@ const QString       TextController::getSupportedType() const
     return ("text");
 }
 
-QWidget*            TextController::createDocumentWidget(ILessonDocument *document)
+QWidget*            TextController::createDocumentWidget(ILessonDocument *document, QWidget *loadicon)
 {
 	QTextEdit *textedit = 0;
 
+	delete loadicon;
     if (document->getParameters()["input"] == "content")
     {
-                textedit = new QTextEdit;
+        textedit = new QTextEdit;
 		textedit->setReadOnly(true);
 		textedit->setText(document->getContent());
     }
@@ -76,4 +77,9 @@ QWidget             *TextController::editDocument(QFile *, ILessonDocument *docu
     document->setContent(textEditor->document()->toPlainText());
     //connect(save, SIGNAL(clicked()), this, SLOT(saveModifs()));
     return textEditor;
+}
+
+QIcon		TextController::getIcon()
+{
+	return QIcon(":/Implementation/text-icon.png");
 }

@@ -62,7 +62,7 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 	else
 	{
 		_dock->setStyleSheet("QToolBar { background: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, stop:0.318182 rgba(127, 127, 127, 255), stop:0.380682 rgba(100, 100, 100, 255)); spacing: 0px; margin: 0px; border: 0px; max-height: 20px; min-height: 20px; } ");
-		QAction* closeAction = new QAction(QIcon(":/close.png"), "", _dock);
+		QAction* closeAction = new QAction(QIcon(":/close-item.png"), "", _dock);
 		_dock->addAction(closeAction);
 		QLabel* title = new QLabel("  History class, 6eme (Adrien Grandemange)");
 		title->setStyleSheet("QLabel {font-family: \"Tohoma\"; font-size: 10px; font-weight: bold; color: white; }");
@@ -151,7 +151,6 @@ QToolBar*	WhiteBoard::getDock()
 	 WhiteBoardItemList list = _wbdata->items();
 	 WhiteBoardItemList::const_iterator it;
 	 QObjectList::const_iterator it2;
-	 qDebug() << "wbdata update: " << list.count();
 	 for (it = list.begin(); it != list.end(); it++)
 	 {
 		 bool found = false;
@@ -160,8 +159,8 @@ QToolBar*	WhiteBoard::getDock()
 			 WhiteboardObject* wbObject = qobject_cast<WhiteboardObject *>(*it2);
 			 if (wbObject && wbObject->getLesson()->getId() == it->idLesson() && wbObject->getDocument()->getId() == it->idSection())
 			 {
-				 wbObject->setGeometry(it->left(), it->top(), it->width(), it->height());
-				 qDebug() << "found widget !!";
+				 wbObject->move(it->left(), it->top());
+				 wbObject->setSize(it->width(), it->height());
 				 if (it->docked())
 				 {
 					 wbObject->hide();
@@ -176,11 +175,9 @@ QToolBar*	WhiteBoard::getDock()
 		 }
 		 if (!found)
 		 {
-			 qDebug() << "new widget in whiteboard";
 			 ILessonDocument* document = _model->getLessonDocument(it->idLesson(), it->idSection());
 			 if (document)
 			 {
-				 qDebug() << "found document";
 				 WhiteboardObject *wbObject;
 				 if (this->_controllers.contains(document->getType()))
 				 {
@@ -190,7 +187,8 @@ QToolBar*	WhiteBoard::getDock()
 				 {
 					 wbObject = new WhiteboardObject(_displayArea, this, document, NULL, _user);
 				 }
-				 wbObject->setGeometry(it->left(), it->top(), it->width(), it->height());
+				 wbObject->move(it->left(), it->top());
+				 wbObject->setSize(it->width(), it->height());
 				 if (it->docked())
 				 {
 					 wbObject->hide();

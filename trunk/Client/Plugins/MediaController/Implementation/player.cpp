@@ -40,127 +40,69 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-Player::Player(QWidget *parent) : QWidget(parent)
+Player::Player(FileData *fileData, QWidget* loadicon) : _fileData(fileData), _loadicon(loadicon)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    QHBoxLayout *hLayout = new QHBoxLayout();
-    QHBoxLayout *hLayout2 = new QHBoxLayout();
-
-    vidPlayer = new Phonon::VideoPlayer(Phonon::VideoCategory, this);
-    this->media = vidPlayer->mediaObject();
-    this->media->setTickInterval(1000);
-    layout->addWidget(this->vidPlayer);
-
-    seekSlider = new Phonon::SeekSlider(this);
-    volumeSlider = new Phonon::VolumeSlider(this);
-    //volumeSlider->setGeometry(0, 21, 100, 20);
-    //seekSlider->setGeometry(46, 0, 165, 20);
-
-    stopV = new QPushButton(this);
-    stopV->setIcon(QIcon(":/stop.png"));
-    //stopV->setGeometry(101, 21, 20, 20);
-
-    pauseV = new QPushButton(this);
-    pauseV->setIcon(QIcon(":/pause.png"));
-    //pauseV->setGeometry(122, 21, 20, 20);
-
-    playV = new QPushButton(this);
-    playV->setIcon(QIcon(":/play.png"));
-    //playV->setGeometry(143, 21, 20, 20);
-
-    toFullScreen = new QPushButton(this);
-    toFullScreen->setIcon(QIcon(":/fullscreen.png"));
-
-    noFullScreen = new QPushButton(vidPlayer->videoWidget());
-    noFullScreen->setIcon(QIcon(":/fullscreen.png"));
-
-    //this->setMinimumWidth(200);
-    connect(playV, SIGNAL(clicked()), media, SLOT(play()));
-    connect(pauseV, SIGNAL(clicked()), media, SLOT(pause()));
-    connect(stopV, SIGNAL(clicked()), media, SLOT(stop()));
-    connect(toFullScreen, SIGNAL(clicked()), this, SLOT(fullScreen()));
-    connect(noFullScreen, SIGNAL(clicked()), this, SLOT(leaveFullScreen()));
-
-    timeLCD = new QLCDNumber(this);
-    QPalette palette;
-    palette.setBrush(QPalette::Dark, Qt::darkBlue);
-    timeLCD->setPalette(palette);
-    //timeLCD->setGeometry(164, 21, 20, 20);
-    connect(media, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
-
-    hLayout->addWidget(playV);
-    hLayout->addWidget(stopV);
-    hLayout->addWidget(pauseV);
-    hLayout->addWidget(toFullScreen);
-    hLayout->addWidget(volumeSlider);
-    hLayout2->addWidget(seekSlider);
-    hLayout2->addWidget(timeLCD);
-
-    layout->addLayout(hLayout2);
-    layout->addLayout(hLayout);
-
-    hLayout->maximumSize().setHeight(10);
-    hLayout2->maximumSize().setHeight(10);
-    hLayout->setSizeConstraint(QLayout::SetMaximumSize);
-    hLayout2->setSizeConstraint(QLayout::SetMaximumSize);
+	_layout = new QGridLayout();
+	_layout->setMargin(2);
+	setLayout(_layout);
+	_loadicon->startTimer(100);
+	_layout->addWidget(_loadicon);
+	setStyleSheet("QFrame { background-color: rgb(236, 233, 216); }");
+	if (fileData->isDownloaded() || fileData->status() == Data::UPTODATE)
+	{
+		downloaded();
+	}
+	else
+	{
+		connect(fileData, SIGNAL(downloaded()), this, SLOT(downloaded())); 	
+	}
 }
 
 Player::~Player()
 {
-    delete seekSlider;
-    delete volumeSlider;
+
 }
 
-void    Player::tick(qint64 time)
+void	Player::downloaded()
 {
-     QTime displayTime(0, (time / 60000) % 60, (time / 1000) % 60);
-
-     timeLCD->display(displayTime.toString("mm:ss"));
+	delete _loadicon;
+	_mediaObject = new Phonon::MediaObject(this);
+	_mediaObject->setCurrentSource(_fileData->file());
+	_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+	Phonon::createPath(_mediaObject, _audioOutput);
+	_videoWidget = new Phonon::VideoWidget(this);
+     Phonon::createPath(_mediaObject, _videoWidget);
+	_slider = new Phonon::SeekSlider(_mediaObject, this);
+	_stopButton = new QPushButton(QIcon(":/stop.png"), tr("Stop"));
+	_playButton = new QPushButton(QIcon(":/play.png"), tr("Play"));
+	connect(_playButton, SIGNAL(pressed()), this, SLOT(play()));
+	connect(_stopButton, SIGNAL(pressed()), this, SLOT(stop()));
+	connect(_mediaObject, SIGNAL(finished()), this, SLOT(stop()));
+	_layout->addWidget(_videoWidget, 0, 0, 1, 2);
+	_layout->addWidget(_slider, 1, 0, 1, 2);
+	_layout->addWidget(_stopButton, 2, 0);
+	_layout->addWidget(_playButton, 2, 1);
 }
 
-Phonon::VolumeSlider    *Player::getVolumeSlider()
+void	Player::play()
 {
-    return this->volumeSlider;
+	if (_mediaObject->state() == Phonon::PlayingState)
+	{
+		_mediaObject->pause();
+		_playButton->setText(tr("Play"));
+		_playButton->setIcon(QIcon(":/play.png"));
+	}
+	else
+	{
+		_mediaObject->play();
+		_playButton->setText(tr("Pause"));
+		_playButton->setIcon(QIcon(":/pause.png"));
+	}
 }
 
-Phonon::SeekSlider      *Player::getSeekSlider()
+void	Player::stop()
 {
-    return this->seekSlider;
-}
-
-Phonon::MediaObject     *Player::getMedia()
-{
-    return this->media;
-}
-
-Phonon::VideoPlayer     *Player::getVidPlayer()
-{
-    return this->vidPlayer;
-}
-
-QPushButton             *Player::getPause()
-{
-    return this->pauseV;
-}
-
-QPushButton             *Player::getPlay()
-{
-    return this->playV;
-}
-
-QPushButton             *Player::getStop()
-{
-    return this->stopV;
-}
-
-void                    Player::fullScreen()
-{
-    this->vidPlayer->videoWidget()->setFullScreen(true);
-    this->noFullScreen->show();
-}
-
-void                    Player::leaveFullScreen()
-{
-   this->vidPlayer->videoWidget()->setFullScreen(false);
-   this->noFullScreen->hide();
+	_mediaObject->stop();
+	_playButton->setText(tr("Play"));
+	_playButton->setIcon(QIcon(":/play.png"));
 }

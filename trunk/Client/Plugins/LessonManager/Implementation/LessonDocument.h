@@ -56,13 +56,14 @@ public:
     QString getContent() const;
     QString getType() const;
     void setType(QString type);
+	void setIcon(const QIcon& icon);
 
 private:
     QHash<QString, QVariant> parameters;
     QString 	content;
     QString     type;
 	int			_id;
-	static QIcon *icon;
+	QIcon		_icon;
 };
 
 #endif // LESSONDOCUMENT_H

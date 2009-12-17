@@ -36,8 +36,7 @@
 
 LessonDocument::LessonDocument(ILessonSection *parent) : ILessonDocument(parent)
 {
-	if (icon == NULL)
-		icon = new QIcon(":/Icons/DocumentIcon.png");
+	_icon = QIcon(":/Icons/DocumentIcon.png");
 }
 
 LessonDocument::LessonDocument(ILesson *parent) : ILessonDocument(parent)
@@ -49,7 +48,7 @@ QVariant LessonDocument::data(int, int role) const
     if (role == Qt::DisplayRole)
         return QVariant(getTitle());
     else if (role == Qt::DecorationRole)
-		return QVariant(*icon);
+		return QVariant(_icon);
     return QVariant();
 }
 
@@ -88,4 +87,8 @@ void LessonDocument::setType(QString type)
     this->type = type;
 }
 
-QIcon *LessonDocument::icon = NULL;
+void LessonDocument::setIcon(const QIcon& icon)
+{
+	_icon = icon;
+}
+
