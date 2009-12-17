@@ -35,35 +35,38 @@
 #ifndef AUDIOPLAYER_H
 #define AUDIOPLAYER_H
 
-#include <QWidget>
+#include <QFrame>
+#include <QGridLayout>
+#include <QLabel>
 #include <QPushButton>
-#include <QLCDNumber>
-#include <phonon/volumeslider.h>
-#include <phonon/seekslider.h>
-#include <phonon/mediaobject.h>
 
-class AudioPlayer : public QWidget
+#include <Phonon/MediaObject>
+#include <Phonon/AudioOutput>
+#include <Phonon/SeekSlider>
+
+#include "../../../../Common/FileData.h"
+
+class AudioPlayer : public QFrame
 {
     Q_OBJECT
 public:
-    AudioPlayer(Phonon::MediaObject *);
+    AudioPlayer(FileData *fileData, QWidget* loadicon);
     ~AudioPlayer();
-    Phonon::VolumeSlider    *getVolumeSlider();
-    Phonon::SeekSlider      *getSeekSlider();
-    Phonon::MediaObject     *getMedia();
-    QPushButton             *getStop();
-    QPushButton             *getPause();
-    QPushButton             *getPlay();
 
 public slots:
-    void                    tick(qint64);
+	void	downloaded();
+	void	play();
+	void	stop();
 
 private:
-    Phonon::SeekSlider      *seekSlider;
-    Phonon::VolumeSlider    *volumeSlider;
-    Phonon::MediaObject     *media;
-    QPushButton             *stop, *pause, *play;
-    QLCDNumber              *timeLCD;
+	QGridLayout*			_layout;
+	FileData*				_fileData;
+	Phonon::MediaObject*	_mediaObject;
+	Phonon::AudioOutput*	_audioOutput;
+	QWidget*				_loadicon;
+	Phonon::SeekSlider*		_slider;
+	QPushButton*			_playButton;
+	QPushButton*			_stopButton;
 };
 
 #endif // AUDIOPLAYER_H

@@ -32,12 +32,12 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include <phonon/mediasource.h>
-
 #include "AudioController.h"
 #include "audioplayer.h"
 
 #include "../../../../Common/PluginManager.h"
+#include "../../../../Common/FileData.h"
+#include "../../../../Common/FileDataPlugin.h"
 
 AudioController::AudioController()
 {
@@ -63,51 +63,11 @@ const QString   AudioController::getSupportedType() const
     return ("Audio");
 }
 
-QWidget*        AudioController::createDocumentWidget(ILessonDocument *document)
+QWidget*        AudioController::createDocumentWidget(ILessonDocument *document, QWidget *loadicon)
 {
-    int         fileId;
-
-    if (document->getType() != this->getSupportedType())
-    {
-        qDebug() << "[Plugin AudioController] Type error:";
-        qDebug() << "\tThe type of your IObject is" << document->getType();
-        qDebug() << "\tThe controller AudioController handle " << this->getSupportedType() << " type.";
-        return NULL;
-    }
-
-    media = new Phonon::MediaObject;
-    AudioPlayer *reader = new AudioPlayer(media);
-    fileId = document->getParameters().value("name").toInt();
-	data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
-    this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-
-    //if (data->isDownloaded())
-    dl();
-    return reader;
-}
-
-void    AudioController::dl()
-{
-    //AudioPlayer *tmp;
-
-    //this->Audio = new Phonon::AudioObject(parent);
-    //Phonon::createPath(this->Audio, this->vid);
-
-    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory);
-    Phonon::createPath(media, audioOutput);
-
-    //tmp = qobject_cast<AudioPlayer *>(this->parent->getMainWidget());
-    //tmp->getVolumeSlider()->setAudioOutput(audioOutput);
-    //tmp->getSeekSlider()->setMediaObject(media);
-
-    //Phonon::MediaSource source(data->file()->fileName());
-    //tmp->getMedia()->setCurrentSource(source);
-    //tmp->getMedia()->play();
-}
-
-void    AudioController::reload()
-{
-
+    int fileId = document->getParameters().value("name").toInt();
+	FileData* fileData = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
+    return new AudioPlayer(fileData, loadicon);
 }
 
 QWidget   *AudioController::editDocument(QFile *, ILessonDocument *)
@@ -115,5 +75,7 @@ QWidget   *AudioController::editDocument(QFile *, ILessonDocument *)
 	return (0);
 }
 
-
-
+QIcon		AudioController::getIcon()
+{
+	return QIcon(":/audio-icon.png");
+}

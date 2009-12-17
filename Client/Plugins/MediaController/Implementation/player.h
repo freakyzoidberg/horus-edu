@@ -32,43 +32,43 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef AUDIOPLAYER_H
-#define AUDIOPLAYER_H
+#ifndef VIDEOPLAYER_H
+#define VIDEOPLAYER_H
 
-#include <QWidget>
+#include <QFrame>
+#include <QGridLayout>
+#include <QLabel>
 #include <QPushButton>
-#include <QLCDNumber>
-#include <phonon/volumeslider.h>
-#include <phonon/seekslider.h>
-#include <phonon/mediaobject.h>
-#include <phonon/videoplayer.h>
 
-class Player : public QWidget
+#include <Phonon/MediaObject>
+#include <Phonon/AudioOutput>
+#include <Phonon/VideoWidget>
+#include <Phonon/SeekSlider>
+
+#include "../../../../Common/FileData.h"
+
+class Player : public QFrame
 {
     Q_OBJECT
 public:
-    Player(QWidget *);
+    Player(FileData *, QWidget* loadicon);
     ~Player();
-    Phonon::VolumeSlider    *getVolumeSlider();
-    Phonon::SeekSlider      *getSeekSlider();
-    Phonon::MediaObject     *getMedia();
-    QPushButton             *getStop();
-    QPushButton             *getPause();
-    QPushButton             *getPlay();
-    Phonon::VideoPlayer     *getVidPlayer();
 
 public slots:
-    void                    tick(qint64);
-    void                    fullScreen();
-    void                    leaveFullScreen();
+	void	downloaded();
+	void	play();
+	void	stop();
 
 private:
-    Phonon::SeekSlider      *seekSlider;
-    Phonon::VolumeSlider    *volumeSlider;
-    Phonon::MediaObject     *media;
-    Phonon::VideoPlayer     *vidPlayer;
-    QPushButton             *stopV, *pauseV, *playV, *toFullScreen, *noFullScreen;
-    QLCDNumber              *timeLCD;
+	QGridLayout*			_layout;
+	FileData*				_fileData;
+	Phonon::MediaObject*	_mediaObject;
+	Phonon::AudioOutput*	_audioOutput;
+	QWidget*				_loadicon;
+	Phonon::SeekSlider*		_slider;
+	QPushButton*			_playButton;
+	QPushButton*			_stopButton;
+	Phonon::VideoWidget*	_videoWidget;
 };
 
-#endif // AUDIOPLAYER_H
+#endif // VIDEOPLAYER_H

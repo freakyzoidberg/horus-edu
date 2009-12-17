@@ -40,17 +40,14 @@
 
 #include "../ILessonData.h"
 #include "../ILesson.h"
-
-//#ifndef TEST_METADATA
-//# define TEST_METADATA
-//#endif
+#include "../../../../Common/PluginManager.h"
 
 class Lesson : public ILesson, public QXmlDefaultHandler
 {
     Q_OBJECT
 
 public:
-	static Lesson* createLesson(FileData *);
+	static Lesson* createLesson(FileData *, PluginManager *);
 
     QVariant data(int column, int role) const;
 
@@ -69,6 +66,7 @@ private:
 	FileData *_fileData;
 	static QIcon *icon;
 	static QHash<FileData *, Lesson *> lessons;
+	static QHash<QString, QIcon> docIcons;
 };
 
 #endif // LESSON_H

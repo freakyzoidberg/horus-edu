@@ -57,7 +57,7 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
     QList<IDocumentController *> controllersList = pluginManager->findPlugins<IDocumentController *>();
     QHash<QString, IDocumentController *> controllers;
     foreach (IDocumentController *controller, controllersList)
-    controllers[controller->getSupportedType()] = controller;
+		controllers[controller->getSupportedType()] = controller;
     this->buildCategoryTree();
     this->pageWidget = new WhiteBoard(wbd, controllers, this->categoryModel, user);
 

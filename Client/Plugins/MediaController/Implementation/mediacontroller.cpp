@@ -32,11 +32,12 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include <phonon/mediasource.h>
 
 #include "mediacontroller.h"
 #include "player.h"
 #include "../../../../Common/PluginManager.h"
+#include "../../../../Common/FileData.h"
+#include "../../../../Common/FileDataPlugin.h"
 
 MediaController::MediaController()
 {
@@ -62,46 +63,12 @@ const QString   MediaController::getSupportedType() const
     return ("Media");
 }
 
-QWidget*        MediaController::createDocumentWidget(ILessonDocument *document)
+QWidget*        MediaController::createDocumentWidget(ILessonDocument *document, QWidget *loadicon)
 {
-    int         fileId;
-
-//this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-    if (document->getType() != this->getSupportedType())
-    {
-        qDebug() << "[Plugin MediaController] Type error:";
-        qDebug() << "\tThe type of your IObject is" << document->getType();
-        qDebug() << "\tThe controller MediaController handle " << this->getSupportedType() << " type.";
-        return NULL;
-    }
-
-    //this->parent = parent;
-    fileId = document->getParameters().value("name").toInt();
-	data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
-    Player *player = new Player(NULL);
-    this->connect(data, SIGNAL(downloaded()), this, SLOT(dl()));
-
-    //if (data->isDownloaded())
-    dl();
+    int fileId = document->getParameters().value("name").toInt();
+	FileData *data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
+    Player *player = new Player(data, loadicon);
     return player;
-}
-
-void    MediaController::dl()
-{
-	/*
-    Player     *tmp;
-
-    Phonon::MediaSource source(data->file()->fileName());
-
-    tmp->getVolumeSlider()->setAudioOutput(tmp->getVidPlayer()->audioOutput());
-    tmp->getSeekSlider()->setMediaObject(tmp->getMedia());
-    tmp->getVidPlayer()->play(source);
-	*/
-}
-
-void    MediaController::reload()
-{
-
 }
 
 QWidget    *MediaController::editDocument(QFile *, ILessonDocument *)
@@ -109,4 +76,7 @@ QWidget    *MediaController::editDocument(QFile *, ILessonDocument *)
 	return (0);
 }
 
-
+QIcon		MediaController::getIcon()
+{
+	return QIcon(":/video-icon.png");
+}

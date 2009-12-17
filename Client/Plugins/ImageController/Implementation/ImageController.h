@@ -39,6 +39,7 @@
 
 # include <QLabel>
 # include <QImage>
+# include <QGridLayout>
 
 # include "../../../../Common/Plugin.h"
 # include "../../LessonManager/IDocumentController.h"
@@ -54,18 +55,31 @@ class ImageController : public Plugin, public IDocumentController
 public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
-	const QString		getSupportedType() const;
-	QWidget*			createDocumentWidget(ILessonDocument *document);
-	QWidget*			editDocument(QFile *metadata, ILessonDocument *);
+    const QString		getSupportedType() const;
+    QWidget*			createDocumentWidget(ILessonDocument *document, QWidget *loadicon = NULL);
+    QWidget             *editDocument(QFile *metadata, ILessonDocument *);
+	QIcon			getIcon();
+};
 
- private slots:
-        void                    dl();
-        void                    reload();
+class ImageWidget : public QFrame
+{
+    Q_OBJECT
 
-  private:
-        QLabel                  *label;
-        FileData                *data;
-        QString                 supportedType;
+public:
+	ImageWidget(FileData *fileData, QWidget* loadicon);
+
+public slots:
+	void	downloaded();
+
+protected:
+	void	resizeEvent(QResizeEvent* event);
+
+private:
+	QGridLayout*			_layout;
+	FileData*				_fileData;
+	QLabel*					_label;
+	QWidget*				_loadicon;
+	QImage					_image;
 };
 
 #endif // __IMAGECONTROLLER_H__

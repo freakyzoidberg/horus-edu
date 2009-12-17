@@ -50,8 +50,9 @@ public:
 	const QString		pluginName() const;
 	const QString		pluginVersion() const;
         const QString		getSupportedType() const;
-        QWidget                 *createDocumentWidget(ILessonDocument *document);
+        QWidget                 *createDocumentWidget(ILessonDocument *document, QWidget *loadicon = NULL);
         QWidget                 *editDocument(QFile *metadata, ILessonDocument *);
+		QIcon			getIcon();
 };
 
 #endif // __TEXTCONTROLLER_H__

@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/" >
-        <file>close.png</file>
         <file>fleche_haut_vert.png</file>
         <file>fleche_bas_vert.png</file>
         <file alias="icon" >Ui/edit.png</file>
@@ -12,5 +11,23 @@
         <file>Ui/desk-add.png</file>
         <file>Ui/desk-del.png</file>
         <file>Ui/desk-join.png</file>
+        <file>Ui/wb-top.png</file>
+        <file>Ui/wb-tr.png</file>
+        <file>Ui/wb-bl.png</file>
+        <file>Ui/wb-bottom.png</file>
+        <file>Ui/wb-br.png</file>
+        <file>Ui/wb-left.png</file>
+        <file>Ui/wb-right.png</file>
+        <file>Ui/wb-tl.png</file>
+        <file>close-item.png</file>
+        <file alias="load0.png" >Ui/load/load0.png</file>
+        <file alias="load1.png" >Ui/load/load1.png</file>
+        <file alias="load2.png" >Ui/load/load2.png</file>
+        <file alias="load3.png" >Ui/load/load3.png</file>
+        <file alias="load4.png" >Ui/load/load4.png</file>
+        <file alias="load5.png" >Ui/load/load5.png</file>
+        <file alias="load6.png" >Ui/load/load6.png</file>
+        <file alias="load7.png" >Ui/load/load7.png</file>
+        <file>Ui/noplugin.png</file>
     </qresource>
 </RCC>
