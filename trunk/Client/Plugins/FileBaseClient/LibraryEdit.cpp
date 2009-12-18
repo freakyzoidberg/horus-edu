@@ -66,15 +66,14 @@ LibraryEdit::LibraryEdit(PluginManager* pluginManager, FileData* file)
 
 	_grades = new QComboBox(this);
 	_grades->addItem(tr("Every Classes"), 0);
-//	foreach (TreeData* node, treeDataPlugin->grades())
-//		_grades->addItem(node->icon(), node->name(), node->id());
-//	connect(_grades, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
+	foreach (TreeData* node, _pluginManager->findPlugin<TreeDataPlugin*>()->grades())
+		_grades->addItem(node->icon(), node->name(), node->id());
+	connect(_grades, SIGNAL(currentIndexChanged(int)), this, SLOT(gradeChanged(int)));
 	_formLayout->addWidget(_grades, 4, 1);
 
 	_subjects = new QComboBox(this);
 	_subjects->addItem(tr("Every Subjects"));
-//	_subjects->addItems(treeDataPlugin->subjects());
-//	connect(_subjects, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
+	_subjects->setEnabled(false);
 	_formLayout->addWidget(_subjects, 5, 1);
 
 
@@ -84,8 +83,9 @@ LibraryEdit::LibraryEdit(PluginManager* pluginManager, FileData* file)
 	label->setProperty("isFormLabel", true);
 	_formLayout->addWidget(label, 6, 0, 2, 1);
 
-	label = new QLabel((_file?_file->fileName():""), this);
-	_formLayout->addWidget(label, 6, 1);
+	line = new QLineEdit((_file?_file->fileName():""), this);
+	line->setEnabled(false);
+	_formLayout->addWidget(line, 6, 1);
 
 	label = new QLabel(tr("You can drop a file here."), this);
 	_formLayout->addWidget(label, 7, 1);
@@ -126,40 +126,6 @@ void LibraryEdit::exit()
 
 void LibraryEdit::create()
 {
-//	_file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile();
-	emit exited();
-}
-
-void LibraryEdit::save()
-{
-	_file->setName(static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text());
-	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
-	_file->setKeyWords(static_cast<QTextEdit*>(_formLayout->itemAtPosition(3, 1)->widget())->document()->toPlainText());
-	_file->save();
-	emit exited();
-}
-
-void LibraryEdit::dragEnterEvent(QDragEnterEvent *event)
-{
-	if ( ! event->mimeData()->hasFormat(("text/uri-list")))
-		return;
-	if (event->mimeData()->urls().count() > 1)
-		return;
-	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
-		return;
-
-	event->acceptProposedAction();
-}
-
-void LibraryEdit::dropEvent(QDropEvent* event)
-{
-	if ( ! event->mimeData()->hasFormat(("text/uri-list")))
-		return;
-	if (event->mimeData()->urls().count() > 1)
-		return;
-	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
-		return;
-
 	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
 	TreeData* node = treeDataPlugin->node(_grades->itemData(_grades->currentIndex()).toUInt());
 	QString subject = _subjects->currentText();
@@ -177,8 +143,57 @@ void LibraryEdit::dropEvent(QDropEvent* event)
 		}
 	}
 
-	FileData* file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, event->mimeData()->urls().first().path());
+	_pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->text());
+	emit exited();
+}
 
-//	emit editFile(file);
+void LibraryEdit::save()
+{
+	_file->setName(static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text());
+	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
+	_file->setKeyWords(static_cast<QTextEdit*>(_formLayout->itemAtPosition(3, 1)->widget())->document()->toPlainText());
+	_file->save();
+	emit exited();
+}
+
+void LibraryEdit::dragEnterEvent(QDragEnterEvent *event)
+{
+	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
+		return;
+	if (event->mimeData()->urls().count() > 1)
+		return;
+	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
+		return;
+
 	event->acceptProposedAction();
+}
+
+void LibraryEdit::dropEvent(QDropEvent* event)
+{
+	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
+		return;
+	if (event->mimeData()->urls().count() > 1)
+		return;
+	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
+		return;
+
+	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( event->mimeData()->urls().first().path() );
+
+	event->acceptProposedAction();
+}
+
+void LibraryEdit::gradeChanged(int)
+{
+	TreeDataPlugin* tdp = _pluginManager->findPlugin<TreeDataPlugin*>();
+	TreeData* grade = tdp->node(_grades->itemData(_grades->currentIndex()).toUInt());
+	_subjects->clear();
+	_subjects->addItem(tr("Every Subjects"));
+	if (grade == tdp->rootNode())
+		_subjects->setEnabled(false);
+	else
+	{
+		foreach (QString subject, tdp->subjects())
+			_subjects->addItem(subject);
+		_subjects->setEnabled(true);
+	}
 }

@@ -242,7 +242,7 @@ void LibraryList::removeButton()
 
 void LibraryList::dragEnterEvent(QDragEnterEvent *event)
 {
-	if ( ! event->mimeData()->hasFormat(("text/uri-list")))
+	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
 		return;
 	if (event->mimeData()->urls().count() > 1)
 		return;
@@ -254,7 +254,7 @@ void LibraryList::dragEnterEvent(QDragEnterEvent *event)
 
 void LibraryList::dropEvent(QDropEvent* event)
 {
-	if ( ! event->mimeData()->hasFormat(("text/uri-list")))
+	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
 		return;
 	if (event->mimeData()->urls().count() > 1)
 		return;
@@ -279,7 +279,8 @@ void LibraryList::dropEvent(QDropEvent* event)
 	}
 
 	FileData* file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, event->mimeData()->urls().first().path());
-
+	file->create();
+	file->upload();
 	emit editFile(file);
 	event->acceptProposedAction();
 }
