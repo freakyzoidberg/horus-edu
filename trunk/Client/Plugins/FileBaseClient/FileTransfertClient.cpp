@@ -42,7 +42,7 @@ FileTransfertClient::FileTransfertClient(FileData* file, TransfertType type, con
 {
 	moveToThread(file->thread());
 	_key = key;
-	_file = _fileData->file();
+	_file.setFileName(_fileData->fileName());
 	_isFinished = false;
 	_speed = 0;
 	_lastProgress = 0;
@@ -57,12 +57,12 @@ FileTransfertClient::FileTransfertClient(FileData* file, TransfertType type, con
 
 	if (_type == DOWNLOAD)
 	{
-		_file->open(QIODevice::WriteOnly | QIODevice::Truncate);
+		_file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 		connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()), Qt::QueuedConnection);
 	}
 	else
 	{
-		_file->open(QIODevice::ReadOnly);
+		_file.open(QIODevice::ReadOnly);
 		_hash = new QCryptographicHash(QCryptographicHash::Sha1);
 		connect(_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)), Qt::QueuedConnection);
 	}
@@ -105,22 +105,20 @@ void FileTransfertClient::finish()
 	disconnect(this, SLOT(calcSpeed()));
 	_speedTimer.stop();
 
-	((FileDataBase*)(_fileData))->_size = _file->size();
+	static_cast<FileDataBase*>(_fileData)->_size = _file.size();
 	uint duration = QDateTime::currentDateTime().toTime_t() - _startTime;
 	if (duration)
 		_speed = _fileData->size() / duration;
 	else
 		_speed = 0;
 
-	((FileDataBase*)(_fileData))->_isDownloaded = true;
+	static_cast<FileDataBase*>(_fileData)->_isDownloaded = true;
 
 	_isFinished = true;
 	emit finished();
 
 //	if (_socket)
 //		_socket->deleteLater();;
-	if (_file)
-		delete _file;
 	if (_hash)
 		delete _hash;
 }

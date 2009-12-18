@@ -35,6 +35,7 @@
 #include "FileDataBasePlugin.h"
 #include "FileDataBase.h"
 
+#include <QFileInfo>
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/Plugin.h"
 #include "../../../Common/TreeDataPlugin.h"
@@ -88,15 +89,26 @@ QList<FileData*> FileDataBasePlugin::filesInNodeAndUser(const TreeData *node, co
 	return res;
 }
 
-FileData* FileDataBasePlugin::createFile(TreeData* node)
+FileData* FileDataBasePlugin::createFile(TreeData* node, const QString localFileName)
 {
 	static quint32 tmpId = 0;
 	tmpId--;
 
-	FileDataBase* f = ((FileDataBase*)( file(tmpId)) );
+	FileDataBase* f = static_cast<FileDataBase*>( file(tmpId));
 	f->_node = node;
-	f->_mimeType = "unknow";
 	f->_owner = pluginManager->currentUser();
+	f->_name = 	QFileInfo(localFileName).fileName();
+	//TODO. mime type automatique
+	f->_mimeType = "TODO";
+	f->_keyWords = QFileInfo(localFileName).filePath();
+
+	QFile::copy(localFileName, f->fileName());
+
+	f->create();
+#ifdef HORUS_CLIENT
+	f->upload();
+#endif
+
 	return f;
 }
 
@@ -109,15 +121,8 @@ Data* FileDataBasePlugin::dataWithKey(QDataStream& s)
 #ifdef HORUS_CLIENT
 void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
-	FileDataBase* f = ((FileDataBase*)(d));
-	QFile* oldFile = f->file();
+	FileDataBase* f = static_cast<FileDataBase*>(d);
 	s >> f->_id;
-	QFile* newFile = f->file();
-
-	oldFile->rename(newFile->fileName());
-
-	delete oldFile;
-	delete newFile;
 	qDebug() << "File data Have a New Key" << f->_id;
 }
 

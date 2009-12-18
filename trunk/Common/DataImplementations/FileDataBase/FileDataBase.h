@@ -109,7 +109,7 @@ public:
 	inline QByteArray	hash() const { return _hash; }
 	inline quint64		size() const { return _size; }
 
-	QFile*				file() const;
+	QString				fileName() const;
 
 private:
     FileDataBase(quint32 fileId, FileDataBasePlugin* plugin);

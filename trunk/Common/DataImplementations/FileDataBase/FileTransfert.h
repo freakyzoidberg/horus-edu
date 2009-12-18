@@ -69,7 +69,7 @@ protected:
 	//! transfert socket
     QSslSocket*         _socket;
 	//! local file
-    QFile*              _file;
+	QFile				_file;
 	//! to calculate the hash in live
 	QCryptographicHash* _hash;
 	//! transfert buffer

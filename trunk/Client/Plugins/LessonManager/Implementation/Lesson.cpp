@@ -39,7 +39,7 @@
 
 Lesson::Lesson(FileData *parent) : ILesson(NULL), _currentData(NULL)
 {
-    xmlFile = parent->file();
+	xmlFile = new QFile(parent->fileName());
     QXmlSimpleReader xmlReader;
     QXmlInputSource *source = new QXmlInputSource(xmlFile);
     xmlReader.setContentHandler(this);

@@ -5,6 +5,7 @@
 class PluginManager;
 class FileData;
 class QGridLayout;
+class QComboBox;
 
 class LibraryEdit : public QWidget
 {
@@ -13,15 +14,22 @@ public:
 	explicit LibraryEdit(PluginManager* pluginManager, FileData* file);
 
 signals:
-	void		exited();
+	void			exited();
 
 public slots:
-	void		exit();
-	void		save();
+	void			exit();
+	void			save();
+	void			create();
+	void			dragEnterEvent(QDragEnterEvent *event);
+	void			dropEvent(QDropEvent* event);
+
 private:
-	FileData*	_file;
-	bool		_creating;
-	QGridLayout*_formLayout;
+	PluginManager*	_pluginManager;
+	FileData*		_file;
+	bool			_creating;
+	QGridLayout*	_formLayout;
+	QComboBox*		_grades;
+	QComboBox*		_subjects;
 };
 
 #endif // LIBRARYEDIT_H

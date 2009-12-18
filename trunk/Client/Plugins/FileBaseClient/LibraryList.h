@@ -49,7 +49,6 @@ class LibraryList : public QWidget
 Q_OBJECT
 public:
 	LibraryList(PluginManager* pluginManager);
-	~LibraryList();
 
 private slots:
 	void						comboBoxChanged(int);
@@ -59,16 +58,18 @@ private slots:
 	void						createButton();
 	void						editButton();
 	void						removeButton();
+	void						dragEnterEvent(QDragEnterEvent *event);
+	void						dropEvent(QDropEvent* event);
+
 
 signals:
 	void						editFile(FileData* file);
 
 private:
-	QComboBox*					grades;
-	QComboBox*					subjects;
-	QComboBox*					owners;
-	TreeDataPlugin*				_treeDataPlugin;
-	UserDataPlugin*				_userDataPlugin;
+	QComboBox*					_grades;
+	QComboBox*					_subjects;
+	QComboBox*					_owners;
+	PluginManager*				_pluginManager;
 	LibraryFilterProxyModel*	_filter;
 	FileData*					_selectedFile;
 };

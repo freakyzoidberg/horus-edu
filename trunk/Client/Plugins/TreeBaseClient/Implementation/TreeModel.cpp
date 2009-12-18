@@ -164,17 +164,7 @@ bool TreeModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, i
 	{
 		FileDataPlugin* filePlugin = _plugin->pluginManager->findPlugin<FileDataPlugin*>();
 		foreach (const QUrl& url, mimeData->urls())
-		{
-			FileData* fileData = filePlugin->createFile(static_cast<TreeData*>(parent.internalPointer()));
-			QFileInfo local(url.path());
-			fileData->setName(local.fileName());
-
-			QFile* file = fileData->file();
-			QFile::copy(local.filePath(), file->fileName());
-			delete file;
-
-			fileData->upload();
-		}
+			filePlugin->createFile(static_cast<TreeData*>(parent.internalPointer()), url.path());
 		return true;
 	}
 	return false;

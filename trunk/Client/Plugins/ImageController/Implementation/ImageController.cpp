@@ -94,7 +94,7 @@ void	ImageWidget::downloaded()
 {
 	delete _loadicon;
 	setStyleSheet("QFrame { background-color: rgb(100, 100, 100); }");
-	_image = QImage(_fileData->file()->fileName());
+	_image = QImage(_fileData->fileName());
 	_label = new QLabel();
 	_label->setAlignment(Qt::AlignCenter);
 	_layout->addWidget(_label);
