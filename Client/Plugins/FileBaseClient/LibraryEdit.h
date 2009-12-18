@@ -22,6 +22,7 @@ public slots:
 	void			create();
 	void			dragEnterEvent(QDragEnterEvent *event);
 	void			dropEvent(QDropEvent* event);
+	void			gradeChanged(int);
 
 private:
 	PluginManager*	_pluginManager;
