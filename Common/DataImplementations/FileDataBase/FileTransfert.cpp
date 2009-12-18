@@ -38,10 +38,9 @@
 
 FileTransfert::FileTransfert(FileData* file, TransfertType type)
 {
-	_fileData = (FileDataBase*)(file);
+	_fileData = static_cast<FileDataBase*>(file);
 	_type = type;
 	_socket = 0;
-	_file = 0;
 	_hash = 0;
 	_progress = 0;
 }
@@ -52,7 +51,7 @@ FileTransfert::FileTransfert(FileData* file, TransfertType type)
 		return;
 
 	qint64 len = _socket->read(_buffer, TRANSFERT_BUFFER_SIZE);
-	_file->write(_buffer, len);
+	_file.write(_buffer, len);
 	_progress += len;
 	emit progressChange(_progress);
 
@@ -65,10 +64,10 @@ FileTransfert::FileTransfert(FileData* file, TransfertType type)
 
 void FileTransfert::fileToSocket(qint64)
 {
-	if (_file->atEnd())// || ! _socket->isWritable())
+	if (_file.atEnd())// || ! _socket->isWritable())
 		_socket->close();
 
-	qint64 len = _file->read(_buffer, TRANSFERT_BUFFER_SIZE);
+	qint64 len = _file.read(_buffer, TRANSFERT_BUFFER_SIZE);
 	if (len <= 0)
 		return;
 

@@ -49,7 +49,7 @@ bool LessonModel_ext::createLesson(QModelIndex& index)
 		{
 			int count = rowCount(index);
 			beginInsertRows(index, count, count);
-			FileData *fdata = filePlugin->createFile(data);
+			FileData *fdata = filePlugin->createFile(data, "TODO: set filename");
 			fdata->setMimeType("x-horus/x-lesson");
 			fdata->create();
 			endInsertRows();

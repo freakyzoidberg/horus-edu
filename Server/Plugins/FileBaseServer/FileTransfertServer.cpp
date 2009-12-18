@@ -110,18 +110,18 @@ void FileTransfertServer::start(QSslSocket* socket)
 	connect(_socket, SIGNAL(disconnected()), this, SLOT(deleteLater()), Qt::QueuedConnection);
     if (_type == DOWNLOAD)
     {
-        _file = _fileData->file();
-        _file->open(QIODevice::ReadOnly);
-		if ( ! _file->isOpen())
-			qDebug() << "Cannot read file" << _file->fileName() << "Please check your configuration.";
+		_file.setFileName(_fileData->fileName());
+		_file.open(QIODevice::ReadOnly);
+		if ( ! _file.isOpen())
+			qDebug() << "Cannot read file" << _file.fileName() << "Please check your configuration.";
 		connect(_socket, SIGNAL(bytesWritten(qint64)), this, SLOT(fileToSocket(qint64)), Qt::QueuedConnection);
 		fileToSocket(0);
     }
     else if (_type == UPLOAD)
     {
-        _file = _fileData->file();
+		_file.setFileName(_fileData->fileName());
         _hash = new QCryptographicHash(QCryptographicHash::Sha1);
-        _file->open(QIODevice::WriteOnly | QIODevice::Truncate);
+		_file.open(QIODevice::WriteOnly | QIODevice::Truncate);
 		connect(_socket, SIGNAL(readyRead()), this, SLOT(socketToFile()), Qt::QueuedConnection);
     }
     else
@@ -140,13 +140,11 @@ FileTransfertServer::~FileTransfertServer()
     {
 		FileDataBase* fileData = (FileDataBase*)_fileData;
 		fileData->_hash = _hash->result();
-		fileData->_size = _file->size();
+		fileData->_size = _file.size();
 		qDebug() << "~FileTransfert() saving size and hash" << fileData->_size << fileData->_hash.toHex();
 		fileData->save();
     }
 
-	if (_file)
-		delete _file;
 	if (_hash)
 		delete _hash;
 	checkQueue();

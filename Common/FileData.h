@@ -76,7 +76,7 @@ public:
 	virtual QByteArray  hash() const = 0;
 	virtual quint64		size() const = 0;
 
-	virtual QFile*      file() const = 0;
+	virtual QString		fileName() const = 0;
 
 #ifdef HORUS_CLIENT
     //! return true if the file is downloaded in local

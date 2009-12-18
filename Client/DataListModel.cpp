@@ -156,11 +156,7 @@ QMimeData* DataListModel::mimeData(const QModelIndexList &indexes) const
 
 		FileData* file = qobject_cast<FileData*>(data);
 		if (file)
-		{
-			QFile* f = file->file();
-			urls.append(QUrl("file://"+f->fileName()));
-			delete f;
-		}
+			urls.append(QUrl("file://"+file->fileName()));
 	}
 
 	QMimeData* mimeData = new QMimeData;

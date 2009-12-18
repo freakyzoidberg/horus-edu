@@ -102,10 +102,9 @@ void FileDataBase::dataFromStream(QDataStream& s)
 	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
 #ifdef HORUS_CLIENT
 	//auto download
-	QFile* f = file();
-	if (f->size() <= 0 && _status != CACHED && ( ! _isDownloaded || hash != _hash))
+	QFile f(fileName());
+	if (f.size() != (qint64)_size && ( ! _isDownloaded || hash != _hash))
 		download();
-	delete f;
 #endif
     _hash = hash;
 }
@@ -227,7 +226,7 @@ quint8 FileDataBase::serverRemove()
 }
 #endif
 
-QFile* FileDataBase::file() const
+QString FileDataBase::fileName() const
 {
 #ifdef HORUS_SERVER
 	QString pathSys(QSettings().value("SETTINGS/FilesDirectory", QDir::tempPath()).toString());
@@ -242,7 +241,7 @@ QFile* FileDataBase::file() const
 
 	QDir().mkpath(pathSys + pathFile);
 
-	return new QFile(pathSys + pathFile + _name);
+	return pathSys + pathFile + _name;
 }
 
 #ifdef HORUS_CLIENT
@@ -280,10 +279,10 @@ void FileDataBase::setName(const QString name)
 	if (_name != name)
 	{
 		QMutexLocker M(&mutex);
-		QFile* f = file();
-		f->rename(name);
-		delete f;
+		QString oldName = fileName();
 		_name = name;
+		QString newName = fileName();
+		QFile::rename(oldName, newName);
 	}
 }
 
@@ -329,10 +328,9 @@ void FileDataBase::download()
 	qDebug() << "File::download()";
 	if ( ! _isDownloaded)
 	{
-		QFile* f = file();
-		if (f->size() == (qint64)_size)
+		QFile f(fileName());
+		if (f.size() == (qint64)_size)
 			_isDownloaded = true;
-		delete f;
 	}
 
 	if (_isDownloaded)

@@ -47,17 +47,20 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 #include <QComboBox>
+#include <QDragEnterEvent>
+#include <QUrl>
 
 LibraryList::LibraryList(PluginManager* pluginManager)
 {
+	_selectedFile = 0;
+	_pluginManager = pluginManager;
+
 	QGridLayout* layout = new QGridLayout(this);
+	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
 
-	_treeDataPlugin = pluginManager->findPlugin<TreeDataPlugin*>();
-	_userDataPlugin = pluginManager->findPlugin<UserDataPlugin*>();
-
-	_filter = new LibraryFilterProxyModel(pluginManager->findPlugin<FileDataPlugin*>()->listModel(), this);
+	_filter = new LibraryFilterProxyModel(_pluginManager->findPlugin<FileDataPlugin*>()->listModel(), this);
 	_filter->filterUser(0);
-	_filter->nodeListChanged(_treeDataPlugin->allDatas());
+	_filter->nodeListChanged(treeDataPlugin->allDatas());
 
 	QListView* list = new QListView(this);
 	list->setModel(_filter);
@@ -70,26 +73,26 @@ LibraryList::LibraryList(PluginManager* pluginManager)
 	QLineEdit* matchLine = new QLineEdit(this);
 	connect(matchLine, SIGNAL(textChanged(QString)), _filter, SLOT(setFilterRegExp(QString)));
 
-	grades = new QComboBox(this);
-	grades->addItem(tr("All"), 0);
-	foreach (TreeData* node, _treeDataPlugin->grades())
-		grades->addItem(node->icon(), node->name(), node->id());
-	connect(grades, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
+	_grades = new QComboBox(this);
+	_grades->addItem(tr("All"), 0);
+	foreach (TreeData* node, treeDataPlugin->grades())
+		_grades->addItem(node->icon(), node->name(), node->id());
+	connect(_grades, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
 
-	subjects = new QComboBox(this);
-	subjects->addItem(tr("All"));
-	subjects->addItems(_treeDataPlugin->subjects());
-	connect(subjects, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
+	_subjects = new QComboBox(this);
+	_subjects->addItem(tr("All"));
+	_subjects->addItems(treeDataPlugin->subjects());
+	connect(_subjects, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
 
-	owners = new QComboBox(this);
-	owners->addItem(tr("All"), 0);
-	foreach (Data* data, _userDataPlugin->allDatas())
+	_owners = new QComboBox(this);
+	_owners->addItem(tr("All"), 0);
+	foreach (Data* data,  _pluginManager->findPlugin<UserDataPlugin*>()->allDatas())
 	{
 		UserData* user = static_cast<UserData*>(data);
 		if (user->level() <= LEVEL_TEACHER)
-			owners->addItem(user->icon(), user->name() + ' ' + user->surname(), user->id());
+			_owners->addItem(user->icon(), user->name() + ' ' + user->surname(), user->id());
 	}
-	connect(owners, SIGNAL(currentIndexChanged(int)), this, SLOT(userBoxChanged(int)));
+	connect(_owners, SIGNAL(currentIndexChanged(int)), this, SLOT(userBoxChanged(int)));
 
 
 	layout->setRowStretch(9, 1);
@@ -112,11 +115,11 @@ LibraryList::LibraryList(PluginManager* pluginManager)
 	leftLayout->addWidget(new QLabel(tr("KeyWords:"), this));
 	leftLayout->addWidget(matchLine);
 	leftLayout->addWidget(new QLabel(tr("Grade:"), this));
-	leftLayout->addWidget(grades);
+	leftLayout->addWidget(_grades);
 	leftLayout->addWidget(new QLabel(tr("Subject:"), this));
-	leftLayout->addWidget(subjects);
+	leftLayout->addWidget(_subjects);
 	leftLayout->addWidget(new QLabel(tr("Owner:"), this));
-	leftLayout->addWidget(owners);
+	leftLayout->addWidget(_owners);
 
 	label = new QLabel(tr("Select a file:"), this);
 	label->setProperty("isTitle", true);
@@ -137,6 +140,7 @@ LibraryList::LibraryList(PluginManager* pluginManager)
 	formLayout->addRow(tr("Size:"), new QLabel(this));
 	formLayout->addRow(tr("Mime Type:"), new QLabel(this));
 	formLayout->addRow(tr("Key Words:"), new QLabel(this));
+	formLayout->addRow(tr("Status:"), new QWidget(this));
 
 	label = new QLabel(tr("Actions:"), this);
 	label->setProperty("isTitle", true);
@@ -146,29 +150,35 @@ LibraryList::LibraryList(PluginManager* pluginManager)
 
 	QVBoxLayout* rightLayout = new QVBoxLayout;
 	layout->addLayout(rightLayout						, 3, 2);
-	rightLayout->addWidget(new QPushButton(tr("Add a file"), this));
-	rightLayout->addWidget(new QPushButton(tr("Edit a file"), this));
-	rightLayout->addWidget(new QPushButton(tr("Remove a file"), this));
-}
 
-LibraryList::~LibraryList()
-{
-//	QLayoutItem* item;
-//	while ((item = laytakeAt(0)))
-//	{
-//		delete item->widget();
-//		delete item;
-//	}
+	QPushButton* button;
+
+	button = new QPushButton(tr("Add"), this);
+	connect(button, SIGNAL(clicked()), this, SLOT(createButton()));
+	rightLayout->addWidget(button);
+
+	button = new QPushButton(tr("Edit"), this);
+	connect(button, SIGNAL(clicked()), this, SLOT(editButton()));
+	rightLayout->addWidget(button);
+
+	button = new QPushButton(tr("Remove"), this);
+	connect(button, SIGNAL(clicked()), this, SLOT(removeButton()));
+	rightLayout->addWidget(button);
+
+	setAcceptDrops(true);
 }
 
 void LibraryList::comboBoxChanged(int)
 {
+	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
+
+	TreeData* grade = treeDataPlugin->node(_grades->itemData(_grades->currentIndex()).toUInt());
+	QString subject = _subjects->currentText();
+
 	QList<Data*> list;
-	foreach (Data* data, _treeDataPlugin->allDatas())
+	foreach (Data* data, treeDataPlugin->allDatas())
 	{
 		TreeData* node = static_cast<TreeData*>(data);
-		TreeData* grade = _treeDataPlugin->node(grades->itemData(grades->currentIndex()).toUInt());
-		QString subject = subjects->currentText();
 
 		if (node->isDescendantOf(grade) &&
 			(subject == tr("All") || node->isInSubject(subject)))
@@ -180,10 +190,10 @@ void LibraryList::comboBoxChanged(int)
 
 void LibraryList::userBoxChanged(int index)
 {
-	quint32 userId = owners->itemData(index).toUInt();
+	quint32 userId = _owners->itemData(index).toUInt();
 
 	if (userId)
-		_filter->filterUser( _userDataPlugin->user( userId ) );
+		_filter->filterUser( _pluginManager->findPlugin<UserDataPlugin*>()->user( userId ) );
 	else
 		_filter->filterUser( 0 );
 }
@@ -207,15 +217,69 @@ void LibraryList::fileActivated(QModelIndex index)
 
 void LibraryList::createButton()
 {
-
+	emit editFile(0);
 }
 
 void LibraryList::editButton()
 {
+	if ( ! _selectedFile)
+		return;
 	emit editFile(_selectedFile);
 }
 
 void LibraryList::removeButton()
 {
+	if ( ! _selectedFile)
+		return;
+	_selectedFile->remove();
+	_selectedFile = 0;
+	QFormLayout* form = static_cast<QFormLayout*>(static_cast<QGridLayout*>(layout())->itemAtPosition(1, 2)->layout());
+	static_cast<QLabel*>(form->itemAt(0, QFormLayout::FieldRole)->widget())->setText("");
+	static_cast<QLabel*>(form->itemAt(1, QFormLayout::FieldRole)->widget())->setText("");
+	static_cast<QLabel*>(form->itemAt(2, QFormLayout::FieldRole)->widget())->setText("");
+	static_cast<QLabel*>(form->itemAt(3, QFormLayout::FieldRole)->widget())->setText("");
+}
 
+void LibraryList::dragEnterEvent(QDragEnterEvent *event)
+{
+	if ( ! event->mimeData()->hasFormat(("text/uri-list")))
+		return;
+	if (event->mimeData()->urls().count() > 1)
+		return;
+	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
+		return;
+
+	event->acceptProposedAction();
+}
+
+void LibraryList::dropEvent(QDropEvent* event)
+{
+	if ( ! event->mimeData()->hasFormat(("text/uri-list")))
+		return;
+	if (event->mimeData()->urls().count() > 1)
+		return;
+	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
+		return;
+
+	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
+	TreeData* node = treeDataPlugin->node(_grades->itemData(_grades->currentIndex()).toUInt());
+	QString subject = _subjects->currentText();
+
+	if (node != treeDataPlugin->rootNode() && subject != tr("All"))
+	{
+		foreach (Data* data, treeDataPlugin->allDatas())
+		{
+			TreeData* n = static_cast<TreeData*>(data);
+			if (n->isDescendantOf(node) && n->type() == "SUBJECT" && n->name() == subject)
+			{
+				node = n;
+				break;
+			}
+		}
+	}
+
+	FileData* file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, event->mimeData()->urls().first().path());
+
+	emit editFile(file);
+	event->acceptProposedAction();
 }
