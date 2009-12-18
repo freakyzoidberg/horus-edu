@@ -46,5 +46,35 @@ const QString	Marks::pluginVersion() const
 
 QWidget			*Marks::getWidget()
 {
-	return (0);
+	return (new QWidget());
 }
+
+const QString       Marks::getDisplayableName() const
+{
+	return(tr("Marks"));
+}
+
+int					Marks::getOrder() const
+{
+	return 48;
+}
+
+bool                Marks::canLoad() const
+{
+	return true;
+}
+
+void                Marks::load()
+{
+/*	treePlugin = pluginManager->findPlugin<TreeDataPlugin*>();
+	userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
+	eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
+	//    schedulePlugin = pluginManager->findPlugin<ScheduleDataPlugin*>(); */
+	Plugin::load();
+}
+
+QIcon				Marks::getIcon() const
+{
+  return QIcon(":/marks.png");
+}
+
