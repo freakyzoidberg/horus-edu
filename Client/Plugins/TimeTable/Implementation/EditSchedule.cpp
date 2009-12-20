@@ -43,7 +43,10 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
    mainLayout->setSpacing(0);
         mainLayout->setMargin(0);
 
-    QLabel *title = new QLabel(tr("Dates de l\'emploi du temps"), this);
+    //QLabel *title = new QLabel(tr("Dates de l\'emploi du temps"), this);
+    /* FIX FOR V1 */
+    QLabel *title = new QLabel(tr("Il n'y a pas d\'options pour cette action, vous n\'avez qu\'a valider"), this);
+    /* END FIX FOR v1 */
     title->setProperty("isFormTitle", true);
 	title->setMaximumHeight(30);
     mainLayout->addWidget(title);
@@ -58,32 +61,33 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
 	datesLayout = new QGridLayout();
     datesLayout->setSpacing(4);
     datesLayout->setMargin(8);
+
     QLabel *startlabel = new QLabel(tr("Date de debut"), this);
-	startlabel->setMaximumHeight(30);
+    startlabel->setMaximumHeight(30);
     startlabel->setProperty("isFormLabel", true);
     datesLayout->addWidget(startlabel, 0, 0);
+
     _startDate = new QDateEdit(this);
     _startDate->setCalendarPopup(true);
     _startDate->setDate(QDate::currentDate());
-	datesLayout->addWidget(_startDate, 1, 0);
+    datesLayout->addWidget(_startDate, 1, 0);
 
     QLabel *endlabel = new QLabel(tr("Date de fin"), this);
     endlabel->setProperty("isFormLabel", true);
-	endlabel->setMaximumHeight(30);
-	datesLayout->addWidget(endlabel, 0, 1);
+    endlabel->setMaximumHeight(30);
+    datesLayout->addWidget(endlabel, 0, 1);
 
     _endDate = new QDateEdit(this);
     _endDate->setCalendarPopup(true);
     _endDate->setDate(QDate::currentDate());
-
-	datesLayout->addWidget(_endDate, 1, 1);
-	eventMainLayout->addLayout(datesLayout);
+    datesLayout->addWidget(_endDate, 1, 1);
+        //eventMainLayout->addLayout(datesLayout);
     mainLayout->addWidget(eventFrame);
 
 	QLabel *t = new QLabel(tr("Ajout des vacances"), this);
 	t->setMaximumHeight(30);
 	t->setProperty("isFormTitle", true);
-	mainLayout->addWidget(t);
+        //mainLayout->addWidget(t);
 
     if (type == 1)
         fillForm(id);
@@ -91,6 +95,17 @@ EditSchedule::EditSchedule(ScheduleDataPlugin *sd, TreeDataPlugin *td, int id, i
 	EditException *edit = new EditException();
 	mainLayout->addWidget(edit);
 	mainLayout->addWidget(new QWidget());
+
+
+    /* FIX FOR V1 */
+    t->hide();
+    startlabel->hide();
+    _startDate->hide();
+    endlabel->hide();
+    _endDate->hide();
+    edit->hide();;
+    /* END FIX FOR V1 */
+
 }
 
 void    EditSchedule::fillForm(int id)

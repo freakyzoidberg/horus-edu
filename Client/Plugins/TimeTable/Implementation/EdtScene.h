@@ -63,7 +63,7 @@ private:
     PluginManager	*_pluginManager;
     ScheduleData        *_SD;
 
-    void                addEvent(QString name, int dow,QTime hstart, QTime hend, QColor color, int id);
+    void                addEvent(QString name, int dow,QTime hstart, QTime hend, QString color, int id);
 
 
 };

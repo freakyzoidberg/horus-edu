@@ -107,7 +107,7 @@ bool ScheduleDataBasePlugin::canLoad() const
                                                 `date_start` date NOT NULL,\
                                                 `date_end` date NOT NULL,\
                                                 `exception` blob,\
-                                                PRIMARY KEY(`id`)\
+                                                KEY`id`(`id`)\
 					);")
 		||
                  ! query.exec("SELECT`id`,`id_node`,`date_start`,`date_end`,`exception`FROM`schedule`WHERE`id`=-1;")
@@ -116,6 +116,64 @@ bool ScheduleDataBasePlugin::canLoad() const
                 qDebug() << "ScheduleDataBasePlugin::canLoad()" << query.lastError();
 		return false;
 	}
+        if ( ! query.exec("CREATE TABLE IF NOT EXISTS `schedule_event` (\
+                                            `id` int(11) NOT NULL,\
+                                            `id_schedule` int(11) NOT NULL,\
+                                            `day` int(11) NOT NULL,\
+                                            `time_start` time NOT NULL,\
+                                            `time_end` time NOT NULL,\
+                                            `name` text NOT NULL,\
+                                            `detail` text NOT NULL,\
+                                            `date_start` date DEFAULT NULL,\
+                                            `date_end` date DEFAULT NULL,\
+                                            `modulo` int(11) DEFAULT NULL,\
+                                            `exception` blob,\
+                                            `force` int(11) DEFAULT NULL,\
+                                            `id_teacher` int(11) DEFAULT NULL,\
+                                            `color` text DEFAULT NULL\
+                                        );")
+                ||
+                 ! query.exec("SELECT`id`,`id_schedule`,`day`,`time_start`,`time_end`,`name`,`detail`,`date_start`,`date_end`,`modulo`,`exception`,`force`,`id_teacher`,`color` FROM `schedule_event` WHERE `id` =-1;")
+                )
+        {
+                qDebug() << "ScheduleDataBasePlugin::canLoad()" << query.lastError();
+                return false;
+        }
+
+
+        if ( ! query.exec(" CREATE TABLE IF NOT EXISTS `schedule_exception` (\
+                `id_event` int(11) NOT NULL,\
+                `id_schedule` int(11) NOT NULL,\
+                `date_start` date NOT NULL,\
+                `date_end` date NOT NULL,\
+                `name` text NOT NULL,\
+                `type` int(11) NOT NULL\
+                  );")
+                ||
+                 ! query.exec("SELECT`id_event`,`id_schedule`,`date_start`,`date_end`,`name`,`type` FROM `schedule_exception` WHERE `id_event` =-1;")
+                )
+        {
+                qDebug() << "ScheduleDataBasePlugin::canLoad()" << query.lastError();
+                return false;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
 	return Plugin::canLoad();
 }

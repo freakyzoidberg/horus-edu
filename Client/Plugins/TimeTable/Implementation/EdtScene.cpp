@@ -83,7 +83,7 @@ EDTScene::EDTScene(PluginManager *pluginManager, TreeData *treedata) : _pluginMa
 
     for (int i = 0; i < _SD->scheduleEvents().size(); ++i) {
 
-    addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red), i);
+    addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),_SD->scheduleEvents().at(i)->getColor(), i);
     }
 
     //(getWPosforDay(1), 1 * VOFFSET,CWIDTH,100,QPen(), QBrush(QColor(Qt::red)))
@@ -147,7 +147,7 @@ EDTScene::EDTScene(PluginManager *pluginManager) : _pluginManager(pluginManager)
         if (_SD->scheduleEvents().at(i)->getTeacher() == pluginManager->currentUser()->id())
             {
 
-        addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),QColor(Qt::red), i);
+        addEvent(_SD->scheduleEvents().at(i)->getName(),_SD->scheduleEvents().at(i)->getJWeek(), _SD->scheduleEvents().at(i)->getHStart(),_SD->scheduleEvents().at(i)->getHEnd(),_SD->scheduleEvents().at(i)->getColor(), i);
             }
             }
         }
@@ -171,7 +171,7 @@ int                 EDTScene::getWPosforDay(int day)
 }
 
 
-void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTime hend, QColor color, int id)
+void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTime hend, QString color, int id)
 {
 
     int offset = -1 * QTime(7,0,0,0).secsTo(QTime(0,0,0,0));
@@ -189,7 +189,17 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
 
     rect->setGroup(group);
     rect->setZValue(1);
-    rect->setBrush(QBrush(color));
+
+    if (color == "Yellow")
+            rect->setBrush(QBrush(Qt::yellow));
+    else if (color == "Green")
+            rect->setBrush(QBrush(Qt::green));
+    else if (color == "Blue")
+            rect->setBrush(QBrush(Qt::blue));
+    else if (color == "Red")
+            rect->setBrush(QBrush(Qt::red));
+    else
+            rect->setBrush(QBrush(Qt::white));
 
 
     text->setTextWidth(CWIDTH - 15);

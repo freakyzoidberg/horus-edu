@@ -192,6 +192,7 @@ void EdtWidget::createScene(TreeData *td)
 
 void EdtWidget::goadd()
 {
+    id_item_edition = -1;
     scrollArea->hide();
     _add->hide();
     _ok->show();
