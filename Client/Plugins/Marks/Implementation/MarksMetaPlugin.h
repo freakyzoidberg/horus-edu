@@ -36,7 +36,7 @@
 #define MARKSMETAPLUGIN_H
 
 #include "../../../../Common/MetaPlugin.h"
-
+#include "../../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.h"
 #include "Marks.h"
 
 class MarksMetaPlugin : public MetaPlugin
@@ -46,7 +46,7 @@ class MarksMetaPlugin : public MetaPlugin
 
 public:
     inline MarksMetaPlugin() {
-      Plugin* p = new Marks();
+	  Plugin* p = new Marks();
       pluginList.append(p);
   }
 };
