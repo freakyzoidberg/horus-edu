@@ -60,7 +60,8 @@ void	AudioPlayer::downloaded()
 {
 	delete _loadicon;
 	_mediaObject = new Phonon::MediaObject(this);
-	_mediaObject->setCurrentSource(_fileData->file());
+	QFile *file = new QFile(_fileData->fileName());
+	_mediaObject->setCurrentSource(Phonon::MediaSource(file));
 	_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 	Phonon::createPath(_mediaObject, _audioOutput);
 	_slider = new Phonon::SeekSlider(_mediaObject, this);

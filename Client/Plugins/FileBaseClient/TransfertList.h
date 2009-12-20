@@ -49,7 +49,6 @@ public:
 
 private slots:
 	void			progressChange(int progress);
-	void			speedChange(int speed);
 	void			finished();
 
 private:
