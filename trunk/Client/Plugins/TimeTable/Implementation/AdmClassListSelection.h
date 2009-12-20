@@ -52,9 +52,10 @@ public:
 		AdmClassListSelection(PluginManager *);
 
 	QMap<int, QString>	getallclass();
-	void	fillClassList();
-	QListWidget *ClassList;
 
+	QListWidget *ClassList;
+public slots:
+                void	fillClassList();
 private:
 	TreeDataPlugin *treePlugin;
 };
