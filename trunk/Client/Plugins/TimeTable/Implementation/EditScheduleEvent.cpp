@@ -141,15 +141,15 @@ void    EditScheduleEvent::setupUi()
     label->setProperty("isFormLabel", true);
     personnalBottomLayout->addWidget(label, 4, 0, 1, 1);
     couleursList = new QComboBox(this);
+    couleursList->addItem(tr("White"));
     couleursList->addItem(tr("Yellow"));
     couleursList->addItem(tr("Green"));
     couleursList->addItem(tr("Blue"));
-    couleursList->addItem(tr("White"));
     couleursList->addItem(tr("Red"));
-    couleursList->setItemData(0,Qt::yellow,Qt::BackgroundRole);
-    couleursList->setItemData(1,Qt::green,Qt::BackgroundRole);
-    couleursList->setItemData(2,Qt::blue,Qt::BackgroundRole);
-    couleursList->setItemData(3,Qt::white,Qt::BackgroundRole);
+    couleursList->setItemData(0,Qt::white,Qt::BackgroundRole);
+    couleursList->setItemData(1,Qt::yellow,Qt::BackgroundRole);
+    couleursList->setItemData(2,Qt::green,Qt::BackgroundRole);
+    couleursList->setItemData(3,Qt::blue,Qt::BackgroundRole);
     couleursList->setItemData(4,Qt::red,Qt::BackgroundRole);
 
 
@@ -157,6 +157,9 @@ void    EditScheduleEvent::setupUi()
     label = new QLabel(tr("Une semaine sur deux :"), eventFrame);
     label->setProperty("isFormLabel", true);
     personnalBottomLayout->addWidget(label, 2, 2);
+    /* FIX FOR V1 */
+    label->hide();
+    /* END FIX FOR V1 */
     modulo = new QSpinBox(eventFrame);
     modulo->setMinimum(1);
     modulo->setMaximum(2);
@@ -188,7 +191,18 @@ void    EditScheduleEvent::setupUi()
     eventMainLayout->addLayout(personnalBottomLayout);
 
     mainLayout->addWidget(eventFrame);
-    mainLayout->addWidget(new EditException());
+    //mainLayout->addWidget(new EditException());
+
+
+    /* FIX FOR V1 */
+
+    modulo->hide();
+    force->hide();
+    startlabel->hide();
+    startDate->hide();
+    endlabel->hide();
+    endDate->hide();
+    /* END FIX FOR v1 */
 }
 
 void    EditScheduleEvent::fillTeacher()
