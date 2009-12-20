@@ -32,26 +32,26 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef				__MARKS_H__
-# define			__MARKS_H__
+#ifndef EXAMSMETAPLUGIN_H
+#define EXAMSMETAPLUGIN_H
 
-# include			"../../../DisplayablePlugin.h"
-#include			"../../../../Common/MarksDataPlugin.h"
+#include "../../../../Common/MetaPlugin.h"
+#include "../../../../Common/DataImplementations/ExamsDataBase/ExamsDataBasePlugin.h"
 
-class				Marks : public DisplayablePlugin
+class ExamsMetaPlugin : public MetaPlugin
 {
-    Q_OBJECT
-    Q_INTERFACES(DisplayablePlugin)
+  Q_OBJECT
+  Q_INTERFACES(MetaPlugin)
 
 public:
-	const QString		pluginName() const;
-	const QString		pluginVersion() const;
-	QWidget				*getWidget();
-	const QString       getDisplayableName() const;
-	int					getOrder() const;
-	QIcon               getIcon() const;
-	bool                canLoad() const;
-	void                load();
+    inline ExamsMetaPlugin() {
+	  Plugin* p = new ExamsDataBasePlugin();
+      pluginList.append(p);
+  }
 };
 
-#endif
+/* maybe put this lines in a cpp if this file is include by an other file */
+// declare instance of the plugin
+Q_EXPORT_PLUGIN2(ExamsMetaPlugin, ExamsMetaPlugin);
+
+#endif // EXAMSMETAPLUGIN_H
