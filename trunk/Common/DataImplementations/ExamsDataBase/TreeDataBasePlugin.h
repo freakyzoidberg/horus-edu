@@ -32,51 +32,55 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MARKSDATA_H
-#define MARKSDATA_H
+#ifndef TREEDATABASEPLUGIN_H
+#define TREEDATABASEPLUGIN_H
 
-#include "Data.h"
-#include "MarksDataPlugin.h"
-#include "ExamsDataPlugin.h"
+#include <QHash>
+#include "../../TreeDataPlugin.h"
 
-class MarksData : public Data
+class Data;
+class TreeData;
+class TreeDataBase;
+class TreeDataBasePlugin : public TreeDataPlugin
 {
-	Q_OBJECT
+  Q_OBJECT
 #ifdef HORUS_SERVER
-	Q_INTERFACES(ServerData)
+  Q_INTERFACES(ServerTreeDataPlugin)
 #endif
 #ifdef HORUS_CLIENT
-	Q_INTERFACES(ClientData)
+  Q_INTERFACES(ClientTreeDataPlugin)
 #endif
+
+  friend class TreeDataBase;
 
 public:
-	virtual QString		result() const = 0;
-	virtual void		setResult(const QString& result)  = 0;
+							TreeDataBasePlugin();		
+	TreeData*				getNode(quint32 nodeId);
+	TreeData*				createNewNode();
+private:
+	QHash<quint32,TreeData*>	nodes;
 
-	virtual QString		comment() = 0;
-	virtual void		setComment(const QString& comment) = 0;
 
-	virtual void		setDate(const QDate& date) = 0;
-	virtual QDate		date() = 0;
+	//Plugin
+public:
+	inline const QString	pluginName() const { return "Tree Data Base"; }
+	inline const QString	pluginVersion() const { return "0.1"; }
 
-	virtual ExamsData*	exam() const = 0;
-	virtual	void		setExam(ExamsData *exam) = 0;
 
-	virtual quint32		student() const = 0;
-	virtual void		setStudent(const quint32 id) = 0;
-
+	//DataPlugin
+public:
+	inline const QString	getDataType() const { return "Tree"; }
+	QList<Data*>			allDatas() const;
+#ifdef HORUS_CLIENT
+	void					dataHaveNewKey(Data*d, QDataStream& s);
+#endif
+#ifdef HORUS_SERVER
+	void					loadData();
+	void					userConnected(UserData* user, QDateTime date);
+#endif
 protected:
-	inline				MarksData(MarksDataPlugin* plugin) : Data(plugin) { }
-	inline				~MarksData() {}
+    //! Return the pointer to the Data with a his unique key read in the stream
+	Data*					getDataWithKey(QDataStream& s);
 };
 
-#ifdef HORUS_SERVER
-typedef MarksData ServerMarksData;
-Q_DECLARE_INTERFACE(ServerMarksData, "net.horus.ServerMarksData/1.0");
-#endif
-#ifdef HORUS_CLIENT
-typedef MarksData ClientMarksData;
-Q_DECLARE_INTERFACE(ClientMarksData, "net.horus.ClientMarksData/1.0");
-#endif
-
-#endif // MARKSDATA_H
+#endif // TREEDATABASEPLUGIN_H

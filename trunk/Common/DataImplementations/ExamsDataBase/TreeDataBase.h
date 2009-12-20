@@ -32,51 +32,79 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MARKSDATA_H
-#define MARKSDATA_H
+#ifndef TREEDATABASE_H
+#define TREEDATABASE_H
 
-#include "Data.h"
-#include "MarksDataPlugin.h"
-#include "ExamsDataPlugin.h"
-
-class MarksData : public Data
-{
-	Q_OBJECT
 #ifdef HORUS_SERVER
-	Q_INTERFACES(ServerData)
+    #include <QtSql>
 #endif
 #ifdef HORUS_CLIENT
-	Q_INTERFACES(ClientData)
+    #include <QVariant>
 #endif
+#include <QByteArray>
+#include <QDateTime>
+#include "../../Defines.h"
+#include "../../TreeData.h"
+#include "TreeDataBasePlugin.h"
+
+class TreeDataBase : public TreeData
+{
+  Q_OBJECT
+  Q_INTERFACES(TreeData)
+
+  friend class TreeDataBasePlugin;
+private:
+    TreeDataBase(quint32 nodeId, TreeDataBasePlugin* plugin);
+    inline ~TreeDataBase() {}
+
+    quint32     _id;
+    UserData*   _user;
+    QString     _name;
+    QString     _type;
+	QList<TreeData*> _children;
+	TreeDataBase*	_parent;
 
 public:
-	virtual QString		result() const = 0;
-	virtual void		setResult(const QString& result)  = 0;
+    //INTERFACE Data
+    void            keyToStream(QDataStream& s);
+	void            dataToStream(QDataStream& s) const;
+    void            dataFromStream(QDataStream& s);
 
-	virtual QString		comment() = 0;
-	virtual void		setComment(const QString& comment) = 0;
+    QDebug          operator<<(QDebug debug) const;
 
-	virtual void		setDate(const QDate& date) = 0;
-	virtual QDate		date() = 0;
+    // INTERFACE TreeData
+    inline int     id() const { return _id; }
 
-	virtual ExamsData*	exam() const = 0;
-	virtual	void		setExam(ExamsData *exam) = 0;
+    TreeData*           createChild(const QString name, const QString type, UserData* user);
+    void                recursRemove();
+    void                moveTo(TreeData* father);
 
-	virtual quint32		student() const = 0;
-	virtual void		setStudent(const quint32 id) = 0;
+    inline const QString name() const { return objectName(); }
+    void                setName(const QString name);
 
-protected:
-	inline				MarksData(MarksDataPlugin* plugin) : Data(plugin) { }
-	inline				~MarksData() {}
+    inline UserData*    user() const { return _user; }
+    void                setUser(UserData* user);
+
+    inline const QString type() const { return _type; }
+    void                setType(const QString type);
+
+	inline TreeData*	parent() const { return _parent; }
+	void				setParent(TreeData*);
+	inline const QList<TreeData*>&	children() const { return _children; }
+
+    bool                isDescendantOf(TreeData* parent);
+
+#ifdef HORUS_CLIENT
+    QVariant        data(int column, int role = Qt::DisplayRole) const;
+#endif
+#ifdef HORUS_SERVER
+	quint8			serverRead();
+	quint8			serverCreate();
+	quint8			serverSave();
+	quint8			serverRemove();
+	QByteArray		newSession(const QDateTime& end);
+	void            destroySession();
+#endif
 };
 
-#ifdef HORUS_SERVER
-typedef MarksData ServerMarksData;
-Q_DECLARE_INTERFACE(ServerMarksData, "net.horus.ServerMarksData/1.0");
-#endif
-#ifdef HORUS_CLIENT
-typedef MarksData ClientMarksData;
-Q_DECLARE_INTERFACE(ClientMarksData, "net.horus.ClientMarksData/1.0");
-#endif
-
-#endif // MARKSDATA_H
+#endif // TREEDATABASE_H

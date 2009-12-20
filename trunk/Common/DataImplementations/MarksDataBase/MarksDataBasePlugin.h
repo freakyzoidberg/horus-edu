@@ -42,38 +42,49 @@ class MarksDataBasePlugin : public MarksDataPlugin
 {
 	Q_OBJECT
 #ifdef HORUS_SERVER
-        Q_INTERFACES(ServerMarksDataPlugin)
+	Q_INTERFACES(ServerMarksDataPlugin)
 #endif
 #ifdef HORUS_CLIENT
-        Q_INTERFACES(ClientMarksDataPlugin)
+	Q_INTERFACES(ClientMarksDataPlugin)
 #endif
 
   friend class MarksDataBase;
 
 public:
-                                                        MarksDataBasePlugin() {}
+							MarksDataBasePlugin();
+
+	MarksData*				newMarks(TreeData* parent, QString name, UserData* user = 0);
+	MarksData*				nodeMarks(quint32 nodeId);
+	MarksData*				nodeMarks(TreeData* node);
+	QList<MarksData*>		nodeMarkss(TreeData* node, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
+	QList<MarksData*>		userMarkss(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
 
 private:
+	void					recursiveTreeSearch(QList<MarksData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to);
 
 
 	//Plugin
 public:
-	inline const QString	pluginName() const { return "Event Data Base"; }
+	inline const QString	pluginName() const { return "Marks Data Base"; }
 	inline const QString	pluginVersion() const { return "0.1"; }
-
+	bool					canLoad() const;
+	void					load();
+	void					unload();
 
 
 	//DataPlugin
 public:
-	inline const QString	dataType() const { return "Event"; }
-	//QList<Data*>			allDatas() const { return _allEvents; }
+	inline const QString	dataType() const { return "Marks"; }
 #ifdef HORUS_SERVER
-	void					loadData();
 	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
 #endif
+#ifdef HORUS_CLIENT
+	QAbstractListModel*		listModel() const;
+#endif
+
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream
 	Data*					dataWithKey(QDataStream& s);
 };
 
-#endif // MarksDataBASEPLUGIN_H
+#endif // MARKSDATABASEPLUGIN_H

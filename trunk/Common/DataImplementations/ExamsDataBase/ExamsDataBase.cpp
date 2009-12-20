@@ -32,60 +32,60 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include "MarksDataBase.h"
-#include "MarksDataBasePlugin.h"
+#include "ExamsDataBase.h"
+#include "ExamsDataBasePlugin.h"
 
 #include "../../TreeData.h"
 
-MarksDataBase::MarksDataBase(TreeData* node, MarksDataBasePlugin* plugin) : MarksData(plugin)
+ExamsDataBase::ExamsDataBase(TreeData* node, ExamsDataBasePlugin* plugin) : ExamsData(plugin)
 {
-	//_exam = ;
-	//_exam->registerData(this);
+	_subject = node;
+	_subject->registerData(this);
 }
 
-void MarksDataBase::keyToStream(QDataStream& s) const
+void ExamsDataBase::keyToStream(QDataStream& s) const
 {
-//	s << _exam->id();
+	s << _subject->id();
 }
 
-void MarksDataBase::dataToStream(QDataStream& s) const
+void ExamsDataBase::dataToStream(QDataStream& s) const
 {
-	s << _result << _comment << _date;
+	s << _comment << _date << _teacher;
 }
 
-void MarksDataBase::dataFromStream(QDataStream& s)
+void ExamsDataBase::dataFromStream(QDataStream& s)
 {
-	s >> _result >> _comment >> _date;
+	s >> _comment >> _date >> _teacher;
 }
 
-bool MarksDataBase::canChange(UserData* user) const
+bool ExamsDataBase::canChange(UserData* user) const
 {
-	return _exam->canChange(user);
+	return _subject->canChange(user);
 }
 
-bool MarksDataBase::canAccess(UserData* user) const
+bool ExamsDataBase::canAccess(UserData* user) const
 {
-	return _exam->canAccess(user);
+	return _subject->canAccess(user);
 }
 
-QDebug MarksDataBase::operator<<(QDebug debug) const
+QDebug ExamsDataBase::operator<<(QDebug debug) const
 {
-	return debug << dataType() << _result << _comment;
+	return debug << dataType() << _subject->id() << _comment << _teacher;
 }
 
-const QList<Data*> MarksDataBase::dependsOfCreatedData() const
+const QList<Data*> ExamsDataBase::dependsOfCreatedData() const
 {
 	QList<Data*> list;
-	list.append(_exam);
+	list.append(_subject);
 	return list;
 }
 
 #ifdef HORUS_SERVER
-quint8 MarksDataBase::serverRead()
+quint8 ExamsDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`student_id`,`comment`,`result`FROM`StudentMarks`WHERE`exam_id`=?;");
-//	query.addBindValue(_exam->id());
+	query.prepare("SELECT`comment`,`date`,`teacher_id`FROM`examination`WHERE`id_tree`=?;");
+	query.addBindValue(_subject->id());
 
 	if ( ! query.exec())
 	{
@@ -95,22 +95,22 @@ quint8 MarksDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-	_student	= query.value(0).toInt();
-	_comment	= query.value(1).toString();
-	_result		= query.value(2).toString();
+	_date = query.value(1).toDate();
+	_teacher	= query.value(2).toInt();
+	_comment	= query.value(0).toString();
 
 	return NONE;
 }
 
-quint8 MarksDataBase::serverCreate()
+quint8 ExamsDataBase::serverCreate()
 {
-	//QMutexLocker M(&_node->mutex);
+	QMutexLocker M(&_subject->mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO`StudentMarks`(`exam_id`,`student_id`,`comment`,`result`)VALUES(?,?,?,?);");
-	//query.addBindValue(_exam->id());
-	query.addBindValue(_student);
+	query.prepare("INSERT INTO`examination`(`id_tree`,`comment`,`date`,`teacher_id`)VALUES(?,?,?, ?);");
+	query.addBindValue(_subject->id());
 	query.addBindValue(_comment);
-	query.addBindValue(_result);
+	query.addBindValue(_date);
+	query.addBindValue(_teacher);
 
 	if ( ! query.exec())
 	{
@@ -121,15 +121,14 @@ quint8 MarksDataBase::serverCreate()
 	return NONE;
 }
 
-quint8 MarksDataBase::serverSave()
+quint8 ExamsDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE`StudentMarks`SET`exam_id`=?,`student_id`=?,`comment`=?,`result`=? WHERE`exam_id`=?;");
-	//query.addBindValue(_exam->id());
-	query.addBindValue(_student);
+	query.prepare("UPDATE`examination`SET`comment`=?,`date`=?,`teacher_id`=? WHERE`id_tree`=?;");
 	query.addBindValue(_comment);
-	query.addBindValue(_result);
-	//query.addBindValue(_exam->id());
+	query.addBindValue(_date);
+	query.addBindValue(_teacher);
+	query.addBindValue(_subject->id());
 
 	if ( ! query.exec())
 	{
@@ -139,11 +138,11 @@ quint8 MarksDataBase::serverSave()
 	return NONE;
 }
 
-quint8 MarksDataBase::serverRemove()
+quint8 ExamsDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM`StudentMarks`WHERE`exam_id`=?;");
-	//query.addBindValue(_exam->id());
+	query.prepare("DELETE FROM`examination`WHERE`id_tree`=?;");
+	query.addBindValue(_subject->id());
 
 	if ( ! query.exec())
 	{
@@ -157,18 +156,18 @@ quint8 MarksDataBase::serverRemove()
 }
 #endif
 #ifdef HORUS_CLIENT
-QVariant MarksDataBase::data(int column, int role) const
+QVariant ExamsDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-	/*	if (column == 0)
-			return _exam->name(); */
+		if (column == 0)
+			return _subject->name();
 		if (column == 1)
 			return _comment;
 		if (column == 2)
-			return _result;
+			return _date;
 		if (column == 3)
-			return _student;
+			return _teacher;
 	}
    return Data::data(column, role);
 }

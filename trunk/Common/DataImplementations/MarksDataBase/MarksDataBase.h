@@ -46,58 +46,65 @@
 #include "../../Defines.h"
 #include "../../MarksData.h"
 #include "MarksDataBasePlugin.h"
+#include "../../ExamsData.h"
 
 class MarksDataBase : public MarksData
 {
 	Q_OBJECT
 #ifdef HORUS_SERVER
-        Q_INTERFACES(ServerMarksData)
+	Q_INTERFACES(ServerMarksData)
 #endif
 #ifdef HORUS_CLIENT
-        Q_INTERFACES(ClientMarksData)
+	Q_INTERFACES(ClientMarksData)
 #endif
 
   friend class			MarksDataBasePlugin;
 
 private:
-                                                MarksDataBase(MarksDataBasePlugin* plugin);
-        inline				~MarksDataBase() {}
+	MarksDataBase(TreeData* node, MarksDataBasePlugin* plugin);
+	~MarksDataBase() {}
 
+	QString			_result;
+	QString			_comment;
+	QDate			_date;
+	ExamsData*		_exam;
+	quint32			_student;
 
-        int                             _id;
-        int                             _idUser;
-        int                             _idEvent;
-        QVariant                        _mark;
-        QVariant                        _quote;
-        QDateTime                       _date;
-
-
-        // INTERFACE AttendanceData
+	// INTERFACE MarksData
 public:
-        inline int                      id() const { return _id; }
-        inline QDateTime		date() const { return _date; }
-        inline void			setDate(const QDateTime& date) { _date = date; }
-        inline int                      idUser() const { return _idUser; }
-        inline void			setIdUser(const int user) {_idUser = user; }
-        inline int                      idEvent() const { return _idEvent; }
-        inline void			setIdEvent(const int event) { _idEvent = event; }
-        //inline void                     setmark(const QVariant note) { _mark = mark; }
-        inline QVariant                 mark() const { return _mark; }
-        inline void                     setQuote(const QVariant quote) { _quote = quote; }
-        inline QVariant                 quote() const { return _quote; }
+	inline QString	              result() const  { return _result; }
+	inline void       setResult(const QString& result)  { _result = result; }
+
+	 inline QString	comment() { return _comment; }
+	 inline void	setComment(const QString& comment) { _comment = comment; }
+
+	 inline void           setDate(const QDate& date) { _date = date; }
+	 inline QDate			date() { return _date; }
+
+	 inline ExamsData*               exam() const { return _exam; }
+		inline	void		setExam(ExamsData *exam) { _exam = exam; }
+
+	inline void			setStudent(const quint32 id) { _student = id; }
+	inline quint32		student() const { return _student; }
+
+
+
 
 	//INTERFACE Data
 public:
-	void				keyToStream(QDataStream& s);
+	void				keyToStream(QDataStream& s) const;
 	void				dataToStream(QDataStream& s) const;
 	void				dataFromStream(QDataStream& s);
+
+	bool				canChange(UserData* user) const;
+	bool				canAccess(UserData* user) const;
+
+	const QList<Data*>	dependsOfCreatedData() const;
 
 	QDebug				operator<<(QDebug debug) const;
 
 #ifdef HORUS_CLIENT
 	QVariant			data(int column, int role = Qt::DisplayRole) const;
-public slots:
-	void				create();
 #endif
 #ifdef HORUS_SERVER
 public:
