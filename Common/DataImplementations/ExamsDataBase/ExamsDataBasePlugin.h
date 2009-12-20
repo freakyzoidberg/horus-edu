@@ -32,51 +32,59 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MARKSDATA_H
-#define MARKSDATA_H
+#ifndef EXAMSDATABASEPLUGIN_H
+#define EXAMSDATABASEPLUGIN_H
 
-#include "Data.h"
-#include "MarksDataPlugin.h"
-#include "ExamsDataPlugin.h"
+#include <QHash>
+#include "../../ExamsDataPlugin.h"
 
-class MarksData : public Data
+class ExamsDataBasePlugin : public ExamsDataPlugin
 {
 	Q_OBJECT
 #ifdef HORUS_SERVER
-	Q_INTERFACES(ServerData)
+	Q_INTERFACES(ServerExamsDataPlugin)
 #endif
 #ifdef HORUS_CLIENT
-	Q_INTERFACES(ClientData)
+	Q_INTERFACES(ClientExamsDataPlugin)
 #endif
+
+  friend class ExamsDataBase;
 
 public:
-	virtual QString		result() const = 0;
-	virtual void		setResult(const QString& result)  = 0;
+							ExamsDataBasePlugin();
 
-	virtual QString		comment() = 0;
-	virtual void		setComment(const QString& comment) = 0;
+	ExamsData*				newExams(TreeData* parent, QString name, UserData* user = 0);
+	ExamsData*				nodeExams(quint32 nodeId);
+	ExamsData*				nodeExam(TreeData* node);
+	QList<ExamsData*>		nodeExams(TreeData* node, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
+	QList<ExamsData*>		userExams(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
 
-	virtual void		setDate(const QDate& date) = 0;
-	virtual QDate		date() = 0;
+private:
+	void					recursiveTreeSearch(QList<ExamsData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to);
 
-	virtual ExamsData*	exam() const = 0;
-	virtual	void		setExam(ExamsData *exam) = 0;
 
-	virtual quint32		student() const = 0;
-	virtual void		setStudent(const quint32 id) = 0;
+	//Plugin
+public:
+	inline const QString	pluginName() const { return "Exams Data Base"; }
+	inline const QString	pluginVersion() const { return "0.1"; }
+	bool					canLoad() const;
+	void					load();
+	void					unload();
 
-protected:
-	inline				MarksData(MarksDataPlugin* plugin) : Data(plugin) { }
-	inline				~MarksData() {}
-};
 
+	//DataPlugin
+public:
+	inline const QString	dataType() const { return "Exams"; }
 #ifdef HORUS_SERVER
-typedef MarksData ServerMarksData;
-Q_DECLARE_INTERFACE(ServerMarksData, "net.horus.ServerMarksData/1.0");
+	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
 #endif
 #ifdef HORUS_CLIENT
-typedef MarksData ClientMarksData;
-Q_DECLARE_INTERFACE(ClientMarksData, "net.horus.ClientMarksData/1.0");
+	QAbstractListModel*		listModel() const;
 #endif
 
-#endif // MARKSDATA_H
+protected:
+    //! Return the pointer to the Data with a his unique key read in the stream
+	Data*					dataWithKey(QDataStream& s);
+};
+
+#endif // EXAMSDATABASEPLUGIN_H

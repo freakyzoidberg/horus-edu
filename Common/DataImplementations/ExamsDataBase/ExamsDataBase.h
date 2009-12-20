@@ -32,51 +32,78 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MARKSDATA_H
-#define MARKSDATA_H
+#ifndef EXAMSDATABASE_H
+#define EXAMSDATABASE_H
 
-#include "Data.h"
-#include "MarksDataPlugin.h"
-#include "ExamsDataPlugin.h"
+#ifdef HORUS_SERVER
+    #include <QtSql>
+#endif
+#ifdef HORUS_CLIENT
+    #include <QVariant>
+#endif
+#include <QByteArray>
+#include <QDateTime>
+#include "../../Defines.h"
+#include "../../ExamsData.h"
+#include "ExamsDataBasePlugin.h"
 
-class MarksData : public Data
+class ExamsDataBase : public ExamsData
 {
 	Q_OBJECT
 #ifdef HORUS_SERVER
-	Q_INTERFACES(ServerData)
+	Q_INTERFACES(ServerExamsData)
 #endif
 #ifdef HORUS_CLIENT
-	Q_INTERFACES(ClientData)
+	Q_INTERFACES(ClientExamsData)
 #endif
 
+  friend class			ExamsDataBasePlugin;
+
+private:
+	ExamsDataBase(TreeData* node, ExamsDataBasePlugin* plugin);
+	~ExamsDataBase() {}
+
+	QString			_comment;
+	QDate			_date;
+	TreeData*		_subject;
+	quint32			_teacher;
+
+	// INTERFACE ExamsData
 public:
-	virtual QString		result() const = 0;
-	virtual void		setResult(const QString& result)  = 0;
+	 inline QString	comment() { return _comment; }
+	 inline void	setComment(const QString& comment) { _comment = comment; }
 
-	virtual QString		comment() = 0;
-	virtual void		setComment(const QString& comment) = 0;
+	 inline void           setDate(const QDate& date) { _date = date; }
+	 inline QDate			date() { return _date; }
 
-	virtual void		setDate(const QDate& date) = 0;
-	virtual QDate		date() = 0;
+	 inline TreeData*               subject() const { return _subject; }
+	inline quint32		teacher() const { return _teacher; }
+	inline void			setTeacher(const quint32 id) { _teacher = id; }
 
-	virtual ExamsData*	exam() const = 0;
-	virtual	void		setExam(ExamsData *exam) = 0;
 
-	virtual quint32		student() const = 0;
-	virtual void		setStudent(const quint32 id) = 0;
+	//INTERFACE Data
+public:
+	void				keyToStream(QDataStream& s) const;
+	void				dataToStream(QDataStream& s) const;
+	void				dataFromStream(QDataStream& s);
 
-protected:
-	inline				MarksData(MarksDataPlugin* plugin) : Data(plugin) { }
-	inline				~MarksData() {}
+	bool				canChange(UserData* user) const;
+	bool				canAccess(UserData* user) const;
+
+	const QList<Data*>	dependsOfCreatedData() const;
+
+	QDebug				operator<<(QDebug debug) const;
+
+#ifdef HORUS_CLIENT
+	QVariant			data(int column, int role = Qt::DisplayRole) const;
+#endif
+#ifdef HORUS_SERVER
+public:
+	quint8				serverRead();
+	quint8				serverCreate();
+	quint8				serverSave();
+	quint8				serverRemove();
+#endif
 };
 
-#ifdef HORUS_SERVER
-typedef MarksData ServerMarksData;
-Q_DECLARE_INTERFACE(ServerMarksData, "net.horus.ServerMarksData/1.0");
-#endif
-#ifdef HORUS_CLIENT
-typedef MarksData ClientMarksData;
-Q_DECLARE_INTERFACE(ClientMarksData, "net.horus.ClientMarksData/1.0");
-#endif
-
-#endif // MARKSDATA_H
+#endif // EXAMSDATABASE_H

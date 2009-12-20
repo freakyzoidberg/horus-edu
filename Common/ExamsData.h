@@ -32,14 +32,13 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MARKSDATA_H
-#define MARKSDATA_H
+#ifndef EXAMSDATA_H
+#define EXAMSDATA_H
 
 #include "Data.h"
-#include "MarksDataPlugin.h"
 #include "ExamsDataPlugin.h"
 
-class MarksData : public Data
+class ExamsData : public Data
 {
 	Q_OBJECT
 #ifdef HORUS_SERVER
@@ -50,33 +49,29 @@ class MarksData : public Data
 #endif
 
 public:
-	virtual QString		result() const = 0;
-	virtual void		setResult(const QString& result)  = 0;
-
-	virtual QString		comment() = 0;
+	virtual	QString		comment() = 0;
 	virtual void		setComment(const QString& comment) = 0;
 
 	virtual void		setDate(const QDate& date) = 0;
 	virtual QDate		date() = 0;
 
-	virtual ExamsData*	exam() const = 0;
-	virtual	void		setExam(ExamsData *exam) = 0;
+	virtual TreeData*	subject() const = 0;
 
-	virtual quint32		student() const = 0;
-	virtual void		setStudent(const quint32 id) = 0;
+	virtual quint32		teacher() const = 0;
+	virtual void		setTeacher(const quint32 id) = 0;
 
 protected:
-	inline				MarksData(MarksDataPlugin* plugin) : Data(plugin) { }
-	inline				~MarksData() {}
+	inline				ExamsData(ExamsDataPlugin* plugin) : Data(plugin) { }
+	inline				~ExamsData() {}
 };
 
 #ifdef HORUS_SERVER
-typedef MarksData ServerMarksData;
-Q_DECLARE_INTERFACE(ServerMarksData, "net.horus.ServerMarksData/1.0");
+typedef ExamsData ServerExamsData;
+Q_DECLARE_INTERFACE(ServerExamsData, "net.horus.ServerExamsData/1.0");
 #endif
 #ifdef HORUS_CLIENT
-typedef MarksData ClientMarksData;
-Q_DECLARE_INTERFACE(ClientMarksData, "net.horus.ClientMarksData/1.0");
+typedef ExamsData ClientExamsData;
+Q_DECLARE_INTERFACE(ClientExamsData, "net.horus.ClientExamsData/1.0");
 #endif
 
-#endif // MARKSDATA_H
+#endif // EXAMSDATA_H

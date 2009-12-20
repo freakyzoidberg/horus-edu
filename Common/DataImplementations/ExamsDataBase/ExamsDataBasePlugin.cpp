@@ -32,19 +32,19 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include "MarksDataBasePlugin.h"
-#include "MarksDataBase.h"
+#include "ExamsDataBasePlugin.h"
+#include "ExamsDataBase.h"
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
 #include "../../TreeData.h"
 #include "../../UserData.h"
 
-MarksDataBasePlugin::MarksDataBasePlugin()
+ExamsDataBasePlugin::ExamsDataBasePlugin()
 {
 }
 
-MarksData* MarksDataBasePlugin::newMarks(TreeData* parent, QString name, UserData* user)
+ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserData* user)
 {
 	if ( ! user)
 		user = pluginManager->currentUser();
@@ -53,36 +53,36 @@ MarksData* MarksDataBasePlugin::newMarks(TreeData* parent, QString name, UserDat
 	node->setParent(parent);
 	node->setUser(user);
 	node->setName(name);
-	node->setType("MARKS");
+	node->setType("EXAMS");
 	node->create();
-	return nodeMarks(node);
+	return nodeExam(node);
 }
 
-MarksData* MarksDataBasePlugin::nodeMarks(TreeData* node)
+ExamsData* ExamsDataBasePlugin::nodeExam(TreeData* node)
 {
-	MarksData* Marks = node->registeredData<MarksData*>();
-	if ( ! Marks)
+	ExamsData* Exams = node->registeredData<ExamsData*>();
+	if ( ! Exams)
 	{
-		Marks = new MarksDataBase(node, this);
-		Marks->moveToThread(this->thread());
-		_allDatas.append(Marks);
+		Exams = new ExamsDataBase(node, this);
+		Exams->moveToThread(this->thread());
+		_allDatas.append(Exams);
 	}
-	return Marks;
+	return Exams;
 }
 
-MarksData* MarksDataBasePlugin::nodeMarks(quint32 nodeId)
+ExamsData* ExamsDataBasePlugin::nodeExams(quint32 nodeId)
 {
-	return nodeMarks(pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId));
+	return nodeExam(pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId));
 }
 
-QList<MarksData*> MarksDataBasePlugin::userMarkss(UserData* user, const QDateTime from, const QDateTime to)
+QList<ExamsData*> ExamsDataBasePlugin::userExams(UserData* user, const QDateTime from, const QDateTime to)
 {
-	QList<MarksData*> list;
-	MarksData* Marks;
+	QList<ExamsData*> list;
+	ExamsData* Exams;
 	//look in every parent nodes until the root node
 	for (TreeData* node = user->studentClass()->parent(); node; node = node->parent());
-	/*	if ((Marks = node->registeredData<MarksData*>()) && Marks->startTime() < to && Marks->endTime() > from)
-			list.append(Marks); */
+	/*	if ((Exams = node->registeredData<ExamsData*>()) && Exams->startTime() < to && Exams->endTime() > from)
+			list.append(Exams); */
 
 	//recursively look in every children nodes
 	recursiveTreeSearch(list, user->studentClass(), from, to);
@@ -90,33 +90,33 @@ QList<MarksData*> MarksDataBasePlugin::userMarkss(UserData* user, const QDateTim
 	return list;
 }
 
-QList<MarksData*> MarksDataBasePlugin::nodeMarkss(TreeData* node, const QDateTime from, const QDateTime to)
+QList<ExamsData*> ExamsDataBasePlugin::nodeExams(TreeData* node, const QDateTime from, const QDateTime to)
 {
-	QList<MarksData*> list;
+	QList<ExamsData*> list;
 	//recursively look in every children nodes
 	recursiveTreeSearch(list, node, from, to);
 
 	return list;
 }
 
-void MarksDataBasePlugin::recursiveTreeSearch(QList<MarksData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to)
+void ExamsDataBasePlugin::recursiveTreeSearch(QList<ExamsData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to)
 {
-	MarksData* Marks;
-/*	if ((Marks = node->registeredData<MarksData*>()) && Marks->startTime() < to && Marks->endTime() > from)
-		list.append(Marks); */
+	ExamsData* Exams;
+/*	if ((Exams = node->registeredData<ExamsData*>()) && Exams->startTime() < to && Exams->endTime() > from)
+		list.append(Exams); */
 
 	foreach (TreeData* child, node->children())
 		recursiveTreeSearch(list, child, from, to);
 }
 
-Data* MarksDataBasePlugin::dataWithKey(QDataStream& s)
+Data* ExamsDataBasePlugin::dataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-	return nodeMarks(pluginManager->findPlugin<TreeDataPlugin*>()->node(tmpId));
+	return nodeExam(pluginManager->findPlugin<TreeDataPlugin*>()->node(tmpId));
 }
 
-bool MarksDataBasePlugin::canLoad() const
+bool ExamsDataBasePlugin::canLoad() const
 {
 	TreeDataPlugin* tree = pluginManager->findPlugin<TreeDataPlugin*>();
 	if ( ! tree || ! tree->canLoad())
@@ -124,53 +124,52 @@ bool MarksDataBasePlugin::canLoad() const
 
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	if ( ! query.exec("CREATE TABLE `StudentMarks` (\
-`id` INT NOT NULL PRIMARY KEY ,\
-`exam_id` INT NOT NULL ,\
-`student_id` INT NOT NULL ,\
-`comment` TEXT NOT NULL ,\
-`result` VARCHAR( 16 ) NOT NULL\
+	if ( ! query.exec( "CREATE TABLE IF NOT EXISTS `examination` (\
+	`id` INT NOT NULL  PRIMARY KEY ,\
+	`id_tree` INT NOT NULL ,\
+	`comment` TEXT NOT NULL ,\
+	`date` DATE NOT NULL ,\
+	`teacher_id` INT NOT NULL \
 );")
 	||
-		 ! query.exec("SELECT`exam_id`,`student_id`,`comment`,`result`FROM`StudentMarks`;")
-		)
+		 ! query.exec("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `examination`;"))
 	{
-		qDebug() << "MarksDataBasePlugin::canLoad()" << query.lastError();
+		qDebug() << "ExamsDataBasePlugin::canLoad()" << query.lastError();
 		return false;
 	}
 #endif
 	return Plugin::canLoad();
 }
 
-void  MarksDataBasePlugin::load()
+void  ExamsDataBasePlugin::load()
 {
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT`exam_id`,`student_id`,`comment`,`result`FROM`StudentMarks`;");
+	query.prepare("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `examination`;");
 	query.exec();
 	while (query.next())
 	{
-		MarksDataBase* Marks = (MarksDataBase*)(nodeMarks(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
-		Marks->_result = query.value(3).toString();
-		Marks->_comment = query.value(2).toString();
-		//Marks->_exam   = query.value(2).toDateTime();
-		Marks->_student = query.value(1).toInt();
-		Marks->_status = Data::UPTODATE;
+		ExamsDataBase* Exams = (ExamsDataBase*)(nodeExam(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
+		//Exams->_ = query.value(1).toInt();
+		Exams->_comment = query.value(2).toString();
+		Exams->_date = query.value(3).toDate();
+		Exams->_teacher = query.value(4).toInt();
+		Exams->_status = Data::UPTODATE;
 	}
 #endif
 	Plugin::load();
 }
 
-void  MarksDataBasePlugin::unload()
+void  ExamsDataBasePlugin::unload()
 {
 	foreach (Data* d, _allDatas)
-		delete (MarksDataBase*)d;
+		delete (ExamsDataBase*)d;
 	_allDatas.clear();
 	Plugin::unload();
 }
 
 #ifdef HORUS_SERVER
-QList<Data*> MarksDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
+QList<Data*> ExamsDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
 {
 	QList<Data*> list;
 	foreach (Data* data, _allDatas)
@@ -181,7 +180,7 @@ QList<Data*> MarksDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
 #endif
 #ifdef HORUS_CLIENT
 #include "../../../Client/DataListModel.cpp"
-QAbstractListModel* MarksDataBasePlugin::listModel() const
+QAbstractListModel* ExamsDataBasePlugin::listModel() const
 {
 	static DataListModel* _model = new DataListModel(this);
 	return _model;
