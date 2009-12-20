@@ -14,27 +14,12 @@ TRANSLATIONS = Marks_en.ts \
 
 RESOURCES += Implementation/Marks.qrc
 
+SOURCES += Implementation/Marks.cpp
 
-
-SOURCES += ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.cpp \
-    ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.cpp \
-      ../../DataListModel.cpp \
- Implementation/Marks.cpp
-
-HEADERS += ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.h \
-    ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.h \
-    ../../DataListModel.h \
-  Implementation/Marks.h \
-    Implementation/MarksMetaPlugin.h \  
-  ../../../Common/MarksData.h \
-    ../../../Common/MarksDataPlugin.h \
-    ../../../Common/TreeData.h \
-    ../../../Common/TreeDataPlugin.h \
+HEADERS += Implementation/Marks.h \
+    Implementation/MarksMetaPlugin.h \
+      ../../DisplayablePlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
-    ../../../Common/PluginManager.h \
-    ../../../Common/Data.h \
-    ../../../Common/DataPlugin.h \
-    ../../../Common/DataManager.h \
-      ../../DisplayablePlugin.h
+    ../../DisplayablePlugin.h
 
