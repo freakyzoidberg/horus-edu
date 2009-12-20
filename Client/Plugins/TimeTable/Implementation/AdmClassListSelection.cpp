@@ -59,6 +59,7 @@ AdmClassListSelection::AdmClassListSelection(PluginManager *pluginManager)
 
 	   //connect(ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 				//this, SLOT(updatestudents(QListWidgetItem *)));
+            connect(this->treePlugin,SIGNAL(dataUpdated(Data*)),this,SLOT(fillClassList()));
 	   this->setLayout(ListLayout);
 
 	   fillClassList();

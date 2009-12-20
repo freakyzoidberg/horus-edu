@@ -216,6 +216,13 @@ void ManageEdt::gook()
     scheduleForm = 0;
     updateClasses();
     updateVisible(1);
+
+
+    if (AdmClassList->ClassList->selectedItems().count() > 0)
+        classSelected(AdmClassList->ClassList->selectedItems().first());
+
+
+
 }
 
 void ManageEdt::godelete()
