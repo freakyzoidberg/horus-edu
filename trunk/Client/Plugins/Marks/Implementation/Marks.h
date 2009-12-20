@@ -36,7 +36,8 @@
 # define			__MARKS_H__
 
 # include			"../../../DisplayablePlugin.h"
-#include			"../../../../Common/MarksDataPlugin.h"
+//#include			"../../../../Common/MarksDataPlugin.h"
+
 
 class				Marks : public DisplayablePlugin
 {
