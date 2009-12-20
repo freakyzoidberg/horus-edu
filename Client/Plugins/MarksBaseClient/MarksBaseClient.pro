@@ -1,23 +1,30 @@
 # -------------------------------------------------
-# Project created by AbdErCreator 2009-04-09T19:51:57
+# Project created by QtCreator 2009-04-09T19:51:57
 # -------------------------------------------------
 QT += sql
-DEFINES += HORUS_CLIENT
+
+TARGET = MarksBase
+
 TEMPLATE = lib
-TARGET = MarksBaseClientMetaPlugin
-HEADERS += ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.h \
-    ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.h \
-    ../../../Common/UserDataPlugin.h \
-    ../../../Common/UserData.h \
-    ../../../Common/PluginManager.h \
-    ../../../Common/Plugin.h \
-    ../../../Common/MetaPlugin.h \
-    ../../../Common/MarksDataPlugin.h \
+
+DEFINES += HORUS_CLIENT
+
+SOURCES += ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.cpp \
+    ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.cpp \
+      ../../DataListModel.cpp
+
+HEADERS += ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.h \
+    ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.h \
+    ../../DataListModel.h \
+    Implementation/MarksMetaPlugin.h \  
     ../../../Common/MarksData.h \
-    ../../../Common/DataPlugin.h \
-    ../../../Common/DataManager.h \
+    ../../../Common/MarksDataPlugin.h \
+    ../../../Common/TreeData.h \
+    ../../../Common/TreeDataPlugin.h \
+    ../../../Common/MetaPlugin.h \
+    ../../../Common/Plugin.h \
+    ../../../Common/PluginManager.h \
     ../../../Common/Data.h \
-    ../../../Common/EventDataPlugin.h \
-    ../../../Common/EventData.h
-SOURCES += ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.cpp \
-    ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.cpp
+    ../../../Common/DataPlugin.h \
+    ../../../Common/DataManager.h
+
