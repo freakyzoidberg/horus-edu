@@ -46,6 +46,21 @@ ExamsDataBasePlugin::ExamsDataBasePlugin()
 
 ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserData* user)
 {
+	static quint32 tmpId = 0;
+	tmpId--;
+
+	ExamsDataBase* u = ((ExamsDataBase*)( nodeExams(tmpId)) );
+	u->setDate(QDate().currentDate());
+	u->setComment(name);
+	u->setTeacher(2);
+	//u->set
+
+	/* u->_login = login;
+	u->setName("New user");
+	u->setSurname("New user"); */
+	return u;
+
+	/*
 	if ( ! user)
 		user = pluginManager->currentUser();
 
@@ -55,7 +70,7 @@ ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserDat
 	node->setName(name);
 	node->setType("EXAMS");
 	node->create();
-	return nodeExam(node);
+	return nodeExam(node); */
 }
 
 ExamsData* ExamsDataBasePlugin::nodeExam(TreeData* node)
@@ -63,7 +78,7 @@ ExamsData* ExamsDataBasePlugin::nodeExam(TreeData* node)
 	ExamsData* Exams = node->registeredData<ExamsData*>();
 	if ( ! Exams)
 	{
-		Exams = new ExamsDataBase(node, this);
+		Exams = new ExamsDataBase(node->id(), this);
 		Exams->moveToThread(this->thread());
 		_allDatas.append(Exams);
 	}

@@ -61,8 +61,9 @@ public:
 	virtual void		setTeacher(const quint32 id) = 0;
 
 protected:
-	inline				ExamsData(ExamsDataPlugin* plugin) : Data(plugin) { }
+	inline				ExamsData(quint32 id, ExamsDataPlugin* plugin) : Data(plugin) { _id = id; }
 	inline				~ExamsData() {}
+	quint32				_id;
 };
 
 #ifdef HORUS_SERVER

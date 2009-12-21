@@ -72,23 +72,20 @@ private:
 
 	// INTERFACE MarksData
 public:
-	inline QString	              result() const  { return _result; }
-	inline void       setResult(const QString& result)  { _result = result; }
+	inline QString		result() const  { return _result; }
+	inline void		    setResult(const QString& result)  { _result = result; }
 
-	 inline QString	comment() { return _comment; }
-	 inline void	setComment(const QString& comment) { _comment = comment; }
+	 inline QString		comment() { return _comment; }
+	 inline void		setComment(const QString& comment) { _comment = comment; }
 
-	 inline void           setDate(const QDate& date) { _date = date; }
-	 inline QDate			date() { return _date; }
+	 inline void		setDate(const QDate& date) { _date = date; }
+	 inline QDate		date() { return _date; }
 
-	 inline ExamsData*               exam() const { return _exam; }
-		inline	void		setExam(ExamsData *exam) { _exam = exam; }
+	 inline ExamsData*	exam() const { return _exam; }
+	 inline	void		setExam(ExamsData *exam) { _exam = exam; }
 
 	inline void			setStudent(const quint32 id) { _student = id; }
 	inline quint32		student() const { return _student; }
-
-
-
 
 	//INTERFACE Data
 public:
