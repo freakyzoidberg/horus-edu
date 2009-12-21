@@ -114,6 +114,7 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 
 	QVBoxLayout* leftLayout = new QVBoxLayout;
 	leftLayout->setMargin(8);
+	leftLayout->setSpacing(0);
 	layout->addLayout(leftLayout					, 1, 0, 8, 1);
 
 	leftLayout->addWidget(new QLabel(tr("KeyWords:"), this));
@@ -140,12 +141,11 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 	QFormLayout* formLayout = new QFormLayout;
 	formLayout->setMargin(8);
 	layout->addLayout(formLayout					, 1, 2);
-
+	
 	formLayout->addRow(tr("Name:"), new QLabel(this));
 	formLayout->addRow(tr("Size:"), new QLabel(this));
-	formLayout->addRow(tr("Mime Type:"), new QLabel(this));
 	formLayout->addRow(tr("Key Words:"), new QLabel(this));
-	formLayout->addRow(tr("Status:"), new QWidget(this));
+//	formLayout->addRow(tr("Status:"), new QWidget(this));
 
 	label = new QLabel(tr("Actions:"), this);
 	label->setProperty("isTitle", true);
@@ -211,8 +211,6 @@ void LibraryList::fileClicked(QModelIndex index)
 	QFormLayout* form = static_cast<QFormLayout*>(static_cast<QGridLayout*>(layout())->itemAtPosition(1, 2)->layout());
 	static_cast<QLabel*>(form->itemAt(0, QFormLayout::FieldRole)->widget())->setText(_selectedFile->name());
 	static_cast<QLabel*>(form->itemAt(1, QFormLayout::FieldRole)->widget())->setText(QVariant(_selectedFile->size()).toString());
-	static_cast<QLabel*>(form->itemAt(2, QFormLayout::FieldRole)->widget())->setText(_selectedFile->mimeType());
-	static_cast<QLabel*>(form->itemAt(3, QFormLayout::FieldRole)->widget())->setText("");
 }
 
 void LibraryList::fileActivated(QModelIndex index)
@@ -255,8 +253,6 @@ void LibraryList::removeButton()
 	QFormLayout* form = static_cast<QFormLayout*>(static_cast<QGridLayout*>(layout())->itemAtPosition(1, 2)->layout());
 	static_cast<QLabel*>(form->itemAt(0, QFormLayout::FieldRole)->widget())->setText("");
 	static_cast<QLabel*>(form->itemAt(1, QFormLayout::FieldRole)->widget())->setText("");
-	static_cast<QLabel*>(form->itemAt(2, QFormLayout::FieldRole)->widget())->setText("");
-	static_cast<QLabel*>(form->itemAt(3, QFormLayout::FieldRole)->widget())->setText("");
 }
 
 void LibraryList::dragEnterEvent(QDragEnterEvent *event)

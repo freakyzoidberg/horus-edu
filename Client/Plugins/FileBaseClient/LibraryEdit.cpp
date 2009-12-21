@@ -11,6 +11,7 @@
 #include <QDragEnterEvent>
 #include <QUrl>
 #include <QFileInfo>
+#include <QFileDialog>
 
 LibraryEdit::LibraryEdit(PluginManager* pluginManager, FileData* file)
 {
@@ -103,14 +104,18 @@ void LibraryEdit::init()
 
 	label = new QLabel(tr("File path"), this);
 	label->setProperty("isFormLabel", true);
-	_formLayout->addWidget(label, 6, 0, 2, 1);
+	_formLayout->addWidget(label, 6, 0, 3, 1);
 
 	line = new QLineEdit((_file?_file->fileName():""), this);
 	line->setEnabled(false);
 	_formLayout->addWidget(line, 6, 1);
 
-	label = new QLabel(tr("You can drop a file here."), this);
-	_formLayout->addWidget(label, 7, 1);
+	button = new QPushButton(tr("Browse"), this);
+	connect(button, SIGNAL(clicked()), this, SLOT(browse()));
+	_formLayout->addWidget(button, 7, 1);
+
+	label = new QLabel(tr("You can also drop a file here."), this);
+	_formLayout->addWidget(label, 8, 1);
 
 	QVBoxLayout* rightLayout = new QVBoxLayout;
 	layout->addLayout(rightLayout);
@@ -149,7 +154,8 @@ void LibraryEdit::exit()
 void LibraryEdit::create()
 {
 	QString name = static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text();
-	if (name.isEmpty())
+	QString source = static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->text();
+	if (name.isEmpty() || source.isEmpty())
 		return;
 
 	TreeDataPlugin* tdp = _pluginManager->findPlugin<TreeDataPlugin*>();
@@ -157,12 +163,12 @@ void LibraryEdit::create()
 	if (node == tdp->rootNode())
 		node = tdp->node(_grades->itemData(_grades->currentIndex()).toUInt());
 
-	_file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->text());
+	_file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, source);
 	_file->setName(name);
 //	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
 	_file->setKeyWords(static_cast<QTextEdit*>(_formLayout->itemAtPosition(3, 1)->widget())->document()->toPlainText());
 
-	_file->create();
+//	_file->create();
 	_file->upload();
 	emit exited();
 }
@@ -233,4 +239,16 @@ void LibraryEdit::gradeChanged(int)
 		}
 		_subjects->setEnabled(true);
 	}
+}
+
+void LibraryEdit::browse()
+{
+	QFileDialog dialog;
+	dialog.exec();
+	if (dialog.result() != QDialog::Accepted)
+		return;
+
+	QFileInfo f(dialog.selectedFiles().first());
+	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( f.filePath() + '/' + f.fileName() );
+	static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->setText( f.fileName() );
 }
