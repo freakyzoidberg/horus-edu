@@ -98,16 +98,12 @@ FileData* FileDataBasePlugin::createFile(TreeData* node, const QString localFile
 	f->_node = node;
 	f->_owner = pluginManager->currentUser();
 	f->_name = 	QFileInfo(localFileName).fileName();
+	f->_size = 0;
 	//TODO. mime type automatique
-	f->_mimeType = "TODO";
+	f->_mimeType = "application/octet-stream";
 	f->_keyWords = QFileInfo(localFileName).fileName();
 
 	QFile::copy(localFileName, f->fileName());
-
-//	f->create();
-//#ifdef HORUS_CLIENT
-//	f->upload();
-//#endif
 
 	return f;
 }
