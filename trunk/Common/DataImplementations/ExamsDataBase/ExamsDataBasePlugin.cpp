@@ -53,24 +53,7 @@ ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserDat
 	u->setDate(QDate().currentDate());
 	u->setComment(name);
 	u->setTeacher(2);
-	//u->set
-
-	/* u->_login = login;
-	u->setName("New user");
-	u->setSurname("New user"); */
 	return u;
-
-	/*
-	if ( ! user)
-		user = pluginManager->currentUser();
-
-	TreeData* node = pluginManager->findPlugin<TreeDataPlugin*>()->createNode();
-	node->setParent(parent);
-	node->setUser(user);
-	node->setName(name);
-	node->setType("EXAMS");
-	node->create();
-	return nodeExam(node); */
 }
 
 ExamsData* ExamsDataBasePlugin::nodeExam(TreeData* node)
