@@ -20,6 +20,5 @@ HEADERS += Implementation/Marks.h \
     Implementation/MarksMetaPlugin.h \
       ../../DisplayablePlugin.h \
     ../../../Common/MetaPlugin.h \
-    ../../../Common/Plugin.h \
-    ../../DisplayablePlugin.h
+	../../../Common/Plugin.h
 
