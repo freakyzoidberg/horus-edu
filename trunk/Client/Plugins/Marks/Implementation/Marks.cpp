@@ -33,6 +33,7 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include		"Marks.h"
+#include		"MarksMainView.h"
 
 const QString	Marks::pluginName() const
 {
@@ -46,7 +47,7 @@ const QString	Marks::pluginVersion() const
 
 QWidget			*Marks::getWidget()
 {
-	return (new QWidget());
+	return (new MarksMainView(pluginManager));
 }
 
 const QString       Marks::getDisplayableName() const
@@ -71,6 +72,10 @@ void                Marks::load()
 	userPlugin = pluginManager->findPlugin<UserDataPlugin *>();
 	eventPlugin = pluginManager->findPlugin<EventDataPlugin *>();
 	//    schedulePlugin = pluginManager->findPlugin<ScheduleDataPlugin*>(); */
+
+	_examsPlugin = pluginManager->findPlugin<ExamsDataPlugin *>();
+	_currentUser = pluginManager->currentUser();
+
 	Plugin::load();
 }
 
