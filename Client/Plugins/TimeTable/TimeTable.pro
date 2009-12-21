@@ -37,3 +37,5 @@ HEADERS += Implementation/TimeTable.h \
     Implementation/InfoPanel.h \
     Implementation/EdtTimer.h
 RESOURCES += Implementation/TimeTable.qrc
+TRANSLATIONS =	Timetable_en.ts \
+Timetable_fr.ts
