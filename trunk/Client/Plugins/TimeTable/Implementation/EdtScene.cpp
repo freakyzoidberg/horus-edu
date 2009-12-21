@@ -190,13 +190,13 @@ void                EDTScene::addEvent(QString name, int dow, QTime hstart, QTim
     rect->setGroup(group);
     rect->setZValue(1);
 
-    if (color == "Yellow")
+    if ((color == "Yellow") || (color == "Jaune"))
             rect->setBrush(QBrush(Qt::yellow));
-    else if (color == "Green")
+    else if ((color == "Green")  || (color == "Vert"))
             rect->setBrush(QBrush(Qt::green));
-    else if (color == "Blue")
+    else if ((color == "Blue")  || (color == "Bleu"))
             rect->setBrush(QBrush(Qt::blue));
-    else if (color == "Red")
+    else if ((color == "Red")  || (color == "Rouge"))
             rect->setBrush(QBrush(Qt::red));
     else
             rect->setBrush(QBrush(Qt::white));
