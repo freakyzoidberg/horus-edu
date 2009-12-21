@@ -11,7 +11,8 @@ class LibraryEdit : public QWidget
 {
 Q_OBJECT
 public:
-	explicit LibraryEdit(PluginManager* pluginManager, FileData* file);
+	LibraryEdit(PluginManager* pluginManager, FileData* file = 0);
+	LibraryEdit(PluginManager* pluginManager, const QString filename);
 
 signals:
 	void			exited();
@@ -25,6 +26,7 @@ public slots:
 	void			gradeChanged(int);
 
 private:
+	void			init();
 	PluginManager*	_pluginManager;
 	FileData*		_file;
 	bool			_creating;

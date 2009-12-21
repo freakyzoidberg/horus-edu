@@ -34,6 +34,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "LibraryList.h"
 #include "LibraryFilterProxyModel.h"
+#include "LibraryEdit.h"
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/TreeData.h"
 #include "../../../Common/UserData.h"
@@ -49,11 +50,13 @@
 #include <QComboBox>
 #include <QDragEnterEvent>
 #include <QUrl>
+#include <QStackedLayout>
 
-LibraryList::LibraryList(PluginManager* pluginManager)
+LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 {
 	_selectedFile = 0;
 	_pluginManager = pluginManager;
+	_parent = parent;
 
 	QGridLayout* layout = new QGridLayout(this);
 	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
@@ -212,19 +215,32 @@ void LibraryList::fileClicked(QModelIndex index)
 void LibraryList::fileActivated(QModelIndex index)
 {
 	_selectedFile = static_cast<FileData*>(_filter->mapToSource(index).internalPointer());
-	emit editFile(_selectedFile);
+	editButton();
+}
+
+void LibraryList::editFinished()
+{
+	delete _parent->takeAt(0);
+	_parent->addWidget(this);
 }
 
 void LibraryList::createButton()
 {
-	emit editFile(0);
+	LibraryEdit* edit = new LibraryEdit(_pluginManager);
+	connect(edit, SIGNAL(exited()), this, SLOT(editFinished()));
+	_parent->takeAt(0);
+	_parent->addWidget(edit);
 }
 
 void LibraryList::editButton()
 {
 	if ( ! _selectedFile)
 		return;
-	emit editFile(_selectedFile);
+
+	LibraryEdit* edit = new LibraryEdit(_pluginManager, _selectedFile);
+	connect(edit, SIGNAL(exited()), this, SLOT(editFinished()));
+	_parent->takeAt(0);
+	_parent->addWidget(edit);
 }
 
 void LibraryList::removeButton()
@@ -278,9 +294,10 @@ void LibraryList::dropEvent(QDropEvent* event)
 		}
 	}
 
-	FileData* file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, event->mimeData()->urls().first().path());
-	file->create();
-	file->upload();
-	emit editFile(file);
+	LibraryEdit* edit = new LibraryEdit(_pluginManager, event->mimeData()->urls().first().path());
+	connect(edit, SIGNAL(exited()), this, SLOT(editFinished()));
+	_parent->takeAt(0);
+	_parent->addWidget(edit);
+
 	event->acceptProposedAction();
 }

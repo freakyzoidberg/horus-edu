@@ -43,12 +43,13 @@ class UserDataPlugin;
 class LibraryFilterProxyModel;
 class FileData;
 class QComboBox;
+class QStackedLayout;
 
 class LibraryList : public QWidget
 {
 Q_OBJECT
 public:
-	LibraryList(PluginManager* pluginManager);
+	LibraryList(PluginManager* pluginManager, QStackedLayout* parent);
 
 private slots:
 	void						comboBoxChanged(int);
@@ -60,10 +61,7 @@ private slots:
 	void						removeButton();
 	void						dragEnterEvent(QDragEnterEvent *event);
 	void						dropEvent(QDropEvent* event);
-
-
-signals:
-	void						editFile(FileData* file);
+	void						editFinished();
 
 private:
 	QComboBox*					_grades;
@@ -72,6 +70,7 @@ private:
 	PluginManager*				_pluginManager;
 	LibraryFilterProxyModel*	_filter;
 	FileData*					_selectedFile;
+	QStackedLayout*				_parent;
 };
 
 #endif // LIBRARYLIST_H

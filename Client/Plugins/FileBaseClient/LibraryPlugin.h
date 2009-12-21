@@ -53,14 +53,6 @@ public:
 	inline QIcon getIcon() const { return (QIcon(":Icons/lib-icon.png")); }
 //	inline int getOrder() const { return (50); }
 //	inline bool operator<(DisplayablePlugin &right) const { return (this->getOrder() < right.getOrder()); }
-
-
-private slots:
-	void					editFile(FileData* file);
-	void					editFinished();
-
-private:
-	QStackedLayout*			_layout;
 };
 
 #endif // LIBRARYPLUGIN_H
