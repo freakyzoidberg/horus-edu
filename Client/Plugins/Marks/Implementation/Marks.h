@@ -36,7 +36,7 @@
 # define			__MARKS_H__
 
 # include			"../../../DisplayablePlugin.h"
-//#include			"../../../../Common/MarksDataPlugin.h"
+#include			"../../../../Common/ExamsDataPlugin.h"
 
 
 class				Marks : public DisplayablePlugin
@@ -53,6 +53,10 @@ public:
 	QIcon               getIcon() const;
 	bool                canLoad() const;
 	void                load();
+
+private:
+	ExamsDataPlugin	*_examsPlugin;
+	UserData		*_currentUser;
 };
 
 #endif
