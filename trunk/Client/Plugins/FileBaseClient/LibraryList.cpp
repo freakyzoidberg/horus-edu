@@ -113,6 +113,7 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 
 
 	QVBoxLayout* leftLayout = new QVBoxLayout;
+	leftLayout->setMargin(8);
 	layout->addLayout(leftLayout					, 1, 0, 8, 1);
 
 	leftLayout->addWidget(new QLabel(tr("KeyWords:"), this));
@@ -137,6 +138,7 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 	layout->addWidget(label							, 0, 2);
 
 	QFormLayout* formLayout = new QFormLayout;
+	formLayout->setMargin(8);
 	layout->addLayout(formLayout					, 1, 2);
 
 	formLayout->addRow(tr("Name:"), new QLabel(this));
@@ -152,6 +154,7 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 	layout->addWidget(label							, 2, 2);
 
 	QVBoxLayout* rightLayout = new QVBoxLayout;
+//	rightLayout->setMargin(8);
 	layout->addLayout(rightLayout						, 3, 2);
 
 	QPushButton* button;

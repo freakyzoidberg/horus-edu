@@ -39,6 +39,7 @@ void LibraryEdit::init()
 	QHBoxLayout* layout = new QHBoxLayout(this);
 	layout->setSpacing(0);
 	layout->setMargin(0);
+	setAcceptDrops(true);
 
 
 	QFrame* formFrame = new QFrame();
@@ -59,12 +60,12 @@ void LibraryEdit::init()
 	line = new QLineEdit((_file?_file->name():""), this);
 	_formLayout->addWidget(line, 1, 1);
 
-	label = new QLabel(tr("Mime Type"), this);
-	label->setProperty("isFormLabel", true);
-	_formLayout->addWidget(label, 2, 0);
-
-	line = new QLineEdit((_file?_file->mimeType():""), this);
-	_formLayout->addWidget(line, 2, 1);
+//	label = new QLabel(tr("Mime Type"), this);
+//	label->setProperty("isFormLabel", true);
+//	_formLayout->addWidget(label, 2, 0);
+//
+//	line = new QLineEdit((_file?_file->mimeType():""), this);
+//	_formLayout->addWidget(line, 2, 1);
 
 	label = new QLabel(tr("Key Words"), this);
 	label->setProperty("isFormLabel", true);
@@ -147,15 +148,20 @@ void LibraryEdit::exit()
 
 void LibraryEdit::create()
 {
+	QString name = static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text();
+	if (name.isEmpty())
+		return;
+
 	TreeDataPlugin* tdp = _pluginManager->findPlugin<TreeDataPlugin*>();
 	TreeData* node = tdp->node(_subjects->itemData(_subjects->currentIndex()).toUInt());
 	if (node == tdp->rootNode())
 		node = tdp->node(_grades->itemData(_grades->currentIndex()).toUInt());
 
 	_file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->text());
-	_file->setName(static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text());
-	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
+	_file->setName(name);
+//	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
 	_file->setKeyWords(static_cast<QTextEdit*>(_formLayout->itemAtPosition(3, 1)->widget())->document()->toPlainText());
+
 	_file->create();
 	_file->upload();
 	emit exited();
@@ -170,7 +176,7 @@ void LibraryEdit::save()
 
 	_file->moveTo(node);
 	_file->setName(static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text());
-	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
+//	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
 	_file->setKeyWords(static_cast<QTextEdit*>(_formLayout->itemAtPosition(3, 1)->widget())->document()->toPlainText());
 	_file->save();
 	emit exited();
