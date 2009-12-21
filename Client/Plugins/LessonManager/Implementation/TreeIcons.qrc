@@ -1,7 +1,7 @@
 <RCC>
-    <qresource prefix="/Icons" >
+    <qresource prefix="/" >
+        <file>DocumentIcon.png</file>
         <file>LessonIcon.png</file>
         <file>SectionIcon.png</file>
-        <file>DocumentIcon.png</file>
     </qresource>
 </RCC>
