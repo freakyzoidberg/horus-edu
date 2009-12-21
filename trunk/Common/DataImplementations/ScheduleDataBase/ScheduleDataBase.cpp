@@ -105,7 +105,6 @@ bool ScheduleDataBase::canAccess(UserData* user) const
 	return _node->canAccess(user);
 }
 
-
 QDebug ScheduleDataBase::operator<<(QDebug debug) const
 {
         return debug << dataType() << _node->id() << _startDate << _endDate;

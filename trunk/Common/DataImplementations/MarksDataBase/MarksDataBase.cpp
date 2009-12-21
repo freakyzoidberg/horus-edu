@@ -45,7 +45,7 @@ MarksDataBase::MarksDataBase(TreeData* node, MarksDataBasePlugin* plugin) : Mark
 
 void MarksDataBase::keyToStream(QDataStream& s) const
 {
-//	s << _exam->id();
+	//s << _;
 }
 
 void MarksDataBase::dataToStream(QDataStream& s) const

@@ -37,15 +37,15 @@
 
 #include "../../TreeData.h"
 
-ExamsDataBase::ExamsDataBase(TreeData* node, ExamsDataBasePlugin* plugin) : ExamsData(plugin)
+ExamsDataBase::ExamsDataBase(quint32 id, ExamsDataBasePlugin* plugin) : ExamsData(id, plugin)
 {
-	_subject = node;
-	_subject->registerData(this);
+	/*_subject = node;
+	_subject->registerData(this); */
 }
 
 void ExamsDataBase::keyToStream(QDataStream& s) const
 {
-	s << _subject->id();
+	s << _id;
 }
 
 void ExamsDataBase::dataToStream(QDataStream& s) const

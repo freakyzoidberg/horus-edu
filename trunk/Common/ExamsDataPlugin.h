@@ -51,7 +51,11 @@ class ExamsDataPlugin : public DataPlugin
 #endif
 
 public:
-
+  virtual ExamsData*	  newExams(TreeData* parent, QString name, UserData* user = 0) = 0;
+		virtual ExamsData*	  nodeExams(quint32 nodeId) = 0;
+		virtual ExamsData*	  nodeExam(TreeData* node) = 0;
+	virtual QList<ExamsData*> nodeExams(TreeData* node, const QDateTime from = QDateTime(), const QDateTime to = QDateTime()) = 0;
+	virtual QList<ExamsData*> userExams(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime()) = 0;
 };
 
 #ifdef HORUS_SERVER

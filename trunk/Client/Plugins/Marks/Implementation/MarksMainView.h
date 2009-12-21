@@ -9,10 +9,10 @@
 class MarksMainView : public QTabWidget
 {
 public:
-	MarksMainView(PluginManager *pluginManager);
+					MarksMainView(PluginManager *pluginManager);
 
 private:
-	SubjectList	*_subjectList;
+	SubjectList		*_subjectList;
 };
 
 #endif // MARKSMAINVIEW_H

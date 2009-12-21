@@ -57,29 +57,29 @@ class ManageEdt : public QWidget
 {
 	Q_OBJECT
 
-    public:
-                                                ManageEdt(PluginManager *pluginManager, MainView *parent);
+public:
+	ManageEdt(PluginManager *pluginManager, MainView *parent);
 	QListWidget				*StudentList;
 
-    public slots:
-        void                                    classSelected(QListWidgetItem *);
-        void                                    goadd();
-        void                                    godelete();
-        void                                    goedit();
-        void                                    goreset();
-        void                                    gook();
-		void									fallback();
+public slots:
+	void                  classSelected(QListWidgetItem *);
+	void                                    goadd();
+	void                                    godelete();
+	void                                    goedit();
+	void                                    goreset();
+	void                                    gook();
+	void									fallback();
 
-    private:
-        MainView				*parent;
-        TreeDataPlugin                          *td;
-        ScheduleDataPlugin                      *sd;
+private:
+	MainView				*parent;
+	TreeDataPlugin          *td;
+	ScheduleDataPlugin      *sd;
 	QHBoxLayout				*MainLayout;
 	AdmListEdt				*_admEDTList;
 	QFrame					*informationsFrame;
 	QVBoxLayout				*informationsLayout;
 	InfoPanel				*infos;
-        EditSchedule                            *scheduleForm;
+	EditSchedule            *scheduleForm;
 	QPushButton				*del;
 	QPushButton				*edit;
 	QPushButton				*ok;
@@ -88,9 +88,9 @@ class ManageEdt : public QWidget
 	QPushButton				*back;
 	QPushButton				*add;
 
-        void                                    updateClasses();
-        void                                    updateVisible(int type);
-        AdmClassListSelection                   *AdmClassList;
+	void                    updateClasses();
+	void                    updateVisible(int type);
+	AdmClassListSelection   *AdmClassList;
 };
 
 #endif // MANAGEEDT_H

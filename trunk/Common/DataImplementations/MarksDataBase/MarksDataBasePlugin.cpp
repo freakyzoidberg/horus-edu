@@ -124,7 +124,7 @@ bool MarksDataBasePlugin::canLoad() const
 
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	if ( ! query.exec("CREATE TABLE `StudentMarks` (\
+	if ( ! query.exec("CREATE TABLE IF NOT EXISTS `StudentMarks` (\
 `id` INT NOT NULL PRIMARY KEY ,\
 `exam_id` INT NOT NULL ,\
 `student_id` INT NOT NULL ,\

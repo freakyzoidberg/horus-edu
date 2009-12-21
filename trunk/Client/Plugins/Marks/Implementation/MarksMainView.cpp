@@ -2,7 +2,8 @@
 
 MarksMainView::MarksMainView(PluginManager *pluginManager)
 {
-	_subjectList = new SubjectList(pluginManager);
 
+
+	_subjectList = new SubjectList(pluginManager);
 	this->addTab(_subjectList, "Testing...");
 }
