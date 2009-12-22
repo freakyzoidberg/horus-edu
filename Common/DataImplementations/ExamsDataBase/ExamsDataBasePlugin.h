@@ -54,14 +54,7 @@ public:
 							ExamsDataBasePlugin();
 
 	ExamsData*				newExams(TreeData* parent, QString name, UserData* user = 0);
-	ExamsData*				nodeExams(quint32 nodeId);
-	ExamsData*				nodeExam(TreeData* node);
-	QList<ExamsData*>		nodeExams(TreeData* node, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
-	QList<ExamsData*>		userExams(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
-
-private:
-	void					recursiveTreeSearch(QList<ExamsData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to);
-
+	ExamsData*				exam(quint32 nodeId);
 
 	//Plugin
 public:
@@ -80,6 +73,7 @@ public:
 #endif
 #ifdef HORUS_CLIENT
 	QAbstractListModel*		listModel() const;
+	void					dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 
 protected:

@@ -49,6 +49,8 @@ class ExamsData : public Data
 #endif
 
 public:
+	inline quint32		id() const { return _id; }
+
 	virtual	QString		comment() = 0;
 	virtual void		setComment(const QString& comment) = 0;
 
@@ -56,6 +58,10 @@ public:
 	virtual QDate		date() = 0;
 
 	virtual TreeData*	subject() const = 0;
+	virtual void		setSubject(TreeData* node) = 0;
+
+	virtual ExamsData*	exam() const = 0;
+	virtual void		setExam(ExamsData* exam) = 0;
 
 	virtual quint32		teacher() const = 0;
 	virtual void		setTeacher(const quint32 id) = 0;

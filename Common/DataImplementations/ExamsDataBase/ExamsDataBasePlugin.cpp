@@ -49,69 +49,51 @@ ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserDat
 	static quint32 tmpId = 0;
 	tmpId--;
 
-	ExamsDataBase* u = ((ExamsDataBase*)( nodeExams(tmpId)) );
+	ExamsDataBase* u = ((ExamsDataBase*)( exam(tmpId)) );
 	u->setDate(QDate().currentDate());
 	u->setComment(name);
 	u->setTeacher(2);
 	return u;
 }
 
-ExamsData* ExamsDataBasePlugin::nodeExam(TreeData* node)
+ExamsData* ExamsDataBasePlugin::exam(quint32 examId)
 {
-	ExamsData* Exams = node->registeredData<ExamsData*>();
-	if ( ! Exams)
+	if (examId == 0)
+		return NULL;
+
+	foreach (Data* d, _allDatas)
 	{
-		Exams = new ExamsDataBase(node->id(), this);
-		Exams->moveToThread(this->thread());
-		_allDatas.append(Exams);
+		ExamsDataBase* u = (ExamsDataBase*)d;
+		if (u->_id == examId)
+			return u;
 	}
-	return Exams;
+
+	ExamsDataBase* u = new ExamsDataBase(examId, this);
+
+	u->_date = QDate().currentDate();
+	u->_comment = "";
+	u->_subject = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+	u->_teacher = 1;
+	_allDatas.append(u);
+	return u;
 }
 
-ExamsData* ExamsDataBasePlugin::nodeExams(quint32 nodeId)
-{
-	return nodeExam(pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId));
-}
-
-QList<ExamsData*> ExamsDataBasePlugin::userExams(UserData* user, const QDateTime from, const QDateTime to)
-{
-	QList<ExamsData*> list;
-	ExamsData* Exams;
-	//look in every parent nodes until the root node
-	for (TreeData* node = user->studentClass()->parent(); node; node = node->parent());
-	/*	if ((Exams = node->registeredData<ExamsData*>()) && Exams->startTime() < to && Exams->endTime() > from)
-			list.append(Exams); */
-
-	//recursively look in every children nodes
-	recursiveTreeSearch(list, user->studentClass(), from, to);
-
-	return list;
-}
-
-QList<ExamsData*> ExamsDataBasePlugin::nodeExams(TreeData* node, const QDateTime from, const QDateTime to)
-{
-	QList<ExamsData*> list;
-	//recursively look in every children nodes
-	recursiveTreeSearch(list, node, from, to);
-
-	return list;
-}
-
+/*
 void ExamsDataBasePlugin::recursiveTreeSearch(QList<ExamsData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to)
 {
 	ExamsData* Exams;
-/*	if ((Exams = node->registeredData<ExamsData*>()) && Exams->startTime() < to && Exams->endTime() > from)
-		list.append(Exams); */
+	if ((Exams = node->registeredData<ExamsData*>()) && Exams->startTime() < to && Exams->endTime() > from)
+		list.append(Exams);
 
 	foreach (TreeData* child, node->children())
 		recursiveTreeSearch(list, child, from, to);
-}
+}*/
 
 Data* ExamsDataBasePlugin::dataWithKey(QDataStream& s)
 {
     quint32 tmpId;
     s >> tmpId;
-	return nodeExam(pluginManager->findPlugin<TreeDataPlugin*>()->node(tmpId));
+	return exam(tmpId);
 }
 
 bool ExamsDataBasePlugin::canLoad() const
@@ -147,8 +129,9 @@ void  ExamsDataBasePlugin::load()
 	query.exec();
 	while (query.next())
 	{
-		ExamsDataBase* Exams = (ExamsDataBase*)(nodeExam(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
-		//Exams->_ = query.value(1).toInt();
+		ExamsDataBase* Exams = (ExamsDataBase*)(exam(query.value(0).toUInt()));
+		//Exams->_ = query.value(1).toInt()
+		Exams->_subject = pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(1).toInt());
 		Exams->_comment = query.value(2).toString();
 		Exams->_date = query.value(3).toDate();
 		Exams->_teacher = query.value(4).toInt();
@@ -177,10 +160,19 @@ QList<Data*> ExamsDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
 }
 #endif
 #ifdef HORUS_CLIENT
-#include "../../../Client/DataListModel.cpp"
+
+void ExamsDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
+{
+	ExamsDataBase* u = ((ExamsDataBase*)(d));
+	s >> u->_id;
+	qDebug() << "User data Have a New Key" << u->_id;
+}
+
+#include "../../../Client/DataListModel.h"
 QAbstractListModel* ExamsDataBasePlugin::listModel() const
 {
 	static DataListModel* _model = new DataListModel(this);
 	return _model;
 }
 #endif
+

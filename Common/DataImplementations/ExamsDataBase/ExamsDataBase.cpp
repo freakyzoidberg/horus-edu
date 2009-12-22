@@ -36,11 +36,10 @@
 #include "ExamsDataBasePlugin.h"
 
 #include "../../TreeData.h"
+#include "../../UserData.h"
 
 ExamsDataBase::ExamsDataBase(quint32 id, ExamsDataBasePlugin* plugin) : ExamsData(id, plugin)
 {
-	/*_subject = node;
-	_subject->registerData(this); */
 }
 
 void ExamsDataBase::keyToStream(QDataStream& s) const
@@ -50,22 +49,30 @@ void ExamsDataBase::keyToStream(QDataStream& s) const
 
 void ExamsDataBase::dataToStream(QDataStream& s) const
 {
-	s << _comment << _date << _teacher;
+	s << _comment << _date << _teacher << _subject->id();
 }
 
 void ExamsDataBase::dataFromStream(QDataStream& s)
 {
-	s >> _comment >> _date >> _teacher;
+	quint32	subjectId, examId;
+
+	s >> _comment >> _date >> _teacher >> subjectId >> examId;
+
+	setSubject(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(subjectId));
+	setExam(_plugin->pluginManager->findPlugin<ExamsDataPlugin*>()->exam(examId));
+	Data::dataFromStream(s);
 }
 
 bool ExamsDataBase::canChange(UserData* user) const
 {
-	return _subject->canChange(user);
+	if (!user->level())
+		return true;
+	return false;
 }
 
 bool ExamsDataBase::canAccess(UserData* user) const
 {
-	return _subject->canAccess(user);
+	return true;
 }
 
 QDebug ExamsDataBase::operator<<(QDebug debug) const
@@ -84,7 +91,7 @@ const QList<Data*> ExamsDataBase::dependsOfCreatedData() const
 quint8 ExamsDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`comment`,`date`,`teacher_id`FROM`examination`WHERE`id_tree`=?;");
+	query.prepare("SELECT`comment`,`date`,`teacher_id`,`id_tree`FROM`examination`WHERE`id_tree`=?;");
 	query.addBindValue(_subject->id());
 
 	if ( ! query.exec())
@@ -95,10 +102,11 @@ quint8 ExamsDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-	_date = query.value(1).toDate();
-	_teacher	= query.value(2).toInt();
 	_comment	= query.value(0).toString();
-
+	_date		= query.value(1).toDate();
+	_teacher	= query.value(2).toInt();
+	this->_subject =
+	_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(3).toUInt());
 	return NONE;
 }
 
@@ -161,13 +169,15 @@ QVariant ExamsDataBase::data(int column, int role) const
     if (role == Qt::DisplayRole)
     {
 		if (column == 0)
-			return _subject->name();
+			return _id;
 		if (column == 1)
 			return _comment;
 		if (column == 2)
 			return _date;
 		if (column == 3)
 			return _teacher;
+		if (column == 4)
+			return _subject->id();
 	}
    return Data::data(column, role);
 }
