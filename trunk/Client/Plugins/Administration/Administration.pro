@@ -21,6 +21,7 @@ HEADERS +=		Implementation/Administration.h \
 				../../../Common/Data.h \
 				../../DisplayablePlugin.h \
 				Implementation/ManageStructure.h \
+				Implementation/InformationsStructure.h \
 				Implementation/StructureElement.h \
 				Implementation/StructureForm.h \
 				Implementation/ElementSchool.h \
@@ -33,6 +34,7 @@ HEADERS +=		Implementation/Administration.h \
 
 SOURCES +=		Implementation/Administration.cpp \
 				Implementation/ManageStructure.cpp \
+				Implementation/InformationsStructure.cpp \
 				Implementation/StructureElement.cpp \
 				Implementation/StructureForm.cpp \
 				Implementation/ElementSchool.cpp \

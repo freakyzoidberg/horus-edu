@@ -139,6 +139,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	userListView->setDragEnabled(true);
 	userListView->setAcceptDrops(false);
 	userListView->setModel(classFilter);
+	userListView->setColumnHidden(0, true);
 	userListView->setColumnHidden(1, true);
 	userListView->setColumnHidden(4, true);
 	userListView->setColumnHidden(5, true);
@@ -189,6 +190,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	connect(addButton, SIGNAL(clicked()), this, SLOT(userAdded()));
 	connect(editButton, SIGNAL(clicked()), this, SLOT(userEdited()));
 	connect(deleteButton, SIGNAL(clicked()), this, SLOT(userDeleted()));
+	connect(userListView, SIGNAL(activated(const QModelIndex &)), this, SLOT(userEdited()));
 }
 
 void					ListUser::showEvent(QShowEvent *)

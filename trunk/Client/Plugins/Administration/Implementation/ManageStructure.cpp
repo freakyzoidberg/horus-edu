@@ -1,3 +1,37 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Horus is free software: you can redistribute it and/or modify               *
+ * it under the terms of the GNU General Public License as published by        *
+ * the Free Software Foundation, either version 3 of the License, or           *
+ * (at your option) any later version.                                         *
+ *                                                                             *
+ * Horus is distributed in the hope that it will be useful,                    *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of              *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                *
+ * GNU General Public License for more details.                                *
+ *                                                                             *
+ * You should have received a copy of the GNU General Public License           *
+ * along with Horus. If not, see <http://www.gnu.org/licenses/>.               *
+ *                                                                             *
+ * The orginal content of this material was realized as part of                *
+ * 'Epitech Innovative Project' www.epitech.eu                                 *
+ *                                                                             *
+ * You are required to preserve the names of the original authors              *
+ * of this content in every copy of this material                              *
+ *                                                                             *
+ * Authors :                                                                   *
+ * - BERTHOLON Romain                                                          *
+ * - GRANDEMANGE Adrien                                                        *
+ * - LACAVE Pierre                                                             *
+ * - LEON-BONNET Valentin                                                      *
+ * - NANOUCHE Abderrahmane                                                     *
+ * - THORAVAL Gildas                                                           *
+ * - VIDAL Jeremy                                                              *
+ *                                                                             *
+ * You are also invited but not required to send a mail to the original        *
+ * authors of this content in case of modification of this material            *
+ *                                                                             *
+ * Contact: contact@horus-edu.net                                              *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include				"ManageStructure.h"
 
 #include				<QFrame>
@@ -8,13 +42,12 @@
 #include				"ElementSubject.h"
 #include				"StructureForm.h"
 
-ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin) : QWidget(parent)
+ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin) : QWidget(parent), _userDataPlugin(userDataPlugin)
 {
 	QBoxLayout			*mainLayout;
 	QBoxLayout			*panelLayout;
 	QFrame				*informationsFrame;
 	QLabel				*informationsTitle;
-	QBoxLayout			*informationsLayout;
 	QLabel				*actionsTitle;
 	StructureForm		*form;
 
@@ -79,8 +112,8 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
     informationsTitle->setProperty("isTitle", true);
     informationsTitle->setProperty("isRound", true);
 	informationsLayout->addWidget(informationsTitle);
-	//informations = new InformationsUser(informationsFrame);
-	//informationsLayout->addWidget(informations);
+	informations = new InformationsStructure(this, userDataPlugin);
+	informationsLayout->addWidget(informations);
 	panelLayout->addWidget(informationsFrame);
 	actionsTitle = new QLabel(tr("Actions:"), this);
     actionsTitle->setProperty("isTitle", true);
@@ -105,6 +138,8 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	connect(addSubjectButton, SIGNAL(clicked()), subjects, SLOT(add()));
 	connect(editSubjectButton, SIGNAL(clicked()), subjects, SLOT(edit()));
 	connect(removeSubjectButton, SIGNAL(clicked()), subjects, SLOT(remove()));
+	connect(qobject_cast<ElementClass *>(classes)->classListView, SIGNAL(activated(const QModelIndex &)), classes, SLOT(edit()));
+	connect(qobject_cast<ElementSubject *>(subjects)->subjectListView, SIGNAL(activated(const QModelIndex &)), subjects, SLOT(edit()));
 }
 
 void					ManageStructure::schoolEnabled()
@@ -133,6 +168,10 @@ void					ManageStructure::classEnabled()
 	subjects->disable();
 	subjects->show();
 	qobject_cast<ElementSubject *>(subjects)->setClass(static_cast<TreeData *>(qobject_cast<ElementClass *>(classes)->classesFilter->mapToSource(qobject_cast<ElementClass *>(classes)->classListView->selectionModel()->currentIndex()).internalPointer()));
+	informationsLayout->removeWidget(informations);
+	delete informations;
+	informations = new InformationsStructure(this, _userDataPlugin, static_cast<TreeData *>(qobject_cast<ElementClass *>(classes)->classesFilter->mapToSource(qobject_cast<ElementClass *>(classes)->classListView->selectionModel()->currentIndex()).internalPointer()));
+	informationsLayout->addWidget(informations);
 }
 
 void					ManageStructure::classDisabled()
@@ -142,6 +181,10 @@ void					ManageStructure::classDisabled()
 	addSubjectButton->setDisabled(true);
 	subjects->disable();
 	subjects->hide();
+	informationsLayout->removeWidget(informations);
+	delete informations;
+	informations = new InformationsStructure(this, _userDataPlugin);
+	informationsLayout->addWidget(informations);
 }
 
 void					ManageStructure::subjectEnabled()
