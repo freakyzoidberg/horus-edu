@@ -41,7 +41,6 @@
 
 #include		"ManageStructure.h"
 #include		"ManageUser.h"
-#include		"ManageClasses/AdmAddClassWidget.h"
 
 const QString	Administration::pluginName() const
 {
@@ -76,8 +75,7 @@ QWidget			*Administration::getWidget()
 	if (u && u->level() > LEVEL_ADMINISTRATOR)
 		return (0);
 	widget = new QTabWidget();
-	widget->addTab(new AdmAddClassWidget(pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/desk.png"), tr("Classes"));
-	widget->addTab(new ManageStructure(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/desk.png"), tr("Classes"));
+	widget->addTab(new ManageStructure(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>()), QIcon(":/Icons/school.png"), tr("Structure"));
 	widget->addTab(new ManageUser(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_STUDENT), QIcon(":/Icons/students.png"), tr("Students"));
 	widget->addTab(new ManageUser(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_TEACHER), QIcon(":/Icons/teachers.png"), tr("Teachers"));
 	widget->addTab(new ManageUser(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_ADMINISTRATOR), QIcon(":/Icons/administrator.png"), tr("Administratives"));

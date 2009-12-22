@@ -21,21 +21,27 @@ HEADERS +=		Implementation/Administration.h \
 				../../../Common/Data.h \
 				../../DisplayablePlugin.h \
 				Implementation/ManageStructure.h \
+				Implementation/StructureElement.h \
+				Implementation/StructureForm.h \
+				Implementation/ElementSchool.h \
+				Implementation/ElementClass.h \
+				Implementation/ElementSubject.h \
 				Implementation/ManageUser.h \
 				Implementation/ListUser.h \
 				Implementation/InformationsUser.h \
 				Implementation/EditUser.h \
-				Implementation/ManageClasses/AdmAddClassWidget.h \
-				Implementation/ManageClasses/ClassListClass.h
 
 SOURCES +=		Implementation/Administration.cpp \
 				Implementation/ManageStructure.cpp \
+				Implementation/StructureElement.cpp \
+				Implementation/StructureForm.cpp \
+				Implementation/ElementSchool.cpp \
+				Implementation/ElementClass.cpp \
+				Implementation/ElementSubject.cpp \
 				Implementation/ManageUser.cpp \
 				Implementation/ListUser.cpp \
 				Implementation/InformationsUser.cpp \
 				Implementation/EditUser.cpp \
-				Implementation/ManageClasses/AdmAddClassWidget.cpp \
-				Implementation/ManageClasses/ClassListClass.cpp \
 
 RESOURCES +=	Implementation/Administration.qrc
 
