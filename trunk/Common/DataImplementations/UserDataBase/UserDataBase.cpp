@@ -66,7 +66,8 @@ UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserDat
 
 void UserDataBase::studentClassRemoved()
 {
-	setStudentClass(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
+	if (_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode()->status() != Data::EMPTY && _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode()->status() != Data::REMOVED && _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode()->status() != Data::REMOVING)
+		setStudentClass(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
 #ifdef HORUS_SERVER
 	save();
 #endif
