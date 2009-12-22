@@ -52,7 +52,7 @@ ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserDat
 	ExamsDataBase* u = ((ExamsDataBase*)( exam(tmpId)) );
 	u->setDate(QDate().currentDate());
 	u->setComment(name);
-	u->setTeacher(2);
+	u->setTeacher(pluginManager->currentUser()->id());
 	return u;
 }
 
