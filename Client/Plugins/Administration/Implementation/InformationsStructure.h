@@ -32,38 +32,20 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef						__ELEMENTSUBJECT_H__
-# define					__ELEMENTSUBJECT_H__
+#ifndef		__INFORMATIONSSTRUCTURE_H__
+# define	__INFORMATIONSSTRUCTURE_H__
 
-# include					"StructureElement.h"
+# include	<QWidget>
 
-# include					<QSortFilterProxyModel>
-# include					<QListView>
+# include	"../../../../Common/UserDataPlugin.h"
+# include	"../../../../Common/TreeData.h"
 
-class						ElementSubject : public StructureElement
+class		InformationsStructure : public QWidget
 {
 	Q_OBJECT
 
 public:
-	ElementSubject(QWidget *parent, TreeDataPlugin *treeDataPlugin);
-	void					update();
-	void					setClass(TreeData *node);
-	QListView				*subjectListView;
-
-protected:
-	void					addElement();
-	void					editElement();
-	void					removeElement();
-	void					validateElement();
-
-private:
-	TreeData				*editing;
-	TreeData				*_class;
-	QSortFilterProxyModel	*classFilter;
-	QSortFilterProxyModel	*subjectFilter;
-
-private slots:
-	void					subjectSelected(const QItemSelection &selected, const QItemSelection &);
+	InformationsStructure(QWidget *parent, UserDataPlugin *userDataPlugin, TreeData *node = 0);
 };
 
-#endif //					__ELEMENTSUBJECT_H__
+#endif //	__INFORMATIONSSTRUCTURE_H__

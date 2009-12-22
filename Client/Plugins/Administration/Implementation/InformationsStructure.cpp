@@ -32,38 +32,38 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef						__ELEMENTSUBJECT_H__
-# define					__ELEMENTSUBJECT_H__
+#include					"InformationsStructure.h"
 
-# include					"StructureElement.h"
+#include					<QGridLayout>
+#include					<QLabel>
+#include					<QSortFilterProxyModel>
 
-# include					<QSortFilterProxyModel>
-# include					<QListView>
-
-class						ElementSubject : public StructureElement
+InformationsStructure::InformationsStructure(QWidget *parent, UserDataPlugin *userDataPlugin, TreeData *node) : QWidget(parent)
 {
-	Q_OBJECT
-
-public:
-	ElementSubject(QWidget *parent, TreeDataPlugin *treeDataPlugin);
-	void					update();
-	void					setClass(TreeData *node);
-	QListView				*subjectListView;
-
-protected:
-	void					addElement();
-	void					editElement();
-	void					removeElement();
-	void					validateElement();
-
-private:
-	TreeData				*editing;
-	TreeData				*_class;
+	QGridLayout				*layout;
+	QLabel					*fieldLabel;
+	QLabel					*valueLabel;
+	QSortFilterProxyModel	*userFilter;
 	QSortFilterProxyModel	*classFilter;
-	QSortFilterProxyModel	*subjectFilter;
 
-private slots:
-	void					subjectSelected(const QItemSelection &selected, const QItemSelection &);
-};
-
-#endif //					__ELEMENTSUBJECT_H__
+	if (!node)
+		return ;
+	userFilter = new QSortFilterProxyModel(this);
+	userFilter->setSourceModel(userDataPlugin->listModel());
+	userFilter->setFilterRole(Data::FILTER_ROLE);
+	userFilter->setFilterKeyColumn(0);
+	userFilter->setFilterFixedString("STUDENT");
+	userFilter->setDynamicSortFilter(true);
+	classFilter = new QSortFilterProxyModel(this);
+	classFilter->setSourceModel(userFilter);
+	classFilter->setFilterRole(Qt::UserRole);
+	classFilter->setFilterKeyColumn(0);
+	classFilter->setDynamicSortFilter(true);
+	classFilter->setFilterRegExp(QRegExp("\\b" + QString::number(node->id()) + "\\b"));
+	layout = new QGridLayout(this);
+	fieldLabel = new QLabel(tr("Students number in this class"), this);
+	layout->addWidget(fieldLabel, 0, 0);
+	valueLabel = new QLabel(this);
+	valueLabel->setNum(classFilter->rowCount());
+	layout->addWidget(valueLabel, 0, 1);
+}
