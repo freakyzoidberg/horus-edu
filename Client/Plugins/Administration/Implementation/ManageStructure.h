@@ -22,10 +22,13 @@ private slots:
 	void				schoolDisabled();
 	void				classEnabled();
 	void				classDisabled();
+	void				subjectEnabled();
+	void				subjectDisabled();
 
 private:
 	StructureElement	*school;
 	StructureElement	*classes;
+	StructureElement	*subjects;
 	QBoxLayout			*leftLayout;
 	QPushButton			*addSchoolButton;
 	QPushButton			*editSchoolButton;

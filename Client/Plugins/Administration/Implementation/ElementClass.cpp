@@ -9,12 +9,14 @@ ElementClass::ElementClass(QWidget *parent, TreeDataPlugin *treeDataPlugin) : St
 	QBoxLayout	*mainLayout;
 
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
-	classesModel = new QSortFilterProxyModel(this);
-	classesModel->setSourceModel(treeDataPlugin->listModel());
-	classesModel->setFilterRole(Qt::DisplayRole);
-	classesModel->setFilterKeyColumn(1);
-	classesModel->setDynamicSortFilter(true);
-	classesModel->setFilterFixedString("GRADE");
+	mainLayout->setMargin(0);
+	mainLayout->setSpacing(0);
+	classesFilter = new QSortFilterProxyModel(this);
+	classesFilter->setSourceModel(treeDataPlugin->listModel());
+	classesFilter->setFilterRole(Data::FILTER_ROLE);
+	classesFilter->setFilterKeyColumn(0);
+	classesFilter->setDynamicSortFilter(true);
+	classesFilter->setFilterFixedString("GRADE");
 	classListView = new QListView(this);
 	classListView->setSelectionMode(QAbstractItemView::SingleSelection);
 	classListView->setViewMode(QListView::IconMode);
@@ -28,7 +30,7 @@ ElementClass::ElementClass(QWidget *parent, TreeDataPlugin *treeDataPlugin) : St
 	classListView->setAcceptDrops(false);
 	classListView->viewport()->setAcceptDrops(false);
 	classListView->setDropIndicatorShown(false);
-	classListView->setModel(classesModel);
+	classListView->setModel(classesFilter);
 	mainLayout->addWidget(classListView);
 	connect(classListView->selectionModel(), SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)), this, SLOT(classSelected(const QItemSelection &, const QItemSelection &)));
 	connect(treeDataPlugin, SIGNAL(dataCreated(Data *)), classListView, SLOT(update()));
@@ -56,7 +58,7 @@ void			ElementClass::editElement()
 	{
 		_form->setTitle(tr("Class informations"));
 		_form->setTeacherVisibility(false);
-		editing = static_cast<TreeData *>(classesModel->mapToSource(classListView->selectionModel()->currentIndex()).internalPointer());
+		editing = static_cast<TreeData *>(classesFilter->mapToSource(classListView->selectionModel()->currentIndex()).internalPointer());
 		_form->setName(editing->name());
 		_form->setTeacher(editing->user());
 	}
@@ -67,7 +69,7 @@ void			ElementClass::editElement()
 void			ElementClass::removeElement()
 {
 	if (classListView->selectionModel()->hasSelection())
-		static_cast<TreeData *>(classesModel->mapToSource(classListView->selectionModel()->currentIndex()).internalPointer())->remove();
+		static_cast<TreeData *>(classesFilter->mapToSource(classListView->selectionModel()->currentIndex()).internalPointer())->remove();
 }
 
 void			ElementClass::validateElement()

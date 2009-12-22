@@ -23,8 +23,11 @@ protected:
 	StructureForm	*_form;
 	TreeDataPlugin	*_treeDataPlugin;
 
-private slots:
+public slots:
 	void			disable();
+	void			enable();
+
+private slots:
 	void			add();
 	void			edit();
 	void			remove();

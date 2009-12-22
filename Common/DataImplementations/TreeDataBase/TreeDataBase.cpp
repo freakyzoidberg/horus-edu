@@ -240,6 +240,8 @@ QVariant TreeDataBase::data(int column, int role) const
 	{
 		if (column == 0)
 			return _type;
+		if (column == 1 && _parent)
+			return _parent->id();
 	}
 	else if (role == Qt::DisplayRole)
     {
@@ -265,10 +267,10 @@ const QIcon TreeDataBase::icon() const
 	{
 		icons["DEFAULT"] = QIcon(":/Icons/DefaultIcon.png");
 		icons["LESSON"]  = QIcon(":/Icons/LessonIcon.png");
-		icons["SUBJECT"] = QIcon(":/Icons/SubjectIcon.png");
+		icons["SUBJECT"] = QIcon(":/subject.png");
 		icons["GRADE"]   = QIcon(":/desk.png");
 		icons["GROUP"]   = QIcon(":/Icons/GroupIcon.png");
-		icons["ROOT"]    = QIcon(":/Icons/RootIcon.png");
+		icons["ROOT"]    = QIcon(":/school.png");
 	}
 	if (icons.contains( _type ))
 		return icons[ _type ];

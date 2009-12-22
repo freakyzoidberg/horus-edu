@@ -11,6 +11,11 @@ void			StructureElement::setForm(StructureForm *form)
 	_form = form;
 }
 
+void			StructureElement::enable()
+{
+	emit enabled();
+}
+
 void			StructureElement::disable()
 {
 	emit disabled();
