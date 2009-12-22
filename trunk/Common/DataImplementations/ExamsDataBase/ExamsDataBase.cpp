@@ -91,7 +91,7 @@ const QList<Data*> ExamsDataBase::dependsOfCreatedData() const
 quint8 ExamsDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`comment`,`date`,`teacher_id`,`id_tree`FROM`examination`WHERE`id_tree`=?;");
+	query.prepare("SELECT`comment`,`date`,`teacher_id`,`id_tree`FROM`Exams`WHERE`id_tree`=?;");
 	query.addBindValue(_subject->id());
 
 	if ( ! query.exec())
@@ -114,7 +114,7 @@ quint8 ExamsDataBase::serverCreate()
 {
 	QMutexLocker M(&_subject->mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO`examination`(`id_tree`,`comment`,`date`,`teacher_id`)VALUES(?,?,?, ?);");
+	query.prepare("INSERT INTO`Exams`(`id_tree`,`comment`,`date`,`teacher_id`)VALUES(?,?,?, ?);");
 	query.addBindValue(_subject->id());
 	query.addBindValue(_comment);
 	query.addBindValue(_date);
@@ -132,7 +132,7 @@ quint8 ExamsDataBase::serverCreate()
 quint8 ExamsDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE`examination`SET`comment`=?,`date`=?,`teacher_id`=? WHERE`id_tree`=?;");
+	query.prepare("UPDATE`Exams`SET`comment`=?,`date`=?,`teacher_id`=? WHERE`id_tree`=?;");
 	query.addBindValue(_comment);
 	query.addBindValue(_date);
 	query.addBindValue(_teacher);
@@ -149,7 +149,7 @@ quint8 ExamsDataBase::serverSave()
 quint8 ExamsDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM`examination`WHERE`id_tree`=?;");
+	query.prepare("DELETE FROM`Exams`WHERE`id_tree`=?;");
 	query.addBindValue(_subject->id());
 
 	if ( ! query.exec())

@@ -43,7 +43,7 @@ SubjectList::SubjectList(PluginManager *pluginManager)
 
 QMap<int, QString> SubjectList::getallsubject()
 {
-	QMap<int, QString> allclass;
+	QMap<int, QString> allclass, exams;
 
 	for (int i = 0; i < treePlugin->allDatas().size(); ++i)
 	{
@@ -51,6 +51,22 @@ QMap<int, QString> SubjectList::getallsubject()
 		if ((data->type() == "SUBJECT") && IS_VALID_DATA_STATUS(data->status()))
 			allclass.insert(data->id(), data->name());
 	}
+
+
+	ExamsDataPlugin *e = _pluginManager->findPlugin<ExamsDataPlugin *>();
+
+	for (int i = 0; i < e->allDatas().size(); ++i)
+	{
+		qDebug() << "passage";
+
+		ExamsData    *data = qobject_cast<ExamsData *>(e->allDatas().at(i));
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), data->comment());
+		tempitem->setData(Qt::UserRole, data->teacher());
+		SubjectsList->addItem(tempitem);
+
+		//allclass.insert(data->id(), data->name());
+	}
+
 	return allclass;
 }
 

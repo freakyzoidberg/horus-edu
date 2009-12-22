@@ -46,7 +46,7 @@ ExamsDataBasePlugin::ExamsDataBasePlugin()
 
 ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserData* user)
 {
-	static quint32 tmpId = 0;
+	static quint32 tmpId = 1;
 	tmpId--;
 
 	ExamsDataBase* u = ((ExamsDataBase*)( exam(tmpId)) );
@@ -104,7 +104,7 @@ bool ExamsDataBasePlugin::canLoad() const
 
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	if ( ! query.exec( "CREATE TABLE IF NOT EXISTS `examination` (\
+	if ( ! query.exec( "CREATE TABLE IF NOT EXISTS `Exams` (\
 	`id` INT NOT NULL  PRIMARY KEY ,\
 	`id_tree` INT NOT NULL ,\
 	`comment` TEXT NOT NULL ,\
@@ -112,7 +112,7 @@ bool ExamsDataBasePlugin::canLoad() const
 	`teacher_id` INT NOT NULL \
 );")
 	||
-		 ! query.exec("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `examination`;"))
+		 ! query.exec("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `Exams`;"))
 	{
 		qDebug() << "ExamsDataBasePlugin::canLoad()" << query.lastError();
 		return false;
@@ -125,7 +125,7 @@ void  ExamsDataBasePlugin::load()
 {
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `examination`;");
+	query.prepare("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `Exams`;");
 	query.exec();
 	while (query.next())
 	{
