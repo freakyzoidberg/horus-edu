@@ -17,6 +17,7 @@ public:
 	void					update();
 
 protected:
+	void					addElement();
 	void					editElement();
 	void					removeElement();
 	void					validateElement();

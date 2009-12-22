@@ -9,7 +9,6 @@ StructureElement::StructureElement(QWidget *parent, TreeDataPlugin *treeDataPlug
 void			StructureElement::setForm(StructureForm *form)
 {
 	_form = form;
-	connect(form, SIGNAL(validated()), this, SLOT(validateForm()));
 }
 
 void			StructureElement::disable()
@@ -17,10 +16,18 @@ void			StructureElement::disable()
 	emit disabled();
 }
 
+void			StructureElement::add()
+{
+	_form->show();
+	addElement();
+	connect(_form, SIGNAL(validated()), this, SLOT(validateForm()));
+}
+
 void			StructureElement::edit()
 {
 	_form->show();
 	editElement();
+	connect(_form, SIGNAL(validated()), this, SLOT(validateForm()));
 }
 
 void			StructureElement::remove()
@@ -38,4 +45,5 @@ void			StructureElement::validateForm()
 {
 	validateElement();
 	_form->hide();
+	disconnect(_form, SIGNAL(validated()), this, SLOT(validateForm()));
 }

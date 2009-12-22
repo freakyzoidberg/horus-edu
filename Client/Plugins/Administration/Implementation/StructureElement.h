@@ -16,6 +16,7 @@ public:
 	virtual void	update() = 0;
 
 protected:
+	virtual	void	addElement() = 0;
 	virtual	void	editElement() = 0;
 	virtual	void	removeElement() = 0;
 	virtual void	validateElement() = 0;
@@ -24,6 +25,7 @@ protected:
 
 private slots:
 	void			disable();
+	void			add();
 	void			edit();
 	void			remove();
 	void			validateForm();

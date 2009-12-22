@@ -4,13 +4,13 @@
 #include				<QLabel>
 
 #include				"ElementSchool.h"
+#include				"ElementClass.h"
 #include				"StructureForm.h"
 
 ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin) : QWidget(parent)
 {
 	QBoxLayout			*mainLayout;
 	QBoxLayout			*panelLayout;
-	StructureElement	*school;
 	QFrame				*informationsFrame;
 	QLabel				*informationsTitle;
 	QBoxLayout			*informationsLayout;
@@ -36,18 +36,24 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	removeClassButton->setDisabled(true);
 	removeSubjectButton->setDisabled(true);
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
-	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	leftLayout = new QBoxLayout(QBoxLayout::BottomToTop);
 	mainLayout->addLayout(leftLayout, 1);
 	form = new StructureForm(this, userDataPlugin);
+	leftLayout->addWidget(form);
+	form->hide();
+	leftLayout->addWidget(new QWidget(this), 1);
+	classes = new ElementClass(this, treeDataPlugin);
+	connect(classes, SIGNAL(enabled()), this, SLOT(classEnabled()));
+	connect(classes, SIGNAL(disabled()), this, SLOT(classDisabled()));
+	classes->update();
+	classes->setForm(form);
+	leftLayout->addWidget(classes);
 	school = new ElementSchool(this, treeDataPlugin, userDataPlugin);
 	connect(school, SIGNAL(enabled()), this, SLOT(schoolEnabled()));
 	connect(school, SIGNAL(disabled()), this, SLOT(schoolDisabled()));
 	school->update();
 	school->setForm(form);
 	leftLayout->addWidget(school);
-	leftLayout->addWidget(new QWidget(this), 1);
-	leftLayout->addWidget(form);
-	form->hide();
 	panelLayout = new QBoxLayout(QBoxLayout::TopToBottom);
 	mainLayout->addLayout(panelLayout);
     panelLayout->setMargin(0);
@@ -78,9 +84,12 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	panelLayout->addWidget(editSubjectButton);
 	panelLayout->addWidget(removeSubjectButton);
 	panelLayout->addWidget(new QWidget(this), 1);
-	connect(addSchoolButton, SIGNAL(clicked()), school, SLOT(edit()));
+	connect(addSchoolButton, SIGNAL(clicked()), school, SLOT(add()));
 	connect(editSchoolButton, SIGNAL(clicked()), school, SLOT(edit()));
 	connect(removeSchoolButton, SIGNAL(clicked()), school, SLOT(remove()));
+	connect(addClassButton, SIGNAL(clicked()), classes, SLOT(add()));
+	connect(editClassButton, SIGNAL(clicked()), classes, SLOT(edit()));
+	connect(removeClassButton, SIGNAL(clicked()), classes, SLOT(remove()));
 }
 
 void					ManageStructure::schoolEnabled()
@@ -89,6 +98,7 @@ void					ManageStructure::schoolEnabled()
 	editSchoolButton->setDisabled(false);
 	removeSchoolButton->setDisabled(false);
 	addClassButton->setDisabled(false);
+	classes->show();
 }
 
 void					ManageStructure::schoolDisabled()
@@ -97,4 +107,19 @@ void					ManageStructure::schoolDisabled()
 	editSchoolButton->setDisabled(true);
 	removeSchoolButton->setDisabled(true);
 	addClassButton->setDisabled(true);
+	classes->hide();
+}
+
+void					ManageStructure::classEnabled()
+{
+	editClassButton->setDisabled(false);
+	removeClassButton->setDisabled(false);
+	addSubjectButton->setDisabled(false);
+}
+
+void					ManageStructure::classDisabled()
+{
+	editClassButton->setDisabled(true);
+	removeClassButton->setDisabled(true);
+	addSubjectButton->setDisabled(true);
 }
