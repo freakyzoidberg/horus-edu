@@ -172,7 +172,7 @@ quint8 TreeDataBase::serverCreate()
     query.addBindValue(_type);
     query.addBindValue(_name);
 	query.addBindValue(_user->id());
-	query.addBindValue(((TreeDataBase*)parent())->id());
+	query.addBindValue((TreeDataBase*)parent() ? ((TreeDataBase*)parent())->id() : 0);
 
 	if ( ! query.exec())
 	{
@@ -181,7 +181,19 @@ quint8 TreeDataBase::serverCreate()
 	}
 
 	_id = query.lastInsertId().toUInt();
-
+	if (_type == "ROOT")
+	{
+		QSqlQuery query = _plugin->pluginManager->sqlQuery();
+		query.prepare("UPDATE`tree`SET`id`=? WHERE`id`=?;");
+		query.addBindValue(0);
+		query.addBindValue(_id);
+		if ( ! query.exec())
+		{
+			qDebug() << query.lastError();
+			return DATABASE_ERROR;
+		}
+		_id = 0;
+	}
 	return NONE;
 }
 
@@ -192,7 +204,7 @@ quint8 TreeDataBase::serverSave()
     query.addBindValue(_type);
     query.addBindValue(_name);
 	query.addBindValue(_user->id());
-	query.addBindValue(((TreeDataBase*)parent())->id());
+	query.addBindValue((TreeDataBase*)parent() ? ((TreeDataBase*)parent())->id() : 0);
 	query.addBindValue(_id);
 
 	if ( ! query.exec())

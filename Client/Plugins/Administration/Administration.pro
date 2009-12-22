@@ -20,6 +20,7 @@ HEADERS +=		Implementation/Administration.h \
 				../../../Common/DataPlugin.h \
 				../../../Common/Data.h \
 				../../DisplayablePlugin.h \
+				Implementation/ManageStructure.h \
 				Implementation/ManageUser.h \
 				Implementation/ListUser.h \
 				Implementation/InformationsUser.h \
@@ -28,6 +29,7 @@ HEADERS +=		Implementation/Administration.h \
 				Implementation/ManageClasses/ClassListClass.h
 
 SOURCES +=		Implementation/Administration.cpp \
+				Implementation/ManageStructure.cpp \
 				Implementation/ManageUser.cpp \
 				Implementation/ListUser.cpp \
 				Implementation/InformationsUser.cpp \

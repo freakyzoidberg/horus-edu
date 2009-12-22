@@ -199,7 +199,7 @@ void DataManagerClient::sendData(Data* data)
 	QMutexLocker(&data->mutex);
 	if (data->status() == Data::SAVING || data->status() == Data::CREATING)
 		foreach (Data* dep, data->dependsOfCreatedData())
-			if (dep->status() == Data::EMPTY || dep->status() == Data::CREATING)
+			if (dep && dep != data && (dep->status() == Data::EMPTY || dep->status() == Data::CREATING))
 			{
 				qDebug() << data << "is waiting dependance" << dep << "being created";
 				_dependantDatas.insert(dep, data);
