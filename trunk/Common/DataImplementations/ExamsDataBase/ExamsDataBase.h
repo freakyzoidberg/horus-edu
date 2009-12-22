@@ -59,15 +59,6 @@ class ExamsDataBase : public ExamsData
 
   friend class			ExamsDataBasePlugin;
 
-private:
-	ExamsDataBase(quint32 id, ExamsDataBasePlugin* plugin);
-	~ExamsDataBase() {}
-
-	QString				_comment;
-	QDate				_date;
-	TreeData*			_subject;
-	quint32				_teacher;
-
 	// INTERFACE ExamsData
 public:
 	 inline QString		comment() { return _comment; }
@@ -76,9 +67,15 @@ public:
 	 inline void		setDate(const QDate& date) { _date = date; }
 	 inline QDate		date() { return _date; }
 
-	 inline TreeData*	subject() const { return _subject; }
+
 	 inline quint32		teacher() const { return _teacher; }
 	 inline void		setTeacher(const quint32 id) { _teacher = id; }
+
+	 inline TreeData*	subject() const { return _subject; }
+	 void				setSubject(TreeData* node) { _subject = node; }
+
+	inline ExamsData*	exam() const	{ return _exam; }
+	void				setExam(ExamsData* exam) { _exam = exam; }
 
 	//INTERFACE Data
 public:
@@ -103,6 +100,17 @@ public:
 	quint8				serverSave();
 	quint8				serverRemove();
 #endif
+
+private:
+	ExamsDataBase(quint32 id, ExamsDataBasePlugin* plugin);
+	~ExamsDataBase() {}
+
+	QString				_comment;
+	QDate				_date;
+	TreeData*			_subject;
+	quint32				_teacher;
+	ExamsData			*_exam;
+
 };
 
 #endif // EXAMSDATABASE_H
