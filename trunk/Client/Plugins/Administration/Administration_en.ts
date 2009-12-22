@@ -4,62 +4,48 @@
 <context>
     <name>AdmAddClassWidget</name>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="65"/>
         <source>Informations</source>
-        <translation>Informations</translation>
+        <translation type="obsolete">Informations</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="71"/>
         <source>Actions</source>
-        <translation>Actions</translation>
+        <translation type="obsolete">Actions</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="76"/>
         <source>Nom de la classe:</source>
-        <translation>Class name :</translation>
+        <translation type="obsolete">Class name :</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="81"/>
         <source>Professeur principal:</source>
-        <translation>Main teacher :</translation>
+        <translation type="obsolete">Main teacher :</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="88"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="157"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="168"/>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="190"/>
         <source>Ajouter</source>
-        <translation>Add</translation>
+        <translation type="obsolete">Add</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="89"/>
         <source>Abandonner</source>
-        <translation>Cancel</translation>
+        <translation type="obsolete">Cancel</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="90"/>
         <source>Supprimer</source>
-        <translation>Delete</translation>
+        <translation type="obsolete">Delete</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="149"/>
         <source>This class must have a name.</source>
-        <translation>This class must have a name.</translation>
+        <translation type="obsolete">This class must have a name.</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="237"/>
         <source>Editer</source>
-        <translation>Edit</translation>
+        <translation type="obsolete">Edit</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="245"/>
         <source>Voulez-vous vraiment supprimer cette classe?</source>
-        <translation>Do you really want to delete this class ?</translation>
+        <translation type="obsolete">Do you really want to delete this class ?</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageClasses/AdmAddClassWidget.cpp" line="247"/>
         <source>Confirmer.</source>
-        <translation>Confirm</translation>
+        <translation type="obsolete">Confirm</translation>
     </message>
 </context>
 <context>
@@ -70,9 +56,13 @@
         <translation>Administration</translation>
     </message>
     <message>
-        <location filename="Implementation/Administration.cpp" line="78"/>
         <source>Classes</source>
-        <translation>Classes</translation>
+        <translation type="obsolete">Classes</translation>
+    </message>
+    <message>
+        <location filename="Implementation/Administration.cpp" line="78"/>
+        <source>Structure</source>
+        <translation>Structure</translation>
     </message>
     <message>
         <location filename="Implementation/Administration.cpp" line="79"/>
@@ -93,9 +83,8 @@
 <context>
     <name>ClassListClass</name>
     <message>
-        <location filename="Implementation/ManageClasses/ClassListClass.cpp" line="49"/>
         <source>Select a class to view informations.</source>
-        <translation>Select a class to view informations.</translation>
+        <translation type="obsolete">Select a class to view informations.</translation>
     </message>
 </context>
 <context>
@@ -442,6 +431,70 @@
     </message>
 </context>
 <context>
+    <name>ElementClass</name>
+    <message>
+        <location filename="Implementation/ElementClass.cpp" line="82"/>
+        <location filename="Implementation/ElementClass.cpp" line="93"/>
+        <source>Class informations</source>
+        <translation>Class informations</translation>
+    </message>
+</context>
+<context>
+    <name>ElementSchool</name>
+    <message>
+        <location filename="Implementation/ElementSchool.cpp" line="60"/>
+        <source>Students number</source>
+        <translation>Students number</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ElementSchool.cpp" line="61"/>
+        <source>Parents number</source>
+        <translation>Parents number</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ElementSchool.cpp" line="71"/>
+        <source>Teachers number</source>
+        <translation>Teachers number</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ElementSchool.cpp" line="72"/>
+        <source>Administratives number</source>
+        <translation>Administratives number</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ElementSchool.cpp" line="82"/>
+        <source>Classes number</source>
+        <translation>Classes number</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ElementSchool.cpp" line="83"/>
+        <source>Users number</source>
+        <translation>Users number</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ElementSchool.cpp" line="139"/>
+        <source>School informations</source>
+        <translation>School informations</translation>
+    </message>
+</context>
+<context>
+    <name>ElementSubject</name>
+    <message>
+        <location filename="Implementation/ElementSubject.cpp" line="94"/>
+        <location filename="Implementation/ElementSubject.cpp" line="105"/>
+        <source>Subject informations</source>
+        <translation>Subject informations</translation>
+    </message>
+</context>
+<context>
+    <name>InformationsStructure</name>
+    <message>
+        <location filename="Implementation/InformationsStructure.cpp" line="64"/>
+        <source>Students number in this class</source>
+        <translation>Students number in this class</translation>
+    </message>
+</context>
+<context>
     <name>InformationsUser</name>
     <message>
         <location filename="Implementation/InformationsUser.cpp" line="55"/>
@@ -577,29 +630,87 @@
         <translation>Delete this user</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="160"/>
+        <location filename="Implementation/ListUser.cpp" line="161"/>
         <source>Informations:</source>
         <translation>Informations :</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="167"/>
+        <location filename="Implementation/ListUser.cpp" line="168"/>
         <source>Actions:</source>
         <translation>Actions :</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="257"/>
+        <location filename="Implementation/ListUser.cpp" line="259"/>
         <source>Confirmation</source>
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="257"/>
+        <location filename="Implementation/ListUser.cpp" line="259"/>
         <source>Do you really want to delete </source>
         <translation>Do you really want to delete </translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="257"/>
+        <location filename="Implementation/ListUser.cpp" line="259"/>
         <source> ?</source>
         <translation> ?</translation>
+    </message>
+</context>
+<context>
+    <name>ManageStructure</name>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="54"/>
+        <source>Add a school</source>
+        <translation>Add a school</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="55"/>
+        <source>Edit a school</source>
+        <translation>Edit a school</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="56"/>
+        <source>Delete a school</source>
+        <translation>Delete a school</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="57"/>
+        <source>Add a class</source>
+        <translation>Add a class</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="58"/>
+        <source>Edit a class</source>
+        <translation>Edit a class</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="59"/>
+        <source>Delete a class</source>
+        <translation>Delete a class</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="60"/>
+        <source>Add a subject</source>
+        <translation>Add a subject</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="61"/>
+        <source>Edit a subject</source>
+        <translation>Edit a subject</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="62"/>
+        <source>Delete a subject</source>
+        <translation>Delete a subject</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="111"/>
+        <source>Informations:</source>
+        <translation>Informations :</translation>
+    </message>
+    <message>
+        <location filename="Implementation/ManageStructure.cpp" line="118"/>
+        <source>Actions:</source>
+        <translation>Actions :</translation>
     </message>
 </context>
 <context>
@@ -608,6 +719,47 @@
         <location filename="../../../Common/Plugin.h" line="75"/>
         <source>Plugin loaded : </source>
         <translation>Plugin loaded : </translation>
+    </message>
+</context>
+<context>
+    <name>StructureElement</name>
+    <message>
+        <location filename="Implementation/StructureElement.cpp" line="77"/>
+        <source>Confirmation</source>
+        <translation>Confirmation</translation>
+    </message>
+    <message>
+        <location filename="Implementation/StructureElement.cpp" line="77"/>
+        <source>Do you really want to delete ?</source>
+        <translation>Do you really want to delete ?</translation>
+    </message>
+</context>
+<context>
+    <name>StructureForm</name>
+    <message>
+        <location filename="Implementation/StructureForm.cpp" line="70"/>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <location filename="Implementation/StructureForm.cpp" line="84"/>
+        <source>Teacher</source>
+        <translation>Teacher</translation>
+    </message>
+    <message>
+        <location filename="Implementation/StructureForm.cpp" line="90"/>
+        <source>Actions:</source>
+        <translation>Actions :</translation>
+    </message>
+    <message>
+        <location filename="Implementation/StructureForm.cpp" line="94"/>
+        <source>Ok</source>
+        <translation>Ok</translation>
+    </message>
+    <message>
+        <location filename="Implementation/StructureForm.cpp" line="95"/>
+        <source>Cancel</source>
+        <translation>Cancel</translation>
     </message>
 </context>
 </TS>
