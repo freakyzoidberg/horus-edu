@@ -12,6 +12,7 @@ ElementSchool::ElementSchool(QWidget *parent, TreeDataPlugin *treeDataPlugin, Us
 	QLabel		*picture;
 
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+	mainLayout->setSpacing(2);
 	columnLayout = new QBoxLayout(QBoxLayout::TopToBottom);
 	mainLayout->addLayout(columnLayout);
 	picture = new QLabel(this);

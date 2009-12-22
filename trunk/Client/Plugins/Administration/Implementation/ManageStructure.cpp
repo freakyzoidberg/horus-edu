@@ -5,6 +5,7 @@
 
 #include				"ElementSchool.h"
 #include				"ElementClass.h"
+#include				"ElementSubject.h"
 #include				"StructureForm.h"
 
 ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin) : QWidget(parent)
@@ -36,12 +37,23 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	removeClassButton->setDisabled(true);
 	removeSubjectButton->setDisabled(true);
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
+	mainLayout->setMargin(0);
+	mainLayout->setSpacing(0);
 	leftLayout = new QBoxLayout(QBoxLayout::BottomToTop);
+	leftLayout->setMargin(0);
+	leftLayout->setSpacing(0);
 	mainLayout->addLayout(leftLayout, 1);
 	form = new StructureForm(this, userDataPlugin);
 	leftLayout->addWidget(form);
 	form->hide();
 	leftLayout->addWidget(new QWidget(this), 1);
+	subjects = new ElementSubject(this, treeDataPlugin);
+	connect(subjects, SIGNAL(enabled()), this, SLOT(subjectEnabled()));
+	connect(subjects, SIGNAL(disabled()), this, SLOT(subjectDisabled()));
+	subjects->update();
+	subjects->setForm(form);
+	leftLayout->addWidget(subjects);
+	subjects->hide();
 	classes = new ElementClass(this, treeDataPlugin);
 	connect(classes, SIGNAL(enabled()), this, SLOT(classEnabled()));
 	connect(classes, SIGNAL(disabled()), this, SLOT(classDisabled()));
@@ -90,6 +102,9 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	connect(addClassButton, SIGNAL(clicked()), classes, SLOT(add()));
 	connect(editClassButton, SIGNAL(clicked()), classes, SLOT(edit()));
 	connect(removeClassButton, SIGNAL(clicked()), classes, SLOT(remove()));
+	connect(addSubjectButton, SIGNAL(clicked()), subjects, SLOT(add()));
+	connect(editSubjectButton, SIGNAL(clicked()), subjects, SLOT(edit()));
+	connect(removeSubjectButton, SIGNAL(clicked()), subjects, SLOT(remove()));
 }
 
 void					ManageStructure::schoolEnabled()
@@ -115,6 +130,9 @@ void					ManageStructure::classEnabled()
 	editClassButton->setDisabled(false);
 	removeClassButton->setDisabled(false);
 	addSubjectButton->setDisabled(false);
+	subjects->disable();
+	subjects->show();
+	qobject_cast<ElementSubject *>(subjects)->setClass(static_cast<TreeData *>(qobject_cast<ElementClass *>(classes)->classesFilter->mapToSource(qobject_cast<ElementClass *>(classes)->classListView->selectionModel()->currentIndex()).internalPointer()));
 }
 
 void					ManageStructure::classDisabled()
@@ -122,4 +140,18 @@ void					ManageStructure::classDisabled()
 	editClassButton->setDisabled(true);
 	removeClassButton->setDisabled(true);
 	addSubjectButton->setDisabled(true);
+	subjects->disable();
+	subjects->hide();
+}
+
+void					ManageStructure::subjectEnabled()
+{
+	editSubjectButton->setDisabled(false);
+	removeSubjectButton->setDisabled(false);
+}
+
+void					ManageStructure::subjectDisabled()
+{
+	editSubjectButton->setDisabled(true);
+	removeSubjectButton->setDisabled(true);
 }

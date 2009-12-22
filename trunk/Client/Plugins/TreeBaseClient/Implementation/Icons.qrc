@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/" >
         <file>desk.png</file>
+        <file>school.png</file>
+        <file>subject.png</file>
     </qresource>
 </RCC>

@@ -73,6 +73,8 @@ QString						StructureForm::getName() const
 
 UserData					*StructureForm::getTeacher() const
 {
+	if (teacherField->currentIndex() < 0)
+		return (_userDataPlugin->nobody());
 	return (_userDataPlugin->user(teacherField->itemData(teacherField->currentIndex(), Qt::DisplayRole).toString()));
 }
 

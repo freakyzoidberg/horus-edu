@@ -13,7 +13,8 @@ class						ElementClass : public StructureElement
 public:
 	ElementClass(QWidget *parent, TreeDataPlugin *treeDataPlugin);
 	void					update();
-	QSortFilterProxyModel	*classesModel;
+	QListView				*classListView;
+	QSortFilterProxyModel	*classesFilter;
 
 protected:
 	void					addElement();
@@ -22,11 +23,10 @@ protected:
 	void					validateElement();
 
 private:
-	QListView				*classListView;
 	TreeData				*editing;
 
 private slots:
 	void					classSelected(const QItemSelection &selected, const QItemSelection &);
 };
 
-#endif //	__ELEMENTCLASS_H__
+#endif //					__ELEMENTCLASS_H__
