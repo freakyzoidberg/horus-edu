@@ -91,6 +91,11 @@ void			ElementSchool::update()
 	userUpdated();
 }
 
+void			ElementSchool::addElement()
+{
+	editElement();
+}
+
 void			ElementSchool::editElement()
 {
 	_form->setTitle(tr("School informations"));
@@ -129,7 +134,6 @@ void			ElementSchool::treeUpdated()
 	}
 	else
 	{
-		qWarning() << _treeDataPlugin->rootNode()->status();
 		if (this->isHidden())
 			this->show();
 		emit enabled();

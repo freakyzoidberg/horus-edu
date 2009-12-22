@@ -73,7 +73,7 @@ QString						StructureForm::getName() const
 
 UserData					*StructureForm::getTeacher() const
 {
-	return (_userDataPlugin->user(teacherField->itemData(teacherField->currentIndex(), Qt::DisplayRole).toUInt()));
+	return (_userDataPlugin->user(teacherField->itemData(teacherField->currentIndex(), Qt::DisplayRole).toString()));
 }
 
 void						StructureForm::setTitle(QString title)
@@ -88,7 +88,10 @@ void						StructureForm::setName(QString name)
 
 void						StructureForm::setTeacher(UserData *teacher)
 {
-	teacherField->setCurrentIndex(teacherField->findData(teacher->data(1), Qt::DisplayRole));
+	if (teacher)
+		teacherField->setCurrentIndex(teacherField->findData(teacher->data(1), Qt::DisplayRole));
+	else
+		teacherField->setCurrentIndex(-1);
 }
 
 void						StructureForm::setTeacherVisibility(bool hidden)
