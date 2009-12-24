@@ -160,13 +160,15 @@ bool TreeModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, i
 		return static_cast<Data*>(parent.internalPointer())->dropData(dropList, action);
 	}
 
-	if (mimeData->hasUrls())
-	{
-		FileDataPlugin* filePlugin = _plugin->pluginManager->findPlugin<FileDataPlugin*>();
-		foreach (const QUrl& url, mimeData->urls())
-			filePlugin->createFile(static_cast<TreeData*>(parent.internalPointer()), url.path());
-		return true;
-	}
+//	if (mimeData->hasUrls())
+//	{
+//		FileDataPlugin* filePlugin = _plugin->pluginManager->findPlugin<FileDataPlugin*>();
+//		foreach (const QUrl& url, mimeData->urls())
+//		{
+//			filePlugin->createFile(static_cast<TreeData*>(parent.internalPointer()), url.path());
+//		}
+//		return true;
+//	}
 	return false;
 }
 

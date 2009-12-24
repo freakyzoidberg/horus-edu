@@ -128,9 +128,12 @@ public:
 	bool				isDownloaded() const;
 public slots:
 	//! upload the file to the server.
-	void				upload();
+	void				upload(const QString localFileName);
 	//! download the file from the server.
 	void				download();
+
+private slots:
+	void				upload();
 
 private:
 	bool				_isDownloaded;

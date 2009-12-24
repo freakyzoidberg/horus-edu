@@ -82,7 +82,7 @@ public:
 	QList<FileData*>		filesInNode(const TreeData *node) const;
 	QList<FileData*>		filesInNodeAndUser(quint32 nodeId, quint32 userId) const;
 	QList<FileData*>		filesInNodeAndUser(const TreeData *node, const UserData* user) const;
-	FileData*				createFile(TreeData* node, const QString localFileName);
+	FileData*				createFile();
 
 #ifdef HORUS_SERVER
 private:

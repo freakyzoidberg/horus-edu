@@ -36,6 +36,7 @@
 #include "PluginManagerClient.h"
 #include "SecondaryThread.h"
 #include "../Common/LocalSettings.h"
+#include "../Common/UserData.h"
 
 CacheManager* CacheManager::instance()
 {

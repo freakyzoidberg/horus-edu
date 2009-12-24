@@ -19,47 +19,14 @@
  * of this content in every copy of this material                              *
  *                                                                             *
  * Authors :                                                                   *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *                                                                             *
- * - BERTHOLON Romain
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
- * - BERTHOLON Romain                                                          *
-
+ * - un Roumain sous paye                                                      *
+ * - GRANDEMANGE Adrien                                                        *
+ * - LACAVE Pierre                                                             *
+ * - LEON-BONNET Valentin                                                      *
+ * - NANOUCHE Abderrahmane                                                     *
+ * - THORAVAL Gildas                                                           *
+ * - VIDAL Jeremy                                                              *
+ *                                                                             *
  * You are also invited but not required to send a mail to the original        *
  * authors of this content in case of modification of this material            *
  *                                                                             *

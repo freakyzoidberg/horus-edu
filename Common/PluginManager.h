@@ -46,6 +46,7 @@
 
 #include "Plugin.h"
 class UserData;
+class TreeData;
 
 //! To find another plugin with name and/or type
 /*! Sample:
@@ -92,6 +93,8 @@ template <typename T>
 
     virtual const QHash<QString, Plugin*>& plugins() const = 0;
     virtual UserData*                      currentUser() const = 0;
+	virtual UserData*					   nobody() const = 0;
+	virtual TreeData*					   rootNode() const = 0;
 
 #ifdef HORUS_SERVER
 	virtual QSqlQuery					   sqlQuery() = 0;

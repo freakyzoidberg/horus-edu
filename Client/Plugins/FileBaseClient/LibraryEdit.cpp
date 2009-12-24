@@ -26,7 +26,7 @@ LibraryEdit::LibraryEdit(PluginManager* pluginManager, const QString filename)
 	_file = 0;
 	init();
 	QFileInfo f(filename);
-	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( f.filePath() + '/' + f.fileName() );
+	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( f.filePath() );
 	static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->setText( f.fileName() );
 }
 
@@ -130,17 +130,8 @@ void LibraryEdit::init()
 	connect(button, SIGNAL(clicked()), this, SLOT(exit()));
 	rightLayout->addWidget(button);
 
-	if (_file)
-	{
-		button = new QPushButton(tr("Save"), this);
-		connect(button, SIGNAL(clicked()), this, SLOT(save()));
-	}
-	else
-	{
-		button = new QPushButton(tr("Create"), this);
-		connect(button, SIGNAL(clicked()), this, SLOT(create()));
-
-	}
+	button = new QPushButton(tr(_file?"Save":"Create"), this);
+	connect(button, SIGNAL(clicked()), this, SLOT(save()));
 	rightLayout->addWidget(button);
 
 	rightLayout->addWidget(new QWidget(this), 1);
@@ -151,7 +142,7 @@ void LibraryEdit::exit()
 	emit exited();
 }
 
-void LibraryEdit::create()
+void LibraryEdit::save()
 {
 	QString name = static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text();
 	QString source = static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->text();
@@ -163,28 +154,24 @@ void LibraryEdit::create()
 	if (node == tdp->rootNode())
 		node = tdp->node(_grades->itemData(_grades->currentIndex()).toUInt());
 
-	_file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile(node, source);
-	_file->setName(name);
-//	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
-	_file->setKeyWords(static_cast<QTextEdit*>(_formLayout->itemAtPosition(3, 1)->widget())->document()->toPlainText());
-
-//	_file->create();
-	_file->upload();
-	emit exited();
-}
-
-void LibraryEdit::save()
-{
-	TreeDataPlugin* tdp = _pluginManager->findPlugin<TreeDataPlugin*>();
-	TreeData* node = tdp->node(_subjects->itemData(_subjects->currentIndex()).toUInt());
-	if (node == tdp->rootNode())
-		node = tdp->node(_grades->itemData(_grades->currentIndex()).toUInt());
+	bool creating = false;
+	if ( ! _file)
+	{
+		_file = _pluginManager->findPlugin<FileDataPlugin*>()->createFile();
+		creating = true;
+	}
 
 	_file->moveTo(node);
-	_file->setName(static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->text());
-//	_file->setMimeType(static_cast<QLineEdit*>(_formLayout->itemAtPosition(2, 1)->widget())->text());
+	_file->setName(name);
 	_file->setKeyWords(static_cast<QTextEdit*>(_formLayout->itemAtPosition(3, 1)->widget())->document()->toPlainText());
-	_file->save();
+
+	if (creating)
+		_file->create();
+	else
+		_file->save();
+
+	_file->upload(source);
+
 	emit exited();
 }
 
@@ -211,7 +198,7 @@ void LibraryEdit::dropEvent(QDropEvent* event)
 	if ( ! f.exists())
 		return;
 
-	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( f.filePath() + '/' + f.fileName() );
+	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( f.filePath() );
 	static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->setText( f.fileName() );
 
 	event->acceptProposedAction();
@@ -249,6 +236,6 @@ void LibraryEdit::browse()
 		return;
 
 	QFileInfo f(dialog.selectedFiles().first());
-	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( f.filePath() + '/' + f.fileName() );
+	static_cast<QLineEdit*>(_formLayout->itemAtPosition(6, 1)->widget())->setText( f.filePath() );
 	static_cast<QLineEdit*>(_formLayout->itemAtPosition(1, 1)->widget())->setText( f.fileName() );
 }

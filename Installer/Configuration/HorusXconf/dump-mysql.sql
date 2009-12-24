@@ -7,6 +7,7 @@ CREATE TABLE `file` (
   `id_tree` int(11) NOT NULL,
   `id_owner` int(11) NOT NULL,
   `hash_sha1` varchar(40) NOT NULL,
+	`keywords` varchar(255) NOT NULL,
   `mtime` timestamp NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `id_ower` (`id_owner`),

@@ -40,12 +40,13 @@
 class FileDataPlugin;
 class FileTransfert;
 class FileTransfertClient;
+class TransfertList;
 
 class Transfert : public QHBoxLayout
 {
 	Q_OBJECT
 public:
-					Transfert(FileTransfert*);
+					Transfert(FileTransfert* transfert, TransfertList* list);
 
 private slots:
 	void			progressChange(int progress);
@@ -53,16 +54,22 @@ private slots:
 
 private:
 	FileTransfertClient*	_transfert;
+	TransfertList*			_list;
 };
 
 class TransfertList : public QWidget
 {
+	friend class Transfert;
 	Q_OBJECT
 public:
-					TransfertList();
+						TransfertList();
 
 private slots:
-	void			newTransfert(FileTransfert*);
+	void				newTransfert(FileTransfert*);
+
+private:
+	QGridLayout*		_grid;
+	QList<Transfert*>	_list;
 };
 
 #endif // TRANSFERTLIST_H

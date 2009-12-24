@@ -60,6 +60,8 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
+	_size = 0;
+	_mimeType = "application/octet-stream";
 }
 
 void FileDataBase::keyToStream(QDataStream& s) const
@@ -142,7 +144,7 @@ const QList<Data*> FileDataBase::dependsOfCreatedData() const
 quint8 FileDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`FROM`file`WHERE`id`=?;");
+	query.prepare("SELECT`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`keywords`,`mtime`FROM`file`WHERE`id`=?;");
 	query.addBindValue(_id);
 
 	if ( ! query.exec())
@@ -159,7 +161,8 @@ quint8 FileDataBase::serverRead()
 	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(3).toUInt() );
 	_owner		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(4).toUInt() );
 	_hash		= query.value(5).toByteArray();
-	_lastChange	= query.value(5).toDateTime();
+	_keyWords	= query.value(6).toString();
+	_lastChange	= query.value(7).toDateTime();
 
 	return NONE;
 }
@@ -167,13 +170,14 @@ quint8 FileDataBase::serverRead()
 quint8 FileDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO`file`(`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`)VALUES(?,?,?,?,?,?,?);");
+	query.prepare("INSERT INTO`file`(`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`keywords`,`mtime`)VALUES(?,?,?,?,?,?,?,?);");
 	query.addBindValue(_name);
 	query.addBindValue(_mimeType);
 	query.addBindValue(_size);
 	query.addBindValue(_node->id());
 	query.addBindValue(_owner->id());
 	query.addBindValue(_hash.toHex());
+	query.addBindValue(_keyWords);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
 
 	if ( ! query.exec())
@@ -190,13 +194,14 @@ quint8 FileDataBase::serverCreate()
 quint8 FileDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE`file`SET`name`=?,`mime`=?,`size`=?,`id_tree`=?,`id_owner`=?,`hash_sha1`=?,`mtime`=? WHERE`id`=?;");
+	query.prepare("UPDATE`file`SET`name`=?,`mime`=?,`size`=?,`id_tree`=?,`id_owner`=?,`hash_sha1`=?,`keywords`=?,`mtime`=? WHERE`id`=?;");
     query.addBindValue(_name);
     query.addBindValue(_mimeType);
     query.addBindValue(_size);
 	query.addBindValue(_node->id());
 	query.addBindValue(_owner->id());
     query.addBindValue(_hash.toHex());
+	query.addBindValue(_keyWords);
 	query.addBindValue( (_lastChange = QDateTime::currentDateTime()) );
 	query.addBindValue(_id);
 
@@ -307,25 +312,30 @@ void FileDataBase::moveTo(TreeData* node)
 }
 
 #ifdef HORUS_CLIENT
-void FileDataBase::upload()
+void FileDataBase::upload(const QString localFileName)
 {
-	qDebug() << "File::upload()";
-	disconnect(this, SLOT(upload()));
-
-	if (_status == EMPTY || _status == CREATING)
+	if (QFileInfo(localFileName).size() == QFileInfo(fileName()).size())
 	{
-		connect(this, SIGNAL(updated()), this, SLOT(upload()));
-		if (_status == EMPTY)
-			create();
+		qDebug() << this << "Already uploaded.";
 		return;
 	}
+	QFile::copy(localFileName, fileName());
 
+	if (_status == EMPTY || _status == CREATING)
+		connect(this, SIGNAL(updated()), this, SLOT(upload()));
+	else
+		upload();
+}
+
+void FileDataBase::upload()
+{
+	disconnect(this, SIGNAL(updated()), this, SLOT(upload()));
 	_plugin->pluginManager->findPlugin<FileNetworkPlugin*>()->askForTransfert(this, FileTransfert::UPLOAD);
 }
 
 void FileDataBase::download()
 {
-	qDebug() << "File::download()";
+	qDebug() << this << "download";
 	if ( ! _isDownloaded)
 	{
 		QFile f(fileName());
@@ -335,7 +345,7 @@ void FileDataBase::download()
 
 	if (_isDownloaded)
 	{
-		qDebug() << this << "is already downloaded." ;
+		qDebug() << this << "Already downloaded." ;
 		return;
 	}
 
