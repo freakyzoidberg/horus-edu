@@ -20,7 +20,6 @@ signals:
 public slots:
 	void			exit();
 	void			save();
-	void			create();
 	void			browse();
 	void			dragEnterEvent(QDragEnterEvent *event);
 	void			dropEvent(QDropEvent* event);

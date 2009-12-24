@@ -62,7 +62,8 @@ QString calcUnit(qint64 nbrBytes)
 
 TransfertList::TransfertList()
 {
-	(new QVBoxLayout(this))->addStretch(1);
+	_grid = new QGridLayout(this);
+	_grid->setColumnStretch(1, 1);
 
 	foreach (FileTransfert* transfert, FileTransfertQueue::list())
 		newTransfert(transfert);
@@ -72,12 +73,15 @@ TransfertList::TransfertList()
 
 void TransfertList::newTransfert(FileTransfert* transfert)
 {
-	((QVBoxLayout*)layout())->insertLayout(0, new Transfert(transfert));
+	new Transfert(transfert, this);
 }
 
-Transfert::Transfert(FileTransfert* transfert)
+Transfert::Transfert(FileTransfert* transfert, TransfertList* list)
 {
 	_transfert = (FileTransfertClient*)(transfert);
+	_list = list;
+	int row = _list->_list.count();
+	_list->_list.append(this);
 
 	QProgressBar* bar = new QProgressBar;
 	bar->setFixedHeight(14);
@@ -92,9 +96,9 @@ Transfert::Transfert(FileTransfert* transfert)
 		bar->setValue(_transfert->progress());
 	}
 
-	addWidget(new QLabel(_transfert->file()->name()), 10); //0
-	addWidget(bar, 50); //1
-	addWidget(new QLabel, 10); //2
+	_list->_grid->addWidget(new QLabel(_transfert->file()->name()), row, 0);
+	_list->_grid->addWidget(bar, row, 1);
+	_list->_grid->addWidget(new QLabel, row, 2);
 
 	progressChange(0);
 
@@ -105,15 +109,18 @@ Transfert::Transfert(FileTransfert* transfert)
 
 void Transfert::progressChange(int progress)
 {
-	static_cast<QProgressBar*>(itemAt(2)->widget())->setValue(_transfert->progress());
-	static_cast<QLabel*>(itemAt(2)->widget())->setText((calcUnit(_transfert->progress()) + "/"
+	int row = _list->_list.indexOf(this);
+	static_cast<QProgressBar*>(_list->_grid->itemAtPosition(row, 1)->widget())->setValue(_transfert->progress());
+	static_cast<QLabel*>(_list->_grid->itemAtPosition(row, 2)->widget())->setText((calcUnit(_transfert->progress()) + "/"
 											  + calcUnit(_transfert->file()->size()) + " "
 											  + calcUnit(_transfert->speed()) + "/s"));
 }
 
 void Transfert::finished()
 {
-	QProgressBar* bar = ((QProgressBar*)(itemAt(2)->widget()));
+	int row = _list->_list.indexOf(this);
+	QProgressBar* bar = static_cast<QProgressBar*>(_list->_grid->itemAtPosition(row, 1)->widget());
+	bar->setValue(_transfert->progress());
 	bar->setRange(0, 100);
 	bar->setValue(100);
 }

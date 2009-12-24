@@ -85,7 +85,7 @@ public slots:
 	//! download the file from the server.
 	virtual void  download() = 0;
 	//! upload the file to the server.
-    virtual void  upload() = 0;
+	virtual void  upload(const QString localFileName) = 0;
 
 signals:
     //! emitted when the localfile just finish downloading

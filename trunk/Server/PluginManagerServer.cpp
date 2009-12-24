@@ -39,6 +39,8 @@
 #include "../Common/MetaPlugin.h"
 #include "ClientSocket.h"
 #include "../Common/CommPlugin.h"
+#include "../Common/UserData.h"
+#include "../Common/TreeData.h"
 #include "NetworkPlugin.h"
 #include <QSettings>
 #include <QPluginLoader>
@@ -101,6 +103,9 @@ void PluginManagerServer::load()
     qRegisterMetaType<UserData*>("UserData*");
     foreach (NetworkPlugin* plugin, findPlugins<NetworkPlugin*>())
         connect(plugin, SIGNAL(sendPacket(UserData*,PluginPacket)), this, SLOT(sendPluginPacket(UserData*,PluginPacket)));
+
+	_rootNode = findPlugin<TreeDataPlugin*>()->rootNode();
+	_nobody = findPlugin<UserDataPlugin*>()->nobody();
 }
 
 void PluginManagerServer::sendPluginPacket(UserData* user, const PluginPacket packet)

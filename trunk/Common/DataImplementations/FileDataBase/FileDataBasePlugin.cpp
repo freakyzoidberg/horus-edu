@@ -89,23 +89,11 @@ QList<FileData*> FileDataBasePlugin::filesInNodeAndUser(const TreeData *node, co
 	return res;
 }
 
-FileData* FileDataBasePlugin::createFile(TreeData* node, const QString localFileName)
+FileData* FileDataBasePlugin::createFile()
 {
 	static quint32 tmpId = 0;
 	tmpId--;
-
-	FileDataBase* f = static_cast<FileDataBase*>( file(tmpId));
-	f->_node = node;
-	f->_owner = pluginManager->currentUser();
-	f->_name = 	QFileInfo(localFileName).fileName();
-	f->_size = 0;
-	//TODO. mime type automatique
-	f->_mimeType = "application/octet-stream";
-	f->_keyWords = QFileInfo(localFileName).fileName();
-
-	QFile::copy(localFileName, f->fileName());
-
-	return f;
+	return static_cast<FileDataBase*>( file(tmpId));
 }
 
 Data* FileDataBasePlugin::dataWithKey(QDataStream& s)
@@ -135,7 +123,7 @@ void FileDataBasePlugin::load()
 	_server = FileServer::instance();
 
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT`id`,`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`FROM`file`;");
+	query.prepare("SELECT`id`,`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`keywords`,`mtime`FROM`file`;");
 	query.exec();
 	while (query.next())
 	{
@@ -148,7 +136,8 @@ void FileDataBasePlugin::load()
 		f->_owner		= pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(5).toUInt() );
 
 		f->_hash		= QByteArray::fromHex(query.value(6).toByteArray());
-		f->_lastChange	= query.value(7).toDateTime();
+		f->_keyWords	= query.value(7).toString();
+		f->_lastChange	= query.value(8).toDateTime();
 
 		f->_status		= Data::UPTODATE;
 	}
@@ -182,12 +171,13 @@ bool FileDataBasePlugin::canLoad() const
 						`id_owner` int(11) NOT NULL,\
 						`hash_sha1` varchar(40) NOT NULL,\
 						`mtime` timestamp NOT NULL,\
+						`keywords` varchar(255) NOT NULL,\
 						PRIMARY KEY (`id`),\
 						KEY`id_owner`(`id_owner`),\
 						KEY`id_tree`(`id_tree`)\
 					);")
 		||
-		 ! query.exec("SELECT`id`,`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`mtime`FROM`file`WHERE`id`=-1;")
+		 ! query.exec("SELECT`id`,`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`keywords`,`mtime`FROM`file`WHERE`id`=-1;")
 		)
 	{
 		qDebug() << "FileDataBasePlugin::canLoad()" << query.lastError();

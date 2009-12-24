@@ -42,7 +42,8 @@
 
 #include "../Common/MetaPlugin.h"
 #include "../Common/Plugin.h"
-#include "../Common/TreeDataPlugin.h"
+#include "../Common/TreeData.h"
+#include "../Common/UserData.h"
 #include "../Common/CommPlugin.h"
 #include "NetworkPlugin.h"
 
@@ -60,6 +61,14 @@ PluginManagerClient* PluginManagerClient::instance()
 		_instance->moveToThread(QCoreApplication::instance()->thread());
 	}
 	return _instance;
+}
+
+PluginManagerClient::PluginManagerClient()
+{
+	_currentUser = 0;
+	_rootNode = 0;
+	_nobody = 0;
+	_loaded = false;
 }
 
 void PluginManagerClient::loadPlugins()
@@ -150,6 +159,8 @@ void PluginManagerClient::loadPlugins()
 		qFatal(tr("Horus Client cannot launch. You need at least a User Data Plugin and a TreeDataPlugin").toAscii().data());
 
 
+	_rootNode = findPlugin<TreeDataPlugin*>()->rootNode();
+	_nobody = findPlugin<UserDataPlugin*>()->nobody();
 	_loaded = true;
 	emit loadProgressChange(100);
 	emit loaded();

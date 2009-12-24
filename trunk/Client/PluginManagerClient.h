@@ -42,8 +42,10 @@
 #include <QEvent>
 
 #include "../Common/PluginManager.h"
-#include "../Common/UserData.h"
 #include "../Common/PluginPacket.h"
+
+class UserData;
+class TreeData;
 
 //! To find another plugin with name and/or type
 /*! Sample:
@@ -62,6 +64,8 @@ public:
 	//PluginManager Interface
 	inline const QHash<QString, Plugin*>&	plugins() const { return _plugins; }
 	inline UserData*						currentUser() const { return _currentUser; }
+	inline UserData*						nobody() const { return _nobody; }
+	inline TreeData*						rootNode() const { return _rootNode; }
 
 public:
 	static PluginManagerClient*				instance();
@@ -84,9 +88,11 @@ private:
 
 	QHash<QString,Plugin*>					_plugins;
 	UserData*								_currentUser;
+	UserData*								_nobody;
+	TreeData*								_rootNode;
 	bool									_loaded;
 
-	PluginManagerClient() { _currentUser = 0; _loaded = false; }
+	PluginManagerClient();
 	~PluginManagerClient() {}
 };
 

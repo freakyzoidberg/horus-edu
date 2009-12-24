@@ -40,9 +40,11 @@
 #include <QString>
 
 #include "../Common/PluginManager.h"
-#include "../Common/UserData.h"
 #include "../Common/PluginPacket.h"
 #include "Sql.h"
+
+class TreeData;
+class UserData;
 
 //! To find another plugin with name and/or type
 /*! Sample:
@@ -60,6 +62,8 @@ public:
     void load();
     const QHash<QString, Plugin*>& plugins() const;
     UserData*                      currentUser() const;
+	inline UserData*				nobody() const { return _nobody; }
+	inline TreeData*				rootNode() const { return _rootNode; }
     void                           setCurrentUser(UserData* user);
 	QSqlQuery					   sqlQuery();
 	void						   threadFinnished();
@@ -74,6 +78,8 @@ private:
 	QHash<QString,Plugin*>		_plugins;
 	QHash<Qt::HANDLE,UserData*> _users;
 	QHash<Qt::HANDLE,Sql*>		_sqlConnexions;
+	UserData*					_nobody;
+	TreeData*					_rootNode;
 };
 
 #endif // PLUGINMANAGERSERVER_H
