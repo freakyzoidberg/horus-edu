@@ -97,12 +97,13 @@ void SubjectList::addAnExam()
 
 
 	 ExamsData *ex =
-			 test->newExams(_pluginManager->currentUser()->studentClass(),
+	test->newExams(_pluginManager->currentUser()->studentClass(),
 								  this->examComment->text() , _pluginManager->currentUser());
 
 	ex->setTeacher(2);
 	ex->setDate(QDate().currentDate());
 	ex->setComment(this->examComment->text());
+	ex->setSubject(NULL);
 	ex->create();
  }
 

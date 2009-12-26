@@ -46,21 +46,19 @@ ExamsDataBasePlugin::ExamsDataBasePlugin()
 
 ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserData* user)
 {
-	static quint32 tmpId = 1;
+	static quint32 tmpId = 0;
 	tmpId--;
 
-	ExamsDataBase* u = ((ExamsDataBase*)( exam(tmpId)) );
+	ExamsDataBase* u = new ExamsDataBase(tmpId, this);
 	u->setDate(QDate().currentDate());
 	u->setComment(name);
-	u->setTeacher(pluginManager->currentUser()->id());
+	u->_subject = parent;
+	u->setTeacher(user->id());
 	return u;
 }
 
 ExamsData* ExamsDataBasePlugin::exam(quint32 examId)
 {
-	if (examId == 0)
-		return NULL;
-
 	foreach (Data* d, _allDatas)
 	{
 		ExamsDataBase* u = (ExamsDataBase*)d;
@@ -71,7 +69,7 @@ ExamsData* ExamsDataBasePlugin::exam(quint32 examId)
 	ExamsDataBase* u = new ExamsDataBase(examId, this);
 
 	u->_date = QDate().currentDate();
-	u->_comment = "";
+	u->_comment = "test";
 	u->_subject = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 	u->_teacher = 1;
 	_allDatas.append(u);
@@ -125,11 +123,13 @@ void  ExamsDataBasePlugin::load()
 {
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `Exams`;");
+	query.prepare("SELECT`id`,`id_tree`,`comment`,`date`,`teacher_id` FROM `Exams`;");
 	query.exec();
 	while (query.next())
 	{
 		ExamsDataBase* Exams = (ExamsDataBase*)(exam(query.value(0).toUInt()));
+		if (!Exams)
+			continue ;
 		//Exams->_ = query.value(1).toInt()
 		Exams->_subject = pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(1).toInt());
 		Exams->_comment = query.value(2).toString();
@@ -165,7 +165,7 @@ void ExamsDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	ExamsDataBase* u = ((ExamsDataBase*)(d));
 	s >> u->_id;
-	qDebug() << "User data Have a New Key" << u->_id;
+	qDebug() << "Exams data Have a New Key" << u->_id;
 }
 
 #include "../../../Client/DataListModel.h"
