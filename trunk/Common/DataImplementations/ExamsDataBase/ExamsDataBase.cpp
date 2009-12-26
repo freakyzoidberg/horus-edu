@@ -56,10 +56,9 @@ void ExamsDataBase::dataFromStream(QDataStream& s)
 {
 	quint32	subjectId, examId;
 
-	s >> _comment >> _date >> _teacher >> subjectId >> examId;
+	s >> _comment >> _date >> _teacher >> subjectId;
 
 	setSubject(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(subjectId));
-	setExam(_plugin->pluginManager->findPlugin<ExamsDataPlugin*>()->exam(examId));
 	Data::dataFromStream(s);
 }
 
