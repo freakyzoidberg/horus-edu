@@ -64,7 +64,7 @@ QMap<int, QString> SubjectList::getallsubject()
 		tempitem->setData(Qt::UserRole, data->teacher());
 		SubjectsList->addItem(tempitem);
 
-		//allclass.insert(data->id(), data->name());
+		allclass.insert(data->id(), data->comment());
 	}
 
 	return allclass;
