@@ -39,6 +39,7 @@
 #include "DataPlugin.h"
 
 class TreeData;
+class ExamsData;
 class MarksData;
 class MarksDataPlugin : public DataPlugin
 {
@@ -51,6 +52,15 @@ class MarksDataPlugin : public DataPlugin
 #endif
 
 public:
+	virtual MarksData*	  newMarks(ExamsData* parent, UserData* user = 0) = 0;
+	virtual MarksData*	  mark(quint32 nodeId) = 0;
+	//virtual QList<MarksData*> userMarks(TreeData* node) = 0;
+
+
+		//Plugin
+public:
+	inline const QString	pluginName() const { return "MarksDataPlugin"; }
+	inline const QString	dataType() const { return "Marks"; }
 
 };
 

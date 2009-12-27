@@ -36,41 +36,46 @@
 #include "MarksDataBasePlugin.h"
 
 #include "../../TreeData.h"
+#include "../../UserData.h"
 
-MarksDataBase::MarksDataBase(TreeData* node, MarksDataBasePlugin* plugin) : MarksData(plugin)
+MarksDataBase::MarksDataBase(quint32 id, MarksDataBasePlugin* plugin) : MarksData(id, plugin)
 {
-	//_exam = ;
-	//_exam->registerData(this);
+	moveToThread(plugin->thread());
 }
 
 void MarksDataBase::keyToStream(QDataStream& s) const
 {
-	//s << _;
+	s << _id;
 }
 
 void MarksDataBase::dataToStream(QDataStream& s) const
 {
-	s << _result << _comment << _date;
+	s << _comment << _result << _student << _exam->id();
 }
 
 void MarksDataBase::dataFromStream(QDataStream& s)
 {
-	s >> _result >> _comment >> _date;
+	quint32	examId;
+
+	s >> _comment >> _result >> _student >> examId;
+
+	setExam(_plugin->pluginManager->findPlugin<ExamsDataPlugin*>()->exam(examId));
+	Data::dataFromStream(s);
 }
 
 bool MarksDataBase::canChange(UserData* user) const
 {
-	return _exam->canChange(user);
+		return true;
 }
 
 bool MarksDataBase::canAccess(UserData* user) const
 {
-	return _exam->canAccess(user);
+	return true;
 }
 
 QDebug MarksDataBase::operator<<(QDebug debug) const
 {
-	return debug << dataType() << _result << _comment;
+	return debug << dataType() << _exam->id() << _comment << _student;
 }
 
 const QList<Data*> MarksDataBase::dependsOfCreatedData() const
@@ -84,8 +89,7 @@ const QList<Data*> MarksDataBase::dependsOfCreatedData() const
 quint8 MarksDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`student_id`,`comment`,`result`FROM`StudentMarks`WHERE`exam_id`=?;");
-//	query.addBindValue(_exam->id());
+	query.prepare("SELECT`id`,`exam_id`,`comment`,`result`,`student_id`FROM`Marks`");
 
 	if ( ! query.exec())
 	{
@@ -95,22 +99,24 @@ quint8 MarksDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-	_student	= query.value(0).toInt();
-	_comment	= query.value(1).toString();
-	_result		= query.value(2).toString();
-
+	_id = query.value(0).toInt();
+	_comment	= query.value(2).toString();
+	_result		= query.value(3).toString();
+	_student	= query.value(4).toInt();
+	this->_exam =
+	_plugin->pluginManager->findPlugin<ExamsDataPlugin*>()->exam(query.value(3).toUInt());
 	return NONE;
 }
 
 quint8 MarksDataBase::serverCreate()
 {
-	//QMutexLocker M(&_node->mutex);
+	QMutexLocker M(&_exam->mutex);
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("INSERT INTO`StudentMarks`(`exam_id`,`student_id`,`comment`,`result`)VALUES(?,?,?,?);");
-	//query.addBindValue(_exam->id());
-	query.addBindValue(_student);
+	query.prepare("INSERT INTO`Marks`(`exam_id`,`comment`,`result`,`student_id`)VALUES(?,?,?, ?);");
+	query.addBindValue(_exam->id());
 	query.addBindValue(_comment);
 	query.addBindValue(_result);
+	query.addBindValue(_student);
 
 	if ( ! query.exec())
 	{
@@ -124,12 +130,11 @@ quint8 MarksDataBase::serverCreate()
 quint8 MarksDataBase::serverSave()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("UPDATE`StudentMarks`SET`exam_id`=?,`student_id`=?,`comment`=?,`result`=? WHERE`exam_id`=?;");
-	//query.addBindValue(_exam->id());
-	query.addBindValue(_student);
+	query.prepare("UPDATE`Marks`SET`comment`=?,`result`=?,`exam_id`=? WHERE`id`=?;");
 	query.addBindValue(_comment);
 	query.addBindValue(_result);
-	//query.addBindValue(_exam->id());
+	query.addBindValue(_exam->id());
+	query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
@@ -142,8 +147,8 @@ quint8 MarksDataBase::serverSave()
 quint8 MarksDataBase::serverRemove()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("DELETE FROM`StudentMarks`WHERE`exam_id`=?;");
-	//query.addBindValue(_exam->id());
+	query.prepare("DELETE FROM`Marks`WHERE`id`=?;");
+	query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{
@@ -161,14 +166,16 @@ QVariant MarksDataBase::data(int column, int role) const
 {
     if (role == Qt::DisplayRole)
     {
-	/*	if (column == 0)
-			return _exam->name(); */
+		if (column == 0)
+			return _id;
 		if (column == 1)
 			return _comment;
 		if (column == 2)
 			return _result;
 		if (column == 3)
 			return _student;
+		if (column == 4)
+			return _exam->id();
 	}
    return Data::data(column, role);
 }

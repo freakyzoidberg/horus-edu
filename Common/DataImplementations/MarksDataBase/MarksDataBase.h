@@ -60,32 +60,22 @@ class MarksDataBase : public MarksData
 
   friend class			MarksDataBasePlugin;
 
-private:
-	MarksDataBase(TreeData* node, MarksDataBasePlugin* plugin);
-	~MarksDataBase() {}
-
-	QString			_result;
-	QString			_comment;
-	QDate			_date;
-	ExamsData*		_exam;
-	quint32			_student;
-
 	// INTERFACE MarksData
 public:
-	inline QString		result() const  { return _result; }
-	inline void		    setResult(const QString& result)  { _result = result; }
-
 	 inline QString		comment() { return _comment; }
 	 inline void		setComment(const QString& comment) { _comment = comment; }
 
-	 inline void		setDate(const QDate& date) { _date = date; }
-	 inline QDate		date() { return _date; }
+	 inline void		setResult(const QString& result) { _result = result; }
+	 inline QString		result() { return _result; }
+
+	 inline quint32		student() const { return _student; }
+	 inline void		setStudent(const quint32 id) { _student = id; }
 
 	 inline ExamsData*	exam() const { return _exam; }
-	 inline	void		setExam(ExamsData *exam) { _exam = exam; }
+	 void				setExam(ExamsData* exam) { _exam = exam; }
 
-	inline void			setStudent(const quint32 id) { _student = id; }
-	inline quint32		student() const { return _student; }
+	inline MarksData*	mark() const	{ return _mark; }
+	void				setMark(MarksData* mark) { _mark = mark; }
 
 	//INTERFACE Data
 public:
@@ -110,6 +100,17 @@ public:
 	quint8				serverSave();
 	quint8				serverRemove();
 #endif
+
+private:
+	MarksDataBase(quint32 id, MarksDataBasePlugin* plugin);
+	~MarksDataBase() {}
+
+	QString				_comment;
+	QString				_result;
+	ExamsData*			_exam;
+	quint32				_student;
+	MarksData*			_mark;
+
 };
 
 #endif // MARKSDATABASE_H

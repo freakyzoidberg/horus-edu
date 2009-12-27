@@ -36,8 +36,8 @@
 #define MARKSDATA_H
 
 #include "Data.h"
+#include "ExamsData.h"
 #include "MarksDataPlugin.h"
-#include "ExamsDataPlugin.h"
 
 class MarksData : public Data
 {
@@ -46,28 +46,31 @@ class MarksData : public Data
 	Q_INTERFACES(ServerData)
 #endif
 #ifdef HORUS_CLIENT
-	Q_INTERFACES(ClientData)
+			Q_INTERFACES(ClientData)
 #endif
 
 public:
-	virtual QString		result() const = 0;
+	inline quint32		id() const { return _id; }
+
+	virtual QString		comment()  = 0;
+	virtual void		setComment(const QString& comment)  = 0;
+
 	virtual void		setResult(const QString& result)  = 0;
+	virtual QString		result()  = 0;
 
-	virtual QString		comment() = 0;
-	virtual void		setComment(const QString& comment) = 0;
-
-	virtual void		setDate(const QDate& date) = 0;
-	virtual QDate		date() = 0;
+	virtual quint32		student() const  = 0;
+	virtual void		setStudent(const quint32 id)  = 0;
 
 	virtual ExamsData*	exam() const = 0;
-	virtual	void		setExam(ExamsData *exam) = 0;
+	virtual	void			setExam(ExamsData* exam) = 0;
 
-	virtual quint32		student() const = 0;
-	virtual void		setStudent(const quint32 id) = 0;
+	virtual MarksData*	mark() const = 0;
+	virtual	void			setMark(MarksData* mark) =  0;
 
 protected:
-	inline				MarksData(MarksDataPlugin* plugin) : Data(plugin) { }
+	inline				MarksData(quint32 id, MarksDataPlugin* plugin) : Data(plugin) { _id = id; }
 	inline				~MarksData() {}
+	quint32				_id;
 };
 
 #ifdef HORUS_SERVER

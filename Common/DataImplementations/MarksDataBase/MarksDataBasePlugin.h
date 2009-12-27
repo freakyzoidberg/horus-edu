@@ -37,6 +37,8 @@
 
 #include <QHash>
 #include "../../MarksDataPlugin.h"
+#include "../../ExamsData.h"
+#include "../../UserData.h"
 
 class MarksDataBasePlugin : public MarksDataPlugin
 {
@@ -53,15 +55,8 @@ class MarksDataBasePlugin : public MarksDataPlugin
 public:
 							MarksDataBasePlugin();
 
-	MarksData*				newMarks(TreeData* parent, QString name, UserData* user = 0);
-	MarksData*				nodeMarks(quint32 nodeId);
-	MarksData*				nodeMarks(TreeData* node);
-	QList<MarksData*>		nodeMarkss(TreeData* node, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
-	QList<MarksData*>		userMarkss(UserData* user, const QDateTime from = QDateTime(), const QDateTime to = QDateTime());
-
-private:
-	void					recursiveTreeSearch(QList<MarksData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to);
-
+	MarksData*				newMarks(ExamsData* parent, UserData* user = 0);
+	MarksData*				mark(quint32 nodeId);
 
 	//Plugin
 public:
@@ -76,10 +71,11 @@ public:
 public:
 	inline const QString	dataType() const { return "Marks"; }
 #ifdef HORUS_SERVER
-	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
+	QList<Data*>			datasForUpdate(MarksData* user, QDateTime date);
 #endif
 #ifdef HORUS_CLIENT
 	QAbstractListModel*		listModel() const;
+	void					dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 
 protected:
