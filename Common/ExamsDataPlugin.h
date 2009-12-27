@@ -58,7 +58,7 @@ public:
 
 		//Plugin
 public:
-	inline const QString	pluginName() const { return "Exam Data Plugin"; }
+	inline const QString	pluginName() const { return "ExamsDataPlugin"; }
 	inline const QString	dataType() const { return "Exams"; }
 
 };

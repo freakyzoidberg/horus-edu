@@ -69,7 +69,7 @@ public:
 public:
 	inline const QString	dataType() const { return "Exams"; }
 #ifdef HORUS_SERVER
-	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
+	QList<Data*>			datasForUpdate(ExamsData* user, QDateTime date);
 #endif
 #ifdef HORUS_CLIENT
 	QAbstractListModel*		listModel() const;

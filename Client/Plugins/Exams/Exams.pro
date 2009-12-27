@@ -5,6 +5,8 @@ QT += sql
 
 TARGET = Exams
 
+CONFIG += qt debug
+
 TEMPLATE = lib
 
 DEFINES += HORUS_CLIENT

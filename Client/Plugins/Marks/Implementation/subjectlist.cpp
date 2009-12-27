@@ -86,15 +86,16 @@ void	SubjectList::fillSubjectList()
 
 void SubjectList::showExams(QListWidgetItem *item)
 {
-	qDebug() << "clicked";
-}
+	int subj;
+	TreeData *mat;
 
-void SubjectList::addAnExam()
-{
-	qDebug() << "added";
+	qDebug() << "clicked";
+
+	subj = item->data(Qt::UserRole).toInt();
 
 	ExamsDataPlugin *test = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
 
+	mat = treePlugin->node(subj);
 
 	 ExamsData *ex =
 	test->newExams(_pluginManager->currentUser()->studentClass(),
@@ -103,7 +104,15 @@ void SubjectList::addAnExam()
 	ex->setTeacher(2);
 	ex->setDate(QDate().currentDate());
 	ex->setComment(this->examComment->text());
-	ex->setSubject(NULL);
+	ex->setSubject(mat);
 	ex->create();
+
+}
+
+void SubjectList::addAnExam()
+{
+	qDebug() << "added";
+
+
  }
 

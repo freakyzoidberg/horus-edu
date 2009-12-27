@@ -40,6 +40,7 @@
 
 ExamsDataBase::ExamsDataBase(quint32 id, ExamsDataBasePlugin* plugin) : ExamsData(id, plugin)
 {
+	moveToThread(plugin->thread());
 }
 
 void ExamsDataBase::keyToStream(QDataStream& s) const
@@ -54,7 +55,7 @@ void ExamsDataBase::dataToStream(QDataStream& s) const
 
 void ExamsDataBase::dataFromStream(QDataStream& s)
 {
-	quint32	subjectId, examId;
+	quint32	subjectId;
 
 	s >> _comment >> _date >> _teacher >> subjectId;
 
@@ -64,9 +65,7 @@ void ExamsDataBase::dataFromStream(QDataStream& s)
 
 bool ExamsDataBase::canChange(UserData* user) const
 {
-	if (!user->level())
 		return true;
-	return false;
 }
 
 bool ExamsDataBase::canAccess(UserData* user) const
@@ -90,8 +89,8 @@ const QList<Data*> ExamsDataBase::dependsOfCreatedData() const
 quint8 ExamsDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`comment`,`date`,`teacher_id`,`id_tree`FROM`Exams`WHERE`id_tree`=?;");
-	query.addBindValue(_subject->id());
+	query.prepare("SELECT`comment`,`date`,`teacher_id`,`id_tree`FROM`Exams`");
+	//query.addBindValue(_subject->id());
 
 	if ( ! query.exec())
 	{

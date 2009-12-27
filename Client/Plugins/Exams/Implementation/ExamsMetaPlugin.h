@@ -46,7 +46,7 @@ class ExamsMetaPlugin : public MetaPlugin
 public:
     inline ExamsMetaPlugin() {
 	  Plugin* p = new ExamsDataBasePlugin();
-      pluginList.append(p);
+	  pluginList.append(p);
   }
 };
 
