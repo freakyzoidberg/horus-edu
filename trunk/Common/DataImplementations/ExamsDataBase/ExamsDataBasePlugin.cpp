@@ -49,7 +49,7 @@ ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserDat
 	static quint32 tmpId = 0;
 	tmpId--;
 
-	ExamsDataBase* u = new ExamsDataBase(tmpId, this);
+	ExamsDataBase* u = (ExamsDataBase*)(exam(tmpId));
 	u->setDate(QDate().currentDate());
 	u->setComment(name);
 	u->_subject = parent;
@@ -76,17 +76,6 @@ ExamsData* ExamsDataBasePlugin::exam(quint32 examId)
 	return u;
 }
 
-/*
-void ExamsDataBasePlugin::recursiveTreeSearch(QList<ExamsData*>& list, TreeData* node, const QDateTime& from, const QDateTime& to)
-{
-	ExamsData* Exams;
-	if ((Exams = node->registeredData<ExamsData*>()) && Exams->startTime() < to && Exams->endTime() > from)
-		list.append(Exams);
-
-	foreach (TreeData* child, node->children())
-		recursiveTreeSearch(list, child, from, to);
-}*/
-
 Data* ExamsDataBasePlugin::dataWithKey(QDataStream& s)
 {
     quint32 tmpId;
@@ -96,33 +85,35 @@ Data* ExamsDataBasePlugin::dataWithKey(QDataStream& s)
 
 bool ExamsDataBasePlugin::canLoad() const
 {
-	TreeDataPlugin* tree = pluginManager->findPlugin<TreeDataPlugin*>();
-	if ( ! tree || ! tree->canLoad())
-		return false;
-
 #ifdef HORUS_SERVER
+
 	QSqlQuery query = pluginManager->sqlQuery();
+
 	if ( ! query.exec( "CREATE TABLE IF NOT EXISTS `Exams` (\
-	`id` INT NOT NULL  PRIMARY KEY ,\
+	`id` INT NOT NULL  PRIMARY KEY  AUTO_INCREMENT,\
 	`id_tree` INT NOT NULL ,\
 	`comment` TEXT NOT NULL ,\
 	`date` DATE NOT NULL ,\
 	`teacher_id` INT NOT NULL \
 );")
 	||
-		 ! query.exec("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM `Exams`;"))
+		 ! query.exec("SELECT`id`,`id_tree`,`comment`,`date`, `teacher_id` FROM`Exams`WHERE `id`=-1;")
+		)
 	{
+
 		qDebug() << "ExamsDataBasePlugin::canLoad()" << query.lastError();
 		return false;
 	}
+
 #endif
-	return Plugin::canLoad();
+	return DataPlugin::canLoad();
 }
 
 void  ExamsDataBasePlugin::load()
 {
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
+
 	query.prepare("SELECT`id`,`id_tree`,`comment`,`date`,`teacher_id` FROM `Exams`;");
 	query.exec();
 	while (query.next())
@@ -150,7 +141,7 @@ void  ExamsDataBasePlugin::unload()
 }
 
 #ifdef HORUS_SERVER
-QList<Data*> ExamsDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
+QList<Data*> ExamsDataBasePlugin::datasForUpdate(ExamsData*, QDateTime date)
 {
 	QList<Data*> list;
 	foreach (Data* data, _allDatas)

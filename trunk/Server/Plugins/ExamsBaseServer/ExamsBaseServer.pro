@@ -3,6 +3,7 @@
 # -------------------------------------------------
 QT -= gui
 QT += sql
+CONFIG += qt debug
 DEFINES += HORUS_SERVER
 TEMPLATE = lib
 TARGET = ExamsBaseServerMetaPlugin
