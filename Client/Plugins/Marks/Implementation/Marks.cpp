@@ -47,7 +47,9 @@ const QString	Marks::pluginVersion() const
 
 QWidget			*Marks::getWidget()
 {
-	return (new MarksMainView(pluginManager));
+	MarksMainView	*mainView = new MarksMainView(pluginManager);
+
+	return mainView;
 }
 
 const QString       Marks::getDisplayableName() const

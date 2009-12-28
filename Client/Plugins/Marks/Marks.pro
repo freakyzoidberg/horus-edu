@@ -10,11 +10,15 @@ TRANSLATIONS = Marks_en.ts \
 RESOURCES += Implementation/Marks.qrc
 SOURCES += Implementation/Marks.cpp \
     Implementation/MarksMainView.cpp \
-    Implementation/subjectlist.cpp
+    Implementation/subjectlist.cpp \
+    Implementation/MarksManager.cpp \
+    Implementation/InfoPanel.cpp
 HEADERS += Implementation/Marks.h \
     Implementation/MarksMetaPlugin.h \
     ../../DisplayablePlugin.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
     Implementation/MarksMainView.h \
-    Implementation/subjectlist.h
+    Implementation/subjectlist.h \
+    Implementation/MarksManager.h \
+    Implementation/InfoPanel.h
