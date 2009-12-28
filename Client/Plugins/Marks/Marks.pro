@@ -12,7 +12,8 @@ SOURCES += Implementation/Marks.cpp \
     Implementation/MarksMainView.cpp \
     Implementation/subjectlist.cpp \
     Implementation/MarksManager.cpp \
-    Implementation/InfoPanel.cpp
+    Implementation/InfoPanel.cpp \
+    Implementation/ClassList.cpp
 HEADERS += Implementation/Marks.h \
     Implementation/MarksMetaPlugin.h \
     ../../DisplayablePlugin.h \
@@ -21,4 +22,5 @@ HEADERS += Implementation/Marks.h \
     Implementation/MarksMainView.h \
     Implementation/subjectlist.h \
     Implementation/MarksManager.h \
-    Implementation/InfoPanel.h
+    Implementation/InfoPanel.h \
+    Implementation/ClassList.h
