@@ -2,11 +2,13 @@
 #define INFOPANEL_H
 
 #include <QWidget>
+#include <QString>
+#include <QLabel>
 
-class InfoPanel : public QWidget
+class InfoPanel : public QLabel
 {
 public:
-    InfoPanel();
+	InfoPanel(QString);
 };
 
 #endif // INFOPANEL_H

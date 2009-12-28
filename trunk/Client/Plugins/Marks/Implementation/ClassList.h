@@ -44,6 +44,7 @@
 # include	"../../../../Common/TreeDataPlugin.h"
 # include	"../../../../Common/PluginManager.h"
 
+
 class ClassList : public QWidget
 {
 	Q_OBJECT
@@ -54,8 +55,10 @@ public:
 	QMap<int, QString>	getallclass();
 
 	QListWidget *Classlist;
+
 public slots:
 				void	fillClassList();
+
 private:
 	TreeDataPlugin *treePlugin;
 	PluginManager	*_pm;
