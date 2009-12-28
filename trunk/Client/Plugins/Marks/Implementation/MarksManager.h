@@ -5,6 +5,7 @@
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/ExamsDataPlugin.h"
 #include "InfoPanel.h"
+#include "ClassList.h"
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -28,6 +29,7 @@ public slots:
 private:
 	TreeDataPlugin          *td;
 	QHBoxLayout				*MainLayout;
+	ClassList *				_classList;
 	//AdmListEdt				*_admEDTList;
 	QFrame					*informationsFrame;
 	QVBoxLayout				*informationsLayout;

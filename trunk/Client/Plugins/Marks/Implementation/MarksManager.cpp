@@ -15,7 +15,7 @@ MarksManager::MarksManager(PluginManager *pm)
 	QVBoxLayout *RightLayout = new QVBoxLayout();
 	RightLayout->setSpacing(2);
 
-	QWidget *AdmClassList = new QWidget();
+	_classList = new ClassList(pm);
 
 	QLabel *infoTitle = new QLabel(tr("Informations:"));
 	infoTitle->setProperty("isTitle", true);
@@ -50,7 +50,7 @@ MarksManager::MarksManager(PluginManager *pm)
 	RightLayout->addWidget(add);
 	RightLayout->addWidget(new QWidget(this), 1);
 
-	MainLayout->addWidget(AdmClassList);
+	MainLayout->addWidget(_classList);
 	MainLayout->addLayout(RightLayout);
 	MainLayout->setStretch(0, 1);
 
