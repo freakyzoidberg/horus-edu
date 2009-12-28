@@ -1,5 +1,10 @@
 <RCC>
     <qresource prefix="/" >
         <file>marks.png</file>
+        <file>back.png</file>
+        <file>error.png</file>
+        <file>ok.png</file>
+        <file>reset.png</file>
+        <file>save.png</file>
     </qresource>
 </RCC>
