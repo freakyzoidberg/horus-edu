@@ -109,7 +109,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
         connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
 		connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
 	connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
-	this, SLOT(classSelected(QListWidgetItem *)));
+		this, SLOT(classSelected(QListWidgetItem *)));
 
 	this->setLayout(MainLayout);
 }

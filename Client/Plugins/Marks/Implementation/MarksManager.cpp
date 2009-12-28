@@ -1,4 +1,5 @@
 #include "MarksManager.h"
+#include "../../../../Common/TreeData.h"
 #include <QLabel>
 
 MarksManager::MarksManager(PluginManager *pm)
@@ -71,6 +72,20 @@ MarksManager::MarksManager(PluginManager *pm)
 	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
 	//connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 		//	this, SLOT(classSelected(QListWidgetItem *)));
+	connect(_classList->Classlist, SIGNAL(itemClicked(QListWidgetItem *)),
+				this, SLOT(subjectSelected(QListWidgetItem *)));
 
 	this->setLayout(MainLayout);
+}
+
+
+void	MarksManager::subjectSelected(QListWidgetItem *item)
+{
+	if (infos)
+		delete infos;
+	quint32 subjectId = item->data(Qt::UserRole).toInt();
+
+	infos = new InfoPanel(td->node(subjectId)->parent()->name());
+	this->informationsLayout->addWidget(infos);
+	infos->show();
 }

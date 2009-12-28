@@ -59,8 +59,7 @@ ClassList::ClassList(PluginManager *pluginManager)
 
 	  ListLayout->addWidget(Classlist);
 
-	   //connect(ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
-				//this, SLOT(updatestudents(QListWidgetItem *)));
+
 			connect(this->treePlugin,SIGNAL(dataUpdated(Data*)),this,SLOT(fillClassList()));
 	   this->setLayout(ListLayout);
 
@@ -90,8 +89,9 @@ void	ClassList::fillClassList()
 	while (i.hasNext())
 	{
 		i.next();
-		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/subject.png"), i.value());
 		tempitem->setData(Qt::UserRole, i.key());
 		Classlist->addItem(tempitem);
 	}
 }
+

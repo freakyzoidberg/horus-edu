@@ -13,6 +13,8 @@
 
 class MarksManager : public QWidget
 {
+	Q_OBJECT
+
 public:
 	MarksManager(PluginManager *);
 	QListWidget				*StudentList;
@@ -25,6 +27,7 @@ public slots:
 	void                                    goreset();
 	void                                    gook();
 	void									fallback();
+		void	subjectSelected(QListWidgetItem *);
 
 private:
 	TreeDataPlugin          *td;
