@@ -58,6 +58,7 @@ public slots:
 				void	fillClassList();
 private:
 	TreeDataPlugin *treePlugin;
+	PluginManager	*_pm;
 };
 
 #endif // CLASSLIST_H

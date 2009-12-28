@@ -37,11 +37,13 @@
 #include <QLabel>
 
 #include "../../../../Common/TreeData.h"
+#include "../../../../Common/UserData.h"
 #include "ClassList.h"
 
 ClassList::ClassList(PluginManager *pluginManager)
 							: QWidget()
 {
+	_pm = pluginManager;
 	this->treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
 	QVBoxLayout *ListLayout = new QVBoxLayout();
 
@@ -72,7 +74,9 @@ QMap<int, QString> ClassList::getallclass()
 	for (int i = 0; i < treePlugin->allDatas().size(); ++i)
 	{
 		TreeData    *data = qobject_cast<TreeData *>(treePlugin->allDatas().at(i));
-		if ((data->type() == "GRADE") && IS_VALID_DATA_STATUS(data->status()))
+		if ((data->type() == "SUBJECT") && (_pm->currentUser()->level() <= LEVEL_ADMINISTRATOR
+											|| _pm->currentUser()->id() == data->user()->id())
+			&& IS_VALID_DATA_STATUS(data->status()))
 			allclass.insert(data->id(), data->name());
 	}
 	return allclass;
