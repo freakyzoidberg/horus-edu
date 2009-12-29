@@ -49,19 +49,24 @@ class AttendanceData : public Data
 #endif
 
 public:
-        virtual int                     id() const = 0;
-        virtual QDateTime		date() const = 0;
-        virtual void			setDate(const QDateTime& date) = 0;
-        virtual int     		idUser() const = 0;
-        virtual void			setIdUser(const int user) = 0;
-        virtual int     		idEvent() const = 0;
-        virtual void			setIdEvent(const int event) = 0;
+        virtual quint32                     id() const = 0;
+        virtual QDate		date() const = 0;
+        virtual void			setDate(const QDate& date) = 0;
+//        virtual quint32     		idUser() const = 0;
+//        virtual void			setIdUser(const int user) = 0;
+//        virtual quint32     		idSchedule() const = 0;
+//        virtual void			setIdSchedule(const int event) = 0;
         virtual void                    setType(const int type) = 0;
-        virtual int                     type() const = 0;
+        virtual quint32                     type() const = 0;
+        virtual QTime                    endTime() const = 0;
+        virtual void			setEndTime(const QTime& e) = 0;
+        virtual QTime                    startTime() const = 0;
+        virtual void			setStartTime(const QTime& s) = 0;
 
 protected:
-        inline				AttendanceData(AttendanceDataPlugin* plugin) : Data(plugin) { }
+        inline				AttendanceData(quint32 id, AttendanceDataPlugin* plugin) : Data(plugin) { _id = id; }
         inline				~AttendanceData() {}
+        quint32				_id;
 };
 
 #ifdef HORUS_SERVER

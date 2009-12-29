@@ -48,31 +48,33 @@ class AttendanceDataBasePlugin : public AttendanceDataPlugin
         Q_INTERFACES(ClientAttendanceDataPlugin)
 #endif
 
-  friend class AttendanceDataBase;
+    friend class AttendanceDataBase;
 
-public:
+    public:
                      AttendanceDataBasePlugin() {}
-
-
-private:
+                     AttendanceData*	  newAttendance(UserData* parent, QDateTime *date, ScheduleData* schedule = 0);
+                     AttendanceData*     attendance(quint32 attendanceId);
+                     AttendanceData*     attendance(UserData *node);
+    private:
 
 	//Plugin
-public:
-	inline const QString	pluginName() const { return "Event Data Base"; }
-	inline const QString	pluginVersion() const { return "0.1"; }
-
-
-
-	//DataPlugin
-public:
-
-#ifdef HORUS_SERVER
-	void					loadData();
-        QList<Data*>                            datasForUpdate(UserData* user, QDateTime date);
+    public:
+        inline const QString                    pluginName() const { return "Attendance Data Base"; }
+        inline const QString                    pluginVersion() const { return "1"; }
+        bool					canLoad() const;
+        void					load();
+        void					unload();
+    public:
+        inline const QString	dataType() const { return "Schedule"; }
+#ifdef HORUS_CLIENT
+        void                            dataHaveNewKey(Data*d, QDataStream& s);
 #endif
-protected:
-    //! Return the pointer to the Data with a his unique key read in the stream
-	Data*					dataWithKey(QDataStream& s);
+#ifdef HORUS_SERVER
+        QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
+#endif
+    protected:
+        //! Return the pointer to the Data with a his unique key read in the stream
+            Data*					dataWithKey(QDataStream& s);
 };
 
 #endif // ATTENDANCEDATABASEPLUGIN_H

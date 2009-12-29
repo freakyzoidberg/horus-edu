@@ -42,27 +42,135 @@
 
 
 
-#ifdef HORUS_SERVER
-void AttendanceDataBasePlugin::loadData()
+
+AttendanceData* AttendanceDataBasePlugin::newAttendance(UserData* parent, QDateTime *date, ScheduleData* schedule)
 {
-	QSqlQuery query = pluginManager->sqlQuery();
-	query.prepare("SELECT id,start_time,end_time FROM event;");
-    query.exec();
-    while (query.next())
-    {
-                AttendanceDataBase* event = (AttendanceDataBase*)(nodeEvent(pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(0).toUInt())));
-		event->_startTime = query.value(1).toDateTime();
-		event->_endTime   = query.value(1).toDateTime();
-		event->_status = Data::UPTODATE;
-    }
+        static quint32 tmpId = 0;
+        tmpId--;
+
+        AttendanceDataBase* s = ((AttendanceDataBase*)( attendance(tmpId)) );
+        s->_user = parent;
+        return s;
 }
 
-QList<Data*> AttendanceDataBasePlugin::datasForUpdate(UserData* user, QDateTime date)
+AttendanceData* AttendanceDataBasePlugin::attendance(quint32 attendanceId)
 {
-	QList<Data*> list;
-	foreach (Data* data, _allEvents)
-		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
-			list.append(data);
-	return list;
+//        if (userId == 0)
+//                return nobody();
+
+        foreach (Data* d, _allDatas)
+        {
+                AttendanceDataBase* a = (AttendanceDataBase*)d;
+                if (a->_id == attendanceId)
+                        return a;
+        }
+
+        AttendanceDataBase* a = new AttendanceDataBase(attendanceId, this);
+
+//        a->_node = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+//        _allDatas.append(a);
+        return a;
+}
+
+AttendanceData* AttendanceDataBasePlugin::attendance(UserData* node)
+{
+        foreach (Data* d, _allDatas)
+        {
+                AttendanceDataBase* s = (AttendanceDataBase*)d;
+                if (s->_user->id() == node->id())
+                {
+                    return s;
+                }
+        }
+        return (0);
+}
+
+
+Data* AttendanceDataBasePlugin::dataWithKey(QDataStream& s)
+{
+    quint32 tmpId;
+    s >> tmpId;
+        return attendance(tmpId);
+}
+
+bool AttendanceDataBasePlugin::canLoad() const
+{
+        UserDataPlugin* user = pluginManager->findPlugin<UserDataPlugin*>();
+        if ( ! user || ! user->canLoad())
+                return false;
+        ScheduleDataPlugin* schedule = pluginManager->findPlugin<ScheduleDataPlugin*>();
+        if ( ! schedule || ! schedule->canLoad())
+                return false;
+#ifdef HORUS_SERVER
+        QSqlQuery query = pluginManager->sqlQuery();
+        if ( ! query.exec("CREATE TABLE IF NOT EXISTS `attendance`(\
+                                                                   `id` int(11) NOT NULL AUTO_INCREMENT,\
+                                                                   `date` date NOT NULL,\
+                                                                   `id_user` int(11) NOT NULL,\
+                                                                   `id_event` int(11) NOT NULL,\
+                                                                   `type` int(11) NOT NULL,\
+                                                                   `start_time` time NOT NULL,\
+                                                                   `end_time` time NOT NULL,\
+                                                                    KEY`id`(`id`)\
+                                                                    );")
+                ||
+                 ! query.exec("SELECT`id`,`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time` FROM `attendance` WHERE `id`=-1;")
+                )
+        {
+                qDebug() << "AttendanceDataBasePlugin::canLoad()" << query.lastError();
+                return false;
+        }
+#endif
+        return Plugin::canLoad();
+}
+
+void  AttendanceDataBasePlugin::load()
+{
+#ifdef HORUS_SERVER
+        QSqlQuery query = pluginManager->sqlQuery();
+        query.prepare("SELECT`id`,`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time` FROM `attendance`;");
+        query.exec();
+        while (query.next())
+        {
+                AttendanceDataBase* a = (AttendanceDataBase*)(attendance(query.value(0).toUInt()));
+                a->_date = query.value(1).toDate();
+//                attendance->_idUser = query.value(2).toUInt();
+//                attendance->_idSchedule = query.value(3).toUInt();
+                a->_user = pluginManager->findPlugin<UserDataPlugin*>()->user(query.value(2).toUInt());
+                a->_schedule = pluginManager->findPlugin<ScheduleDataPlugin*>()->schedule(query.value(3).toUInt());
+                a->_type = query.value(4).toInt();
+                a->_startTime = query.value(5).toTime();
+                a->_endTime   = query.value(6).toTime();
+                a->_status = Data::UPTODATE;
+        }
+#endif
+        Plugin::load();
+}
+
+void  AttendanceDataBasePlugin::unload()
+{
+        foreach (Data* d, _allDatas)
+                delete (AttendanceDataBase*)d;
+        _allDatas.clear();
+        Plugin::unload();
+}
+
+#ifdef HORUS_SERVER
+QList<Data*> AttendanceDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
+{
+        QList<Data*> list;
+        foreach (Data* data, _allDatas)
+                if (data->lastChange() >= date && data->status() == Data::UPTODATE)
+                        list.append(data);
+        return list;
 }
 #endif
+#ifdef HORUS_CLIENT
+void AttendanceDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
+{
+        AttendanceDataBase* sch = ((AttendanceDataBase*)(d));
+        s >> sch->_id;
+        qDebug() << "attendance data Have a New Key" << sch->_id;
+}
+#endif
+

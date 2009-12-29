@@ -43,11 +43,12 @@
 #endif
 #include <QByteArray>
 #include <QDateTime>
+#include <QDate>
 #include "../../Defines.h"
 #include "../../AttendanceData.h"
 #include "AttendanceDataBasePlugin.h"
 #include "../../UserData.h"
-#include "../../EventData.h"
+#include "../../ScheduleData.h"
 
 class AttendanceDataBase : public AttendanceData
 {
@@ -62,47 +63,49 @@ class AttendanceDataBase : public AttendanceData
   friend class                          AttendanceDataBasePlugin;
 
 private:
-										AttendanceDataBase(QList<EventData *> events, UserData *user, AttendanceDataBasePlugin* plugin);
-		inline							~AttendanceDataBase() {}
+        AttendanceDataBase(quint32 id, AttendanceDataBasePlugin* plugin);
+        inline                                                          ~AttendanceDataBase() {}
 
-        int                             _id;
-        int                             _idUser;
-        int                             _idEvent;
-        int                             _type;
-        QDateTime                       _date;
-		UserData						*_user;
-		QList<EventData *>				_events;
+//        quint32                                                             _idUser;
+//        quint32                                                             _idSchedule;
+        quint32                                                             _type;
+        QTime                                                               _startTime;
+        QTime                                                               _endTime;
+        QDate                                                           _date;
+        UserData                                                        *_user;
+        ScheduleData                                                    *_schedule;
 
         // INTERFACE AttendanceData
 public:
-        inline int                      id() const { return _id; }
-        inline QDateTime		date() const { return _date; }
-		inline void				setDate(const QDateTime& date) { _date = date; }
-        inline int                      idUser() const { return _idUser; }
-        inline void			setIdUser(const int user) {_idUser = user; }
-        inline int                      idEvent() const { return _idEvent; }
-        inline void			setIdEvent(const int event) { _idEvent = event; }
+        inline quint32                      id() const { return _id; }
+        inline QDate    		date() const { return _date; }
+        inline void			setDate(const QDate& date) { _date = date; }
+        inline QTime                    endTime() const { return _endTime; }
+        inline void			setEndTime(const QTime& e) { _endTime = e; }
+        inline QTime                    startTime() const { return _startTime; }
+        inline void			setStartTime(const QTime& s) { _startTime = s; }
+//        inline quint32                      idUser() const { return _idUser; }
+//        inline void			setIdUser(const int user) {_idUser = user; }
+//        inline quint32                      idSchedule() const { return _idSchedule; }
+//        inline void			setIdSchedule(const int event) { _idSchedule = event; }
         inline void                     setType(const int type) { _type = type; }
-        inline int                      type() const { return _type; }
-		inline void                     setUser(UserData *user) { _user = user; }
-		inline UserData					*user() const { return _user; }
-		inline void                     setEvents(const QList<EventData *> events) { _events = events; }
-		inline const QList<EventData *>	events() const { return _events; }
+        inline quint32                      type() const { return _type; }
+        inline void                     setUser(UserData *user) { _user = user; }
+        inline UserData                 *user() const { return _user; }
+        inline void                     setSchedule(ScheduleData *schedule) { _schedule = schedule; }
+        inline const ScheduleData       *schedule() const { return _schedule; }
 
 
 	//INTERFACE Data
 public:
-	void				keyToStream(QDataStream& s);
+        void				keyToStream(QDataStream& s) const;
 	void				dataToStream(QDataStream& s) const;
 	void				dataFromStream(QDataStream& s);
-
+        //bool				canChange(UserData* user) const;
+        bool				canAccess(UserData* user) const;
 	QDebug				operator<<(QDebug debug) const;
+        const QList<Data*>              dependsOfCreatedData() const;
 
-#ifdef HORUS_CLIENT
-	QVariant			data(int column, int role = Qt::DisplayRole) const;
-public slots:
-	void				create();
-#endif
 #ifdef HORUS_SERVER
 public:
 	quint8				serverRead();
