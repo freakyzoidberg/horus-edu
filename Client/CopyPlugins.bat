@@ -15,6 +15,8 @@ copy LessonManager\%BUILDCONFIG%\LessonManager.dll .\LessonManager.dll
 copy Mail\%BUILDCONFIG%\Mail.dll .\Mail.dll
 copy MainFrame\%BUILDCONFIG%\MainFrame.dll .\MainFrame.dll
 copy Marks\%BUILDCONFIG%\Marks.dll .\Marks.dll
+copy MarksBaseClient\%BUILDCONFIG%\MarksBase.dll .\MarksBase.dll
+copy Exams\%BUILDCONFIG%\Exams.dll .\Exams.dll
 copy PdfController\%BUILDCONFIG%\PdfController.dll .\PdfController.dll
 copy PdfDisplayer\%BUILDCONFIG%\PdfDisplayer.dll .\PdfDisplayer.dll
 copy PdfEditor\%BUILDCONFIG%\PdfEditor.dll .\PdfEditor.dll

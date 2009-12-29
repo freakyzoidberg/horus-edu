@@ -38,7 +38,8 @@
 #include <QDateTime>
 #include "DataPlugin.h"
 
-class TreeData;
+class UserData;
+class ScheduleData;
 class AttendanceData;
 class AttendanceDataPlugin : public DataPlugin
 {
@@ -51,7 +52,9 @@ class AttendanceDataPlugin : public DataPlugin
 #endif
 
 public:
-        virtual AttendanceData*	  newAttendance(TreeData* parent, QString name, UserData* user = 0) = 0;
+        virtual AttendanceData*     newAttendance(UserData* parent, QDateTime *date, ScheduleData* schedule = 0) = 0;
+        virtual AttendanceData*     attendance(quint32 attendanceId)= 0;
+        virtual AttendanceData*     attendance(UserData *node)= 0;
 };
 
 #ifdef HORUS_SERVER

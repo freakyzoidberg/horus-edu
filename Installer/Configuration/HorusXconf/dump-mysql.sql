@@ -117,12 +117,13 @@ CREATE TABLE `event` (
 
 DROP TABLE IF EXISTS `attendance`;
 CREATE TABLE IF NOT EXISTS `attendance` (
-  `id` int(11) NOT NULL auto_increment,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
   `id_user` int(11) NOT NULL,
   `id_event` int(11) NOT NULL,
   `type` int(11) NOT NULL,
-  `mtime` timestamp NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
   PRIMARY KEY  (`id`)
 );
 
