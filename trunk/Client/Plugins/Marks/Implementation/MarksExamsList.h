@@ -23,15 +23,6 @@ public:
 	ExamsList	*examsList() { return _examsList; }
 
 public slots:
-	void       classSelected(QListWidgetItem *);
-	void                  goadd();
-	void                  godelete();
-	void           goedit();
-	void                                    goreset();
-	void                                    gook();
-	void									fallback();
-	void	subjectSelected(QListWidgetItem *);
-	void	moveToExamList(QListWidgetItem *);
 
 private:
 	TreeDataPlugin          *td;

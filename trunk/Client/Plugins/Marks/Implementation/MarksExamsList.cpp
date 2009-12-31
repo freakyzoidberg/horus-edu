@@ -62,13 +62,6 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	edit->setVisible(false);
 	del->setVisible(false);
 
-	connect(add, SIGNAL(clicked()), this, SLOT(goadd()));
-	connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
-	connect(del, SIGNAL(clicked()), this, SLOT(godelete()));
-	//connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
-	connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
-	connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
-	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
 	//connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 	//	this, SLOT(classSelected(QListWidgetItem *)));
 //	connect(_classList->Classlist, SIGNAL(itemClicked(QListWidgetItem *)),
