@@ -57,13 +57,13 @@ ClassList::ClassList(PluginManager *pluginManager)
 	title->setProperty("isTitle", true);
 	ListLayout->addWidget(title);
 
-	  ListLayout->addWidget(Classlist);
+	ListLayout->addWidget(Classlist);
 
 
-			connect(this->treePlugin,SIGNAL(dataUpdated(Data*)),this,SLOT(fillClassList()));
-	   this->setLayout(ListLayout);
+	connect(this->treePlugin,SIGNAL(dataUpdated(Data*)),this,SLOT(fillClassList()));
+	this->setLayout(ListLayout);
 
-	   fillClassList();
+	fillClassList();
 }
 
 QMap<int, QString> ClassList::getallclass()

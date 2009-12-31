@@ -35,14 +35,16 @@
 #include "MarksManager.h"
 #include "../../../../Common/TreeData.h"
 #include <QLabel>
+#include "MarksMainView.h"
 
-MarksManager::MarksManager(PluginManager *pm)
+MarksManager::MarksManager(PluginManager *pm, QTabWidget *parent)
 {
 	_pm = pm;
+	_parent = parent;
 
 	infos = NULL;
-		td = pm->findPlugin<TreeDataPlugin *>();
-	//	scheduleForm = 0;
+	td = pm->findPlugin<TreeDataPlugin *>();
+
 	MainLayout = new QHBoxLayout();
 	MainLayout->setSpacing(0);
 	MainLayout->setMargin(2);
@@ -105,13 +107,22 @@ MarksManager::MarksManager(PluginManager *pm)
 	connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
 	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
 	//connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
-		//	this, SLOT(classSelected(QListWidgetItem *)));
+	//	this, SLOT(classSelected(QListWidgetItem *)));
 	connect(_classList->Classlist, SIGNAL(itemClicked(QListWidgetItem *)),
-				this, SLOT(subjectSelected(QListWidgetItem *)));
+			this, SLOT(subjectSelected(QListWidgetItem *)));
+	connect(_classList->Classlist, SIGNAL(itemDoubleClicked ( QListWidgetItem *)),
+			this, SLOT(moveToExamList( QListWidgetItem *)));
 
 	this->setLayout(MainLayout);
 }
 
+void	MarksManager::moveToExamList(QListWidgetItem *item)
+{
+	MarksMainView *thecastedone = dynamic_cast<MarksMainView *>(_parent);
+
+	thecastedone->setTabEnabled(1, true);
+	thecastedone->setCurrentIndex(1);
+}
 
 void	MarksManager::subjectSelected(QListWidgetItem *item)
 {
@@ -122,4 +133,5 @@ void	MarksManager::subjectSelected(QListWidgetItem *item)
 	infos = new InfoPanel(td->node(subjectId)->parent()->name());
 	this->informationsLayout->addWidget(infos);
 	infos->show();
+	add->setVisible(true);
 }

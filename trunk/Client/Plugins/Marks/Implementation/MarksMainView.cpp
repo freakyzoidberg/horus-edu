@@ -40,12 +40,15 @@
 MarksMainView::MarksMainView(PluginManager *pluginManager)
 {
 	_subjectList = new SubjectList(pluginManager);
-	this->addTab(_subjectList, QIcon(":/marks.png"), "Testing...");
+	_examsList = new MarksExamsList(pluginManager, this);
+	this->addTab(new QWidget(), "Empty...");
+	this->addTab(_examsList, "Exams");
 
 	if (pluginManager->currentUser()->level() <= LEVEL_TEACHER)
 	{
-		_marksManager = new MarksManager(pluginManager);
+		_marksManager = new MarksManager(pluginManager, this);
 		this->addTab(_marksManager, QIcon(":/marks.png"), tr("Students' grades"));
 		this->setTabEnabled(0, false);
+		this->setTabEnabled(1, false);
 	}
 }

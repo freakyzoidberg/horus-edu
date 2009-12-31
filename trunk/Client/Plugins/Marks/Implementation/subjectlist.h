@@ -61,7 +61,7 @@ private:
 	QListWidget		*SubjectsList;
 	TreeDataPlugin	*treePlugin;
 	PluginManager	*_pluginManager;
-	QLineEdit   *examComment;
+	QLineEdit		*examComment;
 };
 
 #endif // SUBJECTLIST_H
