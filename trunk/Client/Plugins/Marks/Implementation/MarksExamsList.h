@@ -20,6 +20,8 @@ public:
 	MarksExamsList(PluginManager *, QTabWidget *);
 	QListWidget				*StudentList;
 
+	ExamsList	*examsList() { return _examsList; }
+
 public slots:
 	void       classSelected(QListWidgetItem *);
 	void                  goadd();

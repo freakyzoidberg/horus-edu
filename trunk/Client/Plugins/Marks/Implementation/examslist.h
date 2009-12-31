@@ -18,6 +18,8 @@ public:
 	ExamsList(PluginManager *pluginManager);
 	void	fillExamsList();
 	QMap<int, QString>	getallexams();
+	QMap<int, QString>  Exams(quint32 userId);
+	QMap<int, QString>  Exams(TreeData *node);
 
 private slots:
 	void showExams(QListWidgetItem *);

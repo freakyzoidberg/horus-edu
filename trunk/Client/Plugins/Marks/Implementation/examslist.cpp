@@ -33,7 +33,7 @@ ExamsList::ExamsList(PluginManager *pluginManager)
 	//connect(this->treePlugin,SIGNAL(dataUpdated(Data*)),this,SLOT(fillExamsList()));
 	this->setLayout(ListLayout);
 
-	fillExamsList();
+	//fillExamsList();
 }
 
 QMap<int, QString> ExamsList::getallexams()
@@ -84,3 +84,38 @@ void ExamsList::addAnExam()
 
  }
 
+QMap<int, QString>  ExamsList::Exams(quint32 userId)
+{
+	QMapIterator<int, QString> i(getallexams());
+	_examsList->clear();
+
+	while (i.hasNext())
+	{
+		i.next();
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+		tempitem->setData(Qt::UserRole, i.key());
+		_examsList->addItem(tempitem);
+	}
+}
+
+QMap<int, QString>  ExamsList::Exams(TreeData *node)
+{
+	QMapIterator<int, QString> i(getallexams());
+
+	_examsList->clear();
+	while (i.hasNext())
+	{
+		i.next();
+
+		ExamsData *data = examsPlugin->exam(i.key());
+
+		if (node->id() == data->subject()->id())
+		{
+
+
+			QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+			tempitem->setData(Qt::UserRole, i.key());
+			_examsList->addItem(tempitem);
+		}
+	}
+}
