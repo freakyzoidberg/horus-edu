@@ -47,22 +47,17 @@
 #include <QPushButton>
 #include <QListWidget>
 
+
+class MarksMainView;
 class MarksManager : public QWidget
 {
 	Q_OBJECT
 
 public:
-	MarksManager(PluginManager *, QTabWidget *);
+	MarksManager(PluginManager *, MarksMainView *);
 	QListWidget				*StudentList;
 
 public slots:
-	void                  classSelected(QListWidgetItem *);
-	void                  goadd();
-	void                  godelete();
-	void           goedit();
-	void                                    goreset();
-	void                                    gook();
-	void									fallback();
 	void	subjectSelected(QListWidgetItem *);
 	void	moveToExamList(QListWidgetItem *);
 
@@ -81,7 +76,7 @@ private:
 	QPushButton				*reset;
 	QPushButton				*back;
 	QPushButton				*add;
-	QTabWidget				*_parent;
+	MarksMainView			*_parent;
 	PluginManager			*_pm;
 };
 

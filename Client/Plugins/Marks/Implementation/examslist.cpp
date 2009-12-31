@@ -68,8 +68,6 @@ void ExamsList::showExams(QListWidgetItem *item)
 	int subj;
 	TreeData *mat;
 
-	qDebug() << "clicked";
-
 	subj = item->data(Qt::UserRole).toInt();
 
 	ExamsDataPlugin *test = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
@@ -79,7 +77,6 @@ void ExamsList::showExams(QListWidgetItem *item)
 
 void ExamsList::addAnExam()
 {
-	qDebug() << "added";
 
 
  }
@@ -103,7 +100,7 @@ QMap<int, QString>  ExamsList::Exams(TreeData *node)
 	QMapIterator<int, QString> i(getallexams());
 
 	_examsList->clear();
-	while (i.hasNext())
+	while (node && i.hasNext())
 	{
 		i.next();
 
@@ -118,4 +115,5 @@ QMap<int, QString>  ExamsList::Exams(TreeData *node)
 			_examsList->addItem(tempitem);
 		}
 	}
+	return QMap<int, QString>();
 }

@@ -92,8 +92,6 @@ QMap<int, QString> SubjectList::getallsubject()
 
 	for (int i = 0; i < e->allDatas().size(); ++i)
 	{
-		qDebug() << "passage";
-
 		ExamsData    *data = qobject_cast<ExamsData *>(e->allDatas().at(i));
 		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), data->comment());
 		tempitem->setData(Qt::UserRole, data->teacher());
@@ -123,8 +121,6 @@ void SubjectList::showExams(QListWidgetItem *item)
 {
 	int subj;
 	TreeData *mat;
-
-	qDebug() << "clicked";
 
 	subj = item->data(Qt::UserRole).toInt();
 

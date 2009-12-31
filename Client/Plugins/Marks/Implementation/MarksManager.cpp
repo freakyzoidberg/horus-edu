@@ -38,7 +38,7 @@
 #include "MarksMainView.h"
 #include "MarksExamsList.h"
 
-MarksManager::MarksManager(PluginManager *pm, QTabWidget *parent)
+MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 {
 	_pm = pm;
 	_parent = parent;
@@ -100,15 +100,6 @@ MarksManager::MarksManager(PluginManager *pm, QTabWidget *parent)
 	edit->setVisible(false);
 	del->setVisible(false);
 
-	connect(add, SIGNAL(clicked()), this, SLOT(goadd()));
-	connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
-	connect(del, SIGNAL(clicked()), this, SLOT(godelete()));
-	//connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
-	connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
-	connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
-	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
-	//connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
-	//	this, SLOT(classSelected(QListWidgetItem *)));
 	connect(_classList->Classlist, SIGNAL(itemClicked(QListWidgetItem *)),
 			this, SLOT(subjectSelected(QListWidgetItem *)));
 	connect(_classList->Classlist, SIGNAL(itemDoubleClicked ( QListWidgetItem *)),
@@ -122,15 +113,13 @@ void	MarksManager::moveToExamList(QListWidgetItem *item)
 	qDebug() << item->data(Qt::UserRole).toInt();
 
 	quint32	id = item->data(Qt::UserRole).toInt();
-	TreeData *subject = td->node(id);
+	TreeData *tmpsubject = td->node(id);
 
-	qDebug() << item->data(Qt::UserRole).toInt() << " " << subject->id();
+	qDebug() << "name:" << tmpsubject->name();
 
-	MarksMainView *thecastedone = dynamic_cast<MarksMainView *>(_parent);
-	thecastedone->setTabEnabled(1, true);
-	thecastedone->setCurrentIndex(1);
-
-	thecastedone->examsList()->examsList()->Exams(subject);
+	_parent->setTabEnabled(1, 1);
+	_parent->setCurrentIndex(1);
+	_parent->examsList()->examsList()->Exams(tmpsubject);
 }
 
 void	MarksManager::subjectSelected(QListWidgetItem *item)
