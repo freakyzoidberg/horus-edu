@@ -8,6 +8,7 @@
 
 #include "../../../Common/PluginManager.h"
 #include "../../../Common/TreeDataPlugin.h"
+#include "../../../Common/ExamsDataPlugin.h"
 
 class ExamsList : public QWidget
 {
@@ -25,6 +26,7 @@ private slots:
 private:
 	QListWidget		*_examsList;
 	TreeDataPlugin	*treePlugin;
+	ExamsDataPlugin	*examsPlugin;
 	PluginManager	*_pluginManager;
 	QLineEdit		*examComment;
 };
