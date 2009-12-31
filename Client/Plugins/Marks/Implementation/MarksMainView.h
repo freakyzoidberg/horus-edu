@@ -47,7 +47,7 @@ class MarksMainView : public QTabWidget
 {	
 public:
 					MarksMainView(PluginManager *pluginManager);
-
+	MarksExamsList	*examsList() { return _examsList; }
 private:
 	SubjectList		*_subjectList;
 	MarksManager	*_marksManager;

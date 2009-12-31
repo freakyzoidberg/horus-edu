@@ -36,6 +36,7 @@
 #include "../../../../Common/TreeData.h"
 #include <QLabel>
 #include "MarksMainView.h"
+#include "MarksExamsList.h"
 
 MarksManager::MarksManager(PluginManager *pm, QTabWidget *parent)
 {
@@ -118,10 +119,18 @@ MarksManager::MarksManager(PluginManager *pm, QTabWidget *parent)
 
 void	MarksManager::moveToExamList(QListWidgetItem *item)
 {
-	MarksMainView *thecastedone = dynamic_cast<MarksMainView *>(_parent);
+	qDebug() << item->data(Qt::UserRole).toInt();
 
+	quint32	id = item->data(Qt::UserRole).toInt();
+	TreeData *subject = td->node(id);
+
+	qDebug() << item->data(Qt::UserRole).toInt() << " " << subject->id();
+
+	MarksMainView *thecastedone = dynamic_cast<MarksMainView *>(_parent);
 	thecastedone->setTabEnabled(1, true);
 	thecastedone->setCurrentIndex(1);
+
+	thecastedone->examsList()->examsList()->Exams(subject);
 }
 
 void	MarksManager::subjectSelected(QListWidgetItem *item)
