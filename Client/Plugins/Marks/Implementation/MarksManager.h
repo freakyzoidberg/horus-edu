@@ -41,6 +41,7 @@
 #include "../../../../Common/ExamsDataPlugin.h"
 #include "InfoPanel.h"
 #include "ClassList.h"
+#include <QTabWidget>
 #include <QWidget>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -51,7 +52,7 @@ class MarksManager : public QWidget
 	Q_OBJECT
 
 public:
-	MarksManager(PluginManager *);
+	MarksManager(PluginManager *, QTabWidget *);
 	QListWidget				*StudentList;
 
 public slots:
@@ -62,7 +63,8 @@ public slots:
 	void                                    goreset();
 	void                                    gook();
 	void									fallback();
-		void	subjectSelected(QListWidgetItem *);
+	void	subjectSelected(QListWidgetItem *);
+	void	moveToExamList(QListWidgetItem *);
 
 private:
 	TreeDataPlugin          *td;
@@ -79,7 +81,8 @@ private:
 	QPushButton				*reset;
 	QPushButton				*back;
 	QPushButton				*add;
-	PluginManager			 *_pm;
+	QTabWidget				*_parent;
+	PluginManager			*_pm;
 };
 
 #endif // MARKSMANAGER_H

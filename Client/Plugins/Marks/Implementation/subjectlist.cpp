@@ -55,7 +55,7 @@ SubjectList::SubjectList(PluginManager *pluginManager)
 	SubjectsList = new QListWidget(this);
 	SubjectsList->setSelectionRectVisible(false);
 
-	QLabel *title = new QLabel(tr("Select a class to view, add or edit its time table."));
+	QLabel *title = new QLabel(tr("Select a subject to view, add or edit an exam."));
 	title->setProperty("isTitle", true);
 	ListLayout->addWidget(title);
 

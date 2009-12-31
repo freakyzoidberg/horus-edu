@@ -40,16 +40,18 @@
 
 #include "subjectlist.h"
 #include "MarksManager.h"
+#include "MarksExamsList.h"
 # include	"../../../../Common/PluginManager.h"
 
 class MarksMainView : public QTabWidget
-{
+{	
 public:
 					MarksMainView(PluginManager *pluginManager);
 
 private:
 	SubjectList		*_subjectList;
 	MarksManager	*_marksManager;
+	MarksExamsList	*_examsList;
 };
 
 #endif // MARKSMAINVIEW_H
