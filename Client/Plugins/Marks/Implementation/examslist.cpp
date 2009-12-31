@@ -13,6 +13,7 @@ ExamsList::ExamsList(PluginManager *pluginManager)
 {
 	_pluginManager = pluginManager;
 	this->treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();
+	this->examsPlugin = pluginManager->findPlugin<ExamsDataPlugin *>();
 	QVBoxLayout *ListLayout = new QVBoxLayout();
 
 	ListLayout->setMargin(0);
@@ -39,28 +40,12 @@ QMap<int, QString> ExamsList::getallexams()
 {
 	QMap<int, QString> allclass, exams;
 
-	for (int i = 0; i < treePlugin->allDatas().size(); ++i)
+	for (int i = 0; i < examsPlugin->allDatas().size(); ++i)
 	{
-		TreeData    *data = qobject_cast<TreeData *>(treePlugin->allDatas().at(i));
-		if ((data->type() == "SUBJECT") && IS_VALID_DATA_STATUS(data->status()))
-			allclass.insert(data->id(), data->name());
+		ExamsData    *data = qobject_cast<ExamsData *>(examsPlugin->allDatas().at(i));
+		if ((IS_VALID_DATA_STATUS(data->status())))
+			allclass.insert(data->id(), data->comment());
 	}
-
-
-	ExamsDataPlugin *e = _pluginManager->findPlugin<ExamsDataPlugin *>();
-
-	for (int i = 0; i < e->allDatas().size(); ++i)
-	{
-		qDebug() << "passage";
-
-		ExamsData    *data = qobject_cast<ExamsData *>(e->allDatas().at(i));
-		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), data->comment());
-		tempitem->setData(Qt::UserRole, data->teacher());
-		_examsList->addItem(tempitem);
-
-		allclass.insert(data->id(), data->comment());
-	}
-
 	return allclass;
 }
 
