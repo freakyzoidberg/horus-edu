@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>back.png</file>
         <file>error.png</file>
         <file>ok.png</file>
@@ -7,6 +7,6 @@
         <file>save.png</file>
         <file>subject.png</file>
         <file>Marks.png</file>
-        <file>marks.png</file>
+        <file>marks_backup.png</file>
     </qresource>
 </RCC>
