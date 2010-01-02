@@ -73,6 +73,7 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 		//	this, SLOT(moveToExamList( QListWidgetItem *)));
 	connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
 	connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
+	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
 	this->setLayout(MainLayout);
 
 }
@@ -97,4 +98,26 @@ void	MarksExamsList::saveExam()
 											_pluginManager->currentUser());
 	data->setDate(_formAdd->thedate->date());
 	data->create();
+
+	this->MainLayout->removeWidget(_formAdd);;
+	_formAdd->setVisible(false);
+	this->MainLayout->insertWidget(0, _examsList);
+	_examsList->show();
+	back->setVisible(false);
+	save->setVisible(false);
+	_add->setVisible(true);
+	MainLayout->setStretch(0, 1);
+	_examsList->Exams(_examsList->_node);
+}
+
+void	MarksExamsList::fallback()
+{
+	this->MainLayout->removeWidget(_formAdd);;
+	_formAdd->setVisible(false);
+	this->MainLayout->insertWidget(0, _examsList);
+	_examsList->show();
+	back->setVisible(false);
+	save->setVisible(false);
+	_add->setVisible(true);
+	MainLayout->setStretch(0, 1);
 }
