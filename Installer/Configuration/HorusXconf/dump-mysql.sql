@@ -154,31 +154,4 @@ CREATE TABLE IF NOT EXISTS `schedule` (
 
 
 DROP TABLE IF EXISTS `schedule_event`;
-CREATE TABLE IF NOT EXISTS `schedule_event` (
-  `id` int(11) NOT NULL,
-  `id_schedule` int(11) NOT NULL,
-  `day` int(11) NOT NULL,
-  `time_start` time NOT NULL,
-  `time_end` time NOT NULL,
-  `name` text NOT NULL,
-  `detail` text NOT NULL,
-  `date_start` date DEFAULT NULL,
-  `date_end` date DEFAULT NULL,
-  `modulo` int(11) DEFAULT NULL,
-  `exception` blob,
-  `force` int(11) DEFAULT NULL,
-  `id_teacher` int(11) DEFAULT NULL,
-  `color` text DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
 DROP TABLE IF EXISTS `schedule_exception`;
-CREATE TABLE IF NOT EXISTS `schedule_exception` (
-  `id_event` int(11) NOT NULL,
-  `id_schedule` int(11) NOT NULL,
-  `date_start` date NOT NULL,
-  `date_end` date NOT NULL,
-  `name` text NOT NULL,
-  `type` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
