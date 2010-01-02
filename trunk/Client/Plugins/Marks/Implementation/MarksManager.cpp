@@ -106,8 +106,6 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 	connect(_classList->Classlist, SIGNAL(itemDoubleClicked ( QListWidgetItem *)),
 			this, SLOT(moveToExamList( QListWidgetItem *)));
 	//connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
-
-
 	this->setLayout(MainLayout);
 }
 
