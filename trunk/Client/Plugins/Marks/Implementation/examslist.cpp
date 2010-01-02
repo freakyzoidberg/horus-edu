@@ -5,8 +5,8 @@
 #include "examslist.h"
 
 #include "../../../../Common/TreeData.h"
-#include "../../../../Common/UserData.h"
 #include "../../../../Common/ExamsDataPlugin.h"
+#include "../../../../Common/UserDataPlugin.h"
 #include "../../../../Common/ExamsData.h"
 
 ExamsList::ExamsList(PluginManager *pluginManager)
@@ -29,7 +29,7 @@ ExamsList::ExamsList(PluginManager *pluginManager)
 	ListLayout->addWidget(_examsList);
 
 	connect(_examsList, SIGNAL(itemClicked(QListWidgetItem *)),
-			this, SLOT(showExams(QListWidgetItem *)));
+			this, SLOT(selectStudents(QListWidgetItem *)));
 	//connect(this->treePlugin,SIGNAL(dataUpdated(Data*)),this,SLOT(fillExamsList()));
 	this->setLayout(ListLayout);
 
@@ -63,23 +63,32 @@ void	ExamsList::fillExamsList()
 	}
 }
 
-void ExamsList::showExams(QListWidgetItem *item)
+void ExamsList::selectStudents(QListWidgetItem *item)
 {
-	int subj;
-	TreeData *mat;
+	quint32		examId = item->data(Qt::UserRole).toInt();
+	ExamsData	*exam = examsPlugin->exam(examId);
+	quint32		subjectId = exam->subject()->id();
+	quint32		classId = treePlugin->node(subjectId)->parent()->id();
 
-	subj = item->data(Qt::UserRole).toInt();
+	UserDataPlugin	*users = _pluginManager->findPlugin<UserDataPlugin *>();
+	QList<Data *> allusers = users->allDatas();
 
-	ExamsDataPlugin *test = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
+	for (int i = 0; i < allusers.size(); ++i)
+	{
+		UserData *data = qobject_cast<UserData *>(allusers.at(i));
+		if (data->studentClass()->id() == classId)
+		{
 
-	mat = treePlugin->node(subj);
+
+		}
+	}
 }
 
 void ExamsList::addAnExam()
 {
 
 
- }
+}
 
 QMap<int, QString>  ExamsList::Exams(quint32 userId)
 {
@@ -100,6 +109,7 @@ QMap<int, QString>  ExamsList::Exams(TreeData *node)
 {
 	QMapIterator<int, QString> i(getallexams());
 
+	_node = node;
 	_examsList->clear();
 	while (node && i.hasNext())
 	{
@@ -109,8 +119,6 @@ QMap<int, QString>  ExamsList::Exams(TreeData *node)
 
 		if (node->id() == data->subject()->id())
 		{
-
-
 			QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
 			tempitem->setData(Qt::UserRole, i.key());
 			_examsList->addItem(tempitem);

@@ -60,6 +60,7 @@ public:
 public slots:
 	void	subjectSelected(QListWidgetItem *);
 	void	moveToExamList(QListWidgetItem *);
+	void	addExam();
 
 private:
 	TreeDataPlugin          *td;

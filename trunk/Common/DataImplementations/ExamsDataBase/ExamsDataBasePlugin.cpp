@@ -49,6 +49,8 @@ ExamsData* ExamsDataBasePlugin::newExams(TreeData* parent, QString name, UserDat
 	static quint32 tmpId = 0;
 	tmpId--;
 
+	qDebug() << "tmpid:" << tmpId;
+
 	ExamsDataBase* u = (ExamsDataBase*)(exam(tmpId));
 	u->setDate(QDate().currentDate());
 	u->setComment(name);

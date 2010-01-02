@@ -2,6 +2,7 @@
 
 MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainView)
 {
+	_formAdd = new NewExams();
 	_parent = mainView;
 	_pluginManager = pluginManager;
 
@@ -37,7 +38,7 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
 	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
 	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
-	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
+	_add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(edit);
@@ -46,17 +47,19 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	RightLayout->addWidget(save);
 	RightLayout->addWidget(reset);
 	RightLayout->addWidget(back);
-	RightLayout->addWidget(add);
+	RightLayout->addWidget(_add);
 	RightLayout->addWidget(new QWidget(this), 1);
 
 	MainLayout->addWidget(_examsList);
+	//MainLayout->addWidget(_formAdd);
 	MainLayout->addWidget(new QWidget());
 	MainLayout->addLayout(RightLayout);
 	MainLayout->setStretch(0, 1);
 
 	ok->setVisible(false);
 	save->setVisible(false);
-	add->setVisible(false);
+	_add->setVisible(false);
+	_formAdd->setVisible(false);
 	reset->setVisible(false);
 	back->setVisible(false);
 	edit->setVisible(false);
@@ -68,7 +71,30 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	//		this, SLOT(subjectSelected(QListWidgetItem *)));
 	//connect(_classList->Classlist, SIGNAL(itemDoubleClicked ( QListWidgetItem *)),
 		//	this, SLOT(moveToExamList( QListWidgetItem *)));
-
+	connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
+	connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 	this->setLayout(MainLayout);
 
+}
+
+void MarksExamsList::addExam()
+{
+	this->MainLayout->removeWidget(_examsList);;
+	_examsList->setVisible(false);
+	this->MainLayout->insertWidget(0, _formAdd);
+	_formAdd->show();
+	back->setVisible(true);
+	save->setVisible(true);
+	_add->setVisible(false);
+	MainLayout->setStretch(0, 1);
+}
+
+void	MarksExamsList::saveExam()
+{
+	ExamsDataPlugin	*examsPlugin = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
+	ExamsData *data = examsPlugin->newExams(_examsList->_node,
+											this->_formAdd->examComment->text(),
+											_pluginManager->currentUser());
+	data->setDate(_formAdd->thedate->date());
+	data->create();
 }

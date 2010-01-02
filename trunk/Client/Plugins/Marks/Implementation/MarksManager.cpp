@@ -89,6 +89,7 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 	RightLayout->addWidget(new QWidget(this), 1);
 
 	MainLayout->addWidget(_classList);
+
 	MainLayout->addLayout(RightLayout);
 	MainLayout->setStretch(0, 1);
 
@@ -104,6 +105,8 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 			this, SLOT(subjectSelected(QListWidgetItem *)));
 	connect(_classList->Classlist, SIGNAL(itemDoubleClicked ( QListWidgetItem *)),
 			this, SLOT(moveToExamList( QListWidgetItem *)));
+	//connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
+
 
 	this->setLayout(MainLayout);
 }
@@ -120,6 +123,8 @@ void	MarksManager::moveToExamList(QListWidgetItem *item)
 	_parent->setTabEnabled(1, 1);
 	_parent->setCurrentIndex(1);
 	_parent->examsList()->examsList()->Exams(tmpsubject);
+	_parent->examsList()->setSubject(tmpsubject);
+	_parent->examsList()->add()->setVisible(true);
 }
 
 void	MarksManager::subjectSelected(QListWidgetItem *item)
@@ -131,5 +136,10 @@ void	MarksManager::subjectSelected(QListWidgetItem *item)
 	infos = new InfoPanel(td->node(subjectId)->parent()->name());
 	this->informationsLayout->addWidget(infos);
 	infos->show();
-	add->setVisible(true);
+	//add->setVisible(true);
+}
+
+void	MarksManager::addExam()
+{
+
 }
