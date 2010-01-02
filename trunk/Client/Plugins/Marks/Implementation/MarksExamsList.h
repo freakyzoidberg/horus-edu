@@ -10,6 +10,8 @@
 #include <QLabel>
 #include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeData.h"
+#include "../../../../Common/ExamsData.h"
+#include "newexams.h"
 
 #include "examslist.h"
 
@@ -21,9 +23,14 @@ public:
 	QListWidget				*StudentList;
 
 	ExamsList	*examsList() { return _examsList; }
+	QPushButton				*_add;
+	TreeData				*_node;
+	NewExams				*_formAdd;
+
 
 public slots:
-
+	void	addExam();
+	void	saveExam();
 private:
 	TreeDataPlugin          *td;
 	QHBoxLayout				*MainLayout;
@@ -38,7 +45,7 @@ private:
 	QPushButton				*save;
 	QPushButton				*reset;
 	QPushButton				*back;
-	QPushButton				*add;
+
 
 private:
 	QTabWidget		*_parent;
