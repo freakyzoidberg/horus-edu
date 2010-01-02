@@ -123,7 +123,7 @@ quint8 ExamsDataBase::serverCreate()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-
+	_id = query.lastInsertId().toUInt();
 	return NONE;
 }
 
