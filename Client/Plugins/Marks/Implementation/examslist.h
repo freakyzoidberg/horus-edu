@@ -23,7 +23,6 @@ public:
 	QMap<int, QString>  Exams(TreeData *node);
 	TreeData *_node;
 
-
 private slots:
 	void showExams(QListWidgetItem *);
 	void addAnExam();
