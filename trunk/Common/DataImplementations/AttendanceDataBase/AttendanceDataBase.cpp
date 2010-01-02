@@ -103,7 +103,7 @@ quint8 AttendanceDataBase::serverRead()
 //        _type = query.value(4).toInt();
 //        _startTime = query.value(5).toTime();
 //        _endTime   = query.value(6).toTime();
-//        return NONE;
+        return NONE;
 }
 
 quint8 AttendanceDataBase::serverCreate()

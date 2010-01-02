@@ -49,7 +49,8 @@ bool LessonModel_ext::createLesson(QModelIndex& index)
 		{
 			int count = rowCount(index);
 			beginInsertRows(index, count, count);
-			FileData *fdata = filePlugin->createFile(data, "TODO: set filename");
+			//FileData *fdata = filePlugin->createFile(data, "TODO: set filename");
+			FileData *fdata = filePlugin->createFile(); // error C2660: 'FileDataPlugin::createFile' : function does not take 2 arguments
 			fdata->setMimeType("x-horus/x-lesson");
 			fdata->create();
 			endInsertRows();

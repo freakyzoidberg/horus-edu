@@ -93,6 +93,7 @@ QMap<int, QString>  ExamsList::Exams(quint32 userId)
 		tempitem->setData(Qt::UserRole, i.key());
 		_examsList->addItem(tempitem);
 	}
+	return (QMap<int, QString>());
 }
 
 QMap<int, QString>  ExamsList::Exams(TreeData *node)
