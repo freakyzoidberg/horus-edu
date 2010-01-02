@@ -186,7 +186,8 @@ quint8 ScheduleDataBase::serverCreate()
 
 	if ( ! query.exec())
 	{
-		qDebug() << query.lastError();
+                qDebug() << __FILE__ << __LINE__ ;
+                qDebug()  <<query.lastError();
 		return DATABASE_ERROR;
 	}
         _id = query.lastInsertId().toUInt();
@@ -226,6 +227,7 @@ quint8 ScheduleDataBase::serverCreate()
                 }
                 if ( ! query2.exec())
                 {
+                            qDebug() << __FILE__ << __LINE__ ;
                     qDebug() << query.lastError();
                     return DATABASE_ERROR;
                 }
@@ -245,7 +247,8 @@ quint8 ScheduleDataBase::serverCreate()
                 query7.addBindValue(1);
                 if ( ! query7.exec())
                 {
-                    qDebug() << query7.lastError();
+                            qDebug() << __FILE__ << __LINE__ ;
+                    qDebug() << query.lastError();
                     return DATABASE_ERROR;
                 }
             }
@@ -264,6 +267,7 @@ quint8 ScheduleDataBase::serverSave()
 
 	if ( ! query.exec())
 	{
+                    qDebug() << __FILE__ << __LINE__ ;
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
@@ -272,6 +276,7 @@ quint8 ScheduleDataBase::serverSave()
         query2.addBindValue(_id);
         if ( ! query2.exec())
         {
+                    qDebug() << __FILE__ << __LINE__ ;
                     qDebug() << query.lastError();
                     return DATABASE_ERROR;
         }
@@ -280,6 +285,7 @@ quint8 ScheduleDataBase::serverSave()
         query4.addBindValue(_id);
         if ( ! query4.exec())
         {
+                    qDebug() << __FILE__ << __LINE__ ;
                     qDebug() << query4.lastError();
                     return DATABASE_ERROR;
         }
@@ -317,6 +323,7 @@ quint8 ScheduleDataBase::serverSave()
                             query3.addBindValue(2);
                             if ( ! query3.exec())
                             {
+                                        qDebug() << __FILE__ << __LINE__ ;
                                 qDebug() << query3.lastError();
                                 return DATABASE_ERROR;
                             }
@@ -324,6 +331,7 @@ quint8 ScheduleDataBase::serverSave()
                     }
                     if ( ! query2.exec())
                     {
+                                qDebug() << __FILE__ << __LINE__ ;
                         qDebug() << query2.lastError();
                         return DATABASE_ERROR;
                     }
@@ -343,6 +351,7 @@ quint8 ScheduleDataBase::serverSave()
                 query7.addBindValue(1);
                 if ( ! query7.exec())
                 {
+                            qDebug() << __FILE__ << __LINE__ ;
                     qDebug() << query7.lastError();
                     return DATABASE_ERROR;
                 }
@@ -358,6 +367,7 @@ quint8 ScheduleDataBase::serverRemove()
         query.addBindValue(_id);
 	if ( ! query.exec())
 	{
+                    qDebug() << __FILE__ << __LINE__ ;
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
@@ -368,6 +378,7 @@ quint8 ScheduleDataBase::serverRemove()
         query2.addBindValue(_id);
         if ( ! query2.exec())
         {
+                    qDebug() << __FILE__ << __LINE__ ;
                     qDebug() << query.lastError();
                     return DATABASE_ERROR;
         }
