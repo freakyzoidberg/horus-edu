@@ -228,7 +228,7 @@ quint8 ScheduleDataBase::serverCreate()
                 if ( ! query2.exec())
                 {
                             qDebug() << __FILE__ << __LINE__ ;
-                    qDebug() << query.lastError();
+                    qDebug() << query2.lastError();
                     return DATABASE_ERROR;
                 }
             }
@@ -248,7 +248,7 @@ quint8 ScheduleDataBase::serverCreate()
                 if ( ! query7.exec())
                 {
                             qDebug() << __FILE__ << __LINE__ ;
-                    qDebug() << query.lastError();
+                    qDebug() << query7.lastError();
                     return DATABASE_ERROR;
                 }
             }
@@ -277,7 +277,7 @@ quint8 ScheduleDataBase::serverSave()
         if ( ! query2.exec())
         {
                     qDebug() << __FILE__ << __LINE__ ;
-                    qDebug() << query.lastError();
+                    qDebug() << query2.lastError();
                     return DATABASE_ERROR;
         }
         QSqlQuery query4 = _plugin->pluginManager->sqlQuery();
@@ -379,7 +379,7 @@ quint8 ScheduleDataBase::serverRemove()
         if ( ! query2.exec())
         {
                     qDebug() << __FILE__ << __LINE__ ;
-                    qDebug() << query.lastError();
+                    qDebug() << query2.lastError();
                     return DATABASE_ERROR;
         }
 	return NONE;
