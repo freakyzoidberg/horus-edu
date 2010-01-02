@@ -10,7 +10,7 @@
 class NewExams : public QWidget
 {
 public:
-    NewExams();
+	NewExams(QVBoxLayout *RightLayout);
 	QDateEdit *thedate;
 	QLineEdit *examComment;
 

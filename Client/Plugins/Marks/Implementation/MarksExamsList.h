@@ -27,6 +27,7 @@ public:
 	TreeData				*_node;
 	NewExams				*_formAdd;
 	StudentsList			*_sList;
+	QLabel					*_infosLabel;
 
 
 public slots:
@@ -38,6 +39,7 @@ private:
 	TreeDataPlugin          *td;
 	QHBoxLayout				*MainLayout;
 	ExamsList *				_examsList;
+	ExamsData	*			_examData;
 	//AdmListEdt			*_admEDTList;
 	QFrame					*informationsFrame;
 	QVBoxLayout				*informationsLayout;
@@ -48,6 +50,7 @@ private:
 	QPushButton				*save;
 	QPushButton				*reset;
 	QPushButton				*back;
+
 
 
 private:
