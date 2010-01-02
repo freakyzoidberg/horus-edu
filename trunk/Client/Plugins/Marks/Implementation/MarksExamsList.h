@@ -12,7 +12,7 @@
 #include "../../../../Common/TreeData.h"
 #include "../../../../Common/ExamsData.h"
 #include "newexams.h"
-
+#include "studentslist.h"
 #include "examslist.h"
 
 class MarksExamsList : public QWidget
@@ -26,12 +26,14 @@ public:
 	QPushButton				*_add;
 	TreeData				*_node;
 	NewExams				*_formAdd;
+	StudentsList			*_sList;
 
 
 public slots:
 	void	addExam();
 	void	saveExam();
 	void	fallback();
+	void	viewStudentList(QListWidgetItem *);
 private:
 	TreeDataPlugin          *td;
 	QHBoxLayout				*MainLayout;

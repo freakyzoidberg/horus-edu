@@ -16,7 +16,8 @@ SOURCES += Implementation/Marks.cpp \
     Implementation/ClassList.cpp \
     Implementation/MarksExamsList.cpp \
     Implementation/examslist.cpp \
-    Implementation/newexams.cpp
+    Implementation/newexams.cpp \
+    Implementation/studentslist.cpp
 HEADERS += Implementation/Marks.h \
     Implementation/MarksMetaPlugin.h \
     ../../DisplayablePlugin.h \
@@ -29,4 +30,5 @@ HEADERS += Implementation/Marks.h \
     Implementation/ClassList.h \
     Implementation/MarksExamsList.h \
     Implementation/examslist.h \
-    Implementation/newexams.h
+    Implementation/newexams.h \
+    Implementation/studentslist.h

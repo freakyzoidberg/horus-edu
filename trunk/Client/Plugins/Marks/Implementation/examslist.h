@@ -22,6 +22,8 @@ public:
 	QMap<int, QString>  Exams(quint32 userId);
 	QMap<int, QString>  Exams(TreeData *node);
 	TreeData *_node;
+QListWidget		*_examsList;
+
 
 private slots:
 	void showExams(QListWidgetItem *);
@@ -29,7 +31,7 @@ private slots:
 	void selectStudents(QListWidgetItem *item);
 
 private:
-	QListWidget		*_examsList;
+
 	TreeDataPlugin	*treePlugin;
 	ExamsDataPlugin	*examsPlugin;
 	PluginManager	*_pluginManager;

@@ -5,6 +5,7 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	_formAdd = new NewExams();
 	_parent = mainView;
 	_pluginManager = pluginManager;
+	_sList = new StudentsList(_node, pluginManager);
 
 	//infos = NULL;
 	td = pluginManager->findPlugin<TreeDataPlugin *>();
@@ -74,8 +75,9 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
 	connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
+	connect(_examsList->_examsList, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
+			this, SLOT(viewStudentList(QListWidgetItem *)));
 	this->setLayout(MainLayout);
-
 }
 
 void MarksExamsList::addExam()
@@ -99,7 +101,7 @@ void	MarksExamsList::saveExam()
 	data->setDate(_formAdd->thedate->date());
 	data->create();
 
-	this->MainLayout->removeWidget(_formAdd);;
+	this->MainLayout->removeWidget(_formAdd);
 	_formAdd->setVisible(false);
 	this->MainLayout->insertWidget(0, _examsList);
 	_examsList->show();
@@ -119,5 +121,16 @@ void	MarksExamsList::fallback()
 	back->setVisible(false);
 	save->setVisible(false);
 	_add->setVisible(true);
+	MainLayout->setStretch(0, 1);
+}
+
+void MarksExamsList::viewStudentList(QListWidgetItem *item)
+{
+	this->MainLayout->removeWidget(_examsList);
+	_examsList->setVisible(false);
+	this->MainLayout->insertWidget(0, _sList);
+	_sList->setNode(_node);
+	_sList->fillStudentList();
+	_sList->show();
 	MainLayout->setStretch(0, 1);
 }
