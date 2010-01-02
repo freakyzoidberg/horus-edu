@@ -1,11 +1,12 @@
 <RCC>
     <qresource prefix="/" >
-        <file>marks.png</file>
         <file>back.png</file>
         <file>error.png</file>
         <file>ok.png</file>
         <file>reset.png</file>
         <file>save.png</file>
         <file>subject.png</file>
+        <file>Marks.png</file>
+        <file>marks.png</file>
     </qresource>
 </RCC>

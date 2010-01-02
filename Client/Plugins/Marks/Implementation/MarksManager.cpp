@@ -123,8 +123,8 @@ void	MarksManager::moveToExamList(QListWidgetItem *item)
 	_parent->setTabEnabled(1, 1);
 	_parent->setCurrentIndex(1);
 	_parent->examsList()->examsList()->Exams(tmpsubject);
-	_parent->examsList()->setSubject(tmpsubject);
-	_parent->examsList()->add()->setVisible(true);
+	_parent->examsList()->_node = tmpsubject;
+	_parent->examsList()->_add->setVisible(true);
 }
 
 void	MarksManager::subjectSelected(QListWidgetItem *item)

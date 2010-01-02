@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QLineEdit>
 
+#include "../../../../Common/UserData.h"
 #include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/ExamsDataPlugin.h"
@@ -20,10 +21,13 @@ public:
 	QMap<int, QString>	getallexams();
 	QMap<int, QString>  Exams(quint32 userId);
 	QMap<int, QString>  Exams(TreeData *node);
+	TreeData *_node;
+
 
 private slots:
 	void showExams(QListWidgetItem *);
 	void addAnExam();
+	void selectStudents(QListWidgetItem *item);
 
 private:
 	QListWidget		*_examsList;
