@@ -6,9 +6,9 @@
 #include <QMap>
 #include <QLineEdit>
 
-#include "../../../Common/PluginManager.h"
-#include "../../../Common/TreeDataPlugin.h"
-#include "../../../Common/ExamsDataPlugin.h"
+#include "../../../../Common/PluginManager.h"
+#include "../../../../Common/TreeDataPlugin.h"
+#include "../../../../Common/ExamsDataPlugin.h"
 
 class ExamsList : public QWidget
 {

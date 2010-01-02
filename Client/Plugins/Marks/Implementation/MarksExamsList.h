@@ -8,8 +8,8 @@
 #include <QTabWidget>
 #include <QListWidget>
 #include <QLabel>
-#include "../../../Common/PluginManager.h"
-#include "../../../Common/TreeData.h"
+#include "../../../../Common/PluginManager.h"
+#include "../../../../Common/TreeData.h"
 
 #include "examslist.h"
 
