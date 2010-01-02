@@ -31,6 +31,7 @@ public:
 public slots:
 	void	addExam();
 	void	saveExam();
+	void	fallback();
 private:
 	TreeDataPlugin          *td;
 	QHBoxLayout				*MainLayout;
