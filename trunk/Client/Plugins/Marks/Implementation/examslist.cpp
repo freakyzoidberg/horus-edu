@@ -9,7 +9,7 @@
 #include "../../../../Common/UserDataPlugin.h"
 #include "../../../../Common/ExamsData.h"
 
-ExamsList::ExamsList(PluginManager *pluginManager)
+ExamsList::ExamsList(PluginManager *pluginManager, QVBoxLayout *RightLayout)
 {
 	_pluginManager = pluginManager;
 	this->treePlugin = pluginManager->findPlugin<TreeDataPlugin *>();

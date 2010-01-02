@@ -4,7 +4,7 @@
 #include <QLineEdit>
 #include <QDateEdit>
 
-NewExams::NewExams()
+NewExams::NewExams(QVBoxLayout *RightLayout)
 {
 	mainLayout = new QVBoxLayout(this);
    mainLayout->setSpacing(0);
@@ -42,5 +42,4 @@ NewExams::NewExams()
 	mainLayout->addWidget(thecomment);
 	mainLayout->addWidget(examComment);
 	mainLayout->addWidget(new QWidget());
-
 }

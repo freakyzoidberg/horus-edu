@@ -47,7 +47,7 @@ MarksMainView::MarksMainView(PluginManager *pluginManager)
 	if (pluginManager->currentUser()->level() <= LEVEL_TEACHER)
 	{
 		_marksManager = new MarksManager(pluginManager, this);
-		this->addTab(_marksManager, QIcon(":/marks.png"), tr("Students' grades"));
+		this->addTab(_marksManager, QIcon(":/marks.png"), tr("Manage grades"));
 		this->setTabEnabled(0, false);
 		this->setTabEnabled(1, false);
 	}

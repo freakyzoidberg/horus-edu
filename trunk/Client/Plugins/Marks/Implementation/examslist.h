@@ -5,6 +5,7 @@
 #include <QListWidget>
 #include <QMap>
 #include <QLineEdit>
+#include <QVBoxLayout>
 
 #include "../../../../Common/UserData.h"
 #include "../../../../Common/PluginManager.h"
@@ -16,7 +17,7 @@ class ExamsList : public QWidget
 
 	Q_OBJECT
 public:
-	ExamsList(PluginManager *pluginManager);
+	ExamsList(PluginManager *pluginManager, QVBoxLayout *RightLayout);
 	void	fillExamsList();
 	QMap<int, QString>	getallexams();
 	QMap<int, QString>  Exams(quint32 userId);

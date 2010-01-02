@@ -7,7 +7,7 @@
 #include "../../../../Common/UserData.h"
 #include "studentslist.h"
 
-StudentsList::StudentsList(TreeData *node, PluginManager  *pluginManager)
+StudentsList::StudentsList(TreeData *node, PluginManager  *pluginManager, QVBoxLayout *RightLayout)
 {
 	_pluginManager = pluginManager;
 	_node = node;
@@ -36,6 +36,7 @@ void	StudentsList::fillStudentList()
 {
 	UserDataPlugin	*users = _pluginManager->findPlugin<UserDataPlugin *>();
 
+	_sList->clear();
 	QList<Data *> usersData = users->allDatas();
 	for (int i = 0; i < usersData.size(); ++i)
 	{
@@ -48,6 +49,9 @@ void	StudentsList::fillStudentList()
 			_sList->addItem(tempitem);
 		}
 	}
+
+	ExamsDataPlugin	*ep = _pluginManager->findPlugin<ExamsDataPlugin *>();
+	_exam = ep->exam(_item->data(Qt::UserRole).toInt());
 }
 
 void	StudentsList::studentSelection(QListWidgetItem *item)
