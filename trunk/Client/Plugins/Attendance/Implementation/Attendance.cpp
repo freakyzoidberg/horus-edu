@@ -33,18 +33,49 @@
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include		"Attendance.h"
+#include		<QTabWidget>
+
+#include		"../../../../Common/TreeDataPlugin.h"
+#include		"../../../../Common/UserData.h"
+#include		"../../../../Common/ScheduleData.h"
+#include		"../../../../Common/AttendanceData.h"
+#include                "AttendanceFrame.h"
 
 const QString	Attendance::pluginName() const
 {
-	return ("Attendance");
+    return ("Attendance");
 }
 
 const QString	Attendance::pluginVersion() const
 {
-	return ("0.1");
+    return ("0.0");
+}
+
+const QString	Attendance::getDisplayableName() const
+{
+    return (tr("Attendance"));
+}
+
+int				Attendance::getOrder() const
+{
+    return (11);
+}
+
+QIcon			Attendance::getIcon() const
+{
+    return (QIcon(":/desk.png"));
 }
 
 QWidget			*Attendance::getWidget()
 {
-	return (0);
+        UserData	*u;
+        QTabWidget	*widget;
+
+        u = pluginManager->currentUser();
+        if (u && u->level() > LEVEL_ADMINISTRATOR)
+                return (0);
+        widget = new QTabWidget();
+        widget->addTab(new AttendanceFrame(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_STUDENT, pluginManager->findPlugin<ScheduleDataPlugin *>(), pluginManager->findPlugin<AttendanceDataPlugin *>()), QIcon(":/Icons/students.png"), tr("Attendance Management"));
+        return (widget);
 }
+
