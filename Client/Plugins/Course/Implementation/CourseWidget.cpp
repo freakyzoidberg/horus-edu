@@ -43,7 +43,7 @@
 
 CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *pluginManager, UserData *user) : QWidget(parent), user(user)
 {
-    QWidget *leftPane;
+    QWidget *rightPane;
     QGridLayout* layout;
 
     layout = new QGridLayout(this);
@@ -66,16 +66,16 @@ CourseWidget::CourseWidget(QWidget *parent, WhiteBoardData *wbd, PluginManager *
         splitter.setHandleWidth(2);
         layout->addWidget(&splitter);
         splitter.show();
-        leftPane = new QWidget(this);
-        splitter.addWidget(leftPane);
+        rightPane = new QWidget(this);
+		splitter.addWidget(this->pageWidget);
+        splitter.addWidget(rightPane);
         QGridLayout *lpLayout;
-        lpLayout = new QGridLayout(leftPane);
+        lpLayout = new QGridLayout(rightPane);
         lpLayout->setMargin(0);
         lpLayout->setSpacing(0);
-        lpLayout->addWidget(this->categoryView);
-        splitter.addWidget(this->pageWidget);
-        splitter.setStretchFactor(0, 0);
-        splitter.setStretchFactor(1, 3);
+		lpLayout->addWidget(this->categoryView);     
+        splitter.setStretchFactor(0, 3);
+        splitter.setStretchFactor(1, 0);
     }
     else
     {

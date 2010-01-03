@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/Icons" >
         <file>DocumentIcon.png</file>
         <file>LessonIcon.png</file>
         <file>SectionIcon.png</file>

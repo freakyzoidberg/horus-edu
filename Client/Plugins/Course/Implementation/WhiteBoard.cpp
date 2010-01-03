@@ -58,6 +58,8 @@ WhiteBoard::WhiteBoard(WhiteBoardData* wbd, QHash<QString, IDocumentController *
 	if (_user->level() == LEVEL_TEACHER)
 	{
 		_dock->setStyleSheet("font-family: \"Tohoma\"; font-size: 10px; font-weight: bold; color: white;");
+		QAction* closeAction = new QAction(QIcon(":/close-item.png"), "", _dock);
+		_dock->addAction(closeAction);
 	}
 	else
 	{

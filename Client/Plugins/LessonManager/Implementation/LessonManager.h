@@ -63,6 +63,7 @@ Q_INTERFACES(Plugin)
 Q_INTERFACES(ILessonManager);
 
 public:
+	LessonManager() : lessonModel(NULL) {}
         bool canLoad() const;
         void load();
         void unload();

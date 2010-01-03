@@ -43,6 +43,7 @@
 
 class WhiteBoardListModel : public QAbstractListModel
 {
+	Q_OBJECT
 public:
 	WhiteBoardListModel(PluginManager *pluginManager, UserData* user);
 
@@ -50,10 +51,14 @@ public:
         QVariant            data(const QModelIndex& index, int role = Qt::DisplayRole) const;
         WhiteBoardData*     getWhiteboard(const QModelIndex& index);
 
+private slots:
+	void	dataStatusChanged(Data *);
+
 private:
 	WhiteBoardDataPlugin*	_wbDataPlugin;
 	PluginManager*			_pluginManager;
 	UserData*				_user;
+	QList<Data*>			_list;
 };
 
 #endif // WHITEBOARDLISTMODEL_H

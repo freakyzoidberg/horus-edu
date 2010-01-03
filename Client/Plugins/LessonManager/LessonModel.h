@@ -60,8 +60,8 @@ public:
 
 protected:
     PluginManager*  pluginManager;
-	FileDataPlugin*		filePlugin;
-    Data*           rootItem;
+	FileDataPlugin* filePlugin;
+	QList<FileData*> rootItems;
 };
 
 #endif // LESSONMODEL_H

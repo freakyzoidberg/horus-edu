@@ -54,6 +54,7 @@ ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManage
 	_wbList->setModel(_wbListModel);
 	//_wbList->setModel(pluginManager->findPlugin<WhiteBoardDataPlugin*>()->listModel());
 	_wbList->setSelectionMode(QAbstractItemView::SingleSelection);
+	_wbList->setViewMode(QListView::IconMode);
 	QObject::connect(_wbList->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(wbSelectionChanged(QItemSelection,QItemSelection)));
 	_info = new QLabel();
 	sLayout->addWidget(_wbList, 0, 0, (_user->level() == LEVEL_TEACHER) ? 5 : 3, 1);
@@ -81,6 +82,7 @@ ClassTab::ClassTab(PluginManager *pluginManager, UserData* user) : _pluginManage
 		sLayout->addWidget(_info, 2, 1);
 	}
     QObject::connect(_joinButton, SIGNAL(pressed()), this, SLOT(joinWhiteboard()));
+	QObject::connect(_wbList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(joinWhiteboard(QModelIndex)));
 	_joinButton->setEnabled(false);
 	_joinButton->setMinimumWidth(200);
     sLayout->setMargin(2);
@@ -129,10 +131,7 @@ void    ClassTab::doJoinWhiteboard(WhiteBoardData *wbd)
     wbLayout->setSpacing(0);
     CourseWidget* cWidget = new CourseWidget(this, wbd, _pluginManager, _user);
     wbLayout->addWidget(cWidget);
-	if (_user->level() == LEVEL_STUDENT)
-	{
-		connect(cWidget->getWhiteboard()->getDock()->actions()[0], SIGNAL(triggered()), this, SLOT(leaveWhiteboard()));
-	}
+	connect(cWidget->getWhiteboard()->getDock()->actions()[0], SIGNAL(triggered()), this, SLOT(leaveWhiteboard()));
     cWidget->show();
     //QPushButton* back = new QPushButton(tr("Leave this class"));
 	//wbLayout->addWidget(back);
@@ -160,6 +159,15 @@ void    ClassTab::deleteWhiteboard()
 void    ClassTab::joinWhiteboard()
 {
     WhiteBoardData* wbdata = _wbListModel->getWhiteboard(_wbList->currentIndex());
+    if (wbdata)
+    {
+        doJoinWhiteboard(wbdata);
+    }
+}
+
+void    ClassTab::joinWhiteboard(const QModelIndex &index)
+{
+    WhiteBoardData* wbdata = _wbListModel->getWhiteboard(index);
     if (wbdata)
     {
         doJoinWhiteboard(wbdata);

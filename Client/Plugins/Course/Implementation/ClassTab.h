@@ -59,6 +59,7 @@ public slots:
         void    leaveWhiteboard();
         void    deleteWhiteboard();
         void    joinWhiteboard();
+		void    joinWhiteboard(const QModelIndex & index);
         void    updateWbList(Data*);
 
 private:
