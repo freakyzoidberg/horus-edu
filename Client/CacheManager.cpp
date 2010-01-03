@@ -37,6 +37,7 @@
 #include "SecondaryThread.h"
 #include "../Common/LocalSettings.h"
 #include "../Common/UserData.h"
+#include <QFileSystemWatcher>
 
 CacheManager* CacheManager::instance()
 {
@@ -56,7 +57,25 @@ CacheManager::CacheManager()
 	if (LocalSettings().value("Cache", "Enable") == "Disable")
 		return;
 
-	QFile file(QDir::tempPath()+"/HorusCache");
+	QString path = QDir::tempPath()+"/HorusCache";
+	readCommonFile(path);
+
+	connect(NetworkManager::instance(), SIGNAL(updateFinished()), this, SLOT(save()));
+}
+
+void CacheManager::readCommonFile(const QString & path)
+{
+	if ( ! _watcher && QFile::exists(path))
+	{
+		_watcher = new QFileSystemWatcher(QStringList(path), this);
+		connect(_watcher, SIGNAL(fileChanged(QString)), this, SLOT(readCommonFile(QString)));
+	}
+
+	foreach (UserCache* cache, _caches)
+		delete cache;
+	_caches.clear();
+
+	QFile file(path);
 	file.open(QIODevice::ReadOnly);
 	QDataStream stream(&file);
 

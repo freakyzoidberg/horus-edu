@@ -78,6 +78,7 @@ private:
 	NetworkManager();
 	~NetworkManager() {}
 
+	void		setStatus(Status status);
 	void        recvError();
 	void        recvInit();
 	void        recvAlive();

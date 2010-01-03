@@ -153,6 +153,7 @@ public:
 	virtual inline QVariant		data(int, int = Qt::DisplayRole) const { return QVariant(); }
 	virtual inline const QIcon	icon() const { static QIcon icon; return icon; }
 	virtual inline bool			dropData(const QList<Data*>, Qt::DropAction) { return false; }
+	inline void			send() { _plugin->dataManager->sendData(this); }
 #endif
 #ifdef HORUS_SERVER
 	//! Fill the current data with a defined key from the database.
