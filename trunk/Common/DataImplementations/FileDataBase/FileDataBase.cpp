@@ -275,6 +275,11 @@ QVariant FileDataBase::data(int column, int role) const
 
 		return QIcon(":/Icons/x-generic.png");
     }
+	else if (role == FILTER_ROLE)
+	{
+		if (column == 0)
+			return _name + _keyWords;
+	}
    return Data::data(column, role);
 }
 #endif

@@ -43,6 +43,8 @@ LibraryFilterProxyModel::LibraryFilterProxyModel(QAbstractListModel* fileModel, 
 	setSourceModel(fileModel);
 	setSortCaseSensitivity(Qt::CaseInsensitive);
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
+	setFilterRole(Data::FILTER_ROLE);
+	setFilterKeyColumn(0);
 	sort(0, Qt::AscendingOrder);
 }
 
