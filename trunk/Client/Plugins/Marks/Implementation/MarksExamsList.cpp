@@ -192,7 +192,7 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 	quint32 exId = item->data(Qt::UserRole).toInt();
 	ExamsDataPlugin	*examsPlugin = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
 	ExamsData *tmp = examsPlugin->exam(exId);
-
+	_examData = tmp;
 	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name()
 						 + "\nExamination: " + tmp->comment());
 	this->MainLayout->removeWidget(_examsList);
@@ -225,10 +225,18 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 		connect(save, SIGNAL(clicked()), this, SLOT(saveMark()));
 		save->show();
 	}
+	_studentId = item->data(Qt::UserRole).toInt();
 }
 
 void	MarksExamsList::saveMark()
 {
-
+	UserDataPlugin	*up = _pluginManager->findPlugin<UserDataPlugin *>();
+	UserData	*user = up->user(this->_studentId);
+	MarksDataPlugin	*ep = _pluginManager->findPlugin<MarksDataPlugin *>();
+	qDebug() << "current exam id:" << this->_examData->id();
+	MarksData *newMarksData = ep->newMarks(_examData, user);
+	newMarksData->setResult(_formaddmark->markEdit()->text());
+	newMarksData->setComment(_formaddmark->commentEdit()->toPlainText());
+	newMarksData->create();
 	fallback();
 }
