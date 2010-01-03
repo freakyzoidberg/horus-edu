@@ -60,9 +60,10 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 
 	QGridLayout* layout = new QGridLayout(this);
 	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
+	UserDataPlugin* userDataPlugin = _pluginManager->findPlugin<UserDataPlugin*>();
+	FileDataPlugin* fileDataPlugin = _pluginManager->findPlugin<FileDataPlugin*>();
 
-	_filter = new LibraryFilterProxyModel(_pluginManager->findPlugin<FileDataPlugin*>()->listModel(), this);
-	_filter->filterUser(0);
+	_filter = new LibraryFilterProxyModel(fileDataPlugin, this);
 	_filter->nodeListChanged(treeDataPlugin->allDatas());
 
 	QListView* list = new QListView(this);
@@ -77,24 +78,14 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 	connect(matchLine, SIGNAL(textChanged(QString)), _filter, SLOT(setFilterRegExp(QString)));
 
 	_grades = new QComboBox(this);
-	_grades->addItem(tr("All"), 0);
-	foreach (TreeData* node, treeDataPlugin->grades())
-		_grades->addItem(node->icon(), node->name(), node->id());
-	connect(_grades, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
-
 	_subjects = new QComboBox(this);
-	_subjects->addItem(tr("All"));
-	_subjects->addItems(treeDataPlugin->subjects());
-	connect(_subjects, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
-
 	_owners = new QComboBox(this);
-	_owners->addItem(tr("All"), 0);
-	foreach (Data* data,  _pluginManager->findPlugin<UserDataPlugin*>()->allDatas())
-	{
-		UserData* user = static_cast<UserData*>(data);
-		if (user->level() <= LEVEL_TEACHER)
-			_owners->addItem(user->icon(), user->name() + ' ' + user->surname(), user->id());
-	}
+	refreshGrades(0);
+	refreshUsers(0);
+	connect(treeDataPlugin, SIGNAL(dataStatusChanged(Data*)), this, SLOT(refreshGrades(Data*)));
+	connect(userDataPlugin, SIGNAL(dataStatusChanged(Data*)), this, SLOT(refreshUsers(Data*)));
+	connect(_grades, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
+	connect(_subjects, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
 	connect(_owners, SIGNAL(currentIndexChanged(int)), this, SLOT(userBoxChanged(int)));
 
 
@@ -172,6 +163,40 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 	rightLayout->addWidget(button);
 
 	setAcceptDrops(true);
+}
+
+void LibraryList::refreshUsers(Data*)
+{
+	quint32 ownerId = _owners->itemData(_owners->currentIndex()).toUInt();
+	_owners->clear();
+	_owners->addItem(tr("All"), 0);
+	foreach (Data* data,  _pluginManager->findPlugin<UserDataPlugin*>()->allDatas())
+	{
+		UserData* user = static_cast<UserData*>(data);
+		if (user->level() <= LEVEL_TEACHER)
+			_owners->addItem(user->icon(), user->name() + ' ' + user->surname(), user->id());
+	}
+	_owners->setCurrentIndex(_owners->findData(ownerId));
+}
+
+void LibraryList::refreshGrades(Data*)
+{
+	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
+
+	quint32 gradeId = _grades->itemData(_grades->currentIndex()).toUInt();
+	_grades->clear();
+	_grades->addItem(tr("All"), 0);
+	foreach (TreeData* node, treeDataPlugin->grades())
+		_grades->addItem(node->icon(), node->name(), node->id());
+	_grades->setCurrentIndex(_grades->findData(gradeId));
+
+	QString subject = _subjects->itemText(_subjects->currentIndex());
+	_subjects->clear();
+	_subjects->addItem(tr("All"));
+	_subjects->addItems(treeDataPlugin->subjects());
+	if (subject.isEmpty())
+		subject = tr("All");
+	_subjects->setCurrentIndex(_subjects->findText(subject));
 }
 
 void LibraryList::comboBoxChanged(int)

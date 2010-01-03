@@ -56,7 +56,9 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 #ifdef HORUS_CLIENT
 	_isDownloaded = false;
 #endif
-	_owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->nobody();
+	_owner = _plugin->pluginManager->currentUser();
+	if ( ! _owner)
+		_owner = _plugin->pluginManager->nobody();
 	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 	connect(_node, SIGNAL(removed()), this, SLOT(remove()));

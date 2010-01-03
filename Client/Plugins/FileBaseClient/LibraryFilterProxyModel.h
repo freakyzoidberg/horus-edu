@@ -38,14 +38,18 @@
 #include <QSortFilterProxyModel>
 class Data;
 class UserData;
+class FileDataPlugin;
 
 class LibraryFilterProxyModel : public QSortFilterProxyModel
 {
 	Q_OBJECT
 public:
-	LibraryFilterProxyModel(QAbstractListModel* model, QObject* parent = 0);
+	LibraryFilterProxyModel(FileDataPlugin* fileDataPlugin, QObject* parent = 0);
 	void				nodeListChanged(const QList<Data*>& list);
 	void				filterUser(UserData* user);
+
+private slots:
+	void				invalidateFilter(Data*);
 
 private:
 	bool				filterAcceptsRow(int source_row, const QModelIndex& source_parent) const;

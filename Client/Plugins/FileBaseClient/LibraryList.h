@@ -42,6 +42,7 @@ class TreeDataPlugin;
 class UserDataPlugin;
 class LibraryFilterProxyModel;
 class FileData;
+class Data;
 class QComboBox;
 class QStackedLayout;
 
@@ -62,6 +63,8 @@ private slots:
 	void						dragEnterEvent(QDragEnterEvent *event);
 	void						dropEvent(QDropEvent* event);
 	void						editFinished();
+	void						refreshGrades(Data*);
+	void						refreshUsers(Data*);
 
 private:
 	QComboBox*					_grades;
