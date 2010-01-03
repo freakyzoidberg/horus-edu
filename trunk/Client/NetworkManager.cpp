@@ -83,6 +83,12 @@ NetworkManager::NetworkManager()
 	connect(PluginManagerClient::instance(), SIGNAL(sendPacket(QByteArray)), this, SLOT(sendPacket(QByteArray)));
 }
 
+void NetworkManager::setStatus(Status status)
+{
+	_status = status;
+	emit statusChange(status);
+}
+
 void NetworkManager::tryToConnect()
 {
 	if (state() != QAbstractSocket::UnconnectedState)
@@ -92,8 +98,7 @@ void NetworkManager::tryToConnect()
 	if (settings.value("Network/Server").toString().isEmpty() == true || settings.value("Network/Port").toString().isEmpty() == true)
 	{
 		qWarning() << tr("Server's hostname or port unspecified, please review your settings.");
-		_status = DISCONNECTED;
-		emit statusChange(_status);
+		setStatus(DISCONNECTED);
 		return;
 	}
 
@@ -101,8 +106,7 @@ void NetworkManager::tryToConnect()
 	if ( ! waitForEncrypted(5000))
 		return;
 
-	_status = CONNECTED;
-	emit statusChange(_status);
+	setStatus(CONNECTED);
 }
 
 void NetworkManager::loginPassword(const QString login, const QString pass)
@@ -129,8 +133,7 @@ void NetworkManager::logout()
 void NetworkManager::socketError(QAbstractSocket::SocketError error)
 {
 	qDebug() << error;
-	_status = DISCONNECTED;
-	emit statusChange(_status);
+	setStatus(DISCONNECTED);
 }
 
 void NetworkManager::recvPacket(const QByteArray packet)
@@ -162,8 +165,7 @@ void NetworkManager::recvInit()
 	CommInit i(_recvPacket);
 	i.fromName = CLIENT_NAME;
 	sendPacket(i.getPacket());
-	_status = ESTABLISHED;
-	emit statusChange(_status);
+	setStatus(ESTABLISHED);
 }
 
 void NetworkManager::recvAlive()
@@ -188,14 +190,20 @@ void NetworkManager::recvLogin()
 
 		qDebug() << tr("NetworkManager::recvLogin seconds between client and server:") << QDateTime::currentDateTime().secsTo(l.serverDateTime);
 
-		_status = LOGGED_IN;
-		emit statusChange(_status);
+		foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
+			foreach (Data* data, plugin->allDatas())
+			{
+				if (data->status() == Data::CREATING ||
+					data->status() == Data::SAVING ||
+					data->status() == Data::REMOVING)
+					data->send();
+				qDebug() << "mAAAAaaaaAAA" << (Data::Status)data->status();
+			}
+
+		setStatus(LOGGED_IN);
 	}
 	else if (l.method == CommLogin::REFUSED)
-	{
-		_status = ESTABLISHED;
-		emit statusChange(_status);
-	}
+		setStatus(ESTABLISHED);
 }
 
 void NetworkManager::recvData()

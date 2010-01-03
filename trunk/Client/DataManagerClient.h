@@ -36,6 +36,7 @@
 #define DATAMANAGERCLIENT_H
 
 #include "../Common/DataManager.h"
+#include "NetworkManager.h"
 #include <QHash>
 class Data;
 class DataPlugin;
@@ -52,7 +53,6 @@ public slots:
 	void				dataStatusChange(Data* data, quint8 newStatus);
 	void				sendData(Data* data);
 	void				receiveData(const QByteArray& packet);
-
 
 private:
 	DataPlugin*			_plugin;

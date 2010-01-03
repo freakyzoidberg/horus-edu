@@ -38,6 +38,9 @@
 #include <QList>
 #include <QObject>
 #include "UserCache.h"
+#include "NetworkManager.h"
+class QFile;
+class QFileSystemWatcher;
 
 class CacheManager : public QObject
 {
@@ -51,11 +54,15 @@ public:
 public slots:
 	void							save();
 
+private slots:
+	void							readCommonFile(const QString & path);
+
 private:
 									CacheManager();
 									~CacheManager() {}
 	QList<UserCache*>				_caches;
 	UserCache*						_autoLogin;
+	QFileSystemWatcher*				_watcher;
 };
 
 #endif // CACHEMANAGER_H

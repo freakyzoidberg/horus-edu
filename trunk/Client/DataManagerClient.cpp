@@ -41,7 +41,6 @@
 #include "../Common/UserData.h"
 
 #include "PluginManagerClient.h"
-#include "NetworkManager.h"
 
 DataManagerClient::DataManagerClient(DataPlugin* plugin)
 {
