@@ -99,6 +99,8 @@ Transfert::Transfert(FileTransfert* transfert, TransfertList* list)
 	_list->_grid->addWidget(new QLabel(_transfert->file()->name()), row, 0);
 	_list->_grid->addWidget(bar, row, 1);
 	_list->_grid->addWidget(new QLabel, row, 2);
+	_list->_grid->addWidget(new QLabel, row, 3);
+	_list->_grid->addWidget(new QLabel, row, 4);
 
 	progressChange(0);
 
@@ -111,9 +113,9 @@ void Transfert::progressChange(int progress)
 {
 	int row = _list->_list.indexOf(this);
 	static_cast<QProgressBar*>(_list->_grid->itemAtPosition(row, 1)->widget())->setValue(_transfert->progress());
-	static_cast<QLabel*>(_list->_grid->itemAtPosition(row, 2)->widget())->setText((calcUnit(_transfert->progress()) + "/"
-											  + calcUnit(_transfert->file()->size()) + " "
-											  + calcUnit(_transfert->speed()) + "/s"));
+	static_cast<QLabel*>(_list->_grid->itemAtPosition(row, 2)->widget())->setText(calcUnit(_transfert->progress()));
+	static_cast<QLabel*>(_list->_grid->itemAtPosition(row, 3)->widget())->setText("/" + calcUnit(_transfert->file()->size()));
+	static_cast<QLabel*>(_list->_grid->itemAtPosition(row, 4)->widget())->setText(" " + calcUnit(_transfert->speed()) + "/s");
 }
 
 void Transfert::finished()
