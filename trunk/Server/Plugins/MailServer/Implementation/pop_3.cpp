@@ -175,15 +175,13 @@ bool Pop_3::read(const QString &waitfor)
     return isOk;
 }
 
-bool Pop_3::readMail(int)
+bool Pop_3::readMail(int value)
 {
 QString response;
     QString responseLine;
 
-
-    do {
-
-        
+/*
+    do {      
         if( ! _socket->waitForReadyRead( _timeout ) ) {
         error("Read timeout");
         return false;
@@ -205,6 +203,28 @@ QString response;
 _lastResponse = response;
     //qDebug() << _lastResponse;
 	return (true);
+
+ */
+int size = 0;
+
+    response += _socket->readAll();
+
+    int nl = response.indexOf("\n.\r\n");
+                qDebug("ready Read, epecting %d, got %d , nl: %d",value, response.size(), nl);
+                if (nl>0)
+                {
+                        QString new_line = response.left(nl);
+                        qDebug() << new_line;
+                    _lastResponse = new_line;
+                    return true;
+
+                        //qDebug("2.ready Read, after nextLine, read_data: '%s'", d->read_data.toAscii());
+                }
+                else
+                {
+
+            }
+      return false;
 }
 
 
