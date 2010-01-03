@@ -177,5 +177,8 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 void	MarksExamsList::studentSelection(QListWidgetItem *item)
 {
 	if (!_formaddmark)
+	{
 		this->MainLayout->insertWidget(1, _formaddmark = new FormAddGrade());
+
+	}
 }
