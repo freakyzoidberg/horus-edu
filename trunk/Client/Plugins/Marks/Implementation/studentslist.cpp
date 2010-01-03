@@ -54,7 +54,3 @@ void	StudentsList::fillStudentList()
 	_exam = ep->exam(_item->data(Qt::UserRole).toInt());
 }
 
-void	StudentsList::studentSelection(QListWidgetItem *item)
-{
-
-}

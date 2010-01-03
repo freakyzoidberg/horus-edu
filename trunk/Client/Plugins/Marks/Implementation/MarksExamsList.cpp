@@ -5,8 +5,8 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	_parent = mainView;
 	_pluginManager = pluginManager;
 	_infosLabel = new QLabel();
+	_formaddmark = NULL;
 
-	//infos = NULL;
 	td = pluginManager->findPlugin<TreeDataPlugin *>();
 
 	MainLayout = new QHBoxLayout();
@@ -72,12 +72,14 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
 	connect(_examsList->_examsList, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
 			this, SLOT(viewStudentList(QListWidgetItem *)));
+	connect(_sList->_sList, SIGNAL(itemClicked(QListWidgetItem *)),
+			this, SLOT(studentSelection(QListWidgetItem *)));
 	this->setLayout(MainLayout);
 }
 
 void MarksExamsList::addExam()
 {
-	this->MainLayout->removeWidget(_examsList);;
+	this->MainLayout->removeWidget(_examsList);
 	_examsList->setVisible(false);
 	this->MainLayout->insertWidget(0, _formAdd);
 	_formAdd->show();
@@ -86,6 +88,13 @@ void MarksExamsList::addExam()
 	save->setVisible(true);
 	_add->setVisible(false);
 	MainLayout->setStretch(0, 1);
+	if (_formaddmark)
+	{
+		this->MainLayout->removeWidget(_formaddmark);
+		delete _formaddmark;
+		_formaddmark = NULL;
+		MainLayout->setStretch(0, 1);
+	}
 }
 
 void	MarksExamsList::saveExam()
@@ -106,6 +115,14 @@ void	MarksExamsList::saveExam()
 	_add->setVisible(true);
 	MainLayout->setStretch(0, 1);
 	_examsList->Exams(_examsList->_node);
+	if (_formaddmark)
+	{
+		this->MainLayout->removeWidget(_formaddmark);
+		delete _formaddmark;
+		_formaddmark = NULL;
+		MainLayout->setStretch(0, 1);
+	}
+
 }
 
 void	MarksExamsList::fallback()
@@ -121,11 +138,23 @@ void	MarksExamsList::fallback()
 	save->setVisible(false);
 	_add->setVisible(true);
 	MainLayout->setStretch(0, 1);
+	if (_formaddmark)
+	{
+		this->MainLayout->removeWidget(_formaddmark);
+		delete _formaddmark;
+		_formaddmark = NULL;
+		MainLayout->setStretch(0, 1);
+	}
 }
 
 void MarksExamsList::viewStudentList(QListWidgetItem *item)
 {
-	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name());
+	quint32 exId = item->data(Qt::UserRole).toInt();
+	ExamsDataPlugin	*examsPlugin = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
+	ExamsData *tmp = examsPlugin->exam(exId);
+
+	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name()
+						 + "\nExamination: " + tmp->comment());
 	this->MainLayout->removeWidget(_examsList);
 	_examsList->setVisible(false);
 	this->MainLayout->insertWidget(0, _sList);
@@ -136,4 +165,17 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 	_add->setVisible(false);
 	back->setVisible(true);
 	MainLayout->setStretch(0, 1);
+	if (_formaddmark)
+	{
+		this->MainLayout->removeWidget(_formaddmark);
+		delete _formaddmark;
+		_formaddmark = NULL;
+		MainLayout->setStretch(0, 1);
+	}
+}
+
+void	MarksExamsList::studentSelection(QListWidgetItem *item)
+{
+	if (!_formaddmark)
+		this->MainLayout->insertWidget(1, _formaddmark = new FormAddGrade());
 }
