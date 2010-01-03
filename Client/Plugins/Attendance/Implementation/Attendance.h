@@ -43,9 +43,12 @@ class				Attendance : public DisplayablePlugin
     Q_INTERFACES(DisplayablePlugin)
 
 public:
-	const QString	pluginName() const;
-	const QString	pluginVersion() const;
-	QWidget			*getWidget();
+        const QString	pluginName() const;
+        const QString	pluginVersion() const;
+        const QString	getDisplayableName() const;
+        QWidget         *getWidget();
+        int             getOrder() const;
+        QIcon           getIcon() const;
 };
 
 #endif
