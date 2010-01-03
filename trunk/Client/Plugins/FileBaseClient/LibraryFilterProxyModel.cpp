@@ -38,26 +38,33 @@
 #include <QItemSelection>
 #include <QDebug>
 
-LibraryFilterProxyModel::LibraryFilterProxyModel(QAbstractListModel* fileModel, QObject* parent) : QSortFilterProxyModel(parent)
+LibraryFilterProxyModel::LibraryFilterProxyModel(FileDataPlugin* fileDataPlugin, QObject* parent) : QSortFilterProxyModel(parent)
 {
-	setSourceModel(fileModel);
+	setSourceModel(fileDataPlugin->listModel());
 	setSortCaseSensitivity(Qt::CaseInsensitive);
 	setFilterCaseSensitivity(Qt::CaseInsensitive);
 	setFilterRole(Data::FILTER_ROLE);
 	setFilterKeyColumn(0);
 	sort(0, Qt::AscendingOrder);
+	_user = 0;
+	connect(fileDataPlugin, SIGNAL(dataStatusChanged(Data*)), this, SLOT(invalidateFilter(Data*)));
+}
+
+void LibraryFilterProxyModel::invalidateFilter(Data*)
+{
+	QSortFilterProxyModel::invalidateFilter();
 }
 
 void LibraryFilterProxyModel::nodeListChanged(const QList<Data*>& list)
 {
 	_nodes = list;
-	invalidateFilter();
+	QSortFilterProxyModel::invalidateFilter();
 }
 
 void LibraryFilterProxyModel::filterUser(UserData* user)
 {
 	_user = user;
-	invalidateFilter();
+	QSortFilterProxyModel::invalidateFilter();
 }
 
 bool LibraryFilterProxyModel::filterAcceptsRow(int source_row, const QModelIndex& source_parent) const
