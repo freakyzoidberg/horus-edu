@@ -36,28 +36,36 @@
 
 #include "WhiteBoardListModel.h"
 
+#include "../../../../Common/TreeData.h"
+#include "../../../../Common/UserData.h"
+
 WhiteBoardListModel::WhiteBoardListModel(PluginManager *pluginManager, UserData* user) : _pluginManager(pluginManager), _user(user)
 {
 	_wbDataPlugin = _pluginManager->findPlugin<WhiteBoardDataPlugin *>();
+	foreach (Data* d, _wbDataPlugin->allDatas())
+		if IS_VALID_DATA_STATUS(d->status())
+			_list.append(d);
+	connect(_wbDataPlugin, SIGNAL(dataStatusChanged(Data *)), this, SLOT(dataStatusChanged(Data *)));
 }
 
 int			WhiteBoardListModel::rowCount(const QModelIndex& parent) const
 {
 	if (!parent.isValid())
-		return _wbDataPlugin->allDatas().count();
-	return 0;
+		return (_list.count());
+	return (0);
 }
 
 QVariant	WhiteBoardListModel::data(const QModelIndex& index, int role) const
 {
 	if (role == Qt::DisplayRole)
-	{		
-            return QVariant(tr("Class ") + QString::number(index.row()));
+	{	
+		WhiteBoardData *wbData = static_cast<WhiteBoardData *>(_list[index.row()]);
+		return QVariant(wbData->node()->name() + " (" + wbData->node()->user()->name() + " " + wbData->node()->user()->surname() + ")");
 	}
-        else if (role == Qt::DecorationRole)
-        {
-            return QVariant(QIcon(":/Ui/desk.png"));
-        }
+    else if (role == Qt::DecorationRole)
+    {
+        return QVariant(QIcon(":/Ui/desk.png"));
+    }
 	return QVariant();
 }
 
@@ -65,4 +73,33 @@ WhiteBoardData*     WhiteBoardListModel::getWhiteboard(const QModelIndex& index)
 {
     WhiteBoardData* wbdata = qobject_cast<WhiteBoardData*>(_wbDataPlugin->allDatas().at(index.row()));
     return wbdata;
+}
+
+void	WhiteBoardListModel::dataStatusChanged(Data *data)
+{
+	if IS_VALID_DATA_STATUS(data->status())
+	{
+		if ( ! _list.contains(data))
+		{
+			int pos = _list.count();
+			beginInsertRows(QModelIndex(), pos, pos);
+			_list.append(data);
+			endInsertRows();
+		}
+		else
+		{
+			QModelIndex i = index(_list.indexOf(data), 0, QModelIndex());
+			changePersistentIndex(i, i);
+		}
+	}
+	else
+	{
+		if (_list.contains(data))
+		{
+			int pos = _list.indexOf(data);
+			beginRemoveRows(QModelIndex(), pos, pos);
+			_list.removeOne(data);
+			endRemoveRows();
+		}
+	}
 }

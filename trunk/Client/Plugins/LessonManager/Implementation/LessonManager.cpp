@@ -54,7 +54,7 @@ bool	LessonManager::canLoad() const
 
 void    LessonManager::load()
 {
-	lessonModel = new LessonModel_ext(pluginManager);
+	//lessonModel = new LessonModel_ext(pluginManager);
 	Plugin::load();
 }
 
@@ -75,5 +75,7 @@ const QString	LessonManager::pluginVersion() const
 
 LessonModel* LessonManager::getLessonModel()
 {
+	if (lessonModel == NULL)
+		lessonModel = new LessonModel_ext(pluginManager);
     return lessonModel;
 }
