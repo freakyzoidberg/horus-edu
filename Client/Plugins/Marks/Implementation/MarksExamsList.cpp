@@ -125,6 +125,8 @@ void MarksExamsList::addExam()
 	MainLayout->setStretch(0, 1);
 	if (_formaddmark)
 	{
+		disconnect(save, SIGNAL(clicked()), this, SLOT(saveMark()));
+		connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 		this->MainLayout->removeWidget(_formaddmark);
 		delete _formaddmark;
 		_formaddmark = NULL;
@@ -152,6 +154,8 @@ void	MarksExamsList::saveExam()
 	_examsList->Exams(_examsList->_node);
 	if (_formaddmark)
 	{
+		disconnect(save, SIGNAL(clicked()), this, SLOT(saveMark()));
+		connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 		this->MainLayout->removeWidget(_formaddmark);
 		delete _formaddmark;
 		_formaddmark = NULL;
@@ -175,6 +179,8 @@ void	MarksExamsList::fallback()
 	MainLayout->setStretch(0, 1);
 	if (_formaddmark)
 	{
+		disconnect(save, SIGNAL(clicked()), this, SLOT(saveMark()));
+		connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 		this->MainLayout->removeWidget(_formaddmark);
 		delete _formaddmark;
 		_formaddmark = NULL;
@@ -202,6 +208,8 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 	MainLayout->setStretch(0, 1);
 	if (_formaddmark)
 	{
+		disconnect(save, SIGNAL(clicked()), this, SLOT(saveMark()));
+		connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 		this->MainLayout->removeWidget(_formaddmark);
 		delete _formaddmark;
 		_formaddmark = NULL;
@@ -214,6 +222,14 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 	if (!_formaddmark)
 	{
 		this->MainLayout->insertWidget(1, _formaddmark = new FormAddGrade());
-
+		disconnect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
+		connect(save, SIGNAL(clicked()), this, SLOT(saveMark()));
+		save->show();
 	}
+}
+
+void	MarksExamsList::saveMark()
+{
+
+	fallback();
 }
