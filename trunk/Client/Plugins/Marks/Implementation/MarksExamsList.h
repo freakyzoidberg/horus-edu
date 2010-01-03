@@ -69,6 +69,7 @@ public:
 public slots:
 	void					addExam();
 	void					saveExam();
+	void					saveMark();
 	void					fallback();
 	void					viewStudentList(QListWidgetItem *);
 	void					studentSelection(QListWidgetItem *);
