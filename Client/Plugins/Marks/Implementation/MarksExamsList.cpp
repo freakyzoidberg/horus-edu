@@ -161,7 +161,6 @@ void	MarksExamsList::saveExam()
 		_formaddmark = NULL;
 		MainLayout->setStretch(0, 1);
 	}
-
 }
 
 void	MarksExamsList::fallback()

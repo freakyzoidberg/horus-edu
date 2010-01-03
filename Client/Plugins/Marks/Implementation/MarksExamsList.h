@@ -46,6 +46,8 @@
 #include "../../../../Common/PluginManager.h"
 #include "../../../../Common/TreeData.h"
 #include "../../../../Common/ExamsData.h"
+#include "../../../../Common/MarksData.h"
+#include "../../../../Common/MarksDataPlugin.h"
 #include "newexams.h"
 #include "studentslist.h"
 #include "examslist.h"
