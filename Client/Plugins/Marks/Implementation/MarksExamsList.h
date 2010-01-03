@@ -14,27 +14,30 @@
 #include "newexams.h"
 #include "studentslist.h"
 #include "examslist.h"
+#include "formaddgrade.h"
 
 class MarksExamsList : public QWidget
 {
 	Q_OBJECT
 public:
-	MarksExamsList(PluginManager *, QTabWidget *);
+							MarksExamsList(PluginManager *,
+										   QTabWidget *);
 	QListWidget				*StudentList;
 
-	ExamsList	*examsList() { return _examsList; }
+	ExamsList				*examsList() { return _examsList; }
 	QPushButton				*_add;
 	TreeData				*_node;
 	NewExams				*_formAdd;
 	StudentsList			*_sList;
 	QLabel					*_infosLabel;
 
-
 public slots:
-	void	addExam();
-	void	saveExam();
-	void	fallback();
-	void	viewStudentList(QListWidgetItem *);
+	void					addExam();
+	void					saveExam();
+	void					fallback();
+	void					viewStudentList(QListWidgetItem *);
+	void					studentSelection(QListWidgetItem *);
+
 private:
 	TreeDataPlugin          *td;
 	QHBoxLayout				*MainLayout;
@@ -51,11 +54,10 @@ private:
 	QPushButton				*reset;
 	QPushButton				*back;
 
-
-
 private:
-	QTabWidget		*_parent;
-	PluginManager	*_pluginManager;
+	QTabWidget				*_parent;
+	PluginManager			*_pluginManager;
+	FormAddGrade			*_formaddmark;
 };
 
 #endif // MARKSEXAMSLIST_H

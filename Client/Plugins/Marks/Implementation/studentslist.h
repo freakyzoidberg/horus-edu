@@ -21,7 +21,7 @@ public:
 	void			setItem(QListWidgetItem *item) { _item = item; }
 
 public slots:
-	void			studentSelection(QListWidgetItem *);
+
 
 private:
 	PluginManager	*_pluginManager;
