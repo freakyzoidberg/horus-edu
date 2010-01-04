@@ -147,22 +147,53 @@ void ThreadPacket::PacketLogin()
     socket->user = user;
     PluginManagerServer::instance()->setCurrentUser(socket->user);
 
-	// get every data the user need to be up to date
+
+	// get every data the user can access
 	QList<Data*> list;
 	foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
 	{
 		p->userConnected(user);
 		foreach (Data* d, p->allDatas())
-			if (d->status() != Data::EMPTY && d->canAccess(user)) //TODO && lastChange > last time user is upto date
+			if (d->status() != Data::EMPTY && d->canAccess(user))
 				list.append(d);
 	}
+
+	QDataStream streamAll(&login.dataForUpdate, QIODevice::ReadOnly);
+	PluginManagerServer* pluginManager = PluginManagerServer::instance();
+	QHash<QString,DataPlugin*> plugins;
+	foreach (DataPlugin* plugin, pluginManager->findPlugins<DataPlugin*>())
+		plugins.insert(plugin->dataType(), plugin);
+
+	while (! streamAll.atEnd())
+	{
+		QString type;
+		QByteArray binPlugin;
+		streamAll >> type >> binPlugin;
+
+		if (plugins.contains(type))
+		{
+			QDataStream streamPlugin(&binPlugin, QIODevice::ReadOnly);
+			while ( ! streamPlugin.atEnd())
+			{
+				Data* data = plugins.value(type)->dataWithKey(streamPlugin);
+				QDateTime lastChange;
+				streamPlugin >> lastChange;
+				if (data->lastChange() == lastChange)
+					list.removeOne(data);
+				else if ( ! list.contains(data))
+					list.append(data);
+			}
+		}
+	}
+
+
 
     CommLogin resp(CommLogin::ACCEPTED);
     resp.serverDateTime = QDateTime::currentDateTime();
     resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
 	resp.sessionString = plugin->createSession(user, resp.sessionEnd);
     resp.user = user;
-	resp.nbrDataForUpdate = list.count();
+	resp.nbrDataUpdated = list.count();
     emit sendPacket(resp.getPacket());
 
 	//now send the datas to user, to be uptodate
@@ -172,6 +203,8 @@ void ThreadPacket::PacketLogin()
     //allow other threads to be started
     socket->allowOtherThreads();
 }
+
+
 
 void ThreadPacket::PacketData()
 {

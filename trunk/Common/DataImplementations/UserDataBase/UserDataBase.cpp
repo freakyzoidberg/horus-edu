@@ -323,6 +323,8 @@ void UserDataBase::setStudent(UserData* student)
 	QMutexLocker M(&mutex);
 	disconnect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
 	_student = student;
+	if ( ! _student)
+		_student = static_cast<UserDataPlugin*>(_plugin)->nobody();
 	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
 		connect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
 }

@@ -73,6 +73,8 @@ void TreeDataBase::dataToStream(QDataStream& s) const
 		s << _parent->_id;
     else
         s << (quint32)0;
+
+	Data::dataToStream(s);
 }
 
 void TreeDataBase::dataFromStream(QDataStream& s)
@@ -93,6 +95,8 @@ void TreeDataBase::dataFromStream(QDataStream& s)
 	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
 
     setObjectName(_name);
+
+	Data::dataFromStream(s);
 }
 
 bool TreeDataBase::canChange(UserData* user) const

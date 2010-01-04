@@ -179,6 +179,9 @@ void DataManagerServer::sendData(UserData* user, Data* data, quint8 status, quin
 	if (status == Data::UPTODATE)
 		status = Data::UPDATED;
 
+	if (status == Data::EMPTY)
+		status = Data::REMOVED;
+
 	QMutexLocker(&data->mutex);
 	CommData packet(_plugin->dataType());
     QDataStream stream(&packet.data, QIODevice::WriteOnly);

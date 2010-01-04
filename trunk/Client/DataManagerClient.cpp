@@ -209,7 +209,7 @@ void DataManagerClient::sendData(Data* data)
     QDataStream stream(&packet.data, QIODevice::WriteOnly);
 	quint8 status = data->status();
 
-	if (status != Data::REMOVING && status != Data::CREATING && status != Data::SAVING)
+	if (status != Data::REMOVING && status != Data::CREATING && status != Data::SAVING && status != Data::CACHED)
 	{
 		qDebug() << tr("Should not happen:") << data << tr("is sent with status") << (Data::Status)status;
 		return;
@@ -221,6 +221,9 @@ void DataManagerClient::sendData(Data* data)
 
 	if (status == Data::CREATING || status == Data::SAVING)
 		data->dataToStream(stream);
+
+	if (status == Data::CACHED)
+		stream << data->lastChange();
 
 	QMetaObject::invokeMethod(NetworkManager::instance(), "sendPacket", Q_ARG(const QByteArray, packet.getPacket()));
 }
