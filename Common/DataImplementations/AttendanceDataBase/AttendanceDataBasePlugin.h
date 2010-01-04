@@ -54,7 +54,7 @@ class AttendanceDataBasePlugin : public AttendanceDataPlugin
                      AttendanceDataBasePlugin() {}
                      AttendanceData*	  newAttendance(UserData* parent, QDate date, QString lesson);
                      AttendanceData*     attendance(quint32 attendanceId);
-                     AttendanceData*     attendance(UserData *node);
+                     QList<AttendanceData* >     attendance(UserData *node);
     private:
 
 	//Plugin

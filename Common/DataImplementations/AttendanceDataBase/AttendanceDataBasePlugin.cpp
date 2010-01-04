@@ -48,7 +48,6 @@ AttendanceData* AttendanceDataBasePlugin::newAttendance(UserData* parent, QDate 
         static quint32 tmpId = 0;
         tmpId--;
 
-        qDebug() << "la";
         AttendanceDataBase* s = ((AttendanceDataBase*)( attendance(tmpId)) );
         s->_user = parent;
         s->_date = date;
@@ -74,17 +73,19 @@ AttendanceData* AttendanceDataBasePlugin::attendance(quint32 attendanceId)
         return a;
 }
 
-AttendanceData* AttendanceDataBasePlugin::attendance(UserData* node)
+QList<AttendanceData* > AttendanceDataBasePlugin::attendance(UserData* node)
 {
+        QList<AttendanceData* > listAttendance;
         foreach (Data* d, _allDatas)
         {
                 AttendanceDataBase* s = (AttendanceDataBase*)d;
                 if (s->_user->id() == node->id())
                 {
-                    return s;
+                    listAttendance.append(s);
                 }
         }
-        return (0);
+//        if (listAttendance.size() == 0)
+            return listAttendance;
 }
 
 
@@ -100,9 +101,9 @@ bool AttendanceDataBasePlugin::canLoad() const
         UserDataPlugin* user = pluginManager->findPlugin<UserDataPlugin*>();
         if ( ! user || ! user->canLoad())
                 return false;
-        ScheduleDataPlugin* schedule = pluginManager->findPlugin<ScheduleDataPlugin*>();
-        if ( ! schedule || ! schedule->canLoad())
-                return false;
+//        ScheduleDataPlugin* schedule = pluginManager->findPlugin<ScheduleDataPlugin*>();
+//        if ( ! schedule || ! schedule->canLoad())
+//                return false;
 #ifdef HORUS_SERVER
         QSqlQuery query = pluginManager->sqlQuery();
         if ( ! query.exec("CREATE TABLE IF NOT EXISTS `attendance`(\
