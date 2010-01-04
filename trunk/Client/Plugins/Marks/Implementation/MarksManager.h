@@ -61,6 +61,7 @@ public slots:
 	void	subjectSelected(QListWidgetItem *);
 	void	moveToExamList(QListWidgetItem *);
 	void	addExam();
+	void	move();
 
 private:
 	TreeDataPlugin          *td;
@@ -79,6 +80,7 @@ private:
 	QPushButton				*add;
 	MarksMainView			*_parent;
 	PluginManager			*_pm;
+	QListWidgetItem			*_item;
 };
 
 #endif // MARKSMANAGER_H

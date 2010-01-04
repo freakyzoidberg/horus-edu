@@ -51,7 +51,7 @@ public:
 private:
 	 QDateEdit                   *_startDate;
 		QDateEdit                   *_endDate;
-		QVBoxLayout                  *mainLayout;
+		QGridLayout                  *mainLayout;
 		QGridLayout                 *datesLayout;
 		QGridLayout                 *exceptionLayout;
 };

@@ -76,7 +76,7 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
 	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
 	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
-	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
+	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("View exams"));
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(edit);
@@ -105,7 +105,7 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 			this, SLOT(subjectSelected(QListWidgetItem *)));
 	connect(_classList->Classlist, SIGNAL(itemDoubleClicked ( QListWidgetItem *)),
 			this, SLOT(moveToExamList( QListWidgetItem *)));
-	//connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
+	connect(add, SIGNAL(clicked()), this, SLOT(move()));
 	this->setLayout(MainLayout);
 }
 
@@ -136,7 +136,13 @@ void	MarksManager::subjectSelected(QListWidgetItem *item)
 	infos = new InfoPanel(td->node(subjectId)->parent()->name());
 	this->informationsLayout->addWidget(infos);
 	infos->show();
-	//add->setVisible(true);
+	add->setVisible(true);
+	_item = item;
+}
+
+void	MarksManager::move()
+{
+	moveToExamList(_item);
 }
 
 void	MarksManager::addExam()
