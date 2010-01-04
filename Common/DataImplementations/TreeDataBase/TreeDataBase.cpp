@@ -55,12 +55,18 @@ void TreeDataBase::userRemoved()
 
 void TreeDataBase::thisRemoved()
 {
-	//link children to the grand parent
-	foreach (TreeData* child, _children)
+	QList<TreeData*> children = _children;
+
+	//temporary link children to the grand parent
+	foreach (TreeData* child, children)
 		child->setParent(_parent);
 
 	//remove the node from the tree
 	setParent(0);
+
+	//also remove chidren
+	foreach (TreeData* child, children)
+		child->remove();
 }
 
 void TreeDataBase::keyToStream(QDataStream& s) const
