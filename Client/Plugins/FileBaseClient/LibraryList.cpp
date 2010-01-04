@@ -282,11 +282,11 @@ void LibraryList::removeButton()
 
 void LibraryList::dragEnterEvent(QDragEnterEvent *event)
 {
-	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
+	if ( ! event->mimeData()->hasUrls()	|| event->mimeData()->hasFormat(("x-horus/x-data")))
 		return;
 	if (event->mimeData()->urls().count() > 1)
 		return;
-	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
+	if ( ! QFile(event->mimeData()->urls().first().toLocalFile()).exists())
 		return;
 
 	event->acceptProposedAction();
@@ -294,11 +294,11 @@ void LibraryList::dragEnterEvent(QDragEnterEvent *event)
 
 void LibraryList::dropEvent(QDropEvent* event)
 {
-	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
+	if ( ! event->mimeData()->hasUrls()	|| event->mimeData()->hasFormat(("x-horus/x-data")))
 		return;
 	if (event->mimeData()->urls().count() > 1)
 		return;
-	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
+	if ( ! QFile(event->mimeData()->urls().first().toLocalFile()).exists())
 		return;
 
 	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
