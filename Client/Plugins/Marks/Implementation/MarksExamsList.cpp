@@ -151,7 +151,9 @@ void	MarksExamsList::saveExam()
 											this->_formAdd->examComment->text(),
 											_pluginManager->currentUser());
 	data->setDate(_formAdd->thedate->date());
+	_newData = data;
 	data->create();
+	connect(data, SIGNAL(updated()), this, SLOT(refresh()));
 	edit->setVisible(false);
 	this->MainLayout->removeWidget(_formAdd);
 	_formAdd->setVisible(false);
@@ -174,11 +176,8 @@ void	MarksExamsList::saveExam()
 		MainLayout->setStretch(0, 1);
 	}
 
-	_examsList->Exams(_examsList->_node);
-/*	QListWidgetItem *temp = new QListWidgetItem(QIcon(":/desk.png"),
-										this->_formAdd->examComment->text());
-	temp->setData(Qt::UserRole, data->id());
-	this->examsList()->_examsList->addItem(temp); */
+	//_examsList->Exams(_examsList->_node);
+
 }
 
 void	MarksExamsList::fallback()
@@ -316,4 +315,13 @@ void	MarksExamsList::seeStudents()
 {
 	edit->setVisible(false);
 	viewStudentList(_item);
+}
+
+void	MarksExamsList::refresh()
+{
+	QListWidgetItem *temp = new QListWidgetItem(QIcon(":/desk.png"),
+										this->_formAdd->examComment->text());
+	temp->setData(Qt::UserRole, _newData->id());
+	this->examsList()->_examsList->addItem(temp);
+	disconnect(_newData, SIGNAL(updated()), this, SLOT(refresh()));
 }
