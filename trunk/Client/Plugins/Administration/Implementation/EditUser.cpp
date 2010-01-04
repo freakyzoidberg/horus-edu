@@ -111,8 +111,7 @@ EditUser::EditUser(QWidget *parent, UserDataPlugin *userDataPlugin, int userLeve
 	rightLayout->addWidget(new QWidget(this), 1);
 	mainLayout->addLayout(rightLayout);
 	connect(okButton, SIGNAL(clicked()), this, SLOT(saved()));
-	connect(okButton, SIGNAL(clicked()), this, SLOT(exited()));
-	connect(applyButton, SIGNAL(clicked()), this, SLOT(saved()));
+	connect(applyButton, SIGNAL(clicked()), this, SLOT(applied()));
 	connect(resetButton, SIGNAL(clicked()), this, SLOT(reseted()));
 	connect(cancelButton, SIGNAL(clicked()), this, SLOT(exited()));
 }
@@ -697,6 +696,14 @@ QWidget			*EditUser::getParentContactFrame()
 
 void			EditUser::saved()
 {
+	error = false;
+	applied();
+	if ( ! error)
+		exited();
+}
+
+void			EditUser::applied()
+{
 	bool		editing;
 
 	editing = false;
@@ -723,6 +730,9 @@ void			EditUser::saved()
 	_user->setEnable(true);
 	_user->setName(lastNameField->text());
 	_user->setSurname(firstNameField->text());
+	if (_user->name().isEmpty() || _user->surname().isEmpty())
+		error = true;
+
 	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
 	_user->setBirthDate(birthDateField->date());
 	_user->setBornPlace(birthPlaceField->text());
@@ -773,6 +783,10 @@ void			EditUser::saved()
 			mother->setPhone2(motherWorkPhoneField->text());
 		}
 	}
+
+	if (error)
+		return;
+
 	if (editing)
 		_user->save();
 	else

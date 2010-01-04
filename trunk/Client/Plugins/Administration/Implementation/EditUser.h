@@ -115,9 +115,13 @@ private:
 
 private slots:
 	void			saved();
+	void			applied();
 	void			exited();
 	void			reseted();
 	void			relationChanged(int index);
+
+private:
+	bool			error;
 
 signals:
 	void			exit();
