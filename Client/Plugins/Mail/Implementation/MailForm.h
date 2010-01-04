@@ -61,6 +61,7 @@ private :
     QLineEdit *subject_value;
     QTextEdit *content_value;
     QPushButton *sendbtn;
+    QLabel *res_value;
     MailDataPlugin *_MailPlugin;
 
 private slots:
