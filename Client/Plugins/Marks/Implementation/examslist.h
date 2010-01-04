@@ -62,7 +62,7 @@ QListWidget		*_examsList;
 
 
 private slots:
-	void showExams(QListWidgetItem *);
+	//void showExams(QListWidgetItem *);
 	void addAnExam();
 	void selectStudents(QListWidgetItem *item);
 
