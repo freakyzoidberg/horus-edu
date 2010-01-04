@@ -55,7 +55,11 @@ void TreeDataBase::userRemoved()
 
 void TreeDataBase::thisRemoved()
 {
-	//remove from the tree
+	//link children to the grand parent
+	foreach (TreeData* child, _children)
+		child->setParent(_parent);
+
+	//remove the node from the tree
 	setParent(0);
 }
 
