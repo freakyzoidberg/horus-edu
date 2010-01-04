@@ -177,11 +177,11 @@ void LibraryEdit::save()
 
 void LibraryEdit::dragEnterEvent(QDragEnterEvent *event)
 {
-	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
+	if ( ! event->mimeData()->hasUrls()	|| event->mimeData()->hasFormat(("x-horus/x-data")))
 		return;
 	if (event->mimeData()->urls().count() > 1)
 		return;
-	if ( ! QFile(event->mimeData()->urls().first().path()).exists())
+	if ( ! QFile(event->mimeData()->urls().first().toLocalFile()).exists())
 		return;
 
 	event->acceptProposedAction();
@@ -189,12 +189,12 @@ void LibraryEdit::dragEnterEvent(QDragEnterEvent *event)
 
 void LibraryEdit::dropEvent(QDropEvent* event)
 {
-	if ( ! event->mimeData()->hasFormat(("text/uri-list"))	|| event->mimeData()->hasFormat(("x-horus/x-data")))
+	if ( ! event->mimeData()->hasUrls()	|| event->mimeData()->hasFormat(("x-horus/x-data")))
 		return;
 	if (event->mimeData()->urls().count() > 1)
 		return;
 
-	QFileInfo f(event->mimeData()->urls().first().path());
+	QFileInfo f(event->mimeData()->urls().first().toLocalFile());
 	if ( ! f.exists())
 		return;
 
