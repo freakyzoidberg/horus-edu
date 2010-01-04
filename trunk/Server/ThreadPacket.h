@@ -70,6 +70,8 @@ private:
     //! send an error to the client
     void sendError(CommError::Error err, const char* str="") const;
 
+	QList<Data*> datasNeedUpdate(const QByteArray& buff) const;
+
     //! a pointer to the parent ClientSocket
     ClientSocket* socket;
     //! the received packet

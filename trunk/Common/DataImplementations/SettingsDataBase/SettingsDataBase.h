@@ -81,7 +81,6 @@ public:
 	inline quint8		scope() const { return _scope; }
 
 #ifdef HORUS_SERVER
-	quint8				serverRead();
 	quint8				serverCreate();
 	quint8				serverSave();
 	quint8				serverRemove();

@@ -145,32 +145,6 @@ const QList<Data*> FileDataBase::dependsOfCreatedData() const
 }
 
 #ifdef HORUS_SERVER
-quint8 FileDataBase::serverRead()
-{
-	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`name`,`mime`,`size`,`id_tree`,`id_owner`,`hash_sha1`,`keywords`,`mtime`FROM`file`WHERE`id`=?;");
-	query.addBindValue(_id);
-
-	if ( ! query.exec())
-	{
-		qDebug() << query.lastError();
-		return DATABASE_ERROR;
-	}
-	if ( ! query.next())
-		return NOT_FOUND;
-
-	_name		= query.value(0).toString();
-	_mimeType	= query.value(1).toString();
-	_size		= query.value(2).toUInt();
-	_node		= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(3).toUInt() );
-	_owner		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(4).toUInt() );
-	_hash		= query.value(5).toByteArray();
-	_keyWords	= query.value(6).toString();
-	_lastChange	= query.value(7).toDateTime();
-
-	return NONE;
-}
-
 quint8 FileDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();

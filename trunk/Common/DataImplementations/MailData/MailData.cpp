@@ -124,19 +124,4 @@ quint8 MailData::serverSave()
                 delete test1;
 	return NONE;
 }
-/*
-quint8 MailData::serverRead()
-{
-
-    //Pop3 *servpop3 = new Pop3(_plugin->pluginManager->currentUser()->login(), "toto", "localhost");
-    Pop3 *servpop3 = new Pop3("testzoidberg", "optrex42", "pop.free.fr");
-    QList<Mail *> panier;
-    panier = servpop3->getAllMails();
-    qDebug() << panier.count();
-
-}
-*/
-
-
-
 #endif

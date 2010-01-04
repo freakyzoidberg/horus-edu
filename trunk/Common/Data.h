@@ -156,8 +156,6 @@ public:
 	inline void			send() { _plugin->dataManager->sendData(this); }
 #endif
 #ifdef HORUS_SERVER
-	//! Fill the current data with a defined key from the database.
-	virtual quint8		serverRead() = 0;
     //! Create this data into the database, and update the key.
 	virtual quint8		serverCreate() = 0;
     //! Save the current data into the database.

@@ -54,6 +54,16 @@ void ThreadPacket::run()
 {
 	PluginManagerServer::instance()->setCurrentUser(socket->user);
 	CommPacket pac(packet);
+
+	if (pac.packetType > 3) //if packet login, data or plugin
+		if (socket->status != ClientSocket::CONNECTED) // check if initialized
+			return sendError(CommError::NOT_INITIALIZED);
+
+	if (pac.packetType > 4) //if packet data or plugin
+		if ( ! socket->user) // check if connected
+			return sendError(CommError::NOT_AUTHENTICATED);
+
+
     // redirect to the good method
     (this->*packetDirections[ pac.packetType ])();
 	PluginManagerServer::instance()->threadFinnished();
@@ -103,8 +113,6 @@ void ThreadPacket::PacketLogin()
     // wait other threads for this connexion if needed
     socket->waitOtherThreads();
 
-    if (socket->status != ClientSocket::CONNECTED)
-        return sendError(CommError::NOT_INITIALIZED);
     if (login.method != CommLogin::LOGIN_PASSWORD && login.method != CommLogin::LOGIN_SESSION && login.method != CommLogin::LOGOUT)
         return sendError(CommError::PROTOCOL_ERROR);
 
@@ -148,17 +156,70 @@ void ThreadPacket::PacketLogin()
     PluginManagerServer::instance()->setCurrentUser(socket->user);
 
 
+	QList<Data*> list = datasNeedUpdate(login.dataForUpdate);
+
+
+    CommLogin resp(CommLogin::ACCEPTED);
+    resp.serverDateTime = QDateTime::currentDateTime();
+    resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
+	resp.sessionString = plugin->createSession(user, resp.sessionEnd);
+    resp.user = user;
+	resp.nbrDataUpdated = list.count();
+    emit sendPacket(resp.getPacket());
+
+	//now send the datas to user, to be uptodate
+	foreach (Data* data, list)
+		data->sendToUser(user);
+
+    //allow other threads to be started
+    socket->allowOtherThreads();
+}
+
+
+
+void ThreadPacket::PacketData()
+{
+	CommData data(packet);
+    foreach (DataPlugin* plugin, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
+		if (plugin->dataType() == data.type)
+            plugin->dataManager->receiveData(socket->user, data.data);
+}
+
+void ThreadPacket::PacketPlugin()
+{
+	CommPlugin mod(packet);
+	QString target = mod.packet.targetPlugin;
+
+    NetworkPlugin* plugin = PluginManagerServer::instance()->findPlugin<NetworkPlugin*>(target);
+    mod.packet.user = socket->user;
+    if (plugin)
+        return plugin->receivePacket(socket->user, mod.packet);
+
+    mod.packet.targetPlugin = mod.packet.sourcePlugin;
+    mod.packet.sourcePlugin = target;
+    mod.packet.error = 1;
+    mod.packet.errorMessage = "Plugin " + target + " not found or doesn't receive PluginPacket.";
+    emit sendPacket(CommPlugin(mod.packet).getPacket());
+}
+
+void ThreadPacket::sendError(CommError::Error error, const char* str) const
+{
+    emit sendPacket(CommError(error, str).getPacket());
+}
+
+QList<Data*> ThreadPacket::datasNeedUpdate(const QByteArray& buff) const
+{
 	// get every data the user can access
 	QList<Data*> list;
 	foreach (DataPlugin* p, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
 	{
-		p->userConnected(user);
+		p->userConnected(socket->user);
 		foreach (Data* d, p->allDatas())
-			if (d->status() != Data::EMPTY && d->canAccess(user))
+			if (d->status() != Data::EMPTY && d->canAccess(socket->user))
 				list.append(d);
 	}
 
-	QDataStream streamAll(&login.dataForUpdate, QIODevice::ReadOnly);
+	QDataStream streamAll(buff);
 	PluginManagerServer* pluginManager = PluginManagerServer::instance();
 	QHash<QString,DataPlugin*> plugins;
 	foreach (DataPlugin* plugin, pluginManager->findPlugins<DataPlugin*>())
@@ -185,63 +246,5 @@ void ThreadPacket::PacketLogin()
 			}
 		}
 	}
-
-
-
-    CommLogin resp(CommLogin::ACCEPTED);
-    resp.serverDateTime = QDateTime::currentDateTime();
-    resp.sessionEnd = QDateTime::currentDateTime().addSecs( DEFAULT_SESSION_LIFETIME * 60 );
-	resp.sessionString = plugin->createSession(user, resp.sessionEnd);
-    resp.user = user;
-	resp.nbrDataUpdated = list.count();
-    emit sendPacket(resp.getPacket());
-
-	//now send the datas to user, to be uptodate
-	foreach (Data* data, list)
-		data->sendToUser(user);
-
-    //allow other threads to be started
-    socket->allowOtherThreads();
-}
-
-
-
-void ThreadPacket::PacketData()
-{
-	if (socket->status != ClientSocket::CONNECTED)
-		return sendError(CommError::NOT_INITIALIZED);
-	if ( ! socket->user)
-		return sendError(CommError::NOT_AUTHENTICATED);
-
-	CommData data(packet);
-    foreach (DataPlugin* plugin, PluginManagerServer::instance()->findPlugins<DataPlugin*>())
-		if (plugin->dataType() == data.type)
-            plugin->dataManager->receiveData(socket->user, data.data);
-}
-
-void ThreadPacket::PacketPlugin()
-{
-    if (socket->status != ClientSocket::CONNECTED)
-        return sendError(CommError::NOT_INITIALIZED);
-    if ( ! socket->user)
-        return sendError(CommError::NOT_AUTHENTICATED);
-
-	CommPlugin mod(packet);
-	QString target = mod.packet.targetPlugin;
-
-    NetworkPlugin* plugin = PluginManagerServer::instance()->findPlugin<NetworkPlugin*>(target);
-    mod.packet.user = socket->user;
-    if (plugin)
-        return plugin->receivePacket(socket->user, mod.packet);
-
-    mod.packet.targetPlugin = mod.packet.sourcePlugin;
-    mod.packet.sourcePlugin = target;
-    mod.packet.error = 1;
-    mod.packet.errorMessage = "Plugin " + target + " not found or doesn't receive PluginPacket.";
-    emit sendPacket(CommPlugin(mod.packet).getPacket());
-}
-
-void ThreadPacket::sendError(CommError::Error error, const char* str) const
-{
-    emit sendPacket(CommError(error, str).getPacket());
+	return list;
 }

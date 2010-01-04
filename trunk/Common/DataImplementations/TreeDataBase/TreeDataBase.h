@@ -111,7 +111,6 @@ public:
 	const QIcon			icon() const;
 #endif
 #ifdef HORUS_SERVER
-	quint8				serverRead();
 	quint8				serverCreate();
 	quint8				serverSave();
 	quint8				serverRemove();

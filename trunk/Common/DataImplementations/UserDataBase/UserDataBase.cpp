@@ -465,66 +465,6 @@ QVariant UserDataBase::data(int column, int role) const
 #endif
 
 #ifdef HORUS_SERVER
-quint8 UserDataBase::serverRead()
-{
-	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`, `passmail` FROM`user`WHERE`id`=?;");
-    query.addBindValue(_id);
-
-	if ( ! query.exec())
-	{
-		qDebug() << query.lastError();
-		return DATABASE_ERROR;
-	}
-	if ( ! query.next())
-		return NOT_FOUND;
-
-	_enabled		= query.value(0).toBool();
-	_login			= query.value(1).toString();
-	_level			= (UserLevel)(query.value(2).toUInt());
-	_password		= QByteArray::fromHex(query.value(3).toByteArray());
-	disconnect(this, SLOT(studentClassRemoved()));
-	_studentClass	= _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
-	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
-	_lastLogin		= query.value(5).toDateTime();
-	_language		= query.value(6).toString();
-	_surname		= query.value(7).toString();
-	_name			= query.value(8).toString();
-	_birthDate		= query.value(9).toDate();
-	_picture		= query.value(10).toByteArray();
-	_address		= query.value(11).toString();
-	_phone1			= query.value(12).toString();
-	_phone2			= query.value(13).toString();
-	_phone3			= query.value(14).toString();
-	_country		= query.value(15).toString();
-	_gender			= (UserGender)(query.value(16).toUInt());
-	_occupation		= query.value(17).toString();
-	_proCategory	= query.value(18).toString();
-	_relationship	= query.value(19).toString();
-	disconnect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
-	_student		= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
-	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
-		connect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
-	_mail			= query.value(21).toString();
-	_subscriptionReason	= query.value(22).toString();
-	_repeatedYears	= query.value(23).toUInt();
-	_startYear		= query.value(24).toUInt();
-	_leaveYear		= query.value(25).toUInt();
-	_followUp		= query.value(26).toString();
-	_comment		= query.value(27).toString();
-	_bornPlace		= query.value(28).toString();
-	_nbrBrothers	= query.value(29).toUInt();
-	_socialInsuranceNbr = query.value(30).toString();
-	_diploma		= query.value(31).toString();
-	_contract		= query.value(32).toString();
-	_lastChange		= query.value(33).toDateTime();
-        _mailpassword           = query.value(34).toString();
-
-	_lastChange	= query.value(14).toDateTime();
-
-	return NONE;
-}
-
 quint8 UserDataBase::serverCreate()
 {
     static QMutex mailmutex;

@@ -136,26 +136,6 @@ QVariant WhiteBoardData::data(int column, int role) const
 #endif
 
 #ifdef HORUS_SERVER
-quint8 WhiteBoardData::serverRead()
-{
-	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`mode`,`items`,`mtime`FROM`white_board`WHERE`id_tree`=?;");
-	query.addBindValue(_node->id());
-
-	if ( ! query.exec())
-	{
-		qDebug() << query.lastError();
-		return DATABASE_ERROR;
-	}
-	if ( ! query.next())
-		return serverCreate();
-
-	_syncMode	= (SyncMode)(query.value(0).toUInt());
-	_items		= query.value(1).toByteArray();
-	_lastChange	= query.value(2).toDateTime();
-	return NONE;
-}
-
 quint8 WhiteBoardData::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
