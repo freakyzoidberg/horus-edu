@@ -78,13 +78,14 @@ public slots:
 	void					studentSelection(QListWidgetItem *);
 	void					examSelected(QListWidgetItem *);
 	void					seeStudents();
+	void					refresh();
 
 private:
 	TreeDataPlugin          *td;
 	QListWidgetItem			*_item;
 	QHBoxLayout				*MainLayout;
 	ExamsList *				_examsList;
-	ExamsData	*			_examData;
+	ExamsData	*			_examData, *_newData;
 	MarksData*				_markData;
 	quint32					_studentId;
 	//AdmListEdt			*_admEDTList;
