@@ -1,32 +1,8 @@
-DROP TABLE IF EXISTS `file`;
-CREATE TABLE `file` (
-  `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) NOT NULL,
-  `mime` varchar(64) NOT NULL,
-  `size` int(11) NOT NULL,
-  `id_tree` int(11) NOT NULL,
-  `id_owner` int(11) NOT NULL,
-  `hash_sha1` varchar(40) NOT NULL,
-	`keywords` varchar(255) NOT NULL,
-  `mtime` timestamp NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `id_ower` (`id_owner`),
-  KEY `id_tree` (`id_tree`)
-);
 
 
 
-DROP TABLE IF EXISTS `setting`;
-CREATE TABLE `setting` (
-  `user` int(11) NOT NULL,
-  `part` varchar(255) NOT NULL,
-  `scope` int(1) NOT NULL,
-  `value` blob,
-  `mtime` timestamp NOT NULL,
-  KEY `user` (`user`),
-  KEY `part` (`part`),
-  KEY `scope` (`scope`)
-);
+
+
 
 
 DROP TABLE IF EXISTS `tree`;
@@ -93,65 +69,12 @@ CREATE TABLE `user` (
   KEY `student` (`student`)
 );
 
-
+DROP TABLE IF EXISTS `file`;
 DROP TABLE IF EXISTS `white_board`;
-CREATE TABLE `white_board` (
-  `id_tree` int(11) NOT NULL,
-  `mode` int(1) NOT NULL,
-  `items` blob,
-  `mtime` timestamp NOT NULL,
-  PRIMARY KEY  (`id_tree`)
-);
-
-
-
 DROP TABLE IF EXISTS `event`;
-CREATE TABLE `event` (
-  `id_tree` int(11) NOT NULL,
-  `start_time` timestamp NOT NULL,
-  `end_time` timestamp NOT NULL,
-  `mtime` timestamp NOT NULL,
-  PRIMARY KEY  (`id_tree`)
-);
-
-
 DROP TABLE IF EXISTS `attendance`;
-CREATE TABLE IF NOT EXISTS `attendance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_event` int(11) NOT NULL,
-  `type` int(11) NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  PRIMARY KEY  (`id`)
-);
-
-
 DROP TABLE IF EXISTS `mark`;
-CREATE TABLE IF NOT EXISTS `mark` (
-  `id` int(11) NOT NULL auto_increment,
-  `id_user` int(11) NOT NULL,
-  `id_event` int(11) NOT NULL,
-  `quote` varchar(32) NOT NULL,
-  `mark` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `mtime` timestamp NOT NULL,
-  PRIMARY KEY  (`id`)
-);
-
-
 DROP TABLE IF EXISTS `schedule`;
-CREATE TABLE IF NOT EXISTS `schedule` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `id_node` int(11) NOT NULL,
-  `date_start` date NOT NULL,
-  `date_end` date NOT NULL,
-  `exception` blob,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
-
-
 DROP TABLE IF EXISTS `schedule_event`;
 DROP TABLE IF EXISTS `schedule_exception`;
+DROP TABLE IF EXISTS `setting`;
