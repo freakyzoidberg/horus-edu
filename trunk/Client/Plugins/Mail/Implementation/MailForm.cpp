@@ -80,7 +80,9 @@ MailForm::MailForm(MailDataPlugin *MailPlugin)
     content_value->setFontFamily("Serif");
     ligne3->addWidget(content_value,1);
 
-
+    res_value = new QLabel("Mail has been sent.");
+    ligne4->addWidget(res_value,1,Qt::AlignCenter);
+    res_value->hide();
     sendbtn = new QPushButton(tr("Send"));
     ligne4->addWidget(sendbtn,1, Qt::AlignRight);
 
@@ -175,14 +177,12 @@ void MailForm::mysendmail()
 
     QString nid = QTime::currentTime().toString("hh:mm:ss.zzz");
 
-
-   qDebug() << "new id " << nid;
     md->setId(nid);
 
 
     md->sendMail();
 
-
+res_value->show();
     to_value->setText("");
     cc_value->setText("");
     bcc_value->setText("");
@@ -273,4 +273,7 @@ if (cbcc == true)
 bcc_value->setStyleSheet("background: lightgreen;");
 else
 bcc_value->setStyleSheet("background: salmon;");
+
+if (sendbtn->isEnabled())
+res_value->hide();
 }
