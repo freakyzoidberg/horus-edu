@@ -227,7 +227,7 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 		save->show();
 	}
 	_studentId = item->data(Qt::UserRole).toInt();
-_formaddmark->markEdit()->setText("");
+	_formaddmark->markEdit()->setText("");
 	_formaddmark->commentEdit()->setText("");
 	MarksDataPlugin	*ep = _pluginManager->findPlugin<MarksDataPlugin *>();
 	qDebug() << "ep->allDatas().size():" << ep->allDatas().size();
@@ -237,14 +237,14 @@ _formaddmark->markEdit()->setText("");
 		if ((tmp->student() == _studentId)
 			&& (_examData->id() == tmp->exam()->id()))
 			{
-				_markData = tmp;
-				_formaddmark->commentEdit()->setText(tmp->comment());
-				_formaddmark->markEdit()->setText(tmp->result());
-				break ;
-			}
+			_markData = tmp;
+			_formaddmark->commentEdit()->setText(tmp->comment());
+			_formaddmark->markEdit()->setText(tmp->result());
+			break ;
+		}
 		qDebug() << "tmp->comment()" << tmp->comment()
-				 << "\ttmp->result():" << tmp->result()
-					<< "\ttmp->id():" << tmp->id();
+				<< "\ttmp->result():" << tmp->result()
+				<< "\ttmp->id():" << tmp->id();
 	}
 }
 

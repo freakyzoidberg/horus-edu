@@ -123,7 +123,7 @@ void  ExamsDataBasePlugin::load()
 		ExamsDataBase* Exams = (ExamsDataBase*)(exam(query.value(0).toUInt()));
 		if (!Exams)
 			continue ;
-		//Exams->_ = query.value(1).toInt()
+		Exams->_id = query.value(0).toInt();
 		Exams->_subject = pluginManager->findPlugin<TreeDataPlugin*>()->node(query.value(1).toInt());
 		Exams->_comment = query.value(2).toString();
 		Exams->_date = query.value(3).toDate();

@@ -89,8 +89,8 @@ const QList<Data*> ExamsDataBase::dependsOfCreatedData() const
 quint8 ExamsDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`comment`,`date`,`teacher_id`,`id_tree`FROM`Exams`");
-	//query.addBindValue(_subject->id());
+	query.prepare("SELECT`comment`,`date`,`teacher_id`,`id_tree`FROM`Exams`WHERE id=?");
+	query.addBindValue(_id);
 
 	if ( ! query.exec())
 	{

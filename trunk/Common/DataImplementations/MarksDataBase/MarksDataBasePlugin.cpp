@@ -72,6 +72,7 @@ MarksData* MarksDataBasePlugin::mark(quint32 markId)
 	u->setResult("");
 	u->setExam(NULL);
 	u->setStudent(0);
+	_allDatas.append(u);
 	return u;
 }
 
@@ -112,15 +113,13 @@ void  MarksDataBasePlugin::load()
 {
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
-
 	query.prepare("SELECT`id`,`exam_id`,`comment`,`result`,`student_id` FROM `Marks`;");
 	query.exec();
 	while (query.next())
 	{
+
 		MarksDataBase* Marks = (MarksDataBase*)(mark(query.value(0).toUInt()));
-		if (!Marks)
-			continue ;
-		//Marks->_ = query.value(1).toInt()
+		Marks->_id = query.value(0).toInt();
 		Marks->_exam = pluginManager->findPlugin<ExamsDataPlugin*>()->exam(query.value(1).toInt());
 		Marks->_comment = query.value(2).toString();
 		Marks->_result = query.value(3).toString();
@@ -144,8 +143,10 @@ QList<Data*> MarksDataBasePlugin::datasForUpdate(MarksData*, QDateTime date)
 {
 	QList<Data*> list;
 	foreach (Data* data, _allDatas)
+	{
 		if (data->lastChange() >= date && data->status() == Data::UPTODATE)
 			list.append(data);
+	}
 	return list;
 }
 #endif

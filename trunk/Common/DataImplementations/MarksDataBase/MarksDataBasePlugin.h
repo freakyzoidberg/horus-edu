@@ -65,8 +65,6 @@ public:
 	bool					canLoad() const;
 	void					load();
 	void					unload();
-
-
 	//DataPlugin
 public:
 	inline const QString	dataType() const { return "Marks"; }

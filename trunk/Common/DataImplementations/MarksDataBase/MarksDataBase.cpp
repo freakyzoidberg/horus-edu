@@ -80,17 +80,17 @@ QDebug MarksDataBase::operator<<(QDebug debug) const
 
 const QList<Data*> MarksDataBase::dependsOfCreatedData() const
 {
-	QList<Data*> list;
-	list.append(_exam);
-	return list;
+  QList<Data*> list;
+  list.append(_exam); 
+       return list;
 }
 
 #ifdef HORUS_SERVER
 quint8 MarksDataBase::serverRead()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`id`,`exam_id`,`comment`,`result`,`student_id`FROM`Marks`");
-
+	query.prepare("SELECT`exam_id`,`comment`,`result`,`student_id`FROM`Marks` `WHERE`id`=?");
+	query.addBindValue(_id);
 	if ( ! query.exec())
 	{
 		qDebug() << query.lastError();
@@ -99,12 +99,11 @@ quint8 MarksDataBase::serverRead()
 	if ( ! query.next())
 		return NOT_FOUND;
 
-	_id = query.value(0).toInt();
-	_comment	= query.value(2).toString();
-	_result		= query.value(3).toString();
-	_student	= query.value(4).toInt();
+	_comment	= query.value(1).toString();
+	_result		= query.value(2).toString();
+	_student	= query.value(3).toInt();
 	this->_exam =
-	_plugin->pluginManager->findPlugin<ExamsDataPlugin*>()->exam(query.value(3).toUInt());
+	_plugin->pluginManager->findPlugin<ExamsDataPlugin*>()->exam(query.value(0).toUInt());
 	return NONE;
 }
 
@@ -123,7 +122,7 @@ quint8 MarksDataBase::serverCreate()
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
-
+	_id = query.lastInsertId().toUInt();
 	return NONE;
 }
 
@@ -167,15 +166,13 @@ QVariant MarksDataBase::data(int column, int role) const
     if (role == Qt::DisplayRole)
     {
 		if (column == 0)
-			return _id;
+		  return _exam->id();
 		if (column == 1)
 			return _comment;
 		if (column == 2)
 			return _result;
 		if (column == 3)
 			return _student;
-		if (column == 4)
-			return _exam->id();
 	}
    return Data::data(column, role);
 }
