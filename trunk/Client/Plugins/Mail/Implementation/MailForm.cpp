@@ -80,8 +80,8 @@ MailForm::MailForm(MailDataPlugin *MailPlugin)
     content_value->setFontFamily("Serif");
     ligne3->addWidget(content_value,1);
 
-    res_value = new QLabel("Mail has been sent.");
-    ligne4->addWidget(res_value,1,Qt::AlignCenter);
+    res_value = new QLabel(tr("Mail has been sent."));
+    ligne4->addWidget(res_value,1,Qt::AlignLeft);
     res_value->hide();
     sendbtn = new QPushButton(tr("Send"));
     ligne4->addWidget(sendbtn,1, Qt::AlignRight);
