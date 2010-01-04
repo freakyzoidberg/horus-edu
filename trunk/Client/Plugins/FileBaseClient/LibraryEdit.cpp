@@ -84,7 +84,7 @@ void LibraryEdit::init()
 
 
 	_grades = new QComboBox(this);
-	_grades->addItem(tr("Every Classes"), 0);
+	_grades->addItem(QIcon(":/Icons/desk.png"), tr("Every Classes"), 0);
 	foreach (TreeData* node, _pluginManager->findPlugin<TreeDataPlugin*>()->grades())
 	{
 		_grades->addItem(node->icon(), node->name(), node->id());
@@ -110,7 +110,7 @@ void LibraryEdit::init()
 	line->setEnabled(false);
 	_formLayout->addWidget(line, 6, 1);
 
-	button = new QPushButton(tr("Browse"), this);
+	button = new QPushButton(QIcon(":/Icons/file-create.png"), tr("Browse"), this);
 	connect(button, SIGNAL(clicked()), this, SLOT(browse()));
 	_formLayout->addWidget(button, 7, 1);
 
@@ -126,11 +126,11 @@ void LibraryEdit::init()
 	label->setMinimumWidth(200);
 	rightLayout->addWidget(label);
 
-	button = new QPushButton(tr("Return"), this);
+	button = new QPushButton(QIcon(":/Icons/x-generic.png"), tr("Return"), this);
 	connect(button, SIGNAL(clicked()), this, SLOT(exit()));
 	rightLayout->addWidget(button);
 
-	button = new QPushButton(tr(_file?"Save":"Create"), this);
+	button = new QPushButton(QIcon(_file?":/Icons/file-edit.png":":/Icons/file-create.png"), tr(_file?"Save":"Create"), this);
 	connect(button, SIGNAL(clicked()), this, SLOT(save()));
 	rightLayout->addWidget(button);
 
@@ -209,7 +209,7 @@ void LibraryEdit::gradeChanged(int)
 	TreeDataPlugin* tdp = _pluginManager->findPlugin<TreeDataPlugin*>();
 	TreeData* grade = tdp->node(_grades->itemData(_grades->currentIndex()).toUInt());
 	_subjects->clear();
-	_subjects->addItem(tr("Every Subjects"));
+	_subjects->addItem(QIcon(":/Icons/subject.png"), tr("Every Subjects"));
 	if (grade == tdp->rootNode())
 		_subjects->setEnabled(false);
 	else
@@ -219,7 +219,7 @@ void LibraryEdit::gradeChanged(int)
 			TreeData* node = static_cast<TreeData*>(data);
 			if (node->type() == "SUBJECT" && node->isDescendantOf(grade))
 			{
-				_subjects->addItem(node->name(), node->id());
+				_subjects->addItem(QIcon(":/Icons/subject.png"), node->name(), node->id());
 				if (_file && _file->node()->isDescendantOf(node))
 					_subjects->setCurrentIndex(_subjects->count() - 1);
 			}

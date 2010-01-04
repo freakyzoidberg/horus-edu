@@ -150,15 +150,15 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 
 	QPushButton* button;
 
-	button = new QPushButton(tr("Add"), this);
+	button = new QPushButton(QIcon(":/Icons/file-create.png"), tr("Create"), this);
 	connect(button, SIGNAL(clicked()), this, SLOT(createButton()));
 	rightLayout->addWidget(button);
 
-	button = new QPushButton(tr("Edit"), this);
+	button = new QPushButton(QIcon(":/Icons/file-edit.png"), tr("Edit"), this);
 	connect(button, SIGNAL(clicked()), this, SLOT(editButton()));
 	rightLayout->addWidget(button);
 
-	button = new QPushButton(tr("Remove"), this);
+	button = new QPushButton(QIcon(":/Icons/file-remove.png"), tr("Remove"), this);
 	connect(button, SIGNAL(clicked()), this, SLOT(removeButton()));
 	rightLayout->addWidget(button);
 
@@ -169,7 +169,7 @@ void LibraryList::refreshUsers(Data*)
 {
 	quint32 ownerId = _owners->itemData(_owners->currentIndex()).toUInt();
 	_owners->clear();
-	_owners->addItem(tr("All"), 0);
+	_owners->addItem(QIcon(":/student.png"), tr("All"), 0);
 	foreach (Data* data,  _pluginManager->findPlugin<UserDataPlugin*>()->allDatas())
 	{
 		UserData* user = static_cast<UserData*>(data);
@@ -185,15 +185,16 @@ void LibraryList::refreshGrades(Data*)
 
 	quint32 gradeId = _grades->itemData(_grades->currentIndex()).toUInt();
 	_grades->clear();
-	_grades->addItem(tr("All"), 0);
+	_grades->addItem(QIcon(":/Icons/desk.png"), tr("All"), 0);
 	foreach (TreeData* node, treeDataPlugin->grades())
 		_grades->addItem(node->icon(), node->name(), node->id());
 	_grades->setCurrentIndex(_grades->findData(gradeId));
 
 	QString subject = _subjects->itemText(_subjects->currentIndex());
 	_subjects->clear();
-	_subjects->addItem(tr("All"));
-	_subjects->addItems(treeDataPlugin->subjects());
+	_subjects->addItem(QIcon(":/Icons/subject.png"), tr("All"));
+	foreach (const QString& subject, treeDataPlugin->subjects())
+		_subjects->addItem(QIcon(":/Icons/subject.png"), subject);
 	if (subject.isEmpty())
 		subject = tr("All");
 	_subjects->setCurrentIndex(_subjects->findText(subject));
@@ -318,7 +319,7 @@ void LibraryList::dropEvent(QDropEvent* event)
 		}
 	}
 
-	LibraryEdit* edit = new LibraryEdit(_pluginManager, event->mimeData()->urls().first().path());
+	LibraryEdit* edit = new LibraryEdit(_pluginManager, event->mimeData()->urls().first().toLocalFile());
 	connect(edit, SIGNAL(exited()), this, SLOT(editFinished()));
 	_parent->takeAt(0);
 	_parent->addWidget(edit);

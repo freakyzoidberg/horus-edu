@@ -156,7 +156,7 @@ void PluginManagerClient::loadPlugins()
 			emit loadProgressChange(50 + 50 * i / _plugins.count());
     }
 	if ( ! findPlugin<UserDataPlugin*>() || ! findPlugin<TreeDataPlugin*>())
-		qFatal(tr("Horus Client cannot launch. You need at least a User Data Plugin and a TreeDataPlugin").toAscii().data());
+		qFatal(tr("Horus Client cannot launch. You need at least a User Data Plugin and a Tree Data Plugin").toAscii().data());
 
 
 	_rootNode = findPlugin<TreeDataPlugin*>()->rootNode();

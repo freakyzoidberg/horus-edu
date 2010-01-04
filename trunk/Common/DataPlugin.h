@@ -19,7 +19,7 @@
  * of this content in every copy of this material                              *
  *                                                                             *
  * Authors :                                                                   *
- * - un Roumain sous paye                                                      *
+ * - BERTHOLON Romain                                                          *
  * - GRANDEMANGE Adrien                                                        *
  * - LACAVE Pierre                                                             *
  * - LEON-BONNET Valentin                                                      *
