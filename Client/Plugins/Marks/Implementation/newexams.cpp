@@ -40,9 +40,9 @@
 
 NewExams::NewExams(QVBoxLayout *RightLayout)
 {
-	mainLayout = new QVBoxLayout(this);
-   mainLayout->setSpacing(0);
-		mainLayout->setMargin(0);
+	mainLayout = new QGridLayout(this);
+ //  mainLayout->setSpacing(0);
+	//	mainLayout->setMargin(0);
 
 	//QLabel *title = new QLabel(tr("Dates de l\'emploi du temps"), this);
 	/* FIX FOR V1 */
@@ -50,30 +50,30 @@ NewExams::NewExams(QVBoxLayout *RightLayout)
 	/* END FIX FOR v1 */
 	title->setProperty("isFormTitle", true);
 	title->setMaximumHeight(30);
-	mainLayout->addWidget(title);
 
-//classListView->setMaximumHeight(64);
-	QFrame *eventFrame = new QFrame();
-	eventFrame->setProperty("isFormFrame", true);
-	QBoxLayout *eventMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, eventFrame);
-	eventMainLayout->setSpacing(0);
-	eventMainLayout->setMargin(0);
+
 
 	QLabel *startlabel = new QLabel(tr("Date :"));
 	startlabel->setMaximumHeight(30);
 	startlabel->setProperty("isFormLabel", true);
-	//datesLayout->addWidget(startlabel, 1, 0);
 
 	thedate = new QDateEdit();
-
 	examComment = new QLineEdit();
-	mainLayout->addWidget(startlabel);
-	mainLayout->addWidget(thedate);
 
 	QLabel *thecomment = new QLabel(tr("Title :"));
 	thecomment->setMaximumHeight(30);
 	thecomment->setProperty("isFormLabel", true);
-	mainLayout->addWidget(thecomment);
-	mainLayout->addWidget(examComment);
-	mainLayout->addWidget(new QWidget());
+	mainLayout->addWidget(title,		 0, 0, 1, 4);
+
+	mainLayout->addWidget(startlabel,	 1, 0, 1, 1);
+	mainLayout->addWidget(thedate,		 1, 1, 1, 1);
+	mainLayout->addWidget(new QWidget(), 1, 2, 1, 2);
+
+	mainLayout->addWidget(thecomment,    2, 0, 1, 1);
+	mainLayout->addWidget(examComment,   2, 1, 1, 1);
+	mainLayout->addWidget(new QWidget(), 2, 2, 1, 2);
+
+	mainLayout->addWidget(new QWidget(), 3, 0, 9, 4);
+	mainLayout->setColumnStretch(3, 5);
+	thedate->setDate(QDate().currentDate());
 }

@@ -76,9 +76,12 @@ public slots:
 	void					removeMark();
 	void					viewStudentList(QListWidgetItem *);
 	void					studentSelection(QListWidgetItem *);
+	void					examSelected(QListWidgetItem *);
+	void					seeStudents();
 
 private:
 	TreeDataPlugin          *td;
+	QListWidgetItem			*_item;
 	QHBoxLayout				*MainLayout;
 	ExamsList *				_examsList;
 	ExamsData	*			_examData;

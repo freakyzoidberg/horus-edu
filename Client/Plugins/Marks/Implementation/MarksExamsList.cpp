@@ -72,7 +72,7 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	actionTitle->setProperty("isRound", true);
 
 	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Supprimer la note"));
-	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit this edt"));
+	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Voir les etudiants."));
 	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
 	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
 	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
@@ -106,11 +106,15 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
 	connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
+
+	connect(_examsList->_examsList, SIGNAL(itemClicked(QListWidgetItem *)),
+			this, SLOT(examSelected(QListWidgetItem *)));
 	connect(_examsList->_examsList, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
 			this, SLOT(viewStudentList(QListWidgetItem *)));
 	connect(_sList->_sList, SIGNAL(itemClicked(QListWidgetItem *)),
 			this, SLOT(studentSelection(QListWidgetItem *)));
 	connect(del, SIGNAL(clicked()), this, SLOT(removeMark()));
+	connect(edit, SIGNAL(clicked()), this, SLOT(seeStudents()));
 
 	this->setLayout(MainLayout);
 }
@@ -121,6 +125,7 @@ void MarksExamsList::addExam()
 	_examsList->setVisible(false);
 	this->MainLayout->insertWidget(0, _formAdd);
 	_formAdd->show();
+		edit->setVisible(false);
 	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name());
 	back->setVisible(true);
 	save->setVisible(true);
@@ -140,12 +145,14 @@ void MarksExamsList::addExam()
 
 void	MarksExamsList::saveExam()
 {
+
 	ExamsDataPlugin	*examsPlugin = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
 	ExamsData *data = examsPlugin->newExams(_examsList->_node,
 											this->_formAdd->examComment->text(),
 											_pluginManager->currentUser());
 	data->setDate(_formAdd->thedate->date());
 	data->create();
+	edit->setVisible(false);
 	this->MainLayout->removeWidget(_formAdd);
 	_formAdd->setVisible(false);
 	this->MainLayout->insertWidget(0, _examsList);
@@ -166,10 +173,17 @@ void	MarksExamsList::saveExam()
 		_formaddmark = NULL;
 		MainLayout->setStretch(0, 1);
 	}
+
+	_examsList->Exams(_examsList->_node);
+/*	QListWidgetItem *temp = new QListWidgetItem(QIcon(":/desk.png"),
+										this->_formAdd->examComment->text());
+	temp->setData(Qt::UserRole, data->id());
+	this->examsList()->_examsList->addItem(temp); */
 }
 
 void	MarksExamsList::fallback()
 {
+	edit->setVisible(false);
 	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name());
 	this->MainLayout->removeWidget(_formAdd);;
 	_formAdd->setVisible(false);
@@ -195,6 +209,7 @@ void	MarksExamsList::fallback()
 
 void MarksExamsList::viewStudentList(QListWidgetItem *item)
 {
+	edit->setVisible(false);
 	quint32 exId = item->data(Qt::UserRole).toInt();
 	ExamsDataPlugin	*examsPlugin = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
 	ExamsData *tmp = examsPlugin->exam(exId);
@@ -225,6 +240,7 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 
 void	MarksExamsList::studentSelection(QListWidgetItem *item)
 {
+	edit->setVisible(false);
 	_markData = NULL;
 	del->setVisible(false);
 	if (!_formaddmark)
@@ -238,7 +254,7 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 	_formaddmark->markEdit()->setText("");
 	_formaddmark->commentEdit()->setText("");
 	MarksDataPlugin	*ep = _pluginManager->findPlugin<MarksDataPlugin *>();
-	qDebug() << "ep->allDatas().size():" << ep->allDatas().size();
+
 	for (int i = 0; i < ep->allDatas().size(); ++i)
 	{
 		MarksData	*tmp = qobject_cast<MarksData *>(ep->allDatas().at(i));
@@ -252,15 +268,14 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 				qDebug() << "tmp->comment()" << tmp->comment()
 						<< "\ttmp->result():" << tmp->result()
 						<< "\ttmp->id():" << tmp->id();
-
 				break ;
 			}
 	}
-	qDebug() << "\tstudent_id:" << _studentId;
 }
 
 void	MarksExamsList::saveMark()
 {
+	edit->setVisible(false);
 	if (!_markData)
 	{
 		UserDataPlugin	*up	  = _pluginManager->findPlugin<UserDataPlugin *>();
@@ -289,4 +304,16 @@ void	MarksExamsList::removeMark()
 	_markData->remove();
 	_markData = NULL;
 	fallback();
+}
+
+void	MarksExamsList::examSelected(QListWidgetItem *item)
+{
+	edit->show();
+	_item = item;
+}
+
+void	MarksExamsList::seeStudents()
+{
+	edit->setVisible(false);
+	viewStudentList(_item);
 }
