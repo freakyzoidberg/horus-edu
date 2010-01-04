@@ -101,7 +101,6 @@ public:
 
 #ifdef HORUS_SERVER
 public:
-	quint8				serverRead();
 	quint8				serverCreate();
 	quint8				serverSave();
 	quint8				serverRemove();

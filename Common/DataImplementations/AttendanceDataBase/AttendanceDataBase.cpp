@@ -83,29 +83,6 @@ const QList<Data*> AttendanceDataBase::dependsOfCreatedData() const
 
 
 #ifdef HORUS_SERVER
-quint8 AttendanceDataBase::serverRead()
-{
-//        QSqlQuery query = _plugin->pluginManager->sqlQuery();
-//        query.prepare("SELECT`id`,`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time` FROM `attendance` WHERE`id_user`=? AND `id_schedule`=?;");
-//        query.addBindValue(_user->id());
-//        query.addBindValue(_schedule->id());
-//        if ( ! query.exec())
-//        {
-//                qDebug() << query.lastError();
-//                return DATABASE_ERROR;
-//        }
-//        if ( ! query.next())
-//                return NOT_FOUND;
-//
-//        _date = query.value(1).toDate();
-//        _user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(query.value(2).toUInt());
-//        _schedule = _plugin->pluginManager->findPlugin<ScheduleDataPlugin*>()->schedule(query.value(3).toUInt());
-//        _type = query.value(4).toInt();
-//        _startTime = query.value(5).toTime();
-//        _endTime   = query.value(6).toTime();
-        return NONE;
-}
-
 quint8 AttendanceDataBase::serverCreate()
 {
         QSqlQuery query = _plugin->pluginManager->sqlQuery();

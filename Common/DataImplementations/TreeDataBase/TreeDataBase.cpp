@@ -149,36 +149,6 @@ const QList<Data*> TreeDataBase::dependsOfCreatedData() const
 }
 
 #ifdef HORUS_SERVER
-quint8 TreeDataBase::serverRead()
-{
-	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`typeofnode`,`name`,`user_ref`,`id_parent`,`mtime`FROM`tree`WHERE`id`=?;");
-    query.addBindValue(_id);
-
-	if ( ! query.exec())
-	{
-		qDebug() << query.lastError();
-		return DATABASE_ERROR;
-	}
-	if ( ! query.next())
-		return NOT_FOUND;
-
-	_type   = query.value(0).toString();
-    _name   = query.value(1).toString();
-	disconnect(this, SLOT(userRemoved()));
-	_user	= _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(2).toUInt() );
-	connect(_user, SIGNAL(removed()), this, SLOT(userRemoved()));
-
-	quint32 parentId= query.value(3).toUInt();
-	if (parentId == _id)
-		setParent(0);
-	else
-		setParent( ((TreeDataPlugin*)_plugin)->node(parentId) );
-	_lastChange = query.value(4).toDateTime();
-
-	return NONE;
-}
-
 quint8 TreeDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();

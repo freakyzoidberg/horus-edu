@@ -118,62 +118,6 @@ const QList<Data*> ScheduleDataBase::dependsOfCreatedData() const
 }
 
 #ifdef HORUS_SERVER
-quint8 ScheduleDataBase::serverRead()
-{
-	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("SELECT`date_start`,`date_end`,`id`FROM`schedule`WHERE`id_node`=?;");
-	query.addBindValue(_node->id());
-
-	if ( ! query.exec())
-	{
-		qDebug() << query.lastError();
-		return DATABASE_ERROR;
-	}
-	if ( ! query.next())
-		return NOT_FOUND;
-
-        _id             = query.value(2).toInt();
-        _startDate	= query.value(0).toDate();
-        _endDate	= query.value(1).toDate();
-        QSqlQuery query2 = _plugin->pluginManager->sqlQuery();
-        query2.prepare("SELECT `id`, `id_schedule`, `day`, `time_start`, `time_end`, `name`, `detail`, `date_start`, `date_end`, `modulo`, `force`, `id_teacher` `color` FROM `schedule_event` WHERE `id_schedule`=? ORDER BY `id`;");
-        query2.addBindValue(_id);
-        _sEvents.clear();
-        while (query2.next())
-        {
-            _sEvents.append(new ScheduleItem(query2.value(1).toInt(),
-                                             query2.value(2).toInt(),
-                                             query2.value(5).toString(),
-                                             query2.value(3).toTime(),
-                                             query2.value(4).toTime(),
-                                             query2.value(6).toString(),
-                                             query2.value(7).toDate(),
-                                             query2.value(8).toDate(),
-                                             query2.value(9).toInt(),
-                                             query2.value(10).toBool(),
-                                             query2.value(11).toInt(),
-                                             query2.value(12).toString()));
-        }
-        QSqlQuery query3 = _plugin->pluginManager->sqlQuery();
-        query3.prepare("SELECT`id_event`, `id_schedule`, `date_start`,`date_end`,`name`, `type` FROM `schedule`WHERE`id_schedule`=?;");
-        query3.addBindValue(_id);
-        query3.exec();
-        _sException.clear();
-        while(query3.next())
-        {
-            if (query3.value(5).toInt() == 1)
-            {
-                _sException.append(new ScheduleException(query3.value(2).toDate(), query3.value(3).toDate(), query3.value(4).toString()));
-            }
-            else if (query3.value(5).toInt() == 2)
-            {
-                _sEvents.at(query3.value(0).toInt())->addExcp(new ScheduleException(query3.value(2).toDate(), query3.value(3).toDate(), query3.value(4).toString()));
-            }
-
-        }
-        return NONE;
-}
-
 quint8 ScheduleDataBase::serverCreate()
 {
 	QMutexLocker M(&_node->mutex);

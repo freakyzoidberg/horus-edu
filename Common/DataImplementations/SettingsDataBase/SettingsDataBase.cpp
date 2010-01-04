@@ -119,30 +119,6 @@ void SettingsDataBase::setValue(const QString& key, const QVariant& val)
 }
 
 #ifdef HORUS_SERVER
-quint8 SettingsDataBase::serverRead()
-{
-	_values = QVariantHash();
-	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`value`,`mtime`FROM`setting`WHERE`user`=? AND`part`=? AND`scope`=?;");
-    query.addBindValue(_owner->id());
-    query.addBindValue(_part);
-    query.addBindValue(_scope);
-
-	if ( ! query.exec())
-	{
-		qDebug() << query.lastError();
-		return DATABASE_ERROR;
-	}
-	if ( ! query.next())
-		return NONE;
-
-	_inDatabase = true;
-    _values = query.value(0).toHash();
-    _lastChange = query.value(1).toDateTime();
-
-	return NONE;
-}
-
 quint8 SettingsDataBase::serverCreate()
 {
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();

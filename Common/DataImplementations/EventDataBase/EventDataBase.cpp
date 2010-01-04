@@ -81,27 +81,6 @@ const QList<Data*> EventDataBase::dependsOfCreatedData() const
 }
 
 #ifdef HORUS_SERVER
-quint8 EventDataBase::serverRead()
-{
-	QSqlQuery query = _plugin->pluginManager->sqlQuery();
-	query.prepare("SELECT`start_time`,`end_time`,`comment`FROM`event`WHERE`id_tree`=?;");
-	query.addBindValue(_node->id());
-
-	if ( ! query.exec())
-	{
-		qDebug() << query.lastError();
-		return DATABASE_ERROR;
-	}
-	if ( ! query.next())
-		return NOT_FOUND;
-
-	_startTime	= query.value(0).toDateTime();
-	_endTime	= query.value(1).toDateTime();
-	_comment	= query.value(2).toString();
-
-	return NONE;
-}
-
 quint8 EventDataBase::serverCreate()
 {
 	QMutexLocker M(&_node->mutex);

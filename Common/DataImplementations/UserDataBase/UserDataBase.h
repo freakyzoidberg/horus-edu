@@ -75,7 +75,6 @@ public:
 	QVariant				data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER
-	quint8					serverRead();
 	quint8					serverCreate();
 	quint8					serverSave();
 	quint8					serverRemove();
