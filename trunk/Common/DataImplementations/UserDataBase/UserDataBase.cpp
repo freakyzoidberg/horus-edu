@@ -520,6 +520,7 @@ quint8 UserDataBase::serverRead()
 
 quint8 UserDataBase::serverCreate()
 {
+    static QMutex mailmutex;
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
         query.prepare("INSERT INTO`user`(`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`passmail`)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
 	query.addBindValue(_enabled);
@@ -568,18 +569,23 @@ quint8 UserDataBase::serverCreate()
 
         if (QSettings().value("MAIL/MAIL_SERV", "0").toString() != "0")
         {
-            QSqlDatabase db = QSqlDatabase::addDatabase(QSettings().value("SQL/SQL_DRIVER", ".").toString(), "tempmail");
+            mailmutex.lock();
+           QSqlDatabase db = QSqlDatabase::database("tempmail");
+            if (!db.isValid())
+             db = QSqlDatabase::addDatabase(QSettings().value("SQL/SQL_DRIVER", ".").toString(), "tempmail");
 
             db.setHostName(QSettings().value("MAIL/MAIL_HOSTNAME", ".").toString());
             db.setDatabaseName(QSettings().value("MAIL/MAIL_DATABASE", "mails").toString());
             db.setUserName(QSettings().value("SQL/SQL_USERNAME", ".").toString());
             db.setPassword(QSettings().value("SQL/SQL_PASSWD", ".").toString());
             db.setPort(QSettings().value("SQL/SQL_PORT", ".").toInt());
+
             if ( !db.open())
             {
                 qDebug() << "User Added but Mail error @dbopen :" << db.hostName() << db.databaseName()<<db.userName() << db.password() << db.port()<<query.lastError();
                 return NONE;
             }
+
             if ((QSettings().value("MAIL/MAIL_SERV", "0").toString() == "2"))
             {
                 QString mail_id = "";
@@ -645,10 +651,12 @@ quint8 UserDataBase::serverCreate()
             }
             else if ((QSettings().value("MAIL/MAIL_SERV", "0").toString() == "1"))
             {
+
                 QString mail_id = "";
                 QSqlQuery querymails(db);
                 querymails.prepare("SELECT `domain` from `domains` WHERE `domain` = ?");
                 querymails.addBindValue(QSettings().value("MAIL/MAIL_DOMAIN", "0").toString());
+
                 if (querymails.exec())
                     while (querymails.next())
                     {
@@ -657,6 +665,7 @@ quint8 UserDataBase::serverCreate()
 
                 if (mail_id != "")
                 {
+
                     querymails.prepare("INSERT INTO courier (`id`, `crypt`) VALUES (?,ENCRYPT(?))");
                     querymails.addBindValue(_login+"@"+QSettings().value("MAIL/MAIL_DOMAIN", "0").toString());
                     querymails.addBindValue(QByteArray::fromBase64(QVariant(_mailpassword).toByteArray()));
@@ -665,6 +674,7 @@ quint8 UserDataBase::serverCreate()
                             qDebug() << "User Added but Mail error @insert :" << querymails.lastError();
                             return NONE;
                     }
+
                 }
                 else
                 {
@@ -679,6 +689,7 @@ quint8 UserDataBase::serverCreate()
                     qDebug() << "MailServ /!\\  :" << QSettings().value("MAIL/MAIL_SERV", "0").toString();
 
             db.close();
+        mailmutex.unlock();
         }
 
 
