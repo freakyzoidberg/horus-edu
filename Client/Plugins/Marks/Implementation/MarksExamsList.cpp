@@ -122,10 +122,12 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 void MarksExamsList::addExam()
 {
 	this->MainLayout->removeWidget(_examsList);
+	this->MainLayout->removeWidget(this->_sList);
 	_examsList->setVisible(false);
+	_sList->hide();
 	this->MainLayout->insertWidget(0, _formAdd);
 	_formAdd->show();
-		edit->setVisible(false);
+	edit->setVisible(false);
 	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name());
 	back->setVisible(true);
 	save->setVisible(true);
@@ -175,9 +177,6 @@ void	MarksExamsList::saveExam()
 		_formaddmark = NULL;
 		MainLayout->setStretch(0, 1);
 	}
-
-	//_examsList->Exams(_examsList->_node);
-
 }
 
 void	MarksExamsList::fallback()
@@ -260,15 +259,15 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 		if ((tmp->student() == _studentId)
 			&& (_examData->id() == tmp->exam()->id()))
 			{
-				_markData = tmp;
-				_formaddmark->commentEdit()->setText(tmp->comment());
-				_formaddmark->markEdit()->setText(tmp->result());
-				del->setVisible(true);
-				qDebug() << "tmp->comment()" << tmp->comment()
-						<< "\ttmp->result():" << tmp->result()
-						<< "\ttmp->id():" << tmp->id();
-				break ;
-			}
+			_markData = tmp;
+			_formaddmark->commentEdit()->setText(tmp->comment());
+			_formaddmark->markEdit()->setText(tmp->result());
+			del->setVisible(true);
+			qDebug() << "tmp->comment()" << tmp->comment()
+					<< "\ttmp->result():" << tmp->result()
+					<< "\ttmp->id():" << tmp->id();
+			break ;
+		}
 	}
 }
 
@@ -320,7 +319,7 @@ void	MarksExamsList::seeStudents()
 void	MarksExamsList::refresh()
 {
 	QListWidgetItem *temp = new QListWidgetItem(QIcon(":/desk.png"),
-										this->_formAdd->examComment->text());
+												this->_formAdd->examComment->text());
 	temp->setData(Qt::UserRole, _newData->id());
 	this->examsList()->_examsList->addItem(temp);
 	disconnect(_newData, SIGNAL(updated()), this, SLOT(refresh()));
