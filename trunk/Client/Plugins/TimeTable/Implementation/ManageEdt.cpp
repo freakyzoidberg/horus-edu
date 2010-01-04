@@ -203,8 +203,10 @@ void ManageEdt::gook()
     if (scheduleForm)
     {
         ScheduleData *edt = sd->newSchedule(td->node(AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
-        edt->setStartDate(scheduleForm->getStart());
-        edt->setEndDate(scheduleForm->getStart());
+        edt->setStartDate(QDate::currentDate());
+        edt->setEndDate(QDate::currentDate());
+//        edt->setStartDate(scheduleForm->getStart());
+//        edt->setEndDate(scheduleForm->getEnd());
         edt->create();
     }
 
