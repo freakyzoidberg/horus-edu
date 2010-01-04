@@ -52,7 +52,7 @@ class AttendanceDataBasePlugin : public AttendanceDataPlugin
 
     public:
                      AttendanceDataBasePlugin() {}
-                     AttendanceData*	  newAttendance(UserData* parent, QDateTime *date, ScheduleData* schedule = 0);
+                     AttendanceData*	  newAttendance(UserData* parent, QDate date, ScheduleData* schedule = 0);
                      AttendanceData*     attendance(quint32 attendanceId);
                      AttendanceData*     attendance(UserData *node);
     private:

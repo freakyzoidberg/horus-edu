@@ -8,6 +8,7 @@ copy EventBaseClient\%BUILDCONFIG%\EventBaseClientMetaPlugin.dll .\EventBaseClie
 copy Administration\%BUILDCONFIG%\Administration.dll .\Administration.dll
 copy Administrationv2\%BUILDCONFIG%\Administrationv2.dll .\Administrationv2.dll
 copy Attendance\%BUILDCONFIG%\Attendance.dll .\Attendance.dll
+copy AttendanceDataBase\%BUILDCONFIG%\AttendanceBaseClientMetaPlugin.dll .\AttendanceBaseClientMetaPlugin.dll
 copy Course\%BUILDCONFIG%\Course.dll .\Course.dll
 copy Calendar\%BUILDCONFIG%\Calendar.dll .\Calendar.dll
 copy Editor\%BUILDCONFIG%\Editor.dll .\Editor.dll

@@ -109,7 +109,7 @@ quint8 AttendanceDataBase::serverRead()
 quint8 AttendanceDataBase::serverCreate()
 {
         QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("INSERT INTO`schedule`(`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time`)VALUES(?,?,?,?,?,?);");
+        query.prepare("INSERT INTO`attendance`(`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time`)VALUES(?,?,?,?,?,?);");
         query.addBindValue(_date);
         query.addBindValue(_user->id());
         query.addBindValue(_schedule->id());
