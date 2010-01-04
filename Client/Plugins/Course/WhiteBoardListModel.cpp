@@ -36,8 +36,8 @@
 
 #include "WhiteBoardListModel.h"
 
-#include "../../../../Common/TreeData.h"
-#include "../../../../Common/UserData.h"
+#include "../../../Common/TreeData.h"
+#include "../../../Common/UserData.h"
 
 WhiteBoardListModel::WhiteBoardListModel(PluginManager *pluginManager, UserData* user) : _pluginManager(pluginManager), _user(user)
 {
