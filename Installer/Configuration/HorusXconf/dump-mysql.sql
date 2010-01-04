@@ -1,11 +1,14 @@
-
-
-
-
-
+DROP TABLE IF EXISTS `file`;
+DROP TABLE IF EXISTS `setting`;
 
 
 DROP TABLE IF EXISTS `tree`;
+DROP TABLE IF EXISTS `white_board`;
+DROP TABLE IF EXISTS `event`;
+DROP TABLE IF EXISTS `schedule_event`;
+DROP TABLE IF EXISTS `schedule_exception`;
+DROP TABLE IF EXISTS `schedule`;
+
 CREATE TABLE `tree` (
   `id` int(11) NOT NULL auto_increment,
   `typeofnode` varchar(42) NOT NULL,
@@ -70,11 +73,5 @@ CREATE TABLE `user` (
 );
 
 DROP TABLE IF EXISTS `file`;
-DROP TABLE IF EXISTS `white_board`;
-DROP TABLE IF EXISTS `event`;
 DROP TABLE IF EXISTS `attendance`;
 DROP TABLE IF EXISTS `mark`;
-DROP TABLE IF EXISTS `schedule`;
-DROP TABLE IF EXISTS `schedule_event`;
-DROP TABLE IF EXISTS `schedule_exception`;
-DROP TABLE IF EXISTS `setting`;
