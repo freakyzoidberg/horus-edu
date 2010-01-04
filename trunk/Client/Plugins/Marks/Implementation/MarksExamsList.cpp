@@ -71,7 +71,7 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
 
-	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Delete this edt"));
+	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Supprimer la note"));
 	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit this edt"));
 	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
 	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
@@ -110,6 +110,8 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 			this, SLOT(viewStudentList(QListWidgetItem *)));
 	connect(_sList->_sList, SIGNAL(itemClicked(QListWidgetItem *)),
 			this, SLOT(studentSelection(QListWidgetItem *)));
+	connect(del, SIGNAL(clicked()), this, SLOT(removeMark()));
+
 	this->setLayout(MainLayout);
 }
 
@@ -123,6 +125,7 @@ void MarksExamsList::addExam()
 	back->setVisible(true);
 	save->setVisible(true);
 	_add->setVisible(false);
+	del->setVisible(false);
 	MainLayout->setStretch(0, 1);
 	if (_formaddmark)
 	{
@@ -151,6 +154,7 @@ void	MarksExamsList::saveExam()
 	back->setVisible(false);
 	save->setVisible(false);
 	_add->setVisible(true);
+	del->setVisible(false);
 	MainLayout->setStretch(0, 1);
 	_examsList->Exams(_examsList->_node);
 	if (_formaddmark)
@@ -176,6 +180,7 @@ void	MarksExamsList::fallback()
 	back->setVisible(false);
 	save->setVisible(false);
 	_add->setVisible(true);
+	del->setVisible(false);
 	MainLayout->setStretch(0, 1);
 	if (_formaddmark)
 	{
@@ -205,6 +210,7 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 	_sList->show();
 	_add->setVisible(false);
 	back->setVisible(true);
+	del->setVisible(false);
 	MainLayout->setStretch(0, 1);
 	if (_formaddmark)
 	{
@@ -219,6 +225,8 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 
 void	MarksExamsList::studentSelection(QListWidgetItem *item)
 {
+	_markData = NULL;
+	del->setVisible(false);
 	if (!_formaddmark)
 	{
 		this->MainLayout->insertWidget(1, _formaddmark = new FormAddGrade());
@@ -237,15 +245,18 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 		if ((tmp->student() == _studentId)
 			&& (_examData->id() == tmp->exam()->id()))
 			{
-			_markData = tmp;
-			_formaddmark->commentEdit()->setText(tmp->comment());
-			_formaddmark->markEdit()->setText(tmp->result());
-			break ;
-		}
-		qDebug() << "tmp->comment()" << tmp->comment()
-				<< "\ttmp->result():" << tmp->result()
-				<< "\ttmp->id():" << tmp->id();
+				_markData = tmp;
+				_formaddmark->commentEdit()->setText(tmp->comment());
+				_formaddmark->markEdit()->setText(tmp->result());
+				del->setVisible(true);
+				qDebug() << "tmp->comment()" << tmp->comment()
+						<< "\ttmp->result():" << tmp->result()
+						<< "\ttmp->id():" << tmp->id();
+
+				break ;
+			}
 	}
+	qDebug() << "\tstudent_id:" << _studentId;
 }
 
 void	MarksExamsList::saveMark()
@@ -266,5 +277,16 @@ void	MarksExamsList::saveMark()
 		_markData->setComment(_formaddmark->commentEdit()->toPlainText());
 		_markData->save();
 	}
+	del->setVisible(false);
+	_markData = NULL;
+	fallback();
+}
+
+void	MarksExamsList::removeMark()
+{
+	if (!_markData)
+		return ;
+	_markData->remove();
+	_markData = NULL;
 	fallback();
 }
