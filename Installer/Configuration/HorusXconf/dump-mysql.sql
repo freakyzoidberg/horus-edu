@@ -1,7 +1,5 @@
 DROP TABLE IF EXISTS `file`;
 DROP TABLE IF EXISTS `setting`;
-
-
 DROP TABLE IF EXISTS `tree`;
 DROP TABLE IF EXISTS `white_board`;
 DROP TABLE IF EXISTS `event`;
@@ -72,6 +70,30 @@ CREATE TABLE `user` (
   KEY `student` (`student`)
 );
 
-DROP TABLE IF EXISTS `file`;
+
 DROP TABLE IF EXISTS `attendance`;
+CREATE TABLE IF NOT EXISTS `attendance` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` date NOT NULL,
+  `id_user` int(11) NOT NULL,
+  `id_event` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+
+
 DROP TABLE IF EXISTS `mark`;
+CREATE TABLE IF NOT EXISTS `mark` (
+  `id` int(11) NOT NULL auto_increment,
+  `id_user` int(11) NOT NULL,
+  `id_event` int(11) NOT NULL,
+  `quote` varchar(32) NOT NULL,
+  `mark` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `mtime` timestamp NOT NULL,
+  PRIMARY KEY  (`id`)
+);
+
+
