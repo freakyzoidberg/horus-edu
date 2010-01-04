@@ -81,6 +81,7 @@ private:
 	QHBoxLayout				*MainLayout;
 	ExamsList *				_examsList;
 	ExamsData	*			_examData;
+	MarksData*				_markData;
 	quint32					_studentId;
 	//AdmListEdt			*_admEDTList;
 	QFrame					*informationsFrame;

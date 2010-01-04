@@ -38,6 +38,7 @@
 MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainView)
 {
 	_parent = mainView;
+	_markData = NULL;
 	_pluginManager = pluginManager;
 	_infosLabel = new QLabel();
 	_formaddmark = NULL;
@@ -226,17 +227,44 @@ void	MarksExamsList::studentSelection(QListWidgetItem *item)
 		save->show();
 	}
 	_studentId = item->data(Qt::UserRole).toInt();
+_formaddmark->markEdit()->setText("");
+	_formaddmark->commentEdit()->setText("");
+	MarksDataPlugin	*ep = _pluginManager->findPlugin<MarksDataPlugin *>();
+	qDebug() << "ep->allDatas().size():" << ep->allDatas().size();
+	for (int i = 0; i < ep->allDatas().size(); ++i)
+	{
+		MarksData	*tmp = qobject_cast<MarksData *>(ep->allDatas().at(i));
+		if ((tmp->student() == _studentId)
+			&& (_examData->id() == tmp->exam()->id()))
+			{
+				_markData = tmp;
+				_formaddmark->commentEdit()->setText(tmp->comment());
+				_formaddmark->markEdit()->setText(tmp->result());
+				break ;
+			}
+		qDebug() << "tmp->comment()" << tmp->comment()
+				 << "\ttmp->result():" << tmp->result()
+					<< "\ttmp->id():" << tmp->id();
+	}
 }
 
 void	MarksExamsList::saveMark()
 {
-	UserDataPlugin	*up = _pluginManager->findPlugin<UserDataPlugin *>();
-	UserData	*user = up->user(this->_studentId);
-	MarksDataPlugin	*ep = _pluginManager->findPlugin<MarksDataPlugin *>();
-	qDebug() << "current exam id:" << this->_examData->id();
-	MarksData *newMarksData = ep->newMarks(_examData, user);
-	newMarksData->setResult(_formaddmark->markEdit()->text());
-	newMarksData->setComment(_formaddmark->commentEdit()->toPlainText());
-	newMarksData->create();
+	if (!_markData)
+	{
+		UserDataPlugin	*up	  = _pluginManager->findPlugin<UserDataPlugin *>();
+		UserData		*user = up->user(this->_studentId);
+		MarksDataPlugin	*ep	  = _pluginManager->findPlugin<MarksDataPlugin *>();
+		MarksData *newMarksData = ep->newMarks(_examData, user);
+		newMarksData->setResult(_formaddmark->markEdit()->text());
+		newMarksData->setComment(_formaddmark->commentEdit()->toPlainText());
+		newMarksData->create();
+	}
+	else
+	{
+		_markData->setResult(_formaddmark->markEdit()->text());
+		_markData->setComment(_formaddmark->commentEdit()->toPlainText());
+		_markData->save();
+	}
 	fallback();
 }
