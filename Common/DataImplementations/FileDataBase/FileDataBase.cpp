@@ -81,6 +81,7 @@ void FileDataBase::dataToStream(QDataStream& s) const
       << _mimeType
 	  << _size
       << _hash;
+	Data::dataToStream(s);
 }
 
 void FileDataBase::dataFromStream(QDataStream& s)
@@ -111,6 +112,7 @@ void FileDataBase::dataFromStream(QDataStream& s)
 		download();
 #endif
     _hash = hash;
+	Data::dataFromStream(s);
 }
 
 bool FileDataBase::canChange(UserData* user) const

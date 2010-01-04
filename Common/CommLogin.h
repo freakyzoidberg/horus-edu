@@ -73,6 +73,8 @@ public:
     QString             login;
     //! binary hash of the password
     QByteArray          password;
+	//! the key and change time of every data to revalidate the cache
+	QByteArray			dataForUpdate;
 
     // RESPONSE = ACCEPT
     //! duration of the session send (in second)
@@ -84,7 +86,7 @@ public:
     //! the information of the user
     UserData*           user;
 	//! the number of data the user have to wait
-	quint32				nbrDataForUpdate;
+	quint32				nbrDataUpdated;
 
 private:
     void                read(const QByteArray&);

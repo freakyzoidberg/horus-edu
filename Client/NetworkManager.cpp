@@ -114,7 +114,34 @@ void NetworkManager::loginPassword(const QString login, const QString pass)
 	CommLogin  l(CommLogin::LOGIN_PASSWORD);
 	l.login = login;
 	l.password = QCryptographicHash::hash(pass.toAscii(), QCryptographicHash::Sha1);
+
+	QList<Data*> listToSave;
+	QDataStream streamAll(&l.dataForUpdate, QIODevice::WriteOnly);
+	PluginManagerClient* plugins = PluginManagerClient::instance();
+	foreach (DataPlugin* plugin, plugins->findPlugins<DataPlugin*>())
+	{
+		QByteArray binPlugin;
+		QDataStream streamPlugin(&binPlugin, QIODevice::WriteOnly);
+
+		foreach (Data* data, plugin->allDatas())
+		{
+			if (data->status() != Data::EMPTY && data->status() != Data::REMOVED && data->status() != Data::CREATING)
+			{
+				streamPlugin << data->status();
+				data->keyToStream(streamPlugin);
+				streamPlugin << data->lastChange();
+			}
+			if (data->status() == Data::CREATING || data->status() == Data::SAVING || data->status() == Data::REMOVING)
+				listToSave.append(data);
+		}
+		streamAll << plugin->dataType() << binPlugin;
+	}
+
+
 	sendPacket(l.getPacket());
+
+	foreach (Data* data, listToSave)
+		data->send();
 }
 
 void NetworkManager::loginSession(const QString login, const QByteArray session)
@@ -122,7 +149,33 @@ void NetworkManager::loginSession(const QString login, const QByteArray session)
 	CommLogin  l(CommLogin::LOGIN_SESSION);
 	l.login = login;
 	l.sessionString = session;
+
+	QList<Data*> listToSave;
+	QDataStream streamAll(&l.dataForUpdate, QIODevice::WriteOnly);
+	PluginManagerClient* plugins = PluginManagerClient::instance();
+	foreach (DataPlugin* plugin, plugins->findPlugins<DataPlugin*>())
+	{
+		QByteArray binPlugin;
+		QDataStream streamPlugin(&binPlugin, QIODevice::WriteOnly);
+
+		foreach (Data* data, plugin->allDatas())
+		{
+			if (data->status() != Data::EMPTY && data->status() != Data::REMOVED && data->status() != Data::CREATING)
+			{
+				data->keyToStream(streamPlugin);
+				streamPlugin << data->lastChange();
+			}
+			if (data->status() == Data::CREATING || data->status() == Data::SAVING || data->status() == Data::REMOVING)
+				listToSave.append(data);
+		}
+		streamAll << plugin->dataType() << binPlugin;
+	}
+
+
 	sendPacket(l.getPacket());
+
+	foreach (Data* data, listToSave)
+		data->send();
 }
 
 void NetworkManager::logout()
@@ -185,20 +238,10 @@ void NetworkManager::recvLogin()
 		UserCache* cache = CacheManager::instance()->userCache(l.login);
 		cache->setLastSession(l.sessionString, sessionEnd);
 
-		_nbrDatasForUpdate = l.nbrDataForUpdate;
+		_nbrDatasForUpdate = l.nbrDataUpdated;
 		_nbrDatasForUpdateReceived = 0;
 
 		qDebug() << tr("NetworkManager::recvLogin seconds between client and server:") << QDateTime::currentDateTime().secsTo(l.serverDateTime);
-
-		foreach (DataPlugin* plugin, PluginManagerClient::instance()->findPlugins<DataPlugin*>())
-			foreach (Data* data, plugin->allDatas())
-			{
-				if (data->status() == Data::CREATING ||
-					data->status() == Data::SAVING ||
-					data->status() == Data::REMOVING)
-					data->send();
-				qDebug() << "mAAAAaaaaAAA" << (Data::Status)data->status();
-			}
 
 		setStatus(LOGGED_IN);
 	}
