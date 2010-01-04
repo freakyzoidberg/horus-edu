@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/Icons" >
+    <qresource prefix="/Icons">
         <file>application.msexcel.png</file>
         <file>application.mspowerpoint.png</file>
         <file>application-msword.png</file>
@@ -10,5 +10,8 @@
         <file>x-generic.png</file>
         <file>x-horus-x-lesson.png</file>
         <file>lib-icon.png</file>
+        <file>file-create.png</file>
+        <file>file-edit.png</file>
+        <file>file-remove.png</file>
     </qresource>
 </RCC>

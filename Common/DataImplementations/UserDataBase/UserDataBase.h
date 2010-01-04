@@ -72,6 +72,7 @@ public:
 
 	QDebug					operator<<(QDebug debug) const;
 #ifdef HORUS_CLIENT
+	const QIcon				icon() const;
 	QVariant				data(int column, int role = Qt::DisplayRole) const;
 #endif
 #ifdef HORUS_SERVER

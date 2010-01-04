@@ -415,6 +415,20 @@ void UserDataBase::setMailPassword(const QString password)
 
 #ifdef HORUS_CLIENT
 #include <QIcon>
+const QIcon UserDataBase::icon() const
+{
+	if (level() == LEVEL_ADMINISTRATOR)
+		 return QIcon(":/administrator.png");
+	if (level() == LEVEL_TEACHER)
+		 return QIcon(":/teacher.png");
+	if (level() == LEVEL_FAMILY)
+		 return QIcon(":/parent.png");
+	if (level() == LEVEL_STUDENT)
+		 return QIcon(":/student.png");
+	 else
+		 return QIcon(":/administrator.png");
+}
+
 QVariant UserDataBase::data(int column, int role) const
 {
 	if (role == Qt::DisplayRole || role == Qt::EditRole)
@@ -443,18 +457,7 @@ QVariant UserDataBase::data(int column, int role) const
 			return _occupation;
     }
     else if (role == Qt::DecorationRole && column == 0)
-    {
-       if (level() == LEVEL_ADMINISTRATOR)
-            return QIcon(":/administrator.png");
-       if (level() == LEVEL_TEACHER)
-            return QIcon(":/teacher.png");
-       if (level() == LEVEL_FAMILY)
-            return QIcon(":/parent.png");
-       if (level() == LEVEL_STUDENT)
-            return QIcon(":/student.png");
-        else
-            return QIcon();
-    }
+		return icon();
 	else if (role == FILTER_ROLE && column == 0)
 		return levelStrings[_level];
 	else if (role == Qt::UserRole && column == 0)

@@ -56,12 +56,15 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 #ifdef HORUS_CLIENT
 	_isDownloaded = false;
 #endif
+
 	_owner = _plugin->pluginManager->currentUser();
 	if ( ! _owner)
 		_owner = _plugin->pluginManager->nobody();
 	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
+
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
 	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
+
 	_size = 0;
 	_mimeType = "application/octet-stream";
 }
@@ -102,9 +105,11 @@ void FileDataBase::dataFromStream(QDataStream& s)
 	disconnect(_owner, SIGNAL(removed()), this, SLOT(remove()));
 	_owner = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(ownerId);
 	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
+
 	disconnect(_node, SIGNAL(removed()), this, SLOT(remove()));
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(nodeId);
 	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
+
 #ifdef HORUS_CLIENT
 	//auto download
 	QFile f(fileName());
@@ -288,10 +293,16 @@ void FileDataBase::setKeyWords(QString keyWords)
 
 void FileDataBase::moveTo(TreeData* node)
 {
-	QMutexLocker M(&mutex);
-	disconnect(_node, SIGNAL(removed()), this, SLOT(remove()));
-	_node = node;
-	connect(_node, SIGNAL(removed()), this, SLOT(remove()));
+	if (_node != node)
+	{
+		QMutexLocker M(&mutex);
+		disconnect(_node, SIGNAL(removed()), this, SLOT(remove()));
+		QString oldName = fileName();
+		_node = node;
+		QString newName = fileName();
+		QFile::rename(oldName, newName);
+		connect(_node, SIGNAL(removed()), this, SLOT(remove()));
+	}
 }
 
 #ifdef HORUS_CLIENT
