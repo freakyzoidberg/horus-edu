@@ -65,7 +65,7 @@ class AttendanceDataBasePlugin : public AttendanceDataPlugin
         void					load();
         void					unload();
     public:
-        inline const QString	dataType() const { return "Schedule"; }
+        inline const QString	dataType() const { return "Attendance"; }
 #ifdef HORUS_CLIENT
         void                            dataHaveNewKey(Data*d, QDataStream& s);
 #endif
