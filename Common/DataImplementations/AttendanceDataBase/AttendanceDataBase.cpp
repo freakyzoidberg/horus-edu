@@ -58,7 +58,7 @@ void AttendanceDataBase::dataFromStream(QDataStream &s)
     int id = 0;
     s >>  _date >> id;
     _user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(id);
-    s >> _id;
+    s >> id;
     _schedule = _plugin->pluginManager->findPlugin<ScheduleDataPlugin*>()->schedule(id);
     s >> _type >> _startTime >> _endTime;
 }

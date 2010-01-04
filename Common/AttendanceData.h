@@ -62,6 +62,11 @@ public:
         virtual void			setEndTime(const QTime& e) = 0;
         virtual QTime                    startTime() const = 0;
         virtual void			setStartTime(const QTime& s) = 0;
+        virtual void                     setUser(UserData *user) = 0;
+        virtual UserData                 *user() const = 0;
+        virtual void                     setSchedule(ScheduleData *schedule) = 0;
+        virtual const ScheduleData       *schedule() const = 0;
+
 
 protected:
         inline				AttendanceData(quint32 id, AttendanceDataPlugin* plugin) : Data(plugin) { _id = id; }

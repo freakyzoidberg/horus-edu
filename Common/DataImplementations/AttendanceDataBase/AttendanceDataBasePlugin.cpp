@@ -98,9 +98,9 @@ bool AttendanceDataBasePlugin::canLoad() const
         UserDataPlugin* user = pluginManager->findPlugin<UserDataPlugin*>();
         if ( ! user || ! user->canLoad())
                 return false;
-        ScheduleDataPlugin* schedule = pluginManager->findPlugin<ScheduleDataPlugin*>();
-        if ( ! schedule || ! schedule->canLoad())
-                return false;
+//        ScheduleDataPlugin* schedule = pluginManager->findPlugin<ScheduleDataPlugin*>();
+//        if ( ! schedule || ! schedule->canLoad())
+//                return false;
 #ifdef HORUS_SERVER
         QSqlQuery query = pluginManager->sqlQuery();
         if ( ! query.exec("CREATE TABLE IF NOT EXISTS `attendance`(\
@@ -170,7 +170,7 @@ void AttendanceDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
         AttendanceDataBase* sch = ((AttendanceDataBase*)(d));
         s >> sch->_id;
-        qDebug() << "attendance data Have a New Key" << sch->_id;
+        qDebug() << "Attendance data Have a New Key" << sch->_id;
 }
 #endif
 

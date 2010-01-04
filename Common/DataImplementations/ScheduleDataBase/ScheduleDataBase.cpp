@@ -187,7 +187,7 @@ quint8 ScheduleDataBase::serverCreate()
 	if ( ! query.exec())
 	{
                 qDebug() << __FILE__ << __LINE__ ;
-                qDebug()  <<query.lastError();
+                qDebug()  << query.lastError();
 		return DATABASE_ERROR;
 	}
         _id = query.lastInsertId().toUInt();
@@ -367,7 +367,7 @@ quint8 ScheduleDataBase::serverRemove()
         query.addBindValue(_id);
 	if ( ! query.exec())
 	{
-                    qDebug() << __FILE__ << __LINE__ ;
+                qDebug() << __FILE__ << __LINE__ ;
 		qDebug() << query.lastError();
 		return DATABASE_ERROR;
 	}
