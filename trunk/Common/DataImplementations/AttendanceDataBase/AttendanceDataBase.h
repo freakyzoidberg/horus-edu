@@ -73,7 +73,7 @@ private:
         QTime                                                               _endTime;
         QDate                                                           _date;
         UserData                                                        *_user;
-        ScheduleData                                                    *_schedule;
+        QString                                                             _lesson;
 
         // INTERFACE AttendanceData
 public:
@@ -92,8 +92,8 @@ public:
         inline quint32                      type() const { return _type; }
         inline void                     setUser(UserData *user) { _user = user; }
         inline UserData                 *user() const { return _user; }
-        inline void                     setSchedule(ScheduleData *schedule) { _schedule = schedule; }
-        inline const ScheduleData       *schedule() const { return _schedule; }
+        inline void                     setLesson(QString l) { _lesson = l; }
+        inline const QString            lesson() const { return _lesson; }
 
 
 	//INTERFACE Data
