@@ -62,6 +62,8 @@ UserDataBase::UserDataBase(quint32 userId, UserDataBasePlugin* plugin) : UserDat
 	_repeatedYears = 0;
 	_startYear = 0;
 	_leaveYear = 0;
+	_student = 0;
+	_studentClass = 0;
 }
 
 void UserDataBase::studentClassRemoved()
@@ -321,10 +323,13 @@ void UserDataBase::setRelationship(const QString relationship)
 void UserDataBase::setStudent(UserData* student)
 {
 	QMutexLocker M(&mutex);
-	disconnect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
+	if (_student)
+		disconnect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
+
 	_student = student;
 	if ( ! _student)
 		_student = static_cast<UserDataPlugin*>(_plugin)->nobody();
+
 	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
 		connect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
 }

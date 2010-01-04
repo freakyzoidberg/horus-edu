@@ -48,13 +48,13 @@ UserDataBasePlugin::UserDataBasePlugin()
 void UserDataBasePlugin::load()
 {
 	UserDataBase* n = ((UserDataBase*)(_nobody));
-	n->_student = _nobody;
+	n->setStudent(_nobody);
 	n->_level = __LAST_LEVEL__;
 	n->_name = tr("Nobody");
 	n->_surname = tr("Nobody");
 	n->_login = tr("Nobody");
 	n->_status = Data::UPTODATE;
-	n->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
+	n->setStudentClass(pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
         query.prepare("SELECT`enabled`,`login`,`level`,`password`,`student_class`,`last_login`,`language`,`surname`,`name`,`birth_date`,`picture`,`address`,`phone1`,`phone2`,`phone3`,`country`,`gender`,`occupation`,`pro_category`,`relationship`,`student`,`mail`,`subscription_reason`,`repeated_years`,`start_year`,`leave_year`,`follow_up`,`comment`,`born_place`,`nbr_brothers`,`social_insurance_nbr`,`diploma`,`contract`,`mtime`,`id`, `passmail` FROM`user`;");
@@ -88,7 +88,7 @@ void UserDataBasePlugin::load()
 		u->_occupation			= query.value(17).toString();
 		u->_proCategory			= query.value(18).toString();
 		u->_relationship		= query.value(19).toString();
-		u->_student				= pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() );
+		u->setStudent(			  pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(20).toUInt() ));
 		u->_mail				= query.value(21).toString();
 		u->_subscriptionReason	= query.value(22).toString();
 		u->_repeatedYears		= query.value(23).toUInt();
@@ -207,11 +207,8 @@ UserData* UserDataBasePlugin::user(quint32 userId)
 
 	UserDataBase* u = new UserDataBase(userId, this);
 
-	u->_studentClass = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
-	u->connect(u->_studentClass, SIGNAL(removed()), u, SLOT(studentClassRemoved()));
-
-	u->_student = _nobody;
-	u->connect(u->_student, SIGNAL(removed()), u, SLOT(remove()));
+	u->setStudentClass(pluginManager->findPlugin<TreeDataPlugin*>()->rootNode());
+	u->setStudent(_nobody);
 
 	_allDatas.append(u);
 	return u;
