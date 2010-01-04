@@ -50,7 +50,7 @@ void AttendanceDataBase::keyToStream(QDataStream &s) const
 
 void AttendanceDataBase::dataToStream(QDataStream &s) const
 {
-    s <<  _date << _user->id() << _schedule->id() << _type << _startTime << _endTime;
+    s <<  _date << _user->id() << _lesson << _type << _startTime << _endTime;
 }
 
 void AttendanceDataBase::dataFromStream(QDataStream &s)
@@ -58,9 +58,7 @@ void AttendanceDataBase::dataFromStream(QDataStream &s)
     int id = 0;
     s >>  _date >> id;
     _user = _plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(id);
-    s >> id;
-    _schedule = _plugin->pluginManager->findPlugin<ScheduleDataPlugin*>()->schedule(id);
-    s >> _type >> _startTime >> _endTime;
+    s >> _lesson >> _type >> _startTime >> _endTime;
 }
 
 QDebug AttendanceDataBase::operator<<(QDebug debug) const
@@ -86,10 +84,10 @@ const QList<Data*> AttendanceDataBase::dependsOfCreatedData() const
 quint8 AttendanceDataBase::serverCreate()
 {
         QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("INSERT INTO`attendance`(`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time`)VALUES(?,?,?,?,?,?);");
+        query.prepare("INSERT INTO`attendance`(`date`,`id_user`,`lesson`,`type`, `start_time`, `end_time`)VALUES(?,?,?,?,?,?);");
         query.addBindValue(_date);
         query.addBindValue(_user->id());
-        query.addBindValue(_schedule->id());
+        query.addBindValue(_lesson);
         query.addBindValue(_type);
         query.addBindValue(_startTime);
         query.addBindValue(_endTime);
@@ -105,10 +103,10 @@ quint8 AttendanceDataBase::serverCreate()
 quint8 AttendanceDataBase::serverSave()
 {
         QSqlQuery query = _plugin->pluginManager->sqlQuery();
-        query.prepare("UPDATE`attendance`SET`date`=?,`id_user`=?,`id_event`=?,`type`=?, `start_time`=?, `end_time`=? WHERE`id`=?;");
+        query.prepare("UPDATE`attendance`SET`date`=?,`id_user`=?,`lesson`=?,`type`=?, `start_time`=?, `end_time`=? WHERE`id`=?;");
         query.addBindValue(_date);
         query.addBindValue(_user->id());
-        query.addBindValue(_schedule->id());
+        query.addBindValue(_lesson);
         query.addBindValue(_type);
         query.addBindValue(_startTime);
         query.addBindValue(_endTime);

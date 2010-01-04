@@ -43,7 +43,7 @@
 
 
 
-AttendanceData* AttendanceDataBasePlugin::newAttendance(UserData* parent, QDate date, ScheduleData* schedule)
+AttendanceData* AttendanceDataBasePlugin::newAttendance(UserData* parent, QDate date, QString lesson)
 {
         static quint32 tmpId = 0;
         tmpId--;
@@ -100,23 +100,23 @@ bool AttendanceDataBasePlugin::canLoad() const
         UserDataPlugin* user = pluginManager->findPlugin<UserDataPlugin*>();
         if ( ! user || ! user->canLoad())
                 return false;
-//        ScheduleDataPlugin* schedule = pluginManager->findPlugin<ScheduleDataPlugin*>();
-//        if ( ! schedule || ! schedule->canLoad())
-//                return false;
+        ScheduleDataPlugin* schedule = pluginManager->findPlugin<ScheduleDataPlugin*>();
+        if ( ! schedule || ! schedule->canLoad())
+                return false;
 #ifdef HORUS_SERVER
         QSqlQuery query = pluginManager->sqlQuery();
         if ( ! query.exec("CREATE TABLE IF NOT EXISTS `attendance`(\
                                                                    `id` int(11) NOT NULL AUTO_INCREMENT,\
                                                                    `date` date NOT NULL,\
                                                                    `id_user` int(11) NOT NULL,\
-                                                                   `id_event` int(11) NOT NULL,\
+                                                                   `lesson` text NOT NULL,\
                                                                    `type` int(11) NOT NULL,\
                                                                    `start_time` time NOT NULL,\
                                                                    `end_time` time NOT NULL,\
                                                                     KEY`id`(`id`)\
                                                                     );")
                 ||
-                 ! query.exec("SELECT`id`,`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time` FROM `attendance` WHERE `id`=-1;")
+                 ! query.exec("SELECT`id`,`date`,`id_user`,`lesson`,`type`, `start_time`, `end_time` FROM `attendance` WHERE `id`=-1;")
                 )
         {
                 qDebug() << "AttendanceDataBasePlugin::canLoad()" << query.lastError();
@@ -130,7 +130,7 @@ void  AttendanceDataBasePlugin::load()
 {
 #ifdef HORUS_SERVER
         QSqlQuery query = pluginManager->sqlQuery();
-        query.prepare("SELECT`id`,`date`,`id_user`,`id_event`,`type`, `start_time`, `end_time` FROM `attendance`;");
+        query.prepare("SELECT`id`,`date`,`id_user`,`lesson`,`type`, `start_time`, `end_time` FROM `attendance`;");
         query.exec();
         while (query.next())
         {
@@ -139,7 +139,7 @@ void  AttendanceDataBasePlugin::load()
 //                attendance->_idUser = query.value(2).toUInt();
 //                attendance->_idSchedule = query.value(3).toUInt();
                 a->_user = pluginManager->findPlugin<UserDataPlugin*>()->user(query.value(2).toUInt());
-                a->_schedule = pluginManager->findPlugin<ScheduleDataPlugin*>()->schedule(query.value(3).toUInt());
+                a->_lesson = query.value(3).toString();
                 a->_type = query.value(4).toInt();
                 a->_startTime = query.value(5).toTime();
                 a->_endTime   = query.value(6).toTime();

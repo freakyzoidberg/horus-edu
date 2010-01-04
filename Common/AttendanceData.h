@@ -64,8 +64,8 @@ public:
         virtual void			setStartTime(const QTime& s) = 0;
         virtual void                     setUser(UserData *user) = 0;
         virtual UserData                 *user() const = 0;
-        virtual void                     setSchedule(ScheduleData *schedule) = 0;
-        virtual const ScheduleData       *schedule() const = 0;
+        virtual void                     setLesson(QString l) = 0;
+        virtual const QString           lesson() const = 0;
 
 
 protected:
