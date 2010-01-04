@@ -43,13 +43,15 @@
 
 
 
-AttendanceData* AttendanceDataBasePlugin::newAttendance(UserData* parent, QDateTime *date, ScheduleData* schedule)
+AttendanceData* AttendanceDataBasePlugin::newAttendance(UserData* parent, QDate date, ScheduleData* schedule)
 {
         static quint32 tmpId = 0;
         tmpId--;
 
+        qDebug() << "la";
         AttendanceDataBase* s = ((AttendanceDataBase*)( attendance(tmpId)) );
         s->_user = parent;
+        s->_date = date;
         return s;
 }
 
@@ -68,7 +70,7 @@ AttendanceData* AttendanceDataBasePlugin::attendance(quint32 attendanceId)
         AttendanceDataBase* a = new AttendanceDataBase(attendanceId, this);
 
 //        a->_node = pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();
-//        _allDatas.append(a);
+        _allDatas.append(a);
         return a;
 }
 

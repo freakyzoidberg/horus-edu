@@ -49,8 +49,8 @@ class AttendanceData : public Data
 #endif
 
 public:
-        virtual quint32                     id() const = 0;
-        virtual QDate		date() const = 0;
+        virtual quint32                 id() const = 0;
+        virtual QDate                   date() const = 0;
         virtual void			setDate(const QDate& date) = 0;
 //        virtual quint32     		idUser() const = 0;
 //        virtual void			setIdUser(const int user) = 0;

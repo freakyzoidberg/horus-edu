@@ -52,7 +52,7 @@ class AttendanceDataPlugin : public DataPlugin
 #endif
 
 public:
-        virtual AttendanceData*     newAttendance(UserData* parent, QDateTime *date, ScheduleData* schedule = 0) = 0;
+        virtual AttendanceData*     newAttendance(UserData* parent, QDate date, ScheduleData* schedule = 0) = 0;
         virtual AttendanceData*     attendance(quint32 attendanceId)= 0;
         virtual AttendanceData*     attendance(UserData *node)= 0;
 };
