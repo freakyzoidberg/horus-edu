@@ -54,7 +54,7 @@ class AttendanceDataPlugin : public DataPlugin
 public:
         virtual AttendanceData*     newAttendance(UserData* parent, QDate date, QString lesson) = 0;
         virtual AttendanceData*     attendance(quint32 attendanceId)= 0;
-        virtual AttendanceData*     attendance(UserData *node)= 0;
+        virtual QList<AttendanceData* >     attendance(UserData *node)= 0;
 };
 
 #ifdef HORUS_SERVER

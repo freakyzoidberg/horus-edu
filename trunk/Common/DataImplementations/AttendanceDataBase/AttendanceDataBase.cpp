@@ -63,7 +63,7 @@ void AttendanceDataBase::dataFromStream(QDataStream &s)
 
 QDebug AttendanceDataBase::operator<<(QDebug debug) const
 {
-	return (qDebug());
+        return debug << dataType() << _user->id() << _lesson << _type;
 }
 
 bool AttendanceDataBase::canAccess(UserData* user) const
