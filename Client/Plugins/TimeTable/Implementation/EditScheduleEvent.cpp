@@ -40,6 +40,7 @@
 #include <QLabel>
 #include "../../../../Common/UserDataPlugin.h"
 #include "../../../../Common/UserData.h"
+#include "../../../../Common/TreeData.h"
 
 EditScheduleEvent::EditScheduleEvent(PluginManager *pluginManager, TreeData *node, int id)
 {
@@ -53,7 +54,22 @@ void    EditScheduleEvent::fillForm(TreeData *node, int id)
     ScheduleData *sd = _pM->findPlugin<ScheduleDataPlugin* >()->schedule(node);
     startTime->setTime(sd->scheduleEvents().at(id)->getHStart());
     endTime->setTime(sd->scheduleEvents().at(id)->getHEnd());
-    nameEdit->setText(sd->scheduleEvents().at(id)->getName());
+    fillLessons(node);
+    bool found = false;
+    for (int i = 0; i < nameEdit->count(); i++)
+    {
+        if (nameEdit->itemText(i) == sd->scheduleEvents().at(id)->getName())
+        {
+            found = true;
+            nameEdit->setCurrentIndex(i);
+        }
+    }
+    if (found == false)
+    {
+        nameEdit->addItem(sd->scheduleEvents().at(id)->getName());
+        nameEdit->setCurrentIndex(nameEdit->count() - 1);
+    }
+    //nameEdit->setText(sd->scheduleEvents().at(id)->getName());
     details->setText(sd->scheduleEvents().at(id)->getDetails());
     setTeacher(sd->scheduleEvents().at(id)->getTeacher());
     setDay(sd->scheduleEvents().at(id)->getJWeek());
@@ -65,10 +81,24 @@ void    EditScheduleEvent::fillForm(TreeData *node, int id)
 }
 
 
-EditScheduleEvent::EditScheduleEvent(PluginManager *pluginManager)
+EditScheduleEvent::EditScheduleEvent(PluginManager *pluginManager, TreeData *td)
 {
     _pM = pluginManager;
     setupUi();
+    fillLessons(td);
+}
+
+void    EditScheduleEvent::fillLessons(TreeData *td)
+{
+    foreach(Data *d, _pM->findPlugin<TreeDataPlugin *>()->allDatas())
+    {
+        TreeData *ud = qobject_cast<TreeData *>(d);
+        if (ud->type() == "SUBJECT" && ud->isDescendantOf(td) == true)
+        {
+            nameEdit->addItem(ud->name(), ud->id());
+        }
+    }
+
 }
 
 void    EditScheduleEvent::setupUi()
@@ -84,7 +114,8 @@ void    EditScheduleEvent::setupUi()
     informationLayout->setMargin(8);
     informationLayout->setColumnMinimumWidth(0, 150);
     QLabel *nameLabel = new QLabel(tr("Nom :"), this);
-    nameEdit = new QLineEdit(this);
+    nameEdit = new QComboBox(this);
+    nameEdit->setEditable(true);
     informationLayout->addWidget(nameLabel, 0, 0);
     informationLayout->addWidget(nameEdit, 0, 1);
     mainLayout->addLayout(informationLayout);

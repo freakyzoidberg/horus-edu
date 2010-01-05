@@ -42,7 +42,7 @@
 #include <QDateEdit>
 #include <QBoxLayout>
 #include <QWidget>
-#include <QComboBox>
+
 #include <QTextEdit>
 #include <QLineEdit>
 #include <QCheckBox>
@@ -50,6 +50,7 @@
 #include "EdtTimer.h"
 #include "../../../../Common/TreeDataPlugin.h"
 #include "../../../../Common/ScheduleDataPlugin.h"
+#include <QComboBox>
 
 class EditScheduleEvent : public QWidget
 {
@@ -57,13 +58,13 @@ class EditScheduleEvent : public QWidget
 
     public:
         EditScheduleEvent(PluginManager *pluginManager, TreeData *node, int id);
-        EditScheduleEvent(PluginManager *pluginManager);
+        EditScheduleEvent(PluginManager *pluginManager, TreeData *td);
         inline QTime                getStart() {return(startTime->time());}
         inline void                 setStart(QTime time) {startTime->setTime(time);}
         inline QTime                getEnd() {return(endTime->time());}
         inline void                 setEnd(QTime time) {endTime->setTime(time);}
-        inline QString              getName() {return(nameEdit->text());}
-        inline void                 setName(QString name) {nameEdit->setText(name);}
+        inline QString              getName() {return(nameEdit->itemText(couleursList->currentIndex()));}
+        //inline void                 setName(QString name) {/*nameEdit->setText(name);*/}
         inline QString              getDetail() {return(details->toPlainText());}
         inline void                 setDetail(QString detail) {details->setText(detail);}
         inline int                  getDay() {return(dayList->itemData(dayList->currentIndex()).toInt());}
@@ -83,7 +84,7 @@ class EditScheduleEvent : public QWidget
         QComboBox           *dayList;
         QComboBox           *couleursList;
         QBoxLayout          *mainLayout;
-        QLineEdit           *nameEdit;
+        QComboBox           *nameEdit;
         EdtTimer            *startTime;
         EdtTimer            *endTime;
         QDateEdit           *startDate;
@@ -95,6 +96,7 @@ class EditScheduleEvent : public QWidget
         QSpinBox            *modulo;
         void                setupUi();
         void                fillTeacher();
+        void                fillLessons(TreeData *td);
         void                fillForm(TreeData *node, int id);
         void                stepBy(int steps);
 };
