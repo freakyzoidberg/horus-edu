@@ -121,26 +121,40 @@ void    CourPanel::getScheduleLesson(ScheduleData *schedule, int day)
     label = new QLabel(tr("Appliquer"), this);
     label->setProperty("isFormLabel", true);
     lessonBottomLayout->addWidget(label, 0, 3);
+    int j = 0;
     for (int i = 0; i < schedule->scheduleEvents().size(); i++)
     {
         if (schedule->scheduleEvents().at(i)->getJWeek() == day)
         {
+            j++;
             InfosLesson *tmp = new InfosLesson();
             tmp->name = new QLineEdit(this);
-            lessonBottomLayout->addWidget(tmp->name, i + 1, 0);
+            lessonBottomLayout->addWidget(tmp->name, j + 1, 0);
             tmp->name->setText(schedule->scheduleEvents().at(i)->getName());
             tmp->name->setDisabled(true);
             tmp->start = new QTimeEdit(this);
             tmp->start->setTime(schedule->scheduleEvents().at(i)->getHStart());
             tmp->start->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->start, i + 1, 1);
+            lessonBottomLayout->addWidget(tmp->start, j + 1, 1);
             tmp->end = new QTimeEdit(this);
             tmp->end->setTime(schedule->scheduleEvents().at(i)->getHEnd());
             tmp->end->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->end, i + 1, 2);
+            lessonBottomLayout->addWidget(tmp->end, j + 1, 2);
             tmp->state = new QCheckBox(this);
-            lessonBottomLayout->addWidget(tmp->state, i + 1, 3);
+            lessonBottomLayout->addWidget(tmp->state, j + 1, 3);
             lessonList.append(tmp);
+
         }
     }
+    j++;
+    InfosLesson *tmp = new InfosLesson();
+    tmp->name = new QLineEdit(this);
+    lessonBottomLayout->addWidget(tmp->name, j + 1, 0);
+    tmp->start = new QTimeEdit(this);
+    lessonBottomLayout->addWidget(tmp->start,j + 1, 1);
+    tmp->end = new QTimeEdit(this);
+    lessonBottomLayout->addWidget(tmp->end, j + 1, 2);
+    tmp->state = new QCheckBox(this);
+    lessonBottomLayout->addWidget(tmp->state, j + 1, 3);
+    lessonList.append(tmp);
 }

@@ -63,7 +63,7 @@ class EditScheduleEvent : public QWidget
         inline void                 setStart(QTime time) {startTime->setTime(time);}
         inline QTime                getEnd() {return(endTime->time());}
         inline void                 setEnd(QTime time) {endTime->setTime(time);}
-        inline QString              getName() {return(nameEdit->itemText(couleursList->currentIndex()));}
+        inline QString              getName() {return(nameEdit->currentText());}
         //inline void                 setName(QString name) {/*nameEdit->setText(name);*/}
         inline QString              getDetail() {return(details->toPlainText());}
         inline void                 setDetail(QString detail) {details->setText(detail);}
