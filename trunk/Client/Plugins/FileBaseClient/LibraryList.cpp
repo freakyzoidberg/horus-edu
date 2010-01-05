@@ -82,9 +82,11 @@ LibraryList::LibraryList(PluginManager* pluginManager, QStackedLayout* parent)
 	_owners = new QComboBox(this);
 	refreshGrades(0);
 	refreshUsers(0);
+	gradeBoxChanged(0);
 	connect(treeDataPlugin, SIGNAL(dataStatusChanged(Data*)), this, SLOT(refreshGrades(Data*)));
 	connect(userDataPlugin, SIGNAL(dataStatusChanged(Data*)), this, SLOT(refreshUsers(Data*)));
 	connect(_grades, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
+	connect(_grades, SIGNAL(currentIndexChanged(int)), this, SLOT(gradeBoxChanged(int)));
 	connect(_subjects, SIGNAL(currentIndexChanged(int)), this, SLOT(comboBoxChanged(int)));
 	connect(_owners, SIGNAL(currentIndexChanged(int)), this, SLOT(userBoxChanged(int)));
 
@@ -189,15 +191,6 @@ void LibraryList::refreshGrades(Data*)
 	foreach (TreeData* node, treeDataPlugin->grades())
 		_grades->addItem(node->icon(), node->name(), node->id());
 	_grades->setCurrentIndex(_grades->findData(gradeId));
-
-	QString subject = _subjects->itemText(_subjects->currentIndex());
-	_subjects->clear();
-	_subjects->addItem(QIcon(":/Icons/subject.png"), tr("All"));
-	foreach (const QString& subject, treeDataPlugin->subjects())
-		_subjects->addItem(QIcon(":/Icons/subject.png"), subject);
-	if (subject.isEmpty())
-		subject = tr("All");
-	_subjects->setCurrentIndex(_subjects->findText(subject));
 }
 
 void LibraryList::comboBoxChanged(int)
@@ -218,6 +211,38 @@ void LibraryList::comboBoxChanged(int)
 	}
 
 	_filter->nodeListChanged(list);
+}
+
+void LibraryList::gradeBoxChanged(int)
+{
+	TreeDataPlugin* treeDataPlugin = _pluginManager->findPlugin<TreeDataPlugin*>();
+	quint32 gradeId = _grades->itemData(_grades->currentIndex()).toUInt();
+
+	QString subject = _subjects->itemText(_subjects->currentIndex());
+	_subjects->clear();
+	_subjects->addItem(QIcon(":/Icons/subject.png"), tr("All"));
+	if (gradeId == 0)
+		// every diferent subject
+		foreach (const QString& subject, treeDataPlugin->subjects())
+			_subjects->addItem(QIcon(":/Icons/subject.png"), subject);
+	else
+	{
+		// just subjects desendant of the grade
+		TreeData* grade = treeDataPlugin->node(gradeId);
+		foreach (Data* data, treeDataPlugin->allDatas())
+		{
+			TreeData* node = static_cast<TreeData*>(data);
+			if (node->type() == "SUBJECT" && node->isDescendantOf(grade))
+				_subjects->addItem(QIcon(":/Icons/subject.png"), node->name());
+		}
+	}
+	if (subject.isEmpty())
+		subject = tr("All");
+
+	int index = _subjects->findText(subject);
+	if (index < 0)
+		index = 0;
+	_subjects->setCurrentIndex(index);
 }
 
 void LibraryList::userBoxChanged(int index)
