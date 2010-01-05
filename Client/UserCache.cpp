@@ -67,17 +67,22 @@ void UserCache::load()
 		QString type;
 		QByteArray binPlugin;
 		streamAll >> type >> binPlugin;
+		DataPlugin* plugin = plugins.value(type);
 
-		if (plugins.contains(type))
+		if (plugin)
 		{
 			QDataStream streamPlugin(&binPlugin, QIODevice::ReadOnly);
 			while ( ! streamPlugin.atEnd())
 			{
 				quint8 status;
 				streamPlugin >> status;
-				Data* data = plugins.value(type)->dataWithKey(streamPlugin);
+				Data* data = plugin->dataWithKey(streamPlugin);
 				data->_status = status;
 				data->dataFromStream(streamPlugin);
+				emit data->statusChanged();
+				emit plugin->dataStatusChanged(data);
+				emit data->updated();
+				emit plugin->dataUpdated(data);
 			}
 		}
 		emit loadProgressChange(progress / plugins.count());
