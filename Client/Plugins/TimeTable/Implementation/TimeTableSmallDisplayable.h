@@ -35,7 +35,7 @@
 #ifndef TIMETABLESMALLDISPLAYABLE_H
 #define TIMETABLESMALLDISPLAYABLE_H
 
-# include			"../../SmallDisplayablePlugin.h"
+# include			"../../../SmallDisplayablePlugin.h"
 
 class				TimeTableSmallDisplayable : public SmallDisplayablePlugin
 {
