@@ -76,7 +76,7 @@ class InfosAttendance
         QTimeEdit   *start;
         QTimeEdit   *end;
         QLineEdit   *name;
-        QPushButton *del;
+        QCheckBox   *del;
 };
 
 class ShowAttendance : public QWidget
@@ -98,6 +98,7 @@ class ShowAttendance : public QWidget
 //        void                reseted();
 //        void                saved();
         void                exited();
+        void                butClicked();
     signals:
         void			exit();
 };
