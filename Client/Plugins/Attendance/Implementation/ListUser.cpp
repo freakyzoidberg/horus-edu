@@ -219,8 +219,6 @@ void					ListUser::attendanceAdded()
                 tmpNode = ((UserData *)(userFilter->mapToSource(classFilter->mapToSource(userListView->selectionModel()->currentIndex())).internalPointer()))->studentClass();
             emit AddAttendance(tmpNode, (UserData *)(userFilter->mapToSource(classFilter->mapToSource(userListView->selectionModel()->currentIndex())).internalPointer()));
         }
-        else
-                emit AddAttendance(0, 0);
 }
 
 void					ListUser::attendanceEdited()
@@ -232,8 +230,6 @@ void					ListUser::attendanceEdited()
                     tmpNode = ((UserData *)(userFilter->mapToSource(classFilter->mapToSource(userListView->selectionModel()->currentIndex())).internalPointer()))->studentClass();
                 emit ShowAttendance(tmpNode, (UserData *)(userFilter->mapToSource(classFilter->mapToSource(userListView->selectionModel()->currentIndex())).internalPointer()));
         }
-                else
-                emit ShowAttendance(0, (UserData *)(userFilter->mapToSource(classFilter->mapToSource(userListView->selectionModel()->currentIndex())).internalPointer()));
 }
 
 void					ListUser::attendanceDeleted()

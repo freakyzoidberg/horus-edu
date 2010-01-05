@@ -97,5 +97,5 @@ void		AttendanceFrame::showExited()
         delete show;
         show = 0;
         list->show();
-        connect(list, SIGNAL(AddAttendance(TreeData *, UserData *)), this, SLOT(attendanceShowed(TreeData *, UserData *)));
+        connect(list, SIGNAL(ShowAttendance(TreeData *, UserData *)), this, SLOT(attendanceShowed(TreeData *, UserData *)));
 }
