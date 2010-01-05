@@ -203,7 +203,7 @@ void EdtWidget::goadd()
     _del->hide();
     if (_form)
         delete _form;
-    _form = new EditScheduleEvent(_pluginManager);
+    _form = new EditScheduleEvent(_pluginManager, _TD);
     MainLayout->insertWidget(0,_form,10000,Qt::AlignTop);
 }
 
