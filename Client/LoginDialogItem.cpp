@@ -220,9 +220,8 @@ void LoginDialogItem::networkStatusChanged(NetworkManager::Status status)
 	else if (status == NetworkManager::LOGGED_IN)
 	{
 		NetworkManager* net = NetworkManager::instance();
+		connect(net, SIGNAL(updateFinished()), _dialog, SLOT(accept()));
 		if(net->isUpdated())
 			return _dialog->accept();
-
-		connect(net, SIGNAL(updateFinished()), _dialog, SLOT(accept()));
 	}
 }

@@ -51,6 +51,7 @@ TreeDataBasePlugin::TreeDataBasePlugin()
 void TreeDataBasePlugin::load()
 {
 	((TreeDataBase*)_rootNode)->_user = pluginManager->findPlugin<UserDataPlugin*>()->nobody();
+	_allDatas.append(_rootNode);
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
 	query.prepare("SELECT`id`,`typeofnode`,`name`,`user_ref`,`id_parent`,`mtime`FROM`tree`;");
@@ -79,9 +80,11 @@ void TreeDataBasePlugin::load()
 
 void TreeDataBasePlugin::unload()
 {
+	_allDatas.removeOne(_rootNode);
 	foreach (Data* d, _allDatas)
 		delete static_cast<TreeDataBase*>(d);
 	_allDatas.clear();
+	_allDatas.append(_rootNode);
 	static_cast<TreeDataBase*>(_rootNode)->_children.clear();
 #ifdef HORUS_CLIENT
 	delete _listModel;
