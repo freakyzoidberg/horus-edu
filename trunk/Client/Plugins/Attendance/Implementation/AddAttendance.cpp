@@ -226,7 +226,7 @@ QWidget			*AddAttendance::getLessonsFrame()
 //    lessonBottomLayout->addWidget(label, 2, 0);
 
     lessonMainLayout->addLayout(lessonBottomLayout);
-    cours = new CourPanel(_scheduleDataPlugin->schedule(node), dateAttendance->date());
+    cours = new CourPanel(_scheduleDataPlugin->schedule(node), dateAttendance->date(), _attendanceDataPlugin, user);
     lessonMainLayout->addWidget(cours);
     return (lessonFrame);
 }
@@ -239,9 +239,8 @@ void    AddAttendance::dChanged(const QDate &date)
         cours->close();
         cours = 0;
     }
-    cours = new CourPanel(_scheduleDataPlugin->schedule(node), dateAttendance->date());
+    cours = new CourPanel(_scheduleDataPlugin->schedule(node), dateAttendance->date() , _attendanceDataPlugin, user);
     lessonMainLayout->addWidget(cours);
-
 }
 
 void    AddAttendance::allChecked(int state)

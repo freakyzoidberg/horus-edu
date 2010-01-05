@@ -36,9 +36,12 @@
 #include "CourPanel.h"
 
 
-CourPanel::CourPanel(ScheduleData *schedule, QDate date)
+CourPanel::CourPanel(ScheduleData *schedule, QDate date, AttendanceDataPlugin *attendanceDataPlugin, UserData *user)
 {
 
+    _attendanceDataPlugin = attendanceDataPlugin;
+    _user = user;
+    _dateAtt = date;
 //    QFrame *lessonFrame = new QFrame(this);
 //    lessonFrame->setProperty("isFormFrame", true);
     lessonMainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
@@ -121,40 +124,62 @@ void    CourPanel::getScheduleLesson(ScheduleData *schedule, int day)
     label = new QLabel(tr("Appliquer"), this);
     label->setProperty("isFormLabel", true);
     lessonBottomLayout->addWidget(label, 0, 3);
-    int j = 0;
+    int idx = 0;
     for (int i = 0; i < schedule->scheduleEvents().size(); i++)
     {
         if (schedule->scheduleEvents().at(i)->getJWeek() == day)
         {
-            j++;
+            idx++;
             InfosLesson *tmp = new InfosLesson();
             tmp->name = new QLineEdit(this);
-            lessonBottomLayout->addWidget(tmp->name, j + 1, 0);
+            lessonBottomLayout->addWidget(tmp->name, idx + 1, 0);
             tmp->name->setText(schedule->scheduleEvents().at(i)->getName());
             tmp->name->setDisabled(true);
             tmp->start = new QTimeEdit(this);
             tmp->start->setTime(schedule->scheduleEvents().at(i)->getHStart());
             tmp->start->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->start, j + 1, 1);
+            lessonBottomLayout->addWidget(tmp->start, idx + 1, 1);
             tmp->end = new QTimeEdit(this);
             tmp->end->setTime(schedule->scheduleEvents().at(i)->getHEnd());
             tmp->end->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->end, j + 1, 2);
+            lessonBottomLayout->addWidget(tmp->end, idx + 1, 2);
             tmp->state = new QCheckBox(this);
-            lessonBottomLayout->addWidget(tmp->state, j + 1, 3);
+            lessonBottomLayout->addWidget(tmp->state, idx + 1, 3);
             lessonList.append(tmp);
 
         }
     }
-    j++;
+    QList<AttendanceData *> absList = _attendanceDataPlugin->attendance(_user);
+    if (absList.size() > 0)
+    {
+        int i = 0;
+        for (i = 0; i < absList.size(); i++)
+        {
+            for(int j = 0; j < lessonList.size(); j++)
+            {
+                if (absList.at(i)->lesson() == lessonList.at(j)->name->text() &&
+                    absList.at(i)->date() == _dateAtt)
+                {
+                    if (absList.at(i)->type() == 1)
+                        lessonList.at(j)->state->setText(tr("Absent"));
+                    else
+                        lessonList.at(j)->state->setText(tr("Absent"));
+                    lessonList.at(j)->state->setDisabled(true);
+                }
+            }
+
+        }
+
+    }
+    idx++;
     InfosLesson *tmp = new InfosLesson();
     tmp->name = new QLineEdit(this);
-    lessonBottomLayout->addWidget(tmp->name, j + 1, 0);
+    lessonBottomLayout->addWidget(tmp->name, idx + 1, 0);
     tmp->start = new QTimeEdit(this);
-    lessonBottomLayout->addWidget(tmp->start,j + 1, 1);
+    lessonBottomLayout->addWidget(tmp->start,idx + 1, 1);
     tmp->end = new QTimeEdit(this);
-    lessonBottomLayout->addWidget(tmp->end, j + 1, 2);
+    lessonBottomLayout->addWidget(tmp->end, idx + 1, 2);
     tmp->state = new QCheckBox(this);
-    lessonBottomLayout->addWidget(tmp->state, j + 1, 3);
+    lessonBottomLayout->addWidget(tmp->state, idx + 1, 3);
     lessonList.append(tmp);
 }
