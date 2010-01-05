@@ -62,6 +62,7 @@ public slots:
 	void	downloaded();
 	void	play();
 	void	stop();
+	void	finished();
 	void	switchSync(bool);
 	void	setCommand(quint32, WhiteBoardItem::Command, qint64);
 
@@ -81,6 +82,7 @@ private:
 	quint32					_commandId;
 	quint32					_checkId;
 	qint64					_lastTick;
+	bool					_playing;
 };
 
 #endif // VIDEOPLAYER_H

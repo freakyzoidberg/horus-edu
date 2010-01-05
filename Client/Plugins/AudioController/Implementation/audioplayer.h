@@ -61,9 +61,9 @@ public slots:
 	void	downloaded();
 	void	play();
 	void	stop();
+	void	finished();
 	void	switchSync(bool);
 	void	setCommand(quint32, WhiteBoardItem::Command, qint64);
-	void	finished();
 
 protected slots:
 	void	tick(qint64 time);
