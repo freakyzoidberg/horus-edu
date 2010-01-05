@@ -56,9 +56,7 @@ FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileDat
 	_isDownloaded = false;
 #endif
 
-	_owner = _plugin->pluginManager->currentUser();
-	if ( ! _owner)
-		_owner = _plugin->pluginManager->nobody();
+	_owner = _plugin->pluginManager->nobody();
 	connect(_owner, SIGNAL(removed()), this, SLOT(remove()));
 
 	_node = _plugin->pluginManager->findPlugin<TreeDataPlugin*>()->rootNode();

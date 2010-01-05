@@ -96,7 +96,12 @@ FileData* FileDataBasePlugin::createFile()
 {
 	static quint32 tmpId = 0;
 	tmpId--;
-	return file(tmpId);
+
+	FileDataBase* f = static_cast<FileDataBase*>(file(tmpId));
+	disconnect(f->_owner, SIGNAL(removed()), f, SLOT(remove()));
+	f->_owner = pluginManager->currentUser();
+	connect(f->_owner, SIGNAL(removed()), f, SLOT(remove()));
+	return f;
 }
 
 Data* FileDataBasePlugin::dataWithKey(QDataStream& s)
@@ -128,8 +133,13 @@ void FileDataBasePlugin::load()
 		f->_mimeType	= query.value(2).toString();
 		f->_size		= query.value(3).toUInt();
 
+		disconnect(f->_node, SIGNAL(removed()), f, SLOT(remove()));
 		f->_node		= pluginManager->findPlugin<TreeDataPlugin*>()->node( query.value(4).toUInt() );
+		connect(f->_node, SIGNAL(removed()), f, SLOT(remove()));
+
+		disconnect(f->_owner, SIGNAL(removed()), f, SLOT(remove()));
 		f->_owner		= pluginManager->findPlugin<UserDataPlugin*>()->user( query.value(5).toUInt() );
+		connect(f->_owner, SIGNAL(removed()), f, SLOT(remove()));
 
 		f->_hash		= QByteArray::fromHex(query.value(6).toByteArray());
 		f->_keyWords	= query.value(7).toString();

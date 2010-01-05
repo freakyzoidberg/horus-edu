@@ -51,6 +51,7 @@ void ExamsDataBase::keyToStream(QDataStream& s) const
 void ExamsDataBase::dataToStream(QDataStream& s) const
 {
 	s << _comment << _date << _teacher << _subject->id();
+	Data::dataToStream(s);
 }
 
 void ExamsDataBase::dataFromStream(QDataStream& s)

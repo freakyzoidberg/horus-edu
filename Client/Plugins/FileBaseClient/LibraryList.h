@@ -54,6 +54,7 @@ public:
 
 private slots:
 	void						comboBoxChanged(int);
+	void						gradeBoxChanged(int);
 	void						userBoxChanged(int);
 	void						fileClicked  (QModelIndex);
 	void						fileActivated(QModelIndex);
