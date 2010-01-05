@@ -32,24 +32,56 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include <QIcon>
+#ifndef						__LISTUSER_H__
+# define					__LISTUSER_H__
 
-#include "ManageEdt.h"
-#include "MainView.h"
-#include "EdtPlanning.h"
+# include					<QWidget>
 
-MainView::MainView(PluginManager *pluginManager)
+# include					<QListView>
+# include					<QTableView>
+# include					<QPushButton>
+# include					<QBoxLayout>
+# include					<QSortFilterProxyModel>
+
+# include					"../../../../Common/TreeData.h"
+# include					"../../../../Common/UserData.h"
+
+# include					"InformationsUser.h"
+
+class						ListUser : public QWidget
 {
-	ManageEdt *EdtManager = new ManageEdt(pluginManager, this);
-	EdtSceneView = new EdtWidget(pluginManager);
+	Q_OBJECT
 
-	this->addTab(EdtSceneView, QIcon(":/Icons/desk.png"), tr("Weekly view"));
-        //this->addTab(new EdtPlanning(), QIcon(":/Icons/desk.png"), tr("View planning"));
+public:
+	ListUser(QWidget* parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin, int userLevel);
 
-	if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
-	{
-		this->addTab(EdtManager, QIcon(":/Icons/desk.png"), tr("Manage EDT"));
-		this->setTabEnabled(0, false);
-                //this->setTabEnabled(1, false);
-	}
-}
+private:
+        QSortFilterProxyModel                   *gradeFilter;
+        QSortFilterProxyModel                   *classFilter;
+        QSortFilterProxyModel                   *userFilter;
+	QListView				*classListView;
+	QTableView				*userListView;
+        InformationsUser                        *informations;
+	QPushButton				*addButton;
+	QPushButton				*editButton;
+	QPushButton				*deleteButton;
+	QBoxLayout				*informationsLayout;
+
+protected:
+	void					showEvent(QShowEvent *event);
+
+private slots:
+	void					classSelected(const QItemSelection &selected, const QItemSelection &deselected);
+	void					userSelected(const QModelIndex &current, const QModelIndex &previous);
+        void					attendanceAdded();
+        void					attendanceEdited();
+        void					attendanceDeleted();
+	void					classUpdated(Data *data);
+	void					userUpdated(Data *data);
+
+signals:
+        void					AddAttendance(TreeData *node, UserData *user);
+        void					ShowAttendance(TreeData *node, UserData *user);
+};
+
+#endif
