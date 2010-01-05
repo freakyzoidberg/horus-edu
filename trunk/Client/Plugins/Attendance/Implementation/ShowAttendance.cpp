@@ -143,7 +143,8 @@ QWidget			*ShowAttendance::getAttendancesFrame()
     label->setProperty("isFormLabel", true);
     lessonBottomLayout->addWidget(label, 0, 5);
     QList<AttendanceData *> absList = _attendanceDataPlugin->attendance(_user);
-    for (int i = 0; i < absList.size(); i++)
+    int i = 0;
+    for (i = 0; i < absList.size(); i++)
     {
             InfosAttendance *tmp = new InfosAttendance();
             tmp->name = new QLineEdit(this);
@@ -169,10 +170,13 @@ QWidget			*ShowAttendance::getAttendancesFrame()
                 tmp->type->setText(tr("Retard"));
             tmp->type->setDisabled(true);
             lessonBottomLayout->addWidget(tmp->type, i + 1, 4);
-            tmp->del = new QPushButton(QIcon(":/Icons/reset.png"),tr("Effacer"),this);
+            tmp->del = new QCheckBox(tr(""),this);
             lessonBottomLayout->addWidget(tmp->del, i + 1, 5);
             attendanceList.append(tmp);
     }
+    QPushButton *delbut = new QPushButton(QIcon(":/Icons/reset.png"),tr("Effacer"),this);
+    lessonBottomLayout(delbut, i  + 2, 5);
+    connect(delbut, SIGNAL(clicked()), this, SLOT(delClicked()));
 //
 //    label = new QLabel(tr("Last name"), lessonFrame);
 //    label->setProperty("isFormLabel", true);
