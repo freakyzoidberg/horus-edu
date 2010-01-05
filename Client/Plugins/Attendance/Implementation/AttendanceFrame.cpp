@@ -79,6 +79,13 @@ void		AttendanceFrame::attendanceShowed(TreeData *node, UserData *user)
         show = new ShowAttendance(this, user, _attendanceDataPlugin);
         layout->addWidget(show);
         connect(show, SIGNAL(exit()), this, SLOT(showExited()));
+        connect(show, SIGNAL(refresh(UserData *)), this, SLOT(refreshShow(UserData *)));
+}
+void        AttendanceFrame::refreshShow(UserData *user)
+{
+    disconnect(show, SIGNAL(refresh(UserData *)), this, SLOT(refreshShow(UserData *)));
+    showExited();
+    //attendanceShowed(user->studentClass() , user);
 }
 
 
