@@ -120,9 +120,8 @@ const QList<Data*> ScheduleDataBase::dependsOfCreatedData() const
 #ifdef HORUS_SERVER
 quint8 ScheduleDataBase::serverCreate()
 {
-//	QMutexLocker M(&_node->mutex);
+        QMutexLocker M(&_node->mutex);
 
-        qDebug() << "here";
 	QSqlQuery query = _plugin->pluginManager->sqlQuery();
         query.prepare("INSERT INTO`schedule`(`id_node`,`date_start`,`date_end`)VALUES(?,?,?);");
 	query.addBindValue(_node->id());
@@ -130,7 +129,6 @@ quint8 ScheduleDataBase::serverCreate()
         query.addBindValue(_endDate);
         //query.addBindValue(_sException);
 
-        qDebug() << "here";
 	if ( ! query.exec())
 	{
                 qDebug() << __FILE__ << __LINE__ ;
