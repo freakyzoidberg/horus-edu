@@ -19,6 +19,7 @@ HEADERS += Implementation/AudioController.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
+	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h \
     Implementation/audioplayer.h
 RESOURCES += Implementation/AudioController.qrc
 TRANSLATIONS = AudioController_en.ts \

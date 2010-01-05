@@ -40,8 +40,22 @@
 class WhiteBoardItem
 {
 public:
-	inline WhiteBoardItem(quint32 idLesson,    quint32 idSection, quint32 left, quint32 top, quint32 width, quint32 height,      bool isDocked)
-					  { _idLesson=idLesson; _idSection=idSection;   _left=left;    _top=top;  _width=width; _height=height; _isDocked=isDocked; }
+	enum Command {NONE, PLAY, PAUSE, STOP, SEEK};
+
+	inline WhiteBoardItem(quint32 idLesson, quint32 idSection, quint32 left, quint32 top, quint32 width, quint32 height, bool isDocked, bool isSynced, quint32 commandId = 0, Command command = NONE, qint64 argument = 0) :
+	_idLesson(idLesson),
+	_idSection(idSection),
+	_left(left),
+	_top(top),
+	_width(width),
+	_height(height),
+	_isDocked(isDocked),
+	_isSynced(isSynced),
+	_commandId(commandId),
+	_command(command),
+	_argument(argument)
+	{
+	}
 
 	inline WhiteBoardItem(QDataStream& s) { *this << s; }
 
@@ -52,6 +66,10 @@ public:
 	inline int			width()     const { return _width; }
 	inline int			height()    const { return _height; }
 	inline bool			docked()    const { return _isDocked; }
+	inline bool			synced()    const { return _isSynced; }
+	inline int			commandId() const { return _commandId; }
+	inline Command		command()	const { return static_cast<Command>(_command); }
+	inline qint64		argument()	const { return _argument; }
 
 	inline QDataStream& operator>>(QDataStream& s) const
 	{ return s
@@ -62,7 +80,12 @@ public:
 	  << _width
 	  << _height
 	  << _isDocked
+	  << _isSynced
+	  << _commandId
+	  << _command
+	  << _argument
 	;}
+
 	inline QDataStream& operator<<(QDataStream& s)
 	{ return s
 	  >> _idLesson
@@ -72,6 +95,10 @@ public:
 	  >> _width
 	  >> _height
 	  >> _isDocked
+	  >> _isSynced
+	  >> _commandId
+	  >> _command
+	  >> _argument
 	 ;}
 
 private:
@@ -82,6 +109,10 @@ private:
 	quint32				_width;
 	quint32				_height;
 	bool				_isDocked;
+	bool				_isSynced;
+	quint32				_commandId;
+	quint32				_command;
+	qint64				_argument;
 };
 
 typedef QList<WhiteBoardItem> WhiteBoardItemList;

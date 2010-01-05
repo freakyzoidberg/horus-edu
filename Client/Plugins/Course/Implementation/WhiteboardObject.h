@@ -56,14 +56,24 @@ public:
     ~WhiteboardObject();
 
     bool				isDocked();
+	bool				isSynced();
 	ILessonDocument*	getDocument();
 	ILesson*			getLesson();
 	void				setSize(int w, int h);
 	void				setSize(const QSize& sz);
 	WhiteBoard*			getBoard();
+	int							getCommandId() { return _commandId; }
+	WhiteBoardItem::Command		getCommand() { return _command; }
+	qint64						getArgument() { return _argument; }
+
+signals:
+	void			setSync(bool);
+	void			command(quint32, WhiteBoardItem::Command, qint64);
 
 public slots:
     void            switchDockMode();
+	void			switchSync(bool);
+	void			setCommand(quint32 id, WhiteBoardItem::Command command, qint64 argument);
 
 protected:
     void            mousePressEvent(QMouseEvent *event);
@@ -75,8 +85,10 @@ private:
     QWidget*        _mainWidget;
     QAction*		_dockAction;
 	QAction*		_closeAction;
+	QAction*		_syncAction;
     bool            _isDocked;
 	bool			_isMoving;
+	bool			_isSynced;
     QGridLayout*	_layout;
 	QPoint			_savedPos;
 
@@ -84,6 +96,10 @@ private:
 	ILesson*				_lesson;
 	IDocumentController*	_controller;
 	UserData*				_user;
+
+	quint32				_commandId;
+	WhiteBoardItem::Command	_command;
+	qint64				_argument;
 };
 
 class LoadIcon : public QLabel

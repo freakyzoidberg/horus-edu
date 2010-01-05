@@ -163,6 +163,11 @@ QToolBar*	WhiteBoard::getDock()
 			 {
 				 wbObject->move(it->left(), it->top());
 				 wbObject->setSize(it->width(), it->height());
+				 wbObject->switchSync(it->synced());
+				 if (it->synced())
+				 {
+					 wbObject->setCommand(it->commandId(), it->command(), it->argument());
+				 }
 				 if (it->docked())
 				 {
 					 wbObject->hide();
@@ -191,6 +196,11 @@ QToolBar*	WhiteBoard::getDock()
 				 }
 				 wbObject->move(it->left(), it->top());
 				 wbObject->setSize(it->width(), it->height());
+				 wbObject->switchSync(it->synced());
+				 if (it->synced())
+				 {
+					 wbObject->setCommand(it->commandId(), it->command(), it->argument());
+				 }
 				 if (it->docked())
 				 {
 					 wbObject->hide();
@@ -236,7 +246,7 @@ void	WhiteBoard::notifyChange()
 			if (qobject_cast<WhiteboardObject *>(*it))
 			{
 				WhiteboardObject* wbObject = qobject_cast<WhiteboardObject *>(*it);
-				list.append(WhiteBoardItem(wbObject->getLesson()->getId(), wbObject->getDocument()->getId(), wbObject->x(), wbObject->y(), wbObject->width(), wbObject->height(), wbObject->isDocked()));
+				list.append(WhiteBoardItem(wbObject->getLesson()->getId(), wbObject->getDocument()->getId(), wbObject->x(), wbObject->y(), wbObject->width(), wbObject->height(), wbObject->isDocked(), wbObject->isSynced(), wbObject->getCommandId(), wbObject->getCommand(), wbObject->getArgument()));
 			}
 		}
 		_wbdata->save();

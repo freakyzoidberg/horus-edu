@@ -18,6 +18,7 @@ HEADERS += Implementation/mediacontroller.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserData.h \
     ../../../Common/UserDataPlugin.h \
+	../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h \
     Implementation/player.h
 RESOURCES += MediaController.qrc
 TRANSLATIONS = MediaController_en.ts \

@@ -53,6 +53,7 @@ public:
         QWidget                 *createDocumentWidget(ILessonDocument *document, QWidget *loadicon = NULL);
         QWidget                 *editDocument(QFile *metadata, ILessonDocument *);
 		QIcon			getIcon();
+		bool			supportsSync() { return false; }
 };
 
 #endif // __TEXTCONTROLLER_H__

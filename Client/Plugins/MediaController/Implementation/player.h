@@ -46,6 +46,7 @@
 #include <Phonon/SeekSlider>
 
 #include "../../../../Common/FileData.h"
+#include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h"
 
 class Player : public QFrame
 {
@@ -54,10 +55,18 @@ public:
     Player(FileData *, QWidget* loadicon);
     ~Player();
 
+signals:
+	void	command(quint32, WhiteBoardItem::Command, qint64);
+
 public slots:
 	void	downloaded();
 	void	play();
 	void	stop();
+	void	switchSync(bool);
+	void	setCommand(quint32, WhiteBoardItem::Command, qint64);
+
+protected slots:
+	void	tick(qint64 time);
 
 private:
 	QGridLayout*			_layout;
@@ -69,6 +78,9 @@ private:
 	QPushButton*			_playButton;
 	QPushButton*			_stopButton;
 	Phonon::VideoWidget*	_videoWidget;
+	quint32					_commandId;
+	quint32					_checkId;
+	qint64					_lastTick;
 };
 
 #endif // VIDEOPLAYER_H

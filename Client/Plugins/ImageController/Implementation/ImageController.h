@@ -59,6 +59,7 @@ public:
     QWidget*			createDocumentWidget(ILessonDocument *document, QWidget *loadicon = NULL);
     QWidget             *editDocument(QFile *metadata, ILessonDocument *);
 	QIcon			getIcon();
+	bool			supportsSync() { return false; }
 };
 
 class ImageWidget : public QFrame
