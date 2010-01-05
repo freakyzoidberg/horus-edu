@@ -32,24 +32,89 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include <QIcon>
+#include		"InformationsUser.h"
 
-#include "ManageEdt.h"
-#include "MainView.h"
-#include "EdtPlanning.h"
+#include		<QGridLayout>
+#include		<QLabel>
 
-MainView::MainView(PluginManager *pluginManager)
+InformationsUser::InformationsUser(QWidget *parent, UserData *user) : QWidget(parent)
 {
-	ManageEdt *EdtManager = new ManageEdt(pluginManager, this);
-	EdtSceneView = new EdtWidget(pluginManager);
+	QGridLayout	*layout;
+	QLabel		*fieldLabel;
+	QLabel		*valueLabel;
+	QString		value;
+	int			row;
 
-	this->addTab(EdtSceneView, QIcon(":/Icons/desk.png"), tr("Weekly view"));
-        //this->addTab(new EdtPlanning(), QIcon(":/Icons/desk.png"), tr("View planning"));
-
-	if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
+	if (!user)
+		return ;
+	row = 0;
+	layout = new QGridLayout(this);
+	value = user->surname();
+	if (value.size())
 	{
-		this->addTab(EdtManager, QIcon(":/Icons/desk.png"), tr("Manage EDT"));
-		this->setTabEnabled(0, false);
-                //this->setTabEnabled(1, false);
+		fieldLabel = new QLabel(tr("First name"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->name();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Last name"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	if (user->gender() == GENDER_UNKNOW)
+		value = tr("Unknow");
+	if (user->gender() == GENDER_FEMALE)
+		value = tr("Female");
+	if (user->gender() == GENDER_MALE)
+		value = tr("Male");
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Gender"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->mail();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Email"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone1();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Home phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone2();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Work phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
+	}
+	value = user->phone3();
+	if (value.size())
+	{
+		fieldLabel = new QLabel(tr("Mobile phone"), this);
+		layout->addWidget(fieldLabel, row, 0);
+		valueLabel = new QLabel(value, this);
+		layout->addWidget(valueLabel, row, 1);
+		++row;
 	}
 }

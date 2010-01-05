@@ -75,7 +75,7 @@ QWidget			*Attendance::getWidget()
         if (u && u->level() > LEVEL_ADMINISTRATOR)
                 return (0);
         widget = new QTabWidget();
-        widget->addTab(new AttendanceFrame(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_STUDENT, pluginManager->findPlugin<ScheduleDataPlugin *>(), pluginManager->findPlugin<AttendanceDataPlugin *>()), QIcon(":/Icons/students.png"), tr("Attendances"));
+        widget->addTab(new AttendanceFrame(widget, pluginManager->findPlugin<TreeDataPlugin *>(), pluginManager->findPlugin<UserDataPlugin *>(), LEVEL_STUDENT, pluginManager->findPlugin<ScheduleDataPlugin *>(), pluginManager->findPlugin<AttendanceDataPlugin *>()), QIcon(":/desk.png"), tr("Attendances"));
         return (widget);
 }
 

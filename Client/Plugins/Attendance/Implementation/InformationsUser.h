@@ -32,24 +32,19 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#include <QIcon>
+#ifndef		__DISPLAYUSER_H__
+# define	__DISPLAYUSER_H__
 
-#include "ManageEdt.h"
-#include "MainView.h"
-#include "EdtPlanning.h"
+# include	<QWidget>
 
-MainView::MainView(PluginManager *pluginManager)
+# include	"../../../../Common/UserData.h"
+
+class		InformationsUser : public QWidget
 {
-	ManageEdt *EdtManager = new ManageEdt(pluginManager, this);
-	EdtSceneView = new EdtWidget(pluginManager);
+	Q_OBJECT
 
-	this->addTab(EdtSceneView, QIcon(":/Icons/desk.png"), tr("Weekly view"));
-        //this->addTab(new EdtPlanning(), QIcon(":/Icons/desk.png"), tr("View planning"));
+public:
+	InformationsUser(QWidget *parent, UserData *user = 0);
+};
 
-	if (pluginManager->currentUser()->level() <= LEVEL_ADMINISTRATOR)
-	{
-		this->addTab(EdtManager, QIcon(":/Icons/desk.png"), tr("Manage EDT"));
-		this->setTabEnabled(0, false);
-                //this->setTabEnabled(1, false);
-	}
-}
+#endif

@@ -134,7 +134,7 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 		{
             updateVisible(2);
 			parent->setTabEnabled(0, false);
-			parent->setTabEnabled(1, false);
+                        //parent->setTabEnabled(1, false);
 		}
         else
         {
@@ -163,7 +163,7 @@ void	ManageEdt::fallback()
 	MainLayout->setStretch(0, 1);
 
 		parent->setTabEnabled(0, false);
-			parent->setTabEnabled(1, false);
+                        //parent->setTabEnabled(1, false);
 	 ok->setVisible(false);
 	del->setVisible(false);
 	edit->setVisible(false);
@@ -189,7 +189,7 @@ void ManageEdt::goadd()
         AdmClassList->setVisible(false);
         updateVisible(0);
 		parent->setTabEnabled(0, false);
-		parent->setTabEnabled(1, false);
+                //parent->setTabEnabled(1, false);
     }
 }
 
@@ -233,7 +233,7 @@ void ManageEdt::godelete()
     edt->remove();
     updateVisible(2);
 	parent->setTabEnabled(0, false);
-	parent->setTabEnabled(1, false);
+        //parent->setTabEnabled(1, false);
 }
 
 void ManageEdt::goedit()
