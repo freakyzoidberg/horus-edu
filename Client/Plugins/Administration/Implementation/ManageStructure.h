@@ -70,7 +70,6 @@ private:
 	InformationsStructure	*informations;
 	QPushButton				*addSchoolButton;
 	QPushButton				*editSchoolButton;
-	QPushButton				*removeSchoolButton;
 	QPushButton				*addClassButton;
 	QPushButton				*editClassButton;
 	QPushButton				*removeClassButton;

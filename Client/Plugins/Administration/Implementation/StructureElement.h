@@ -66,6 +66,7 @@ private slots:
 	void			edit();
 	void			remove();
 	void			validateForm();
+	void			cancelForm();
 
 signals:
 	void			disabled();

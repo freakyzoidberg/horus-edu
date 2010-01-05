@@ -69,6 +69,7 @@ private slots:
 
 signals:
 	void			validated();
+	void			canceled();
 };
 
 #endif //			__STRUCTUREFORM_H__

@@ -53,7 +53,6 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 
 	addSchoolButton = new QPushButton(QIcon(":/Icons/add-school.png"), tr("Add a school"), this);
 	editSchoolButton = new QPushButton(QIcon(":/Icons/edit-school.png"), tr("Edit a school"), this);
-	removeSchoolButton = new QPushButton(QIcon(":/Icons/remove-school.png"), tr("Delete a school"), this);
 	addClassButton = new QPushButton(QIcon(":/Icons/add-desk.png"), tr("Add a class"), this);
 	editClassButton = new QPushButton(QIcon(":/Icons/edit-desk.png"), tr("Edit a class"), this);
 	removeClassButton = new QPushButton(QIcon(":/Icons/remove-desk.png"), tr("Delete a class"), this);
@@ -66,7 +65,6 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	editSchoolButton->setDisabled(true);
 	editClassButton->setDisabled(true);
 	editSubjectButton->setDisabled(true);
-	removeSchoolButton->setDisabled(true);
 	removeClassButton->setDisabled(true);
 	removeSubjectButton->setDisabled(true);
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
@@ -121,7 +119,6 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	panelLayout->addWidget(actionsTitle);
 	panelLayout->addWidget(addSchoolButton);
 	panelLayout->addWidget(editSchoolButton);
-	panelLayout->addWidget(removeSchoolButton);
 	panelLayout->addWidget(addClassButton);
 	panelLayout->addWidget(editClassButton);
 	panelLayout->addWidget(removeClassButton);
@@ -131,7 +128,6 @@ ManageStructure::ManageStructure(QWidget *parent, TreeDataPlugin *treeDataPlugin
 	panelLayout->addWidget(new QWidget(this), 1);
 	connect(addSchoolButton, SIGNAL(clicked()), school, SLOT(add()));
 	connect(editSchoolButton, SIGNAL(clicked()), school, SLOT(edit()));
-	connect(removeSchoolButton, SIGNAL(clicked()), school, SLOT(remove()));
 	connect(addClassButton, SIGNAL(clicked()), classes, SLOT(add()));
 	connect(editClassButton, SIGNAL(clicked()), classes, SLOT(edit()));
 	connect(removeClassButton, SIGNAL(clicked()), classes, SLOT(remove()));
@@ -146,7 +142,6 @@ void					ManageStructure::schoolEnabled()
 {
 	addSchoolButton->setDisabled(true);
 	editSchoolButton->setDisabled(false);
-	removeSchoolButton->setDisabled(false);
 	addClassButton->setDisabled(false);
 	classes->show();
 }
@@ -155,7 +150,6 @@ void					ManageStructure::schoolDisabled()
 {
 	addSchoolButton->setDisabled(false);
 	editSchoolButton->setDisabled(true);
-	removeSchoolButton->setDisabled(true);
 	addClassButton->setDisabled(true);
 	classes->hide();
 }
