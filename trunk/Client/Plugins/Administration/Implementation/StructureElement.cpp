@@ -60,6 +60,7 @@ void			StructureElement::add()
 	_form->show();
 	addElement();
 	connect(_form, SIGNAL(validated()), this, SLOT(validateForm()));
+	connect(_form, SIGNAL(canceled()), this, SLOT(cancelForm()));
 }
 
 void			StructureElement::edit()
@@ -67,6 +68,7 @@ void			StructureElement::edit()
 	_form->show();
 	editElement();
 	connect(_form, SIGNAL(validated()), this, SLOT(validateForm()));
+	connect(_form, SIGNAL(canceled()), this, SLOT(cancelForm()));
 }
 
 void			StructureElement::remove()
@@ -85,4 +87,11 @@ void			StructureElement::validateForm()
 	validateElement();
 	_form->hide();
 	disconnect(_form, SIGNAL(validated()), this, SLOT(validateForm()));
+	disconnect(_form, SIGNAL(canceled()), this, SLOT(cancelForm()));
+}
+
+void			StructureElement::cancelForm()
+{
+	disconnect(_form, SIGNAL(validated()), this, SLOT(validateForm()));
+	disconnect(_form, SIGNAL(canceled()), this, SLOT(cancelForm()));
 }

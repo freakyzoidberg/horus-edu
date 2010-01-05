@@ -162,6 +162,7 @@ QWidget			*EditUser::getPersonnalFrame()
 	birthDateField->setDate(QDate::currentDate());
 	birthDateField->setCalendarPopup(true);
 	birthDateField->setDisplayFormat(tr("dd/MM/yy"));
+	birthDateField->setMaximumDate(QDate::currentDate());
 	personnalBottomLayout->addWidget(birthDateField, 1, 1);
 	label = new QLabel(tr("Birth place"), personnalFrame);
 	label->setProperty("isFormLabel", true);

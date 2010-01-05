@@ -153,4 +153,5 @@ void						StructureForm::validate()
 void						StructureForm::cancel()
 {
 	this->hide();
+	emit canceled();
 }
