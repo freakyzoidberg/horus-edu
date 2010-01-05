@@ -74,6 +74,13 @@ PluginManagerClient::PluginManagerClient()
 
 void PluginManagerClient::loadPlugins()
 {
+	if (_loaded)
+	{
+		emit loadProgressChange(100);
+		emit loaded();
+		return;
+	}
+
 	_currentUser = 0;
 	LocalSettings settings;
 	QStringList	pluginsToLoad;
