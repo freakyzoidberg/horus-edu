@@ -39,7 +39,10 @@
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
 #include "../../UserData.h"
-
+#ifdef HORUS_CLIENT
+#include "../../../Client/DataListModel.h"
+#include "../../../Client/Plugins/TreeBaseClient/Implementation/TreeModel.h"
+#endif
 TreeDataBasePlugin::TreeDataBasePlugin()
 {
 	_rootNode = new TreeDataBase(0, this);
@@ -48,8 +51,6 @@ TreeDataBasePlugin::TreeDataBasePlugin()
 void TreeDataBasePlugin::load()
 {
 	((TreeDataBase*)_rootNode)->_user = pluginManager->findPlugin<UserDataPlugin*>()->nobody();
-//	connect(((TreeDataBase*)_rootNode)->_user, SIGNAL(removed()), ((TreeDataBase*)_rootNode), SLOT(userRemoved()));
-	_allDatas.append(_rootNode);
 #ifdef HORUS_SERVER
 	QSqlQuery query = pluginManager->sqlQuery();
 	query.prepare("SELECT`id`,`typeofnode`,`name`,`user_ref`,`id_parent`,`mtime`FROM`tree`;");
@@ -69,6 +70,10 @@ void TreeDataBasePlugin::load()
 		n->_status		= Data::UPTODATE;
 	}
 #endif
+#ifdef HORUS_CLIENT
+	_listModel = new DataListModel(this);
+	_treeModel = new TreeModel(this);
+#endif
 	Plugin::load();
 }
 
@@ -77,7 +82,11 @@ void TreeDataBasePlugin::unload()
 	foreach (Data* d, _allDatas)
 		delete static_cast<TreeDataBase*>(d);
 	_allDatas.clear();
-	_rootNode = new TreeDataBase(0, this);
+	static_cast<TreeDataBase*>(_rootNode)->_children.clear();
+#ifdef HORUS_CLIENT
+	delete _listModel;
+	delete _treeModel;
+#endif
 	DataPlugin::unload();
 }
 
@@ -107,6 +116,9 @@ bool TreeDataBasePlugin::canLoad() const
 
 TreeData* TreeDataBasePlugin::node(quint32 nodeId)
 {
+	if ( ! nodeId)
+		return _rootNode;
+
 	foreach (Data* d, _allDatas)
 	{
 		TreeDataBase* n = static_cast<TreeDataBase*>(d);
@@ -161,20 +173,6 @@ Data* TreeDataBasePlugin::dataWithKey(QDataStream& s)
 }
 
 #ifdef HORUS_CLIENT
-#include "../../../Client/DataListModel.h"
-#include "../../../Client/Plugins/TreeBaseClient/Implementation/TreeModel.h"
-QAbstractListModel* TreeDataBasePlugin::listModel() const
-{
-	static DataListModel* _model = new DataListModel(this);
-	return _model;
-}
-
-QAbstractItemModel* TreeDataBasePlugin::treeModel() const
-{
-	static TreeModel* _model = new TreeModel(this);
-	return _model;
-}
-
 void TreeDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	TreeDataBase* n = ((TreeDataBase*)(d));

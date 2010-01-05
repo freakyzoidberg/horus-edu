@@ -64,7 +64,6 @@ public:
 		MailData* createMail();
 #ifdef HORUS_CLIENT
     void                 dataHaveNewKey(Data*d, QDataStream& s);
-	QAbstractListModel*		listModel() const;
 #endif
 #ifdef HORUS_SERVER
 public slots:

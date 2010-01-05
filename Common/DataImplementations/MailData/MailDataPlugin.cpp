@@ -70,19 +70,9 @@ Data* MailDataPlugin::dataWithKey(QDataStream& s)
 }
 
 #ifdef HORUS_CLIENT
-
 void MailDataPlugin::dataHaveNewKey(Data*, QDataStream&)
 {
 }
-
-#include "../../../Client/DataListModel.h"
-
-QAbstractListModel* MailDataPlugin::listModel() const
-{
-	static DataListModel* _model = new DataListModel(this);
-	return _model;
-}
-
 #endif
 #ifdef HORUS_SERVER
 #include "../../../Server/Plugins/MailServer/Implementation/pop_3.h"

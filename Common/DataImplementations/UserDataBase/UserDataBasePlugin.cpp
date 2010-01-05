@@ -39,6 +39,9 @@
 
 #include "../../PluginManager.h"
 #include "../../Plugin.h"
+#ifdef HORUS_CLIENT
+#include "../../../Client/DataListModel.h"
+#endif
 
 UserDataBasePlugin::UserDataBasePlugin()
 {
@@ -109,6 +112,9 @@ void UserDataBasePlugin::load()
 		connect(u->_studentClass, SIGNAL(removed()), u, SLOT(studentClassRemoved()));
 	}
 #endif
+#ifdef HORUS_CLIENT
+	_model = new DataListModel(this);
+#endif
 	Plugin::load();
 }
 
@@ -117,6 +123,9 @@ void UserDataBasePlugin::unload()
 	foreach (Data* d, _allDatas)
 		delete (UserDataBase*)d;
 	_allDatas.clear();
+#ifdef HORUS_CLIENT
+	delete _model;
+#endif
 	DataPlugin::unload();
 }
 
@@ -196,7 +205,7 @@ QList<UserData*> UserDataBasePlugin::parentsOfStudent(const UserData* student) c
 UserData* UserDataBasePlugin::user(quint32 userId)
 {
 	if (userId == 0)
-		return nobody();
+		return _nobody;
 
 	foreach (Data* d, _allDatas)
 	{
@@ -250,12 +259,5 @@ void UserDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 	UserDataBase* u = ((UserDataBase*)(d));
 	s >> u->_id;
 	qDebug() << "User data Have a New Key" << u->_id;
-}
-
-#include "../../../Client/DataListModel.h"
-QAbstractListModel* UserDataBasePlugin::listModel() const
-{
-	static DataListModel* _model = new DataListModel(this);
-	return _model;
 }
 #endif

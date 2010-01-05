@@ -85,12 +85,15 @@ public:
 	QStringList				subjects() const;
 	QList<TreeData*>		grades() const;
 #ifdef HORUS_CLIENT
-	QAbstractItemModel*		treeModel() const;
-	QAbstractListModel*		listModel() const;
+	inline QAbstractItemModel*	treeModel() const { return _treeModel; }
+	inline QAbstractListModel*	listModel() const { return _listModel; }
+private:
+	QAbstractItemModel*		_treeModel;
+	QAbstractListModel*		_listModel;
 #endif
 
 
-
+public:
 	TreeDataBasePlugin();
 private:
 	TreeData*				_rootNode;

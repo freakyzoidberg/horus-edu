@@ -51,14 +51,13 @@ void MarksDataBase::keyToStream(QDataStream& s) const
 void MarksDataBase::dataToStream(QDataStream& s) const
 {
 	s << _comment << _result << _student << _exam->id();
+	Data::dataToStream(s);
 }
 
 void MarksDataBase::dataFromStream(QDataStream& s)
 {
 	quint32	examId;
-
 	s >> _comment >> _result >> _student >> examId;
-
 	setExam(_plugin->pluginManager->findPlugin<ExamsDataPlugin*>()->exam(examId));
 	Data::dataFromStream(s);
 }

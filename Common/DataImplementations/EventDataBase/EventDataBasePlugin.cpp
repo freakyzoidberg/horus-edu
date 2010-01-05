@@ -179,11 +179,3 @@ QList<Data*> EventDataBasePlugin::datasForUpdate(UserData*, QDateTime date)
 	return list;
 }
 #endif
-#ifdef HORUS_CLIENT
-#include "../../../Client/DataListModel.cpp"
-QAbstractListModel* EventDataBasePlugin::listModel() const
-{
-	static DataListModel* _model = new DataListModel(this);
-	return _model;
-}
-#endif
