@@ -41,6 +41,8 @@
 LoginDialog::LoginDialog()
 {
 	setMinimumSize(300, 200);
+	setWindowTitle(tr("Please Login"));
+	setWindowIcon(QIcon(":/Pictures/2010_LOGO_horus_2_trans.png"));
 	NetworkManager* net = NetworkManager::instance();
 	QVBoxLayout* l1 = new QVBoxLayout(this);
 	l1->setContentsMargins(10,10,10,10);
