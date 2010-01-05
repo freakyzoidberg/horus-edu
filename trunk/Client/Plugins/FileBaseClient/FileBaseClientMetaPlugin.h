@@ -55,7 +55,7 @@ public:
 	  pluginList.append( filePlugin);
 	  pluginList.append( new FileNetworkPlugin(filePlugin) );
 	  pluginList.append( new LibraryPlugin );
-	  pluginList.append( new LibrarySmallDisplayable );
+	  //pluginList.append( new LibrarySmallDisplayable );
 	  pluginList.append( new DownloadSmallDisplayable );
 //          pluginList.append( new TransfertPlugin );
   }

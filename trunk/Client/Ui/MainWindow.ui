@@ -195,13 +195,7 @@ QLabel[isFormLabel=&quot;true&quot;]
 	font-weight: bold;
 }
 
-QHeaderView
-{
-border: 0px; 
-	background-color: rgb(255, 255, 255);
-padding: 0px; 
-margin: 0px; 
-}
+
 
 QLabel[isFormTitle=&quot;true&quot;]
 {
@@ -223,8 +217,14 @@ QFrame[isFormFrame=&quot;true&quot;]
 	border-top-color: rgb(255, 255, 255);
 	border-left-color: rgb(255, 255, 255);
 }
-
-QListView 
+QHeaderView
+{
+	border: 0px; 
+	background-color: rgb(255, 255, 255);
+	padding: 0px; 
+	margin: 0px; 
+}
+QListView
 { 
 	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
 	border: 1px solid rgba(0, 0, 0, 32);
@@ -233,7 +233,7 @@ QListView
 	border-right-color: rgba(255, 255, 255, 128);
 	selection-background-color: rgb(73, 150, 186); 
 } 
-QTableView 
+QTableView[back=&quot;true&quot;] 
 { 
 	background: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0.0113636, stop:0 rgba(202, 225, 229, 255), stop:0.494318 rgba(255, 255, 255, 255)); 
 	border: 1px solid rgba(0, 0, 0, 32);

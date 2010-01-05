@@ -131,6 +131,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	classFilter->setFilterKeyColumn(0);
 	classFilter->setDynamicSortFilter(true);
 	userListView = new QTableView(this);
+	userListView->setProperty("back", true);
 	userListView->setShowGrid(false);
 	userListView->verticalHeader()->hide();
 	userListView->setSortingEnabled(true);

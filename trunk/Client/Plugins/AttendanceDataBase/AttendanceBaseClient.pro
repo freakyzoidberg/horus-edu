@@ -20,3 +20,6 @@ HEADERS += AttendanceBaseClientMetaPlugin.h \
     ../../../Common/Data.h
 SOURCES += ../../../Common/DataImplementations/AttendanceDataBase/AttendanceDataBasePlugin.cpp \
     ../../../Common/DataImplementations/AttendanceDataBase/AttendanceDataBase.cpp
+
+TRANSLATIONS =	AttendanceBaseClientMetaPlugin_en.ts \
+				AttendanceBaseClientMetaPlugin_fr.ts
