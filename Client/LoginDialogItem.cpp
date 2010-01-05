@@ -206,6 +206,7 @@ void LoginDialogItem::networkStatusChanged(NetworkManager::Status status)
 			((QLabel*)(_layout->itemAtPosition(1, 1)->widget()))->setText("Password:");
 			QLayoutItem* item = _layout->itemAtPosition(1, 2);
 			_layout->removeItem(item);
+			delete item->widget();
 			delete item;
 			_layout->addWidget((_password = new QLineEdit), 1, 2);
 			_password->setFocus();

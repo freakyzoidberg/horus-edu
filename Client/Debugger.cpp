@@ -46,7 +46,8 @@ Debugger::Debugger()
 
     setWindowFlags(Qt::Dialog);
     setLayout(&layout);
-    setWindowTitle(tr("Horus debugger"));
+	setWindowTitle(tr("Debugger"));
+	setWindowIcon(QIcon(":/Pictures/2010_LOGO_horus_2_trans.png"));
 
 	QFont font = text.font();
 	font.setFixedPitch(true);
