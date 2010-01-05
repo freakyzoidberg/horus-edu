@@ -34,7 +34,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "audioplayer.h"
 
-AudioPlayer::AudioPlayer(FileData *fileData, QWidget *loadicon) : _fileData(fileData), _loadicon(loadicon), _commandId(0), _checkId(0), _lastTick(0)
+AudioPlayer::AudioPlayer(FileData *fileData, QWidget *loadicon) : _fileData(fileData), _loadicon(loadicon), _commandId(0), _checkId(0), _lastTick(0), _playing(false)
 {
 	_layout = new QGridLayout();
 	setLayout(_layout);
@@ -69,7 +69,7 @@ void	AudioPlayer::downloaded()
 	_playButton = new QPushButton(QIcon(":/play.png"), tr("Play"));
 	connect(_playButton, SIGNAL(pressed()), this, SLOT(play()));
 	connect(_stopButton, SIGNAL(pressed()), this, SLOT(stop()));
-	connect(_mediaObject, SIGNAL(finished()), this, SLOT(stop()));
+	connect(_mediaObject, SIGNAL(finished()), this, SLOT(finished()));
 	connect(_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
 	_layout->addWidget(_slider, 0, 0, 1, 2);
 	_layout->addWidget(_stopButton, 1, 0);
@@ -83,6 +83,7 @@ void	AudioPlayer::play()
 		_mediaObject->pause();
 		_playButton->setText(tr("Play"));
 		_playButton->setIcon(QIcon(":/play.png"));
+		_playing = false;
 		emit command(_commandId++, WhiteBoardItem::PAUSE, _mediaObject->currentTime());
 	}
 	else
@@ -90,6 +91,7 @@ void	AudioPlayer::play()
 		_mediaObject->play();
 		_playButton->setText(tr("Pause"));
 		_playButton->setIcon(QIcon(":/pause.png"));
+		_playing = true;
 		emit command(_commandId++, WhiteBoardItem::PLAY, _mediaObject->currentTime());
 	}
 }
@@ -99,14 +101,23 @@ void	AudioPlayer::stop()
 	_mediaObject->stop();
 	_playButton->setText(tr("Play"));
 	_playButton->setIcon(QIcon(":/play.png"));
+	_playing = false;
 	emit command(_commandId++, WhiteBoardItem::STOP, 0);
+}
+
+void	AudioPlayer::finished()
+{
+	_playing = false;
 }
 
 void	AudioPlayer::tick(qint64 time)
 {
 	if ((time - _lastTick) > _mediaObject->tickInterval() * 2 || time < _lastTick)
 	{
-		emit command(_commandId++, WhiteBoardItem::SEEK, time);
+		if (_playing)
+		{
+			emit command(_commandId++, WhiteBoardItem::SEEK, time);
+		}
 	}
 	_lastTick = time;
 }
