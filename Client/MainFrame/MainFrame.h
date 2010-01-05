@@ -32,36 +32,36 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef								__SMALLDISPLAYABLEPLUGIN_H__
-# define							__SMALLDISPLAYABLEPLUGIN_H__
+#ifndef MAINFRAME_H
+#define MAINFRAME_H
 
-# include							<QWidget>
-# include							<QString>
-# include							<QIcon>
+#include <QtPlugin>
+#include <QHash>
 
-# include							"../../../Common/Plugin.h"
+#include "../DisplayablePlugin.h"
 
-//! Interface for using the display inside the mainboard
-/*!
- *  Each plugin implementing this interface will be able to use the display inside the mainboard
- */
-class								SmallDisplayablePlugin : public Plugin
+class MainFrameWidget;
+
+class MainFrame : public DisplayablePlugin
 {
     Q_OBJECT
-    Q_INTERFACES(Plugin)
+    Q_INTERFACES(DisplayablePlugin)
 
 public:
-    virtual QWidget					*getWidget() = 0;
+    // INTERFACE Plugin
+    inline const QString    pluginName() const    { return "MainFrame"; }
+    inline const QString    pluginVersion() const { return "0.1"; }
+    bool                    canLoad() const;
+    void                    load();
 
-    //! Return the displayable name of the plugin.
-    /*!
-     *  This name will be displayed in the menu.
-     *  If an empty QString is returned, this plugin will not be displayed in the menu.
-     */
-    virtual inline const QString	getDisplayableName() const { return (QString()); }
-	virtual inline QIcon			getIcon() const { return (QIcon()); }
+    // INTERFACE DisplayablePlugin
+    inline const QString    getDisplayableName() const { return tr("Main Board"); }
+    QWidget*                getWidget();
+	int						getOrder() const;
+	QIcon					getIcon() const;
+
+private slots:
+    void                    courseClicked();
 };
 
-Q_DECLARE_INTERFACE(SmallDisplayablePlugin, "net.horus.Client.SmallDisplayablePlugin/1.0");
-
-#endif //							__SMALLDISPLAYABLEPLUGIN_H__
+#endif // MAINFRAME_H

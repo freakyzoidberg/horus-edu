@@ -29,7 +29,10 @@ SOURCES += main.cpp \
     CacheManager.cpp \
     UserCache.cpp \
     LoginDialogItem.cpp \
-    SecondaryThread.cpp
+	SecondaryThread.cpp \
+	MainFrame/DragingWidget.cpp \
+	MainFrame/MainFrame.cpp \
+	MainFrame/MainFrameWidget.cpp
 HEADERS += NetworkManager.h \
     ../Common/Defines.h \
     ../Common/CommPacket.h \
@@ -50,6 +53,7 @@ HEADERS += NetworkManager.h \
     ../Common/LocalSettings.h \
     NetworkPlugin.h \
     DisplayablePlugin.h \
+	SmallDisplayablePlugin.h \
 	DataManagerClient.h \
     HorusStyle.h \
     MainWindow.h \
@@ -62,16 +66,23 @@ HEADERS += NetworkManager.h \
     CacheManager.h \
     UserCache.h \
     LoginDialogItem.h \
-	SecondaryThread.h
+	SecondaryThread.h \
+	MainFrame/DragingWidget.h \
+	MainFrame/MainFrame.h \
+	MainFrame/MainFrameWidget.h
 FORMS += Ui/MainWindow.ui \
     Ui/SettingsDialog.ui \
-    Ui/DockMenu.ui
+	Ui/DockMenu.ui \
+	MainFrame/Ui/MainFrameWidget.ui
 RESOURCES += Ui/SettingsDialog.qrc \
     Ui/MainWindow.qrc \
-    Ui/DockMenu.qrc
+	Ui/DockMenu.qrc \
+	MainFrame/Ui/MainFrameWidget.qrc
 RC_FILE = Client.rc
 TRANSLATIONS = Horus_en.ts \
-    Horus_fr.ts
+	Horus_fr.ts \
+	MainFrame/MainFrame_en.ts \
+	MainFrame/MainFrame_fr.ts
 QMAKE_EXTRA_TARGETS += plugintarget
 POST_TARGETDEPS += .plugins
 plugintarget.target = .plugins

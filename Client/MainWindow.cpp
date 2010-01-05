@@ -36,20 +36,39 @@
 
 #include <QDir>
 #include <QPushButton>
+#include <QLabel>
 
 #include "CacheManager.h"
 #include "SettingsDialog.h"
 #include "DisplayablePlugin.h"
 #include "PluginManagerClient.h"
+#include "LoginDialog.h"
+
+MainWindow* MainWindow::instance()
+{
+	static MainWindow* window = new MainWindow;
+	return window;
+}
+
+void MainWindow::open()
+{
+	createCentralWidget();
+	show();
+}
+
+void MainWindow::close()
+{
+	delete centralWidget();
+	hide();
+	new LoginDialog;
+}
 
 MainWindow::MainWindow()
 {
 	ui.setupUi(this);
         //createActions();
         //createMenus();
-	createCentralWidget();
-        ui.menubar->setVisible(false);
-	show();
+	ui.menubar->setVisible(false);
 }
 
 void MainWindow::closeEvent(QCloseEvent*)

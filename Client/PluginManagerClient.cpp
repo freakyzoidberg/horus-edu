@@ -39,6 +39,7 @@
 #include <QPluginLoader>
 #include <QTranslator>
 #include <QDebug>
+#include "MainFrame/MainFrame.h"
 
 #include "../Common/MetaPlugin.h"
 #include "../Common/Plugin.h"
@@ -77,6 +78,9 @@ void PluginManagerClient::loadPlugins()
 	LocalSettings settings;
 	QStringList	pluginsToLoad;
 	QStringList	pluginFilter;
+
+	MainFrame* main = new MainFrame;
+	_plugins.insert(main->pluginName(), main);
 
     settings.beginGroup("Plugins");
     QDir pluginsUserDir(settings.value("UserDirectoryPath", "/Undefined").toString());

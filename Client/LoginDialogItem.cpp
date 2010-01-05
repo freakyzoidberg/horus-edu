@@ -170,6 +170,8 @@ void LoginDialogItem::login()
 
 void LoginDialogItem::cacheLoaded()
 {
+	if (_cache)
+		disconnect(_cache, SIGNAL(loaded()), this, SLOT(cacheLoaded()));
 	NetworkManager* net = NetworkManager::instance();
 
 	if (net->status() == NetworkManager::ESTABLISHED)

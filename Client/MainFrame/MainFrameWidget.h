@@ -32,36 +32,43 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef MAINFRAME_H
-#define MAINFRAME_H
+#ifndef				__MAINFRAMEWIDGET_H__
+# define			__MAINFRAMEWIDGET_H__
 
-#include <QtPlugin>
-#include <QHash>
+# include			<QWidget>
+# include			<QBoxLayout>
+# include			<QLabel>
+# include			<QComboBox>
 
-#include "../../../DisplayablePlugin.h"
+#include			"../../Common/PluginManager.h"
 
-class MainFrameWidget;
-
-class MainFrame : public DisplayablePlugin
+class MainFrameWidget : public QWidget
 {
     Q_OBJECT
-    Q_INTERFACES(DisplayablePlugin)
 
 public:
-    // INTERFACE Plugin
-    inline const QString    pluginName() const    { return "MainFrame"; }
-    inline const QString    pluginVersion() const { return "0.1"; }
-    bool                    canLoad() const;
-    void                    load();
+    MainFrameWidget(PluginManager *pluginManager);
+	void			dragEnterEvent(QDragEnterEvent *dragEvent);
+	void			dropEvent(QDropEvent *dropEvent);
+	void			mouseMoveEvent(QMouseEvent *mouseEvent);
 
-    // INTERFACE DisplayablePlugin
-    inline const QString    getDisplayableName() const { return tr("Main Board"); }
-    QWidget*                getWidget();
-	int						getOrder() const;
-	QIcon					getIcon() const;
+private:
+	QComboBox		*stuff;
+    QBoxLayout		*leftLayout;
+    QBoxLayout		*rightLayout;
+    QLabel*			connectedAs;
+    QLabel*			lastLogin;
+	QWidget			*empty;
+	bool			hasEmpty;
+	PluginManager	*_pluginManager;
+	void			fillWidgets();
+	void			setStyle();
+	void			updateSettings();
+	void			repopulateStuff();
 
 private slots:
-    void                    courseClicked();
+    void			updateInfos();
+	void			addedStuff(int index);
 };
 
-#endif // MAINFRAME_H
+#endif //			__MAINFRAMEWIDGET_H__

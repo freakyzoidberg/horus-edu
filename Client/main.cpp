@@ -61,14 +61,7 @@ int						main(int argc, char *argv[])
 	app.installTranslator(&translator);
 	app.setStyle(new HorusStyle());
 
-	LoginDialog login;
-	if (login.result() == QDialog::Accepted)
-	{
-		QMainWindow *window = new MainWindow;
-		app.setStyleSheet(window->styleSheet());
-		window->setStyleSheet("");
-		return (app.exec());
-	}
+	new LoginDialog;
 
-	return 0;
+	return (app.exec());
 }

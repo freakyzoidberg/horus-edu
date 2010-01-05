@@ -97,12 +97,8 @@ void CommLogin::read(const QByteArray& a)
 		user = (UserData*)(plugin->dataWithKey(stream));
         user->dataFromStream(stream);
 		login = user->login();
-	}
-	else if (method == DISCONNECTED)
-	{
-		qCritical() << QObject::tr("You have been disconnected from server, please reconnect.");
 #endif
-    }
+	}
 }
 
 void CommLogin::write(QByteArray& a) const

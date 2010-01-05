@@ -48,6 +48,7 @@
 #include "../Common/CommPacket.h"
 #include "../Common/CommData.h"
 #include "../Common/CommError.h"
+#include "LoginDialog.h"
 
 NetworkManager* NetworkManager::instance()
 {
@@ -178,9 +179,11 @@ void NetworkManager::loginSession(const QString login, const QByteArray session)
 		data->send();
 }
 
+#include "MainWindow.h"
 void NetworkManager::logout()
 {
 	sendPacket( CommLogin(CommLogin::LOGOUT).getPacket() );
+	QMetaObject::invokeMethod(MainWindow::instance(), "close");
 }
 
 void NetworkManager::socketError(QAbstractSocket::SocketError error)
@@ -245,7 +248,7 @@ void NetworkManager::recvLogin()
 
 		setStatus(LOGGED_IN);
 	}
-	else if (l.method == CommLogin::REFUSED)
+	else // REFUSED or DISCONNECTED
 		setStatus(ESTABLISHED);
 }
 
