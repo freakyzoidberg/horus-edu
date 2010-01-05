@@ -77,6 +77,7 @@ void TreeDataBasePlugin::unload()
 	foreach (Data* d, _allDatas)
 		delete static_cast<TreeDataBase*>(d);
 	_allDatas.clear();
+	_rootNode = new TreeDataBase(0, this);
 	DataPlugin::unload();
 }
 

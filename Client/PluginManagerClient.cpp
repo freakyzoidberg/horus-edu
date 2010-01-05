@@ -72,14 +72,27 @@ PluginManagerClient::PluginManagerClient()
 	_loaded = false;
 }
 
+void PluginManagerClient::reloadPlugins()
+{
+	_loaded = false;
+	emit loadProgressChange(0);
+	int total = _plugins.count();
+	int pos = 0;
+	foreach (Plugin* plugin, _plugins)
+	{
+		plugin->unload();
+		plugin->load();
+		emit loadProgressChange(++pos * 100 / total);
+	}
+	_loaded = true;
+	emit loadProgressChange(100);
+	emit loaded();
+}
+
 void PluginManagerClient::loadPlugins()
 {
 	if (_loaded)
-	{
-		emit loadProgressChange(100);
-		emit loaded();
-		return;
-	}
+		return reloadPlugins();
 
 	_currentUser = 0;
 	LocalSettings settings;

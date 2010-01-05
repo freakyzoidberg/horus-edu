@@ -35,7 +35,7 @@
 #ifndef				__EVENTSMALLDISPLAYABLE_H__
 # define			__EVENTSMALLDISPLAYABLE_H__
 
-# include			"../../MainFrame/SmallDisplayablePlugin.h"
+# include			"../../SmallDisplayablePlugin.h"
 
 class				EventSmallDisplayable : public SmallDisplayablePlugin
 {

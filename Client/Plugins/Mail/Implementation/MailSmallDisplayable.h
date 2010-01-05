@@ -35,7 +35,7 @@
 #ifndef				__MAILSMALLDISPLAYABLE_H__
 # define			__MAILSMALLDISPLAYABLE_H__
 
-# include			"../../MainFrame/SmallDisplayablePlugin.h"
+# include			"../../SmallDisplayablePlugin.h"
 
 class				MailSmallDisplayable : public SmallDisplayablePlugin
 {

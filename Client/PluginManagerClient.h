@@ -71,6 +71,7 @@ public:
 	static PluginManagerClient*				instance();
 	inline void								setCurrentUser(UserData* _user) { _currentUser = _user; }
 	inline bool								isLoaded() { return _loaded; }
+	void									reloadPlugins();
 
 public slots:
 	void									loadPlugins();

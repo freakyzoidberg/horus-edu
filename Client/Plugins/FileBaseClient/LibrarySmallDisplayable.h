@@ -35,7 +35,7 @@
 #ifndef				__LIBRARYSMALLDISPLAYABLE_H__
 # define			__LIBRARYSMALLDISPLAYABLE_H__
 
-# include			"../MainFrame/SmallDisplayablePlugin.h"
+# include			"../../SmallDisplayablePlugin.h"
 
 class				LibrarySmallDisplayable : public SmallDisplayablePlugin
 {

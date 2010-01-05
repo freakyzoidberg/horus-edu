@@ -78,6 +78,7 @@ NetworkManager::NetworkManager()
 {
 	_status = DISCONNECTED;
 	_nbrDatasForUpdate = 0;
+	_isUpdated = false;
 
 	connect(this, SIGNAL(packetReceived(const QByteArray&)), this, SLOT(recvPacket(QByteArray)), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(socketError(QAbstractSocket::SocketError)));
@@ -184,6 +185,7 @@ void NetworkManager::logout()
 {
 	sendPacket( CommLogin(CommLogin::LOGOUT).getPacket() );
 	QMetaObject::invokeMethod(MainWindow::instance(), "close");
+	_isUpdated = false;
 }
 
 void NetworkManager::socketError(QAbstractSocket::SocketError error)

@@ -35,7 +35,7 @@
 
 #include "AttendanceFrame.h"
 
-#include <qDebug>
+#include <QDebug>
 
 AttendanceFrame::AttendanceFrame(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlugin *userDataPlugin, int userLevel, ScheduleDataPlugin *scheduleDataPlugin, AttendanceDataPlugin *attendanceDataPlugin) : QWidget(parent), _treeDataPlugin(treeDataPlugin), _userDataPlugin(userDataPlugin), _userLevel(userLevel), _scheduleDataPlugin(scheduleDataPlugin), _attendanceDataPlugin(attendanceDataPlugin)
 {

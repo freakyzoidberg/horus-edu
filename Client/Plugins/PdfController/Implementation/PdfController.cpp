@@ -143,7 +143,7 @@ void    PdfController::dl()
         return ;
     }
 
-    fileName = data->file()->fileName();
+	fileName = data->fileName();
     image = pdf->PdfDisplayerDoc(fileName, page, rect, 0);
     if (!image)
     {
@@ -172,7 +172,7 @@ void    PdfController::reload()
         return ;
     }
 
-    fileName = data->file()->fileName();
+	fileName = data->fileName();
     image = pdf->PdfDisplayerDoc(fileName, page, rect, 0);
     if (!image)
     {

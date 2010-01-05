@@ -35,7 +35,7 @@
 #ifndef				__DOWNLOADSMALLDISPLAYABLE_H__
 # define			__DOWNLOADSMALLDISPLAYABLE_H__
 
-# include			"../MainFrame/SmallDisplayablePlugin.h"
+# include			"../../SmallDisplayablePlugin.h"
 
 class				DownloadSmallDisplayable : public SmallDisplayablePlugin
 {

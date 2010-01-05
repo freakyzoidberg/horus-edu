@@ -35,7 +35,7 @@
 #ifndef				__TASKSMALLDISPLAYABLE_H__
 # define			__TASKSMALLDISPLAYABLE_H__
 
-# include			"../../MainFrame/SmallDisplayablePlugin.h"
+# include			"../../SmallDisplayablePlugin.h"
 
 class				TaskSmallDisplayable : public SmallDisplayablePlugin
 {
