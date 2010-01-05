@@ -100,3 +100,9 @@ void LoginDialog::accept()
 	delete this;
 	MainWindow::instance()->open();
 }
+
+#include <QCoreApplication>
+void LoginDialog::closeEvent(QCloseEvent *)
+{
+	QCoreApplication::instance()->exit(0);
+}

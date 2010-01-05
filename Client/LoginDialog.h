@@ -52,6 +52,7 @@ private slots:
 
 public slots:
 	void			accept();
+	void			closeEvent(QCloseEvent *);
 
 public:
 	QProgressBar*	loadBar;
