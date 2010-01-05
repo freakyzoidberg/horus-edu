@@ -73,6 +73,7 @@ public:
 #ifdef HORUS_CLIENT
 	friend class DataManagerClient;
 	friend class PluginManagerClient;
+	friend class UserCache;
 public:
 	//! On the client, when creating a new data, the key can change. So this function have to update the data with the new key in the stream
 	virtual inline void					dataHaveNewKey(Data*, QDataStream&) {};
