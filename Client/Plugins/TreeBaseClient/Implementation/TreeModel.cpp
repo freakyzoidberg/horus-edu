@@ -49,7 +49,7 @@ TreeModel::TreeModel(const TreeDataPlugin* plugin)
 			_data.insertMulti(node->parent(), node);
 		}
 	//DirectConnexion because a REMOVED data is deleted just after the signal
-	 connect(_plugin, SIGNAL(dataStatusChanged(Data*)), this, SLOT(dataStatusChanged(Data*)), Qt::QueuedConnection);
+	 connect(_plugin, SIGNAL(dataStatusChanged(Data*)), this, SLOT(dataStatusChanged(Data*)), Qt::DirectConnection);
 }
 
 int TreeModel::rowCount(const QModelIndex & parent) const

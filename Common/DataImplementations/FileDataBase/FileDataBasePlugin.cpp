@@ -96,7 +96,7 @@ FileData* FileDataBasePlugin::createFile()
 {
 	static quint32 tmpId = 0;
 	tmpId--;
-	return static_cast<FileDataBase*>( file(tmpId));
+	return file(tmpId);
 }
 
 Data* FileDataBasePlugin::dataWithKey(QDataStream& s)
