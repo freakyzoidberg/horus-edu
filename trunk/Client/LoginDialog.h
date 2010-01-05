@@ -35,13 +35,12 @@
 #ifndef LOGINDIALOG_H
 #define LOGINDIALOG_H
 
-#include <QDialog>
 #include <QLabel>
 #include <QProgressBar>
 #include "NetworkManager.h"
 
 //! This Object is the window to login in the server with a username and password
-class LoginDialog : public QDialog
+class LoginDialog : public QWidget
 {
 	Q_OBJECT
 
@@ -50,6 +49,9 @@ public:
 
 private slots:
 	void			networkStatusChange(NetworkManager::Status);
+
+public slots:
+	void			accept();
 
 public:
 	QProgressBar*	loadBar;

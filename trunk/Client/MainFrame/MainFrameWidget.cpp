@@ -37,11 +37,13 @@
 #include							<QApplication>
 #include							<QDragEnterEvent>
 #include							<QFrame>
+#include <QPushButton>
 
-#include							"../../../../Common/UserData.h"
-#include							"../../../../Common/SettingsData.h"
+#include							"../../Common/UserData.h"
+#include							"../../Common/SettingsData.h"
 #include							"../SmallDisplayablePlugin.h"
 #include							"DragingWidget.h"
+#include "../NetworkManager.h"
 
 MainFrameWidget::MainFrameWidget(PluginManager *pluginManager) : QWidget()
 {
@@ -86,7 +88,10 @@ void								MainFrameWidget::fillWidgets()
     connectedAs = new QLabel(tr("Not connected"), this);
     topLayout->addWidget(connectedAs, 1);
     lastLogin = new QLabel(tr("Last login: Never"), this);
-    topLayout->addWidget(lastLogin, 1);
+	topLayout->addWidget(lastLogin);
+	QPushButton* logout = new QPushButton(QIcon(":/Pictures/logout.png"), tr("Logout"), this);
+	connect(logout, SIGNAL(clicked()), NetworkManager::instance(), SLOT(logout()));
+	topLayout->addWidget(logout);
 	stuff = new QComboBox(this);
 	stuff->addItem(tr("Add Stuff..."));
 	connect(stuff, SIGNAL(currentIndexChanged(int)), this, SLOT(addedStuff(int)));

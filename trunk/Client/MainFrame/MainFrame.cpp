@@ -32,32 +32,44 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef			__MAINFRAMEMETAPLUGIN_H__
-# define		__MAINFRAMEMETAPLUGIN_H__
+#include "MainFrame.h"
 
-# include		"../../../Common/MetaPlugin.h"
+#include "../../Common/PluginManager.h"
+#include "../../Common/TreeDataPlugin.h"
+#include "../../Common/SettingsDataPlugin.h"
+#include "MainFrameWidget.h"
 
-# include		"MainFrame.h"
-# include		"ExampleSmallDisplayable.h"
-
-class			MainFrameMetaPlugin : public MetaPlugin
+bool MainFrame::canLoad() const
 {
-  Q_OBJECT
-  Q_INTERFACES(MetaPlugin)
+        if (pluginManager->findPlugin<TreeDataPlugin*>() && pluginManager->findPlugin<SettingsDataPlugin*>())
+		return (true);
+	return (false);
+}
 
-public:
-    inline		MainFrameMetaPlugin()
-	{
-      Plugin*	p = new MainFrame();
-      pluginList.append(p);
-	  p = new ExampleSmallDisplayable();
-	  pluginList.append(p);
-      //PluginManager().addPlugin(p);
-	}
-};
+void MainFrame::load()
+{
+    TreeDataPlugin* t = pluginManager->findPlugin<TreeDataPlugin*>();
+    if (!t->isLoaded())
+        t->load();
+    Plugin::load();
+}
 
-/* maybe put this lines in a cpp if this file is include by an other file */
-// declare instance of the plugin
-Q_EXPORT_PLUGIN2(MainFrameMetaPlugin, MainFrameMetaPlugin);
+QWidget* MainFrame::getWidget()
+{
+    return (new MainFrameWidget(pluginManager));
+}
 
-#endif //		MAINFRAMEMETAPLUGIN_H
+void MainFrame::courseClicked()
+{
+    emit switchToWidget(pluginManager->findPlugin<DisplayablePlugin*>("Course")->getWidget());
+}
+
+int	MainFrame::getOrder() const
+{
+	return (-1);
+}
+
+QIcon		MainFrame::getIcon() const
+{
+	return (QIcon(":/Pictures/icon"));
+}

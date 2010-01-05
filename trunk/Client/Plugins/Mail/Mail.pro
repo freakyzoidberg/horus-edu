@@ -34,7 +34,7 @@ HEADERS += Implementation/Mail.h \
     Implementation/MailAbstractModel.h \
     Implementation/MailSmallDisplayable.h \
     Implementation/MailSmallWidget.h \
-    ../MainFrame/SmallDisplayablePlugin.h \
+	../../SmallDisplayablePlugin.h \
     Implementation/TextBrowser.h \
 	../../DataListModel.h
 RESOURCES += Implementation/mailrc.qrc

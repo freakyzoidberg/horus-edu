@@ -36,6 +36,7 @@
 #include "LoginDialogItem.h"
 #include "PluginManagerClient.h"
 #include "CacheManager.h"
+#include "MainWindow.h"
 
 LoginDialog::LoginDialog()
 {
@@ -78,7 +79,7 @@ LoginDialog::LoginDialog()
 
         setStyleSheet("LoginDialogItem:hover { background-color: rgba(0, 0, 0, 16); }");
 
-	exec();
+	show();
 }
 
 void LoginDialog::networkStatusChange(NetworkManager::Status status)
@@ -89,4 +90,10 @@ void LoginDialog::networkStatusChange(NetworkManager::Status status)
 		_connexionStatus->setPixmap(QPixmap::fromImage(QImage(":/Pictures/connecting.png")));
 	else
 		_connexionStatus->setPixmap(QPixmap::fromImage(QImage(":/Pictures/connected.png")));
+}
+
+void LoginDialog::accept()
+{
+	delete this;
+	MainWindow::instance()->open();
 }

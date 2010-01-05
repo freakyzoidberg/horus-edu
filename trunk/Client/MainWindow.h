@@ -50,12 +50,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    //! Constructor
-    /*!
-        Initialize UI, create actions and menus
-        \param parent The parent
-     */
-	MainWindow();
+	static MainWindow* instance();
+
+public slots:
+	void	open();
+	void	close();
 
 private slots:
 	//! Overload of the event method
@@ -93,6 +92,15 @@ private:
     QAction *logoutAction;
     // Central widget
     QTabWidget *tabMenu;
+
+	//! Constructor
+	/*!
+		Initialize UI, create actions and menus
+		\param parent The parent
+	 */
+	MainWindow();
+	~MainWindow() {};
+	static MainWindow* _instance;
 };
 
 #endif // MAINWINDOW_H

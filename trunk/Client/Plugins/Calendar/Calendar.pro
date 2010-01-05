@@ -43,7 +43,7 @@ HEADERS += Implementation/calendar.h \
     Implementation/calendarcontrolswidget.h \
     Implementation/userinformations.h \
     Implementation/daywidget.h \
-    ../MainFrame/SmallDisplayablePlugin.h \
+	../../SmallDisplayablePlugin.h \
     label.h \
     Implementation/panel.h \
     Implementation/eventoncalendarwidget.h

@@ -43,7 +43,7 @@ HEADERS += ../../../Common/DataImplementations/FileDataBase/FileDataBase.h \
     FileTransfertClient.h \
     TransfertList.h \
     TransfertPlugin.h \
-    ../MainFrame/SmallDisplayablePlugin.h \
+	../../SmallDisplayablePlugin.h \
     LibraryFilterProxyModel.h \
     LibraryList.h \
     LibraryEdit.h

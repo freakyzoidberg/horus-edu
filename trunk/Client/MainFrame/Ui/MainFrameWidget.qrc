@@ -1,10 +1,11 @@
 <RCC>
-    <qresource prefix="/Pictures" >
+    <qresource prefix="/Pictures">
         <file>HorusPanelBackground-NoFx.png</file>
         <file>book.png</file>
         <file>calendarwidget.png</file>
         <file>edit.png</file>
         <file>history.png</file>
-        <file alias="icon" >home.png</file>
+        <file alias="icon">home.png</file>
+        <file>logout.png</file>
     </qresource>
 </RCC>
