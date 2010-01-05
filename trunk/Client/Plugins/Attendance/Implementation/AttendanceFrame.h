@@ -92,37 +92,9 @@ private slots:
         void			attendanceShowed(TreeData *node, UserData *user);
         void			editExited();
         void			showExited();
+        void                    refreshShow(UserData *user);
 };
 
-//class AttendanceFrame : public QWidget
-//{
-//    Q_OBJECT
-//
-//    public:
-//        AttendanceFrame(TreeDataPlugin *tree, UserDataPlugin *user, EventDataPlugin *event);
-//    private:
-//        QDateEdit           *dateAttendance;
-//        QHBoxLayout         *absLayout;
-//        QHBoxLayout         *buttonLayout;
-//        QVBoxLayout         *leftSide;
-//        QGridLayout         *rightSide;
-//        QLineEdit           *userName;
-//        QComboBox           *classList;
-//        QListView           *userList;
-//        QCheckBox           *allCourse;
-//        QPushButton         *okButton;
-//        QList<CourPanel *>  courList;
-//        QSortFilterProxyModel *proxyModel;
-//        void                setupUi();
-//        void                fillClass(TreeDataPlugin *tree);
-//        void                fillCourse(EventDataPlugin *event);
-//        UserDataPlugin      *user;
-//    private slots:
-//        void                nameChanged(const QString &text);
-//        void                classChanged( int index );
-//        void                okClicked();
-//        void                dChanged(const QDate &);
-//        void                allChecked(int);
-//};
+
 
 #endif // AttendanceFRAME_H

@@ -34,8 +34,16 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "ShowAttendance.h"
+#include <QMessageBox>
 
 ShowAttendance::ShowAttendance(QWidget *parent, UserData *user, AttendanceDataPlugin *attendanceDataPlugin)
+{
+    _attendanceDataPlugin = attendanceDataPlugin;
+    _user = user;
+    setupUi();
+}
+
+void                    ShowAttendance::setupUi()
 {
     QBoxLayout          *mainLayout;
     QBoxLayout          *leftLayout;
@@ -51,8 +59,6 @@ ShowAttendance::ShowAttendance(QWidget *parent, UserData *user, AttendanceDataPl
     QPushButton         *cancelButton;
     QWidget		*scrollWidget;
 
-    _attendanceDataPlugin = attendanceDataPlugin;
-    _user = user;
     mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
     mainLayout->setSpacing(0);
     mainLayout->setMargin(2);
@@ -146,7 +152,9 @@ QWidget			*ShowAttendance::getAttendancesFrame()
     int i = 0;
     for (i = 0; i < absList.size(); i++)
     {
+
             InfosAttendance *tmp = new InfosAttendance();
+            tmp->id = absList.at(i)->id();
             tmp->name = new QLineEdit(this);
             tmp->name->setText(absList.at(i)->lesson());
             tmp->name->setDisabled(true);
@@ -175,44 +183,30 @@ QWidget			*ShowAttendance::getAttendancesFrame()
             attendanceList.append(tmp);
     }
     QPushButton *delbut = new QPushButton(QIcon(":/Icons/reset.png"),tr("Effacer"),this);
-    lessonBottomLayout(delbut, i  + 2, 5);
+    lessonBottomLayout->addWidget(delbut, i  + 2, 5);
     connect(delbut, SIGNAL(clicked()), this, SLOT(delClicked()));
-//
-//    label = new QLabel(tr("Last name"), lessonFrame);
-//    label->setProperty("isFormLabel", true);
-//    lessonBottomLayout->addWidget(label, 0, 0);
-//    QLineEdit *lastNameField = new QLineEdit(lessonFrame);
-//    lastNameField->setText(user->name());
-//    lastNameField->setDisabled(true);
-//    lessonBottomLayout->addWidget(lastNameField, 0, 1);
-//    label = new QLabel(tr("First name"), lessonFrame);
-//    label->setProperty("isFormLabel", true);
-//    lessonBottomLayout->addWidget(label, 0, 2);
-//    QLineEdit *firstNameField = new QLineEdit(user->surname(), lessonFrame);
-//    firstNameField->setText(user->surname());
-//    firstNameField->setDisabled(true);
-//    lessonBottomLayout->addWidget(firstNameField, 0, 3);
-//    label = new QLabel(tr("Date"), lessonFrame);
-//    label->setProperty("isFormLabel", true);
-//    lessonBottomLayout->addWidget(label, 1, 0);
-//    dateAttendance = new QDateEdit(lessonFrame);
-//    dateAttendance->setDate(QDate::currentDate());
-//    dateAttendance->setCalendarPopup(true);
-//    connect(dateAttendance, SIGNAL(dateChanged(const QDate &)), this, SLOT(dChanged(const QDate &)));
-//    lessonBottomLayout->addWidget(dateAttendance, 1, 1);
-//    label = new QLabel(tr("Type"), lessonFrame);
-//    label->setProperty("isFormLabel", true);
-//    lessonBottomLayout->addWidget(label, 1, 2);
-//    typeList = new QComboBox(lessonFrame);
-//    typeList->addItem(tr("Absence"), 1);
-//    typeList->addItem(tr("Retard"), 2);
-//    lessonBottomLayout->addWidget(typeList, 1, 3);
-//
-//    lessonMainLayout->addLayout(lessonBottomLayout);
-//    cours = new CourPanel(_scheduleDataPlugin->schedule(node), dateAttendance->date());
-//    lessonMainLayout->addWidget(cours);
+
     lessonMainLayout->addLayout(lessonBottomLayout);
     return (lessonFrame);
+}
+
+void    ShowAttendance::delClicked()
+{
+    bool hasDelete = false;
+    //QMessageBox *msg = new QMessageBox
+    for (int i = 0; i < attendanceList.size(); i++)
+    {
+        if (attendanceList.at(i)->del->isChecked() == true)
+        {
+            hasDelete = true;
+            AttendanceData *a = _attendanceDataPlugin->attendance(attendanceList.at(i)->id);
+            a->remove();
+        }
+    }
+    if (hasDelete == true)
+    {
+        emit refresh(_user);
+    }
 }
 
 void    ShowAttendance::exited()

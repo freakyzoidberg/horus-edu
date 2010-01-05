@@ -77,6 +77,7 @@ class InfosAttendance
         QTimeEdit   *end;
         QLineEdit   *name;
         QCheckBox   *del;
+        int         id;
 };
 
 class ShowAttendance : public QWidget
@@ -94,13 +95,15 @@ class ShowAttendance : public QWidget
         QList<InfosAttendance *> attendanceList;
         AttendanceDataPlugin *_attendanceDataPlugin;
         UserData            *_user;
+        void                setupUi();
     private slots:
 //        void                reseted();
 //        void                saved();
         void                exited();
-        void                butClicked();
+        void                delClicked();
     signals:
         void			exit();
+        void                    refresh(UserData *user);
 };
 
 #endif // SHOWATTENDANCE_H
