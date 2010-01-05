@@ -29,5 +29,6 @@
         <file alias="load6.png" >Ui/load/load6.png</file>
         <file alias="load7.png" >Ui/load/load7.png</file>
         <file>Ui/noplugin.png</file>
+        <file>sync-item.png</file>
     </qresource>
 </RCC>

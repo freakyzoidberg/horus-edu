@@ -45,6 +45,7 @@
 #include <Phonon/SeekSlider>
 
 #include "../../../../Common/FileData.h"
+#include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h"
 
 class AudioPlayer : public QFrame
 {
@@ -53,10 +54,18 @@ public:
     AudioPlayer(FileData *fileData, QWidget* loadicon);
     ~AudioPlayer();
 
+signals:
+	void	command(quint32, WhiteBoardItem::Command, qint64);
+
 public slots:
 	void	downloaded();
 	void	play();
 	void	stop();
+	void	switchSync(bool);
+	void	setCommand(quint32, WhiteBoardItem::Command, qint64);
+
+protected slots:
+	void	tick(qint64 time);
 
 private:
 	QGridLayout*			_layout;
@@ -67,6 +76,9 @@ private:
 	Phonon::SeekSlider*		_slider;
 	QPushButton*			_playButton;
 	QPushButton*			_stopButton;
+	quint32					_commandId;
+	quint32					_checkId;
+	qint64					_lastTick;
 };
 
 #endif // AUDIOPLAYER_H

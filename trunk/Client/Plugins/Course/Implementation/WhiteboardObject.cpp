@@ -191,6 +191,12 @@ WhiteboardObject::WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocum
 	{
 		_closeAction = new QAction(QIcon(":/close-item.png"), "", toolBar);
 		toolBar->addAction(_closeAction);
+		if (_controller && _controller->supportsSync())
+		{
+			_syncAction = new QAction(QIcon(":/sync-item.png"), "", toolBar);
+			_syncAction->setCheckable(true);
+			toolBar->addAction(_syncAction);
+		}
 		_dockAction = new QAction(QIcon(":/fleche_haut_vert.png"), document->getTitle(), toolBar);
 		toolBar->addAction(_dockAction);
 	}
@@ -205,6 +211,10 @@ WhiteboardObject::WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocum
 	if (_user->level() == LEVEL_TEACHER)
 	{
 		connect(_closeAction, SIGNAL(triggered()), this, SLOT(close()));
+		if (_controller && _controller->supportsSync())
+		{
+			connect(_syncAction, SIGNAL(triggered(bool)), this, SLOT(switchSync(bool)));
+		}
 		connect(_dockAction, SIGNAL(triggered()), this, SLOT(switchDockMode()));
 	}
     setMinimumSize(150, 100);
@@ -212,6 +222,7 @@ WhiteboardObject::WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocum
 
     _isDocked = false;
     _isMoving = false;
+	_isSynced = false;
 
 	ILessonData* ldata = static_cast<ILessonData *>(_document->parent());
 	do
@@ -225,6 +236,18 @@ WhiteboardObject::WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocum
 	if (_controller != NULL)
 	{
 		_mainWidget = _controller->createDocumentWidget(_document, new LoadIcon());
+		if (_controller->supportsSync())
+		{
+			if (_user->level() == LEVEL_STUDENT)
+			{
+				connect(this, SIGNAL(setSync(bool)), _mainWidget, SLOT(switchSync(bool)));
+				connect(this, SIGNAL(command(quint32, WhiteBoardItem::Command, qint64)), _mainWidget, SLOT(setCommand(quint32, WhiteBoardItem::Command, qint64)));
+			}
+			else
+			{
+				connect(_mainWidget, SIGNAL(command(quint32, WhiteBoardItem::Command, qint64)), this, SLOT(setCommand(quint32, WhiteBoardItem::Command, qint64)));
+			}
+		}
 	}
 	else
 	{
@@ -253,6 +276,11 @@ WhiteboardObject::~WhiteboardObject()
 bool    WhiteboardObject::isDocked()
 {
     return _isDocked;
+}
+
+bool    WhiteboardObject::isSynced()
+{
+    return _isSynced;
 }
 
 ILessonDocument*	WhiteboardObject::getDocument()
@@ -331,6 +359,45 @@ void    WhiteboardObject::switchDockMode()
 		_isDocked = true;
 	}
 	_board->notifyChange();
+}
+
+void	WhiteboardObject::switchSync(bool mode)
+{
+	_isSynced = mode;
+	if (_user->level() == LEVEL_TEACHER)
+	{
+		if (_syncAction->isChecked() != mode)
+		{
+			_syncAction->setChecked(true);
+		}
+		_board->notifyChange();
+	}
+	else
+	{
+		if (_controller && _controller->supportsSync())
+		{
+			emit setSync(mode);
+			emit command(_commandId, _command, _argument);
+		}
+	}
+}
+
+void	WhiteboardObject::setCommand(quint32 id, WhiteBoardItem::Command comm, qint64 argument)
+{
+	_commandId = id;
+	_command = comm;
+	_argument = argument;
+	if (_isSynced)
+	{
+		if (_user->level() == LEVEL_TEACHER)
+		{
+			_board->notifyChange();
+		}
+		else
+		{
+			emit command(id, comm, argument);
+		}
+	}
 }
 
 WhiteBoard*		WhiteboardObject::getBoard()

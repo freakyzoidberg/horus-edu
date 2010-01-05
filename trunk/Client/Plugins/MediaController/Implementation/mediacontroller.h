@@ -54,6 +54,7 @@ class MediaController : public Plugin, public IDocumentController
         QWidget*                createDocumentWidget(ILessonDocument *document, QWidget *loadicon = NULL);
         QWidget                 *editDocument(QFile *metadata, ILessonDocument *);
 		QIcon			getIcon();
+		bool			supportsSync() { return true; }
 };
 
 #endif // MEDIACONTROLLER_H

@@ -48,6 +48,7 @@ public:
     virtual QWidget*  createDocumentWidget(ILessonDocument *document, QWidget *loadicon = NULL) = 0;
 	virtual QIcon	  getIcon() = 0;
     virtual QWidget*  editDocument(QFile *metadata, ILessonDocument *) = 0;
+	virtual bool	  supportsSync() = 0;
 };
 
 Q_DECLARE_INTERFACE(IDocumentController, "net.horus.Client.Plugin.LessonManager.ControllerInterface/1.0");

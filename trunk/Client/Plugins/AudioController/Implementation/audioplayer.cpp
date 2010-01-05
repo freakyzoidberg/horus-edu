@@ -34,7 +34,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include "audioplayer.h"
 
-AudioPlayer::AudioPlayer(FileData *fileData, QWidget *loadicon) : _fileData(fileData), _loadicon(loadicon)
+AudioPlayer::AudioPlayer(FileData *fileData, QWidget *loadicon) : _fileData(fileData), _loadicon(loadicon), _commandId(0), _checkId(0), _lastTick(0)
 {
 	_layout = new QGridLayout();
 	setLayout(_layout);
@@ -70,6 +70,7 @@ void	AudioPlayer::downloaded()
 	connect(_playButton, SIGNAL(pressed()), this, SLOT(play()));
 	connect(_stopButton, SIGNAL(pressed()), this, SLOT(stop()));
 	connect(_mediaObject, SIGNAL(finished()), this, SLOT(stop()));
+	connect(_mediaObject, SIGNAL(tick(qint64)), this, SLOT(tick(qint64)));
 	_layout->addWidget(_slider, 0, 0, 1, 2);
 	_layout->addWidget(_stopButton, 1, 0);
 	_layout->addWidget(_playButton, 1, 1);
@@ -82,12 +83,14 @@ void	AudioPlayer::play()
 		_mediaObject->pause();
 		_playButton->setText(tr("Play"));
 		_playButton->setIcon(QIcon(":/play.png"));
+		emit command(_commandId++, WhiteBoardItem::PAUSE, _mediaObject->currentTime());
 	}
 	else
 	{
 		_mediaObject->play();
 		_playButton->setText(tr("Pause"));
 		_playButton->setIcon(QIcon(":/pause.png"));
+		emit command(_commandId++, WhiteBoardItem::PLAY, _mediaObject->currentTime());
 	}
 }
 
@@ -96,4 +99,62 @@ void	AudioPlayer::stop()
 	_mediaObject->stop();
 	_playButton->setText(tr("Play"));
 	_playButton->setIcon(QIcon(":/play.png"));
+	emit command(_commandId++, WhiteBoardItem::STOP, 0);
+}
+
+void	AudioPlayer::tick(qint64 time)
+{
+	if ((time - _lastTick) > _mediaObject->tickInterval() * 2 || time < _lastTick)
+	{
+		emit command(_commandId++, WhiteBoardItem::SEEK, time);
+	}
+	_lastTick = time;
+}
+
+void	AudioPlayer::switchSync(bool sync)
+{
+	if (sync == true)
+	{
+		_playButton->setEnabled(false);
+		_stopButton->setEnabled(false);
+		_slider->setEnabled(false);
+	}
+	else
+	{
+		_playButton->setEnabled(true);
+		_stopButton->setEnabled(true);
+		_slider->setEnabled(true);
+	}
+}
+
+void	AudioPlayer::setCommand(quint32 id, WhiteBoardItem::Command command, qint64 argument)
+{
+	if (id > _checkId)
+	{
+		if (command == WhiteBoardItem::PLAY)
+		{
+			_mediaObject->seek(argument);
+			_mediaObject->play();
+			_playButton->setText(tr("Pause"));
+			_playButton->setIcon(QIcon(":/pause.png"));
+		}
+		else if (command == WhiteBoardItem::STOP)
+		{
+			_mediaObject->stop();
+			_playButton->setText(tr("Play"));
+			_playButton->setIcon(QIcon(":/play.png"));
+		}
+		else if (command == WhiteBoardItem::PAUSE)
+		{
+			_mediaObject->seek(argument);
+			_mediaObject->pause();
+			_playButton->setText(tr("Play"));
+			_playButton->setIcon(QIcon(":/play.png"));
+		}
+		else if (command == WhiteBoardItem::SEEK)
+		{
+			_mediaObject->seek(argument);
+		}
+		id = _checkId;
+	}
 }
