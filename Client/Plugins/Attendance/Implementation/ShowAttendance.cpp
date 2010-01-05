@@ -130,62 +130,70 @@ QWidget			*ShowAttendance::getAttendancesFrame()
     lessonBottomLayout->setMargin(8);
     lessonBottomLayout->setColumnMinimumWidth(0, 100);
     lessonBottomLayout->setColumnMinimumWidth(5, 40);
-    label = new QLabel(tr("Nom du Cour"), this);
-    label->setProperty("isFormLabel", true);
-    lessonBottomLayout->addWidget(label, 0, 0);
-    label = new QLabel(tr("Date"), this);
-    label->setProperty("isFormLabel", true);
-    lessonBottomLayout->addWidget(label, 0, 1);
-    label = new QLabel(tr("Heure Debut"), this);
-    label->setProperty("isFormLabel", true);
-    lessonBottomLayout->addWidget(label, 0, 2);
-    label = new QLabel(tr("Heure Fin"), this);
-    label->setProperty("isFormLabel", true);
-    lessonBottomLayout->addWidget(label, 0, 3);
-    label = new QLabel(tr("Type"), this);
-    label->setProperty("isFormLabel", true);
-    lessonBottomLayout->addWidget(label, 0, 4);
-    label = new QLabel(tr("Effacer"), this);
-    label->setProperty("isFormLabel", true);
-    lessonBottomLayout->addWidget(label, 0, 5);
     QList<AttendanceData *> absList = _attendanceDataPlugin->attendance(_user);
-    int i = 0;
-    for (i = 0; i < absList.size(); i++)
+    if (absList.size() > 0)
     {
+        label = new QLabel(tr("Nom du Cour"), this);
+        label->setProperty("isFormLabel", true);
+        lessonBottomLayout->addWidget(label, 0, 0);
+        label = new QLabel(tr("Date"), this);
+        label->setProperty("isFormLabel", true);
+        lessonBottomLayout->addWidget(label, 0, 1);
+        label = new QLabel(tr("Heure Debut"), this);
+        label->setProperty("isFormLabel", true);
+        lessonBottomLayout->addWidget(label, 0, 2);
+        label = new QLabel(tr("Heure Fin"), this);
+        label->setProperty("isFormLabel", true);
+        lessonBottomLayout->addWidget(label, 0, 3);
+        label = new QLabel(tr("Type"), this);
+        label->setProperty("isFormLabel", true);
+        lessonBottomLayout->addWidget(label, 0, 4);
+        label = new QLabel(tr("Effacer"), this);
+        label->setProperty("isFormLabel", true);
+        lessonBottomLayout->addWidget(label, 0, 5);
+        int i = 0;
+        for (i = 0; i < absList.size(); i++)
+        {
 
-            InfosAttendance *tmp = new InfosAttendance();
-            tmp->id = absList.at(i)->id();
-            tmp->name = new QLineEdit(this);
-            tmp->name->setText(absList.at(i)->lesson());
-            tmp->name->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->name, i + 1, 0);
-            tmp->date = new QDateEdit(this);
-            tmp->date->setDate(absList.at(i)->date());
-            tmp->date->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->date, i + 1, 1);
-            tmp->start = new QTimeEdit(this);
-            tmp->start->setTime(absList.at(i)->startTime());
-            tmp->start->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->start, i + 1, 2);
-            tmp->end = new QTimeEdit(this);
-            tmp->end->setTime(absList.at(i)->endTime());
-            tmp->end->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->end, i + 1, 3);
-            tmp->type = new QLineEdit(this);
-            if (absList.at(i)->type() == 1)
-                tmp->type->setText(tr("Absence"));
-            else
-                tmp->type->setText(tr("Retard"));
-            tmp->type->setDisabled(true);
-            lessonBottomLayout->addWidget(tmp->type, i + 1, 4);
-            tmp->del = new QCheckBox(tr(""),this);
-            lessonBottomLayout->addWidget(tmp->del, i + 1, 5);
-            attendanceList.append(tmp);
+                InfosAttendance *tmp = new InfosAttendance();
+                tmp->id = absList.at(i)->id();
+                tmp->name = new QLineEdit(this);
+                tmp->name->setText(absList.at(i)->lesson());
+                tmp->name->setDisabled(true);
+                lessonBottomLayout->addWidget(tmp->name, i + 1, 0);
+                tmp->date = new QDateEdit(this);
+                tmp->date->setDate(absList.at(i)->date());
+                tmp->date->setDisabled(true);
+                lessonBottomLayout->addWidget(tmp->date, i + 1, 1);
+                tmp->start = new QTimeEdit(this);
+                tmp->start->setTime(absList.at(i)->startTime());
+                tmp->start->setDisabled(true);
+                lessonBottomLayout->addWidget(tmp->start, i + 1, 2);
+                tmp->end = new QTimeEdit(this);
+                tmp->end->setTime(absList.at(i)->endTime());
+                tmp->end->setDisabled(true);
+                lessonBottomLayout->addWidget(tmp->end, i + 1, 3);
+                tmp->type = new QLineEdit(this);
+                if (absList.at(i)->type() == 1)
+                    tmp->type->setText(tr("Absence"));
+                else
+                    tmp->type->setText(tr("Retard"));
+                tmp->type->setDisabled(true);
+                lessonBottomLayout->addWidget(tmp->type, i + 1, 4);
+                tmp->del = new QCheckBox(tr(""),this);
+                lessonBottomLayout->addWidget(tmp->del, i + 1, 5);
+                attendanceList.append(tmp);
+        }
+        QPushButton *delbut = new QPushButton(QIcon(":/Icons/reset.png"),tr("Effacer"),this);
+        lessonBottomLayout->addWidget(delbut, i  + 2, 5);
+        connect(delbut, SIGNAL(clicked()), this, SLOT(delClicked()));
     }
-    QPushButton *delbut = new QPushButton(QIcon(":/Icons/reset.png"),tr("Effacer"),this);
-    lessonBottomLayout->addWidget(delbut, i  + 2, 5);
-    connect(delbut, SIGNAL(clicked()), this, SLOT(delClicked()));
-
+    else
+    {
+        label = new QLabel(tr("L\'utilisateur choisi n\'a pas d'absences"), this);
+        label->setProperty("isFormLabel", true);
+        lessonBottomLayout->addWidget(label, 0, 0);
+    }
     lessonMainLayout->addLayout(lessonBottomLayout);
     return (lessonFrame);
 }

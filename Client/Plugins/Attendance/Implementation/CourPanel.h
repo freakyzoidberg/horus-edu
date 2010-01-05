@@ -85,9 +85,10 @@ class CourPanel : public QWidget
     Q_OBJECT
 
     public:
-        CourPanel(ScheduleData *schedule, QDate date);
+        CourPanel(ScheduleData *schedule, QDate date, AttendanceDataPlugin *attendanceDataPlugin, UserData *user);
         QVBoxLayout     *checkBoxs;
-
+        AttendanceDataPlugin *_attendanceDataPlugin;
+        UserData        *_user;
         QVBoxLayout     *nameBoxs;
         QHBoxLayout     *courLayout;
         //QLabel          *coursName;
@@ -95,6 +96,7 @@ class CourPanel : public QWidget
         QLineEdit       *courseName;
         QTimeEdit       *sTime;
         QTimeEdit       *eTime;
+        QDate           _dateAtt;
         QCheckBox       *absenceCheck;
         QList<InfosLesson *> lessonList;
    private:
