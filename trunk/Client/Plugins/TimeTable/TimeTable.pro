@@ -17,7 +17,9 @@ SOURCES += Implementation/TimeTable.cpp \
     Implementation/EditException.cpp \
     Implementation/AdmClassListSelection.cpp \
     Implementation/Infopanel.cpp \
-    Implementation/EdtTimer.cpp
+    Implementation/EdtTimer.cpp \
+    Implementation/TimeTableSmallDisplayable.cpp \
+    Implementation/DayLessons.cpp
 HEADERS += Implementation/TimeTable.h \
     ../../../Common/MetaPlugin.h \
     ../../../Common/Plugin.h \
@@ -35,7 +37,10 @@ HEADERS += Implementation/TimeTable.h \
     Implementation/EditException.h \
     Implementation/AdmClassListSelection.h \
     Implementation/InfoPanel.h \
-    Implementation/EdtTimer.h
+    Implementation/EdtTimer.h \
+    Implementation/TimeTableSmallDisplayable.h \
+    Implementation/DayLessons.h \
+    ../../SmallDisplayablePlugin.h
 RESOURCES += Implementation/TimeTable.qrc
-TRANSLATIONS =	Timetable_en.ts \
-Timetable_fr.ts
+TRANSLATIONS = Timetable_en.ts \
+    Timetable_fr.ts
