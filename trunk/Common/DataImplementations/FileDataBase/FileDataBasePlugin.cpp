@@ -45,6 +45,9 @@
 #ifdef HORUS_SERVER
 #include "../../../Server/Plugins/FileBaseServer/FileServer.h"
 #endif
+#ifdef HORUS_CLIENT
+#include "../../../Client/DataListModel.h"
+#endif
 
 FileDataBasePlugin::FileDataBasePlugin()
 {
@@ -109,13 +112,6 @@ void FileDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 	s >> f->_id;
 	qDebug() << "File data Have a New Key" << f->_id;
 }
-
-#include "../../../Client/DataListModel.h"
-QAbstractListModel* FileDataBasePlugin::listModel() const
-{
-	static DataListModel* _model = new DataListModel(this);
-	return _model;
-}
 #endif
 void FileDataBasePlugin::load()
 {
@@ -142,6 +138,9 @@ void FileDataBasePlugin::load()
 		f->_status		= Data::UPTODATE;
 	}
 #endif
+#ifdef HORUS_CLIENT
+	_model = new DataListModel(this);
+#endif
 	Plugin::load();
 }
 
@@ -150,6 +149,9 @@ void FileDataBasePlugin::unload()
 	foreach (Data* d, _allDatas)
 		delete (FileDataBase*)d;
 	_allDatas.clear();
+#ifdef HORUS_CLIENT
+	delete _model;
+#endif
 	DataPlugin::unload();
 }
 

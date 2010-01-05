@@ -81,8 +81,12 @@ void PluginManagerClient::reloadPlugins()
 	foreach (Plugin* plugin, _plugins)
 	{
 		plugin->unload();
+		emit loadProgressChange(++pos * 50 / total);
+	}
+	foreach (Plugin* plugin, _plugins)
+	{
 		plugin->load();
-		emit loadProgressChange(++pos * 100 / total);
+		emit loadProgressChange(++pos * 50 / total + 50);
 	}
 	_loaded = true;
 	emit loadProgressChange(100);

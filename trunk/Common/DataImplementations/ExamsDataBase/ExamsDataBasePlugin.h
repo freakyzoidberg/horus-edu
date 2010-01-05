@@ -72,7 +72,6 @@ public:
 	QList<Data*>			datasForUpdate(ExamsData* user, QDateTime date);
 #endif
 #ifdef HORUS_CLIENT
-	QAbstractListModel*		listModel() const;
 	void					dataHaveNewKey(Data*d, QDataStream& s);
 #endif
 

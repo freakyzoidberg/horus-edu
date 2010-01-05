@@ -151,19 +151,11 @@ QList<Data*> MarksDataBasePlugin::datasForUpdate(MarksData*, QDateTime date)
 }
 #endif
 #ifdef HORUS_CLIENT
-
 void MarksDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	MarksDataBase* u = ((MarksDataBase*)(d));
 	s >> u->_id;
 	qDebug() << "Marks data Have a New Key" << u->_id;
-}
-
-#include "../../../Client/DataListModel.h"
-QAbstractListModel* MarksDataBasePlugin::listModel() const
-{
-	static DataListModel* _model = new DataListModel(this);
-	return _model;
 }
 #endif
 

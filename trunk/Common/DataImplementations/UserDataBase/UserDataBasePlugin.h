@@ -75,7 +75,9 @@ public:
 	QList<Data*>			allDatas() const;
 #ifdef HORUS_CLIENT
 	void					dataHaveNewKey(Data*d, QDataStream& s);
-	QAbstractListModel*		listModel() const;
+	inline QAbstractListModel*	listModel() const { return _model; }
+private:
+	QAbstractListModel*			_model;
 #endif
 protected:
 	//! Return the pointer to the Data with a his unique key read in the stream

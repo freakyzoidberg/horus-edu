@@ -78,9 +78,6 @@ public:
 #ifdef HORUS_SERVER
 	QList<Data*>			datasForUpdate(UserData* user, QDateTime date);
 #endif
-#ifdef HORUS_CLIENT
-	QAbstractListModel*		listModel() const;
-#endif
 
 protected:
     //! Return the pointer to the Data with a his unique key read in the stream

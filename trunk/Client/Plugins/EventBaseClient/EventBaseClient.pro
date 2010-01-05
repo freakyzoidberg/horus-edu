@@ -6,11 +6,9 @@ DEFINES += HORUS_CLIENT
 TEMPLATE = lib
 TARGET = EventBaseClientMetaPlugin
 SOURCES += ../../../Common/DataImplementations/EventDataBase/EventDataBase.cpp \
-    ../../../Common/DataImplementations/EventDataBase/EventDataBasePlugin.cpp \
-    ../../DataListModel.cpp
+	../../../Common/DataImplementations/EventDataBase/EventDataBasePlugin.cpp
 HEADERS += ../../../Common/DataImplementations/EventDataBase/EventDataBase.h \
     ../../../Common/DataImplementations/EventDataBase/EventDataBasePlugin.h \
-    ../../DataListModel.h \
     ../../../Common/EventData.h \
     ../../../Common/EventDataPlugin.h \
     ../../../Common/TreeData.h \

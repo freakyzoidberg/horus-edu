@@ -10,12 +10,9 @@ TEMPLATE = lib
 DEFINES += HORUS_CLIENT
 
 SOURCES += ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.cpp \
-    ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.cpp \
-      ../../DataListModel.cpp
-
+	../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.cpp
 HEADERS += ../../../Common/DataImplementations/MarksDataBase/MarksDataBase.h \
     ../../../Common/DataImplementations/MarksDataBase/MarksDataBasePlugin.h \
-    ../../DataListModel.h \
     Implementation/MarksMetaPlugin.h \  
     ../../../Common/MarksData.h \
     ../../../Common/MarksDataPlugin.h \

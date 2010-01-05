@@ -153,19 +153,11 @@ QList<Data*> ExamsDataBasePlugin::datasForUpdate(ExamsData*, QDateTime date)
 }
 #endif
 #ifdef HORUS_CLIENT
-
 void ExamsDataBasePlugin::dataHaveNewKey(Data*d, QDataStream& s)
 {
 	ExamsDataBase* u = ((ExamsDataBase*)(d));
 	s >> u->_id;
 	qDebug() << "Exams data Have a New Key" << u->_id;
-}
-
-#include "../../../Client/DataListModel.h"
-QAbstractListModel* ExamsDataBasePlugin::listModel() const
-{
-	static DataListModel* _model = new DataListModel(this);
-	return _model;
 }
 #endif
 
