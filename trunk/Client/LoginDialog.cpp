@@ -74,6 +74,7 @@ LoginDialog::LoginDialog()
 	QMetaObject::invokeMethod(net, "tryToConnect", Qt::QueuedConnection);
 
 	PluginManagerClient* plug = PluginManagerClient::instance();
+	plug->setCurrentUser(0);
 	connect(plug, SIGNAL(loadProgressChange(int)), loadBar, SLOT(setValue(int)));
 	QMetaObject::invokeMethod(plug, "loadPlugins", Qt::QueuedConnection);
 

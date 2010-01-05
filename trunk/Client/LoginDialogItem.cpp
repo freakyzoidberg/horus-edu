@@ -196,11 +196,11 @@ void LoginDialogItem::cacheLoaded()
 
 void LoginDialogItem::networkStatusChanged(NetworkManager::Status status)
 {
-	disconnect(this, SLOT(networkStatusChanged(NetworkManager::Status)));
-	disconnect(_dialog->loadBar, SLOT(setValue(int)));
 	_dialog->loadBar->setValue(100);
 	if (status == NetworkManager::ESTABLISHED)
 	{
+		disconnect(this, SLOT(networkStatusChanged(NetworkManager::Status)));
+		disconnect(_dialog->loadBar, SLOT(setValue(int)));
 		if ( ! _password)
 		{
 			((QLabel*)(_layout->itemAtPosition(1, 1)->widget()))->setText("Password:");
@@ -219,6 +219,8 @@ void LoginDialogItem::networkStatusChanged(NetworkManager::Status status)
 	}
 	else if (status == NetworkManager::LOGGED_IN)
 	{
+		disconnect(this, SLOT(networkStatusChanged(NetworkManager::Status)));
+		disconnect(_dialog->loadBar, SLOT(setValue(int)));
 		NetworkManager* net = NetworkManager::instance();
 		connect(net, SIGNAL(updateFinished()), _dialog, SLOT(accept()));
 		if(net->isUpdated())

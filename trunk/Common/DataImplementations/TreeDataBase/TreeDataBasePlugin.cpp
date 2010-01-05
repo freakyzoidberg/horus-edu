@@ -48,6 +48,11 @@ TreeDataBasePlugin::TreeDataBasePlugin()
 	_rootNode = new TreeDataBase(0, this);
 }
 
+TreeData* TreeDataBasePlugin::rootNode() const
+{
+	return _rootNode;
+}
+
 void TreeDataBasePlugin::load()
 {
 	((TreeDataBase*)_rootNode)->_user = pluginManager->findPlugin<UserDataPlugin*>()->nobody();
@@ -80,12 +85,16 @@ void TreeDataBasePlugin::load()
 
 void TreeDataBasePlugin::unload()
 {
+	//remove every childs of the root node
+	_rootNode->_children.clear();
+	_rootNode->_status = Data::EMPTY;
+
+	//delete every data except the root node
 	_allDatas.removeOne(_rootNode);
 	foreach (Data* d, _allDatas)
 		delete static_cast<TreeDataBase*>(d);
 	_allDatas.clear();
-	_allDatas.append(_rootNode);
-	static_cast<TreeDataBase*>(_rootNode)->_children.clear();
+
 #ifdef HORUS_CLIENT
 	delete _listModel;
 	delete _treeModel;

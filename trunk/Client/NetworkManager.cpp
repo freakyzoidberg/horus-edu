@@ -246,6 +246,13 @@ void NetworkManager::recvLogin()
 		_nbrDatasForUpdate = l.nbrDataUpdated;
 		_nbrDatasForUpdateReceived = 0;
 
+		if ( ! _nbrDatasForUpdate)
+		{
+			_nbrDatasForUpdate = 0;
+			_isUpdated = true;
+			emit updateFinished();
+		}
+
 		qDebug() << tr("NetworkManager::recvLogin seconds between client and server:") << QDateTime::currentDateTime().secsTo(l.serverDateTime);
 
 		setStatus(LOGGED_IN);

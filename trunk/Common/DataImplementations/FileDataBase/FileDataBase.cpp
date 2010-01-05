@@ -52,7 +52,6 @@
 FileDataBase::FileDataBase(quint32 fileId, FileDataBasePlugin* plugin) : FileData(plugin)
 {
     _id = fileId;
-	_mimeType = "unknow";
 #ifdef HORUS_CLIENT
 	_isDownloaded = false;
 #endif

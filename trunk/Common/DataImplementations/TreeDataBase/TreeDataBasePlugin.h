@@ -79,7 +79,7 @@ protected:
 
 	//TreeDataPlugin
 public:
-	inline TreeData*		rootNode() const { return _rootNode; }
+	TreeData*				rootNode() const;
 	TreeData*				node(quint32 nodeId);
 	TreeData*				createNode();
 	QStringList				subjects() const;
@@ -96,7 +96,7 @@ private:
 public:
 	TreeDataBasePlugin();
 private:
-	TreeData*				_rootNode;
+	TreeDataBase*				_rootNode;
 };
 
 #endif // TREEDATABASEPLUGIN_H
