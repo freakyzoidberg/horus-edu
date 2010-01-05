@@ -32,29 +32,24 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef TIMETABLEMETAPLUGIN_H
-#define TIMETABLEMETAPLUGIN_H
+#ifndef TIMETABLESMALLDISPLAYABLE_H
+#define TIMETABLESMALLDISPLAYABLE_H
 
-#include "../../../Common/MetaPlugin.h"
+# include			"../../SmallDisplayablePlugin.h"
 
-#include "Implementation/TimeTable.h"
-#include "Implementation/TimeTableSmallDisplayable.h"
-
-class TimeTableMetaPlugin : public MetaPlugin
+class				TimeTableSmallDisplayable : public SmallDisplayablePlugin
 {
-  Q_OBJECT
-  Q_INTERFACES(MetaPlugin)
+        Q_OBJECT
+        Q_INTERFACES(SmallDisplayablePlugin)
 
 public:
-    inline TimeTableMetaPlugin() {
-      pluginList.append(new TimeTable());
-      pluginList.append( new TimeTableSmallDisplayable );
-  }
+        // Interface Plugin
+        const QString	pluginName() const;
+        const QString	pluginVersion() const;
+        // Interface SmallDisplayablePlugin
+        QWidget			*getWidget();
+        const QString	getDisplayableName() const;
+        QIcon			getIcon() const;
 };
 
-/* maybe put this lines in a cpp if this file is include by an other file */
-// declare instance of the plugin
-Q_EXPORT_PLUGIN2(TimeTableMetaPlugin, TimeTableMetaPlugin);
-
-
-#endif // TIMETABLEMETAPLUGIN_H
+#endif // TIMETABLESMALLDISPLAYABLE_H

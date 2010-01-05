@@ -32,29 +32,31 @@
  *                                                                             *
  * Contact: contact@horus-edu.net                                              *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-#ifndef TIMETABLEMETAPLUGIN_H
-#define TIMETABLEMETAPLUGIN_H
+#include		"TimeTableSmallDisplayable.h"
+#include                "DayLessons.h"
+#include		<QLabel>
 
-#include "../../../Common/MetaPlugin.h"
-
-#include "Implementation/TimeTable.h"
-#include "Implementation/TimeTableSmallDisplayable.h"
-
-class TimeTableMetaPlugin : public MetaPlugin
+const QString	TimeTableSmallDisplayable::pluginName() const
 {
-  Q_OBJECT
-  Q_INTERFACES(MetaPlugin)
+        return ("TimeTableSmallDisplayable");
+}
 
-public:
-    inline TimeTableMetaPlugin() {
-      pluginList.append(new TimeTable());
-      pluginList.append( new TimeTableSmallDisplayable );
-  }
-};
+const QString	TimeTableSmallDisplayable::pluginVersion() const
+{
+        return ("1");
+}
 
-/* maybe put this lines in a cpp if this file is include by an other file */
-// declare instance of the plugin
-Q_EXPORT_PLUGIN2(TimeTableMetaPlugin, TimeTableMetaPlugin);
+QWidget			*TimeTableSmallDisplayable::getWidget()
+{
+    return (new DayLessons(pluginManager->findPlugin<ScheduleDataPlugin*>(), pluginManager->currentUser()));
+}
 
+const QString	TimeTableSmallDisplayable::getDisplayableName() const
+{
+        return (tr("Today's lessons"));
+}
 
-#endif // TIMETABLEMETAPLUGIN_H
+QIcon			TimeTableSmallDisplayable::getIcon() const
+{
+        return (QIcon(":/TimeTable.png"));
+}

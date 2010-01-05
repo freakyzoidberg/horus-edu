@@ -156,8 +156,6 @@ bool ScheduleDataBasePlugin::canLoad() const
                 qDebug() << "ScheduleDataBasePlugin::canLoad()" << query.lastError();
                 return false;
         }
-
-
 #endif
 	return Plugin::canLoad();
 }
