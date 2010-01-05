@@ -35,6 +35,7 @@
 #include "player.h"
 
 #include <phonon/videowidget.h>
+
 #include <QIcon>
 #include <QTime>
 #include <QVBoxLayout>
@@ -116,7 +117,10 @@ void	Player::tick(qint64 time)
 {
 	if ((time - _lastTick) > _mediaObject->tickInterval() * 2 || time < _lastTick)
 	{
-		emit command(_commandId++, WhiteBoardItem::SEEK, time);
+		if (_mediaObject->state() != Phonon::StoppedState)
+		{
+			emit command(_commandId++, WhiteBoardItem::SEEK, time);
+		}
 	}
 	_lastTick = time;
 }

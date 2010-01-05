@@ -40,10 +40,10 @@
 #include <QLabel>
 #include <QPushButton>
 
-#include <Phonon/MediaObject>
-#include <Phonon/AudioOutput>
-#include <Phonon/VideoWidget>
-#include <Phonon/SeekSlider>
+#include <phonon/mediaobject.h>
+#include <phonon/audiooutput.h>
+#include <phonon/videowidget.h>
+#include <phonon/seekslider.h>
 
 #include "../../../../Common/FileData.h"
 #include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h"

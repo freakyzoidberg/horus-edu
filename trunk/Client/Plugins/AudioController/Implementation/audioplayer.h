@@ -40,9 +40,9 @@
 #include <QLabel>
 #include <QPushButton>
 
-#include <Phonon/MediaObject>
-#include <Phonon/AudioOutput>
-#include <Phonon/SeekSlider>
+#include <phonon/mediaobject.h>
+#include <phonon/audiooutput.h>
+#include <phonon/seekslider.h>
 
 #include "../../../../Common/FileData.h"
 #include "../../../../Common/DataImplementations/WhiteBoardData/WhiteBoardItem.h"
@@ -63,6 +63,7 @@ public slots:
 	void	stop();
 	void	switchSync(bool);
 	void	setCommand(quint32, WhiteBoardItem::Command, qint64);
+	void	finished();
 
 protected slots:
 	void	tick(qint64 time);
@@ -79,6 +80,7 @@ private:
 	quint32					_commandId;
 	quint32					_checkId;
 	qint64					_lastTick;
+	bool					_playing;
 };
 
 #endif // AUDIOPLAYER_H
