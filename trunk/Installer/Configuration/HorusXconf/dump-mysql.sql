@@ -6,6 +6,9 @@ DROP TABLE IF EXISTS `event`;
 DROP TABLE IF EXISTS `schedule_event`;
 DROP TABLE IF EXISTS `schedule_exception`;
 DROP TABLE IF EXISTS `schedule`;
+DROP TABLE IF EXISTS `attendance`;
+DROP TABLE IF EXISTS `mark`;
+
 
 CREATE TABLE `tree` (
   `id` int(11) NOT NULL auto_increment,
@@ -71,29 +74,8 @@ CREATE TABLE `user` (
 );
 
 
-DROP TABLE IF EXISTS `attendance`;
-CREATE TABLE IF NOT EXISTS `attendance` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date` date NOT NULL,
-  `id_user` int(11) NOT NULL,
-  `id_event` int(11) NOT NULL,
-  `type` int(11) NOT NULL,
-  `start_time` time NOT NULL,
-  `end_time` time NOT NULL,
-  PRIMARY KEY  (`id`)
-);
 
 
-DROP TABLE IF EXISTS `mark`;
-CREATE TABLE IF NOT EXISTS `mark` (
-  `id` int(11) NOT NULL auto_increment,
-  `id_user` int(11) NOT NULL,
-  `id_event` int(11) NOT NULL,
-  `quote` varchar(32) NOT NULL,
-  `mark` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `mtime` timestamp NOT NULL,
-  PRIMARY KEY  (`id`)
-);
+
 
 
