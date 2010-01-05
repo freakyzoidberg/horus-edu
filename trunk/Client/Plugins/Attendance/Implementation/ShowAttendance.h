@@ -94,6 +94,10 @@ class ShowAttendance : public QWidget
         QList<InfosAttendance *> attendanceList;
         AttendanceDataPlugin *_attendanceDataPlugin;
         UserData            *_user;
+    private slots:
+//        void                reseted();
+//        void                saved();
+        void                exited();
     signals:
         void			exit();
 };

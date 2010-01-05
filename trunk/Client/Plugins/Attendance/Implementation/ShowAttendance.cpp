@@ -86,13 +86,13 @@ ShowAttendance::ShowAttendance(QWidget *parent, UserData *user, AttendanceDataPl
     actionsTitle->setProperty("isTitle", true);
     actionsTitle->setProperty("isRound", true);
     rightLayout->addWidget(actionsTitle);
-    okButton = new QPushButton(QIcon(":/Icons/ok.png"), tr("OK"), this);
-    rightLayout->addWidget(okButton);
-    applyButton = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"), this);
-    rightLayout->addWidget(applyButton);
-    resetButton = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"), this);
-    rightLayout->addWidget(resetButton);
-    cancelButton = new QPushButton(QIcon(":/Icons/back.png"), tr("Cancel"), this);
+//    okButton = new QPushButton(QIcon(":/Icons/ok.png"), tr("OK"), this);
+//    rightLayout->addWidget(okButton);
+//    applyButton = new QPushButton(QIcon(":/Icons/save.png"), tr("Apply"), this);
+//    rightLayout->addWidget(applyButton);
+//    resetButton = new QPushButton(QIcon(":/Icons/reset.png"), tr("Reset"), this);
+//    rightLayout->addWidget(resetButton);
+    cancelButton = new QPushButton(QIcon(":/Icons/back.png"), tr("Back"), this);
     rightLayout->addWidget(cancelButton);
     rightLayout->addWidget(new QWidget(this), 1);
     mainLayout->addLayout(rightLayout);
@@ -100,7 +100,7 @@ ShowAttendance::ShowAttendance(QWidget *parent, UserData *user, AttendanceDataPl
 //    connect(okButton, SIGNAL(clicked()), this, SLOT(exited()));
 //    connect(applyButton, SIGNAL(clicked()), this, SLOT(saved()));
 //    connect(resetButton, SIGNAL(clicked()), this, SLOT(reseted()));
-//    connect(cancelButton, SIGNAL(clicked()), this, SLOT(exited()));
+    connect(cancelButton, SIGNAL(clicked()), this, SLOT(exited()));
 }
 
 QWidget			*ShowAttendance::getAttendancesFrame()
@@ -209,4 +209,9 @@ QWidget			*ShowAttendance::getAttendancesFrame()
 //    lessonMainLayout->addWidget(cours);
     lessonMainLayout->addLayout(lessonBottomLayout);
     return (lessonFrame);
+}
+
+void    ShowAttendance::exited()
+{
+        emit exit();
 }
