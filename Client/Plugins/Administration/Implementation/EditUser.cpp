@@ -730,7 +730,7 @@ void			EditUser::applied()
 	_user->setEnable(true);
 	_user->setName(lastNameField->text());
 	_user->setSurname(firstNameField->text());
-	if (_user->name().isEmpty() || _user->surname().isEmpty())
+	if (_user->name().isEmpty() && _user->surname().isEmpty())
 		error = true;
 
 	_user->setGender(static_cast<UserGender>(genderField->itemData(genderField->currentIndex()).toInt()));
