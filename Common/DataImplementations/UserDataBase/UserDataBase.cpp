@@ -517,8 +517,9 @@ quint8 UserDataBase::serverCreate()
 
 	_id = query.lastInsertId().toUInt();
 
-        if (QSettings().value("MAIL/MAIL_SERV", "0").toString() != "0")
+        if (QSettings().value("MAIL/MAIL_SERV", "0").toString() != "0" && (_login.size() > 0))
         {
+            qDebug() << "Create Mail Account";
             mailmutex.lock();
            QSqlDatabase db = QSqlDatabase::database("tempmail");
             if (!db.isValid())
