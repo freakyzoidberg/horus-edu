@@ -56,7 +56,7 @@ const QString      ImageController::getSupportedType() const
 
 QWidget*            ImageController::createDocumentWidget(ILessonDocument *document, QWidget *loadicon)
 {
-	int fileId = document->getParameters().value("id").toInt();
+	int fileId = document->getParameters().value("name").toInt();
 	FileData* data = pluginManager->findPlugin<FileDataPlugin*>()->file(fileId);
 	return new ImageWidget(data, loadicon);
 }
