@@ -215,6 +215,7 @@ bool    PluginManagerClient::loadPlugin(QString pluginName, QDir path)
 
 void PluginManagerClient::sendPluginPacket(PluginPacket packet)
 {
+
     NetworkPlugin* plugin = (NetworkPlugin*)(sender());
 
     packet.sourcePlugin = plugin->pluginName();
