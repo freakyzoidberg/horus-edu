@@ -65,10 +65,10 @@ public slots:
 	void                  classSelected(QListWidgetItem *);
 	void                                    goadd();
 	void                                    godelete();
-	void                                    goedit();
-	void                                    goreset();
-	void                                    gook();
-	void									fallback();
+//	void                                    goedit();
+//	void                                    goreset();
+//	void                                    gook();
+//	void					fallback();
 
 private:
 	MainView				*parent;
@@ -80,14 +80,13 @@ private:
 	QVBoxLayout				*informationsLayout;
 	InfoPanel				*infos;
 	EditSchedule            *scheduleForm;
-	QPushButton				*del;
-	QPushButton				*edit;
-	QPushButton				*ok;
-	QPushButton				*save;
-	QPushButton				*reset;
-	QPushButton				*back;
+//	QPushButton				*edit;
+//	QPushButton				*ok;
+//	QPushButton				*save;
+//	QPushButton				*reset;
+//	QPushButton				*back;
 	QPushButton				*add;
-
+        QPushButton				*del;
 	void                    updateClasses();
 	void                    updateVisible(int type);
 	AdmClassListSelection   *AdmClassList;
