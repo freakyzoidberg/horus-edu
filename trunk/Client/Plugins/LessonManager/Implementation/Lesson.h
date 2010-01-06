@@ -42,7 +42,7 @@
 #include "../ILesson.h"
 #include "../../../../Common/PluginManager.h"
 
-class Lesson : public ILesson, public QXmlDefaultHandler
+class Lesson : public ILesson, virtual public QXmlDefaultHandler
 {
     Q_OBJECT
 
