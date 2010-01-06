@@ -6,27 +6,27 @@
     <message>
         <location filename="Implementation/ClassTab.cpp" line="61"/>
         <source>Actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions:</translation>
     </message>
     <message>
         <location filename="Implementation/ClassTab.cpp" line="67"/>
         <source>Continue this class</source>
-        <translation type="unfinished"></translation>
+        <translation>Continuer cette classe</translation>
     </message>
     <message>
         <location filename="Implementation/ClassTab.cpp" line="68"/>
         <source>Delete this class</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer cette classe</translation>
     </message>
     <message>
         <location filename="Implementation/ClassTab.cpp" line="69"/>
         <source>Start a new class</source>
-        <translation type="unfinished"></translation>
+        <translation>Demarrer une nouvelle classe</translation>
     </message>
     <message>
         <location filename="Implementation/ClassTab.cpp" line="80"/>
         <source>Join this class</source>
-        <translation type="unfinished"></translation>
+        <translation>Rejoindre cette classe</translation>
     </message>
 </context>
 <context>
@@ -40,12 +40,12 @@
         <location filename="Implementation/Course.cpp" line="106"/>
         <location filename="Implementation/Course.cpp" line="110"/>
         <source>Classes</source>
-        <translation type="unfinished"></translation>
+        <translation>Classes</translation>
     </message>
     <message>
         <location filename="Implementation/Course.cpp" line="122"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Retour</translation>
     </message>
 </context>
 <context>
@@ -68,22 +68,22 @@
     <message>
         <location filename="Implementation/Ui/CreateWhiteBoard.ui" line="14"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation>Formulaire</translation>
     </message>
     <message>
         <location filename="Implementation/Ui/CreateWhiteBoard.ui" line="47"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nom</translation>
     </message>
     <message>
         <location filename="Implementation/Ui/CreateWhiteBoard.ui" line="54"/>
         <source>Sync type</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de synchronisation</translation>
     </message>
     <message>
         <location filename="Implementation/Ui/CreateWhiteBoard.ui" line="67"/>
         <source>Create</source>
-        <translation type="unfinished"></translation>
+        <translation>Creer</translation>
     </message>
 </context>
 <context>
@@ -91,17 +91,17 @@
     <message>
         <location filename="Implementation/CreateWhiteboardDialog.cpp" line="43"/>
         <source>Start a new class</source>
-        <translation type="unfinished"></translation>
+        <translation>Demarrer une nouvelle classe</translation>
     </message>
     <message>
         <location filename="Implementation/CreateWhiteboardDialog.cpp" line="62"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Annuler</translation>
     </message>
     <message>
         <location filename="Implementation/CreateWhiteboardDialog.cpp" line="63"/>
         <source>Start here</source>
-        <translation type="unfinished"></translation>
+        <translation>Commencer ici</translation>
     </message>
 </context>
 <context>
@@ -141,7 +141,7 @@
     <message>
         <location filename="../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp" line="124"/>
         <source>Class</source>
-        <translation type="unfinished"></translation>
+        <translation>Classe</translation>
     </message>
     <message>
         <source>White Board</source>
@@ -153,7 +153,7 @@
     <message>
         <location filename="Implementation/WhiteboardObject.cpp" line="261"/>
         <source>Unknown content</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenu inconnu</translation>
     </message>
 </context>
 </TS>
