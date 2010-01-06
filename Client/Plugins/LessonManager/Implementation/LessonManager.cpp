@@ -55,12 +55,14 @@ bool	LessonManager::canLoad() const
 void    LessonManager::load()
 {
 	//lessonModel = new LessonModel_ext(pluginManager);
+	lessonModel = 0;
 	Plugin::load();
 }
 
 void    LessonManager::unload()
 {
-    delete lessonModel;
+	if (lessonModel)
+	    delete lessonModel;
 }
 
 const QString	LessonManager::pluginName() const
