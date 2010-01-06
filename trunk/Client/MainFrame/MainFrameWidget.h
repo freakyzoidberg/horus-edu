@@ -39,7 +39,7 @@
 # include "NetworkManager.h"
 class QComboBox;
 class QLabel;
-class QVBoxLayout;
+class QBoxLayout;
 class PluginManager;
 
 class MainFrameWidget : public QWidget
@@ -54,8 +54,8 @@ public:
 
 private:
 	QComboBox		*stuff;
-	QVBoxLayout		*leftLayout;
-	QVBoxLayout		*rightLayout;
+	QBoxLayout		*leftLayout;
+	QBoxLayout		*rightLayout;
 	QLabel*			connexionStatus;
     QLabel*			connectedAs;
     QLabel*			lastLogin;
