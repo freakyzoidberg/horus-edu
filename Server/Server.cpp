@@ -39,6 +39,31 @@
 #include "Settings.h"
 #include "../Common/Logs.h"
 
+void myMessageHandler(QtMsgType type, const char *msg)
+{
+
+QString txt;
+
+switch (type)
+    {
+
+    case QtDebugMsg:
+        txt = QString("Debug: %1").arg(msg);
+        break;
+    case QtWarningMsg:
+        txt = QString("Warning: %1").arg(msg);
+        break;
+    case QtCriticalMsg:
+        txt = QString("Critical: %1").arg(msg);
+        break;
+    case QtFatalMsg:
+        txt = QString("Fatal: %1").arg(msg);
+        abort();
+    }
+    logs::addlog(LOGINFO, txt);
+}
+
+
 Server::Server(QObject *parent) : QTcpServer(parent)
 {
     // Server mysql a configurer
@@ -49,7 +74,7 @@ Server::Server(QObject *parent) : QTcpServer(parent)
     QDateTime now = QDateTime::currentDateTime();
     mylog->setFile(config->GetSettings("SoftFullPath","SETTINGS"), "Logs-Server-"+now.toString("d-MMM-yy_h-mm-ss")+".log");
     mylog->start();
-
+    qInstallMsgHandler(::myMessageHandler);
     if (Sql::sqlConnect(config->GetSettings("SQL_DBNAME","SQL"), config->GetSettings("SQL_HOSTNAME","SQL"), config->GetSettings("SQL_USERNAME","SQL"), config->GetSettings("SQL_PASSWD","SQL"), config->GetSettings("SQL_DRIVER","SQL"), config->GetSettings("SQL_PORT","SQL").toInt(), SQLCONNECTIONCOUNT))
     {
         //mylog->addlog(LOGINFO,"Connected to SQL Server");

@@ -37,7 +37,7 @@
 
 #include "../../../../Common/MetaPlugin.h"
 #include "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
-
+#include "MailNetwork.h"
 class MailServerMetaPlugin : public MetaPlugin
 {
   Q_OBJECT
@@ -45,6 +45,7 @@ class MailServerMetaPlugin : public MetaPlugin
 
 public:
     inline MailServerMetaPlugin() {
+      pluginList.append(new MailNetwork);
       pluginList.append(new MailDataPlugin);
   }
 };

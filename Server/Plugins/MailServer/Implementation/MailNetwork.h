@@ -5,6 +5,10 @@
 
 class MailNetwork : public NetworkPlugin
 {
+
+Q_OBJECT
+Q_INTERFACES(NetworkPluginServer)
+
 public:
     MailNetwork();
 
