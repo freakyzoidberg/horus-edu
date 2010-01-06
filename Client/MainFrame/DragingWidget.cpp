@@ -89,7 +89,7 @@ void			DragingWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 	if (!isDraging)
 		return ;
 	mimeData = new QMimeData;
-	mimeData->setData("application/vnd.horus.whiteboard.widget", QByteArray(_plugin->pluginName().toAscii()));
+	mimeData->setData("x-horus/x-minidisplayable", QByteArray(_plugin->pluginName().toAscii()));
 	drag = new QDrag(this);
 	drag->setPixmap(QPixmap::grabWidget(this));
 	drag->setMimeData(mimeData);

@@ -79,7 +79,7 @@ void UserDataBase::studentRemoved()
 {
 	setStudent(static_cast<UserDataPlugin*>(_plugin)->nobody());
 #ifdef HORUS_SERVER
-	save();
+	remove();
 #endif
 }
 
@@ -124,7 +124,6 @@ void UserDataBase::dataToStream(QDataStream& s) const
 	  << _diploma
           << _contract
         << _mailpassword;
-	Data::dataToStream(s);
 }
 
 void UserDataBase::dataFromStream(QDataStream& s)
@@ -171,8 +170,6 @@ void UserDataBase::dataFromStream(QDataStream& s)
 	_gender = (UserGender)gender;
 	setStudentClass(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(studentClassId));
 	setStudent(_plugin->pluginManager->findPlugin<UserDataPlugin*>()->user(studentId));
-
-    Data::dataFromStream(s);
 }
 
 bool UserDataBase::canChange(UserData* user) const

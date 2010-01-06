@@ -64,6 +64,8 @@ private:
 	void			fillWidgets();
 	void			setStyle();
 	void			updateSettings();
+
+private slots:
 	void			repopulateStuff();
 
 private slots:

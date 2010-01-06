@@ -61,8 +61,6 @@ void ScheduleDataBase::dataToStream(QDataStream& s) const
 	foreach (ScheduleException* item, _sException)
 		*item >> ds;
 	s << bufItems;
-
-	Data::dataToStream(s);
 }
 
 void ScheduleDataBase::dataFromStream(QDataStream& s)
@@ -90,8 +88,6 @@ void ScheduleDataBase::dataFromStream(QDataStream& s)
 		delete exeption;
         while ( ! ds2.atEnd())
                 _sException.append(new ScheduleException(ds2) );
-
-	Data::dataFromStream(s);
 }
 
 

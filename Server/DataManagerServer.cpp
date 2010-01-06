@@ -202,6 +202,7 @@ void DataManagerServer::sendData(UserData* user, Data* data, quint8 status, quin
 		stream << oldKey;
 
 	data->keyToStream(stream);
+	stream << data->lastChange();
 
 	if (status == Data::UPDATED)
 		data->dataToStream(stream);

@@ -53,7 +53,6 @@ void MailData::dataToStream(QDataStream& s) const
     << _from
     << _date
     << _box;
-	Data::dataToStream(s);
 }
 
 void MailData::dataFromStream(QDataStream& s)
@@ -68,7 +67,6 @@ void MailData::dataFromStream(QDataStream& s)
         _from >>
         _date >>
         _box;
-	Data::dataFromStream(s);
 }
 
 QDebug MailData::operator<<(QDebug debug) const

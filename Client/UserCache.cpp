@@ -78,6 +78,7 @@ void UserCache::load()
 				streamPlugin >> status;
 				Data* data = plugin->dataWithKey(streamPlugin);
 				data->_status = status;
+				streamPlugin >> data->_lastChange;
 				data->dataFromStream(streamPlugin);
 				emit data->statusChanged();
 				emit plugin->dataStatusChanged(data);
@@ -112,6 +113,7 @@ void UserCache::save()
 			{
 				streamPlugin << data->status();
 				data->keyToStream(streamPlugin);
+				streamPlugin << data->_lastChange;
 				data->dataToStream(streamPlugin);
 			}
 
