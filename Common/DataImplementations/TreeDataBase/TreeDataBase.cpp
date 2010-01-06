@@ -330,6 +330,12 @@ void TreeDataBase::setParent(TreeData* p)
 {
 	QMutexLocker M(&mutex);
 
+	if (p && this == static_cast<TreeDataPlugin*>(_plugin)->rootNode())
+	{
+		qWarning() << "Warning: you cannot set a parent to the root node.";
+		return;
+	}
+
 	if (_parent)
 	{
 		_parent->_children.removeOne(this);

@@ -155,7 +155,7 @@ void			ElementSchool::validateElement()
 	rootNode = _treeDataPlugin->rootNode();
 	rootNode->setName(_form->getName());
 	rootNode->setType("ROOT");
-	rootNode->setParent(rootNode);
+	rootNode->setParent(0);
 	if (_treeDataPlugin->rootNode()->status() == Data::EMPTY || _treeDataPlugin->rootNode()->status() >= Data::REMOVED || _treeDataPlugin->rootNode()->status() == Data::REMOVING)
 		rootNode->create();
 	else
