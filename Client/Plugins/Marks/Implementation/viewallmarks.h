@@ -15,19 +15,24 @@
 #include "../../../../Common/ExamsData.h"
 #include "../../../../Common/MarksData.h"
 #include "../../../../Common/MarksDataPlugin.h"
+#include "allstudents.h"
 
 class ViewAllMarks : public QWidget
 {
+	Q_OBJECT
 public:
 							ViewAllMarks(PluginManager *pluginManager,
 										 QTabWidget *mainView);
 	QListWidget				*StudentList;
 
-	void					initGradesList();
+	void					initGradesList(QListWidgetItem *);
 
 	QPushButton				*_add;
 	TreeData				*_node;
 	QLabel					*_infosLabel;
+
+public slots:
+	void	initGradesL(QListWidgetItem *);
 
 private:
 	TreeDataPlugin          *td;
@@ -50,6 +55,7 @@ private:
 	QTabWidget				*_parent;
 	QTableWidget			*mainWidget;
 	PluginManager			*_pluginManager;
+	AllStudents				*_allS;
 };
 
 #endif // VIEWALLMARKS_H

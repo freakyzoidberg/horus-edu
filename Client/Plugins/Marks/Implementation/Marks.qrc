@@ -8,5 +8,6 @@
         <file>Marks.png</file>
         <file>marks_backup.png</file>
         <file>subject.png</file>
+        <file>administrator.png</file>
     </qresource>
 </RCC>
