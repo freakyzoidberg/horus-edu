@@ -55,7 +55,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
         userFilterString = "STUDENT";
         addButton = new QPushButton(QIcon(":/Icons/add-desk.png"), tr("Add attendance"), this);
         editButton = new QPushButton(QIcon(":/Icons/edit-desk.png"), tr("Show attendances"), this);
-        deleteButton = new QPushButton(QIcon(":/Icons/remove-desk.png"), tr("Clean attendances"), this);
+        //deleteButton = new QPushButton(QIcon(":/Icons/remove-desk.png"), tr("Clean attendances"), this);
         needFilter = true;
 	mainLayout = new QBoxLayout(QBoxLayout::LeftToRight, this);
         mainLayout->setSpacing(0);
@@ -145,8 +145,8 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	rightLayout->addWidget(addButton);
 	editButton->setDisabled(true);
 	rightLayout->addWidget(editButton);
-	deleteButton->setDisabled(true);
-	rightLayout->addWidget(deleteButton);
+        //deleteButton->setDisabled(true);
+        //rightLayout->addWidget(deleteButton);
 	rightLayout->addWidget(new QWidget(this), 1);
 	mainLayout->addLayout(rightLayout);
 	if (needFilter)
@@ -162,7 +162,7 @@ ListUser::ListUser(QWidget *parent, TreeDataPlugin *treeDataPlugin, UserDataPlug
 	connect(userDataPlugin, SIGNAL(dataRemoved(Data *)), this, SLOT(userUpdated(Data *)));
         connect(addButton, SIGNAL(clicked()), this, SLOT(attendanceAdded()));
         connect(editButton, SIGNAL(clicked()), this, SLOT(attendanceEdited()));
-        connect(deleteButton, SIGNAL(clicked()), this, SLOT(attendanceDeleted()));
+        //connect(deleteButton, SIGNAL(clicked()), this, SLOT(attendanceDeleted()));
        // connect(userListView, SIGNAL(activated(const QModelIndex &)), this, SLOT(attendanceEdited()));
 }
 
@@ -189,7 +189,7 @@ void					ListUser::classSelected(const QItemSelection &selected, const QItemSele
 	{
                 addButton->setDisabled(true);
 		editButton->setDisabled(true);
-		deleteButton->setDisabled(true);
+                //deleteButton->setDisabled(true);
 	}
 	userListView->update();
 	userListView->resizeColumnsToContents();
@@ -203,7 +203,7 @@ void					ListUser::userSelected(const QModelIndex &current, const QModelIndex &)
 	{
                 addButton->setDisabled(false);
 		editButton->setDisabled(false);
-		deleteButton->setDisabled(false);
+                //deleteButton->setDisabled(false);
 		delete informations;
 		informations = new InformationsUser(this, (UserData *)(userFilter->mapToSource(classFilter->mapToSource(current)).internalPointer()));
 		informationsLayout->addWidget(informations);
@@ -266,11 +266,11 @@ void					ListUser::userUpdated(Data *)
 	if (userListView->model()->rowCount() && userListView->currentIndex().isValid())
 	{
 		editButton->setDisabled(false);
-		deleteButton->setDisabled(false);
+                //deleteButton->setDisabled(false);
 	}
 	else
 	{
 		editButton->setDisabled(true);
-		deleteButton->setDisabled(true);
+                //deleteButton->setDisabled(true);
 	}
 }
