@@ -46,6 +46,8 @@ public:
 	// Interface Plugin
 	const QString	pluginName() const;
 	const QString	pluginVersion() const;
+	void			unload();
+
 	// Interface SmallDisplayablePlugin
 	QWidget			*getWidget();
 	const QString	getDisplayableName() const;

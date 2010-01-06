@@ -74,6 +74,7 @@ public:
 	
 	inline void						append(FileTransfertClient* t) { _list.append(t); emit started(t); }
 	inline void						remove(FileTransfertClient* t) { _list.removeOne(t); }
+	inline void						clear() { _list.clear(); }
 
 signals:
 	void							started(FileTransfert*);
