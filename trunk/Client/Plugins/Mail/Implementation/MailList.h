@@ -44,6 +44,7 @@
 #include "MailAbstractModel.h"
 #include "TextBrowser.h"
 #include "MailPanel.h"
+#include "MailsNetwork.h"
 
 class				MailPanel;
 //class MailList;
@@ -58,8 +59,8 @@ private:
     MailDataPlugin *_MailPlugin;
     void setmailvisible(bool state);
     void setSourceModel(QAbstractItemModel *model);
-    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date, const QString &content, const QString &id, MailData *mail = 0);
-
+    void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date,           const QString &content, const QString &id, MailData *mail = 0);
+    void update();
 private slots:
     void rowDoubleClicked(QModelIndex indx);
     void linkclick(const QString &link);
@@ -68,6 +69,7 @@ private slots:
     void replyall();
 
 private:
+    MailsNetwork *_mn;
     bool expanded;
     QString current;
     MailPanel *_panel;
