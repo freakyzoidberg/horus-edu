@@ -31,6 +31,7 @@ HEADERS += Implementation/Mail.h \
     ../../../Common/DataImplementations/MailData/MailData.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/Data.h \
+    ../../NetworkPlugin.h \
     ../../../Common/DataManager.h \
     Implementation/MailAbstractModel.h \
     Implementation/MailSmallDisplayable.h \
