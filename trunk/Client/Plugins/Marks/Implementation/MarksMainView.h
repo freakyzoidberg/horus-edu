@@ -41,6 +41,7 @@
 #include "subjectlist.h"
 #include "MarksManager.h"
 #include "MarksExamsList.h"
+#include "viewallmarks.h"
 # include	"../../../../Common/PluginManager.h"
 
 class MarksMainView : public QTabWidget

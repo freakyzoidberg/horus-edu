@@ -74,10 +74,10 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Supprimer la note"));
 	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Voir les etudiants."));
 	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
-	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
+	save = new QPushButton(QIcon(":/save.png"), tr("Enregistrer"));
 	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
-	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
-	_add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
+	back = new QPushButton(QIcon(":/back.png"), tr("Annuler"));
+	_add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Ajouter un examen"));
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(edit);
