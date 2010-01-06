@@ -234,13 +234,13 @@ void					ListUser::attendanceEdited()
 
 void					ListUser::attendanceDeleted()
 {
-	QMessageBox			*confirm;
-        int				ret;
-
-	confirm = new QMessageBox(QMessageBox::Question, tr("Confirmation"), tr("Do you really want to delete ") + userListView->selectionModel()->currentIndex().data().toString() + tr(" ?"), QMessageBox::Yes | QMessageBox::No, this);
-	ret = confirm->exec();
-	if (ret == QMessageBox::Yes)
-		((UserData *)(userFilter->mapToSource(classFilter->mapToSource(userListView->selectionModel()->currentIndex())).internalPointer()))->remove();
+//	QMessageBox			*confirm;
+//        int				ret;
+//
+//	confirm = new QMessageBox(QMessageBox::Question, tr("Confirmation"), tr("Do you really want to delete ") + userListView->selectionModel()->currentIndex().data().toString() + tr(" ?"), QMessageBox::Yes | QMessageBox::No, this);
+//	ret = confirm->exec();
+//	if (ret == QMessageBox::Yes)
+//		((UserData *)(userFilter->mapToSource(classFilter->mapToSource(userListView->selectionModel()->currentIndex())).internalPointer()))->remove();
 }
 
 void					ListUser::classUpdated(Data *)
