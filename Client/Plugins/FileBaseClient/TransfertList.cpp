@@ -109,7 +109,7 @@ Transfert::Transfert(FileTransfert* transfert, TransfertList* list)
 	connect(_transfert, SIGNAL(finished()), this, SLOT(finished()));
 }
 
-void Transfert::progressChange(int progress)
+void Transfert::progressChange(int)
 {
 	int row = _list->_list.indexOf(this);
 	static_cast<QProgressBar*>(_list->_grid->itemAtPosition(row, 1)->widget())->setValue(_transfert->progress());
