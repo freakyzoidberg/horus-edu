@@ -183,7 +183,8 @@ esac
 case $me in
     'zoidberg')
 	echo -e "$JAUNE" " ... Copying Plugins ..." "$NORMAL"
-	cp ~/Epitech/EIP/trunk/Client/Plugins/*/*.so ~/.Horus/Plugins/
+	#cp ~/Epitech/EIP/trunk/Client/Plugins/*/*.so ~/.Horus/Plugins/
+	cp ~/eip_all_last/trunk/Client/Plugins/*/*.so ~/.Horus/Plugins/
 	echo -e "$JAUNE" " ... finished copying ..." "$NORMAL"
 	;;
     'romain')
