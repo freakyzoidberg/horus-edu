@@ -2,14 +2,48 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="en_US">
 <context>
+    <name>ClassTab</name>
+    <message>
+        <location filename="Implementation/ClassTab.cpp" line="61"/>
+        <source>Actions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/ClassTab.cpp" line="67"/>
+        <source>Continue this class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/ClassTab.cpp" line="68"/>
+        <source>Delete this class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/ClassTab.cpp" line="69"/>
+        <source>Start a new class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/ClassTab.cpp" line="80"/>
+        <source>Join this class</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Course</name>
     <message>
-        <location filename="Implementation/Course.cpp" line="23"/>
+        <location filename="Implementation/Course.cpp" line="59"/>
         <source>Course</source>
         <translation>Course</translation>
     </message>
     <message>
-        <location filename="Implementation/Course.cpp" line="95"/>
+        <location filename="Implementation/Course.cpp" line="106"/>
+        <location filename="Implementation/Course.cpp" line="110"/>
+        <source>Classes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/Course.cpp" line="122"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17,19 +51,16 @@
 <context>
     <name>CourseWidget</name>
     <message>
-        <location filename="Implementation/CourseWidget.cpp" line="73"/>
         <source>createSection</source>
-        <translation type="unfinished">Add a section</translation>
+        <translation type="obsolete">Add a section</translation>
     </message>
     <message>
-        <location filename="Implementation/CourseWidget.cpp" line="76"/>
         <source>createDocument</source>
-        <translation type="unfinished">Add a document</translation>
+        <translation type="obsolete">Add a document</translation>
     </message>
     <message>
-        <location filename="Implementation/CourseWidget.cpp" line="83"/>
         <source>createLesson</source>
-        <translation type="unfinished">Create a lesson</translation>
+        <translation type="obsolete">Create a lesson</translation>
     </message>
 </context>
 <context>
@@ -56,92 +87,27 @@
     </message>
 </context>
 <context>
-    <name>CreateWhiteBoard</name>
+    <name>CreateWhiteboardDialog</name>
     <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="25"/>
-        <source>No Sync</source>
+        <location filename="Implementation/CreateWhiteboardDialog.cpp" line="43"/>
+        <source>Start a new class</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="26"/>
-        <source>Semi Sync</source>
+        <location filename="Implementation/CreateWhiteboardDialog.cpp" line="62"/>
+        <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="27"/>
-        <source>Full Sync</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="59"/>
-        <source>Cannot create a whitboard inside an other whiteboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="62"/>
-        <source>Please select only one place to create the whiteboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="65"/>
-        <source>Please select a place to create the whiteboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="68"/>
-        <source>Please use a sync mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/CreateWhiteBoard.cpp" line="71"/>
-        <source>Please fill a name</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>JoinForm</name>
-    <message>
-        <location filename="Implementation/Ui/JoinWhiteBoard.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/Ui/JoinWhiteBoard.ui" line="28"/>
-        <source>Join</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>JoinWhiteBoard</name>
-    <message>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="41"/>
-        <source>&amp;Join Board...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="43"/>
-        <source>Join</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="65"/>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="68"/>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="87"/>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="90"/>
-        <source>Please select one whiteboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="71"/>
-        <location filename="Implementation/JoinWhiteBoard.cpp" line="93"/>
-        <source>Please select a place to create the whiteboard</source>
+        <location filename="Implementation/CreateWhiteboardDialog.cpp" line="63"/>
+        <source>Start here</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LessonDocument</name>
     <message>
-        <location filename="Implementation/LessonDocument.cpp" line="15"/>
+        <location filename="Implementation/LessonDocument.cpp" line="49"/>
         <source>Document</source>
         <translation>Document</translation>
     </message>
@@ -149,7 +115,7 @@
 <context>
     <name>Plugin</name>
     <message>
-        <location filename="../../../Common/Plugin.h" line="46"/>
+        <location filename="../../../Common/Plugin.h" line="75"/>
         <source>Plugin loaded : </source>
         <translation>Plugin loaded : </translation>
     </message>
@@ -157,29 +123,37 @@
 <context>
     <name>WhiteBoard</name>
     <message>
-        <location filename="Implementation/WhiteBoard.cpp" line="108"/>
-        <location filename="Implementation/WhiteBoard.cpp" line="196"/>
         <source>WhiteBoard::dropEvent: unable to find a controller for</source>
-        <translation>WhiteBoard::dropEvent: unable to find a controller for</translation>
+        <translation type="obsolete">WhiteBoard::dropEvent: unable to find a controller for</translation>
     </message>
     <message>
-        <location filename="Implementation/WhiteBoard.cpp" line="108"/>
-        <location filename="Implementation/WhiteBoard.cpp" line="196"/>
         <source>type.</source>
-        <translation>type.</translation>
+        <translation type="obsolete">type.</translation>
     </message>
 </context>
 <context>
     <name>WhiteBoardData</name>
     <message>
-        <location filename="../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp" line="52"/>
+        <location filename="../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp" line="105"/>
         <source>WhiteBoardData::</source>
         <translation>WhiteBoardData::</translation>
     </message>
     <message>
-        <location filename="../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp" line="64"/>
+        <location filename="../../../Common/DataImplementations/WhiteBoardData/WhiteBoardData.cpp" line="124"/>
+        <source>Class</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>White Board</source>
-        <translation>White Board</translation>
+        <translation type="obsolete">White Board</translation>
+    </message>
+</context>
+<context>
+    <name>WhiteboardObject</name>
+    <message>
+        <location filename="Implementation/WhiteboardObject.cpp" line="261"/>
+        <source>Unknown content</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

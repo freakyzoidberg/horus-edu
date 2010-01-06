@@ -4,7 +4,7 @@
 <context>
     <name>Plugin</name>
     <message>
-        <location filename="../../../Common/Plugin.h" line="46"/>
+        <location filename="../../../Common/Plugin.h" line="75"/>
         <source>Plugin loaded : </source>
         <translation type="unfinished"></translation>
     </message>
