@@ -5,5 +5,5 @@ MailsNetwork::MailsNetwork()
 }
 void MailsNetwork::update()
 {
-    emit sendPacket(PluginPacket("plugin name", "update"));
+    emit sendPacket(PluginPacket("Mail Network", "update"));
 }
