@@ -59,7 +59,7 @@
       <item row="2" column="3">
        <widget class="QLineEdit" name="lineEdit_3">
         <property name="text">
-         <string>testhorus</string>
+         <string>horus</string>
         </property>
        </widget>
       </item>
