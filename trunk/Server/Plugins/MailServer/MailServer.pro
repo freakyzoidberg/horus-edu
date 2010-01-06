@@ -29,6 +29,7 @@ HEADERS += Implementation/MailServerMetaPlugin.h \
     ../../../Common/DataPlugin.h \
     ../../../Common/UserDataPlugin.h \
     ../../../Common/DataManager.h \
+    ../../NetworkPlugin.h \
     Implementation/mime-types.h \
     Implementation/mime.h \
     Implementation/mail.h \
