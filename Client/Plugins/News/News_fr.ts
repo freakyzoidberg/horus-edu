@@ -4,7 +4,7 @@
 <context>
     <name>News</name>
     <message>
-        <location filename="Implementation/News.cpp" line="21"/>
+        <location filename="Implementation/News.cpp" line="55"/>
         <source>Navigator</source>
         <translation type="unfinished"></translation>
     </message>
@@ -12,7 +12,7 @@
 <context>
     <name>Plugin</name>
     <message>
-        <location filename="../../../Common/Plugin.h" line="46"/>
+        <location filename="../../../Common/Plugin.h" line="75"/>
         <source>Plugin loaded : </source>
         <translation type="unfinished"></translation>
     </message>

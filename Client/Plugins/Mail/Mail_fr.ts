@@ -2,14 +2,72 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>DataListModel</name>
+    <message>
+        <location filename="../../DataListModel.cpp" line="76"/>
+        <source>Id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="78"/>
+        <source>Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="80"/>
+        <source>Last name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="82"/>
+        <source>First name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="84"/>
+        <source>Birth place</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="86"/>
+        <source>Email</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="88"/>
+        <source>Home phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="90"/>
+        <source>Mobile phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="92"/>
+        <source>Work phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="94"/>
+        <source>Social insurance number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../DataListModel.cpp" line="96"/>
+        <source>Occupation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MailData</name>
     <message>
-        <location filename="../../../Common/DataImplementations/MailData/MailData.cpp" line="36"/>
+        <location filename="../../../Common/DataImplementations/MailData/MailData.cpp" line="74"/>
         <source>MailData::</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../Common/DataImplementations/MailData/MailData.cpp" line="48"/>
+        <location filename="../../../Common/DataImplementations/MailData/MailData.cpp" line="90"/>
         <source>Mail</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17,49 +75,118 @@
 <context>
     <name>MailForm</name>
     <message>
-        <location filename="Implementation/MailForm.cpp" line="16"/>
+        <location filename="Implementation/MailForm.cpp" line="51"/>
         <source>To :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/MailForm.cpp" line="23"/>
+        <location filename="Implementation/MailForm.cpp" line="58"/>
         <source>cc :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/MailForm.cpp" line="30"/>
+        <location filename="Implementation/MailForm.cpp" line="65"/>
         <source>bcc :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/MailForm.cpp" line="36"/>
+        <location filename="Implementation/MailForm.cpp" line="71"/>
         <source>Subject :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/MailForm.cpp" line="47"/>
+        <location filename="Implementation/MailForm.cpp" line="83"/>
+        <source>Mail has been sent.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailForm.cpp" line="86"/>
         <source>Send</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MailList</name>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="197"/>
+        <source>expand</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="207"/>
+        <source>reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="217"/>
+        <source>reply to all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="225"/>
+        <source>From:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="226"/>
+        <source>Cc:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="261"/>
+        <source>refresh</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MailPanel</name>
     <message>
-        <location filename="Implementation/MailPanel.cpp" line="10"/>
+        <location filename="Implementation/MailPanel.cpp" line="43"/>
         <source>Write Mail</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/MailPanel.cpp" line="11"/>
+        <location filename="Implementation/MailPanel.cpp" line="42"/>
         <source>MailBox</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MailSmallDisplayable</name>
+    <message>
+        <location filename="Implementation/MailSmallDisplayable.cpp" line="58"/>
+        <source>Last mails</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Plugin</name>
     <message>
-        <location filename="../../../Common/Plugin.h" line="46"/>
+        <location filename="../../../Common/Plugin.h" line="75"/>
         <source>Plugin loaded : </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="348"/>
+        <source>id</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="349"/>
+        <source>Subject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="350"/>
+        <source>Sender</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MailList.cpp" line="351"/>
+        <source>Date</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
