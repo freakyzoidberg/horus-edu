@@ -49,7 +49,7 @@ public:
 					Transfert(FileTransfert* transfert, TransfertList* list);
 
 private slots:
-	void			progressChange(int progress);
+	void			progressChange(int);
 	void			finished();
 
 private:

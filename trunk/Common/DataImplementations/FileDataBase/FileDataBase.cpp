@@ -44,6 +44,7 @@
 #ifdef HORUS_CLIENT
 #include <QSslSocket>
 #include "../../../Client/Plugins/FileBaseClient/FileNetworkPlugin.h"
+#include "../../LocalSettings.h"
 #endif
 #ifdef HORUS_SERVER
 #include "../../../Server/Plugins/FileBaseServer/FileNetworkPlugin.h"
@@ -216,11 +217,16 @@ QString FileDataBase::fileName() const
 #endif
 #ifdef HORUS_CLIENT
 	QString pathSys(QSettings(QDir::homePath() + "/.Horus/Horus Client.conf", QSettings::IniFormat).value("General/TmpDir", QDir::tempPath()).toString());
+
+	//ca ca marche pas, mais pkoi donc???
+	//	QString pathSys(LocalSettings().value("General/TmpDir", QDir::tempPath()).toString());
 #endif
 
-	QString pathFile = "/";
-	for (TreeData* node = _node; node; node = node->parent())
-		pathFile = '/' + node->name() + pathFile;
+//	QString pathFile = "/";
+//	for (TreeData* node = _node; node; node = node->parent())
+//		pathFile = '/' + node->name() + pathFile;
+
+	QString pathFile = "/" + QVariant(_node->id()).toString();
 
 	QDir().mkpath(pathSys + pathFile);
 
