@@ -49,9 +49,6 @@ MarksMainView::MarksMainView(PluginManager *pluginManager)
 		this->setTabEnabled(1, false);
 
 	}
-	else
-	{
 		this->addTab(new ViewAllMarks(pluginManager, this),
 					 QIcon(":/marks_backup.png"), tr("Marks"));
-	}
 }

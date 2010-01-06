@@ -19,7 +19,8 @@ SOURCES += Implementation/Marks.cpp \
     Implementation/newexams.cpp \
     Implementation/studentslist.cpp \
     Implementation/formaddgrade.cpp \
-    Implementation/viewallmarks.cpp
+    Implementation/viewallmarks.cpp \
+    Implementation/allstudents.cpp
 HEADERS += Implementation/Marks.h \
     Implementation/MarksMetaPlugin.h \
     ../../DisplayablePlugin.h \
@@ -35,4 +36,5 @@ HEADERS += Implementation/Marks.h \
     Implementation/newexams.h \
     Implementation/studentslist.h \
     Implementation/formaddgrade.h \
-    Implementation/viewallmarks.h
+    Implementation/viewallmarks.h \
+    Implementation/allstudents.h

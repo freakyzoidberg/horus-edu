@@ -69,9 +69,6 @@ ViewAllMarks::ViewAllMarks(PluginManager *pluginManager, QTabWidget *mainView)
 	RightLayout->addWidget(back);
 	RightLayout->addWidget(_add);
 	RightLayout->addWidget(new QWidget(), 1);
-	MainLayout->addWidget(mainWidget);
-	MainLayout->addLayout(RightLayout);
-	MainLayout->setStretch(0, 1);
 
 	ok->setVisible(false);
 	save->setVisible(false);
@@ -80,6 +77,8 @@ ViewAllMarks::ViewAllMarks(PluginManager *pluginManager, QTabWidget *mainView)
 	back->setVisible(false);
 	edit->setVisible(false);
 	del->setVisible(false);
+
+
 /*	connect(_add, SIGNAL(clicked()), this, SLOT(addExam()));
 	connect(save, SIGNAL(clicked()), this, SLOT(saveExam()));
 	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
@@ -92,17 +91,56 @@ ViewAllMarks::ViewAllMarks(PluginManager *pluginManager, QTabWidget *mainView)
 			this, SLOT(studentSelection(QListWidgetItem *)));
 	connect(del, SIGNAL(clicked()), this, SLOT(removeMark()));
 	connect(edit, SIGNAL(clicked()), this, SLOT(seeStudents())); */
-	initGradesList();
+
+	if (pluginManager->currentUser()->level() >= LEVEL_TEACHER)
+	{
+		MainLayout->addWidget(mainWidget);
+		MainLayout->addLayout(RightLayout);
+		initGradesList(NULL);
+		MainLayout->setStretch(0, 1);
+	}
+	else
+	{
+		this->_allS = new AllStudents(_pluginManager);
+		_allS->fillList();
+		connect(_allS->sList(), SIGNAL(itemClicked(QListWidgetItem *)), this, SLOT(initGradesL(QListWidgetItem *)));
+
+		MainLayout->addWidget(_allS);
+		MainLayout->addWidget(mainWidget);
+		MainLayout->addLayout(RightLayout);
+		MainLayout->setStretch(1, 1);
+	}
+
+
 	this->setLayout(MainLayout);
 }
 
-void	ViewAllMarks::initGradesList()
+void	ViewAllMarks::initGradesL(QListWidgetItem *item)
 {
-	UserData		*user = _pluginManager->currentUser();
+	initGradesList(item);
+}
+
+void	ViewAllMarks::initGradesList(QListWidgetItem *item)
+{
+	UserDataPlugin	*udp = _pluginManager->findPlugin<UserDataPlugin *>();
+	UserData *user;
+	int row = 0;
+
+	int nbrow = mainWidget->rowCount();
+	for (int i = 0; i < nbrow; ++i)
+		mainWidget->removeRow(i);
+	mainWidget->rowCount();
+	mainWidget->clearContents();
+	mainWidget->clear();
+
+	if (item == NULL)
+		user = _pluginManager->currentUser();
+	else
+		user = udp->user(item->data(Qt::UserRole).toInt());
 	ExamsDataPlugin	*edp = _pluginManager->findPlugin<ExamsDataPlugin *>();
 	MarksDataPlugin	*mdp = _pluginManager->findPlugin<MarksDataPlugin *>();
 
-	int row = 0;
+
 	for (int i = 0 ;i < mdp->allDatas().size(); ++i)
 	{
 		MarksData	*mark = qobject_cast<MarksData *>(mdp->allDatas().at(i));
