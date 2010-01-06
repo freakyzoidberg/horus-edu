@@ -39,16 +39,19 @@
 
 MarksMainView::MarksMainView(PluginManager *pluginManager)
 {
-	_subjectList = new SubjectList(pluginManager);
-	_examsList = new MarksExamsList(pluginManager, this);
-	this->addTab(new QWidget(), "Empty...");
-	this->addTab(_examsList, "Gardes");
-
 	if (pluginManager->currentUser()->level() <= LEVEL_TEACHER)
 	{
 		_marksManager = new MarksManager(pluginManager, this);
-		this->addTab(_marksManager, QIcon(":/marks.png"), tr("Subject list"));
-		this->setTabEnabled(0, false);
+		this->addTab(_marksManager, QIcon(tr(":/subject.png")), tr("Subjects"));
+		_subjectList = new SubjectList(pluginManager);
+		_examsList = new MarksExamsList(pluginManager, this);
+		this->addTab(_examsList, QIcon(":/marks_backup.png"), tr("Exams"));
 		this->setTabEnabled(1, false);
+
+	}
+	else
+	{
+		this->addTab(new ViewAllMarks(pluginManager, this),
+					 QIcon(":/marks_backup.png"), tr("Marks"));
 	}
 }

@@ -41,18 +41,10 @@
 NewExams::NewExams(QVBoxLayout *RightLayout)
 {
 	mainLayout = new QGridLayout(this);
- //  mainLayout->setSpacing(0);
-	//	mainLayout->setMargin(0);
 
-	//QLabel *title = new QLabel(tr("Dates de l\'emploi du temps"), this);
-	/* FIX FOR V1 */
 	QLabel *title = new QLabel(tr("Creation d'un examen."), this);
-	/* END FIX FOR v1 */
 	title->setProperty("isFormTitle", true);
 	title->setMaximumHeight(30);
-
-
-
 	QLabel *startlabel = new QLabel(tr("Date :"));
 	startlabel->setMaximumHeight(30);
 	startlabel->setProperty("isFormLabel", true);

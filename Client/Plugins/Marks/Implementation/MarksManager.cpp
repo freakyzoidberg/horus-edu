@@ -76,7 +76,7 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
 	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
 	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
-	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("View exams"));
+	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Voir les examens."));
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(edit);
