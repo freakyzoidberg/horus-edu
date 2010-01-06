@@ -70,12 +70,12 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
 
-	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Delete this edt"));
-	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit this edt"));
+	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Supprimer"));
+	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Editer"));
 	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
-	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
-	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
-	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
+	save = new QPushButton(QIcon(":/save.png"), tr("Appliquer"));
+	reset = new QPushButton(QIcon(":/reset.png"), tr("Reinitiqliser"));
+	back = new QPushButton(QIcon(":/back.png"), tr("Annuler"));
 	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Voir les examens."));
 
 	RightLayout->addWidget(actionTitle);
@@ -123,7 +123,7 @@ void	MarksManager::moveToExamList(QListWidgetItem *item)
 	_parent->examsList()->examsList()->Exams(tmpsubject);
 	_parent->examsList()->_node = tmpsubject;
 	_parent->examsList()->_add->setVisible(true);
-	_parent->examsList()->_infosLabel->setText("Subject: " + tmpsubject->name()
+	_parent->examsList()->_infosLabel->setText("Matiere: " + tmpsubject->name()
 											   + "\nClasse: " + tmpsubject->parent()->name());
 }
 

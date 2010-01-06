@@ -55,7 +55,7 @@ StudentsList::StudentsList(TreeData *node, PluginManager  *pluginManager, QVBoxL
 	_sList = new QListWidget(this);
 	_sList->setSelectionRectVisible(false);
 
-	QLabel *title = new QLabel(tr("Select a student to add, view or edit its grades."));
+	QLabel *title = new QLabel(tr("Selectionner une etudiqnt pour voir ou editer ses notes."));
 	title->setProperty("isTitle", true);
 	ListLayout->addWidget(title);
 

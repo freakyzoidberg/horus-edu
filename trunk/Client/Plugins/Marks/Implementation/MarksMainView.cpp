@@ -42,13 +42,13 @@ MarksMainView::MarksMainView(PluginManager *pluginManager)
 	if (pluginManager->currentUser()->level() <= LEVEL_TEACHER)
 	{
 		_marksManager = new MarksManager(pluginManager, this);
-		this->addTab(_marksManager, QIcon(tr(":/subject.png")), tr("Subjects"));
+		this->addTab(_marksManager, QIcon(tr(":/subject.png")), tr("Matieres"));
 		_subjectList = new SubjectList(pluginManager);
 		_examsList = new MarksExamsList(pluginManager, this);
-		this->addTab(_examsList, QIcon(":/marks_backup.png"), tr("Exams"));
+		this->addTab(_examsList, QIcon(":/marks_backup.png"), tr("Examens"));
 		this->setTabEnabled(1, false);
 
 	}
 		this->addTab(new ViewAllMarks(pluginManager, this),
-					 QIcon(":/marks_backup.png"), tr("Marks"));
+					 QIcon(":/marks_backup.png"), tr("Notes"));
 }

@@ -57,7 +57,7 @@ ExamsList::ExamsList(PluginManager *pluginManager, QVBoxLayout *RightLayout)
 	_examsList = new QListWidget(this);
 	_examsList->setSelectionRectVisible(false);
 
-	QLabel *title = new QLabel(tr("Select a subject to view, add or edit an exam."));
+	QLabel *title = new QLabel(tr("Selectionner une matiere pour ajouter, editer ou voir une examen."));
 	title->setProperty("isTitle", true);
 	ListLayout->addWidget(title);
 

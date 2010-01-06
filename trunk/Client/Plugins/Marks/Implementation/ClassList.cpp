@@ -53,7 +53,7 @@ ClassList::ClassList(PluginManager *pluginManager)
 	Classlist = new QListWidget(this);
 	Classlist->setSelectionRectVisible(false);
 
-	QLabel *title = new QLabel(tr("Select a class to view, add or edit its time table."));
+	QLabel *title = new QLabel(tr("Selectionner une classe pour voir, creer ou editer un examen."));
 	title->setProperty("isTitle", true);
 	ListLayout->addWidget(title);
 

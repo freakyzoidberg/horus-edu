@@ -2,10 +2,20 @@
 <!DOCTYPE TS>
 <TS version="2.0">
 <context>
+    <name>AllStudents</name>
+    <message>
+        <location filename="Implementation/allstudents.cpp" line="19"/>
+        <source>Selectionner un etudiant pour voir ses notes.</source>
+        <translation>Select a student to see its grades.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ClassList</name>
     <message>
         <location filename="Implementation/ClassList.cpp" line="56"/>
-        <source>Select a class to view, add or edit its time table.</source>
+        <source>Selectionner une classe pour voir, creer ou editer un examen.</source>
+        <transaltion>Select a class to view, add or edit its time table.</translation>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -13,7 +23,8 @@
     <name>ExamsList</name>
     <message>
         <location filename="Implementation/examslist.cpp" line="60"/>
-        <source>Select a subject to view, add or edit an exam.</source>
+        <source>Selectionner une matiere pour ajouter, editer ou voir une examen.</source>
+        <translation>Select a subject to view, add or edit an exam.</translation>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -22,25 +33,25 @@
     <message>
         <location filename="Implementation/formaddgrade.cpp" line="40"/>
         <source>Commentaire:</source>
-        <translation type="unfinished"></translation>
+        <translation >Comment:</translation>
     </message>
     <message>
         <location filename="Implementation/formaddgrade.cpp" line="42"/>
         <source>Note:</source>
-        <translation type="unfinished"></translation>
+        <translation>Grade:</translation>
     </message>
     <message>
         <location filename="Implementation/formaddgrade.cpp" line="44"/>
         <source>Ajout d&apos;une note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Add grades.</translation>
     </message>
 </context>
 <context>
     <name>Marks</name>
     <message>
         <location filename="Implementation/Marks.cpp" line="57"/>
-        <source>Marks</source>
-        <translation type="unfinished"></translation>
+        <source>Notes</source>
+        <translation>Grades</translation>
     </message>
 </context>
 <context>
@@ -48,36 +59,59 @@
     <message>
         <location filename="Implementation/MarksExamsList.cpp" line="58"/>
         <source>Informations:</source>
-        <translation type="unfinished"></translation>
+        <translation>Informations:</translation>
     </message>
     <message>
         <location filename="Implementation/MarksExamsList.cpp" line="70"/>
         <source>Actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Actions:</translation>
     </message>
     <message>
         <location filename="Implementation/MarksExamsList.cpp" line="74"/>
         <source>Supprimer la note</source>
-        <translation type="unfinished"></translation>
+        <translation>Delete the grade.</translation>
     </message>
     <message>
         <location filename="Implementation/MarksExamsList.cpp" line="75"/>
         <source>Voir les etudiants.</source>
-        <translation type="unfinished"></translation>
+        <translation>See the students</translation>
     </message>
     <message>
         <location filename="Implementation/MarksExamsList.cpp" line="76"/>
         <source>Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="Implementation/MarksExamsList.cpp" line="77"/>
         <source>Enregistrer</source>
-        <translation type="unfinished"></translation>
+        <translation>Save</translation>
     </message>
     <message>
         <location filename="Implementation/MarksExamsList.cpp" line="78"/>
-        <source>Reset</source>
+        <source>Reinitialiser</source>
+        <translation>Reset</translation>
+    </message>
+    <message>
+        <location filename="Implementation/MarksExamsList.cpp" line="131"/>
+        <location filename="Implementation/MarksExamsList.cpp" line="163"/>
+        <location filename="Implementation/MarksExamsList.cpp" line="185"/>
+        <location filename="Implementation/MarksExamsList.cpp" line="215"/>
+        <source>Matiere: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MarksExamsList.cpp" line="131"/>
+        <location filename="Implementation/MarksExamsList.cpp" line="163"/>
+        <location filename="Implementation/MarksExamsList.cpp" line="185"/>
+        <location filename="Implementation/MarksExamsList.cpp" line="215"/>
+        <source>
+Classe: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MarksExamsList.cpp" line="216"/>
+        <source>
+Examens: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -100,17 +134,24 @@
     </message>
     <message>
         <location filename="Implementation/MarksMainView.cpp" line="45"/>
-        <source>Subjects</source>
+        <source>:/subject.png</source>
+        <oldsource>Subjects</oldsource>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MarksMainView.cpp" line="45"/>
+        <source>Matieres</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Implementation/MarksMainView.cpp" line="48"/>
-        <source>Exams</source>
+        <source>Examens</source>
+        <oldsource>Exams</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/MarksMainView.cpp" line="55"/>
-        <source>Marks</source>
+        <location filename="Implementation/MarksMainView.cpp" line="53"/>
+        <source>Notes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -128,12 +169,22 @@
     </message>
     <message>
         <location filename="Implementation/MarksManager.cpp" line="73"/>
-        <source>Delete this edt</source>
+        <source>Supprimer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="Implementation/MarksManager.cpp" line="74"/>
-        <source>Edit this edt</source>
+        <source>Editer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MarksManager.cpp" line="77"/>
+        <source>Reinitiqliser</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="Implementation/MarksManager.cpp" line="78"/>
+        <source>Annuler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -143,17 +194,8 @@
     </message>
     <message>
         <location filename="Implementation/MarksManager.cpp" line="76"/>
-        <source>Apply</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/MarksManager.cpp" line="77"/>
-        <source>Reset</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="Implementation/MarksManager.cpp" line="78"/>
-        <source>Cancel</source>
+        <source>Appliquer</source>
+        <oldsource>Apply</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -176,7 +218,8 @@
     </message>
     <message>
         <location filename="Implementation/newexams.cpp" line="55"/>
-        <source>Title :</source>
+        <source>Titre :</source>
+        <oldsource>Title :</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -192,7 +235,8 @@
     <name>StudentsList</name>
     <message>
         <location filename="Implementation/studentslist.cpp" line="58"/>
-        <source>Select a student to add, view or edit its grades.</source>
+        <source>Selectionner une etudiqnt pour voir ou editer ses notes.</source>
+        <oldsource>Select a student to add, view or edit its grades.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -200,74 +244,75 @@
     <name>SubjectList</name>
     <message>
         <location filename="Implementation/subjectlist.cpp" line="58"/>
-        <source>Select a subject to view, add or edit an exam.</source>
+        <source>Selectionner une matiere pour voir, editer ou ajouter un examen.</source>
+        <oldsource>Select a subject to view, add or edit an exam.</oldsource>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ViewAllMarks</name>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="13"/>
+        <location filename="Implementation/viewallmarks.cpp" line="12"/>
         <source>Matiere</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="14"/>
+        <location filename="Implementation/viewallmarks.cpp" line="13"/>
         <source>Examen</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="15"/>
+        <location filename="Implementation/viewallmarks.cpp" line="14"/>
         <source>Note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="16"/>
+        <location filename="Implementation/viewallmarks.cpp" line="15"/>
         <source>Commentaire</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="38"/>
+        <location filename="Implementation/viewallmarks.cpp" line="37"/>
         <source>Informations:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="41"/>
+        <location filename="Implementation/viewallmarks.cpp" line="40"/>
         <source>Liste de vos resultats.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="55"/>
+        <location filename="Implementation/viewallmarks.cpp" line="54"/>
         <source>Supprimer la note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="56"/>
+        <location filename="Implementation/viewallmarks.cpp" line="55"/>
         <source>Voir les etudiants.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="57"/>
+        <location filename="Implementation/viewallmarks.cpp" line="56"/>
         <source>Ok</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="58"/>
+        <location filename="Implementation/viewallmarks.cpp" line="57"/>
         <source>Enregistrer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="59"/>
-        <source>Reset</source>
+        <location filename="Implementation/viewallmarks.cpp" line="58"/>
+        <source>Reinitiliaser.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="60"/>
+        <location filename="Implementation/viewallmarks.cpp" line="59"/>
         <source>Annuler</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="Implementation/viewallmarks.cpp" line="61"/>
+        <location filename="Implementation/viewallmarks.cpp" line="60"/>
         <source>Ajouter un examen</source>
         <translation type="unfinished"></translation>
     </message>

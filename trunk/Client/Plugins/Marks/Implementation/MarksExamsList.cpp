@@ -75,7 +75,7 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Voir les etudiants."));
 	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
 	save = new QPushButton(QIcon(":/save.png"), tr("Enregistrer"));
-	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
+	reset = new QPushButton(QIcon(":/reset.png"), tr("Reinitialiser"));
 	back = new QPushButton(QIcon(":/back.png"), tr("Annuler"));
 	_add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Ajouter un examen"));
 
@@ -128,7 +128,7 @@ void MarksExamsList::addExam()
 	this->MainLayout->insertWidget(0, _formAdd);
 	_formAdd->show();
 	edit->setVisible(false);
-	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name());
+	_infosLabel->setText(tr("Matiere: ") + _node->name() + tr("\nClasse: ") + _node->parent()->name());
 	back->setVisible(true);
 	save->setVisible(true);
 	_add->setVisible(false);
@@ -160,7 +160,7 @@ void	MarksExamsList::saveExam()
 	this->MainLayout->removeWidget(_formAdd);
 	_formAdd->setVisible(false);
 	this->MainLayout->insertWidget(0, _examsList);
-	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name());
+	_infosLabel->setText(tr("Matiere: ") + _node->name() + tr("\nClasse: ") + _node->parent()->name());
 	_examsList->show();
 	back->setVisible(false);
 	save->setVisible(false);
@@ -182,7 +182,7 @@ void	MarksExamsList::saveExam()
 void	MarksExamsList::fallback()
 {
 	edit->setVisible(false);
-	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name());
+	_infosLabel->setText(tr("Matiere: ") + _node->name() + tr("\nClasse: ") + _node->parent()->name());
 	this->MainLayout->removeWidget(_formAdd);;
 	_formAdd->setVisible(false);
 	this->MainLayout->insertWidget(0, _examsList);
@@ -212,8 +212,8 @@ void MarksExamsList::viewStudentList(QListWidgetItem *item)
 	ExamsDataPlugin	*examsPlugin = this->_pluginManager->findPlugin<ExamsDataPlugin *>();
 	ExamsData *tmp = examsPlugin->exam(exId);
 	_examData = tmp;
-	_infosLabel->setText("Subject: " + _node->name() + "\nCLass: " + _node->parent()->name()
-						 + "\nExamination: " + tmp->comment());
+	_infosLabel->setText(tr("Matiere: ") + _node->name() + tr("\nClasse: ") + _node->parent()->name()
+						 + tr("\nExamens: ") + tmp->comment());
 	this->MainLayout->removeWidget(_examsList);
 	_examsList->setVisible(false);
 	this->MainLayout->insertWidget(0, _sList);
