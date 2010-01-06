@@ -68,6 +68,7 @@ private slots:
     void reply();
     void replyall();
     void update();
+    void addMail(Data *mail);
 private:
     MailsNetwork *_mn;
     QPushButton *btn;

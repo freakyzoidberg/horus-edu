@@ -284,6 +284,8 @@ expanded = false;
          if (data->getBox() == "INBOX")
         addMail(model,data->getSubject(),data->getFrom(),QDateTime(QDate()), data->getContent(), data->getId(), data);
 	}
+
+        connect(MailPlugin, SIGNAL(dataUpdated(Data*)),this,  SLOT(addMail(Data*)));
 }
 
 void MailList::setmailvisible(bool state)
@@ -320,6 +322,25 @@ void MailList::setmailvisible(bool state)
           mailpool2.insert(id, mail);
 
   }
+
+ void MailList::addMail(Data *mail2)
+  {
+     MailData *mail = static_cast<MailData*>(mail2);
+    if (mail!=0)
+         {
+          model->insertRow(0);
+      model->setData(model->index(0, 0), mail->getId());
+      model->setData(model->index(0, 1), mail->getSubject());
+      model->setData(model->index(0, 2), mail->getFrom());
+      model->setData(model->index(0, 3), QDateTime(QDate()));
+
+      mailpool.insert(mail->getId(), mail->getContent());
+
+
+          mailpool2.insert(mail->getId(), mail);
+      }
+  }
+
 
  QAbstractItemModel *MailList::createMailModel(QObject *parent)
   {
