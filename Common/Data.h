@@ -103,13 +103,13 @@ public:
      *  - Write to a local cache file.
      *  - Compare two data.
      */
-	virtual inline void		dataToStream(QDataStream& s) const { s << _lastChange; }
+	virtual inline void		dataToStream(QDataStream& s) const = 0;
     //! Have to read his data from the stream.
     /*! Called to:
      *  - Transfert this data between client and server.
      *  - Read from a local cache file.
      */
-	virtual inline void		dataFromStream(QDataStream& s) { s >> _lastChange; }
+	virtual inline void		dataFromStream(QDataStream& s) = 0;
 
     //! Return the current status of this data.
 	inline quint8			status() const { return (quint8)_status; }
