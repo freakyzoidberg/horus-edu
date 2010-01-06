@@ -171,7 +171,7 @@ private:
 	QPoint _lastPos;
 };
 
-WhiteboardObject::WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocument *document, IDocumentController *controller, UserData *user) : QFrame(parent), _board(wb), _document(document), _controller(controller), _user(user)
+WhiteboardObject::WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocument *document, IDocumentController *controller, UserData *user) : QFrame(parent), _board(wb), _document(document), _controller(controller), _user(user), _syncAction(NULL)
 {
     _layout = new QGridLayout(this);
 
@@ -368,6 +368,8 @@ void    WhiteboardObject::switchDockMode()
 void	WhiteboardObject::switchSync(bool mode)
 {
 	_isSynced = mode;
+	if (_syncAction == NULL)
+		return;
 	if (_user->level() == LEVEL_TEACHER)
 	{
 		if (_syncAction->isChecked() != mode)
