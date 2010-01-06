@@ -55,7 +55,7 @@ SubjectList::SubjectList(PluginManager *pluginManager)
 	SubjectsList = new QListWidget(this);
 	SubjectsList->setSelectionRectVisible(false);
 
-	QLabel *title = new QLabel(tr("Select a subject to view, add or edit an exam."));
+	QLabel *title = new QLabel(tr("Selectionner une matiere pour voir, editer ou ajouter un examen."));
 	title->setProperty("isTitle", true);
 	ListLayout->addWidget(title);
 
@@ -67,7 +67,7 @@ SubjectList::SubjectList(PluginManager *pluginManager)
 	this->setLayout(ListLayout);
 
 	examComment = new QLineEdit();
-	QPushButton	*addExam = new QPushButton("Add exam");
+	QPushButton	*addExam = new QPushButton("Ajouter un examen");
 
 	connect(addExam, SIGNAL(clicked()), this, SLOT(addAnExam()));
 

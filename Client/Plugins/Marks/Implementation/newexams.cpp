@@ -52,7 +52,7 @@ NewExams::NewExams(QVBoxLayout *RightLayout)
 	thedate = new QDateEdit();
 	examComment = new QLineEdit();
 
-	QLabel *thecomment = new QLabel(tr("Title :"));
+	QLabel *thecomment = new QLabel(tr("Titre :"));
 	thecomment->setMaximumHeight(30);
 	thecomment->setProperty("isFormLabel", true);
 	mainLayout->addWidget(title,		 0, 0, 1, 4);

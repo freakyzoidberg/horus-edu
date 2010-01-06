@@ -7,7 +7,6 @@
 
 ViewAllMarks::ViewAllMarks(PluginManager *pluginManager, QTabWidget *mainView)
 {
-
 	QStringList labels;
 
 	labels.append(tr("Matiere"));
@@ -56,7 +55,7 @@ ViewAllMarks::ViewAllMarks(PluginManager *pluginManager, QTabWidget *mainView)
 	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Voir les etudiants."));
 	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
 	save = new QPushButton(QIcon(":/save.png"), tr("Enregistrer"));
-	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
+	reset = new QPushButton(QIcon(":/reset.png"), tr("Reinitiliaser."));
 	back = new QPushButton(QIcon(":/back.png"), tr("Annuler"));
 	_add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Ajouter un examen"));
 
