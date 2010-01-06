@@ -63,8 +63,6 @@ void WhiteBoardData::dataToStream(QDataStream& s) const
 #ifdef HORUS_SERVER
 	s << _items;
 #endif
-
-	Data::dataToStream(s);
 }
 
 void WhiteBoardData::dataFromStream(QDataStream& s)
@@ -86,8 +84,6 @@ void WhiteBoardData::dataFromStream(QDataStream& s)
 #ifdef HORUS_SERVER
 	s >> _items;
 #endif
-
-	Data::dataFromStream(s);
 }
 
 bool WhiteBoardData::canChange(UserData* user) const

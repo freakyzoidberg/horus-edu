@@ -68,13 +68,11 @@ void SettingsDataBase::keyToStream(QDataStream& s) const
 void SettingsDataBase::dataToStream(QDataStream& s) const
 {
     s << _values;
-    Data::dataToStream(s);
 }
 
 void SettingsDataBase::dataFromStream(QDataStream& s)
 {
     s >> _values;
-	Data::dataFromStream(s);
 }
 
 bool SettingsDataBase::canChange(UserData* user) const

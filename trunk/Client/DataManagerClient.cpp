@@ -113,6 +113,7 @@ void DataManagerClient::receiveData(const QByteArray& d)
 	if (status == Data::CREATED)
 	{
 		_plugin->dataHaveNewKey(data, stream);
+		stream >> data->_lastChange;
 		data->_status = Data::UPTODATE;
 		emit data->statusChanged();
 		emit _plugin->dataStatusChanged(data);
@@ -126,6 +127,7 @@ void DataManagerClient::receiveData(const QByteArray& d)
 	}
 	else if (status == Data::UPDATED)
 	{
+		stream >> data->_lastChange;
 		data->dataFromStream(stream);
 		data->_status = Data::UPTODATE;
 		emit data->statusChanged();
@@ -135,6 +137,7 @@ void DataManagerClient::receiveData(const QByteArray& d)
 	}
 	else if (status == Data::REMOVED)
 	{
+		stream >> data->_lastChange;
 		data->_status = Data::REMOVED;
 		emit data->statusChanged();
 		emit _plugin->dataStatusChanged(data);
@@ -145,6 +148,7 @@ void DataManagerClient::receiveData(const QByteArray& d)
 	}
 	else if (status == Data::SAVED)
 	{
+		stream >> data->_lastChange;
 		data->_status = Data::UPTODATE;
 		emit data->statusChanged();
 		emit _plugin->dataStatusChanged(data);
@@ -161,8 +165,9 @@ void DataManagerClient::receiveData(const QByteArray& d)
 	{
 		quint8 error;
 		quint8 tmpStatus;
+		stream >> data->_lastChange;
 		stream >> error >> tmpStatus;
-		qWarning() << "Data Error received:" << (Data::Error)error << (Data::Status)tmpStatus << data;
+		qDebug() << "Data Error received:" << (Data::Error)error << (Data::Status)tmpStatus << data;
 
 		emit data->error((Data::Error)error);
 		emit _plugin->dataError(data, (Data::Error)error);
@@ -221,9 +226,6 @@ void DataManagerClient::sendData(Data* data)
 
 	if (status == Data::CREATING || status == Data::SAVING)
 		data->dataToStream(stream);
-
-	if (status == Data::CACHED)
-		stream << data->lastChange();
 
 	QMetaObject::invokeMethod(NetworkManager::instance(), "sendPacket", Q_ARG(const QByteArray, packet.getPacket()));
 }

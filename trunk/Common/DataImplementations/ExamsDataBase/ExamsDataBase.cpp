@@ -51,7 +51,6 @@ void ExamsDataBase::keyToStream(QDataStream& s) const
 void ExamsDataBase::dataToStream(QDataStream& s) const
 {
 	s << _comment << _date << _teacher << _subject->id();
-	Data::dataToStream(s);
 }
 
 void ExamsDataBase::dataFromStream(QDataStream& s)
@@ -61,7 +60,6 @@ void ExamsDataBase::dataFromStream(QDataStream& s)
 	s >> _comment >> _date >> _teacher >> subjectId;
 
 	setSubject(_plugin->pluginManager->findPlugin<TreeDataPlugin*>()->node(subjectId));
-	Data::dataFromStream(s);
 }
 
 bool ExamsDataBase::canChange(UserData* user) const

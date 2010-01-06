@@ -114,6 +114,7 @@ void								MainFrameWidget::fillWidgets()
 		if (!flag)
 			stuff->addItem(plugin->getIcon(), plugin->getDisplayableName(), plugin->pluginName());
 	}
+	connect(_pluginManager->findPlugin<SettingsDataPlugin *>()->settings("MainBoard"), SIGNAL(updated()), this, SLOT(repopulateStuff()));
 }
 
 void								MainFrameWidget::setStyle()
@@ -183,14 +184,14 @@ void								MainFrameWidget::dragEnterEvent(QDragEnterEvent *dragEvent)
 {
 	bool							noWidget;
 
-	if (dragEvent->mimeData()->hasFormat("application/vnd.horus.whiteboard.widget"))
+	if (dragEvent->mimeData()->hasFormat("x-horus/x-minidisplayable"))
 	{
 		dragEvent->acceptProposedAction();
 		if (!hasEmpty)
 		{ // Create the 'empty' widget if not present (the dotted area)
 			foreach (DragingWidget *widget, findChildren<DragingWidget *>())
 			{
-				if ((leftLayout->indexOf(widget) >=0 || rightLayout->indexOf(widget) >=0) && _pluginManager->findPlugin<SmallDisplayablePlugin *>(dragEvent->mimeData()->data("application/vnd.horus.whiteboard.widget")) == widget->_plugin)
+				if ((leftLayout->indexOf(widget) >=0 || rightLayout->indexOf(widget) >=0) && _pluginManager->findPlugin<SmallDisplayablePlugin *>(dragEvent->mimeData()->data("x-horus/x-minidisplayable")) == widget->_plugin)
 				{
 					if (leftLayout->indexOf(widget) >= 0)
 					{
@@ -277,7 +278,7 @@ void								MainFrameWidget::dropEvent(QDropEvent *dropEvent)
 
 	if (hasEmpty)
 	{
-		inserted = new DragingWidget(this, _pluginManager->findPlugin<SmallDisplayablePlugin *>(dropEvent->mimeData()->data("application/vnd.horus.whiteboard.widget")));
+		inserted = new DragingWidget(this, _pluginManager->findPlugin<SmallDisplayablePlugin *>(dropEvent->mimeData()->data("x-horus/x-minidisplayable")));
 		if (leftLayout->indexOf(empty) >= 0)
 			leftLayout->insertWidget(leftLayout->indexOf(empty), inserted, 1);
 		else
@@ -305,6 +306,7 @@ void							MainFrameWidget::mouseMoveEvent(QMouseEvent *mouseEvent)
 		empty->hide();
 		hasEmpty = false;
 		repopulateStuff();
+		updateSettings();
 	}
 	mouseEvent->ignore();
 }
@@ -320,5 +322,4 @@ void							MainFrameWidget::repopulateStuff()
 	foreach (SmallDisplayablePlugin *plugin, plugins)
 		if (stuff->findData(plugin->pluginName()) < 0)
 			stuff->addItem(plugin->getIcon(), plugin->getDisplayableName(), plugin->pluginName());
-	updateSettings();
 }
