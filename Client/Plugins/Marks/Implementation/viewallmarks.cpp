@@ -110,8 +110,6 @@ ViewAllMarks::ViewAllMarks(PluginManager *pluginManager, QTabWidget *mainView)
 		MainLayout->addLayout(RightLayout);
 		MainLayout->setStretch(1, 1);
 	}
-
-
 	this->setLayout(MainLayout);
 }
 
