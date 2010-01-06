@@ -50,7 +50,7 @@ void LibraryEdit::init()
 	_formLayout->setRowStretch(10, 10);
 
 
-	label = new QLabel(tr("Personnal informations"), this);
+	label = new QLabel(tr("File Description"), this);
 	label->setProperty("isFormTitle", true);
 	_formLayout->addWidget(label, 0, 0, 1, 2);
 
