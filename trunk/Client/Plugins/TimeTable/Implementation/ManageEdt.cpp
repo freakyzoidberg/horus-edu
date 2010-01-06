@@ -71,43 +71,42 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
 
-	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Delete this edt"));
-	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit this edt"));
-	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
-	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
-	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
-	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
-	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Add"));
+        del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Desactiver"));
+//	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Edit this edt"));
+//	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
+//	save = new QPushButton(QIcon(":/save.png"), tr("Apply"));
+//	reset = new QPushButton(QIcon(":/reset.png"), tr("Reset"));
+//	back = new QPushButton(QIcon(":/back.png"), tr("Cancel"));
+        add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Activer"));
 
 	RightLayout->addWidget(actionTitle);
-	RightLayout->addWidget(edit);
-	RightLayout->addWidget(del);
-	RightLayout->addWidget(ok);
-	RightLayout->addWidget(save);
-	RightLayout->addWidget(reset);
-	RightLayout->addWidget(back);
+//	RightLayout->addWidget(edit);
+//	RightLayout->addWidget(ok);
+//	RightLayout->addWidget(save);
+//	RightLayout->addWidget(reset);
+//	RightLayout->addWidget(back);
 	RightLayout->addWidget(add);
+        RightLayout->addWidget(del);
 	RightLayout->addWidget(new QWidget(this), 1);
 
 	MainLayout->addWidget(AdmClassList);
 	MainLayout->addLayout(RightLayout);
 	MainLayout->setStretch(0, 1);
 
-	ok->setVisible(false);
-	save->setVisible(false);
-	add->setVisible(false);
-	reset->setVisible(false);
-	back->setVisible(false);
-	edit->setVisible(false);
+//	ok->setVisible(false);
+//	save->setVisible(false);
+//	reset->setVisible(false);
+//	back->setVisible(false);
+//	edit->setVisible(false);
 	del->setVisible(false);
-
+        add->setVisible(false);
         connect(add, SIGNAL(clicked()), this, SLOT(goadd()));
-        connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
         connect(del, SIGNAL(clicked()), this, SLOT(godelete()));
-        //connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
-        connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
-        connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
-		connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
+//        connect(edit, SIGNAL(clicked()), this, SLOT(goedit()));
+//        connect(save, SIGNAL(clicked()), this, SLOT(gosave()));
+//        connect(ok, SIGNAL(clicked()), this, SLOT(gook()));
+//        connect(reset, SIGNAL(clicked()), this, SLOT(goreset()));
+//	connect(back, SIGNAL(clicked()), this, SLOT(fallback()));
 	connect(AdmClassList->ClassList, SIGNAL(itemClicked(QListWidgetItem *)),
 		this, SLOT(classSelected(QListWidgetItem *)));
 
@@ -117,7 +116,7 @@ ManageEdt::ManageEdt(PluginManager *pluginManager, MainView *parent)
 void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
 {
         TreeData	*node = td->node(selectedItem->data(Qt::UserRole).toInt());
-		bool		edt = false;
+        bool		edt = false;
 
         updateVisible(4);
 
@@ -128,134 +127,141 @@ void	ManageEdt::classSelected(QListWidgetItem *selectedItem)
         }
         if (sd->schedule(node) != 0)
             edt = true;
-		infos = new InfoPanel(edt);
+        infos = new InfoPanel(edt);
         parent->getEdt()->createScene(node);
         if (edt == false)
-		{
-            updateVisible(2);
+        {
+                        updateVisible(1);
 			parent->setTabEnabled(0, false);
                         //parent->setTabEnabled(1, false);
-		}
+        }
         else
         {
 			parent->setTabEnabled(0, true);
 			parent->setTabEnabled(1, true);
-			updateVisible(1);
+                        updateVisible(2);
         }
         this->informationsLayout->addWidget(infos);
 }
 
-void	ManageEdt::fallback()
-{
-	AdmClassList->setVisible(true);
-	if (infos)
-	{
-		delete infos;
-		infos = NULL;
-	}
-	if (scheduleForm)
-	{
-		delete scheduleForm;
-		scheduleForm = NULL;
-	}
-	//MainLayout->removeWidget();
-	MainLayout->insertWidget(0, AdmClassList);
-	MainLayout->setStretch(0, 1);
-
-		parent->setTabEnabled(0, false);
-                        //parent->setTabEnabled(1, false);
-	 ok->setVisible(false);
-	del->setVisible(false);
-	edit->setVisible(false);
-	add->setVisible(false);
-	back->setVisible(false);
-	reset->setVisible(false);
-}
+//void	ManageEdt::fallback()
+//{
+//	AdmClassList->setVisible(true);
+//	if (infos)
+//	{
+//		delete infos;
+//		infos = NULL;
+//	}
+//	if (scheduleForm)
+//	{
+//		delete scheduleForm;
+//		scheduleForm = NULL;
+//	}
+//	//MainLayout->removeWidget();
+//	MainLayout->insertWidget(0, AdmClassList);
+//	MainLayout->setStretch(0, 1);
+//
+//		parent->setTabEnabled(0, false);
+//                        //parent->setTabEnabled(1, false);
+//	 ok->setVisible(false);
+//	del->setVisible(false);
+//	edit->setVisible(false);
+//	add->setVisible(false);
+//	back->setVisible(false);
+//	reset->setVisible(false);
+//}
 
 void ManageEdt::goadd()
 {
 
     if (AdmClassList->ClassList->selectedItems().count() == 1)
     {
-        if (scheduleForm)
-        {
-            delete scheduleForm;
-			scheduleForm = 0;
-        }
-        scheduleForm = new EditSchedule(sd, td, 0, 0);
-		MainLayout->removeWidget(AdmClassList);
-		MainLayout->insertWidget(0, scheduleForm);
-		MainLayout->setStretch(0, 1);
-        AdmClassList->setVisible(false);
-        updateVisible(0);
-		parent->setTabEnabled(0, false);
-                //parent->setTabEnabled(1, false);
-    }
-}
-
-void ManageEdt::goreset()
-{
-
-}
-
-void ManageEdt::gook()
-{
-    if (scheduleForm)
-    {
+//        if (scheduleForm)
+//        {
+//            delete scheduleForm;
+//			scheduleForm = 0;
+//        }
+//        scheduleForm = new EditSchedule(sd, td, 0, 0);
+//		MainLayout->removeWidget(AdmClassList);
+//		MainLayout->insertWidget(0, scheduleForm);
+//		MainLayout->setStretch(0, 1);
+//        AdmClassList->setVisible(false);
+//        updateVisible(0);
         ScheduleData *edt = sd->newSchedule(td->node(AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
         edt->setStartDate(QDate::currentDate());
         edt->setEndDate(QDate::currentDate());
 //        edt->setStartDate(scheduleForm->getStart());
 //        edt->setEndDate(scheduleForm->getEnd());
         edt->create();
+        updateVisible(2);
+        parent->setTabEnabled(0, false);
+        //parent->setTabEnabled(1, false);
     }
-
-    delete scheduleForm;
-	scheduleForm = NULL;
-	//MainLayout->removeWidget();
-	MainLayout->insertWidget(0, AdmClassList);
-	MainLayout->setStretch(0, 1);
-    scheduleForm = 0;
-    updateClasses();
-    updateVisible(1);
-
-
-    if (AdmClassList->ClassList->selectedItems().count() > 0)
-        classSelected(AdmClassList->ClassList->selectedItems().first());
-
-
-
 }
+
+//void ManageEdt::goreset()
+//{
+//
+//}
+
+//void ManageEdt::gook()
+//{
+//    if (scheduleForm)
+//    {
+//        ScheduleData *edt = sd->newSchedule(td->node(AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
+//        edt->setStartDate(QDate::currentDate());
+//        edt->setEndDate(QDate::currentDate());
+////        edt->setStartDate(scheduleForm->getStart());
+////        edt->setEndDate(scheduleForm->getEnd());
+//        edt->create();
+//    }
+//
+//    delete scheduleForm;
+//	scheduleForm = NULL;
+//	//MainLayout->removeWidget();
+//	MainLayout->insertWidget(0, AdmClassList);
+//	MainLayout->setStretch(0, 1);
+//    scheduleForm = 0;
+//    updateClasses();
+//    updateVisible(1);
+//
+//
+//    if (AdmClassList->ClassList->selectedItems().count() > 0)
+//        classSelected(AdmClassList->ClassList->selectedItems().first());
+//
+//
+//
+//}
 
 void ManageEdt::godelete()
 {
     ScheduleData *edt = sd->schedule(td->node(AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt()));
     edt->remove();
-    updateVisible(2);
+    updateVisible(1);
 	parent->setTabEnabled(0, false);
         //parent->setTabEnabled(1, false);
 }
 
-void ManageEdt::goedit()
-{
-    updateVisible(5);
-    if (AdmClassList->ClassList->selectedItems().count() == 1)
-    {
-        if (scheduleForm)
-        {
-            delete scheduleForm;
-            scheduleForm = 0;
-        }
-        scheduleForm = new EditSchedule(sd, td,AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt(), 1);
-        MainLayout->insertWidget(0, scheduleForm);
-        AdmClassList->setVisible(false);
-    }
-
-    delete scheduleForm;
-    scheduleForm = 0;
-    updateClasses();
-    updateVisible(1);
-}
+//void ManageEdt::goedit()
+//{
+//    updateVisible(5);
+//    if (AdmClassList->ClassList->selectedItems().count() == 1)
+//    {
+//        if (scheduleForm)
+//        {
+//            delete scheduleForm;
+//            scheduleForm = 0;
+//        }
+//        scheduleForm = new EditSchedule(sd, td,AdmClassList->ClassList->selectedItems().first()->data(Qt::UserRole).toInt(), 1);
+//        MainLayout->insertWidget(0, scheduleForm);
+//        AdmClassList->setVisible(false);
+//    }
+//
+//    delete scheduleForm;
+//    scheduleForm = 0;
+//    updateClasses();
+//    updateVisible(1);
+//}
 
 void ManageEdt::updateClasses()
 {
@@ -264,63 +270,89 @@ void ManageEdt::updateClasses()
 
 void ManageEdt::updateVisible(int type)
 {
-    if (type == 0)
-    {
-        ok->setVisible(true);
-        del->setVisible(false);
-        edit->setVisible(false);
-        add->setVisible(false);
-        back->setVisible(true);
-        reset->setVisible(true);
-    }
-    else if (type == 1)
-    {
-        ok->setVisible(false);
-        save->setVisible(false);
-        del->setVisible(true);
-        edit->setVisible(true);
-		if (infos)
-			delete infos;
-		infos = new InfoPanel(true);
-		this->informationsLayout->addWidget(infos);
-		infos->setVisible(true);
-        add->setVisible(false);
-        back->setVisible(false);
-        reset->setVisible(false);
-    }
-    else if (type == 2)
-    {
-        ok->setVisible(false);
-        del->setVisible(false);
-        save->setVisible(false);
-		if (infos)
-			delete infos;
-		infos = new InfoPanel(false);
-		this->informationsLayout->addWidget(infos);
-        edit->setVisible(false);
-        add->setVisible(true);
-        back->setVisible(false);
-        reset->setVisible(false);
-    }
-    else if (type == 3)
-    {
-        ok->setVisible(false);
-        save->setVisible(false);
-        del->setVisible(false);
-        edit->setVisible(false);
-        add->setVisible(false);
-        back->setVisible(false);
-        reset->setVisible(false);
-    }
-    else if (type == 4)
-    {
-        ok->setVisible(false);
-        save->setVisible(true);
-        del->setVisible(false);
-        edit->setVisible(false);
-        add->setVisible(false);
-        back->setVisible(true);
-        reset->setVisible(true);
-    }
+        if (type == 0)
+        {
+            del->setVisible(false);
+            add->setVisible(false);
+        }
+        else if (type == 1)
+        {
+            del->setVisible(false);
+            if (infos)
+                delete infos;
+            infos = new InfoPanel(true);
+            this->informationsLayout->addWidget(infos);
+            infos->setVisible(true);
+            add->setVisible(true);
+
+        }
+        else if (type == 2)
+        {
+            del->setVisible(true);
+            if (infos)
+                delete infos;
+            infos = new InfoPanel(true);
+            this->informationsLayout->addWidget(infos);
+            infos->setVisible(true);
+            add->setVisible(false);
+        }
+//    if (type == 0)
+//    {
+//        ok->setVisible(true);
+//        del->setVisible(false);
+//        edit->setVisible(false);
+//        add->setVisible(false);
+//        back->setVisible(true);
+//        reset->setVisible(true);
+//    }
+//    else if (type == 1)
+//    {
+//        ok->setVisible(false);
+//        save->setVisible(false);
+//        del->setVisible(true);
+//        edit->setVisible(true);
+//		if (infos)
+//			delete infos;
+//		infos = new InfoPanel(true);
+//		this->informationsLayout->addWidget(infos);
+//		infos->setVisible(true);
+//        add->setVisible(false);
+//        back->setVisible(false);
+//        reset->setVisible(false);
+//    }
+//    else if (type == 2)
+//    {
+//        ok->setVisible(false);
+//        del->setVisible(false);
+//        save->setVisible(false);
+//		if (infos)
+//			delete infos;
+//		infos = new InfoPanel(false);
+//		this->informationsLayout->addWidget(infos);
+//        edit->setVisible(false);
+//        add->setVisible(true);
+//        back->setVisible(false);
+//        reset->setVisible(false);
+//    }
+//    else if (type == 3)
+//    {
+//        ok->setVisible(false);
+//        save->setVisible(false);
+//        del->setVisible(false);
+//        edit->setVisible(false);
+//        add->setVisible(false);
+//        back->setVisible(false);
+//        reset->setVisible(false);
+//    }
+//    else if (type == 4)
+//    {
+//        ok->setVisible(false);
+//        save->setVisible(true);
+//        del->setVisible(false);
+//        edit->setVisible(false);
+//        add->setVisible(false);
+//        back->setVisible(true);
+//        reset->setVisible(true);
+//    }
 
 }
