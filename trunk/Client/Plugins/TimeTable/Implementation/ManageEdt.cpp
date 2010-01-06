@@ -194,7 +194,7 @@ void ManageEdt::goadd()
 //        edt->setEndDate(scheduleForm->getEnd());
         edt->create();
         updateVisible(2);
-        parent->setTabEnabled(0, false);
+        parent->setTabEnabled(0, true);
         //parent->setTabEnabled(1, false);
     }
 }
