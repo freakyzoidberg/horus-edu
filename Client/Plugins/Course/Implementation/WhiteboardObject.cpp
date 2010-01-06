@@ -227,10 +227,14 @@ WhiteboardObject::WhiteboardObject(QWidget *parent, WhiteBoard *wb, ILessonDocum
 	ILessonData* ldata = static_cast<ILessonData *>(_document->parent());
 	do
 	{
-		_lesson = dynamic_cast<ILesson *>(ldata);
-		if (_lesson != NULL)
+		QString classname = ldata->metaObject()->className();
+		if (classname == "Lesson")
+		{
+			_lesson = static_cast<ILesson *>(ldata);
 			break;
-		ldata = static_cast<ILessonData *>(ldata->parent());
+		}
+		QObject *obj = ldata->parent();
+		ldata = static_cast<ILessonData *>(obj);
 	} while (true);
 
 	if (_controller != NULL)
