@@ -6,6 +6,7 @@
 class MailsNetwork : public NetworkPlugin
 {
     Q_OBJECT
+    Q_INTERFACES(NetworkPluginClient)
 
 public:
     MailsNetwork();

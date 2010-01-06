@@ -60,16 +60,17 @@ private:
     void setmailvisible(bool state);
     void setSourceModel(QAbstractItemModel *model);
     void addMail(QAbstractItemModel *model, const QString &subject, const QString &sender, const QDateTime &date,           const QString &content, const QString &id, MailData *mail = 0);
-    void update();
+
 private slots:
     void rowDoubleClicked(QModelIndex indx);
     void linkclick(const QString &link);
     void expandshrink();
     void reply();
     void replyall();
-
+    void update();
 private:
     MailsNetwork *_mn;
+    QPushButton *btn;
     bool expanded;
     QString current;
     MailPanel *_panel;

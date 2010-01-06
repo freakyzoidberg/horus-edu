@@ -257,9 +257,18 @@ connect(rep, SIGNAL(clicked()), this, SLOT(reply()));
      maildisplay->addLayout(ligne3);
      maildisplay->addWidget(mailview);
     
+    //proxyLayout->addWidget(new QPushButton("toto"), 0, 0, 1, 1);
+     btn = new QPushButton(tr("refresh"));
+     btn->setStyleSheet("QPushButton {text-align: center; background-color: lightblue; border:none; border-style: outset; border-width: 2px; border-radius: 10px; border-color: beige; font: bold 14px; min-width: 10em; padding: 6px} QPushButton:pressed { background-color: rgb(224, 0, 0); border-style: inset;}");
 
-     proxyLayout->addWidget(proxyView, 0, 0, 1, 3);
-     proxyLayout->addLayout(maildisplay,1,0, 1, 3);
+connect(btn, SIGNAL(clicked()),this,SLOT(update()));
+proxyLayout->setColumnStretch(0,2);
+proxyLayout->setColumnStretch(1,0);
+proxyLayout->setColumnStretch(2,2);
+
+     proxyLayout->addWidget(btn,0,1,1,1);
+     proxyLayout->addWidget(proxyView, 1, 0, 1, 3);
+     proxyLayout->addLayout(maildisplay,2,0, 1, 3);
 expanded = false;
      setmailvisible(false);
 
@@ -389,7 +398,9 @@ void MailList::setmailvisible(bool state)
 
  void MailList::update()
  {
-    _mn->update();
+     btn->clearFocus();
+    //_mn->update();
+    QMetaObject::invokeMethod(_mn,"update");
  }
 
  void MailList::reply()
