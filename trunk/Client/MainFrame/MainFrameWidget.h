@@ -36,11 +36,11 @@
 # define			__MAINFRAMEWIDGET_H__
 
 # include			<QWidget>
-# include			<QBoxLayout>
-# include			<QLabel>
-# include			<QComboBox>
-
-#include			"../../Common/PluginManager.h"
+# include "NetworkManager.h"
+class QComboBox;
+class QLabel;
+class QVBoxLayout;
+class PluginManager;
 
 class MainFrameWidget : public QWidget
 {
@@ -54,8 +54,9 @@ public:
 
 private:
 	QComboBox		*stuff;
-    QBoxLayout		*leftLayout;
-    QBoxLayout		*rightLayout;
+	QVBoxLayout		*leftLayout;
+	QVBoxLayout		*rightLayout;
+	QLabel*			connexionStatus;
     QLabel*			connectedAs;
     QLabel*			lastLogin;
 	QWidget			*empty;
@@ -67,6 +68,7 @@ private:
 
 private slots:
 	void			repopulateStuff();
+	void			networkStatusChange(NetworkManager::Status);
 
 private slots:
     void			updateInfos();

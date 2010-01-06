@@ -242,7 +242,7 @@ void UserDataBase::setStudentClass(TreeData* node)
 	QMutexLocker M(&mutex);
 	disconnect(this, SLOT(studentClassRemoved()));
 	_studentClass = node;
-	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()));
+	connect(_studentClass, SIGNAL(removed()), this, SLOT(studentClassRemoved()), Qt::DirectConnection);
 }
 
 void UserDataBase::setLanguage(const QString language)
@@ -328,7 +328,7 @@ void UserDataBase::setStudent(UserData* student)
 		_student = static_cast<UserDataPlugin*>(_plugin)->nobody();
 
 	if (_student != static_cast<UserDataPlugin*>(_plugin)->nobody())
-		connect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()));
+		connect(_student, SIGNAL(removed()), this, SLOT(studentRemoved()), Qt::DirectConnection);
 }
 
 void UserDataBase::setMail(const QString mail)

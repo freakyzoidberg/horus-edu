@@ -38,7 +38,12 @@
 #include							<QDragEnterEvent>
 #include							<QFrame>
 #include <QPushButton>
+#include <QGridLayout>
+#include			<QBoxLayout>
+#include			<QLabel>
+#include			<QComboBox>
 
+#include			"../../Common/PluginManager.h"
 #include							"../../Common/UserData.h"
 #include							"../../Common/SettingsData.h"
 #include							"../SmallDisplayablePlugin.h"
@@ -58,10 +63,8 @@ MainFrameWidget::MainFrameWidget(PluginManager *pluginManager) : QWidget()
 void								MainFrameWidget::fillWidgets()
 {
 	QList<SmallDisplayablePlugin *>	plugins;
-	QBoxLayout						*mainLayout;
-	QBoxLayout						*topLayout;
-	QBoxLayout						*bottomLayout;
-	QBoxLayout						*middleLayout;
+	QGridLayout						*mainLayout;
+	QHBoxLayout						*topLayout;
 	SettingsData					*settings;
 	bool							flag;
 
@@ -73,29 +76,28 @@ void								MainFrameWidget::fillWidgets()
 	empty->hide();
 	hasEmpty = false;
 
-	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
-	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	bottomLayout = new QBoxLayout(QBoxLayout::LeftToRight);
-	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-	middleLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
-	mainLayout->addLayout(topLayout, 0);
-	mainLayout->addLayout(bottomLayout, 1);
-	bottomLayout->addLayout(leftLayout, 1);
-	bottomLayout->addLayout(middleLayout, 0);
-	bottomLayout->addLayout(rightLayout, 1);
-	middleLayout->addWidget(new QWidget(this), 1);
-    connectedAs = new QLabel(tr("Not connected"), this);
+	mainLayout = new QGridLayout(this);
+	topLayout = new QHBoxLayout;
+	leftLayout = new QVBoxLayout;
+	rightLayout = new QVBoxLayout;
+	mainLayout->addLayout(topLayout, 0, 0, 1, 2);
+	mainLayout->addLayout(leftLayout, 1, 0, 2, 1);
+	mainLayout->addLayout(rightLayout, 1, 1, 1, 1);
+	connectedAs = new QLabel(tr("Not connected"), this);
     topLayout->addWidget(connectedAs, 1);
     lastLogin = new QLabel(tr("Last login: Never"), this);
 	topLayout->addWidget(lastLogin);
+	connexionStatus = new QLabel(this);
+	topLayout->addWidget(connexionStatus);
+	connect(NetworkManager::instance(), SIGNAL(statusChange(NetworkManager::Status)), this, SLOT(networkStatusChange(NetworkManager::Status)));
+	networkStatusChange(NetworkManager::instance()->status());
 	QPushButton* logout = new QPushButton(QIcon(":/Pictures/logout.png"), tr("Logout"), this);
 	connect(logout, SIGNAL(clicked()), NetworkManager::instance(), SLOT(logout()));
 	topLayout->addWidget(logout);
 	stuff = new QComboBox(this);
 	stuff->addItem(tr("Add Stuff..."));
 	connect(stuff, SIGNAL(currentIndexChanged(int)), this, SLOT(addedStuff(int)));
-	topLayout->addWidget(stuff, 1, Qt::AlignRight);
+	mainLayout->addWidget(stuff, 2, 1, 1, 1);
 	foreach (SmallDisplayablePlugin *plugin, plugins)
 	{
 		flag = false;
@@ -322,4 +324,14 @@ void							MainFrameWidget::repopulateStuff()
 	foreach (SmallDisplayablePlugin *plugin, plugins)
 		if (stuff->findData(plugin->pluginName()) < 0)
 			stuff->addItem(plugin->getIcon(), plugin->getDisplayableName(), plugin->pluginName());
+}
+
+void MainFrameWidget::networkStatusChange(NetworkManager::Status status)
+{
+	if (status == NetworkManager::DISCONNECTED)
+		connexionStatus->setPixmap(QPixmap::fromImage(QImage(":/Pictures/disconnected.png")));
+	else if (status == NetworkManager::CONNECTED)
+		connexionStatus->setPixmap(QPixmap::fromImage(QImage(":/Pictures/connecting.png")));
+	else
+		connexionStatus->setPixmap(QPixmap::fromImage(QImage(":/Pictures/connected.png")));
 }
