@@ -63,8 +63,10 @@ MainFrameWidget::MainFrameWidget(PluginManager *pluginManager) : QWidget()
 void								MainFrameWidget::fillWidgets()
 {
 	QList<SmallDisplayablePlugin *>	plugins;
-	QGridLayout						*mainLayout;
-	QHBoxLayout						*topLayout;
+	QBoxLayout						*mainLayout;
+	QBoxLayout						*topLayout;
+	QBoxLayout						*bottomLayout;
+	QBoxLayout						*middleLayout;
 	SettingsData					*settings;
 	bool							flag;
 
@@ -75,15 +77,19 @@ void								MainFrameWidget::fillWidgets()
 	empty->setObjectName("Empty");
 	empty->hide();
 	hasEmpty = false;
-
-	mainLayout = new QGridLayout(this);
-	topLayout = new QHBoxLayout;
-	leftLayout = new QVBoxLayout;
-	rightLayout = new QVBoxLayout;
-	mainLayout->addLayout(topLayout, 0, 0, 1, 2);
-	mainLayout->addLayout(leftLayout, 1, 0, 2, 1);
-	mainLayout->addLayout(rightLayout, 1, 1, 1, 1);
-	connectedAs = new QLabel(tr("Not connected"), this);
+	mainLayout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+	topLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	bottomLayout = new QBoxLayout(QBoxLayout::LeftToRight);
+	leftLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	middleLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	rightLayout = new QBoxLayout(QBoxLayout::TopToBottom);
+	mainLayout->addLayout(topLayout, 0);
+	mainLayout->addLayout(bottomLayout, 1);
+	bottomLayout->addLayout(leftLayout, 1);
+	bottomLayout->addLayout(middleLayout, 0);
+	bottomLayout->addLayout(rightLayout, 1);
+	middleLayout->addWidget(new QWidget(this), 1);
+    connectedAs = new QLabel(tr("Not connected"), this);
     topLayout->addWidget(connectedAs, 1);
     lastLogin = new QLabel(tr("Last login: Never"), this);
 	topLayout->addWidget(lastLogin);
@@ -97,7 +103,7 @@ void								MainFrameWidget::fillWidgets()
 	stuff = new QComboBox(this);
 	stuff->addItem(tr("Add Stuff..."));
 	connect(stuff, SIGNAL(currentIndexChanged(int)), this, SLOT(addedStuff(int)));
-	mainLayout->addWidget(stuff, 2, 1, 1, 1);
+	mainLayout->addWidget(stuff, 0, Qt::AlignRight);
 	foreach (SmallDisplayablePlugin *plugin, plugins)
 	{
 		flag = false;
