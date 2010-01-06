@@ -419,21 +419,11 @@ void MailList::setmailvisible(bool state)
 
  void MailList::update()
  {
-     btn->clearFocus();
-
-     _MailPlugin->allDatas().clear();
-  model->removeRow(0, this);
-
-
-     /*if (model)
-    delete model;
-this->setSourceModel(createMailModel(this));
-*/
-    //_mn->update();
-     if (model)
-    delete model;
-this->setSourceModel(createMailModel(this));
-    QMetaObject::invokeMethod(_mn,"update");
+   btn->clearFocus();
+   if (model)
+     delete model;
+   this->setSourceModel(createMailModel(this));
+   QMetaObject::invokeMethod(_mn,"update");
  }
 
  void MailList::reply()
