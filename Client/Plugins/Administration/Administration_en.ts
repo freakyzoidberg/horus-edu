@@ -120,27 +120,27 @@
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="134"/>
+        <location filename="Implementation/EditUser.cpp" line="133"/>
         <source>Personnal informations</source>
         <translation>Personnal informations</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="141"/>
+        <location filename="Implementation/EditUser.cpp" line="140"/>
         <source>Last name</source>
         <translation>Last name</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="150"/>
+        <location filename="Implementation/EditUser.cpp" line="149"/>
         <source>First name</source>
         <translation>First name</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="159"/>
+        <location filename="Implementation/EditUser.cpp" line="158"/>
         <source>Birth date</source>
         <translation>Birth date</translation>
     </message>
     <message>
-        <location filename="Implementation/EditUser.cpp" line="165"/>
+        <location filename="Implementation/EditUser.cpp" line="164"/>
         <source>dd/MM/yy</source>
         <translation>MM/dd/yy</translation>
     </message>
@@ -346,7 +346,7 @@
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="571"/>
-        <location filename="Implementation/EditUser.cpp" line="872"/>
+        <location filename="Implementation/EditUser.cpp" line="887"/>
         <source>Father address</source>
         <translation>Father address</translation>
     </message>
@@ -357,7 +357,7 @@
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="583"/>
-        <location filename="Implementation/EditUser.cpp" line="873"/>
+        <location filename="Implementation/EditUser.cpp" line="888"/>
         <source>Father email</source>
         <translation>Father email</translation>
     </message>
@@ -368,7 +368,7 @@
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="603"/>
-        <location filename="Implementation/EditUser.cpp" line="874"/>
+        <location filename="Implementation/EditUser.cpp" line="889"/>
         <source>Father home phone</source>
         <translation>Father home phone</translation>
     </message>
@@ -379,7 +379,7 @@
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="623"/>
-        <location filename="Implementation/EditUser.cpp" line="875"/>
+        <location filename="Implementation/EditUser.cpp" line="890"/>
         <source>Father mobile phone</source>
         <translation>Father mobile phone</translation>
     </message>
@@ -390,7 +390,7 @@
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="643"/>
-        <location filename="Implementation/EditUser.cpp" line="876"/>
+        <location filename="Implementation/EditUser.cpp" line="891"/>
         <source>Father work phone</source>
         <translation>Father work phone</translation>
     </message>
@@ -401,31 +401,31 @@
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="666"/>
-        <location filename="Implementation/EditUser.cpp" line="857"/>
+        <location filename="Implementation/EditUser.cpp" line="872"/>
         <source>Parents address</source>
         <translation>Parents address</translation>
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="667"/>
-        <location filename="Implementation/EditUser.cpp" line="858"/>
+        <location filename="Implementation/EditUser.cpp" line="873"/>
         <source>Parents email</source>
         <translation>Parents email</translation>
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="668"/>
-        <location filename="Implementation/EditUser.cpp" line="859"/>
+        <location filename="Implementation/EditUser.cpp" line="874"/>
         <source>Parents home phone</source>
         <translation>Parents home phone</translation>
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="669"/>
-        <location filename="Implementation/EditUser.cpp" line="860"/>
+        <location filename="Implementation/EditUser.cpp" line="875"/>
         <source>Parents mobile phone</source>
         <translation>Parents mobile phone</translation>
     </message>
     <message>
         <location filename="Implementation/EditUser.cpp" line="670"/>
-        <location filename="Implementation/EditUser.cpp" line="861"/>
+        <location filename="Implementation/EditUser.cpp" line="876"/>
         <source>Parents work phone</source>
         <translation>Parents work phone</translation>
     </message>
@@ -444,32 +444,32 @@
     <message>
         <location filename="Implementation/ElementSchool.cpp" line="60"/>
         <source>Students number</source>
-        <translation>Students number</translation>
+        <translation>Students count</translation>
     </message>
     <message>
         <location filename="Implementation/ElementSchool.cpp" line="61"/>
         <source>Parents number</source>
-        <translation>Parents number</translation>
+        <translation>Parents count</translation>
     </message>
     <message>
         <location filename="Implementation/ElementSchool.cpp" line="71"/>
         <source>Teachers number</source>
-        <translation>Teachers number</translation>
+        <translation>Teachers count</translation>
     </message>
     <message>
         <location filename="Implementation/ElementSchool.cpp" line="72"/>
         <source>Administratives number</source>
-        <translation>Administratives number</translation>
+        <translation>Administratives count</translation>
     </message>
     <message>
         <location filename="Implementation/ElementSchool.cpp" line="82"/>
         <source>Classes number</source>
-        <translation>Classes number</translation>
+        <translation>Classes count</translation>
     </message>
     <message>
         <location filename="Implementation/ElementSchool.cpp" line="83"/>
         <source>Users number</source>
-        <translation>Users number</translation>
+        <translation>Users count</translation>
     </message>
     <message>
         <location filename="Implementation/ElementSchool.cpp" line="139"/>
@@ -491,7 +491,7 @@
     <message>
         <location filename="Implementation/InformationsStructure.cpp" line="64"/>
         <source>Students number in this class</source>
-        <translation>Students number in this class</translation>
+        <translation>Students count in this class</translation>
     </message>
 </context>
 <context>
@@ -630,27 +630,27 @@
         <translation>Delete this user</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="161"/>
+        <location filename="Implementation/ListUser.cpp" line="162"/>
         <source>Informations:</source>
         <translation>Informations :</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="168"/>
+        <location filename="Implementation/ListUser.cpp" line="169"/>
         <source>Actions:</source>
         <translation>Actions :</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="259"/>
+        <location filename="Implementation/ListUser.cpp" line="260"/>
         <source>Confirmation</source>
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="259"/>
+        <location filename="Implementation/ListUser.cpp" line="260"/>
         <source>Do you really want to delete </source>
         <translation>Do you really want to delete </translation>
     </message>
     <message>
-        <location filename="Implementation/ListUser.cpp" line="259"/>
+        <location filename="Implementation/ListUser.cpp" line="260"/>
         <source> ?</source>
         <translation> ?</translation>
     </message>
@@ -668,47 +668,46 @@
         <translation>Edit a school</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="56"/>
         <source>Delete a school</source>
-        <translation>Delete a school</translation>
+        <translation type="obsolete">Delete a school</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="57"/>
+        <location filename="Implementation/ManageStructure.cpp" line="56"/>
         <source>Add a class</source>
         <translation>Add a class</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="58"/>
+        <location filename="Implementation/ManageStructure.cpp" line="57"/>
         <source>Edit a class</source>
         <translation>Edit a class</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="59"/>
+        <location filename="Implementation/ManageStructure.cpp" line="58"/>
         <source>Delete a class</source>
         <translation>Delete a class</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="60"/>
+        <location filename="Implementation/ManageStructure.cpp" line="59"/>
         <source>Add a subject</source>
         <translation>Add a subject</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="61"/>
+        <location filename="Implementation/ManageStructure.cpp" line="60"/>
         <source>Edit a subject</source>
         <translation>Edit a subject</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="62"/>
+        <location filename="Implementation/ManageStructure.cpp" line="61"/>
         <source>Delete a subject</source>
         <translation>Delete a subject</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="111"/>
+        <location filename="Implementation/ManageStructure.cpp" line="109"/>
         <source>Informations:</source>
         <translation>Informations :</translation>
     </message>
     <message>
-        <location filename="Implementation/ManageStructure.cpp" line="118"/>
+        <location filename="Implementation/ManageStructure.cpp" line="116"/>
         <source>Actions:</source>
         <translation>Actions :</translation>
     </message>
@@ -724,12 +723,12 @@
 <context>
     <name>StructureElement</name>
     <message>
-        <location filename="Implementation/StructureElement.cpp" line="77"/>
+        <location filename="Implementation/StructureElement.cpp" line="79"/>
         <source>Confirmation</source>
         <translation>Confirmation</translation>
     </message>
     <message>
-        <location filename="Implementation/StructureElement.cpp" line="77"/>
+        <location filename="Implementation/StructureElement.cpp" line="79"/>
         <source>Do you really want to delete ?</source>
         <translation>Do you really want to delete ?</translation>
     </message>
