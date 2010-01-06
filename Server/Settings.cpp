@@ -82,10 +82,10 @@ void Settings::FirstSetSettings()
     streamo.flush();
     line = streami.readLine();
      this->Gsettings->setValue("SQL_HOSTNAME", (line == "" ? "localhost":line));
-     streamo << "SQL DB Name [ hint : testhorus] : ";
+     streamo << "SQL DB Name [ hint : horus] : ";
     streamo.flush();
     line = streami.readLine();
-     this->Gsettings->setValue("SQL_DBNAME", (line == "" ? "testhorus":line));
+     this->Gsettings->setValue("SQL_DBNAME", (line == "" ? "horus":line));
      streamo << "SQL UserName [ hint : horus] : ";
     streamo.flush();
     line = streami.readLine();
