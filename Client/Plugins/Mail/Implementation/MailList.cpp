@@ -41,6 +41,8 @@
 #include <QModelIndex>
 #include "MailForm.h"
 #include "../../../../Common/DataImplementations/MailData/MailData.h"
+
+
 /*
 MailList::MailList(MailDataPlugin *MailPlugin)
 {
@@ -169,6 +171,8 @@ MailList::MailList(MailDataPlugin *MailPlugin, MailPanel *panel)
  {
     _panel = panel;
     _MailPlugin = MailPlugin;
+    _mn = _MailPlugin->pluginManager->findPlugin<MailsNetwork*>();
+
 
     QHBoxLayout *ligne0 = new QHBoxLayout();
     QHBoxLayout *ligne1 = new QHBoxLayout();
@@ -381,6 +385,11 @@ void MailList::setmailvisible(bool state)
          proxyView->setVisible(true);
          expanded = false;
      }
+ }
+
+ void MailList::update()
+ {
+    _mn->update();
  }
 
  void MailList::reply()

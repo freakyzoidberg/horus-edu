@@ -39,6 +39,7 @@
 #include "../../../../Common/DataImplementations/MailData/MailDataPlugin.h"
 #include "Mail.h"
 #include "MailSmallDisplayable.h"
+#include "MailsNetwork.h"
 
 class MailMetaPlugin : public MetaPlugin
 {
@@ -49,9 +50,13 @@ public:
     inline MailMetaPlugin() {
       Plugin* p = new Mail();
       Plugin* mp = new MailDataPlugin();
+      Plugin* mn = new MailsNetwork();
+
       pluginList.append(p);
       pluginList.append(mp);
-	  pluginList.append(new MailSmallDisplayable());
+      pluginList.append(mn);
+
+      pluginList.append(new MailSmallDisplayable());
   }
 };
 
