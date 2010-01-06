@@ -34,6 +34,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 #include		"DownloadSmallDisplayable.h"
 #include                "TransfertList.h"
+#include "FileTransfertClient.h"
 #include		<QLabel>
 
 const QString	DownloadSmallDisplayable::pluginName() const
@@ -44,6 +45,11 @@ const QString	DownloadSmallDisplayable::pluginName() const
 const QString	DownloadSmallDisplayable::pluginVersion() const
 {
 	return ("0.1");
+}
+
+void DownloadSmallDisplayable::unload()
+{
+	FileTransfertQueue::instance()->clear();
 }
 
 QWidget			*DownloadSmallDisplayable::getWidget()
