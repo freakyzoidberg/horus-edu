@@ -421,6 +421,9 @@ void MailList::setmailvisible(bool state)
  {
      btn->clearFocus();
     //_mn->update();
+     if (model)
+    delete model;
+this->setSourceModel(createMailModel(this));
     QMetaObject::invokeMethod(_mn,"update");
  }
 
