@@ -280,7 +280,7 @@ void ManageEdt::updateVisible(int type)
             del->setVisible(false);
             if (infos)
                 delete infos;
-            infos = new InfoPanel(true);
+            infos = new InfoPanel(false);
             this->informationsLayout->addWidget(infos);
             infos->setVisible(true);
             add->setVisible(true);
