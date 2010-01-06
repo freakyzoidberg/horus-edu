@@ -140,7 +140,8 @@ const QList<Data*> TreeDataBase::dependsOfCreatedData() const
 {
 	QList<Data*> list;
 	list.append(_user);
-	list.append(_parent);
+	if (_parent)
+		list.append(_parent);
 	return list;
 }
 

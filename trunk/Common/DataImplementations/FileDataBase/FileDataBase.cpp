@@ -226,7 +226,7 @@ QString FileDataBase::fileName() const
 //	for (TreeData* node = _node; node; node = node->parent())
 //		pathFile = '/' + node->name() + pathFile;
 
-	QString pathFile = "/" + QVariant(_node->id()).toString();
+	QString pathFile = "/" + QVariant(_node->id()).toString() + "/";
 
 	QDir().mkpath(pathSys + pathFile);
 
