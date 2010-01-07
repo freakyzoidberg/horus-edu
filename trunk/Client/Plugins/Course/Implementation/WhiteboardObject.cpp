@@ -368,15 +368,16 @@ void    WhiteboardObject::switchDockMode()
 void	WhiteboardObject::switchSync(bool mode)
 {
 	_isSynced = mode;
-	if (_syncAction == NULL)
-		return;
 	if (_user->level() == LEVEL_TEACHER)
 	{
-		if (_syncAction->isChecked() != mode)
+		if (_syncAction != NULL)
 		{
-			_syncAction->setChecked(true);
+			if (_syncAction->isChecked() != mode)
+			{
+				_syncAction->setChecked(true);
+			}
+			_board->notifyChange();
 		}
-		_board->notifyChange();
 	}
 	else
 	{
