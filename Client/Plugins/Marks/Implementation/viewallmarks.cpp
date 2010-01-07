@@ -121,7 +121,7 @@ void	ViewAllMarks::initGradesList(QListWidgetItem *item)
 {
 	UserDataPlugin	*udp = _pluginManager->findPlugin<UserDataPlugin *>();
 	UserData *user;
-	int row = 0;
+	int row = 1;
 
 	int nbrow = mainWidget->rowCount();
 	for (int i = 0; i < nbrow; ++i)
