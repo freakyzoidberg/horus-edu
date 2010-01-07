@@ -89,7 +89,7 @@ void	ClassList::fillClassList()
 	while (i.hasNext())
 	{
 		i.next();
-		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/subject.png"), i.value());
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Marks/subject.png"), i.value());
 		tempitem->setData(Qt::UserRole, i.key());
 		Classlist->addItem(tempitem);
 	}

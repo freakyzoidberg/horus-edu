@@ -1,12 +1,21 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/Marks" >
+        <file>AddTimeTable.png</file>
+        <file>administrator.png</file>
         <file>back.png</file>
+        <file>background.png</file>
+        <file>DelTimeTable.png</file>
+        <file>desk.png</file>
+        <file>EditTimeTable.png</file>
         <file>error.png</file>
+        <file>marks_backup.png</file>
         <file>ok.png</file>
         <file>reset.png</file>
         <file>save.png</file>
         <file>subject.png</file>
-        <file>administrator.png</file>
-        <file>marks_backup.png</file>
+        <file>TimeTable.png</file>
+        <file>TimeTableAddOK.gif</file>
+        <file>TimeTableOK.gif</file>
+        <file>warning.png</file>
     </qresource>
 </RCC>

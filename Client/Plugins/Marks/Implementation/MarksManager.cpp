@@ -10,7 +10,7 @@
  * GNU General Public License for more details.                                *
  *                                                                             *
  * You should have received a copy of the GNU General Public License           *
- * along with Horus. If not, see <http://www.gnu.org/licenses/>.               *
+ * along with Horus. If not, see <http:/Marks//www.gnu.org/licenses/>.               *
  *                                                                             *
  * The orginal content of this material was realized as part of                *
  * 'Epitech Innovative Project' www.epitech.eu                                 *
@@ -70,13 +70,13 @@ MarksManager::MarksManager(PluginManager *pm, MarksMainView *parent)
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
 
-	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Supprimer"));
-	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Editer"));
-	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
-	save = new QPushButton(QIcon(":/save.png"), tr("Appliquer"));
-	reset = new QPushButton(QIcon(":/reset.png"), tr("Reinitiqliser"));
-	back = new QPushButton(QIcon(":/back.png"), tr("Annuler"));
-	add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Voir les examens."));
+	del = new QPushButton(QIcon(":/Marks/DelTimeTable.png"), tr("Supprimer"));
+	edit = new QPushButton(QIcon(":/Marks/EditTimeTable.png"), tr("Editer"));
+	ok = new QPushButton(QIcon(":/Marks/ok.png"), tr("Ok"));
+	save = new QPushButton(QIcon(":/Marks/save.png"), tr("Appliquer"));
+	reset = new QPushButton(QIcon(":/Marks/reset.png"), tr("Reinitiqliser"));
+	back = new QPushButton(QIcon(":/Marks/back.png"), tr("Annuler"));
+	add = new QPushButton(QIcon(":/Marks/AddTimeTable.png"), tr("Voir les examens."));
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(edit);

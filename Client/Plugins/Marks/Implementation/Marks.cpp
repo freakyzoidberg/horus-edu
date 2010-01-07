@@ -83,6 +83,6 @@ void                Marks::load()
 
 QIcon				Marks::getIcon() const
 {
-  return QIcon(":/marks_backup.png");
+  return QIcon(":/Marks/marks_backup.png");
 }
 

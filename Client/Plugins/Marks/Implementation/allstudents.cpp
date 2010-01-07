@@ -37,7 +37,7 @@ void	AllStudents::fillList()
 		UserData *tmp = qobject_cast<UserData *>(users->allDatas().at(i));
 		if (tmp->level() == LEVEL_STUDENT)
 		{
-			QListWidgetItem * userInList = new QListWidgetItem(QIcon(":/administrator.png"), tmp->name() + " " + tmp->surname());
+			QListWidgetItem * userInList = new QListWidgetItem(QIcon(":/Marks/administrator.png"), tmp->name() + " " + tmp->surname());
 			userInList->setData(Qt::UserRole, QVariant(tmp->id()));
 			_sList->addItem(userInList);
 		}

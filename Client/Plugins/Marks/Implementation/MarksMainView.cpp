@@ -10,7 +10,7 @@
  * GNU General Public License for more details.                                *
  *                                                                             *
  * You should have received a copy of the GNU General Public License           *
- * along with Horus. If not, see <http://www.gnu.org/licenses/>.               *
+ * along with Horus. If not, see <http:/Marks//www.gnu.org/licenses/>.               *
  *                                                                             *
  * The orginal content of this material was realized as part of                *
  * 'Epitech Innovative Project' www.epitech.eu                                 *
@@ -42,13 +42,13 @@ MarksMainView::MarksMainView(PluginManager *pluginManager)
 	if (pluginManager->currentUser()->level() <= LEVEL_TEACHER)
 	{
 		_marksManager = new MarksManager(pluginManager, this);
-		this->addTab(_marksManager, QIcon(tr(":/subject.png")), tr("Matieres"));
+		this->addTab(_marksManager, QIcon(":/Marks/subject.png"), tr("Matieres"));
 		_subjectList = new SubjectList(pluginManager);
 		_examsList = new MarksExamsList(pluginManager, this);
-		this->addTab(_examsList, QIcon(":/marks_backup.png"), tr("Examens"));
+		this->addTab(_examsList, QIcon(":/Marks/marks_backup.png"), tr("Examens"));
 		this->setTabEnabled(1, false);
 
 	}
 		this->addTab(new ViewAllMarks(pluginManager, this),
-					 QIcon(":/marks_backup.png"), tr("Notes"));
+					 QIcon(":/Marks/marks_backup.png"), tr("Notes"));
 }

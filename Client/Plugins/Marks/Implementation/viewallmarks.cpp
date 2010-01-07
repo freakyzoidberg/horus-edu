@@ -51,13 +51,13 @@ ViewAllMarks::ViewAllMarks(PluginManager *pluginManager, QTabWidget *mainView)
 //	QLabel *actionTitle = new QLabel(tr("Actions:"));
 //	actionTitle->setProperty("isTitle", true);
 //	actionTitle->setProperty("isRound", true);
-	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Supprimer la note"));
-	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Voir les etudiants."));
-	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
-	save = new QPushButton(QIcon(":/save.png"), tr("Enregistrer"));
-	reset = new QPushButton(QIcon(":/reset.png"), tr("Reinitiliaser."));
-	back = new QPushButton(QIcon(":/back.png"), tr("Annuler"));
-	_add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Ajouter un examen"));
+	del = new QPushButton(QIcon(":/Marks/DelTimeTable.png"), tr("Supprimer la note"));
+	edit = new QPushButton(QIcon(":/Marks/EditTimeTable.png"), tr("Voir les etudiants."));
+	ok = new QPushButton(QIcon(":/Marks/ok.png"), tr("Ok"));
+	save = new QPushButton(QIcon(":/Marks/save.png"), tr("Enregistrer"));
+	reset = new QPushButton(QIcon(":/Marks/reset.png"), tr("Reinitiliaser."));
+	back = new QPushButton(QIcon(":/Marks/back.png"), tr("Annuler"));
+	_add = new QPushButton(QIcon(":/Marks/AddTimeTable.png"), tr("Ajouter un examen"));
 
 	RightLayout->addWidget(infos);
 	RightLayout->addWidget(edit);
@@ -119,6 +119,14 @@ void	ViewAllMarks::initGradesL(QListWidgetItem *item)
 
 void	ViewAllMarks::initGradesList(QListWidgetItem *item)
 {
+
+	QStringList labels;
+
+	labels.append(tr("Matiere"));
+	labels.append(tr("Examen"));
+	labels.append(tr("Note"));
+	labels.append(tr("Commentaire"));
+
 	UserDataPlugin	*udp = _pluginManager->findPlugin<UserDataPlugin *>();
 	UserData *user;
 	int row = 0;
@@ -165,5 +173,7 @@ void	ViewAllMarks::initGradesList(QListWidgetItem *item)
 			}
 		}
 	}
+	mainWidget->setHorizontalHeaderLabels(labels);
+	mainWidget->horizontalHeader()->setStretchLastSection(true);
 	mainWidget->resizeColumnsToContents();
 }
