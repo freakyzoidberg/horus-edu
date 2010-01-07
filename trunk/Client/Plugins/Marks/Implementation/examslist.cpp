@@ -10,7 +10,7 @@
  * GNU General Public License for more details.                                *
  *                                                                             *
  * You should have received a copy of the GNU General Public License           *
- * along with Horus. If not, see <http://www.gnu.org/licenses/>.               *
+ * along with Horus. If not, see <http:/Marks//www.gnu.org/licenses/>.               *
  *                                                                             *
  * The orginal content of this material was realized as part of                *
  * 'Epitech Innovative Project' www.epitech.eu                                 *
@@ -92,7 +92,7 @@ void	ExamsList::fillExamsList()
 	while (i.hasNext())
 	{
 		i.next();
-		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Marks/desk.png"), i.value());
 		tempitem->setData(Qt::UserRole, i.key());
 		_examsList->addItem(tempitem);
 	}
@@ -133,7 +133,7 @@ QMap<int, QString>  ExamsList::Exams(quint32 userId)
 	while (i.hasNext())
 	{
 		i.next();
-		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Marks/desk.png"), i.value());
 		tempitem->setData(Qt::UserRole, i.key());
 		_examsList->addItem(tempitem);
 	}
@@ -154,7 +154,7 @@ QMap<int, QString>  ExamsList::Exams(TreeData *node)
 
 		if (node->id() == data->subject()->id())
 		{
-			QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+			QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Marks/desk.png"), i.value());
 			tempitem->setData(Qt::UserRole, i.key());
 			_examsList->addItem(tempitem);
 		}

@@ -10,7 +10,7 @@
  * GNU General Public License for more details.                                *
  *                                                                             *
  * You should have received a copy of the GNU General Public License           *
- * along with Horus. If not, see <http://www.gnu.org/licenses/>.               *
+ * along with Horus. If not, see <http:/Marks//www.gnu.org/licenses/>.               *
  *                                                                             *
  * The orginal content of this material was realized as part of                *
  * 'Epitech Innovative Project' www.epitech.eu                                 *
@@ -93,7 +93,7 @@ QMap<int, QString> SubjectList::getallsubject()
 	for (int i = 0; i < e->allDatas().size(); ++i)
 	{
 		ExamsData    *data = qobject_cast<ExamsData *>(e->allDatas().at(i));
-		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), data->comment());
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Marks/desk.png"), data->comment());
 		tempitem->setData(Qt::UserRole, data->teacher());
 		SubjectsList->addItem(tempitem);
 
@@ -111,7 +111,7 @@ void	SubjectList::fillSubjectList()
 	while (i.hasNext())
 	{
 		i.next();
-		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/desk.png"), i.value());
+		QListWidgetItem *tempitem = new QListWidgetItem(QIcon(":/Marks/desk.png"), i.value());
 		tempitem->setData(Qt::UserRole, i.key());
 		SubjectsList->addItem(tempitem);
 	}

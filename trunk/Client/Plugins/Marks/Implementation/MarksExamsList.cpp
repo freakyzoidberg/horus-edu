@@ -10,7 +10,7 @@
  * GNU General Public License for more details.                                *
  *                                                                             *
  * You should have received a copy of the GNU General Public License           *
- * along with Horus. If not, see <http://www.gnu.org/licenses/>.               *
+ * along with Horus. If not, see <http:/Marks//www.gnu.org/licenses/>.               *
  *                                                                             *
  * The orginal content of this material was realized as part of                *
  * 'Epitech Innovative Project' www.epitech.eu                                 *
@@ -71,13 +71,13 @@ MarksExamsList::MarksExamsList(PluginManager *pluginManager, QTabWidget *mainVie
 	actionTitle->setProperty("isTitle", true);
 	actionTitle->setProperty("isRound", true);
 
-	del = new QPushButton(QIcon(":/DelTimeTable.png"), tr("Supprimer la note"));
-	edit = new QPushButton(QIcon(":/EditTimeTable.png"), tr("Voir les etudiants."));
-	ok = new QPushButton(QIcon(":/ok.png"), tr("Ok"));
-	save = new QPushButton(QIcon(":/save.png"), tr("Enregistrer"));
-	reset = new QPushButton(QIcon(":/reset.png"), tr("Reinitialiser"));
-	back = new QPushButton(QIcon(":/back.png"), tr("Annuler"));
-	_add = new QPushButton(QIcon(":/AddTimeTable.png"), tr("Ajouter un examen"));
+	del = new QPushButton(QIcon(":/Marks/DelTimeTable.png"), tr("Supprimer la note"));
+	edit = new QPushButton(QIcon(":/Marks/EditTimeTable.png"), tr("Voir les etudiants."));
+	ok = new QPushButton(QIcon(":/Marks/ok.png"), tr("Ok"));
+	save = new QPushButton(QIcon(":/Marks/save.png"), tr("Enregistrer"));
+	reset = new QPushButton(QIcon(":/Marks/reset.png"), tr("Reinitialiser"));
+	back = new QPushButton(QIcon(":/Marks/back.png"), tr("Annuler"));
+	_add = new QPushButton(QIcon(":/Marks/AddTimeTable.png"), tr("Ajouter un examen"));
 
 	RightLayout->addWidget(actionTitle);
 	RightLayout->addWidget(edit);
@@ -318,7 +318,7 @@ void	MarksExamsList::seeStudents()
 
 void	MarksExamsList::refresh()
 {
-	QListWidgetItem *temp = new QListWidgetItem(QIcon(":/desk.png"),
+	QListWidgetItem *temp = new QListWidgetItem(QIcon(":/Marks/desk.png"),
 												this->_formAdd->examComment->text());
 	temp->setData(Qt::UserRole, _newData->id());
 	this->examsList()->_examsList->addItem(temp);
