@@ -13,7 +13,7 @@
  * [CDC#Cours_en_ligne 8. Cours en ligne]
  * [CDC#Services_de_communication 9. Services de communication]
    * [CDC#Courier_electroniques 9.1 Courier électroniques]
- * [CDC#Client_leger 10. Client léger]
+ * [CDC#Client_web 10. Client léger]
 
 = Introduction =
 
@@ -82,7 +82,7 @@
 = Gestion des notes / bulletins =
   (#TODO)
 
-= Bibliothèque =
+= Bibliotheque =
   (#TODO)
 
 = Cours en ligne =
@@ -90,7 +90,7 @@
 
 = Services de communication =
  Un certains nombres de services sont proposés, dans le but de faciliter la communication entre les différents utilisateurs de HorusEdu au sein d'un établissement scolaire.
- == Courier électroniques ==
+ == Courier electroniques ==
   * Tous les utilisateurs ont accès à une boite de courier électronique.
    # Cette boite peut être accessible soit via l'ENT soit via un client mail externe. Si l'utilisateur possède une ou plusieurs autres adresses de courier électronique, elles doivent être accessibles via l'ENT (redirection).
    # Tous les mails reçus sur l'adresse de la boite de l'ENT peuvent être redirigés vers une autre boite mail si un utilisateur le souhaite.
@@ -105,5 +105,5 @@
    # Tous les utilisateurs peuvent avoir une signature personnalisée.
    # En cas d'absence, un utilisateur peut paramètrer une réponse automatique lors de la récepetion d'un mail. Cette réponse ne doit pas être envoyé si le courier reçu n'attend pas de réponses (news letter ou mailing lists par exemple).
 
-= Client léger =
+= Client web =
   (#TODO)
