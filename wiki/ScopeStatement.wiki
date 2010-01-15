@@ -1,0 +1,14 @@
+=Scope Statement=
+
+  # The project name
+
+Horus Edu
+
+  # The project charter
+  # The project owner, sponsors, and stakeholders
+  # The problem statement
+  # The project goals and objectives
+  # The project requirements
+  # The project deliverables
+  # The project non-goals (what is out of scope)
+  # Milestones
