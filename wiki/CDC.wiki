@@ -1,4 +1,4 @@
-#summary Ce document est le cahier des charges de Horus.
+#summary Ce document est le cahier des charges de HorusEdu.
 
 = Introduction =
 
