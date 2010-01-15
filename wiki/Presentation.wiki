@@ -8,10 +8,10 @@ De façon générale, un ENT est destiné à un établissement scolaire. Il perm
 
 Le terme ENT est Français et a été créé par le ministère de l'éducation nationale Française, mais le concept d'ENT peut s'appliquer à tous les établissements scolaires, et ce dans différents pays.
 
-On peut citer une définition issue du  SDET[Presentation#Liens_externes (1)] (« schéma directeur des environnements de travail »), tiré d'un document rédigé par le ministère Français de l'Éducation nationale : « un espace numérique de travail désigne un dispositif global fournissant à un usager un point d’accès à travers les réseaux à l’ensemble des ressources et des services numériques en rapport avec son activité. Il est un point d’entrée pour accéder au système d’information de l’établissement ou de l’école ».
+On peut citer une définition issue du  SDET[ftp://trf.education.gouv.fr/pub/educnet/chrgt/sdet/SDET_v2.0.pdf (1)] (« schéma directeur des environnements de travail »), tiré d'un document rédigé par le ministère Français de l'Éducation nationale : « un espace numérique de travail désigne un dispositif global fournissant à un usager un point d’accès à travers les réseaux à l’ensemble des ressources et des services numériques en rapport avec son activité. Il est un point d’entrée pour accéder au système d’information de l’établissement ou de l’école ».
 
 = Contexte =
-Ce projet est né, sous le nom de Horus, des EIP (Epitech Innovative Project) de l'école Française Epitech[Presentation#Liens_externes (2)] situé au Kremlin-Bicêtre (près de Paris, France). Il s'étale sur une durée de deux ans.
+Ce projet est né, sous le nom de Horus, des EIP (Epitech Innovative Project) de l'école Française Epitech[http://www.epitech.eu (2)] situé au Kremlin-Bicêtre (près de Paris, France). Il s'étale sur une durée de deux ans.
 
 Durant ces deux années, une première version a été dévelopée. Cependant, les membres du groupe[team (3)] n'ont pas souhaité voir le projet Horus abandonné à la fin de leurs études et ont décidé de poursuivre le développement. Le projet a donc été placé sous license GPLv3 afin que des contributeurs puissent participer au développement (rapport de bugs, documentations, traduction, devellopement, etc).
 
@@ -20,5 +20,6 @@ Le choix du dévellopement d'un ENT est venue de la constatation qu'un bon nombr
 Un bon nombre d'ENT ont déja été développé, mais aucun n'a été retenues les solutions proposées souffrant de trop nombreux défauts par rapport à leurs avantages.
 
 == Liens externes ==
-[ftp://trf.education.gouv.fr/pub/educnet/chrgt/sdet/SDET_v2.0.pdf 1: SDET_v2.0.pdf]
-[http://www.epitech.eu 2: Epitech]
+ [ftp://trf.education.gouv.fr/pub/educnet/chrgt/sdet/SDET_v2.0.pdf]
+
+ [http://www.epitech.eu]
