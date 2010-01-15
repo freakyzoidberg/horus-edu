@@ -1,5 +1,20 @@
 #summary Ce document est le cahier des charges de HorusEdu.
 
+ * [CDC#Introduction 1. Introduction]
+ * [CDC#Generalites 2. Généralités]
+ * [CDC#Tronc_commun 3. Tronc commun]
+   * [CDC#La_gestion_des_utilisateurs 3.1 La gestion des utilisateurs]
+   * [CDC#Groupes_d'utilisateurs 3.2 Groupes d'utilisateurs]
+   * [CDC#Apparence 3.3 Apparence]
+ * [CDC#Partie_administration 4. Partie administration]
+ * [CDC#Emploi_du_temps 5. Emploi du temps]
+ * [CDC#Gestion_des_notes_/_bulletins 6. Gestion des notes / bulletins]
+ * [CDC#Bibliotheque 7. Bibliothèque]
+ * [CDC#Cours_en_ligne 8. Cours en ligne]
+ * [CDC#Services_de_communication 9. Services de communication]
+   * [CDC#Courier_electroniques 9.1 Courier électroniques]
+ * [CDC#Client_leger 10. Client léger]
+
 = Introduction =
 
  HorusEdu est un ENT (Espace Numérique de Travail), destiné a être utilisé par des établissements a buts pedagogiques. Ce projet est né de la constatation qu'un bon nombre d'établissements scolaires souhaitent informatiser leur fonctionnement administratif et pedagogiques via un ENT. L'Education Nationale Française n'est pas en reste et a rédigé un cahier des charges décrivant en détail les fonctionnalités que doivent remplir un ENT pour être éligible et déployé dans les établissements scolaires français.
@@ -73,7 +88,7 @@
 = Cours en ligne =
   (#TODO)
 
-= Services de communication / client de couriers électroniques =
+= Services de communication =
  Un certains nombres de services sont proposés, dans le but de faciliter la communication entre les différents utilisateurs de HorusEdu au sein d'un établissement scolaire.
  == Courier électroniques ==
   * Tous les utilisateurs ont accès à une boite de courier électronique.
