@@ -9,6 +9,8 @@
  * [CDC#Partie_administration 4. Partie administration]
  * [CDC#Emploi_du_temps 5. Emploi du temps]
  * [CDC#Gestion_des_notes_/_bulletins 6. Gestion des notes / bulletins]
+   * [CDC#Partie_professeur Partie professeur]
+   * [CDC#Partie_etudiants Partie etudiants]
  * [CDC#Bibliotheque 7. Bibliothèque]
  * [CDC#Cours_en_ligne 8. Cours en ligne]
  * [CDC#Services_de_communication 9. Services de communication]
@@ -24,6 +26,8 @@
  Le présent document propose de décrire de facon précise les fonctionnalités que HorusEdu devra remplir, étape obligatoire avant toute phase de conception et, à plus forte raison, de développement.
 
  Le nom HorusEdu a été choisi en référence à l'oeil Oudjat du dieu Egyptien Horus; l'oeil d'Oudjat est, entre autre, un symbole de connaissance.
+
+ Note : ce document n'est pas statique et sera amené à evoluer au fil du temps.
 
 [CDC Haut de la page]
 
@@ -89,7 +93,30 @@
 [CDC Haut de la page]
 
 = Gestion des notes / bulletins =
-  (#TODO)
+  Cette partie concerne majoritairement les étudiants et les professeurs, ainsi que les parents d'élèves à moindre mesure. Les professeurs sont amenés à noter les étudiants. Ces-derniers peuvent accéder à leur résultas scolaires via l'ENT.
+
+L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limité. Par exemple, un professeur peut avoir accès aux résultats des étudiants présents dans sa ou ses classes mais pas à ceux des autres classes. La encore ces droits sont modifiables par l'administrateur ou une personne à qui l'administrateur a délégué ces droits.
+ 
+ == Partie professeur ==
+  * Un professeur a par défaut accès en lecture et en écriture sur les notes des étudiants dont il a la charge (c'est à dire qui sont dans sa ou ses classes). L'accès aux résultats des étudiants inscrits dans d'autres classes lui est bloqué.
+  * La notion de résultats scolaires est indissociable de la notion d'examens. Ainsi un professeur devra donner une note à un étudiant pour un examen donné dans une matière donné. Si cette examen n'existe pas, il devra alors le créer au préalable. Par défaut, un professeur ne peut créer des examens que dans les matières qu'il enseigne. Un certain nombre d'information devront être remplies
+   # Date de l'examen
+   # Durée de l'examen
+   # Coéfficient
+   # Base sur laquelle sera noté l'examen (sur 20, sur 40, etc) (nécessaire pour calculer les moyennes)
+ Note : toutes ces informations sont modifiables par la suite.
+  * Une fois l'examen crée dans une matière, par défaut, tous les étudiants inscrits dans cette matière seront inscrits à cet examen. Des exceptions peuvent être créés manuellement (abscence prévue à l'avance par exemple).
+  * Par défaut, les étudiants inscrits à un examen sont marqués comme présents (excépté les exceptions décrites ci-dessus). Si un étudiant ne se présente pas à l'examen, le professeur devra le spécifier manuellement. L'absence de notes à un examen ne signifie pas nécessairement que l'étudiant était absent. Par exemple, un professeur peut mettre une semaine à corriger des copies. Durant ce délai, les étudiants n'ont pas de notes. Ce n'est pas pour autant qu'ils étaient absents à l'examen.
+  * Une fois la date de l'examen passée, le professeur peut saisir des notes pour chaque étudiant ou les marquer absents, retardataire, tricheur, j'en passe et des meilleurs, si nécessaire.
+  * Un commentaire pourra également être saisi.
+  * Pour chaque nouvelle notes saisies, la moyenne de l'étudiant dans cette matière sera recalculée. Le professeur y aura accès.
+  * Plusieurs modes de visualisation des résultats seront disponibles:
+    # Par étudiant : toutes les notes d'un étudiants seront visibles, en fonction des droits d'accès.
+    # Par examen : toutes les notes de tous les étudiants seront visibles pour un examen donné.
+    # Par matière : toutes les notes de tous les étudiants seront visibles pour une matière donnée.
+
+ == Partie etudiants ==
+ Les étudiants pourront avoir accès à leurs résultats, et si ils en ont le droit, aux résultats de leurs classe, promotion, ou établissement si l'administration l'estime l'estime nécessaire.
 
 [CDC Haut de la page]
 
