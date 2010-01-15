@@ -74,6 +74,7 @@
   (#TODO)
 
 = Services de communication / client de couriers électroniques =
+ Un certains nombres de services sont proposés, dans le but de faciliter la communication entre les différents utilisateurs de HorusEdu au sein d'un établissement scolaire.
  == Courier électroniques ==
   * Tous les utilisateurs ont accès à une boite de courier électronique.
    # Cette boite peut être accessible soit via l'ENT soit via un client mail externe. Si l'utilisateur possède une ou plusieurs autres adresses de courier électronique, elles doivent être accessibles via l'ENT (redirection).
