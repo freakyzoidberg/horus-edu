@@ -25,7 +25,7 @@
 
  Le nom HorusEdu a été choisi en référence à l'oeil Oudjat du dieu Egyptien Horus; l'oeil d'Oudjat est, entre autre, un symbole de connaissance.
 
-[CDC Haut de la page]
+[CDC# Haut de la page]
 
 = Généralités =
  Cette partie va présenter de façon générale certains aspects de HorusEdu.
@@ -37,7 +37,7 @@
 
  Une des premières étapes de la phase de conception sera donc de revoir l'API. Le langage utilisé est le c++, au travers du framework Qt4.
 
-[CDC Haut de la page]
+[CDC# Haut de la page]
 
 = Tronc commun =
  Cependant, même si une grande modularité est requise, un certain nombre de points seront communs a tous les ENT.
@@ -76,12 +76,12 @@
   * L'etablissement peut imposer une apparence à la solution : par exemple afficher un logo et imposer une charte graphique.
   * Les utilisateurs peuvent personnaliser leurs client lourds, dans les limites autorisés par l'administration. Autrement dit, HorusEdu est skinnable (si vous avez un meilleur terme...)
 
-[CDC Haut de la page]
+[CDC# Haut de la page]
 
 = Partie administration =
   (#TODO)
 
-[CDC Haut de la page]
+[CDC# Haut de la page]
 
 = Emploi du temps =
   (#TODO)
