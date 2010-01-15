@@ -11,12 +11,11 @@ Le terme ENT est francais et a été créé par le ministère de l'éducation na
 On peut citer une définition issue du  SDET[Presentation#Liens_externes 1] (« schéma directeur des environnements de travail »), tiré d'un document rédigé par le ministère français de l'Éducation nationale : « un espace numérique de travail désigne un dispositif global fournissant à un usager un point d’accès à travers les réseaux à l’ensemble des ressources et des services numériques en rapport avec son activité. Il est un point d’entrée pour accéder au système d’information de l’établissement ou de l’école ».
 
 = Contexte =
-Ce projet est né, sous le nom de Horus, des EIP (Epitech Innovative Project) de l'école française Epitech[Presentation#Liens_externes 2] situé au Kremlin-Bicêtre (près de Paris, France). Ce projet s'étale sur une durée de deux ans.
+Ce projet est né, sous le nom de Horus, des EIP (Epitech Innovative Project) de l'école française Epitech[Presentation#Liens_externes 2] situé au Kremlin-Bicêtre (près de Paris, France). Il s'étale sur une durée de deux ans.
 
-Le choix du dévellopement d'un ENT est venue de la constattion qu'un bon nombre d'établissements scolaires, notemment ceux dépendants de l'éducation nationale francaise, envisageait d'informatiser leur fonctionnement, que ce soit les taches administratives ou pédagogiques.
+Le choix du dévellopement d'un ENT est venue de la constatation qu'un bon nombre d'établissements scolaires, notemment ceux dépendants de l'éducation nationale francaise, envisageait d'informatiser leur fonctionnement, que ce soit les taches administratives ou pédagogiques.
 
-Des ENT ont déja été développé, mais aucun de remplissait les demandes des établissements scolaires français.
-
+Un bon nombre d'ENT ont déja été développé, mais aucun n'a été retenues.
 
 == Liens externes ==
 [ftp://trf.education.gouv.fr/pub/educnet/chrgt/sdet/SDET_v2.0.pdf 1: SDET_v2.0.pdf]
