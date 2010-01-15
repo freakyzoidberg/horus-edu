@@ -31,7 +31,7 @@
 
 [CDC Haut de la page]
 
-= 2.Généralités =
+= 2.Generalites =
  Cette partie va présenter de façon générale certains aspects de HorusEdu.
  Tout d'abord, HorusEdu se compose d'un serveur centralisant les différentes données et de clients lourds qui permettent d'accéder a l'ENT. Un client Web léger, uniquement destiné a des accès en lecture, a également été développé. Nous reviendrons sur ces différents points par la suite.
 
