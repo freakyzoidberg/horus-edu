@@ -17,7 +17,7 @@ Durant ces deux années, une première version a été dévelopée. Cependant, l
 
 Le choix du dévellopement d'un ENT est venue de la constatation qu'un bon nombre d'établissements scolaires, notemment ceux dépendants de l'éducation nationale francaise, envisageait d'informatiser leur fonctionnement, que ce soit les taches administratives ou pédagogiques.
 
-Un bon nombre d'ENT ont déja été développé, mais aucun n'a été retenues les solutions proposées souffrant de trop nombreux défauts par rapport à leurs avantages.
+Un bon nombre d'ENT ont déja été développé, mais aucun n'a été retenu, les solutions proposées souffrant de trop nombreux défauts par rapport à leurs avantages.
 
 == Liens externes ==
  [ftp://trf.education.gouv.fr/pub/educnet/chrgt/sdet/SDET_v2.0.pdf]
