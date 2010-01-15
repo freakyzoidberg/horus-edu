@@ -1,23 +1,23 @@
 #summary Ce document est le cahier des charges de HorusEdu.
 
- * [CDC#Introduction 1. Introduction]
- * [CDC#Generalites 2. Généralités]
- * [CDC#Tronc_commun 3. Tronc commun]
-   * [CDC#La_gestion_des_utilisateurs 3.1 La gestion des utilisateurs]
-   * [CDC#Groupes_d'utilisateurs 3.2 Groupes d'utilisateurs]
-   * [CDC#Apparence 3.3 Apparence]
- * [CDC#Partie_administration 4. Partie administration]
- * [CDC#Emploi_du_temps 5. Emploi du temps]
- * [CDC#Gestion_des_notes_/_bulletins 6. Gestion des notes / bulletins]
-   * [CDC#Partie_professeur Partie professeur]
-   * [CDC#Partie_etudiants Partie etudiants]
- * [CDC#Bibliotheque 7. Bibliothèque]
- * [CDC#Cours_en_ligne 8. Cours en ligne]
- * [CDC#Services_de_communication 9. Services de communication]
-   * [CDC#Courier_electroniques 9.1 Courier électroniques]
- * [CDC#Client_web 10. Client léger]
+ * [CDC#1.Introduction 1. Introduction]
+ * [CDC#2.Generalites 2. Généralités]
+ * [CDC#3.Tronc_commun 3. Tronc commun]
+   * [CDC#3.1.La_gestion_des_utilisateurs 3.1 La gestion des utilisateurs]
+   * [CDC#3.2.Groupes_d'utilisateurs 3.2 Groupes d'utilisateurs]
+   * [CDC#3.3.Apparence 3.3 Apparence]
+ * [CDC#4.Partie_administration 4. Partie administration]
+ * [CDC#5.Emploi_du_temps 5. Emploi du temps]
+ * [CDC#6.Gestion_des_notes_/_bulletins 6. Gestion des notes / bulletins]
+   * [CDC#6.1.Partie_professeur Partie professeur]
+   * [CDC#6.2.Partie_etudiants Partie etudiants]
+ * [CDC#7.Bibliotheque 7. Bibliothèque]
+ * [CDC#8.Cours_en_ligne 8. Cours en ligne]
+ * [CDC#9.Services_de_communication 9. Services de communication]
+   * [CDC#9.1.Courier_electroniques 9.1 Courier électroniques]
+ * [CDC#10.Client_web 10. Client léger]
 
-= Introduction =
+= 1.Introduction =
 
  HorusEdu est un ENT (Espace Numérique de Travail), destiné a être utilisé par des établissements a buts pedagogiques. Ce projet est né de la constatation qu'un bon nombre d'établissements scolaires souhaitent informatiser leur fonctionnement administratif et pedagogiques via un ENT. L'Education Nationale Française n'est pas en reste et a rédigé un cahier des charges décrivant en détail les fonctionnalités que doivent remplir un ENT pour être éligible et déployé dans les établissements scolaires français.
 
@@ -31,7 +31,7 @@
 
 [CDC Haut de la page]
 
-= Généralités =
+= 2.Généralités =
  Cette partie va présenter de façon générale certains aspects de HorusEdu.
  Tout d'abord, HorusEdu se compose d'un serveur centralisant les différentes données et de clients lourds qui permettent d'accéder a l'ENT. Un client Web léger, uniquement destiné a des accès en lecture, a également été développé. Nous reviendrons sur ces différents points par la suite.
 
@@ -43,9 +43,9 @@
 
 [CDC Haut de la page]
 
-= Tronc commun =
+= 3.Tronc commun =
  Cependant, même si une grande modularité est requise, un certain nombre de points seront communs a tous les ENT.
- == La gestion des utilisateurs ==
+ == 3.1.La gestion des utilisateurs ==
   Rappelons que HorusEdu est destiné aussi bien à l'attention du personnel administratif, que des professeurs et des élèves.
   Ainsi, une gestion de comptes utilisateurs avec plus ou moins de droits est indispensable.
   * TOUS les utilisateurs auront un compte UNIQUE protégé par un mot de passe. Ce mot de passe sera modifiable par l'utilisateur si ce-dernier l'estime nécessaire.
@@ -62,7 +62,7 @@
 
   Note : tous ces droits peuvent être affinés. Par un exemple, un CPE, bien que membre du personnel administratif, peut ne pas avoir le droit de supprimer des comptes utilisateur, cette tache étant à priori réservée au secrétariat de l'etablissement. Les différents droits sont plus ou moins similaires a ceux d'un système unix : visualisation, édition, suppression/création sur tout ou partie des comptes.
 
- == Groupes d'utilisateurs ==
+ == 3.2.Groupes d'utilisateurs ==
   * Les utilisateurs, si ils en ont le droit, peuvent créer des groupes afin de partager des ressources avec d'autres utilisateurs.
   *  Le créateur du groupe en est le propriétaire, c'est à dire qu'il est administrateur de ce groupe (il  donc tous les droits sur son groupe).
   * Il peut déléguer tout ou partie des droits aux autres membres du groupe. Il reste cependant le seul a avoir le droit de le supprimer.
@@ -76,28 +76,28 @@
   * L'inscription à un groupe peut être libre ou soumise à une validation prealable.
   * L'inscription dans un groupe a comme date limite la date d'inscription a l'ENT.
 
- == Apparence ==
+ == 3.3.Apparence ==
   * L'etablissement peut imposer une apparence à la solution : par exemple afficher un logo et imposer une charte graphique.
   * Les utilisateurs peuvent personnaliser leurs client lourds, dans les limites autorisés par l'administration. Autrement dit, HorusEdu est skinnable (si vous avez un meilleur terme...)
 
 [CDC Haut de la page]
 
-= Partie administration =
+= 4.Partie administration =
   (#TODO)
 
 [CDC Haut de la page]
 
-= Emploi du temps =
+= 5.Emploi du temps =
   (#TODO)
 
 [CDC Haut de la page]
 
-= Gestion des notes / bulletins =
+= 6.Gestion des notes / bulletins =
   Cette partie concerne majoritairement les étudiants et les professeurs, ainsi que les parents d'élèves à moindre mesure. Les professeurs sont amenés à noter les étudiants. Ces-derniers peuvent accéder à leur résultas scolaires via l'ENT.
 
 L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limité. Par exemple, un professeur peut avoir accès aux résultats des étudiants présents dans sa ou ses classes mais pas à ceux des autres classes. La encore ces droits sont modifiables par l'administrateur ou une personne à qui l'administrateur a délégué ces droits.
  
- == Partie professeur ==
+ == 6.1.Partie professeur ==
   * Un professeur a par défaut accès en lecture et en écriture sur les notes des étudiants dont il a la charge (c'est à dire qui sont dans sa ou ses classes). L'accès aux résultats des étudiants inscrits dans d'autres classes lui est bloqué.
   * La notion de résultats scolaires est indissociable de la notion d'examens. Ainsi un professeur devra donner une note à un étudiant pour un examen donné dans une matière donné. Si cette examen n'existe pas, il devra alors le créer au préalable. Par défaut, un professeur ne peut créer des examens que dans les matières qu'il enseigne. Un certain nombre d'information devront être remplies
    # Date de l'examen
@@ -115,12 +115,12 @@ L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limit
     # Par examen : toutes les notes de tous les étudiants seront visibles pour un examen donné.
     # Par matière : toutes les notes de tous les étudiants seront visibles pour une matière donnée.
 
- == Partie etudiants ==
+ == 7.1.Partie etudiants ==
  Les étudiants pourront avoir accès à leurs résultats, et si ils en ont le droit, aux résultats de leurs classe, promotion, ou établissement si l'administration l'estime l'estime nécessaire.
 
 [CDC Haut de la page]
 
-= Bibliotheque =
+= 8.Bibliotheque =
   (#TODO)
 
 [CDC Haut de la page]
@@ -130,9 +130,9 @@ L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limit
 
 [CDC Haut de la page]
 
-= Services de communication =
+= 9.Services de communication =
  Un certains nombres de services sont proposés, dans le but de faciliter la communication entre les différents utilisateurs de HorusEdu au sein d'un établissement scolaire.
- == Courier electroniques ==
+ == 9.1.Courier electroniques ==
   * Tous les utilisateurs ont accès à une boite de courier électronique.
    # Cette boite peut être accessible soit via l'ENT soit via un client mail externe. Si l'utilisateur possède une ou plusieurs autres adresses de courier électronique, elles doivent être accessibles via l'ENT (redirection).
    # Tous les mails reçus sur l'adresse de la boite de l'ENT peuvent être redirigés vers une autre boite mail si un utilisateur le souhaite.
@@ -149,7 +149,7 @@ L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limit
 
 [CDC Haut de la page]
 
-= Client web =
+= 10.Client web =
   (#TODO)
 
 [CDC Haut de la page]
