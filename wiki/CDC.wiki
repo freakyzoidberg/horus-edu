@@ -25,6 +25,8 @@
 
  Le nom HorusEdu a été choisi en référence à l'oeil Oudjat du dieu Egyptien Horus; l'oeil d'Oudjat est, entre autre, un symbole de connaissance.
 
+[CDC Haut de la page]
+
 = Généralités =
  Cette partie va présenter de façon générale certains aspects de HorusEdu.
  Tout d'abord, HorusEdu se compose d'un serveur centralisant les différentes données et de clients lourds qui permettent d'accéder a l'ENT. Un client Web léger, uniquement destiné a des accès en lecture, a également été développé. Nous reviendrons sur ces différents points par la suite.
@@ -35,6 +37,7 @@
 
  Une des premières étapes de la phase de conception sera donc de revoir l'API. Le langage utilisé est le c++, au travers du framework Qt4.
 
+[CDC Haut de la page]
 
 = Tronc commun =
  Cependant, même si une grande modularité est requise, un certain nombre de points seront communs a tous les ENT.
@@ -73,20 +76,32 @@
   * L'etablissement peut imposer une apparence à la solution : par exemple afficher un logo et imposer une charte graphique.
   * Les utilisateurs peuvent personnaliser leurs client lourds, dans les limites autorisés par l'administration. Autrement dit, HorusEdu est skinnable (si vous avez un meilleur terme...)
 
+[CDC Haut de la page]
+
 = Partie administration =
   (#TODO)
+
+[CDC Haut de la page]
 
 = Emploi du temps =
   (#TODO)
 
+[CDC Haut de la page]
+
 = Gestion des notes / bulletins =
   (#TODO)
+
+[CDC Haut de la page]
 
 = Bibliotheque =
   (#TODO)
 
+[CDC Haut de la page]
+
 = Cours en ligne =
   (#TODO)
+
+[CDC Haut de la page]
 
 = Services de communication =
  Un certains nombres de services sont proposés, dans le but de faciliter la communication entre les différents utilisateurs de HorusEdu au sein d'un établissement scolaire.
@@ -105,5 +120,9 @@
    # Tous les utilisateurs peuvent avoir une signature personnalisée.
    # En cas d'absence, un utilisateur peut paramètrer une réponse automatique lors de la récepetion d'un mail. Cette réponse ne doit pas être envoyé si le courier reçu n'attend pas de réponses (news letter ou mailing lists par exemple).
 
+[CDC Haut de la page]
+
 = Client web =
   (#TODO)
+
+[CDC Haut de la page]
