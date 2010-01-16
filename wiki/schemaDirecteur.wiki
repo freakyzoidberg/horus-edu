@@ -9,7 +9,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
   * [schemaDirecteur#Services_Commun Services Commun]
   * [schemaDirecteur#Services_de_communication Services_de_communication]
-  * [schemaDirecteur#Bureau_numérique Bureau numérique]
+  * [schemaDirecteur#Bureau_numerique Bureau numérique]
   * [schemaDirecteur#Back-office Back-office]
 = Services Commun =
   * Inscription à l’espace numérique de travail
