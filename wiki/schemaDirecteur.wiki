@@ -47,7 +47,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  == Gestion de groupes d’usagers ==
+  == Gestion de groupes d usagers ==
     # Certains usagers peuvent créer des groupes d'usagers, en désigner les membres et leurs droits, et fixer la durée d’existence du groupe.
   == Moteur de recherche ==
     # Tout usager dispose d'un moteur de recherche portant sur l'ensemble (dans la mesure du possible) des données structurées et non structurées auxquelles il a accès sur son espace numérique de travail (fichier , pages Web, courriels et pièces attachées, forums, etc.).
