@@ -7,11 +7,11 @@ Horus ne repond pas encore entierement a tout ces points, ceux en *gras* sont en
 
 Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education.gouv.fr]
 
-* [schemaDirecteur#1.Services_Commun]
-
-
-
-= 1.Services Commun =
+  * [schemaDirecteur#Services_Commun Services Commun]
+  * [schemaDirecteur#Services_de_communication Services_de_communication]
+  * [schemaDirecteur#Bureau_numérique Bureau numérique]
+  * [schemaDirecteur#Back-office Back-office]
+= Services Commun =
   * Inscription à l’espace numérique de travail
     # Les usagers sont inscrits dans l’espace numérique de travail par l’administrateur ou par une procédure automatisée (les deux fonctionnalités sont offertes)
     # Les durées d’inscription sont limitées dans le temps. L’administrateur a la possibilité d’organiser la transition des utilisateurs à la fin de chaque année scolaire.
