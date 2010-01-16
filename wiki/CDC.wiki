@@ -1,4 +1,5 @@
 #summary Ce document est le cahier des charges de HorusEdu.
+#labels Phase-Design
 ----
  * [CDC#1.Introduction 1. Introduction]
  * [CDC#2.Generalites 2. Généralités]
@@ -37,7 +38,7 @@
 
  De plus, le développement d'un ENT est un travail de longue haleine. Pour répondre aux critères des établissement désirant un ENT, il faut pouvoir présenter une application complète.
 
- Cependant, un unique ENT statique et peu modulaire ne sera pas apte à satisfaire les demandes des différents établissements scolaires. La modularité est donc un aspect primordial de HorusEdu, afin que les différentes fonctionnalités puissent être développées au travers de plugins facilement modifiables et échangeables.
+ Cependant, un unique ENT statique et peu modulaire ne sera pas apte à satisfaire les demandes des différents établissements scolaires. La modularité est donc un aspect primordial de HorusEdu, afin que les différentes fonctionnalités puissent être développées au travers de modules facilement modifiables et échangeables.
 
  Une des premières étapes de la phase de conception sera donc de revoir l'API. Le langage utilisé est le c++, au travers du framework Qt4.
 
@@ -49,12 +50,13 @@
   Rappelons que HorusEdu est destiné aussi bien à l'attention du personnel administratif, que des professeurs et des élèves.
   Ainsi, une gestion de comptes utilisateurs avec plus ou moins de droits est indispensable.
   * TOUS les utilisateurs auront un compte UNIQUE protégé par un mot de passe. Ce mot de passe sera modifiable par l'utilisateur si ce-dernier l'estime nécessaire.
-  * Un utilisateur ne peut etre connecté à l'ENT qu'une seule fois. Un système de session est de plus mis en place, permettant de ne pas avoir à ressaisir Login et Mot de passe à chaque connection. Ces sessions ont une durée de vie. Des certificats peuvent également être utilisés pour renforcer la sécurité.
+  * Un utilisateur ne peut être connecté à l'ENT qu'une seule fois. Un système de session est de plus mis en place, permettant de ne pas avoir à ressaisir Login et Mot de passe à chaque connexion. Ces sessions ont une durée de vie. Des certificats peuvent également être utilisés pour renforcer la sécurité.
   * Les mots de passe sont générés automatiquement et renouvelables par l'administrateur (en cas de perte par exemple).
-  * Lors du premier deploiement du serveur, un compte  administrateur est obligatoirement créé. Cet utilisateur a TOUS les droits sur HorusEdu. Il permet de donner un premier accès à HorusEdu et réaliser la configuration. Si on se place dans une logique "entreprise", cet utilisateur peut etre vu comme un administrateur système. Ce compte ne PEUT PAS être supprimé. 
-  * L'équipe administrative et l'administrateur auront la possiblité de créer, éditer et supprimer des comptes.
-  * Les comptes auront une durée de vie, avant d'etre automatiquement désactivé. La désactivation d'un compte correspond au moment ou un utilisateur n'est plus inscrit dans l'établissement utilisant l'ENT, ou ne fait plus partie du personnel (par exemple, un étudiant qui passe du collège au lycée ou la mutation d'un professeur).
-  * TOUS les comptes seront supprimés automatiquement apres leur désactivation (la durée de rétention des informations dépend de la configuration). Cette fonctionnalité est mise en place pour des raisons légales. En effet, la législation de certains pays (dont la France) n'autorise pas la rétention d'informations personnelles pendant plus d'une durée déterminée.
+  * Les mots de passe peuvent être envoyé par email (sur une boite e mail non lié à l'ENT) ou exporter en `bulk` sur support papier (impression)
+  * Lors du premier déploiement du serveur, un compte  administrateur est obligatoirement créé. Cet utilisateur a TOUS les droits sur HorusEdu. Il permet de donner un premier accès à HorusEdu et réaliser la configuration. Si on se place dans une logique "entreprise", cet utilisateur peut être vu comme un administrateur système. Ce compte ne PEUT PAS être supprimé. 
+  * L'équipe administrative et l'administrateur auront la possibilité de créer, éditer et supprimer des comptes.
+  * Les comptes auront une durée de vie, avant d'être automatiquement désactivé. La désactivation d'un compte correspond au moment ou un utilisateur n'est plus inscrit dans l'établissement utilisant l'ENT, ou ne fait plus partie du personnel (par exemple, un étudiant qui passe du collège au lycée ou la mutation d'un professeur).
+  * TOUS les comptes seront supprimés automatiquement après leur désactivation (la durée de rétention des informations dépend de la configuration). Cette fonctionnalité est mise en place pour des raisons légales. En effet, la législation de certains pays (dont la France) n'autorise pas la rétention d'informations personnelles pendant plus d'une durée déterminée.
   * Les utilisateurs auront plus ou moins de droits. La notion de droits est très importante pour des raisons de sécurité. Les 3 droits d'accès fondamentaux sont la lecture, l'ecriture et la création/suppression. L'administrateur a tous les droits mais peut temporairement en déléguer une partie à d'autres utilisateurs. Des profils types d'utilisateurs sont déja créés:
     # L'administrateur : tous les droits.
     # Personnel administratif : création, édition et suppression de compte utilisateur, gestion de l'établissement.
