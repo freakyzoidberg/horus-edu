@@ -12,6 +12,7 @@
  * [CDC#6.Gestion_des_notes_/_bulletins 6. Gestion des notes / bulletins]
    * [CDC#6.1.Partie_professeur Partie professeur]
    * [CDC#6.2.Partie_etudiants Partie etudiants]
+   * [CDC#6.3.Bulletins 6.3 Bulletins]
  * [CDC#7.Bibliotheque 7. Bibliothèque]
  * [CDC#8.Cours_en_ligne 8. Cours en ligne]
  * [CDC#9.Services_de_communication 9. Services de communication]
@@ -41,6 +42,8 @@
  Cependant, un unique ENT statique et peu modulaire ne sera pas apte à satisfaire les demandes des différents établissements scolaires. La modularité est donc un aspect primordial de HorusEdu, afin que les différentes fonctionnalités puissent être développées au travers de modules facilement modifiables et échangeables.
 
  Une des premières étapes de la phase de conception sera donc de revoir l'API. Le langage utilisé est le c++, au travers du framework Qt4.
+ 
+ HorusEdu est destiné à être multilingue.
 
 [CDC Haut de la page]
 
@@ -116,10 +119,28 @@ L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limit
     # Par étudiant : toutes les notes d'un étudiants seront visibles, en fonction des droits d'accès.
     # Par examen : toutes les notes de tous les étudiants seront visibles pour un examen donné.
     # Par matière : toutes les notes de tous les étudiants seront visibles pour une matière donnée.
+  * Des classements peuvent être effectués (par notes ou par moyennes).
+  * Des valeurs statistiques peuvent être générées (écart type, médiane, etc)
+  * Des courbes peuvent être construites afin de suivre la progression des étudiants.
 
- == 7.1.Partie etudiants ==
- Les étudiants pourront avoir accès à leurs résultats, et si ils en ont le droit, aux résultats de leurs classe, promotion, ou établissement si l'administration l'estime l'estime nécessaire.
+ == 6.2.Partie etudiants ==
+ Les étudiants pourront avoir accès à leurs résultats, et si ils en ont le droit, aux résultats de leurs classe, promotion, ou établissement si l'administration l'estime nécessaire. La encore, les droits pourront être modifiés de façon à ce qu'ils puissent être appliqués soit à un étudiant soit à un groupe d'étudiants.
+  * Les étudiants pourront voir leurs notes ainsi que les commentaires des professeurs pour chaque examen.
+  * Les moyennes par matière seront calculées en temps réel, en fonction des coéfficients de chaque examen.
+  * La moyenne générale sur semestre, trimestre ou année sera calculée en temps réel, en fonction des coéfficients des différentes matières.
+  * Des valeurs statistiques peuvent être générées (écart type, médiane, etc)
+  * Des courbes peuvent être construites afin de suivre la progression des étudiants.
 
+ == 6.3.Bulletins ==
+ Une fois les notes saisies, des bulletins peuvent être générés par HorusEdu.
+  * Un bulletin regroupe l'ensemble des notes d'un étudiant, classées par matière.
+  * Les moyennes par matière sont visibles.
+  * La moyenne générale est visible.
+  * Les bulletins peuvent être facilement exportables dans un autre format (tel que pdf par exemple).
+  * Les bulletins peuvent être imprimés.
+  * Des commentaires par matière peuvent être saisis par le professeur en charge de cette matière.
+  * Un commentaire général peut être saisi sur le bulletin (par exemple par le responsable d'un conseil de classe, pour confirmer ou non le passage dans le cycle suivant).
+   
 [CDC Haut de la page]
 
 = 8.Bibliotheque =
