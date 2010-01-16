@@ -8,13 +8,13 @@ Horus ne repond pas encore entierement a tout ces points, ceux en *gras* sont en
 Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education.gouv.fr]
 
   * [schemaDirecteur#Services_Commun Services Commun]
-    * [schemaDirecteur#Inscription_à_l`’`espace_numerique_de_travail Inscription à l’espace numerique de travail]
+    * [schemaDirecteur#Inscription_à_l_espace_numerique_de_travail Inscription à l’espace numerique de travail]
   * [schemaDirecteur#Services_de_communication Services_de_communication]
   * [schemaDirecteur#Bureau_numerique Bureau numérique]
   * [schemaDirecteur#Back-office Back-office]
 
 = Services Commun =
-  * Inscription à l’espace numerique de travail
+  * Inscription à l_espace numerique de travail
     # Les usagers sont inscrits dans l’espace numérique de travail par l’administrateur ou par une procédure automatisée (les deux fonctionnalités sont offertes)
     # Les durées d’inscription sont limitées dans le temps. L’administrateur a la possibilité d’organiser la transition des utilisateurs à la fin de chaque année scolaire.
     # Un compte usager qui a expiré peut être d’abord automatiquement désactivé pour une durée limitée avant d’être supprimé.
