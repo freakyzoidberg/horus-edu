@@ -9,6 +9,12 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
   * [schemaDirecteur#Services_Commun Services Commun]
     * [schemaDirecteur#Inscription_a_l_espace_numerique_de_travail Inscription à l’espace numerique de travail]
+    * [schemaDirecteur#Identification_unique_et_gestion_des_profils Identification unique et gestion des profils]
+    * [schemaDirecteur#Personnalisation_de_l_environnement Personnalisation de l’environnement]
+    * [schemaDirecteur#Gestion_de_groupes_d_usagers Gestion de groupes d usagers]
+    * [schemaDirecteur#Moteur_de_recherche Moteur de recherche]
+    * [schemaDirecteur#Service_de_notification Service de notification]
+    * [schemaDirecteur#Aide Aide]
   * [schemaDirecteur#Services_de_communication Services de communication]
   * [schemaDirecteur#Bureau_numerique Bureau numérique]
   * [schemaDirecteur#Back-office Back-office]
@@ -34,7 +40,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  == Personnalisation de l’environnement ==
+  == Personnalisation de l environnement ==
     # L’établissement peut personnaliser la présentation graphique de l’espace numérique de travail, ainsi que ses services (personnalisation pour l’établissement et par profil d’usager).
     # Tout usager peut personnaliser la présentation graphique de l’espace numérique de travail ainsi que ses services, dans la limite autorisée par l’établissement.
 
