@@ -6,7 +6,7 @@
     * [facts Facts]
   * Documentation
     * [CDC Cahier des Charges]
-    * [CodeRule Regles de code]
+    * [InfosDev Informations developpeur]
     * Gouvernement 
       * [schemaDirecteur   Schema Directeur]
     
