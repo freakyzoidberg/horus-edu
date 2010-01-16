@@ -1,5 +1,5 @@
 #summary Ce document est le cahier des charges de HorusEdu.
-
+----
  * [CDC#1.Introduction 1. Introduction]
  * [CDC#2.Generalites 2. Généralités]
  * [CDC#3.Tronc_commun 3. Tronc commun]
@@ -16,7 +16,7 @@
  * [CDC#9.Services_de_communication 9. Services de communication]
    * [CDC#9.1.Courier_electroniques 9.1 Courier électroniques]
  * [CDC#10.Client_web 10. Client léger]
-
+----
 = 1.Introduction =
 
  HorusEdu est un ENT (Espace Numérique de Travail), destiné a être utilisé par des établissements a buts pedagogiques. Ce projet est né de la constatation qu'un bon nombre d'établissements scolaires souhaitent informatiser leur fonctionnement administratif et pedagogiques via un ENT. L'Education Nationale Française n'est pas en reste et a rédigé un cahier des charges décrivant en détail les fonctionnalités que doivent remplir un ENT pour être éligible et déployé dans les établissements scolaires français.
