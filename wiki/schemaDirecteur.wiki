@@ -14,7 +14,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
   * [schemaDirecteur#Back-office Back-office]
 
 = Services Commun =
-  * Inscription a l_espace numerique de travail
+  * Inscription a l espace numerique de travail
     # Les usagers sont inscrits dans l’espace numérique de travail par l’administrateur ou par une procédure automatisée (les deux fonctionnalités sont offertes)
     # Les durées d’inscription sont limitées dans le temps. L’administrateur a la possibilité d’organiser la transition des utilisateurs à la fin de chaque année scolaire.
     # Un compte usager qui a expiré peut être d’abord automatiquement désactivé pour une durée limitée avant d’être supprimé.
