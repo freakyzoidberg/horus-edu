@@ -3,10 +3,8 @@
 
 Pour etre eligible sur le plan national Horus doit repondre a ces problématiques.
 
-Horus ne repond pas encore entierement a tout ces points, ceux en *gras* sont en ce moment gere.
-
 Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education.gouv.fr]
-
+----
   * [schemaDirecteur#Services_Commun Services Commun]
     * [schemaDirecteur#Inscription_a_l_espace_numerique_de_travail Inscription à l’espace numerique de travail]
     * [schemaDirecteur#Identification_unique_et_gestion_des_profils Identification unique et gestion des profils]
@@ -18,7 +16,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
   * [schemaDirecteur#Services_de_communication Services de communication]
   * [schemaDirecteur#Bureau_numerique Bureau numérique]
   * [schemaDirecteur#Back-office Back-office]
-
+----
 = Services Commun =
   == Inscription a l espace numerique de travail ==
     # Les usagers sont inscrits dans l’espace numérique de travail par l’administrateur ou par une procédure automatisée (les deux fonctionnalités sont offertes)
