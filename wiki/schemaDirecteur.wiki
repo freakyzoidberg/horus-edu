@@ -7,7 +7,11 @@ Horus ne repond pas encore entierement a tout ces points, ceux en *gras* sont en
 
 Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education.gouv.fr]
 
-==Services Commun==
+* [schemaDirecteur#1.Services_Commun]
+
+
+
+= 1.Services Commun =
   * Inscription à l’espace numérique de travail
     # Les usagers sont inscrits dans l’espace numérique de travail par l’administrateur ou par une procédure automatisée (les deux fonctionnalités sont offertes)
     # Les durées d’inscription sont limitées dans le temps. L’administrateur a la possibilité d’organiser la transition des utilisateurs à la fin de chaque année scolaire.
@@ -55,7 +59,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-==Services de communication==
+=Services de communication=
 
 
   * Courrier électronique
@@ -115,7 +119,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-==Bureau numérique==
+=Bureau numérique=
 
   * Carnet d’adresses
     # Tout usager et tout groupe d’usagers dispose d'un service de carnet d'adresses
@@ -189,11 +193,10 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
     # Par défaut, la sauvegarde des fichiers produits avec ces outils s'effectue sur l'espace de stockage en ligne de l'usager
 
 
-==Back-office==
+=Back-office=
   * Administration de l'espace numérique de travail
     # L’administrateur dispose d’un outil lui permettant de gérer l’espace numérique de travail : gestion des usagers, gestion des groupes d’usagers, gestion des services, gestion des profils et des autorisations, personnalisation de l’espace numérique de travail au niveau établissement, délégation de droits d’administration, sauvegardes et restauration des données, transition d’une année scolaire vers la suivante,,…
   
   * Indicateurs d'usages
     # L’administrateur dispose d’un service de suivi des actions effectuées au niveau de l’ENT.
     # L’administrateur dispose d’un outil lui remontant les indicateurs et les statistiques d’usages par service de l’espace numérique de travail. Ces indicateurs et statistiques sont exportables dans un format XML ou CSV.
-
