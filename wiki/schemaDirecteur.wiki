@@ -14,7 +14,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
   * [schemaDirecteur#Back-office Back-office]
 
 = Services Commun =
-  *Inscription a l espace numerique de travail
+  == Inscription a l espace numerique de travail ==
     # Les usagers sont inscrits dans l’espace numérique de travail par l’administrateur ou par une procédure automatisée (les deux fonctionnalités sont offertes)
     # Les durées d’inscription sont limitées dans le temps. L’administrateur a la possibilité d’organiser la transition des utilisateurs à la fin de chaque année scolaire.
     # Un compte usager qui a expiré peut être d’abord automatiquement désactivé pour une durée limitée avant d’être supprimé.
@@ -24,7 +24,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Identification unique et gestion des profils
+  == Identification unique et gestion des profils ==
     # Tout usager possède un seul moyen d’identification (ex. : identifiant - mot de passe) qui lui permet d'accéder à l'ensemble des fonctionnalités de l'espace numérique de travail
     # Tout usager ne s'authentifie qu'une seule fois en début de session
     # Certains usagers peuvent déléguer à un autre usager les droits correspondants à un ou plusieurs de ses rôles, pour une durée déterminée, et dans des limites fixées par l’administration
@@ -34,16 +34,16 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Personnalisation de l’environnement
+  == Personnalisation de l’environnement ==
     # L’établissement peut personnaliser la présentation graphique de l’espace numérique de travail, ainsi que ses services (personnalisation pour l’établissement et par profil d’usager).
     # Tout usager peut personnaliser la présentation graphique de l’espace numérique de travail ainsi que ses services, dans la limite autorisée par l’établissement.
 
 
 
 
-  * Gestion de groupes d’usagers
+  == Gestion de groupes d’usagers ==
     # Certains usagers peuvent créer des groupes d'usagers, en désigner les membres et leurs droits, et fixer la durée d’existence du groupe.
-  * Moteur de recherche
+  == Moteur de recherche ==
     # Tout usager dispose d'un moteur de recherche portant sur l'ensemble (dans la mesure du possible) des données structurées et non structurées auxquelles il a accès sur son espace numérique de travail (fichier , pages Web, courriels et pièces attachées, forums, etc.).
     # L'usager peut choisir le type de données sur lesquelles porte la recherche (fichier, pages Internet, courriels et pièces attachées, forums, etc.).
     # (optionel) Le moteur de recherche exploite les métadonnées liées à certaines des données.
@@ -51,9 +51,9 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Service de notification
+  == Service de notification ==
     # Tout usager a accès à un résumé des nouveautés (ressources, services) de l’ENT, généré automatiquement (page d’accueil de l’ENT et/ou courrier électronique).
-  * Aide
+  == Aide ==
     # Tout usager a accès à une aide et/ou un didacticiel en ligne Indispensable Indispensable
     # Tout usager a accès à une aide contextuelle
 
@@ -64,7 +64,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 =Services de communication=
 
 
-  * Courrier électronique
+  == Courrier électronique ==
     # Tout usager a accès à son courrier électronique à travers un client de courrier électronique (en plus de l’accès via l’ENT)
     # L'usager peut relever d'autres comptes existants (redirection)
     # Tout usager peut programmer le renvoi automatique des courriers électroniques de son adresse de l'espace numérique de travail vers une adresse externe
@@ -82,7 +82,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Forum de discussion et listes de diffusion
+  == Forum de discussion et listes de diffusion ==
     # Au sein de groupes d’usagers, certains usagers peuvent créer, gérer, et supprimer des espaces de discussions, et en gérer les droits d'accès.
     # sont accessibles en ligne (forum) ou par l'intermédiaire du courrier électronique (liste de discussion), auquel cas il leur est associé une adresse
     # Les durées des abonnements des membres d’un groupe peuvent être limitées dans le temps et ne peuvent en aucun cas excéder la durée de l’inscription à l’espace numérique de travail
@@ -91,7 +91,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Pages blanches (annuaire)
+  == Pages blanches (annuaire) ==
     # Tout usager dispose d'un service de consultation de l'annuaire d'établissement, et de l’annuaire d’académie (enseignement scolaire).
     # Certains usagers peuvent mettre à jour certaines informations personnelles les concernant dans l'annuaire d'établissement
     # L’administrateur peut paramétrer la liste des usagers "visibles" dans cet annuaire en fonction du profil de l'usager consultant l’annuaire (on peut par exemple interdire aux élèves de consulter l'annuaire des enseignants)
@@ -101,7 +101,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Chat
+  == Chat ==
     # Certains usagers disposent d'un outil de messagerie instantanée (chat).
     # Certains groupes d’usagers disposent d'un outil de messagerie instantanée (chat).
     # La messagerie instantanée comporte plusieurs espaces d'échanges (canaux) associés à des groupes d’usagers ou des thématiques.
@@ -113,7 +113,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Visioconférence – audioconférence
+  == Visioconférence – audioconférence ==
     # Certains usagers et groupe d’usagers peuvent disposer d'un service de visioconférence (respectivement audioconférence)
     # Les outils de visioconférence (respectivement audioconférence) sont paramétrables pour permettre des communications hors établissement (passer les pare-feu)
 
@@ -123,7 +123,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 =Bureau numerique=
 
-  * Carnet d’adresses
+  == Carnet d’adresses ==
     # Tout usager et tout groupe d’usagers dispose d'un service de carnet d'adresses
     # Tout usager dispose d'un carnet d'adresses dans chacun de ses groupes d'appartenance
     # Tout usager peut consolider son carnet d'adresses privé avec ceux du ou des groupes qu'il souhaite
@@ -137,7 +137,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Espace de travail et de stockage
+  == Espace de travail et de stockage ==
     # Tout usager dispose d'un espace de stockage de fichiers privé en ligne
     # Tout groupe d’usagers dispose d'un espace de stockage de fichiers partagé en ligne, paramétrable par le gestionnaire du groupe
     # L'administrateur pourra limiter les volumes autorisés de stockage privés et de groupe par catégorie d'usagers, et par usager
@@ -156,7 +156,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Agenda
+  == Agenda ==
     # Tout usager dispose d'un agenda personnel
     # Tout groupe d’usagers dispose d'un agenda partagé
     # Un agenda global de l’établissement est disponible. L’accès en lecture ou écriture est paramétrable suivant les catégories d’usagers.
@@ -169,7 +169,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
     # Les évènements insérés dans les agendas partagés peuvent faire l’objet d’une notification par courrier électronique
     # Les évènements insérés dans les agendas partagés peuvent faire l’objet d’une notification par SMS
 
-  * Publication Internet
+  == Publication Internet ==
     # Certains usagers disposent d'un outil leur permettant de publier simplement des pages Web et d'organiser leur arborescence
     # La publication des pages Internet s'effectue sur l'intranet de l'établissement ou sur Internet
     # Les pages Internet publiées sont accessibles au grand public ou à des groupes choisis par l'usager ou l'administrateur
@@ -182,7 +182,7 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 
-  * Gestion de signets
+  == Gestion de signets ==
     # Tout usager peut gérer ses signets (ajouter, modifier, organiser dans des dossiers)
     # Tout usager peut partager tout ou partie de ses signets avec des usagers ou des groupes
     # Tout usager peut importer ses signets à partir des gestionnaires de signets les plus répandus
@@ -196,9 +196,9 @@ Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education
 
 
 =Back-office=
-  * Administration de l'espace numérique de travail
+  == Administration de l'espace numérique de travail ==
     # L’administrateur dispose d’un outil lui permettant de gérer l’espace numérique de travail : gestion des usagers, gestion des groupes d’usagers, gestion des services, gestion des profils et des autorisations, personnalisation de l’espace numérique de travail au niveau établissement, délégation de droits d’administration, sauvegardes et restauration des données, transition d’une année scolaire vers la suivante,,…
   
-  * Indicateurs d'usages
+  == Indicateurs d'usages ==
     # L’administrateur dispose d’un service de suivi des actions effectuées au niveau de l’ENT.
     # L’administrateur dispose d’un outil lui remontant les indicateurs et les statistiques d’usages par service de l’espace numérique de travail. Ces indicateurs et statistiques sont exportables dans un format XML ou CSV.
