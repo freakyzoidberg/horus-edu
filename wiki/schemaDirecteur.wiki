@@ -8,7 +8,7 @@ Horus ne repond pas encore entierement a tout ces points, ceux en *gras* sont en
 Source: [ftp://trf.education.gouv.fr/pub/educnet/chrgt/SDET-v1.pdf FTP education.gouv.fr]
 
   * [schemaDirecteur#Services_Commun Services Commun]
-    * [schemaDirecteur#Inscription_à_l’espace_numerique_de_travail Inscription à l’espace numerique de travail]
+    * [schemaDirecteur#Inscription_à_l`’`espace_numerique_de_travail Inscription à l’espace numerique de travail]
   * [schemaDirecteur#Services_de_communication Services_de_communication]
   * [schemaDirecteur#Bureau_numerique Bureau numérique]
   * [schemaDirecteur#Back-office Back-office]
