@@ -20,9 +20,10 @@
    * [CDC#6.3.Bulletins 6.3 Bulletins]
  * [CDC#7.Bibliotheque 7. Bibliothèque]
  * [CDC#8.Cours_en_ligne 8. Cours en ligne]
- * [CDC#9.Services_de_communication 9. Services de communication]
-   * [CDC#9.1.Courier_electroniques 9.1 Courier électroniques]
- * [CDC#10.Client_web 10. Client léger]
+ * [CDC#9.Cahier_de_texte 9. Cahier de texte]
+ * [CDC#10.Services_de_communication 10. Services de communication]
+   * [CDC#10.1.Courier_electroniques 10.1 Courier électroniques]
+ * [CDC#11.Client_web 11. Client léger]
 ----
 = 1.Introduction =
 
@@ -174,19 +175,25 @@ L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limit
    
 [CDC Haut de la page]
 
-= 8.Bibliotheque =
+= 7.Bibliotheque =
   (#TODO)
 
 [CDC Haut de la page]
 
-= Cours en ligne =
+= 8.Cours en ligne =
   (#TODO)
 
 [CDC Haut de la page]
 
-= 9.Services de communication =
+
+= 9.Cahier de texte =
+  (#TODO)
+
+[CDC Haut de la page]
+
+= 10.Services de communication =
  Un certains nombres de services sont proposés, dans le but de faciliter la communication entre les différents utilisateurs de HorusEdu au sein d'un établissement scolaire.
- == 9.1.Courier electroniques ==
+ == 10.1.Courier electroniques ==
   * Tous les utilisateurs ont accès à une boite de courier électronique.
    # Cette boite peut être accessible soit via l'ENT soit via un client mail externe. Si l'utilisateur possède une ou plusieurs autres adresses de courier électronique, elles doivent être accessibles via l'ENT (redirection).
    # Tous les mails reçus sur l'adresse de la boite de l'ENT peuvent être redirigés vers une autre boite mail si un utilisateur le souhaite.
@@ -203,7 +210,7 @@ L'accès aux résultats d'un étudiant ou a un groupe étudiant peut-être limit
 
 [CDC Haut de la page]
 
-= 10.Client web =
+= 11.Client web =
   (#TODO)
 
 [CDC Haut de la page]
