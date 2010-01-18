@@ -100,7 +100,7 @@
 = 5.Emploi du temps / Calendrier =
    Cette partie concerne tout les utilisateurs d'horus, les administrateurs planifient les cours sur l'emploi du temps, les professeurs, eleves et parents voient leur calendrier avec l'emploi du temps ainsi que les evenements les concernant.
 
-== 5.1 Désambiguisation Emploi du temps - calendrier ==
+== 5.1 Desambiguisation Emploi du temps - calendrier ==
 
   L'emploi du temps est la planification dans une semaine des matieres d'une classe.
 le calendrier inclue l emploi du temps ainsi que les evenements personnel ou global.
