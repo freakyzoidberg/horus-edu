@@ -100,20 +100,31 @@
 = 5.Emploi du temps / Calendrier =
    Cette partie concerne tout les utilisateurs d'horus, les administrateurs planifient les cours sur l'emploi du temps, les professeurs, eleves et parents voient leur calendrier avec l'emploi du temps ainsi que les evenements les concernant.
 
-== 5.1 Desambiguisation Emploi du temps - calendrier ==
+ == 5.1 Desambiguisation Emploi du temps - calendrier ==
 
-  L'emploi du temps est la planification dans une semaine des matieres d'une classe.
-le calendrier inclue l emploi du temps ainsi que les evenements personnel ou global.
+  L'emploi du temps est la planification dans une semaine des matières d'une classe.
+  le calendrier représente les  évènements personnel, de groupe ou global mais non lie a l'emploi du temps.
+  Nous appelleront agenda la somme de l'emploi du temps et du calendrier.
 
-== 5.2 Vue globale ==
+ == 5.2 Vue globale ==
+    # Tout usager dispose d'un agenda personnel
+    # Tout groupe d’usagers dispose d'un agenda partagé
+    # Un agenda global de l’établissement est disponible. L’accès en lecture ou écriture est paramétrable suivant les catégories d’usagers.
+    # Tout usager peut superposer sur une même vue les événements de son agenda personnel, des calendriers partagés de ses groupes, de son emploi du temps, des consignes de son cahier de texte.
+    # Tout usager peut synchroniser son agenda avec les logiciels de gestion d'agenda et les assistants numériques (PDA) les plus répandus
+    # Tout usager peut importer, exporter, archiver un agenda au format iCalendar (RFC2445)
+    # Les gestionnaires de tout groupe d’usagers peuvent autoriser certaines catégories de membres ou certains membres à créer, éditer, ou supprimer, des événements dans l'agenda partagé du groupe.
+    # Tout usager peut envoyer un événement à un autre usager ou un à groupe d'usagers.
+    # Certains usagers destinataires auront la possibilité d'accepter ou de refuser l'événement
+    # Les évènements insérés dans les agendas partagés peuvent faire l’objet d’une notification par courrier électronique
+    # L agenda
+ == 5.3 Vue administrateur ==
 
-== 5.3 Vue administrateur ==
+ == 5.4 Vue Professeur ==
 
-== 5.4 Vue Professeur ==
+ == 5.5 Vue eleve ==
 
-== 5.5 Vue eleve ==
-
-== 5.6 Vue parent ==
+ == 5.6 Vue parent ==
 
 [CDC Haut de la page]
 
