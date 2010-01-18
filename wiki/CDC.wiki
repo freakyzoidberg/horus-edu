@@ -9,6 +9,11 @@
    * [CDC#3.3.Apparence 3.3 Apparence]
  * [CDC#4.Partie_administration 4. Partie administration]
  * [CDC#5.Emploi_du_temps 5. Emploi du temps]
+   * [CDC#5.1_Desambiguisation_Emploi_du_temps_-_calendrier 5.1 Désambiguisation Emploi du temps - calendrier]
+   * [CDC#5.2_Vue_globale 5.2 Vue globale]
+   * [CDC#5.3_Vue_administrateur 5.3 Vue administrateur]
+   * [CDC#5.4_Vue_Professeur 5.4 Vue Professeur]
+   * [CDC#5.5_Vue_eleve 5.5 Vue eleve]
  * [CDC#6.Gestion_des_notes_/_bulletins 6. Gestion des notes / bulletins]
    * [CDC#6.1.Partie_professeur Partie professeur]
    * [CDC#6.2.Partie_etudiants Partie etudiants]
@@ -92,8 +97,23 @@
 
 [CDC Haut de la page]
 
-= 5.Emploi du temps =
-  (#TODO)
+= 5.Emploi du temps / Calendrier =
+   Cette partie concerne tout les utilisateurs d'horus, les administrateurs planifient les cours sur l'emploi du temps, les professeurs, eleves et parents voient leur calendrier avec l'emploi du temps ainsi que les evenements les concernant.
+
+== 5.1 Désambiguisation Emploi du temps - calendrier ==
+
+  L'emploi du temps est la planification dans une semaine des matieres d'une classe.
+le calendrier inclue l emploi du temps ainsi que les evenements personnel ou global.
+
+== 5.2 Vue globale ==
+
+== 5.3 Vue administrateur ==
+
+== 5.4 Vue Professeur ==
+
+== 5.5 Vue eleve ==
+
+== 5.6 Vue parent ==
 
 [CDC Haut de la page]
 
