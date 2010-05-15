@@ -5,12 +5,6 @@
 Horus was at first created by a group of French students from Epitech.
 After completing the school, the project continue to exist but the team has changed its organization
 
-|| *Project Manager* || *Technical Manager* || *Communication Manager* || *Tools and team support* ||
-||Jeremy Vidal||Gildas Thoraval||Romain Bertholon||Pierre Lacave||
-
-
-
-
 
 
 
