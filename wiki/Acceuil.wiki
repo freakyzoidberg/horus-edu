@@ -8,3 +8,9 @@ Horus Edu is targeted for every school environment wishing to computerize the in
 
 ==Who created it at first ?==
 Horus Edu, formerly known as Horus was first created as a final [team student team] project at Epitech, a French computer science school, located in the Kremlin-Bicêtre, near Paris.
+
+
+
+<wiki:gadget url="http://www.ohloh.net/p/480499/widgets/project_factoids.xml" border="0"/>
+
+ohlo stats https://www.ohloh.net/p/horus-edu/contributors
